@@ -11,6 +11,8 @@ func click(point: Vector2) -> void:
   var event=InputEventMouseButton.new();event.position=point;event.button_index=MOUSE_BUTTON_LEFT;event.pressed=down;root.push_input(event,true);await process_frame
  await process_frame
 func route_intent(ui) -> void:
+ # This route uses Survey from Drone A; equip its own charge before launching.
+ ui.tool_racks=preload("res://src/equipment/tool_racks.gd").empty();ui.tool_racks.drone_a.recon=1
  ui._start_mission(0);await process_frame;await process_frame;await process_frame
  ui.mission_hud.open("fleet");await process_frame;await click(ui.unit_buttons[1].get_global_rect().get_center())
  ui.mission_hud.dismiss();ui.ocean.fit_chart();await process_frame

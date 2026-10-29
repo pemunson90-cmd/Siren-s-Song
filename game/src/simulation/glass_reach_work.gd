@@ -1,4 +1,28 @@
 extends RefCounted
+# 065 optional machinery profiles. Revert: MODULE_WORK_ENABLED=false restores
+# bare work. Caller seams: capture duration, start sound and recorded operator.
+# AI-DESIGNED tuning; existing endurance/reach bonuses stay in the catalog.
+static var MODULE_WORK_ENABLED=true
+const MODULE_WORK={
+ "quietus_wellhead_seal":{"units":[0],"time_scale":0.5,"noise_scale":0.5},
+ "drone_choir_tuner":{"units":[1,2],"time_scale":1.0,"noise_scale":0.0}}
+static func machine_spec(sim,o:Dictionary,unit:int)->Dictionary:
+ var module_id=o.get("needs_item","")
+ if not MODULE_WORK_ENABLED or not o.get("optional",false) or not o.has("glass_effect") or module_id not in MODULE_WORK:return {}
+ var rule=MODULE_WORK[module_id]
+ var fitted=unit in rule.units and sim.Equipment.has(sim.mission.get("launch_equipment",{}),unit,module_id)
+ return {"duration":float(o.get("duration",12.))*(rule.time_scale if fitted else 1.0),"time_scale":rule.time_scale if fitted else 1.0,"noise_scale":rule.noise_scale if fitted else 1.0}
+static func machine_duration(sim,o:Dictionary,unit:int,fallback:float)->float:
+ return machine_spec(sim,o,unit).get("duration",fallback)
+# Returns true only when this site owns the usual CAMERA start sound. The
+# position is the working craft's physical position, including independent drones.
+static func begin_machine(sim,o:Dictionary,unit:int,radius:float,duration:float)->bool:
+ var spec=machine_spec(sim,o,unit)
+ if spec.is_empty():return false
+ if spec.noise_scale>0:
+  var body=sim.units[unit]
+  sim._noise(body.pos,radius*spec.noise_scale,"LOCAL MACHINERY",duration*spec.time_scale,body.band)
+ return true
 const ITEMS={17:"silt_spindle",20:"prism_core",21:"keeper_wafer",32:"trench_seal_core",33:"choir_reed",35:"deep_keel_plate",37:"trawler_screw"}
 static func applies(m:Dictionary)->bool:return m.has("glass_reach") and preload("res://src/campaign/operation_catalog.gd").supports(m.get("id",-1),"glass_reach")
 static func busy(sim,id:int)->bool:return applies(sim.mission) and not sim.mission.glass_reach.job.is_empty() and sim.mission.glass_reach.job.unit==id
@@ -20,7 +44,7 @@ static func context(sim,action:String,unit:int=-1)->Dictionary:
  if not sim.outcome.is_empty():result.reason="Dive ended"
  elif not body.alive:result.reason="Craft lost"
  elif action=="recover" and (a.is_empty() or a.state not in ["site","wreck"]):result.reason="Material already carried or unavailable"
- elif action=="recover" and sim.ModuleRecovery.carried(sim,unit)>=sim.ModuleRecovery.capacity(sim,unit):result.reason="No free cargo place · material needs one"
+ elif action=="recover" and sim.ModuleRecovery.carried(sim,unit)>=sim.ModuleRecovery.capacity(sim,unit):result.reason=sim.ModuleRecovery.full_reason(sim,unit,"No free cargo place · material needs one")
  elif action in ["service","sever"] and (sim.mission.id!=18 or not state.choice.is_empty()):result.reason="Anchorage choice already made or unavailable"
  elif action=="vane" and (sim.mission.id!=15 or not state.choice.is_empty()):result.reason="Vane already released or unavailable"
  elif action=="gate" and (sim.mission.id not in [18,19] or state.gate_open):result.reason="Service gate already open or unavailable"
@@ -89,6 +113,7 @@ static func tick(sim,dt:float):
     if enemy.get("type","")=="buoy":enemy.stun=maxf(enemy.stun,120.);enemy.network.packet={};enemy.network.charge=0.
   if sim.mission.id==18:
    sim.mission.expedition_facts.glass_choice=job.action
+   sim.mission.expedition_facts.varne_staff=job.action
    sim.mission.objectives[0].captured=true;recorded(sim,sim.mission.objectives[0]);sim._record_secured(sim.mission.objectives[0],job.unit)
   sim.message="Local service water opened; reporting spur remains supplied" if job.action=="service" else "Local reporting spur interrupted; outside water remains open"
  elif job.action=="gate":open_gate(sim);sim.message="Local service gate opened"
@@ -108,12 +133,12 @@ static func recover(sim,corridor:Dictionary):
  var a=artifact(sim)
  if a.is_empty():return
  a.state="recovered";a.carrier=-1;a.band=1;a.pos=corridor.pos;sim.mission.glass_reach.retrieved=true
-static func recorded(sim,o:Dictionary):
+static func recorded(sim,o:Dictionary,unit:int=-1):
  if not applies(sim.mission):return
  if o.get("site_id","").begins_with("glass_record_"):sim.mission.expedition_facts[o.site_id]=o.evidence
- if o.get("glass_effect") is Dictionary:apply_effect(sim,o)
+ if o.get("glass_effect") is Dictionary:apply_effect(sim,o,unit)
 # Authored machinery (encounters/work_sites.gd machine) changes real water once.
-static func apply_effect(sim,o:Dictionary):
+static func apply_effect(sim,o:Dictionary,unit:int=-1):
  var effect=o.glass_effect;var opened=[]
  for shape in effect.get("open",[]):
   if shape in sim.mission.structures:sim.mission.structures.erase(shape);opened.append(shape)
@@ -126,7 +151,9 @@ static func apply_effect(sim,o:Dictionary):
    if enemy.get("type","") in ["buoy","relay"] and enemy.pos.distance_to(o.pos)<=effect.quiet:enemy.stun=maxf(enemy.stun,effect.get("quiet_time",90.));enemy.network.packet={};enemy.network.charge=0.
  if effect.has("calm"):
   for current in sim.mission.get("currents",[]):current.velocity*=effect.calm
- if effect.has("noise"):sim._noise(o.pos,effect.noise.radius,effect.noise.label,effect.noise.duration,1)
+ var spec=machine_spec(sim,o,unit) if unit>=0 else {}
+ var noise_scale=spec.get("noise_scale",1.0)
+ if effect.has("noise") and noise_scale>0:sim._noise(o.pos,effect.noise.radius*noise_scale,effect.noise.label,effect.noise.duration*spec.get("time_scale",1.0),sim.units[unit].band if unit>=0 else 1)
 static func status(sim)->Dictionary:
  if not applies(sim.mission):return {}
  var a=artifact(sim);var actions={}

@@ -33,7 +33,7 @@ func _bytes(path: String, limit: int) -> Variant:
 func _remove(path: String) -> bool:
  return not FileAccess.file_exists(path) or DirAccess.remove_absolute(path) == OK
 func _snapshot(path: String) -> Dictionary:
- # Finish any SAVE2 rollback before SAVE1 reads/replaces its four live files.
+ # Finish any SAVE2 rollback before SAVE1 reads/replaces a slot's live files.
  # Revert the SAVE2 feature flag independently; pending recovery stays active.
  if not Save2Recovery.recover(path):warning=Save2Recovery.warning;return {}
  var out = {}
@@ -158,6 +158,7 @@ func rename_profile(index: int, label: String) -> bool:
  state = next;return true
 func replace(index: int, files: Dictionary, confirmed: bool, restored_name: String = "") -> bool:
  if not confirmed or not _ready_for_change():return false
+ files = _normalize_files(files)
  if slot_path(index).is_empty() or not _valid_files(files):return _fail("Invalid profile replacement.")
  var previous = snapshot(index)
  if previous.is_empty():return _fail("Cannot preserve undo files.")
@@ -198,6 +199,14 @@ func _valid_files(files: Dictionary) -> bool:
   if not files.has(suffix):return false
   if files[suffix] != null and (not files[suffix] is PackedByteArray or files[suffix].size() > Rules.FILE_LIMIT):return false
  return true
+func _normalize_files(files: Dictionary) -> Dictionary:
+ var out=files.duplicate(true)
+ var legacy=["", ".bak", ".challenges", ".challenges.bak"]
+ if out.size()==legacy.size() and legacy.all(func(suffix):return out.has(suffix)):
+  out[".runs"]=null;out[".runs.bak"]=null
+ if out.size()==6 and ["", ".bak", ".challenges", ".challenges.bak", ".runs", ".runs.bak"].all(func(suffix):return out.has(suffix)):
+  out[".career"]=null;out[".career.bak"]=null
+ return out
 func _holds_ironman(files: Dictionary) -> bool:
  # Match normal load precedence: a valid new ordinary campaign can retain an old Ironman backup.
  for suffix in ["", ".bak"]:
@@ -206,10 +215,11 @@ func _holds_ironman(files: Dictionary) -> bool:
   if value is Dictionary:
    return value.get("economy") is Dictionary and value.economy.get("ironman",false) == true
  return false
-func _valid_archive(bytes: PackedByteArray, challenge: bool) -> bool:
+func _valid_archive(bytes: PackedByteArray, suffix: String) -> bool:
  var value = _payload(bytes)
  if value == null:return false
- var validator = load("res://src/campaign/challenges/challenge_archive.gd" if challenge else "res://src/persistence/save_store.gd").new()
+ var path = "res://src/campaign/career/career_archive.gd" if suffix.begins_with(".career") else "res://src/campaign/runs/run_archive.gd" if suffix.begins_with(".runs") else "res://src/campaign/challenges/challenge_archive.gd" if suffix.contains("challenges") else "res://src/persistence/save_store.gd"
+ var validator = load(path).new()
  return validator.valid(value)
 func _payload(bytes: PackedByteArray) -> Variant:
  var buffer = StreamPeerBuffer.new();buffer.data_array = bytes
@@ -229,32 +239,47 @@ func _payload(bytes: PackedByteArray) -> Variant:
  var value = Codec.decode(payload)
  if not value is Dictionary or not value.get("version") is int:return null
  return value
-func export_profile(index: int) -> String:
- if not _ready_for_change():return ""
+func package_bytes(index: int) -> PackedByteArray:
+ # Shared by file export and the transfer seam (profile_transfer.gd). Empty means refused; warning says why.
+ var none = PackedByteArray()
+ if not _ready_for_change():return none
  var files = snapshot(index)
- if not _valid_files(files):_fail("Cannot read export source.");return ""
- if Rules.IRONMAN_GUARD and _holds_ironman(files):_fail("Ironman keeps one timeline. An Ironman profile cannot be exported.");return ""
+ if not _valid_files(files):_fail("Cannot read export source.");return none
+ if Rules.IRONMAN_GUARD and _holds_ironman(files):_fail("Ironman keeps one timeline. An Ironman profile cannot be exported.");return none
  for suffix in Rules.SUFFIXES:
-  if files[suffix] != null and not _valid_archive(files[suffix],suffix.contains("challenges")):_fail("Export refused: unreadable archive " + suffix + ".");return ""
+  if files[suffix] != null and not _valid_archive(files[suffix],suffix):_fail("Export refused: unreadable archive " + suffix + ".");return none
  var payload = var_to_bytes({"files":files})
  var package = var_to_bytes({"magic":Rules.MAGIC,"version":Rules.VERSION,"length":payload.size(),"checksum":payload.hex_encode().sha256_text(),"payload":payload})
+ if package.size() > Rules.PACKAGE_LIMIT:_fail("Cannot stage export.");return none
+ return package
+func export_profile(index: int) -> String:
+ var package = package_bytes(index)
+ if package.is_empty():return ""
  var destination = directory + "/profile%d-%d.qprofile" % [index + 1,Time.get_unix_time_from_system()]
- if package.size() > Rules.PACKAGE_LIMIT or not _write(destination + ".stage",package):_fail("Cannot stage export.");return ""
+ if not _write(destination + ".stage",package):_fail("Cannot stage export.");return ""
  if DirAccess.rename_absolute(destination + ".stage",destination) != OK:_fail("Cannot commit export.");return ""
  return ProjectSettings.globalize_path(destination)
 func read_package(path: String) -> Dictionary:
  warning = ""
  var raw = _bytes(path,Rules.PACKAGE_LIMIT)
  if raw == null:_fail("Import file unavailable or too large.");return {}
+ return parse_package(raw)
+func parse_package(raw: PackedByteArray) -> Dictionary:
+ # Validates a package already read into memory (also used by the transfer dialog seam).
+ warning = ""
+ if raw.size() > Rules.PACKAGE_LIMIT:_fail("Import file unavailable or too large.");return {}
  var envelope = Codec.decode(raw)
  if not envelope is Dictionary or not envelope.get("magic") is String or envelope.magic != Rules.MAGIC or not envelope.get("version") is int or envelope.version != Rules.VERSION or not envelope.get("length") is int or not envelope.get("checksum") is String or not envelope.get("payload") is PackedByteArray:_fail("Invalid profile package.");return {}
  var payload: PackedByteArray = envelope.payload
  if envelope.get("length") != payload.size() or envelope.get("checksum") != payload.hex_encode().sha256_text():_fail("Import checksum failed.");return {}
  var value = Codec.decode(payload)
- if not value is Dictionary or not value.get("files") is Dictionary or not _valid_files(value.files):_fail("Invalid profile payload.");return {}
+ if not value is Dictionary or not value.get("files") is Dictionary:_fail("Invalid profile payload.");return {}
+ # Four-sidecar packages predate run archives and remain importable.
+ var files=_normalize_files(value.files)
+ if not _valid_files(files):_fail("Invalid profile payload.");return {}
  for suffix in Rules.SUFFIXES:
-  if value.files[suffix] != null and not _valid_archive(value.files[suffix],suffix.contains("challenges")):_fail("Import archive validation failed.");return {}
- return value.files
+  if files[suffix] != null and not _valid_archive(files[suffix],suffix):_fail("Import archive validation failed.");return {}
+ return files
 func packages() -> Array:
  var out = []
  var dir = DirAccess.open(directory)

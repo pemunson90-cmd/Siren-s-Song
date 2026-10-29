@@ -58,13 +58,18 @@ static func take_draft(host)->Dictionary:
 static func fitted(host)->Dictionary:
 	return Economy.lock_frames(host.economy,host.expedition,host.fitted_equipment)
 static func launch_cost(host)->Dictionary:
-	return Economy.refit_cost(host.economy,fitted(host))
+	var cost=Economy.refit_cost(host.economy,fitted(host))
+	var extra=preload("res://src/equipment/tool_racks.gd").cost(host.tool_racks,host.upgrade,host.economy)
+	for key in extra:cost[key]=cost.get(key,0)+extra[key]
+	return cost
 static func begin_text(host)->String:
+	var why=preload("res://src/equipment/tool_racks.gd").reason(fitted(host),host.tool_racks)
+	if not why.is_empty():return "UNLOAD TOOLS / CARGO FULL"
 	var cost=launch_cost(host)
 	if Economy.can_pay(host.economy,cost):return "ENTER WATER\nSTART PAUSED"
 	return "NEED %s\nOR FIT BARE"%Economy.shortfall(host.economy,cost)
 static func can_begin(host)->bool:
-	return Economy.can_pay(host.economy,launch_cost(host))
+	return preload("res://src/equipment/tool_racks.gd").reason(fitted(host),host.tool_racks).is_empty() and Economy.can_pay(host.economy,launch_cost(host))
 # Launch through Main's ordinary start, then pay for the refit and apply craft condition.
 static func begin(host,index:int)->void:
 	if not Table.enabled:
@@ -73,8 +78,11 @@ static func begin(host,index:int)->void:
 	if not can_begin(host):return
 	host.fitted_equipment=fitted(host)
 	var cost_fit=host.fitted_equipment.duplicate(true)
+	var tool_cost=preload("res://src/equipment/tool_racks.gd").cost(host.tool_racks,host.upgrade,host.economy)
+	var previous=host.sim.mission
 	host._start_mission(index)
-	if host.screen=="mission" and host.active_started:
+	if host.screen=="mission" and host.active_started and not is_same(previous,host.sim.mission):
+		Economy.pay(host.economy,tool_cost)
 		Economy.charge_launch(host.economy,cost_fit);Economy.apply_launch(host.economy,host.sim)
 static func briefing_line(host)->String:
 	if not Table.enabled:return ""
@@ -91,6 +99,7 @@ static func settle(host,first_recovery:bool,fleet_before:Dictionary)->void:
 	var recovered=mission.get("module_recovery",{}).get("result",{}).get("recovered",[])
 	Economy.settle(host.economy,{"outcome":host.sim.outcome,"hull":host.sim.hull,"alive":[host.sim.units[1].alive,host.sim.units[2].alive],
 		"first":first_recovery and won,"recovered":recovered.size() if first_recovery and won else 0,"artifact":artifact,
+		"blackwater_handoff":preload("res://src/simulation/blackwater_delivery.gd").handoff_paid(mission),
 		"key":"%d|%s|%d"%[host.mission_index,host.sim.outcome,roundi(host.sim.elapsed*100.)]})
 # ---- the supplies screen -----------------------------------------------------
 static func show(host)->void:
@@ -100,6 +109,7 @@ static func show(host)->void:
 	host._menu_text("SUPPLIES / COSTS",30)
 	host._menu_text("%s\nPRESET · %s · %s%s"%[Economy.balance_text(e),Economy.preset(e).name,Economy.preset(e).note," · IRONMAN" if e.ironman else ""],16)
 	host._menu_text(e.report,14)
+	preload("res://src/presentation/crew/crew_view.gd").supplies(host)
 	if e.ironman:
 		host._button(host.panel_box,"PRESET LOCKED · IRONMAN",func():pass,"eco_preset").disabled=true
 		host._menu_text(Save2Table.IRONMAN_LINE,15)

@@ -62,14 +62,19 @@ func run() -> void:
 	check(DisplayServer.is_touchscreen_available(),"fixture explicitly exposes engine touchscreen scroll path")
 	var reports=[0];game.scroll_report_timer.timeout.connect(func():reports[0]+=1)
 	var disabled
-	for child in game.panel_box.get_children():
-		if child is Button and child.disabled and game.scroll.get_global_rect().encloses(child.get_global_rect()):disabled=child;break
-	check(disabled!=null,"disabled row is genuinely exposed before drag")
+	for child in game.panel_box.find_children("*","Button",true,false):
+		if child is Button and child.disabled and str(child.get_meta("ui_action",child.get_meta("action",""))).begins_with("mission"):disabled=child;break
+	if disabled!=null:
+		await reveal(disabled)
+		print("SCROLL_DISABLED_ACTION ",disabled.get_meta("ui_action",disabled.get_meta("action","")))
+	check(disabled!=null and game.scroll.get_global_rect().encloses(disabled.get_global_rect()),"disabled row is genuinely exposed before drag")
 	if disabled!=null:
 		var start=disabled.get_global_rect().get_center();var before=game.sim.snapshot()
+		var offset_before=game.scroll.scroll_vertical;reports[0]=0
 		await drag(start,start-Vector2(0,minf(300,start.y-game.scroll.global_position.y-20)))
 		print("SCROLL_DISABLED offset=",game.scroll.scroll_vertical," reports=",reports[0])
 		check(game.scroll.scroll_vertical>50,"drag originating on disabled row scrolls actual body")
+		check(game.scroll.scroll_vertical>offset_before,"disabled mission drag increases offset after reveal setup")
 		check(reports[0]>0,"scroll emits debounced fresh metrics callback")
 		check(game.screen=="menu" and game.sim.snapshot()==before,"disabled-row drag does not select mission or issue order")
 	await operations()

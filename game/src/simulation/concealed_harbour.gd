@@ -142,10 +142,10 @@ static func status(sim)->Dictionary:
 static func recovered_facts(m:Dictionary)->Dictionary:
  if not applies(m) or not m.concealed_harbour.receipt:return {}
  var state=m.concealed_harbour
- return {"concealed_consequence":"deep_trace_severed" if state.thread=="deep" else "shelf_"+state.placement}
+ return {"concealed_consequence":"deep_trace_severed","tessaly_divers":"crossing_open"} if state.thread=="deep" else {"concealed_consequence":"shelf_"+state.placement}
 static func valid(data:Dictionary)->bool:
  var m=data.mission
- if not OperationsCatalog.supports(m.get("id",-1),"witness"):return not m.has("concealed_harbour")
+ if not OperationsCatalog.supports(m.get("id",-1),"witness") or m.get("id")==41:return not m.has("concealed_harbour")
  var s=m.get("concealed_harbour",{})
  if not s is Dictionary or not s.has_all(["thread","known","phase","pos","carrier","trail","placement","connected","heard_departures","next_trace","next_noise","reply_time","receipt","account","station_seen","folded","reply_sent"]):return false
  if s.thread not in ["deep","shelf"] or not s.known is bool or s.phase not in ["waiting","ready","towing","seated"] or not s.pos is Vector2 or not s.pos.is_finite() or not Rect2(Vector2.ZERO,m.world_size).has_point(s.pos) or not s.carrier is int or not s.trail is Array or not s.connected is bool or not s.receipt is bool or not s.account is String:return false

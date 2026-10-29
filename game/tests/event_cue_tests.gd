@@ -53,6 +53,20 @@ func run():
  sound.muted=true;s.hull-=10.;sound.update(s,0.)
  check(layer.played.is_empty(),"mute consumes the change silently")
  sound.muted=false
+ var t=Sim.new();t.start(0,"endurance");t.mission.structures=[];t.rock_shapes=[];t.rock_bounds=[];t.sirens=[];t._build_navigation()
+ t.paused=false;sound.update(t,0.);layer.last_play={}
+ check(layer.played.is_empty(),"a fresh stocked mission plays no tool cue")
+ check(not t.command("hull_patch"),"fixture: an intact hull refuses the patch")
+ sound.update(t,0.);check(layer.played.is_empty(),"a refused tool use plays no cue")
+ for id in ["sonobuoy","silt_screen","relay_buoy"]:
+  check(t.command(id,{"point":t.units[0].pos}),"fixture: "+id+" deploys")
+  sound.update(t,0.);check(layer.played==[id],id+" cue fires once on use")
+  check(str(Text.TEXT[id]) in sound.accessibility.text(),id+" use is captioned")
+  sound.update(t,0.);check(layer.played.is_empty(),id+" does not replay on refresh")
+ t._hull_strike(t.units[0],32.);sound.update(t,0.)
+ check(t.command("hull_patch"),"fixture: a struck hull accepts the patch")
+ sound.update(t,0.);check(layer.played==["hull_patch"],"hull patch cue fires once on use")
+ sound.update(t,0.);check(layer.played.is_empty(),"hull patch does not replay")
  Table.enabled=false
  var off=Sound.new();root.add_child(off);await process_frame
  off.update(fresh(),0.)

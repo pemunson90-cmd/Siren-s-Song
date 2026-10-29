@@ -7,6 +7,7 @@ const W=preload("res://src/campaign/encounters/work_sites.gd")
 const P=preload("res://src/campaign/photo_ops.gd")
 const Layouts=preload("res://src/campaign/encounters/optional_layouts.gd")
 const Resolution=preload("res://src/campaign/resolution_missions.gd")
+const FleetSites=preload("res://src/campaign/encounters/fleet_sites.gd")
 static func supports_config(c:Dictionary)->bool:
  return c.size()==2 and c.get("history")==true and c.get("source_id",-1) in IDS
 static func supports_identity(id:int,c:Dictionary)->bool:return id==c.source_id
@@ -16,6 +17,10 @@ static func entries()->Array:
  for id in IDS:
   var k=key(id)
   result.append({"id":id,"factory":"res://src/campaign/optional_operations.gd","config":{"source_id":id,"history":true},"behaviors":["signals_v2","history","glass_reach"]+(["thermal"] if id==39 else []),"prerequisites":[{37:15,38:7,39:8,40:11}[id]],"facts":[k,k+"_bonus"],"records":[k,k+"_bonus"]+(["optional_40_sluice"] if id==40 else (["optional_38_sluice"] if id==38 else [])),"campaign":true,"route":{38:"deep",39:"shelf"}.get(id,""),"required_facts":{}})
+ for entry in result:
+  var work_key={37:"optional_37_wellhead_pump",39:"optional_39_service_reed"}.get(entry.id,"")
+  if not work_key.is_empty():entry.facts.append(work_key);entry.records.append(work_key)
+  entry.facts.append_array(FleetSites.records(entry.id));entry.records.append_array(FleetSites.records(entry.id))
  return result
 static func make(id:int,history:Dictionary={})->Dictionary:
  return build({"source_id":id,"history":true},history)
@@ -29,9 +34,36 @@ static func build(c:Dictionary,history:Dictionary={})->Dictionary:
   38:_deep(m,k)
   39:_shelf(m,k)
   40:_confluence(m,k,history)
+ FleetSites.apply(m)
+ _module_work(m)
  m.extraction=m.corridors[0].pos
  if m.glass_reach.work_pos==Vector2.ZERO:m.glass_reach.work_pos=m.objectives[0].pos
  return m
+# AI-DESIGNED optional module consumers. Keep FleetSites' long endurance pump,
+# tools and cache untouched. No new required records; bare work remains available.
+static func _module_work(m:Dictionary)->void:
+ match m.id:
+  37:
+   var pump=W.machine("optional_37_wellhead_pump","WELLHEAD RETURN PUMP",Vector2(650,1450),{"calm":0.,"noise":{"radius":1200.,"label":"WELLHEAD RETURN PUMP","duration":6.}},true,12.,"quietus_wellhead_seal")
+   m.objectives.append(pump)
+   m.currents=[{"center":Vector2(1450,1050),"radius":260.,"velocity":Vector2(0,20)}]
+   m.brief+="\nAI-DESIGNED optional WELLHEAD RETURN PUMP stops the southern return current. CAMERA / WORK takes12s; Quietus with the wellhead seal takes6s with half the sound radius and audible time. The western approach stays open."
+  38:
+   m.objectives[2].duration=12.;m.objectives[2].needs_item="quietus_wellhead_seal"
+   m.brief+="\nAI-DESIGNED: Quietus with the wellhead seal works THREAD SLUICE RELEASE in6s with half the sound radius and audible time; bare work takes12s. The separate620s counterflow pump keeps its endurance requirement."
+  39:
+   # Reclassify the existing lower comb rectangle as operable machinery;
+   # launch geometry stays identical in all three bands.
+   var gate=Rect2(170,640,230,120)
+   m.rocks.erase(gate)
+   for band in [0,2]:m.depth_geometry[band].rocks.erase(gate)
+   m.structures.append(gate)
+   var reed=W.machine("optional_39_service_reed","EXHAUST SERVICE REED",Vector2(300,850),W.sluice(gate,"EXHAUST SERVICE REED",1200.),true,12.,"drone_choir_tuner")
+   m.objectives.append(reed)
+   m.brief+="\nAI-DESIGNED optional EXHAUST SERVICE REED opens the lower exhaust comb for a direct western passage. CAMERA / WORK takes12s; a drone carrying the Choir reed tuner works silently from its own position. Bare craft work audibly; the eastern approach stays open."
+  40:
+   m.objectives[2].duration=12.;m.objectives[2].needs_item="drone_choir_tuner"
+   m.brief+="\nAI-DESIGNED: a drone carrying the Choir reed tuner works SURVEY SLUICE RELEASE silently from its own position. Bare craft retain audible12s work and the western detour."
 static func _photo(k:String,label:String,pos:Vector2,band:int,evidence:String,optional:bool=false,duration:float=4.,person:bool=false)->Dictionary:
  var feature=P.F("mark",label,0.,PI,.12,0.,{"art":"count" if person else "scoring","glow":.6,"finding":{"kind":"person" if person else "note","text":evidence,"off":Vector2.ZERO}})
  var subject=P.S(PI,90.,.5,["mark"],[feature],{"band":band,"bands":[band]})
@@ -59,10 +91,14 @@ static func _deep(m:Dictionary,k:String)->void:
  m.brief="Photograph the saddle underside in DEEP; recover in MIDDLE at the southeast mouth. The split tooth marks the southwest launch, the broad roof the central crossing, and the mooring ribs the western plate.\nStay west of the roof for the long quiet contour, or use CAMERA / WORK at THREAD SLUICE RELEASE: its1400m motor opens the short DEEP crossing under the MIDDLE roof. The optional MIDDLE plate adds a depth change beside the northern patrol."
 static func _shelf(m:Dictionary,k:String)->void:
  Layouts.shelf(m)
+ # 097 / patterns 1,5: the separate terrace image and physical cache compete
+ # for return air. Parallel carriers can bring the complete service account.
+ m.endurance={"oxygen_seconds":185.,"drone_seconds":480.}
  m.objectives=[_photo(k,"BUNKER EXHAUST JOINT",Vector2(650,700),1,"A photographed joint joins the shelf bunker exhaust to its terrace wall."),_photo(k+"_bonus","OUTER TERRACE NUMBERS",Vector2(1550,300),1,"The outer terrace carries the same service numbers as the exhaust joint.",true)]
  m.corridors=[{"pos":Vector2(2650,1450),"name":"SHELF THREAD SOUTHEAST RECOVERY","route":"shelf"}]
  m.record="A shelf bunker exhaust survey. The film records infrastructure; it makes no new claim about the watch crew's evacuation."
  m.brief="Photograph the exhaust joint in MIDDLE, then recover at the southeast mouth. The exhaust comb splits the west basin, a hooked terrace divides the crossings, and the numbered northern spur marks the outer route.\nThe short central gap crosses an exhaust front that masks both sides' sound. The long northern contour preserves passive information and passes the optional terrace numbers; leave time for the journey back."
+ m.brief+=" Full cache recovery and the outer numbers compete for return air. Share the three physical cache pieces across the fleet while Quietus photographs."
 static func _confluence(m:Dictionary,k:String,history:Dictionary)->void:
  var context=history.duplicate(true)
  context.thread=history.get("thread","");context.completed=history.get("completed",[]);context.facts=history.get("facts",{})

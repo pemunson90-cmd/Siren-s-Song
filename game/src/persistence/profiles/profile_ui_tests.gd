@@ -1,6 +1,8 @@
 extends "res://tests/challenges_ui_tests.gd"
 const Profiles=preload("res://src/persistence/profiles/profile_store.gd")
 const Records=preload("res://src/campaign/challenges/challenge_records.gd")
+const RunArchive=preload("res://src/campaign/runs/run_archive.gd")
+const RunState=preload("res://src/campaign/runs/run_state.gd")
 func host():
  for child in root.get_children():
   if child is Control and child.get_script()==load("res://tests/density_main.gd"):return child
@@ -34,6 +36,7 @@ func shape_case(shape):
  game.challenge_records=Records.add({},"shelf_passive",{"time":30.,"oxygen":95.,"hull":100.,"loss":false,"tools_used":{},"retrieved":true,"par_time":true,"par_oxygen":true,"par_hull":true})
  var archive=load("res://src/campaign/challenges/challenge_archive.gd")
  check(archive.persist(game),"first slot writes actual challenge archive")
+ check(RunArchive.persist(game,RunState.new_run(31)) and RunArchive.persist(game,RunState.new_run(31)),"first slot writes actual run archive and backup")
  var first=profiles.snapshot(0)
  await press(front(),"frontend_profiles")
  check(front().screen=="profiles","touch opens title profile picker "+str(shape))
@@ -88,12 +91,21 @@ func shape_case(shape):
  await press(front(),"profile_slot_1")
  await press(front(),"profile_clear")
  var prior_clear=profiles.snapshot(1)
+ var retired_store=game.store
+ var retired_host=weakref(game)
  game.save_retry_pending=true
  button(front(),"profiles_confirm").pressed.connect(func():game.call_deferred("_retry_archive"),CONNECT_DEFERRED)
  await press(front(),"profiles_confirm")
  await settle()
- check(profiles.snapshot(1)=={"":null,".bak":null,".challenges":null,".challenges.bak":null},"clear remains empty after pending old-host save and replacement")
+ var cleared=profiles.snapshot(1)
+ print("PROFILE CLEAR keys=",cleared.keys()," present=",cleared.keys().filter(func(key):return cleared[key]!=null))
+ # 057 adds two profile-pinned career sidecars; absence must cover all eight files.
+ check(cleared=={"":null,".bak":null,".challenges":null,".challenges.bak":null,".runs":null,".runs.bak":null,".career":null,".career.bak":null},"clear remains empty after pending old-host save and replacement")
+ check(retired_store.suspended and retired_host.get_ref()==null,"clear retires the old host and suspends its pending writers")
  check(host().completed.is_empty() and host().challenge_records.is_empty(),"active clear resets loaded campaign and challenge cache")
+ load("res://src/presentation/runs/modes_frontend.gd").expeditions(front());await settle()
+ check(host().get_meta("runs_archive_state",{})=={} and profiles.snapshot(1)==cleared,"run-menu read and setup leave all cleared profile files absent")
+ front().profile_picker.show_picker();await settle()
  await press(front(),"profile_undo")
  await press(front(),"profiles_confirm")
  check(profiles.snapshot(1)==prior_clear,"touch undo restores cleared files")

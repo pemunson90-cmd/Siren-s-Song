@@ -1,8 +1,8 @@
 extends Node
 # EVENT AUDIO: own-craft hull strain, survivor, artifact, research and field-tool cues.
-# Seam: Soundscape.update calls sync() once per frame; Soundscape.event_cue(id) is the single
-# entry point for callers that own an event (field tools, research). Observes simulation state
-# and the public event list read-only; it adds no hook inside simulation or orders.
+# Seam: Soundscape.update calls sync() once per frame; Soundscape.event_cue(id) stays the entry point for
+# callers that own an event (research). Observes simulation state and the public event list read-only, incl.
+# a drop in mission field_tools counts (a successful tool use; refused uses spend nothing). No hook in simulation.
 # Unknown ids are ignored, so a tool nobody fires yet is safe. Disabled restores today's sound.
 # Revert: event_cue_table.enabled=false, or remove the Soundscape sync/event_cue lines and
 # the TEXT rows; retain the table and tests.
@@ -21,6 +21,7 @@ var mission_ref:Dictionary={}
 var last_clock:=-1.
 var hull:=-1.
 var materials:Dictionary={}
+var tool_counts:Dictionary={}
 var lifecycle_suspended:=false
 var host_ref
 static func sync(host,sim,dt:float,active:bool)->void:
@@ -75,6 +76,12 @@ func _materials(sim)->Dictionary:
  for key in ["glass_reach","iron_choir"]:
   if m.has(key) and not m[key].get("artifact",{}).is_empty():found["a:"+key]=str(m[key].artifact.get("state",""))
  return found
+# Field tool stock from mission["field_tools"]; a successful use spends one, a refused use spends none.
+func _tools(sim)->Dictionary:
+ var found={}
+ var counts=sim.mission.get("field_tools",{}).get("counts",{})
+ for id in Table.TOOLS:found[id]=int(counts.get(id,0))
+ return found
 func _raise(id:String,sim)->void:
  if request(id):host_ref.accessibility.note(id,sim.elapsed)
 # Observed from state only: the hull percent a strike removed, a physical module or artifact
@@ -83,9 +90,9 @@ func advance(sim,_dt:float,active:bool)->void:
  var audible=not host_ref.muted and host_ref.effects_volume>0
  var allowed=audible and active and not host_ref.system_suspended and not lifecycle_suspended
  var frozen=sim.paused or not active or host_ref.system_suspended or lifecycle_suspended
- var found=_materials(sim)
+ var found=_materials(sim);var tools=_tools(sim)
  if not is_same(mission_ref,sim.mission) or sim.elapsed<last_clock:
-  mission_ref=sim.mission;hull=sim.hull;materials=found;queued=[]
+  mission_ref=sim.mission;hull=sim.hull;materials=found;tool_counts=tools;queued=[]
  elif active and not sim.paused and sim.outcome.is_empty():
   var hit=Table.hull_cue(hull-sim.hull)
   if not hit.is_empty():_raise(hit,sim)
@@ -94,7 +101,10 @@ func advance(sim,_dt:float,active:bool)->void:
   for event in sim.events:
    var id={"witness_boarded":"survivor_aboard","witness_landed":"survivor_landed","data_handoff":"cargo_handoff"}.get(str(event.get("type","")),"")
    if not id.is_empty():_raise(id,sim)
- last_clock=sim.elapsed;hull=sim.hull;materials=found
+ if active:
+  for id in Table.TOOLS:
+   if tools[id]<int(tool_counts.get(id,tools[id])):_raise(id,sim)
+ last_clock=sim.elapsed;hull=sim.hull;materials=found;tool_counts=tools
  _flush(allowed,frozen)
  if not audible or not active:
   for voice in voices:voice.stop()

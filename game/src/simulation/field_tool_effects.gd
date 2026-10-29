@@ -6,9 +6,16 @@ extends RefCounted
 # SaveChecks "world" valid. Queries are pure; expiry is by sim.elapsed, so there is no tick hook.
 # Revert: Tools.enabled=false, or delete the four seam lines and the tool_orders table rows.
 const Tools=preload("res://src/equipment/field_tools.gd")
+const Racks=preload("res://src/equipment/tool_racks.gd")
 const KEY="field_tools"
 const MAX_PLACED=8
 const MAX_COUNT=9
+
+# 070 save-only exception for existing run resupply, bounded again by ModeActive's
+# ledger budget. No stock is granted here. Campaign keeps its original caps.
+# Revert with mode resume; retain the ordinary validator for campaign saves.
+static func stock_cap(mission:Dictionary,ordinary:int)->int:
+ return MAX_COUNT if mission.get("run_seed") is int and mission.run_seed>=0 and mission.run_seed<=2147483647 else ordinary
 
 static func state(sim)->Dictionary:
  return sim.mission.get(KEY,{}) if sim!=null and Tools.enabled else {}
@@ -29,10 +36,11 @@ static func live(sim,id:String)->Array:
 static func use(sim,order:String,args:Dictionary)->bool:
  if state(sim).is_empty() or order not in Tools.field_ids() or not Tools.is_enabled(order):return false
  var spec=Tools.spec(order);var u=sim.units[sim.selected]
- if count(sim,order)<=0:sim.message="%s · none left"%spec.name;return false
+ if Racks.count(sim,order)<=0:sim.message="%s · none left"%spec.name;return false
  if order=="hull_patch":return _patch(sim,spec,u)
  return _deploy(sim,spec,u,args)
 static func _spend(sim,spec:Dictionary)->void:
+ Racks.spend(sim,spec.id)
  sim.mission[KEY].counts[spec.id]=count(sim,spec.id)-1
 static func _noise(sim,spec:Dictionary,pos:Vector2,band:int)->void:
  if spec.noise>0.0:sim._noise(pos,spec.noise,spec.noise_label,spec.noise_time,band)
@@ -97,7 +105,7 @@ static func valid(mission:Dictionary)->bool:
  if not (repairable is float or repairable is int) or not is_finite(repairable) or repairable<0.0 or repairable>100.0:return false
  for id in data.counts:
   if not id is String or id not in Tools.field_ids() or not data.counts[id] is int:return false
-  if data.counts[id]<0 or data.counts[id]>MAX_COUNT or (id=="hull_patch" and data.counts[id]>1):return false
+  if data.counts[id]<0 or data.counts[id]>MAX_COUNT or (id=="hull_patch" and data.counts[id]>stock_cap(mission,1)):return false
  if data.placed.size()>MAX_PLACED:return false
  for item in data.placed:
   if not item is Dictionary or not item.get("id") is String or item.id not in Tools.field_ids() or item.id=="hull_patch":return false

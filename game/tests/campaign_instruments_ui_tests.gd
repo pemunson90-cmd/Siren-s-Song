@@ -25,9 +25,19 @@ func menu_button(game,action:String,item:String=""):
  for child in game.menu.find_children("*","Button",true,false):
   if child is Button and child.get_meta("action","")==action and (item.is_empty() or item in child.text):return child
  return null
+func dismiss_arc(game):
+ var card=game.get_node_or_null("ArcCard")
+ if card==null:return
+ var controls=card.find_children("*","Button",true,false)
+ check(not controls.is_empty(),"arc prerequisite offers touch Continue")
+ if not controls.is_empty():await tap(controls[0].get_global_rect().get_center())
 func menu_tap(game,button):
+ await dismiss_arc(game)
  if game.scroll.is_ancestor_of(button):game.scroll.ensure_control_visible(button);await settle()
  await tap(button.get_global_rect().get_center())
+# The fit surface lists one craft at a time; open the craft tab before reaching a row.
+func show_tab(game,slot:String,item:String):
+ if menu_button(game,"fit_"+slot,item)==null:await menu_tap(game,menu_button(game,"fit_tab_"+slot))
 func live_fitting(game):
  # Staged earned stock isolates presentation: actual fitting callbacks freeze
  # the launch, then actual craft/STATUS taps inspect its public snapshot.
@@ -35,7 +45,7 @@ func live_fitting(game):
  for id in ["quietus_baffles","quietus_vector_drive","drone_survey_array","drone_deep_cells"]:
   var item=Catalog.ITEMS[id];var slot=item.compatible_slots[0];var unit=Catalog.SLOTS.find(slot)
   game.fitted_equipment={"quietus":"","drone_a":"","drone_b":""};game._briefing(0);await settle()
-  await menu_tap(game,menu_button(game,"fit_"+slot,item.name))
+  await show_tab(game,slot,item.name);await menu_tap(game,menu_button(game,"fit_"+slot,item.name))
   check(game.fitted_equipment[slot]==id,"actual fitting row selects canonical "+item.name)
   await menu_tap(game,menu_button(game,"begin"));await settle()
   var sim=game.sim;sim.sirens=[]
@@ -47,7 +57,7 @@ func live_fitting(game):
   if id=="quietus_vector_drive":
    var active=sim.snapshot();game._briefing(0);await settle()
    # Other rows now name this item in "REPLACES <item>", so match the unfit row exactly.
-   await menu_tap(game,menu_button(game,"fit_"+slot,item.name+" → BARE"))
+   await show_tab(game,slot,item.name+" → BARE");await menu_tap(game,menu_button(game,"fit_"+slot,item.name+" → BARE"))
    check(game.fitted_equipment[slot].is_empty() and sim.snapshot()==active and item.name.to_upper() in Equipment.status(sim),"unfitting the next launch cannot relabel the active immutable vector drive")
    game._show_campaign();await settle();await menu_tap(game,menu_button(game,"resume"))
    check(game.screen=="mission" and sim.snapshot()==active and item.name.to_upper() in Equipment.status(sim),"actual RESUME retains the launched identity after next-fit change")
@@ -67,7 +77,7 @@ func run():
   root.size=dimensions;await settle()
   var g=load("res://scenes/main.tscn").instantiate();g.set_script(load("res://tests/density_main.gd"));g.capture_scenario="public-fitting-and-local-receiver-geometry"
   if dimensions.x==2520:g.fixture_safe_area=Rect2(136,0,2384,1080)
-  root.add_child(g);await settle();g.set_process(false);g._briefing(0);await settle()
+  root.add_child(g);await settle();g.set_process(false);g._briefing(0);await settle();await dismiss_arc(g)
   # Public equipment/context fixture exercises the actual view and touch path;
   # this is not a claimed earned recovery or campaign/Main progression proof.
   var context={"slots":{"quietus":"quietus_correlator","drone_a":"drone_sampler","drone_b":""},"available":["quietus_correlator","drone_sampler"],"catalog":[{"id":"quietus_correlator","name":"CADENCE CORRELATOR","compatible_slots":["quietus"],"benefit":"Compare received pulses with a recovered reference.","cost":"6 seconds settled listening. No identity or range fix."},{"id":"drone_sampler","name":"FIELD SAMPLER","compatible_slots":["drone_a","drone_b"],"benefit":"Operate compatible field receivers with one drone.","cost":"8 seconds exposed versus Quietus4. One sampler, A or B."}]}

@@ -111,6 +111,9 @@ func run():
  check(s.mission.warning_recipient.body.pos.distance_to(HOME)<16 and not report.arrived and not report.receipt and s.outcome.is_empty(),"unobserved real arrival waits at refuge without inventing a received success")
  check(not report.recipient.live and report.recipient.age>0,"remote vessel remains a stale measured fix, never an announced live tracker")
  s.units[0].pos=HOME;s.units[0].vel=Vector2.ZERO;advance(s,.8)
+ check(s.command("camera"),"public LISTEN starts mandatory pickup service reception")
+ advance(s,4.2)
+ check(s.mission.objectives.any(func(o):return o.get("site_id","")=="warning_uplink" and o.captured),"actual pickup service account retained before recovery")
  check(s.warning_recipient_status().receipt and s.outcome=="won" and Sim.valid_snapshot(s.snapshot()),"local arrival receipt plus actual Quietus recovery finishes the physical operation")
  var malformed=s.snapshot();malformed.mission.warning_recipient.receipt=false
  check(not Sim.valid_snapshot(malformed),"a won archive cannot invent recipient arrival")
@@ -147,7 +150,9 @@ func run():
  check(unknown.command("warning_depart",{"course":"exposed"}),"exposed course remains a deliberate ungated alternative")
  advance(unknown,1)
  check(unknown.warning_recipient_status().course=="exposed" and unknown.warning_recipient_status().recipient.pos.distance_to(BERTH)>1,"exposed choice causes a different actual transit")
- unknown.units[0].pos=HOME;unknown.units[0].vel=Vector2.ZERO;advance(unknown,110)
+ unknown.units[0].pos=HOME;unknown.units[0].vel=Vector2.ZERO
+ check(unknown.command("camera"),"replay receives its actual mandatory pickup service account")
+ advance(unknown,110)
  var replay=Campaign.recover(recovered,unknown.mission)
  check(unknown.outcome=="won" and replay.facts.get("warning_arrival","")=="sheltered","completed replay cannot rewrite first physical recipient outcome with exposed course")
  # An ordinary guard sees a real non-player target. Q stays behind berth cover.

@@ -81,6 +81,20 @@ static func feedback(sim,station:int)->Dictionary:
   var sensing=_sensing(sim,position(sim.mission,sim.elapsed));vessel.live=sensing.live
   vessel.merge({"pos":position(sim.mission,sim.elapsed) if vessel.live else state.seen.pos,"angle":_angle(sim.mission,sim.elapsed) if vessel.live else state.seen.angle,"phase":phase(sim.mission,sim.elapsed) if vessel.live else state.seen.phase,"age":0.0 if vessel.live else maxf(0,sim.elapsed-state.seen.time),"receivers":sensing.receivers if vessel.live else [],"survey":sensing.survey if vessel.live else false,"sonar":sensing.sonar if vessel.live else false})
  return {"released":state.released_at>=0,"course":POINTS.duplicate() if state.control_known else [],"vessel":vessel,"control":release_context(sim,station)}
+static func work_receiver(sim,station:int)->Dictionary:
+ if not applies(sim.mission):return {}
+ var mobile=receiver(sim,station)
+ if mobile.ready:return mobile
+ # 097: fixed service hydrophones use the ordinary local receiver job. The
+ # moving tender retains its Quietus-only authority and its capture checks.
+ var helper=sim.units[station]
+ if sim.captures[station].is_empty():
+  for index in sim.mission.objectives.size():
+   var site=sim.mission.objectives[index]
+   if site.get("site_id","") not in ["rendezvous_service","rendezvous_mooring"] or site.captured:continue
+   if helper.alive and helper.pos.distance_to(site.pos)<240 and sim.line_clear(helper.pos,site.pos):
+    return {"target":index,"ready":helper.vel.length()<12,"text":"SERVICE ACCOUNT · passive decode4s · settle below12m/s","range":240.,"distance":helper.pos.distance_to(site.pos),"clear":true,"settled":helper.vel.length()<12}
+ return mobile
 static func receiver(sim,station:int)->Dictionary:
  if not applies(sim.mission):return {}
  var target=-1
@@ -89,7 +103,9 @@ static func receiver(sim,station:int)->Dictionary:
  var unit=sim.units[station];var pos=position(sim.mission,sim.elapsed);var local=unit.alive and unit.pos.distance_to(pos)<sim.passive_range(station) and sim.line_clear(unit.pos,pos)
  var result={"target":target,"ready":false,"text":"Locate the rendezvous hull or use local Survey","range":240.0,"distance":unit.pos.distance_to(pos) if local else -1.0,"clear":local,"settled":unit.vel.length()<12}
  if target<0:return result
- if sim.mission.objectives[target].captured:result.text="Rendezvous packet aboard · return Quietus to recovery"
+ if sim.mission.objectives[target].captured:
+  var service_pending=sim.mission.objectives.any(func(site):return site.get("site_id","")=="rendezvous_service" and not site.captured)
+  result.text="Rendezvous packet aboard · receive SADDLE SERVICE ACCOUNT with any craft or drone, then recover Quietus north" if service_pending else "Rendezvous packet and required service aboard · recover Quietus north"
  elif station!=0:result.text="Quietus hydrophones must decode the rendezvous packet"
  elif not local:result.text="Regain local carrier reception · measured fixes can become stale"
  elif result.distance>=240:result.text="Bring Quietus within240m of the actual hull"

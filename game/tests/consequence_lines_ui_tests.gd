@@ -47,14 +47,14 @@ func run():
     check(record.is_empty() or record[0].get_global_rect().position.y>=rect.position.y,"op %d line is above the record text"%id)
    var buttons={}
    for b in game.panel_box.get_children():
-    if b is Button and b.text in ["RETRY EXPEDITION","OPERATIONS ARCHIVE"]:buttons[b.text]=b
+    if b is Button and b.text in ["RETRY OPERATION","OPERATIONS ARCHIVE"]:buttons[b.text]=b
    check(buttons.size()==2,"op %d retry and archive buttons exist"%id)
    for key in buttons:
     game.scroll.ensure_control_visible(buttons[key]);await settle()
     check(game.scroll.get_global_rect().grow(1.).encloses(buttons[key].get_global_rect()) and buttons[key].size.y>0.,"%s op %d %s is reachable inside the scroll viewport"%[str(dimensions),id,key])
-   if buttons.has("RETRY EXPEDITION"):
-    game.scroll.ensure_control_visible(buttons["RETRY EXPEDITION"]);await settle()
-    await tap(buttons["RETRY EXPEDITION"].get_global_rect().get_center())
+   if buttons.has("RETRY OPERATION"):
+    game.scroll.ensure_control_visible(buttons["RETRY OPERATION"]);await settle()
+    await tap(buttons["RETRY OPERATION"].get_global_rect().get_center())
     check(game.screen=="briefing","op %d actual RETRY touch opens the briefing (screen=%s)"%[id,str(game.screen)])
    game.queue_free();await settle()
  print("CONSEQUENCE LINES UI CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)

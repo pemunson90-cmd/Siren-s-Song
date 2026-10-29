@@ -7,8 +7,11 @@ static func build_panel(hud)->void:
  var sim=hud.host.sim
  var tender=context(sim)
  if not tender.is_empty():
-  var receiver=sim.rendezvous_receiver()
-  hud.host.order_buttons.camera.text="DECODE\n4s PASSIVE";hud.host.order_buttons.camera.disabled=not receiver.ready
+  # The camera command resolves fixed service accounts as well as the tender.
+  # Keep its depth/craft/local-work context and the command's busy guards.
+  var receiver=sim.camera_context();var station=sim.selected
+  var busy=not sim.module_recovery_status().jobs[station].is_empty() or sim.Cache.blocks(sim,"camera") or sim.Delivery.busy(sim,station) or sim.Witness.busy(sim,station) or sim.Glass.busy(sim,station) or sim.Choir.busy(sim,station) or sim._warning_chain_busy(station)
+  hud.host.order_buttons.camera.text="DECODE\n4s PASSIVE";hud.host.order_buttons.camera.disabled=not receiver.ready or busy or not sim.outcome.is_empty()
   if hud.subject.get("subkind","")=="berth_control":
    hud.extra.rendezvous_release.disabled=not tender.control.ready
    hud.extra.rendezvous_release.text="BERTH\nRELEASED" if tender.control.get("used",false) else "RELEASE BERTH\n950m / 6s"

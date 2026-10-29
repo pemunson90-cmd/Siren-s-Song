@@ -11,30 +11,33 @@ const CONTENT=[
  {"id":4,"factory":"res://src/campaign/opening_depth_operations.gd","config":{"source_id":4,"history":false,"encounter":"well_interpretation"},"behaviors":[],"prerequisites":[],"facts":[],"records":["well_pattern","well_signature"],"campaign":false,"route":"","required_facts":{}},
  {"id":5,"factory":"res://src/campaign/opening_depth_operations.gd","config":{"source_id":5,"history":false,"encounter":"song_convergence"},"behaviors":[],"prerequisites":[],"facts":[],"records":["transmitter","departure","warning"],"campaign":false,"route":"","required_facts":{}},
  {"id":6,"factory":"res://src/campaign/divergence_missions.gd","config":{"source_id":6,"history":false},"behaviors":["signals_v1"],"prerequisites":[],"facts":["deep","shelf"],"records":["divergence_deep","divergence_shelf"],"campaign":true,"route":"","required_facts":{}},
- {"id":7,"factory":"res://src/campaign/divergence_missions.gd","config":{"source_id":7,"history":false},"behaviors":["tender","signals_v1"],"prerequisites":[6],"facts":["rendezvous"],"records":["divergence_rendezvous"],"campaign":true,"route":"deep","required_facts":{}},
- {"id":8,"factory":"res://src/campaign/divergence_missions.gd","config":{"source_id":8,"history":false},"behaviors":["signals_v1"],"prerequisites":[6],"facts":["shelf_warning"],"records":["divergence_warning"],"campaign":true,"route":"shelf","required_facts":{}},
+ {"id":7,"factory":"res://src/campaign/divergence_missions.gd","config":{"source_id":7,"history":true},"behaviors":["tender","signals_v1"],"prerequisites":[6],"facts":["rendezvous"],"records":["divergence_rendezvous","rendezvous_service","rendezvous_mooring"],"campaign":true,"route":"deep","required_facts":{}},
+ {"id":8,"factory":"res://src/campaign/divergence_missions.gd","config":{"source_id":8,"history":false},"behaviors":["signals_v1"],"prerequisites":[6],"facts":["shelf_warning"],"records":["divergence_warning","shelf_service"],"campaign":true,"route":"shelf","required_facts":{}},
  {"id":9,"factory":"res://src/campaign/onward_missions.gd","config":{"source_id":9,"history":true},"behaviors":["signals_v2","history"],"prerequisites":[7],"facts":["wake_packet","wake_repeater","wake_crossing"],"records":["wake_packet","wake_repeater"],"campaign":true,"route":"deep","required_facts":{}},
  {"id":10,"factory":"res://src/campaign/onward_missions.gd","config":{"source_id":10,"history":true},"behaviors":["warning_plant","signals_v2","history"],"prerequisites":[8],"facts":["chain_west","chain_east","chain_relay","warning_chain"],"records":["chain_west","chain_east","chain_relay"],"campaign":true,"route":"shelf","required_facts":{}},
  {"id":11,"prerequisite_mode":"any","factory":"res://src/campaign/resolution_missions.gd","config":{"source_id":11,"history":true},"behaviors":["resolution","signals_v2","history"],"prerequisites":[9,10],"facts":["confluence_packet","confluence_repeater","confluence_route"],"records":["divergence_confluence_packet","divergence_confluence_repeater"],"campaign":true,"route":"","required_facts":{}},
- {"id":12,"factory":"res://src/campaign/resolution_missions.gd","config":{"source_id":12,"history":true},"behaviors":["witness","resolution","signals_v2","history"],"prerequisites":[11],"facts":["witness_packet","witness_repeater","witness_sluice","witness_arrival","witness_recovery","concealed_consequence","resolution"],"records":["divergence_witness_packet","divergence_witness_repeater","resolution_witness_sluice"],"campaign":true,"route":"","required_facts":{"confluence_route":"concealed"}},
+ {"id":12,"factory":"res://src/campaign/resolution_missions.gd","config":{"source_id":12,"history":true},"behaviors":["witness","resolution","signals_v2","history"],"prerequisites":[11],"facts":["witness_packet","witness_repeater","witness_sluice","witness_arrival","witness_recovery","concealed_consequence","tessaly_divers","resolution"],"records":["divergence_witness_packet","divergence_witness_repeater","resolution_witness_sluice"],"campaign":true,"route":"","required_facts":{"confluence_route":"concealed"}},
  {"id":13,"factory":"res://src/campaign/resolution_missions.gd","config":{"source_id":13,"history":true},"behaviors":["recipient","resolution","signals_v2","history"],"prerequisites":[11],"facts":["warning_west","warning_east","warning_uplink","warning_transmission","warning_reply","warning_arrival","warning_arrival_hull","warning_service","resolution"],"records":["resolution_warning_transmission","divergence_warning_reply","resolution_warning_west","resolution_warning_east","resolution_warning_uplink"],"campaign":true,"route":"","required_facts":{"confluence_route":"overt"}}
 ]
 static func _glass_entries()->Array:
  var result=[]
  for id in range(14,22):
   var prerequisites=[12,13] if id==14 else [16] if id==20 else [17] if id==21 else [id-1]
-  result.append({"id":id,"factory":"res://src/campaign/glass_reach_operations.gd","config":{"source_id":id,"history":true},"behaviors":["signals_v2","history","glass_reach"]+(["thermal"] if id==16 else []),"prerequisites":prerequisites,"prerequisite_mode":"any" if id==14 else "all","facts":["glass_record_"+str(id)]+(["glass_choice"] if id==18 else []),"records":["glass_record_"+str(id)],"campaign":true,"route":"","required_facts":{}})
+  result.append({"id":id,"factory":"res://src/campaign/glass_reach_operations.gd","config":{"source_id":id,"history":true},"behaviors":["signals_v2","history","glass_reach"]+(["thermal"] if id==16 else []),"prerequisites":prerequisites,"prerequisite_mode":"any" if id==14 else "all","facts":["glass_record_"+str(id)]+(["glass_choice","varne_staff"] if id==18 else []),"records":["glass_record_"+str(id)],"campaign":true,"route":"","required_facts":{}})
  return result
 static func _iron_entries()->Array:
  var result=[]
  for id in range(22,30):
   var prerequisite={22:19,26:22,27:23,28:23,29:24}.get(id,id-1)
-  var facts=["choir_"+str(id)]+(["choir_choice"] if id==24 else ["choir_people"] if id==28 else ["choir_plant"] if id==29 else [])
+  var facts=["choir_"+str(id)]+(["hollins_last_shift"] if id==25 else ["choir_choice"] if id==24 else ["choir_people"] if id==28 else ["choir_plant"] if id==29 else [])
   result.append({"id":id,"factory":"res://src/campaign/iron_choir_operations.gd","config":{"source_id":id,"history":true},"behaviors":["signals_v2","history","iron_choir"]+(["thermal"] if id==25 else []),"prerequisites":[prerequisite],"facts":facts,"records":[],"campaign":true,"route":"","required_facts":{}})
  return result
 static func _ensure():
  if not _entries.is_empty():return
- for entry in CONTENT+_glass_entries()+_iron_entries()+preload("res://src/campaign/final_pair_operations.gd").entries()+preload("res://src/campaign/calder_trench_operations.gd").entries()+preload("res://src/campaign/optional_operations.gd").entries():_entries[entry.id]=entry.duplicate(true)
+ for entry in CONTENT+_glass_entries()+_iron_entries()+preload("res://src/campaign/final_pair_operations.gd").entries()+preload("res://src/campaign/calder_trench_operations.gd").entries()+preload("res://src/campaign/optional_operations.gd").entries()+preload("res://src/campaign/sorley_rescue.gd").entries():
+  var copy=entry.duplicate(true)
+  preload("res://src/campaign/sorley_rescue.gd").register(copy)
+  _entries[entry.id]=copy
 static func registered_ids()->Array:
  _ensure();var result=_entries.keys();result.sort();return result
 static func definition(id:int)->Dictionary:
@@ -92,6 +95,7 @@ static func make(id:int,history:Dictionary={})->Dictionary:
  var m=factory.build(d.config,history) if factory.has_method("build") else factory.make(d.config.source_id,history) if d.config.history else factory.make(d.config.source_id)
  if not m is Dictionary or not m.has_all(["id","objectives","sirens","extraction","rocks"]):return {}
  m.id=id
+ preload("res://src/campaign/sorley_rescue.gd").apply(m)
  preload("res://src/campaign/carry/carry.gd").apply(m,id,history)
  preload("res://src/campaign/photo_ops.gd").apply(m,id,history)
  preload("res://src/simulation/photo_pricing/photo_pricing_data.gd").apply(m,id)
@@ -105,6 +109,7 @@ static func prerequisites_met(id:int,completed:Array)->bool:
  return d.prerequisites.all(func(required):return required in completed)
 static func accessible(id:int,progress:Dictionary)->bool:
  var d=definition(id)
+ if not preload("res://src/campaign/sorley_rescue.gd").visible(id,progress):return false
  if d.is_empty() or not d.campaign or not prerequisites_met(id,progress.get("completed",[])):return false
  if not d.route.is_empty() and progress.get("route","")!=d.route:return false
  for key in d.required_facts:

@@ -1,4 +1,6 @@
 extends RefCounted
+# 094: set BELL_TEAMWORK=false to restore carrier-only decompression stops.
+const BELL_TEAMWORK=true
 const Catalog=preload("res://src/campaign/operation_catalog.gd")
 const Rules=preload("res://src/campaign/encounters/choir_rules.gd")
 static func applies(m:Dictionary)->bool:return Catalog.supports(m.get("id",-1),"iron_choir") and m.get("iron_choir") is Dictionary
@@ -29,7 +31,7 @@ static func context(sim,action:String,id:int=-1)->Dictionary:
  result.duration=4. if action=="recover" else 8.
  if not sim.outcome.is_empty():result.reason="Dive ended"
  elif not u.alive:result.reason="Craft lost"
- elif action=="recover" and sim.ModuleRecovery.carried(sim,id)>=sim.ModuleRecovery.capacity(sim,id):result.reason="No free cargo place · material needs one"
+ elif action=="recover" and sim.ModuleRecovery.carried(sim,id)>=sim.ModuleRecovery.capacity(sim,id):result.reason=sim.ModuleRecovery.full_reason(sim,id,"No free cargo place · material needs one")
  elif busy(sim,id):result.active=true;result.elapsed=state.jobs[id].elapsed;result.reason="Industrial work in progress"
  elif u.band!=band or not u.transition.is_empty():result.reason="Settle at the work's physical depth"
  elif u.pos.distance_to(result.pos)>60 or not sim.Depth.clear(sim,u.pos,result.pos,u.band):result.reason="Reach within60m through clear local water"
@@ -40,7 +42,7 @@ static func context(sim,action:String,id:int=-1)->Dictionary:
  elif action in ["east","west"] and load.state!="moored":result.reason="Voyage already deliberately started"
  elif action=="west" and sim.mission.id==25 and not state.sites[1].done:result.reason="Open or staff the western service berth first"
  elif not Rules.needs_missing(sim.mission.id,state,action).is_empty():result.reason="Finish "+Rules.needs_missing(sim.mission.id,state,action).to_upper()+" first"
- elif action in Rules.WITH_LOAD.get(sim.mission.id,[]) and (load.state not in (["towed","free"] if sim.mission.id==27 else ["towed"]) or (load.state=="towed" and load.carrier!=id) or load.pos.distance_to(site.pos)>75):result.reason="Bring the real load to this station"
+ elif action in Rules.WITH_LOAD.get(sim.mission.id,[]) and (load.state not in (["towed","free"] if sim.mission.id==27 else ["towed"]) or (load.state=="towed" and load.carrier!=id and not (BELL_TEAMWORK and sim.mission.id==28)) or load.pos.distance_to(site.pos)>75):result.reason="Bring the real load to this station"
  elif action=="recover" and a.state not in ["site","wreck"]:result.reason="Material sealed, carried or recovered"
  elif action in ["bypass","isolate","cradle","land"] and (load.state!="towed" or load.carrier!=id or load.pos.distance_to(site.pos)>75):result.reason="Tow the real load locally to its receiving socket"
  elif not site.is_empty() and site.done:result.reason="Machinery work already complete"
@@ -108,7 +110,10 @@ static func tick(sim,dt:float):
  for id in 3:
   if state.jobs[id].is_empty():continue
   var job=state.jobs[id];var u=sim.units[id]
-  if not u.alive or u.hold!="HOLD" or u.band!=job.band or not u.transition.is_empty() or u.pos.distance_to(job.pos)>60 or not sim.Depth.clear(sim,u.pos,job.pos,u.band):
+  # 094: a second local craft can operate a bell stop while its carrier holds position.
+  # The real occupied load must remain alive, towed and at the station throughout.
+  var bell_departed=BELL_TEAMWORK and sim.mission.id==28 and job.action in ["lock_a","lock_b"] and (not load.alive or load.state!="towed" or load.band!=job.band or load.pos.distance_to(job.pos)>75 or not sim.Depth.clear(sim,load.pos,job.pos,job.band))
+  if bell_departed or not u.alive or u.hold!="HOLD" or u.band!=job.band or not u.transition.is_empty() or u.pos.distance_to(job.pos)>60 or not sim.Depth.clear(sim,u.pos,job.pos,u.band):
    state.jobs[id]={}
    if u.hold=="HOLD":u.hold=""
    continue
@@ -117,6 +122,7 @@ static func tick(sim,dt:float):
   if job.elapsed+.000001>=job.duration:complete_work(sim,id,job);state.jobs[id]={};u.hold=""
  observe(sim)
  if complete(sim):sim.mission.expedition_facts["choir_"+str(sim.mission.id)]="physical "+sim.mission.title+" completed"
+ if sim.mission.id==25 and complete(sim):sim.mission.expedition_facts.hollins_last_shift="arrived"
 static func tow_tick(sim,load:Dictionary,dt:float):
  var u=sim.units[load.carrier]
  if not u.alive or u.band!=load.band or not u.transition.is_empty() or u.pos.distance_to(load.pos)>120:

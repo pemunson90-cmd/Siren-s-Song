@@ -1,8 +1,10 @@
 extends Control
+const Palette=preload("res://src/presentation/accessibility/palette.gd")
 const ArtTable=preload("res://src/presentation/art/art_table.gd")
 const Art=preload("res://src/presentation/art/art_renderer.gd")
 const RegionTable=preload("res://src/presentation/art/region_table.gd")
 const RegionArt=preload("res://src/presentation/art/region_renderer.gd")
+const Quality=preload("res://src/presentation/quality/quality_table.gd")
 const FeatureViews=preload("res://src/presentation/feature_views.gd")
 const HullBand=preload("res://src/presentation/route_clearance/hull_band.gd")
 const Shelf=preload("res://src/presentation/shelf_habitat_view.gd")
@@ -27,10 +29,25 @@ var world_scale := 1.0
 var world_offset := Vector2.ZERO
 var ocean: ImageTexture
 var regional_style:Dictionary={}
+# QUALITY: only named decorative layers change; evidence and terrain remain intact.
+var quality_tier:String=Quality.STANDARD:
+	set(value):
+		if quality_tier==Quality.normalize(value):return
+		quality_tier=Quality.normalize(value)
+		queue_redraw()
+var quality_gate=preload("res://src/presentation/quality/quality_governor.gd").new()
+var quality_gesture_active:=false
+var _quality_visual_key:int=0
+var quality_draw_count:=0 # Actual CanvasItem draw callbacks, useful for scoped runtime probes.
 var rocks: Array = []
 var foundry=preload("res://assets/structures/foundry.png")
 var quietus=preload("res://assets/craft/quietus.png")
 var basalt=preload("res://assets/materials/basalt.png")
+# Presentation-only static contours. Disable to rebuild the identical points on
+# every draw; cache retains only the last world extent and never reads sim state.
+var contour_cache_enabled := true
+var _contour_extent := Vector2(-1,-1)
+var _contour_points: Array = []
 var camera_flash := 0.0
 var decoy_targeting:=false
 var knock_targeting:=false
@@ -143,13 +160,18 @@ func pan_chart(delta: Vector2) -> void:
 func fit_chart() -> void:
 	chart_camera.fit(); _sync_camera(); queue_redraw()
 func _process(dt: float) -> void:
-	phase+=dt; camera_flash=maxf(0,camera_flash-dt);_sync_camera()
+	phase+=dt; camera_flash=Palette.pulse(maxf(0,camera_flash-dt),minf(.08,maxf(0,camera_flash-dt)));_sync_camera()
 	if optical_feed!=null:
 		optical_feed.sim=sim; optical_feed.visible=presenting_mission and sim!=null and sim.outcome.is_empty() and optical_feed.viewfinder_visible(sim)
 		var height=minf(maxf(300,optical_feed.touch_height*4.8),size.y-instrument_top-54)
 		optical_feed.size=Vector2(minf(size.x-28,optical_feed.preferred_width()),height)
 		optical_feed.position=Vector2(14,maxf(instrument_top+40,size.y-height-14))
-	queue_redraw()
+	var visual_key=hash([world_scale,world_offset,size,presenting_mission,quality_tier,decoy_targeting,knock_targeting,sim.selected if sim!=null else -1])
+	var changed=visual_key!=_quality_visual_key
+	_quality_visual_key=visual_key
+	var idle=not presenting_mission or sim==null or sim.paused
+	var animated=camera_flash>0.0 or (optical_feed!=null and optical_feed.visible)
+	if quality_gate.should_redraw(dt,idle,changed,animated,quality_gesture_active):queue_redraw()
 func acoustic_rows() -> Array:
 	return preload("res://src/presentation/acoustic_feedback.gd").rows(sim.acoustic_feedback()) if sim!=null else []
 func contact_entries() -> Array:
@@ -206,7 +228,19 @@ func knock_aim_key(point:Vector2) -> int:
 		if point.distance_to(target.anchor)<knock_touch_size/2:hits.append(target.key)
 	# A broad phone hit area cannot infer intent between overlapping bodies.
 	return hits[0] if hits.size()==1 else -1
+func _depth_contours(extent: Vector2) -> Array:
+	if contour_cache_enabled and extent==_contour_extent:return _contour_points
+	var lines: Array=[]
+	for n in int(ceil(extent.y/135.0)):
+		var points=PackedVector2Array()
+		for k in int(ceil(extent.x/38.0))+1:
+			points.append(Vector2(k*38,80+n*135+sin(k*0.19+n)*32))
+		lines.append(points)
+	if contour_cache_enabled:
+		_contour_extent=extent;_contour_points=lines
+	return lines
 func _draw() -> void:
+	quality_draw_count+=1
 	if sim==null or ocean==null: return
 	_sync_camera()
 	draw_rect(Rect2(Vector2.ZERO,size),Color("050f17"))
@@ -215,17 +249,14 @@ func _draw() -> void:
 	var earned=EarnedChart.chart(sim)
 	regional_style=RegionTable.style(sim.mission)
 	draw_texture_rect_region(ocean,Rect2(Vector2.ZERO,region),Rect2(Vector2.ZERO,region/2.0),regional_style.get("water",Color.WHITE))
-	RegionArt.atmosphere(self,regional_style,region,phase)
+	RegionArt.atmosphere(self,regional_style,region,phase,quality_tier)
 	# Cartographic graticule, subordinate to the physical water and stone.
 	for x in range(0,int(region.x)+1,160):
 		draw_line(Vector2(x,0),Vector2(x,region.y),Color(0.3,0.65,0.67,0.06),1)
 	for y in range(0,int(region.y)+1,160):
 		draw_line(Vector2(0,y),Vector2(region.x,y),Color(0.3,0.65,0.67,0.06),1)
 	# Depth contours and abyssal fissures occupy the navigable seabed.
-	for n in (int(ceil(region.y/135.0)) if earned.is_empty() else 0):
-		var points=PackedVector2Array()
-		for k in int(ceil(region.x/38.0))+1:
-			points.append(Vector2(k*38,80+n*135+sin(k*0.19+n)*32))
+	for points in (_depth_contours(region) if earned.is_empty() else []):
 		draw_polyline(points,Color(0.12,0.3,0.33,0.11),1.2)
 	# Briefed environment only; no listener positions or hidden arrival paths.
 	# Kept below stone, fog, craft and the foreground charging/beam warnings.
@@ -334,15 +365,15 @@ func _draw() -> void:
 	for i in sim.units.size():
 		var u=sim.units[i]
 		if not u.alive: continue
-		if not earned.is_empty():EarnedChart.draw_course(self,EarnedChart.segments(sim,i),world_scale,i==sim.selected)
+		if not earned.is_empty():Palette.course(self,EarnedChart.segments(sim,i),world_scale,i==sim.selected)
 		if not u.route.is_empty():
 			if i==sim.selected:HullBand.draw_world(self,sim,i)
 			var last=u.pos
 			for n in u.route.size():
 				var dest=u.route[n]
-				if earned.is_empty():_dash(last,dest.pos,Color(CYAN,0.75 if i==sim.selected else 0.22),2)
+				if earned.is_empty():_dash(last,dest.pos,Palette.chart_color("route",Color(CYAN,0.75 if i==sim.selected else 0.22)),Palette.stroke(2))
 				if dest.stop:
-					draw_arc(dest.pos,10,0,TAU,24,CYAN,2); draw_circle(dest.pos,3,CYAN)
+					draw_arc(dest.pos,10,0,TAU,24,Palette.chart_color("route",CYAN),Palette.stroke(2)); draw_circle(dest.pos,3,Palette.chart_color("route",CYAN))
 				last=dest.pos
 		_craft(u,i)
 	if sim.mission.has("glass_reach") and sim.mission.glass_reach.artifact.is_empty():
@@ -372,9 +403,11 @@ func _draw() -> void:
 		var heading=Vector2.from_angle(projectile.angle)
 		draw_line(projectile.pos-heading*17,projectile.pos+heading*5,Color("a7c7c3"),3/world_scale)
 		draw_circle(projectile.pos+heading*5,2.2/world_scale,Color("ddede2"))
-	preload("res://src/presentation/sonar_history.gd").draw_bearings(self,sim)
+	Palette.received_bearings(self,sim)
 	var observed=contact_entries()
 	for entry in observed:
+		Palette.marker(self,entry.pos,72./world_scale,"threat",2./world_scale)
+		if Palette.high_contrast():draw_arc(entry.pos,68./world_scale,0,TAU,64,Color.WHITE,3./world_scale)
 		var c=sim.contacts[entry.key]; var fresh=entry.fresh
 		var aim=float(c.angle)
 		var observed_target=sim.contact_target(c)
@@ -386,10 +419,10 @@ func _draw() -> void:
 				var origin:Vector2=c.pos+Vector2.from_angle(aim)*62
 				if c.lock>=4:
 					draw_line(origin,target,Color(1,0.22,0.09,0.23),10)
-					draw_line(origin,target,Color("ff8a59"),3.5); draw_line(origin,target,Color("ffedc5"),1.2)
-					draw_arc(target,17+sin(phase*18)*5,0,TAU,24,Color("ffbc83"),2)
-				else: _dash(origin,target,Color(1,0.37,0.24,0.32),1.5)
-			draw_arc(c.pos,58,-PI/2,-PI/2+TAU*minf(1,c.lock/4),40,Color("fa7969"),3)
+					draw_line(origin,target,Palette.chart_color("warning",Color("ff8a59")),3.5); draw_line(origin,target,Color("ffedc5"),1.2)
+					draw_arc(target,17+Palette.pulse(sin(phase*18)*5,0.),0,TAU,24,Palette.chart_color("warning",Color("ffbc83")),2)
+				else: _dash(origin,target,Palette.chart_color("warning",Color(1,0.37,0.24,0.32)),1.5)
+			draw_arc(c.pos,58,-PI/2,-PI/2+TAU*minf(1,c.lock/4),40,Palette.chart_color("warning",Color("fa7969")),3)
 	var acoustic=sim.acoustic_feedback()
 	for n in acoustic.responses:
 		if n.label=="FACTORY RESPONSE":
@@ -403,8 +436,8 @@ func _draw() -> void:
 	# Legacy foreground sediment remains exact with regional presentation off.
 	# Regional particulate is below terrain/masks and cannot veil contact warnings.
 	for i in (70 if regional_style.is_empty() else 0):
-		var p=Vector2(fmod(i*241.17+phase*2,region.x),fmod(i*137.3+phase*0.7,region.y))
-		draw_circle(p,0.7+float(i%3)*0.35,Color(0.48,0.7,0.7,0.11))
+		var p=Vector2(fmod(i*241.17+Palette.motion_phase(phase)*2,region.x),fmod(i*137.3+Palette.motion_phase(phase)*0.7,region.y))
+		draw_circle(p,0.7+float(i%3)*0.35,Color(0.48,0.7,0.7,0.022 if Palette.high_contrast() else 0.11))
 	draw_rect(Rect2(Vector2.ZERO,region),Color(0.3,0.7,0.7,0.19),false,2)
 	draw_set_transform(Vector2.ZERO,0,Vector2.ONE)
 	_draw_pressure_overlay()
@@ -424,16 +457,18 @@ func _draw() -> void:
 	for i in listed.size():
 		var entry=listed[i];var box=readout[i]
 		draw_rect(box,Color(0.04,0.07,0.09,0.94))
-		draw_string(ThemeDB.fallback_font,box.position+Vector2(8,feedback_font_size),entry.text,HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size,Color("ffac8c") if entry.urgent else Color("ed8e79") if entry.fresh else Color("b09a94"))
+		draw_string(ThemeDB.fallback_font,box.position+Vector2(8,feedback_font_size),entry.text,HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size,Palette.chart_color("warning" if entry.urgent else "threat",Color("ffac8c") if entry.urgent else Color("ed8e79") if entry.fresh else Color("b09a94")))
 
 # A Siren study keeps only where it was last photographed, never where it is.
 func _siren_mark(o:Dictionary)->void:
-	var c=Color(0.9,0.42,0.34,0.7)
+	var c=Palette.chart_color("evidence",Color(0.9,0.42,0.34,0.7))
+	Palette.marker(self,o.pos,22.,"evidence")
 	draw_polyline(PackedVector2Array([o.pos+Vector2(0,-16),o.pos+Vector2(14,0),o.pos+Vector2(0,16),o.pos+Vector2(-14,0),o.pos+Vector2(0,-16)]),c,1.6)
 	_label(o.pos+Vector2(22,20),"%s · LAST PHOTOGRAPHED"%o.name,c,14)
 # An unresolved lead: an area from an earlier return, never an exact position or a name.
 func _lead_area(o:Dictionary)->void:
-	var c=Color(0.92,0.74,0.42,0.75);var r:float=float(o.get("lead_r",150.0))
+	var c=Palette.chart_color("evidence",Color(0.92,0.74,0.42,0.75));var r:float=float(o.get("lead_r",150.0))
+	Palette.marker(self,o.pos,r,"evidence",2./world_scale)
 	var n:int=28
 	for k in n:
 		if k%2==0:draw_arc(o.pos,r,TAU*k/n,TAU*(k+1)/n,6,c,2.0/world_scale)
@@ -449,7 +484,7 @@ func _draw_findings()->void:
 	for f in list:
 		var kind:String=str(f.kind)
 		if not FINDING_COLORS.has(kind):continue
-		var c:Color=FINDING_COLORS[kind];var w:float=1.8/world_scale;var label:String=str(f.get("label",f.text))
+		var c:Color=Palette.chart_color("evidence",FINDING_COLORS[kind]);var w:float=Palette.stroke(1.8)/world_scale;var label:String=str(f.get("label",f.text))
 		var at:Vector2=Vector2.ZERO
 		if f.has("pos"):at=Vector2(float(f.pos[0]),float(f.pos[1]))
 		if f.has("pts") and f.pts.size()>=2:
@@ -500,8 +535,8 @@ func _draw_pressure_overlay()->void:
 	var pressure=sim.recon_feedback()
 	var threat=float(pressure.threat)
 	if threat<.1:return
-	var pulse=.75+.25*sin(sim.elapsed*7)
-	var color=Color("e26a50") if threat>=.75 else Color("cb9959")
+	var pulse=Palette.pulse(.75+.25*sin(sim.elapsed*7),.75)
+	var color=Palette.color("threat",Color("e26a50") if threat>=.75 else Color("cb9959"))
 	for edge in 8:
 		var thickness=float(8-edge)*5
 		var alpha=threat*pulse*.018*(1.0-float(edge)/10)
@@ -563,7 +598,7 @@ func _rock(r) -> void:
 				var p=a.move_toward(b,k)
 				draw_line(p,p+Vector2(7,21),Color(0.2,0.35,0.39,0.5),2)
 		else: draw_line(a,b,Color(regional_style.edge,.55) if not regional_style.is_empty() else Color(0.49,0.65,0.66,0.55),1.8)
-	draw_polyline(poly,Color(0.17,0.26,0.3,0.5),2)
+	draw_polyline(poly,Color(0.17,0.26,0.3,0.5),Palette.stroke(2))
 func _installation(p: Vector2,recorded: bool) -> void:
 	if ArtTable.enabled:
 		draw_set_transform(world_offset+p*world_scale,0,Vector2.ONE*world_scale)
@@ -582,6 +617,7 @@ func _installation(p: Vector2,recorded: bool) -> void:
 	draw_arc(p+Vector2(0,-32),13,0,TAU,32,Color("6ae4d5") if recorded else Color("ce9b53"),2)
 func _craft(u: Dictionary,index: int) -> void:
 	var p:Vector2=u.pos
+	if Palette.high_contrast():draw_arc(p,76. if index==0 else 28.,0,TAU,64,Color.WHITE,3./world_scale)
 	if index==sim.selected:
 		draw_line(p+Vector2(-55,-38),p+Vector2(-42,-38),CYAN,2)
 		draw_line(p+Vector2(-55,-38),p+Vector2(-55,-25),CYAN,2)

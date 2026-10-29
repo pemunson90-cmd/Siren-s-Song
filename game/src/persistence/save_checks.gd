@@ -7,6 +7,7 @@ const Shelf=preload("res://src/simulation/shelf_habitat.gd")
 const Wake=preload("res://src/simulation/wake_crossing.gd")
 const Operations=preload("res://src/simulation/resolution_operations.gd")
 const Concealed=preload("res://src/simulation/concealed_harbour.gd")
+const Sorley=preload("res://src/campaign/sorley_rescue.gd")
 const Witness=preload("res://src/simulation/witness_evacuation.gd")
 const Recipient=preload("res://src/simulation/warning_recipient.gd")
 const Correlator=preload("res://src/equipment/cadence_correlator.gd")
@@ -23,6 +24,7 @@ const Depth=preload("res://src/simulation/depth_bands.gd")
 const Industry=preload("res://src/simulation/industrial_threats.gd")
 const Choir=preload("res://src/simulation/industrial_jobs.gd")
 const Glass=preload("res://src/simulation/glass_reach_work.gd")
+const Cache=preload("res://src/simulation/optional_cache.gd")
 const Network=preload("res://src/simulation/acoustic_network.gd")
 const Sonar=preload("res://src/simulation/advanced_sonar.gd")
 const Photo=preload("res://src/simulation/photo_capture.gd")
@@ -30,6 +32,7 @@ const ObservedStun=preload("res://src/simulation/observed_stun.gd")
 const WorldRegion=preload("res://src/simulation/world_region.gd")
 const Economy=preload("res://src/campaign/economy.gd")
 const Voices=preload("res://src/campaign/voices/voices.gd")
+const ToolRacks=preload("res://src/equipment/tool_racks.gd")
 const FieldTools=preload("res://src/simulation/field_tool_effects.gd")
 
 # phase, feature module, method, input shape
@@ -43,12 +46,14 @@ const save_checks = [
 	["features", ObservedStun, "valid", "snapshot"],
 	["features", DroneOperations, "valid", "snapshot"],
 	["features", Glass, "valid", "snapshot"],
+	["features", Cache, "valid", "snapshot"],
 	["features", Choir, "valid", "snapshot"],
 	["features", Network, "valid", "snapshot"],
 	["features", Industry, "valid", "snapshot"],
 	["features", ContactReports, "valid", "snapshot"],
 	["photo", Photo, "valid", "mission"],
 	["world", WorldRegion, "valid", "snapshot"],
+	["world", Sorley, "valid", "snapshot"],
 	["world", Witness, "valid", "snapshot"],
 	["world", Concealed, "valid", "snapshot"],
 	["world", Recipient, "valid", "snapshot"],
@@ -58,11 +63,15 @@ const save_checks = [
 	["world", Chain, "valid", "snapshot"],
 	["world", Rendezvous, "valid", "mission_time"],
 	["world", FieldTools, "valid", "mission"],
+	["world", ToolRacks, "valid_snapshot", "snapshot"],
 	["transport", Departure, "valid", "mission_time"],
 	["transport", Courier, "valid", "mission_time"],
 	["transport", Thermal, "valid_mission", "mission"],
 	# Campaign archive phase: SaveStore.valid asks for it; an absent economy field is defaults.
+	["archive", preload("res://src/debug/dev_state.gd"), "valid", "snapshot"],
+	["initial", preload("res://src/debug/dev_state.gd"), "valid", "mission"],
 	["archive", Economy, "valid_archive", "snapshot"],
+	["archive", ToolRacks, "valid_archive", "snapshot"],
 	["archive", Voices, "valid_archive", "snapshot"],
 ]
 

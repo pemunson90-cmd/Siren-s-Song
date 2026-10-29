@@ -60,6 +60,7 @@ func case_run(case_name,target_scale,route,suspend=false):
 	var sim=game.sim;var sim_before=sim.snapshot()
 	var action="text_scale_%d"%roundi(target_scale*100)
 	var surface=front if route=="title" else game
+	await press(surface,"settings_page_display") # SETDEPTH: text size is on the DISPLAY page.
 	if await press(surface,action):
 		check(is_equal_approx(FrontSettings.text_scale(),target_scale),case_name+" applies the selected scale immediately")
 		check(is_equal_approx(float(saved_values(settings_path).text_scale),float(defaults.text_scale)),case_name+" keeps debounce pending before lifecycle boundary")

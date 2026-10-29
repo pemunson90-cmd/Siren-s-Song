@@ -174,11 +174,18 @@ func _initialize():
  check(s.command("blackwater_handoff",{"carrier":2}) and s.blackwater_delivery_status().complete and s.units.map(func(u):return u.route)==routes and s.units.map(func(u):return u.hold)==holds,"explicit local transfer finishes delivery without rewriting routes or holds")
  tick(s,Sim.STEP)
  check(s.outcome=="won" and Sim.valid_snapshot(s.snapshot()),"normal recovery completes only after actual exchange reaches home Quietus with valid current state")
+ check(s.Delivery.handoff_paid(s.mission) and binary_roundtrip(s),"local transfer receipts survive a real recovered snapshot")
+ var legacy=s.snapshot()
+ for objective in legacy.mission.objectives:objective.erase("handoff")
+ check(Sim.valid_snapshot(legacy) and not s.Delivery.handoff_paid(legacy.mission),"old exchange snapshots stay valid and grant no invented transfer receipt")
+ var malformed=s.snapshot();malformed.mission.objectives[0].handoff="yes"
+ check(not Sim.valid_snapshot(malformed),"malformed optional transfer receipt rejects cleanly")
  var solo=Sim.new();solo.start(2);check("retained" not in solo.blackwater_delivery_status().text,"fresh operation status does not claim unrecorded field notes");solo.sirens=[];solo.units[1].alive=false;solo.units[2].alive=false
  for site in [0,1]:
   solo.units[0].pos=solo.mission.objectives[site].pos+Vector2(0,130);solo.units[0].vel=Vector2.ZERO
   check(solo.command("camera"),"Quietus-only actual fixed receiver SAMPLE remains available")
   tick(solo,2.1)
  check(solo.blackwater_delivery_status().complete and solo.all_records() and solo.mission.courier_launch>=0,"Quietus directly carries both genuine samples and REQUEST still launches the accepted glider")
+ check(not solo.Delivery.handoff_paid(solo.mission),"direct solo sampling earns no drone transfer premium")
  loss_and_resample();combined_wreck();glider_buffer();data_winch_and_save();physical_return();handoff_guards();concurrent_delivery()
  finish()

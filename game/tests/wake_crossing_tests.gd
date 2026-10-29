@@ -21,7 +21,11 @@ func run():
  check(Sim.valid_snapshot(s.snapshot()),"fresh expanded Wake is a valid current dive")
  check(not s.wake_context().known and not s.command("wake_playback"),"unmeasured remote hardware cannot be activated")
  step(s,6.8)
- check(s.correlation.status=="match" and s.mission.objectives.is_empty(),"genuine berthing reference still separates received patterns before exact source acquisition")
+ # The optional authored locker is not an acquired acoustic source. Keep the
+ # cadence-only contract strict over both source state and generated objectives.
+ var sources=s.mission.signal_sources.map(func(source):return source.id)
+ check(s.correlation.status=="match" and s.mission.signal_sources.all(func(source):return not source.located) and s.mission.objectives.all(func(o):return o.get("site_id","") not in sources),"genuine berthing reference still separates received patterns before exact source acquisition")
+ check(s.mission.objectives.size()<=1 and s.mission.objectives.all(func(o):return o.get("site_id","")=="sorley_log_9" and o.get("optional",false) and not o.captured),"only the uncollected optional Sorley locker may precede exact source acquisition")
  s.units[1].pos=Vector2(1520,680);s.units[1].vel=Vector2.ZERO;s.command("select",{"unit":1});step(s,.8)
  check(s.wake_context().known and s.wake_context().ready and s.wake_context().account.contains("empty"),"a bare drone locally discovers the keeper's deliberate empty loop and its remaining playback")
  check(not s.all_records(),"optional diversion account never replaces the real onward packet")

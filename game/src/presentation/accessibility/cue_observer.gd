@@ -4,6 +4,7 @@ extends RefCounted
 # contacts only. Reset seeds current state and discards historical events.
 const Table=preload("res://src/presentation/accessibility/cue_table.gd")
 const Settings=preload("res://src/presentation/frontend/frontend_settings.gd")
+const Depth=preload("res://src/presentation/frontend/settings_depth.gd")
 const Pricing=preload("res://src/simulation/photo_pricing/photo_pricing.gd")
 const Photo=preload("res://src/simulation/photo_capture.gd")
 var received=preload("res://src/audio/received_cues.gd").new()
@@ -23,7 +24,7 @@ var selected=-1
 func _emit(cue:String,time:float,suffix:String="")->void:
  if not Table.TEXT.has(cue):return
  emitted.append(cue)
- if cue in ["lock","sweep_received","film_empty","loss"] and Settings.vibrate(Table.PULSE_MS):pulse_requests+=1
+ if Depth.haptic_cue(cue) and Settings.vibrate(Table.PULSE_MS):pulse_requests+=1
  if not Settings.current.get("audio_captions",false):return
  rows.append({"text":str(Table.TEXT[cue])+suffix,"until":time+Table.SECONDS})
  history.append({"text":str(Table.TEXT[cue])+suffix,"at":time})

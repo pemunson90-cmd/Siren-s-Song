@@ -16,6 +16,12 @@ func mouse(point:Vector2,down:bool):
 func tap(point:Vector2):
  var move=InputEventMouseMotion.new();move.position=point;move.global_position=point;move.device=InputEvent.DEVICE_ID_EMULATION;root.push_input(move,true)
  mouse(point,true);await process_frame;mouse(point,false);await settle()
+func dismiss_arc():
+ var card=game.get_node_or_null("ArcCard")
+ if card==null:return
+ var controls=card.find_children("*","Button",true,false)
+ check(not controls.is_empty(),"arc prerequisite offers Continue")
+ if not controls.is_empty():await tap(controls[0].get_global_rect().get_center())
 func drag(start:Vector2,finish:Vector2):
  var move=InputEventMouseMotion.new();move.position=start;move.global_position=start;move.device=InputEvent.DEVICE_ID_EMULATION;root.push_input(move,true)
  mouse(start,true);await process_frame
@@ -39,9 +45,14 @@ func action(id:String):
  for control in game.menu.find_children("*","Button",true,false):
   if control is Button and control.get_meta("action","")==id:return control
  return null
-func expose_fittings():
+# The fit surface lists one craft at a time; show the craft tab before reaching its rows.
+func show_tab(slot:String):
+ if fitting(slot)!=null:return
+ var tab=action("fit_tab_"+slot);game.scroll.ensure_control_visible(tab);await settle()
+ await tap(tab.get_global_rect().get_center())
+func expose_fittings(slot:String):
  for n in 20:
-  if game.scroll.get_global_rect().encloses(fitting("drone_b").get_global_rect()):break
+  if game.scroll.get_global_rect().encloses(fitting(slot).get_global_rect()):break
   var area=game.scroll.get_global_rect();var start=Vector2(area.get_center().x,area.end.y-20)
   await drag(start,Vector2(start.x,area.position.y+30))
 func change_loadout(label:String):
@@ -69,7 +80,7 @@ func capture(name:String):
  if folder.is_empty() or DisplayServer.get_name()=="headless":return
  await RenderingServer.frame_post_draw;root.get_texture().get_image().save_png(folder.path_join(name+".png"))
 func change_fit(slot:String,item:String,label:String):
- await expose_fittings()
+ await show_tab(slot);await expose_fittings(slot)
  var control=fitting(slot);var before=game.scroll.scroll_vertical;var before_rect=control.get_global_rect();var active=game.sim.snapshot()
  check(before>game.scroll.size.y and game.scroll.get_global_rect().encloses(before_rect),"long briefing is actually scrolled to a fully visible fitting before "+label)
  await capture(label+"-before")
@@ -90,7 +101,7 @@ func run():
   game=load("res://scenes/main.tscn").instantiate();game.set_script(load("res://tests/density_main.gd"));game.capture_scenario="briefing-scroll-fitting-fixture"
   if dimensions.x==2520:game.fixture_safe_area=Rect2(136,0,2384,1080)
   root.add_child(game);await settle();game.set_process(false)
-  game.completed=[0,1,2,3,4,5];game.unlocked=5;game.expedition={"version":1,"route":"deep","routes":["deep","shelf"],"facts":{"deep":"known","shelf":"known"},"completed":[6,7,8]};game._start_mission(6);game._briefing(6);await settle()
+  game.completed=[0,1,2,3,4,5];game.unlocked=5;game.expedition={"version":1,"route":"deep","routes":["deep","shelf"],"facts":{"deep":"known","shelf":"known"},"completed":[6,7,8]};game._start_mission(6);game._briefing(6);await settle();await dismiss_arc()
   var label="cover" if dimensions.x==2520 else "inner"
   check(game.scroll.scroll_vertical==0 and DisplayServer.is_touchscreen_available(),"fresh "+label+" briefing begins at the top on the touchscreen GUI path")
   # 029 folds preparation initially. Enter it through its real control before
@@ -100,13 +111,13 @@ func run():
    await tap(fold.get_global_rect().get_center())
    check("HIDE" in action("fit_fold").text,"real touch expands preparation before scrolling "+label)
   await change_fit("drone_b","drone_deep_cells",label+"-fit")
-  check(fitting("drone_a").disabled,"rebuilt fitting keeps the single kit reserved on drone B")
+  await show_tab("drone_a");check(fitting("drone_a").disabled,"rebuilt fitting keeps the single kit reserved on drone B")
   await change_fit("drone_b","",label+"-clear")
-  check(not fitting("drone_a").disabled,"clearing a fitting makes the other carrier available without stale stock")
+  await show_tab("drone_a");check(not fitting("drone_a").disabled,"clearing a fitting makes the other carrier available without stale stock")
   await change_fit("drone_a","drone_deep_cells",label+"-other-carrier")
   await tap(action("begin").get_global_rect().get_center())
   check(game.screen=="mission" and game.sim.equipment_feedback().fitted.drone_a=="drone_deep_cells" and game.sim.equipment_feedback().fitted.drone_b=="","ENTER WATER freezes the chosen fitting after scrolling and several changes")
-  game._briefing(0);await settle();check(game.scroll.scroll_vertical==0,"opening a different fresh briefing still resets to its beginning")
+  game._briefing(0);await settle();await dismiss_arc();check(game.scroll.scroll_vertical==0,"opening a different fresh briefing still resets to its beginning")
   await change_loadout(label)
   game.queue_free();await settle()
  Input.set_emulate_touch_from_mouse(previous_emulation)

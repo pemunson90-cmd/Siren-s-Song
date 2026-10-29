@@ -74,11 +74,13 @@ func _show_campaign()->void:
 	_button(panel_box,"END ATTEMPT",func():abandoned=true;_debrief(),"challenge_abandon")
 	call_deferred("_layout")
 func _record_result()->void:
+	if DevState.block_debrief(self):return
 	if recorded:return
 	recorded=true
 	campaign_host.challenge_records=ChallengeRecords.add(campaign_host.challenge_records,challenge_id,sim.result(abandoned))
 	Archive.persist(campaign_host)
 func _debrief()->void:
+	if DevState.block_debrief(self):return
 	if recorded:return
 	_record_result();_result_menu()
 func _result_menu()->void:

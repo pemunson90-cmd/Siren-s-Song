@@ -19,7 +19,7 @@ func _initialize():
   var s=Sim.new();s.start(id)
   check(Sim.valid_snapshot(s.snapshot()),"new mission active save valid "+str(id))
   var restored=Sim.new();check(restored.restore(s.snapshot()),"new mission active save restores "+str(id))
-  check(s.mission.objectives.size()==2 and s.mission.objectives[1].optional,"bonus photo optional "+str(id))
+  check(s.mission.objectives.size()==3 and s.mission.objectives[0].site_id=="final_photo_%d"%id and s.mission.objectives[1].site_id=="final_photo_%d_bonus"%id and s.mission.objectives[1].optional and s.mission.objectives[2].site_id=="final_listen_%d"%id and s.mission.objectives[2].kind=="receiver" and s.mission.objectives[2].optional,"both original photographs and optional local receiver retained "+str(id))
   var p=progress("deep","concealed");p.completed.append_array([14,15,16,17,18,19,22,23,24,25])
   if id==31:p.completed.append(30)
   var data={"version":1,"unlocked":5,"completed":[0,1,2,3,4,5],"settings":{},"upgrade":"endurance","expedition":p,"active":s.snapshot()}
@@ -27,14 +27,14 @@ func _initialize():
   check(store.valid(data) and store.save(data) and store.load_game()==data,"checksummed disk roundtrip for active final operation "+str(id))
   check(id not in Campaign.recover(p,s.mission).completed,"launch alone cannot advance final pair "+str(id))
   var o=s.mission.objectives[0]
-  s.units[0].pos=o.pos+Vector2(-120,0);s.units[0].vel=Vector2.ZERO;s.units[0].angle=0.
+  s.units[0].pos=o.pos+Vector2(-120,-120 if id==30 else 0);s.units[0].vel=Vector2.ZERO;s.units[0].angle=0.
   check(s.Depth.clear(s,s.units[0].pos,o.pos,1,12),"bare core viewpoint in physical water "+str(id))
   check(s.command("frame",{"mode":"tight","focus":o.optical}),"frame core with ordinary control "+str(id))
   check(s.command("camera"),"begin interrupted fixture exposure "+str(id))
   step(s,1.);s.units[0].pos=o.pos+Vector2(-400,0);step(s,1.)
   check(not o.captured and preload("res://src/simulation/photo_pricing/photo_pricing.gd").film_left(s,0)==7,"interruption spends finite film without securing core "+str(id))
   check(id not in Campaign.recover(p,s.mission).completed,"interrupted film cannot advance final pair "+str(id))
-  s.units[0].pos=o.pos+Vector2(-120,0);s.units[0].vel=Vector2.ZERO;s.units[0].angle=0.
+  s.units[0].pos=o.pos+Vector2(-120,-120 if id==30 else 0);s.units[0].vel=Vector2.ZERO;s.units[0].angle=0.
   check(s.command("camera"),"begin core exposure "+str(id))
   step(s,6.)
   check(o.captured,"bare core photo secured "+str(id))
@@ -60,6 +60,8 @@ func _initialize():
    p.completed.append(30)
    check(Campaign.valid(p) and Ending.resolve(p,{}).is_empty() and Catalog.accessible(31,p),"first final recovery is not the ending")
    p.completed.append(31)
+   check(Ending.resolve(p,{}).is_empty(),"second old final recovery remains provisional before op34")
+   p.completed.append_array([32,33,34])
    var final=Ending.resolve(p,{})
    check(Campaign.valid(p) and final.id==old.id and final.photo_variant=="blind","all four endings retained without film gate")
    check(Ending.resolve(p,{},false).is_empty(),"wall switch restores old ending flow")

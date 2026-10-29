@@ -5,9 +5,14 @@ const RegionAudioTable=preload("res://src/audio/region_audio_table.gd")
 const RATE := 22050
 const AMBIENCE_BUS := "SirenAmbience"
 const EFFECTS_BUS := "SirenEffects"
+const ALERTS_BUS := "SirenAlerts" # SETDEPTH: independent Master child; threat cues.
+const MESSAGES_BUS := "SirenMessages" # SETDEPTH: independent Master child; received messages.
+const Depth=preload("res://src/presentation/frontend/settings_depth.gd")
 const ATTRIBUTION := preload("res://assets/audio/attribution.tres")
 var music_volume := 0.5
 var effects_volume := 0.8
+var alerts_volume := 0.8
+var messages_volume := 0.8
 var muted := false
 var night_mode := false
 var region_mission_id := ""
@@ -72,12 +77,14 @@ static func stream(cue: String) -> AudioStreamWAV:
 func _bus(name: String,send_to: String="Master") -> int:
 	var index=AudioServer.get_bus_index(name)
 	if index<0:
-		AudioServer.add_bus(); index=AudioServer.bus_count-1; AudioServer.set_bus_name(index,name); AudioServer.set_bus_send(index,send_to)
+		AudioServer.add_bus(); index=AudioServer.bus_count-1; AudioServer.set_bus_name(index,name)
+	AudioServer.set_bus_send(index,send_to)
 	return index
 func _ready() -> void:
 	process_mode=Node.PROCESS_MODE_ALWAYS
 	set_meta("audio_attribution",ATTRIBUTION)
 	_bus(AMBIENCE_BUS); _bus(EFFECTS_BUS)
+	if Depth.ENABLED: _bus(ALERTS_BUS); _bus(MESSAGES_BUS)
 	var guarded=false
 	for i in AudioServer.get_bus_effect_count(0):
 		if AudioServer.get_bus_effect(0,i).resource_name=="SirenPeakGuard": guarded=true
@@ -90,7 +97,7 @@ func _ready() -> void:
 	tension=AudioStreamPlayer.new(); tension.stream=stream("tension"); tension.bus=AMBIENCE_BUS; tension.volume_db=-80; add_child(tension); tension.play()
 	engine=AudioStreamPlayer.new(); engine.stream=stream("engine"); engine.bus=EFFECTS_BUS; engine.volume_db=-80; add_child(engine); engine.play()
 	for bed in [ambience,engine,tension]: bed.stream_paused=true
-	lock_voice=AudioStreamPlayer.new();lock_voice.stream=stream("alert");lock_voice.bus=EFFECTS_BUS;lock_voice.volume_db=-6;add_child(lock_voice)
+	lock_voice=AudioStreamPlayer.new();lock_voice.stream=stream("alert");lock_voice.bus=ALERTS_BUS if Depth.ENABLED else EFFECTS_BUS;lock_voice.volume_db=-6;add_child(lock_voice)
 	for n in 5:
 		var bus_name="SirenVoice%d"%n; var index=_bus(bus_name,EFFECTS_BUS)
 		var panner: AudioEffectPanner
@@ -131,7 +138,7 @@ func _lock_update(sim,frozen:bool,active:bool)->void:
 	var frames=preload("res://src/presentation/lock_warning.gd").frames(sim) if active else []
 	if sim.elapsed<lock_clock:lock_source=-1;lock_next=-1.
 	lock_clock=sim.elapsed
-	if frames.is_empty() or muted or effects_volume<=0:
+	if frames.is_empty() or not cue_audible("alert"):
 		lock_voice.stop();lock_source=-1;lock_next=-1.;return
 	lock_voice.stream_paused=frozen
 	if frozen:return
@@ -148,10 +155,7 @@ func update(sim,dt: float,active_dive: bool=true) -> void:
 	preload("res://src/audio/event_cues/event_cues.gd").sync(self,sim,dt,active_dive)
 	received_cues.observe_clock(sim.elapsed)
 	if ambience==null: return
-	var ambience_index=AudioServer.get_bus_index(AMBIENCE_BUS); var effects_index=AudioServer.get_bus_index(EFFECTS_BUS)
-	AudioServer.set_bus_mute(ambience_index,muted or music_volume<=0); AudioServer.set_bus_mute(effects_index,muted or effects_volume<=0)
-	AudioServer.set_bus_volume_db(ambience_index,linear_to_db(maxf(0.001,music_volume)))
-	AudioServer.set_bus_volume_db(effects_index,linear_to_db(maxf(0.001,effects_volume)))
+	apply_bus_levels()
 	var frozen=sim.paused or not active_dive or system_suspended
 	_sync_region(sim.mission,sim.elapsed,frozen)
 	_lock_update(sim,frozen,active_dive)
@@ -196,12 +200,34 @@ func update(sim,dt: float,active_dive: bool=true) -> void:
 func event_cue(id: String) -> void:
 	var layer=get_node_or_null("EventAudio")
 	if layer!=null and layer.fire(id):accessibility.note(id,last_clock)
+# Each split category owns its gain; Effects no longer gates alerts or messages.
+func cue_audible(cue: String) -> bool:
+	var category=Depth.bus_category(cue)
+	var level=alerts_volume if category=="alerts" else (messages_volume if category=="messages" else effects_volume)
+	return not muted and level>0
 func play(cue: String,relative_position: Vector2=Vector2.ZERO) -> void:
-	if muted or effects_volume<=0 or system_suspended or not cues.has(cue): return
+	if not cue_audible(cue) or system_suspended or not cues.has(cue): return
 	for i in voices.size():
 		var voice=voices[i]
 		if not voice.playing:
+			if Depth.ENABLED: _route_voice(i,cue)
 			panners[i].pan=clampf(relative_position.x/550.0,-0.8,0.8); voice.stream=cues[cue]; voice.play(); return
+func apply_bus_levels() -> void:
+	var ambience_index=AudioServer.get_bus_index(AMBIENCE_BUS); var effects_index=AudioServer.get_bus_index(EFFECTS_BUS)
+	AudioServer.set_bus_mute(ambience_index,muted or music_volume<=0); AudioServer.set_bus_mute(effects_index,muted or effects_volume<=0)
+	AudioServer.set_bus_volume_db(ambience_index,linear_to_db(maxf(0.001,music_volume)))
+	AudioServer.set_bus_volume_db(effects_index,linear_to_db(maxf(0.001,effects_volume)))
+	if Depth.ENABLED:
+		for row in [[ALERTS_BUS,alerts_volume],[MESSAGES_BUS,messages_volume]]:
+			var split=AudioServer.get_bus_index(row[0])
+			if split<0:continue
+			AudioServer.set_bus_mute(split,muted or row[1]<=0); AudioServer.set_bus_volume_db(split,linear_to_db(maxf(0.001,row[1])))
+# SETDEPTH: an idle voice chain sends to the cue's category bus (alerts, messages or effects) before it plays.
+func _route_voice(i: int,cue: String) -> void:
+	var category=Depth.bus_category(cue)
+	var target=ALERTS_BUS if category=="alerts" else (MESSAGES_BUS if category=="messages" else EFFECTS_BUS)
+	var index=AudioServer.get_bus_index("SirenVoice%d"%i)
+	if index>=0 and AudioServer.get_bus_index(target)>=0: AudioServer.set_bus_send(index,target)
 func suspend() -> void:
 	system_suspended=true
 	if lock_voice!=null:lock_voice.stream_paused=true

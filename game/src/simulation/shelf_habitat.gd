@@ -13,10 +13,22 @@ static func build(m:Dictionary)->void:
  m.rocks=[Rect2(-100,-100,2600,300),Rect2(-100,700,580,550),Rect2(1780,850,720,550),Rect2(780,1750,920,240),PackedVector2Array([Vector2(800,400),Vector2(1260,400),Vector2(1360,680),Vector2(1320,920),Vector2(1390,1120),Vector2(800,1120),Vector2(840,940),Vector2(760,720)])]
  m["shelf_habitat"]=initial();m["thermal_revision"]=1;m["thermal_fronts"]=[{"area":FRONT,"transmission":.5,"close_range":120.0}]
  m.objectives=[{"pos":ALARM,"name":"WATCH ACKNOWLEDGEMENTS","site_id":"warning_receiver","optical":"divergence_warning","captured":false,"kind":"habitat","evidence":ACCOUNT}]
+ # 097: independent optional reception beside the western occupied section.
+ # Quietus can visit it; a drone can listen while Quietus works the resonator.
+ m.objectives.append({"pos":Vector2(560,1000),"name":"WEST SERVICE POWER ACCOUNT","site_id":"shelf_service","optical":"shelf_service","captured":false,"kind":"receiver","duration":4.,"optional":true,"evidence":"The west section's service account records the isolated reserve supply behind its closed pressure shutters."})
  m.corridors=[{"pos":m.extraction,"name":"WEST SHELF RECOVERY","route":"shelf"}]
  m.brief="Terrace windows beyond the shelf receiver still draw power. Carry Quietus’s warning to the watch crew in Port Ardent's shore-end bunker. Visit both section listening lips for quiet local delivery, or sound the charted COMMUNAL RESONATOR once: its1200m call offers a shorter work route but draws the hunter. A sent warning alone is not a returned acknowledgement; hear both replies. Drones can discover the sections and watch approaches. The shorter inner return crosses a mutually masking exhaust front; the longer outer contour preserves passive information. Bring Quietus and the watch acknowledgements to western recovery."
  m.record="Two sections of the bunker answered the warning. Their pressure shutters closed over the watch crew; Quietus carries a call toward living survivors, not an empty station's firing coordinates."
+ m.brief+=" A separate MIDDLE receiver at the western section holds the optional WEST SERVICE POWER ACCOUNT. A drone can receive it while Quietus works the communal resonator."
 static func complete(sim)->bool:return not applies(sim.mission) or sim.mission.shelf_habitat.receipts.size()==2
+static func receiver(sim)->Dictionary:
+ var craft=sim.units[sim.selected]
+ for index in sim.mission.objectives.size():
+  var site=sim.mission.objectives[index]
+  if site.get("site_id","")!="shelf_service" or site.captured:continue
+  if craft.alive and craft.pos.distance_to(site.pos)<240 and sim.line_clear(craft.pos,site.pos):
+   return {"target":index,"ready":craft.vel.length()<12,"text":"WEST SERVICE ACCOUNT · passive decode4s · settle below12m/s"}
+ return {"target":-1,"ready":false,"text":context(sim).account}
 static func _gallery(id:String)->Dictionary:
  for site in GALLERIES:
   if site.id==id:return site

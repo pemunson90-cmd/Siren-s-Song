@@ -67,6 +67,7 @@ var fleet:Dictionary={}
 var economy:Dictionary=preload("res://src/campaign/economy.gd").new_state()
 var challenge_records:Dictionary={}
 var fitted_equipment:Dictionary=preload("res://src/equipment/equipment_catalog.gd").default_loadout()
+var tool_racks:Dictionary=preload("res://src/equipment/tool_racks.gd").template("endurance",fitted_equipment)
 var upgrade := "endurance"
 var capture_scenario := ""
 var frame := 0
@@ -104,6 +105,10 @@ var early_reward:Dictionary={}
 var lock_warning
 var audio_captions
 var settings_path="user://settings.json"
+var debug_console
+const DevState=preload("res://src/debug/dev_state.gd")
+var quality_runtime=preload("res://src/presentation/quality/quality_runtime.gd").new()
+var quality_periodic_refresh:=false
 func _ready() -> void:
 	get_tree().auto_accept_quit=false
 	_theme()
@@ -165,6 +170,7 @@ func _ready() -> void:
 	if capture_scenario.is_empty(): _load_archive(); _show_campaign(); _boot_frontend()
 	else: _scenario(capture_scenario)
 	_layout()
+	if OS.is_debug_build():debug_console=load("res://src/debug/debug_console.gd").install(self)
 # Title/settings/credits overlay. Any failure leaves the original campaign menu as the boot screen.
 func _boot_frontend() -> void:
 	var script=load("res://src/presentation/frontend/frontend.gd")
@@ -208,6 +214,7 @@ func _reflow_mission() -> void:
 	mission_reflow_pending=false
 	if screen=="mission" and not _measured_mission_rows().is_equal_approx(mission_row_heights): _layout(false)
 func _layout(cancel_gesture:bool=true) -> void:
+	if not is_inside_tree():return
 	if ocean==null:return
 	if cancel_gesture:map_gesture.cancel()
 	_apply_safe_area()
@@ -226,11 +233,24 @@ func _layout(cancel_gesture:bool=true) -> void:
 			button.custom_minimum_size.y=h; button.add_theme_font_size_override("font_size",maxi(17,roundi(h*0.29*FrontendSettings.text_scale())))
 		for slider in menu.find_children("*","Slider",true,false): slider.custom_minimum_size.y=h
 	if route_editor!=null and route_editor.visible: route_editor.configure(size,h)
+	if debug_console!=null:debug_console.badge_layout_key=0
 	call_deferred("_report_targets")
+# Mode sessions own fixed/persistent stock and separate economies. Their inherited Main
+# startup must not apply the campaign profile's racks.
+func _uses_tool_racks()->bool:
+	var script=get_script()
+	while script!=null:
+		if script.resource_path in ["res://src/presentation/frontend/challenge_session.gd","res://src/presentation/runs/expedition_session.gd","res://src/presentation/career/career_session.gd"]:return false
+		script=script.get_base_script()
+	return true
 func _start_mission(index: int) -> void:
 	fitted_equipment=FleetInventory.reconcile_fitting(fitted_equipment,FleetInventory.available(_equipment_entitlements(),fleet))
 	var launch=FleetInventory.launch(fitted_equipment,_equipment_entitlements(),fleet,index,_campaign_completed())
 	if not launch.ok:sim.message="Fitting unavailable · choose available hardware or BARE";return
+	var racks=preload("res://src/equipment/tool_racks.gd")
+	if _uses_tool_racks():
+		if not racks.reason(fitted_equipment,tool_racks).is_empty():sim.message=racks.reason(fitted_equipment,tool_racks);return
+		launch.launch["tool_racks"]=tool_racks.duplicate(true)
 	launch.launch["context"]=_launch_context(index)
 	# The first call builds the paused display before loading an archive. Even
 	# blocked recovery needs valid craft/UI; later player launches stay guarded.
@@ -240,6 +260,8 @@ func _start_mission(index: int) -> void:
 	call_deferred("_layout")
 	if route_editor!=null: route_editor.hide()
 	active_started=true; mission_index=index; sim.start(index,upgrade,launch.launch)
+	if DevState.marked(self):sim.mission["dev"]=true
+	if debug_console!=null:debug_console.reset_metrics()
 	if mission_hud!=null:
 		mission_hud.hints.dismiss();mission_hud.tool_help.cancel()
 		mission_hud.subject={};mission_hud.page="craft"
@@ -277,7 +299,7 @@ func _order(order: String,args: Dictionary={}) -> void:
 	if order=="decoy" and not args.has("point"):
 		targeting_feedback=""
 		map_gesture.cancel(); knock_armed=false; ocean.knock_targeting=false
-		if sim.units[sim.selected].alive and sim.tools.decoy>0 and sim.outcome.is_empty():decoy_armed=not decoy_armed;decoy_unit=sim.selected
+		if sim.units[sim.selected].alive and preload("res://src/equipment/tool_racks.gd").count(sim,"decoy")>0 and sim.outcome.is_empty():decoy_armed=not decoy_armed;decoy_unit=sim.selected
 		else:decoy_armed=false;sim.message="Decoy unavailable · no charge spent"
 		_refresh(); print("SS_DECOY_AIM armed=",decoy_armed," selected=",sim.selected); call_deferred("_report_targets"); return
 	if order=="knock" and not args.has("target"):
@@ -304,6 +326,7 @@ func _pause() -> void:
 func _confirm_module_departure()->void:
 	ModuleRecovery.confirm_departure(self)
 func _process(dt: float) -> void:
+	quality_runtime.process(self,dt)
 	frame+=1
 	if frame==4 and not capture_path.is_empty(): _take_capture()
 	if sound!=null: sound.update(sim,dt,screen=="mission")
@@ -311,14 +334,18 @@ func _process(dt: float) -> void:
 		save_clock+=dt
 		if save_clock>5.0: _save_archive(); save_clock=0.0
 	if screen=="mission":
-		sim.advance(dt)
+		if debug_console!=null:debug_console.advance(dt)
+		else:sim.advance(dt)
 		_observation_diagnostics()
 		if not sim.outcome.is_empty(): _debrief()
 		elif sim.has_method("departure_context") and sim.departure_context().get("pending",false): _confirm_module_departure()
+		quality_periodic_refresh=true
 		_refresh()
+		quality_periodic_refresh=false
 func _refresh() -> void:
+	if not quality_runtime.refresh(self,quality_periodic_refresh):return
 	if lock_warning!=null:lock_warning.refresh(self)
-	if decoy_armed and (screen!="mission" or sim.selected!=decoy_unit or not sim.units[sim.selected].alive or sim.tools.decoy<=0 or not sim.outcome.is_empty()):decoy_armed=false
+	if decoy_armed and (screen!="mission" or sim.selected!=decoy_unit or not sim.units[sim.selected].alive or preload("res://src/equipment/tool_racks.gd").count(sim,"decoy")<=0 or not sim.outcome.is_empty()):decoy_armed=false
 	ocean.decoy_targeting=decoy_armed
 	if knock_armed and (screen!="mission" or sim.selected!=0 or not sim.units[0].alive or not sim.outcome.is_empty()): knock_armed=false
 	ocean.knock_targeting=knock_armed; ocean.knock_touch_size=ui_touch_height
@@ -347,12 +374,12 @@ func _refresh() -> void:
 	order_buttons.silent.text=("LOW\nPROFILE" if sim.units[sim.selected].silent else "OPEN\nPROFILE") if sim.selected>0 else ("SILENT ✓" if sim.units[0].silent else "CRUISE")
 	order_buttons.knock.text="CANCEL\nTORPEDO" if knock_armed else "TORPEDO\n%d"%sim.tools.get("knock",0)
 	order_buttons.knock.disabled=not knock_armed and (sim.selected!=0 or not sim.units[0].alive or sim.tools.get("knock",0)<=0)
-	order_buttons.emp.text="DISRUPT\n%d"%sim.tools.emp
-	order_buttons.emp.disabled=sim.tools.emp<=0
-	order_buttons.decoy.text="CANCEL\nDECOY" if decoy_armed else "DECOY\n%d"%sim.tools.decoy
-	order_buttons.decoy.disabled=sim.tools.decoy<=0 and not decoy_armed
-	order_buttons.recon.text="SURVEY\n%d"%sim.tools.recon
-	order_buttons.recon.disabled=sim.tools.recon<=0
+	order_buttons.emp.text="DISRUPT\n%d"%preload("res://src/equipment/tool_racks.gd").count(sim,"emp")
+	order_buttons.emp.disabled=preload("res://src/equipment/tool_racks.gd").count(sim,"emp")<=0
+	order_buttons.decoy.text="CANCEL\nDECOY" if decoy_armed else "DECOY\n%d"%preload("res://src/equipment/tool_racks.gd").count(sim,"decoy")
+	order_buttons.decoy.disabled=preload("res://src/equipment/tool_racks.gd").count(sim,"decoy")<=0 and not decoy_armed
+	order_buttons.recon.text="SURVEY\n%d"%preload("res://src/equipment/tool_racks.gd").count(sim,"recon")
+	order_buttons.recon.disabled=preload("res://src/equipment/tool_racks.gd").count(sim,"recon")<=0
 	log_label.text=preload("res://src/presentation/archive/voice_feed.gd").log_text(self,sim.message)
 	if sim.mission.get("well_revision",0)==1 and sim.mission.objectives[0].captured:
 		var comparison="MATCH RECORDED" if not sim.mission.well_observation.is_empty() else ("REFERENCE LOGGED" if not sim.mission.well_reference.is_empty() else "UNVERIFIED")
@@ -381,6 +408,8 @@ func _toggle_advanced() -> void:
 	if advanced_orders:mission_hud.dismiss()
 	else:mission_hud.open("craft",{"kind":"craft","unit":sim.selected,"pos":sim.units[sim.selected].pos})
 func _input(event:InputEvent) -> void:
+	if debug_console!=null and debug_console.input(event):get_viewport().set_input_as_handled();return
+	if debug_console!=null and debug_console.panel.visible:return
 	if screen!="mission":return
 	if mission_hud.owns_pointer(event):get_viewport().set_input_as_handled();return
 	if mission_hud.fleet.handle_input(event):get_viewport().set_input_as_handled();return
@@ -475,6 +504,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 			elif knock_armed or decoy_armed:_primary_action()
 			else:sim.paused=true;_show_campaign()
 func _clear_menu() -> void:
+	preload("res://src/presentation/arcs/arc_card.gd").back(self)
 	var resolution=get_node_or_null("ConfluenceResolution")
 	if resolution!=null:remove_child(resolution);resolution.queue_free()
 	advanced_orders=false
@@ -511,9 +541,9 @@ func _fold_fit(nodes:Array,holder:Array) -> void:
 func _reference(index:int) -> void:
 	CampaignFlow.show_reference(self, index)
 func _launch_context(index:int)->Dictionary:
-	return CampaignFlow.launch_context(self, index)
+	return DevState.context(self,CampaignFlow.launch_context(self, index))
 func _equipment_entitlements()->Array:
-	return CampaignFlow.equipment_entitlements(self)
+	return DevState.items(self,CampaignFlow.equipment_entitlements(self))
 func _campaign_completed()->Array:
 	return CampaignFlow.campaign_completed(self)
 func _equipment_context()->Dictionary:
@@ -521,6 +551,7 @@ func _equipment_context()->Dictionary:
 func _choose_equipment(slot:String,item:String,index:int)->void:
 	CampaignFlow.choose_equipment(self, slot, item, index)
 func _debrief() -> void:
+	if DevState.block_debrief(self):return
 	CampaignFlow.debrief(self)
 func _sync_craft_upgrades()->void:
 	CampaignFlow.sync_craft_upgrades(self)
@@ -593,9 +624,12 @@ func _archive() -> Dictionary:
 	if not hints_seen.is_empty():data["hints_seen"]=hints_seen.duplicate()
 	if not early_reward.is_empty():data["early_reward"]=early_reward.duplicate(true)
 	preload("res://src/presentation/first_siren_cue/cue_archive.gd").write(self,data)
+	preload("res://src/presentation/arcs/arc_card.gd").write(self,data)
 	preload("res://src/presentation/finale/finale.gd").write(self,data)
 	preload("res://src/presentation/archive/voice_feed.gd").write(self,data)
 	preload("res://src/persistence/save_states/save2_controller.gd").write(self,data)
+	DevState.write(self,data)
+	preload("res://src/equipment/tool_racks.gd").write_archive(data,tool_racks)
 	data["equipment"]=preload("res://src/equipment/equipment_catalog.gd").canonical(fitted_equipment)
 	return data
 func _save_archive() -> void:
@@ -631,6 +665,8 @@ func _update_archive_status()->void:
 	if changed:call_deferred("_layout")
 func _load_archive() -> void:
 	var saved=store.load_game()
+	DevState.restore(self,saved)
+	preload("res://src/presentation/arcs/arc_card.gd").restore(self,saved)
 	preload("res://src/presentation/finale/finale.gd").restore(self,saved)
 	if not saved.is_empty():
 		unlocked=saved.unlocked; completed=saved.completed; upgrade=saved.upgrade; settings=saved.settings
@@ -640,6 +676,7 @@ func _load_archive() -> void:
 		photo_intel=saved.get("intel",{}).duplicate(true)
 		fitted_equipment=preload("res://src/equipment/equipment_catalog.gd").canonical(saved.get("equipment",{}))
 		fitted_equipment=FleetInventory.reconcile_fitting(fitted_equipment,FleetInventory.available(_equipment_entitlements(),fleet))
+		tool_racks=preload("res://src/equipment/tool_racks.gd").migrated(saved,fitted_equipment)
 		var Economy=preload("res://src/campaign/economy.gd")
 		economy=saved.economy.duplicate(true) if saved.has("economy") else Economy.legacy_state(fitted_equipment)
 		recovered_evidence=saved.get("evidence",{})
@@ -709,8 +746,8 @@ func _set_accessibility(key:String,value:Variant) -> void:
 	store_settings.save_settings(values)
 	_settings_menu()
 func _notification(what: int) -> void:
-	# The isolated challenge session owns lifecycle handling while the campaign is frozen.
-	if get_node_or_null("ChallengeSession")!=null:return
+	# Isolated mode sessions own lifecycle handling while the campaign is frozen.
+	if get_node_or_null("ChallengeSession")!=null or get_node_or_null("ExpeditionSession")!=null or get_node_or_null("CareerSession")!=null:return
 	if what in [NOTIFICATION_APPLICATION_PAUSED,NOTIFICATION_APPLICATION_FOCUS_OUT,NOTIFICATION_WM_WINDOW_FOCUS_OUT]:
 		if sim.mission!=null:
 			knock_armed=false; ocean.knock_targeting=false; decoy_armed=false; ocean.decoy_targeting=false; map_gesture.cancel()
@@ -728,6 +765,7 @@ func _notification(what: int) -> void:
 		sim.paused=true; _save_archive(); call_deferred("_android_back")
 
 func _frontend_back()->bool:
+	if preload("res://src/presentation/arcs/arc_card.gd").back(self):return true
 	if preload("res://src/persistence/save_states/save2_controller.gd").back(self):return true
 	var front=get_node_or_null("Frontend")
 	if front==null or not front.has_method("back"):return false
@@ -738,6 +776,7 @@ func _back_exit_handled()->bool:
 	if back_exit==null:back_exit=preload("res://src/presentation/back_exit/back_exit_confirm.gd").new();add_child(back_exit)
 	return back_exit.handle(self)
 func _android_back()->void:
+	if debug_console!=null and debug_console.panel.visible:debug_console.panel.hide();return
 	if not is_inside_tree() or _frontend_back():return
 	if _back_exit_handled():return
 	# Match Escape in the route instrument, after Android's notification traversal.
@@ -752,6 +791,7 @@ func _take_capture() -> void:
 	print("SS_CAPTURE ",capture_path," size=",image.get_size()," result=",result)
 
 func _report_targets() -> void:
+	if not is_inside_tree():return
 	await get_tree().process_frame
 	if not is_inside_tree(): return
 	var capture_phase="layout_only"
