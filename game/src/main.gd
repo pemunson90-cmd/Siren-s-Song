@@ -108,6 +108,7 @@ var audio_captions
 var settings_path="user://settings.json"
 var debug_console
 const DevState=preload("res://src/debug/dev_state.gd")
+var tactical_aids=preload("res://src/presentation/accessibility/tactical_aids.gd").new()
 var quality_runtime=preload("res://src/presentation/quality/quality_runtime.gd").new()
 var quality_periodic_refresh:=false
 func _ready() -> void:
@@ -166,6 +167,7 @@ func _ready() -> void:
 	for arg in OS.get_cmdline_user_args():
 		if arg.begins_with("--scenario="): capture_scenario=arg.get_slice("=",1)
 		if arg.begins_with("--capture-path="): capture_path=arg.trim_prefix("--capture-path=")
+	tactical_aids.bind(self)
 	_start_mission(0)
 	active_started=false
 	if capture_scenario.is_empty(): _load_archive(); _show_campaign(); _boot_frontend()
@@ -335,8 +337,7 @@ func _process(dt: float) -> void:
 		save_clock+=dt
 		if save_clock>5.0: _save_archive(); save_clock=0.0
 	if screen=="mission":
-		if debug_console!=null:debug_console.advance(dt)
-		else:sim.advance(dt)
+		tactical_aids.advance(dt)
 		_observation_diagnostics()
 		if not sim.outcome.is_empty(): _debrief()
 		elif sim.has_method("departure_context") and sim.departure_context().get("pending",false): _confirm_module_departure()
