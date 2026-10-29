@@ -35,8 +35,17 @@ func _initialize()->void:
   check(sim.acoustic_paths.clear(a,b) and not sim.acoustic_paths.arrivals(a,b,900).is_empty(),"opened geometry rebuild permits an actual direct received arrival")
   check(not opened.is_empty() and length_of(quiet,witness)-length_of(opened,witness)>500,"opened service passage materially shortens the actual return plan")
  var warning=Content.make(13,{"thread":"shelf","completed":[10,11]})
- check(warning.objectives.size()==1 and warning.objectives[0].get("kind","")=="transmitter","overt operation is not another pair of receiver preparations")
- var tx=warning.objectives[0]
+ # Own-origin removes prior-operation preparation dependencies, while the
+ # transmission still requires its authored local pickup service.
+ var tx=site(warning,"warning_transmission")
+ var pickup=site(warning,"warning_uplink")
+ var west=site(warning,"warning_west")
+ var required=warning.objectives.filter(func(o):return not o.get("optional",false)).map(func(o):return o.get("site_id",""))
+ check(tx.get("kind","")=="transmitter" and Content.make(13).objectives==warning.objectives,"overt operation is not another pair of receiver preparations")
+ check(warning.objectives.size()==3 and warning.objectives.all(func(o):return o.get("site_id","") in ["warning_transmission","warning_uplink","warning_west"]) and ["warning_transmission","warning_uplink","warning_west"].all(func(id):return warning.objectives.filter(func(o):return o.get("site_id","")==id).size()==1),"authored fixed warning accounts have unique semantic IDs")
+ check(required.size()==2 and "warning_transmission" in required and "warning_uplink" in required,"transmission and local pickup service remain mandatory work")
+ check(pickup.get("kind","")=="receiver" and pickup.get("duration",0)>0 and pickup.get("pos",Vector2.ZERO)==warning.extraction and pickup.get("sampler_compatible",false),"mandatory pickup service requires physical local reception at recovery")
+ check(west.get("optional",false) and west.get("kind","")=="receiver","west cable account remains optional local work")
  check(tx.get("own_origin",false) and tx.get("origin_region",Rect2()).get_area()>1000000,"pilot chooses transmission origin within a substantial charted sector")
  check(tx.duration==6 and tx.required_unit==0 and not tx.get("sampler_compatible",false),"Quietus must settle and speak itself, without a mandatory equipment gate")
  check(warning.signal_sources.size()==1 and not warning.signal_sources[0].get("active",true),"actual response carrier is silent until the warning is sent")
@@ -49,3 +58,7 @@ func _initialize()->void:
   check(not sim.acoustic_paths.arrivals(reply.pos,Vector2(500,1120),tx.completion_emission.radius).is_empty() and not sim.acoustic_paths.arrivals(reply.pos,Vector2(1840,1080),tx.completion_emission.radius).is_empty(),"both declared transmission choices physically deliver the actual warning to the responder")
  print("RESOLUTION OPERATIONS CHECKS ",checks," FAILURES ",failures)
  quit(1 if failures else 0)
+func site(mission:Dictionary,id:String)->Dictionary:
+ for objective in mission.objectives:
+  if objective.get("site_id","")==id:return objective
+ return {}

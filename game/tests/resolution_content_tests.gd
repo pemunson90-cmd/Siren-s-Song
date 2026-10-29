@@ -36,8 +36,18 @@ func _initialize()->void:
  check(concealed.start!=overt.start and concealed.extraction!=overt.extraction and concealed.rocks!=overt.rocks,"concealed and overt jobs have different terrain and traversal")
  check(concealed.objectives.size()==1 and concealed.objectives[0].get("optional",false) and concealed.signal_sources.size()==1,"concealed witness stays unlocated while optional mechanical control is charted")
  check(not concealed.signal_sources.any(func(s):return s.has("completion_emission")),"witness acquisition preserves a nonbroadcast recovery plan")
- check(overt.objectives.size()==1 and overt.objectives[0].get("own_origin",false) and overt.objectives[0].required_unit==0,"warning is an own-origin operation rather than another preparation chain")
- check(overt.objectives[0].completion_emission.radius==2000 and overt.objectives[0].completion_emission.duration==8,"overt warning causes a finite physical transmission")
+ # Own-origin describes the warning's transmission, independent of prior-op
+ # preparation. Local service work is still mandatory; identify it by site ID.
+ var transmission=site(overt,"warning_transmission")
+ var pickup=site(overt,"warning_uplink")
+ var west=site(overt,"warning_west")
+ var required=overt.objectives.filter(func(objective):return not objective.get("optional",false)).map(func(objective):return objective.get("site_id",""))
+ check(transmission.get("own_origin",false) and transmission.get("required_unit",-1)==0 and content.make(13).objectives==overt.objectives,"warning is an own-origin operation rather than another preparation chain")
+ check(required.size()==2 and "warning_transmission" in required and "warning_uplink" in required,"warning transmission and local pickup service are the complete authored mandatory work")
+ check(pickup.get("kind","")=="receiver" and pickup.get("duration",0)>0 and pickup.get("pos",Vector2.ZERO)==overt.extraction and pickup.get("sampler_compatible",false),"mandatory pickup service is real local reception at the recovery mouth")
+ check(west.get("optional",false) and west.get("kind","")=="receiver","west cable service remains a separate optional account")
+ check(overt.required_site_ids==["warning_transmission","warning_reply"],"transmission and dynamically acquired ACK remain required records beyond fixed local service")
+ check(transmission.completion_emission.radius==2000 and transmission.completion_emission.duration==8,"overt warning causes a finite physical transmission")
  check(concealed.objectives[0].sampler_compatible and concealed.objectives[0].required_unit==0,"drone specialization can open the optional service sluice while Quietus remains a fallback")
  concealed.recovered=true
  check(content.resolution(concealed).is_empty(),"recovered flag alone cannot replace a witness packet")
@@ -53,9 +63,25 @@ func _initialize()->void:
  check(content.resolution(overt).is_empty(),"a recovered warning and ACK cannot replace physical recipient arrival")
  overt.warning_recipient.receipt=true
  check(content.resolution(overt)=="overt_warning","actual recipient receipt and recovered Q complete the overt job")
- overt.objectives[1].captured=false
+ # Resolution selects the ending family; campaign recovery separately enforces
+ # every mandatory local objective, including the new pickup service account.
+ var campaign=preload("res://src/campaign/expedition_campaign.gd")
+ var progress={"version":2,"route":"deep","routes":["deep"],"facts":{"deep":"Recovered branch","confluence_route":"overt"},"completed":[6,7,9,11],"notes":{},"references":{},"entitlements":[],"history":[],"selected_thread":"deep"}
+ check(campaign.valid(progress) and 13 in campaign.recover(progress,overt).completed,"complete warning, ACK, pickup service, recipient receipt and recovered Q are accepted by campaign recovery")
+ pickup.captured=false
+ check(13 not in campaign.recover(progress,overt).completed,"warning and receipt cannot bypass the required local pickup service account")
+ pickup.captured=true
+ site(overt,"warning_reply").captured=false
  check(content.resolution(overt).is_empty(),"preparation notes alone cannot claim the warning was forwarded")
+ site(overt,"warning_reply").captured=true;transmission.captured=false
+ check(content.resolution(overt).is_empty(),"ACK and actual recipient receipt cannot replace the warning transmission")
+ transmission.captured=true;overt.recovered=false
+ check(content.resolution(overt).is_empty(),"warning, ACK and recipient receipt still require Quietus recovery")
  finish()
+func site(mission:Dictionary,id:String)->Dictionary:
+ for objective in mission.objectives:
+  if objective.get("site_id","")==id:return objective
+ return {}
 func finish()->void:
  print("RESOLUTION CONTENT CHECKS ",checks," FAILURES ",failures)
  quit(1 if failures else 0)
