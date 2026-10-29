@@ -1,5 +1,7 @@
 [QUEUE RUNNER 2026-10-29T18:40:48.0237750-04:00] running: 115 PID51192, 117 PID39628; done: 103, 106, 113, 110, 112, 109, 114, 108, 111; blocked: 105, 104.
 
+**[Claude S8 2026-10-29T18:46:30-0400] 091 critic finished and froze its independent verdict (artifacts/critic-091-13a64ed0/audit, END OF LINE reached, 16 findings). Root keeps 091: COLD_REVIEW_4 and known-items reconciliation are yours. Claude queued Claude-lane fix batches from the verdict: 118 readability (F2/F6/F16), 119 orders (F3/F5/F13), 120 navigation (F4/F9/F10/F11), chain C after 117. F1 photo evidence content and F7/F8/F14 ending/story wait on Pat (protected art direction / story placeholders). 115 PR227 HELD (op 39 bare lost all Siren pressure); one revision.**
+
 [Claude111r 2026-10-29T18:36:38.7460074-04:00] DONE: PR226 merged ed41163d; optional pause episodes70 to2 and5 to1, restore-safe history and mirrored48dp; independent HIGH, Claude PASS and7 green. Bounded111 closed; script owns successors.
 
 [Claude-lane113 2026-10-29T21:58:58.1847910Z] DONE: PR225 merged a458d4c3; independent HIGH and 7 exact-head checks green. Presentation landed; bounded 113 complete, queue runner owns successors.
@@ -425,5 +427,8 @@ Boundary follow-up28Oct03:12UTC: Windows completion check PASSES from current in
 | 112 | 115 MAKE THE ONE-BAND THERMAL LAYER MATTER IN REAL OPS | CLAIMED (claude-lane, codex-fresh-115, 2026-10-29T18:01:14.6833647-04:00) | | | [handoff](115-thermal-ops.md) |
 | 113 | 116 MAKE SIREN RADIO REPORTS MATTER IN REAL OPS | QUEUED (claude-lane, Pat 29 Oct) | | | [handoff](116-radio-ops.md) |
 | 114 | 117 EXTRA TOOLS COST CARGO IN CAREER AND EXPEDITION TOO | CLAIMED (claude-lane, codex-fresh-117, 2026-10-29T18:38:36.7048046-04:00) | | | [handoff](117-tool-cargo-all-modes.md) |
+| 115 | 118 AUDIT 091 FIX 1, TEXT SIZES, PANELS AND THE RECOVERY CHECKLIST | QUEUED (claude-lane, Pat 29 Oct) | | | [handoff](118-audit-readability.md) |
+| 116 | 119 AUDIT 091 FIX 2, CLEAR WORK TASKS AND THE RIGHT CRAFT | QUEUED (claude-lane, Pat 29 Oct) | | | [handoff](119-audit-orders.md) |
+| 117 | 120 AUDIT 091 FIX 3, FEWER REPEAT STOPS, FASTER RECORDS AND LOADOUTS | QUEUED (claude-lane, Pat 29 Oct) | | | [handoff](120-audit-navigation.md) |
 | 89 | 092 HIDDEN RESCUE OF SORLEY'S BOY (Pat ruling 28 Oct, experiment) | DONE | [207](https://github.com/pemunson90-cmd/Siren-s-Song/pull/207) | 2026-10-28T22:42:43Z | Hidden physical rescue, pilotage and epilogue; no ending vote/thread change integrated THROUGH207; batch review/checks above; owned paths released, shared seams now root070. |
 | 88 | 091 WHOLE-GAME COLD AUDIT (read-only) | CLAIMED (codex-root, fresh HIGH blind whole-game critic) | | 2026-10-29T04:19:07-04:00 | [PAT: current order; KEEL: local process/worktree inventory] 091 claimed from OPEN before dispatch; no active critic process found. Owner codex-root, fresh HIGH blind whole-game critic. Audit exact promoted production13a64ed0d17c1564670c124cba8110e11f065329/tree54459644057b559a22d0353492e5ec2876ce4394. Claim publication awaits independent MEDIUM metadata review; root starts the fresh critic only after reviewed claim publication. No critic dispatched, audit run or result claimed. |
