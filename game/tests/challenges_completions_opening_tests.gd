@@ -39,7 +39,7 @@ func well():
  var s=R.fresh("well_intact")
  check(R.dive(s,0,0) and R.go(s,0,Vector2(360,590)) and R.go(s,0,Vector2(800,390)),"well shallow west crossing")
  check(R.dive(s,0,1) and R.record(s,0,0),"well middle receiver records the pattern")
- check(R.dive(s,0,2) and R.go(s,0,Vector2(1170,400)),"well deep east passage")
+ check(R.dive(s,0,2) and R.go(s,0,Vector2(1150,380)),"well deep east passage")
  R.lull(s,0,1,1,Vector2(1000,650));check(R.dive(s,0,1) and R.record(s,0,1),"well middle aperture image")
  check(R.dive(s,0,2) and R.go(s,0,Vector2(1000,650)) and R.go(s,0,Vector2(560,850)),"well deep withdrawal")
  check(R.go(s,0,Vector2(620,835)),"well southern approach");R.lull(s,0,1,2);check(R.dive(s,0,1) and R.record(s,0,2),"well southern archive")

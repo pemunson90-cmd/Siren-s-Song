@@ -36,6 +36,7 @@ operation_catalog_tests|OPERATION CATALOG|31|19
 depth_sonar_tests|DEPTH SONAR|32|20
 survivor_ascent_tests|SURVIVOR ASCENT|741|841
 sweeper_tests|SWEEPER|33|22
+role_senses_tests|ROLE SENSES|744|844
 depth_policy_journeys|DEPTH POLICY|34|23
 depth_sonar_ui_tests|DEPTH SONAR UI|35|24
 depth_policy_ui_tests|DEPTH POLICY UI|36|25

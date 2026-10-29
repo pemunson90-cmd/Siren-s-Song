@@ -12,10 +12,14 @@ const EnemyTypes=preload("res://src/simulation/enemy_types.gd")
 #  7 speed override                      8 ear on the three _heard_arrival arrivals
 #  (plus valid on each siren in valid_snapshot)
 const WARNING:="SWEEPER INVESTIGATING"
-const DEFAULT:={"ear":1.0,"attention":12.0,"patrol_speed":null,"investigate_speed":null,"stands":false,"lane_needs_points":false}
+const DEFAULT:={"ear":1.0,"attention":12.0,"patrol_speed":null,"investigate_speed":null,"stands":false,"lane_needs_points":false,"search_hold":false,"search_radius":80.0,"search_points":8,"search_turn_speed":0.0}
+# 103 role senses: revert hunter/sentinel profile rows to restore shared hearing/search.
+# No new save fields. Existing last_known/attention_time/search_index remain optional.
 # Per-role tunables. A role absent here behaves exactly as before this file existed.
 const PROFILES:={
 	"patroller":{"stands":true},
+	"hunter":{"ear":1.1,"attention":10.0,"search_radius":100.0},
+	"sentinel":{"ear":0.95,"attention":16.0,"search_hold":true,"search_turn_speed":0.8},
 	"sweeper":{"ear":1.3,"attention":20.0,"patrol_speed":22.0,"investigate_speed":34.0,"stands":true,"lane_needs_points":true},
 }
 static func profile(enemy)->Dictionary:
