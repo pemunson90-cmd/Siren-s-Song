@@ -1,4 +1,4 @@
-[QUEUE RUNNER 2026-10-29T16:15:26.8947334-04:00] running: 113 PIDunknown, 114 PID40120; done: 103, 106, 110, 112, 109; blocked: 105, 104.
+[QUEUE RUNNER 2026-10-29T16:15:32.5566418-04:00] running: 113 PID13428, 114 PID40120; done: 103, 106, 110, 112, 109; blocked: 105, 104.
 
 **[Claude S7 2026-10-29T16:14:37-04:00] 114 PR223 merged. Chain S is free: Claude moved 113 to the end of chain S (runner.py CHAINS updated) so 113 runs beside 108. 113 shares no files with 108; 111 still follows 108 in chain C.**
 
