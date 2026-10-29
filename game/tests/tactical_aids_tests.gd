@@ -20,6 +20,59 @@ func tap(point):
   var e=InputEventScreenTouch.new();e.index=0;e.position=point;e.pressed=down;root.push_input(e,true);await process_frame
   var m=InputEventMouseButton.new();m.device=InputEvent.DEVICE_ID_EMULATION;m.position=point;m.button_index=MOUSE_BUTTON_LEFT;m.pressed=down;root.push_input(m,true);await process_frame
  await settle()
+func restored_aids():
+ var host=Host.new();host.sim.start(0);var sim=host.sim;var aid=Aids.new();aid.bind(host)
+ sim.elapsed=10.;sim.mission.structures=[];sim.mission.depth_geometry={}
+ sim.sirens[0].target=1
+ sim.contacts={0:{"pos":sim.units[1].pos+Vector2(60,0),"time":10.,"mode":"LOCKING","lock":.1,"target":1,"band":sim.units[1].band}}
+ Settings.apply(Store.sanitize({"auto_pause_notice":true,"auto_pause_lock":true}))
+ sim.paused=false;sim.siren_notice.emit(0,Vector2.ZERO);aid.observe()
+ var history=preload("res://src/persistence/profiles/profile_codec.gd").decode(var_to_bytes(aid.saved_history()));var snapshot=sim.snapshot()
+ check(history==aid.saved_history(),"archive binary codec preserves aid IDs and warning times")
+ var restored=Host.new();var next=Aids.new();next.bind(restored)
+ check(restored.sim.restore(snapshot),"active snapshot with warning restores")
+ next.restore_history(history);restored.sim.paused=false
+ restored.sim.siren_notice.emit(0,Vector2.ZERO);next.observe()
+ check(not restored.sim.paused,"restored ongoing notice and received lock do not replay")
+ restored.sim.siren_notice.emit(1,Vector2.ZERO);next.observe()
+ check(restored.sim.paused,"distinct notice after restore still pauses")
+ restored.sim.paused=false;restored.sim.contacts[0].target=0
+ restored.sim.contacts[0].pos=restored.sim.units[0].pos+Vector2(60,0);restored.sim.contacts[0].band=restored.sim.units[0].band
+ next.observe();check(restored.sim.paused,"distinct craft lock after restore still pauses")
+ restored.sim.paused=false;restored.sim.contacts.clear();next.observe()
+ restored.sim.elapsed+=Aids.LOCK_CLEAR_SECONDS+.01
+ restored.sim.contacts=snapshot.contacts.duplicate(true);restored.sim.contacts[0].time=restored.sim.elapsed
+ next.observe();check(restored.sim.paused,"restored warning rearms after sustained clear")
+ # Presentation history also remembers an acoustic notice without a live target.
+ sim.contacts.clear();sim.sirens[0].target=-1
+ var hearing_snapshot=sim.snapshot();history=aid.saved_history()
+ check(restored.sim.restore(hearing_snapshot),"acoustic-notice snapshot restores")
+ next.restore_history(history);restored.sim.paused=false;restored.sim.siren_notice.emit(0,Vector2.ZERO);next.observe()
+ check(not restored.sim.paused,"persisted acoustic notice does not replay after restore")
+ for invalid in [null,[],{"noticed":"bad","locks":"bad"},{"noticed":[-1,"0"],"locks":[[0,1,INF],[0,1,NAN],[0,1,11.],[0,1,-1.]]}]:
+  check(restored.sim.restore(snapshot),"legacy or malformed optional history keeps active save valid")
+  next.restore_history(invalid);restored.sim.paused=false;restored.sim.siren_notice.emit(0,Vector2.ZERO);next.observe()
+  check(not restored.sim.paused,"legacy or malformed history primes ongoing visual warning")
+ # Saving during a brief clear gap preserves the same episode across restore.
+ sim.contacts.clear();sim.elapsed+=.5;history=aid.saved_history();snapshot=sim.snapshot()
+ check(restored.sim.restore(snapshot),"brief-clear snapshot restores")
+ next.restore_history(history);restored.sim.paused=false;restored.sim.contacts={0:{"pos":restored.sim.units[1].pos+Vector2(60,0),"time":restored.sim.elapsed,"mode":"LOCKING","lock":.1,"target":1,"band":restored.sim.units[1].band}}
+ next.observe();check(not restored.sim.paused,"brief-clear restore retains coalesced lock episode")
+ Settings.apply(Store.sanitize({"auto_pause_notice":true}))
+ restored.sim.paused=false;restored.sim.contacts[0].target=0;next.observe()
+ check(not restored.sim.paused,"restored lock stays independent of notice toggle")
+ restored.sim.siren_notice.emit(3,Vector2.ZERO);next.observe()
+ check(restored.sim.paused,"notice-only option still pauses for a fresh notice")
+ restored.sim.paused=false
+ Settings.apply(Store.sanitize({"auto_pause_lock":true}));restored.sim.siren_notice.emit(2,Vector2.ZERO);next.observe()
+ check(not restored.sim.paused,"restored notice stays independent of lock toggle")
+ restored.sim.contacts[0].target=2;restored.sim.contacts[0].pos=restored.sim.units[2].pos+Vector2(60,0);restored.sim.contacts[0].band=restored.sim.units[2].band
+ next.observe();check(restored.sim.paused,"lock-only option still pauses for a fresh lock")
+ sim.start(0);aid.observe();snapshot=sim.snapshot();history=aid.saved_history()
+ check(restored.sim.restore(snapshot),"snapshot before first warning restores")
+ next.restore_history(history);restored.sim.paused=false
+ Settings.apply(Store.sanitize({"auto_pause_notice":true}));restored.sim.siren_notice.emit(0,Vector2.ZERO);next.observe()
+ check(restored.sim.paused,"first new notice after a quiet restore still pauses")
 func run():
  var previous=Settings.current.duplicate(true)
  for key in ["auto_pause_notice","auto_pause_lock","mirrored_hud"]:
@@ -70,6 +123,7 @@ func run():
  sim.paused=false;aid.advance(.25)
  check(sim.paused and sim.elapsed<=sim.STEP+.00001,"real any-craft notice stops after first fixed step of long frame")
  check(sim.sirens[0].target==1 and sim.sirens[0].lock<.02,"real drone lock keeps its ordinary initial accumulation")
+ restored_aids()
  # Geometry and injected touch on both Fold shapes at normal and large text.
  for dimensions in [Vector2i(2520,1080),Vector2i(2184,1968)]:
   root.size=dimensions;await settle()

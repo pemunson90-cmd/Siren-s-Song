@@ -626,6 +626,7 @@ func _archive() -> Dictionary:
 	if not hints_seen.is_empty():data["hints_seen"]=hints_seen.duplicate()
 	if not early_reward.is_empty():data["early_reward"]=early_reward.duplicate(true)
 	preload("res://src/presentation/first_siren_cue/cue_archive.gd").write(self,data)
+	data["tactical_pause_history"]=tactical_aids.saved_history()
 	preload("res://src/presentation/arcs/arc_card.gd").write(self,data)
 	preload("res://src/presentation/finale/finale.gd").write(self,data)
 	preload("res://src/presentation/archive/voice_feed.gd").write(self,data)
@@ -687,6 +688,7 @@ func _load_archive() -> void:
 		hints_seen=saved.get("hints_seen",[]).duplicate()
 		preload("res://src/presentation/first_siren_cue/cue_archive.gd").restore_types(self,saved)
 		if saved.get("active") is Dictionary and sim.restore(saved.active):
+			tactical_aids.restore_history(saved.get("tactical_pause_history"))
 			preload("res://src/presentation/first_siren_cue/cue_archive.gd").restore(self,saved)
 			active_started=true; mission_index=sim.mission.id; ocean.sim=sim
 			ocean._sync_camera()

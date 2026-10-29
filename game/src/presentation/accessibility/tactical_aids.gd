@@ -26,6 +26,39 @@ func _notice(id:int,_source:Vector2)->void:
  if noticed.has(id):return
  noticed[id]=true
  if Settings.current.get("auto_pause_notice",false):pending_notice=true
+func saved_history()->Dictionary:
+ _reset()
+ var locks=[]
+ for key in lock_seen:
+  if host.sim.elapsed-float(lock_seen[key])>=LOCK_CLEAR_SECONDS:continue
+  var pair=key.split(":")
+  locks.append([int(pair[0]),int(pair[1]),lock_seen[key]])
+ return {"noticed":noticed.keys(),"locks":locks}
+func restore_history(value=null)->void:
+ # Optional presentation history never changes or invalidates a simulation save.
+ mission=host.sim.mission;clock=host.sim.elapsed
+ noticed.clear();lock_seen.clear();pending_notice=false
+ var sim=host.sim
+ if value is Dictionary:
+  var ids=value.get("noticed",[])
+  if ids is Array and ids.size()<=sim.sirens.size():
+   for id in ids:
+    if id is int and id>=0 and id<sim.sirens.size():noticed[id]=true
+  var locks=value.get("locks",[])
+  if locks is Array and locks.size()<=sim.sirens.size()*sim.units.size():
+   for row in locks:
+    if not row is Array or row.size()!=3:continue
+    var id=row[0];var target=row[1];var time=row[2]
+    if not id is int or id<0 or id>=sim.sirens.size() or not target is int or target<0 or target>=sim.units.size():continue
+    if not (time is int or time is float) or not is_finite(time) or time<0 or time>sim.elapsed or sim.elapsed-time>=LOCK_CLEAR_SECONDS:continue
+    lock_seen["%d:%d"%[id,target]]=float(time)
+ # Older archives have no history. Prime their live craft acquisition and
+ # received warnings so resuming the already paused dive does not replay them.
+ for id in sim.sirens.size():
+  var siren=sim.sirens[id];var target=int(siren.get("target",-1))
+  if target>=0 and target<sim.units.size() and sim.units[target].alive and not siren.get("recipient_target",false):noticed[id]=true
+ for pair in warnings():
+  noticed[pair[0]]=true;lock_seen["%d:%d"%[pair[0],pair[1]]]=sim.elapsed
 func warnings()->Array:
  var sim=host.sim;var ids=[]
  for id in sim.contacts:
