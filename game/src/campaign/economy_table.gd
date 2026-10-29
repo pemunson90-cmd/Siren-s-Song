@@ -22,6 +22,8 @@ const INCOME={"first":{"scrap":3,"cells":2,"alloy":0},"replay":{"scrap":1,"cells
  "module_scrap":2,"artifact_alloy":3}
 # Manufacturing: scrap = BASE + power of the fitting; alien-derived fittings also take alloy.
 const ITEM_BASE_SCRAP=2
+# AI-DESIGNED standard drone manufacturing price; same price for either bay/chassis.
+const DRONE_PRICE={"scrap":4,"cells":2}
 const ALIEN=["quietus_pressure_sleeve","drone_traction_yoke","quietus_prism","quietus_decoder","quietus_wellhead_seal","drone_choir_tuner"]
 # Per-item price overrides keyed by item id, e.g. {"photo_flash":{"scrap":3}}.
 const ITEM_PRICE={}

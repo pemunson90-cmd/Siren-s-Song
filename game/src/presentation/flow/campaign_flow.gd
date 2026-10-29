@@ -171,11 +171,11 @@ static func campaign_completed(host)->Array:
 	return host.completed+host.expedition.get("completed",[])
 
 static func equipment_context(host)->Dictionary:
-	var earned=host._equipment_entitlements();var available=host.FleetInventory.available(earned,host.fleet)
+	var earned=host._equipment_entitlements();var available=host.FleetInventory.available(earned,host.fleet,host.economy)
 	return {"slots":Economy.lock_frames(host.economy,host.expedition,host.FleetInventory.reconcile_fitting(host.fitted_equipment,available)),"available":available,"catalog":preload("res://src/equipment/equipment_catalog.gd").public_catalog(earned)}
 
 static func choose_equipment(host, slot:String,item:String,index:int)->void:
-	var choice=preload("res://src/equipment/equipment_catalog.gd").choose(host.fitted_equipment,slot,item,host.FleetInventory.available(host._equipment_entitlements(),host.fleet))
+	var choice=preload("res://src/equipment/equipment_catalog.gd").choose(host.fitted_equipment,slot,item,host.FleetInventory.available(host._equipment_entitlements(),host.fleet,host.economy))
 	if not choice.ok:return
 	var catalog=preload("res://src/equipment/equipment_catalog.gd")
 	for unit in 3:
@@ -201,7 +201,8 @@ static func debrief(host) -> void:
 	var fleet_before=host.fleet.duplicate(true)
 	if first_recovery:host.fleet=host.FleetInventory.recover(host.fleet,host.sim.mission,host.sim.outcome)
 	EconomyPanel.settle(host,first_recovery,fleet_before)
-	host.fitted_equipment=host.FleetInventory.reconcile_fitting(host.fitted_equipment,host.FleetInventory.available(host._equipment_entitlements(),host.fleet))
+	for loss in Economy.Losses.lines(host.economy,true):host._menu_text(loss,17)
+	host.fitted_equipment=host.FleetInventory.reconcile_fitting(host.fitted_equipment,host.FleetInventory.available(host._equipment_entitlements(),host.fleet,host.economy))
 	print("SS_DEBRIEF outcome=",host.sim.outcome," mission=",host.mission_index)
 	if host.sim.outcome=="won":
 		host._retain_evidence()
