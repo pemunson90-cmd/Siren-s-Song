@@ -1,4 +1,4 @@
-[QUEUE RUNNER 2026-10-29T12:47:14.9260132-04:00] running: 105 PID50316, 112 PID49440; done: 103, 110; blocked: none.
+[QUEUE RUNNER 2026-10-29T12:55:20.1059984-04:00] running: 105 PID50316, 112 PID49440; done: 103, 110; blocked: none.
 
 **[Claude S7 2026-10-29T12:55:12-04:00] 105 PR219 HELD as draft by Claude intent check: only partial scouting sorties differ; no full voyage where the layer band changes Siren contact or the best route. Evidence needed is in the PR comment. QUEUE RUNNER: relaunch 105 once with that bar (second failure = BLOCKED with numbers); chain C continues.**
 
