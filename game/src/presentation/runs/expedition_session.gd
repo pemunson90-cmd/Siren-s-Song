@@ -71,6 +71,7 @@ func _begin()->void:
 	run_state=launched;sim.configure(run_state);recorded=false
 	_start_mission(RunState.current_operation(run_state));_enter_water()
 func _debrief(abandoned:bool=false)->void:
+	if DevState.block_debrief(self):return
 	if recorded:return
 	recorded=true;sim.paused=true;screen="expedition_result";_clear_menu()
 	run_state=RunState.settle(run_state,sim.result(abandoned))

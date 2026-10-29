@@ -17,6 +17,12 @@ func click(button) -> void:
 		var event=InputEventMouseButton.new(); event.position=button.get_global_rect().get_center(); event.button_index=MOUSE_BUTTON_LEFT; event.pressed=down
 		root.push_input(event,true); await process_frame
 	await process_frame
+func touch(button) -> void:
+	var point=root.get_final_transform()*button.get_global_rect().get_center()
+	for down in [true,false]:
+		var event=InputEventScreenTouch.new();event.index=0;event.position=point;event.pressed=down
+		Input.parse_input_event(event);Input.flush_buffered_events();await process_frame
+	for n in 6:await process_frame
 func scroll_to(control: Control) -> bool:
 	for step in 50:
 		if game.scroll.get_global_rect().encloses(control.get_global_rect()): return true
@@ -48,12 +54,21 @@ func run() -> void:
 		for control in game.menu.find_children("*","Control",true,false):
 			if control is BaseButton or control is Slider: settings_ids.append(control.get_meta("action",control.get_meta("ui_action","")))
 	var required=["volume_master","volume_music","volume_effects","mute","back","text_scale_115","setting_high_contrast","setting_reduced_motion","setting_haptics"]
+	if OS.is_debug_build():required.append("developer")
 	var expected=required+["text_scale_100","text_scale_130","text_scale_150","setting_safe_palette","setting_audio_captions","settings_reset","reset_tips","new_campaign",
 		"settings_page_audio","settings_page_display","settings_page_controls","volume_alerts","volume_messages","setting_night_mode",
 		"frame_cap_30","frame_cap_60","haptic_strength_1","haptic_strength_2","haptic_strength_3","drag_preset_0","drag_preset_1",
 		"drag_preset_2","hold_preset_0","hold_preset_1","hold_preset_2"]
 	var visible_ids=game._ui_metrics().controls.map(func(c):return c.action)
 	check(required.all(func(a):return a in settings_ids) and visible_ids.all(func(a):return a in expected),"shared settings retain stable slider/mute/BACK IDs and the full accessibility controls when optional rows scroll")
+	var developer=identified("developer")
+	check((developer!=null)==OS.is_debug_build(),"Settings Developer stable ID follows the debug-build entry gate")
+	if developer!=null:
+		check(await scroll_to(developer),"wheel input reaches the Developer row after regular settings controls")
+		check(developer.size.x>=game.ui_touch_height and developer.size.y>=game.ui_touch_height,"Developer row keeps the shared touch target in both dimensions")
+		await touch(developer)
+		check(game.debug_console.panel.visible,"injected screen touch opens Developer from Settings")
+		game.debug_console.panel.hide()
 	var back=identified("back")
 	check(back!=null and back.get_parent()==game.menu_footer and game.get_viewport_rect().encloses(back.get_global_rect()),"settings BACK stays fully exposed outside scrolling content")
 	var back_present=back!=null
