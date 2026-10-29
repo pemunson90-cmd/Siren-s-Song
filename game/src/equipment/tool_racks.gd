@@ -25,6 +25,28 @@ static func template(choice:String)->Dictionary:
   var n=Tools.loadout_count(id,choice)
   if n>0:racks[UNITS[unit]][id]=n
  return racks
+# Shared mode allocation and launch guard. Stock remains owned by the caller.
+static func from_stock(stock:Dictionary)->Dictionary:
+ var racks=empty()
+ for id in Tools.ids():
+  var unit=0 if id in ["emp","decoy","recon","knock","hull_patch"] else (1 if id=="sonobuoy" else 2)
+  var limit=1 if id=="hull_patch" else (2 if id=="knock" else MAX_COUNT)
+  var n=mini(limit,int(stock.get(id,0)))
+  for charge in n:
+   racks[UNITS[unit]][id]=int(racks[UNITS[unit]].get(id,0))+1
+   if not reason(Catalog.default_loadout(),racks).is_empty():
+    racks[UNITS[unit]][id]-=1
+    break
+ return racks
+static func available(racks:Dictionary,stock:Dictionary)->bool:
+ if not valid(racks):return false
+ for id in Tools.ids():
+  if total(racks,id)>int(stock.get(id,0)):return false
+ return true
+static func prepare_launch(launch:Dictionary,fit:Dictionary,racks:Dictionary)->String:
+ var why=reason(fit,racks)
+ if why.is_empty():launch["tool_racks"]=racks.duplicate(true)
+ return why
 static func migrated(data:Dictionary)->Dictionary:
  # 098 did not record edits: its automatic template and EMPTY ALL are identical.
  # Refill that exact unversioned shape once; any edited keys, even zero, survive.
@@ -124,5 +146,5 @@ static func valid_snapshot(data:Dictionary)->bool:
  if not valid(mission.tool_racks) or not reason(mission.get("launch_equipment",{}),mission.tool_racks).is_empty():return false
  for id in Tools.ids():
   var aggregate=data.tools.get(id,0) if id in data.tools else mission.get("field_tools",{}).get("counts",{}).get(id,0)
-  if total(mission.tool_racks,id)!=aggregate:return false
+  if not aggregate is int or total(mission.tool_racks,id)!=aggregate:return false
  return true

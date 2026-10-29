@@ -2,6 +2,8 @@ extends RefCounted
 # Pure expedition ledger. Seed, resources, recovered facts and outcomes are isolated
 # from the campaign. Only recovered stages earn resupply; a loss is terminal.
 # Revert: remove the mode seam. Keep sidecar validation when disabling the mode.
+const Racks=preload("res://src/equipment/tool_racks.gd")
+const Equipment=preload("res://src/equipment/equipment_catalog.gd")
 const Table=preload("res://src/campaign/runs/run_table.gd")
 const Catalog=preload("res://src/campaign/operation_catalog.gd")
 const Hunt=preload("res://src/simulation/hunt_pressure/hunt_table.gd")
@@ -34,7 +36,9 @@ static func current_operation(state:Dictionary)->int:
 	return int(state.operations[state.cursor]) if not state.is_empty() and state.status=="active" and state.cursor<state.operations.size() else -1
 static func launch(state:Dictionary,accept_rider=null)->Dictionary:
 	if not valid(state) or state.is_empty() or state.status!="active" or state.in_flight or Offers.pending(state):return state.duplicate(true)
-	var next=state.duplicate(true);next.in_flight=true
+	var racks=state.get("tool_racks",Racks.from_stock(state.stock))
+	if not Racks.available(racks,state.stock) or not Racks.reason(Equipment.default_loadout(),racks).is_empty():return state.duplicate(true)
+	var next=state.duplicate(true);next.in_flight=true;next.tool_racks=racks.duplicate(true)
 	if (accept_rider is bool and Riders.Table.enabled) or next.has("riders"):
 		if not next.has("riders"):next.riders={"start":next.cursor,"choices":{}}
 		next.riders.choices[str(next.cursor)]=accept_rider==true and not rider_offer(state).is_empty()
@@ -66,6 +70,7 @@ static func _apply(state:Dictionary,result:Dictionary)->Dictionary:
 	# Ending the run at an unresolved offer is a base loss with no rider launch.
 	if next.has("riders") and not next.riders.choices.has(str(next.cursor)):next.riders.choices[str(next.cursor)]=false
 	next.results.append(result.duplicate(true));next.in_flight=false;next.stock=result.tools.duplicate()
+	next.erase("tool_racks")
 	if result.outcome=="lost":
 		next.status="lost"
 		if next.has("offers"):next.offers.pending=[]
@@ -102,6 +107,7 @@ static func valid(value)->bool:
 	if not value is Dictionary:return false
 	if value.is_empty():return true
 	if not value.has_all(["version","seed","operations","cursor","status","in_flight","loadout","scarcity","hunt_stage","stock","story","results"]):return false
+	if value.has("tool_racks") and (not _stock(value.stock) or not value.tool_racks is Dictionary or not Racks.available(value.tool_racks,value.stock) or not Racks.reason(Equipment.default_loadout(),value.tool_racks).is_empty()):return false
 	if not value.version is int or value.version!=1 or not value.seed is int or value.seed<0 or value.seed>Table.MAX_SEED:return false
 	if not value.operations is Array or not value.cursor is int or not value.in_flight is bool or not value.results is Array or value.results.size()>6:return false
 	if not value.scarcity is int or not value.hunt_stage is int or not value.loadout is String:return false

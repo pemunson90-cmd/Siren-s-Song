@@ -330,6 +330,7 @@ economy_options_tests|ECONOMY OPTIONS|743|843
 crew_tests|CREW|590|690
 field_tools_tests|FIELD TOOLS|360|460
 tool_racks_tests|TOOL RACKS|361|461|render
+mode_tool_cargo_tests|MODE TOOL CARGO|751|851
 expedition_runs_tests|EXPEDITION RUNS|370|470
 seeded_siren_patrol_tests|SEEDED SIREN PATROL|372|472
 run_records_tests|RUN RECORDS|310|411

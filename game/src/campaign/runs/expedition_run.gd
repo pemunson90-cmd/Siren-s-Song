@@ -22,8 +22,14 @@ func start(_index:int,_upgrade:String="endurance",_launch:Dictionary={})->void:
 	if run_state.is_empty():return
 	var op=RunState.current_operation(run_state)
 	super.start(op,run_state.loadout,{"fitted":Equipment.default_loadout(),"context":RunState.context(run_state),"fleet_commit":false})
-	for key in tools:tools[key]=run_state.stock[key]
-	for key in mission.get("field_tools",{}).get("counts",{}):mission.field_tools.counts[key]=run_state.stock[key]
+	if run_state.has("tool_racks"):
+		var rack_launch={}
+		if preload("res://src/equipment/tool_racks.gd").prepare_launch(rack_launch,Equipment.default_loadout(),run_state.tool_racks).is_empty():
+			preload("res://src/equipment/tool_racks.gd").launch(self,rack_launch.tool_racks)
+	else:
+		# Legacy active states retain their pooled launch stock and snapshot contract.
+		for key in tools:tools[key]=run_state.stock[key]
+		for key in mission.get("field_tools",{}).get("counts",{}):mission.field_tools.counts[key]=run_state.stock[key]
 	var stage=RunState.starting_hunt(run_state,op)
 	if HuntPressure.active(mission):
 		var pressure=Recon.state(mission).duplicate(true)
@@ -35,8 +41,10 @@ func _prepare_siren_starts()->void:
 	if not dev_launch and not run_state.is_empty():SeededPatrol.apply(self,int(run_state.seed))
 func result(abandoned:bool=false)->Dictionary:
 	var counts=run_state.stock.duplicate()
-	for key in tools:counts[key]=int(tools[key])
-	for key in mission.get("field_tools",{}).get("counts",{}):counts[key]=int(mission.field_tools.counts[key])
+	var remaining=charge_counts()
+	for key in remaining:
+		var carried=preload("res://src/equipment/tool_racks.gd").total(run_state.tool_racks,key) if run_state.has("tool_racks") else int(run_state.stock[key])
+		counts[key]=int(run_state.stock[key])-maxi(0,carried-int(remaining[key]))
 	var value={"op":mission.id,"outcome":"won" if not abandoned and outcome=="won" else "lost","time":elapsed,"hull":hull,
 		"tools":counts,"story":mission.get("expedition_facts",{}).duplicate(true)}
 	value.photo=-1.
