@@ -1,6 +1,8 @@
 # RESUME: operational entry
 
-[KEEL: composition preparation] Accepted integration baseline `2dcb1bb3d171a0a4bd7994f1b889d05d1e5dfcb3` (PR208/100) includes dedicated tool lockers and versioned empty racks, plus accepted PR207 records069, arc presentation080 and hidden rescue092, tool cargo098, Calder fleet096 and earned charts089, alongside Career057, offers068, late ending088, teaching067 and riders071. Prepared070 at `b080bd4ef57a3e029df06700e9e3bd0afd1c4ae5` adds paused interrupted-dive recovery for Expedition and Career, pinned candidate recovery, Rider runtime and atomic once-only settlement/records; it is not integrated. Independent review52 approves the frozen 15-file070 source on `152111a1` with cached111/0 evidence; it does not approve this composition. Production is `225c3c45`; main unchanged. Live codex/handoffs claims govern work.
+[KEEL:070 composition preparation] Accepted integration baseline `578102f18adb0a49f50aefc130428c2d2a33e90d` includes accepted101 DEV console/durable profile and SAVE2 taint, operation41, locker grants, Settings layout and received-lock episode fixes, plus PR208/100 and PR207 features below. Prepared070 at parent `b892ee06746834ba5b282249dcbda7a3280f68e0` adds paused interrupted-dive recovery, Rider runtime, pinned exact-candidate retry and atomic once-only settlement/records. This composition is staged, uncommitted and not merged; earlier review52/source and review54/docs approvals do not approve these conflict resolutions. Fresh independent high review is required before any new commit. Production is `225c3c45`; main unchanged. Live codex/handoffs claims govern work.
+
+- [KEEL:070/101 composition] DEV mode diagnosis uses separate profile-pinned memory copies. It preserves legitimate active envelopes, dirty settlement candidates and records; DEV restore/END RUN/Return cannot settle them. DEV session saves skip snapshot capture; ordinary validated save paths remain intact. Targeted evidence and frozen resolution manifest: `C:/Users/Archi/.cache/sirens-song-toolchain/artifacts/070-dev-composition` (technical tests only, no human/phone acceptance).
 
 - [KEEL: 089 source] Glass Reach ops14/15/16/20 now use earned first-face terrain and public-water route planning; earlier in-progress saves keep their stored chart policy. Remaining authored operations retain their existing charts, as documented in V7_TO_GODOT_PARITY.
 
@@ -12,7 +14,7 @@ Current boundary: Pat resumed locally on Windows and continued work on 25 Octobe
 
 ## Source and authority
 
-Active integration: `claude/integration`. Last reconciled source baseline: `2dcb1bb3d171a0a4bd7994f1b889d05d1e5dfcb3`; earlier reconciliation `1b56be6f` remains in Git history. Fetch current refs at task boundaries; the board alone owns claims/completions.
+Active integration: `claude/integration`. Last reconciled source baseline: `578102f18adb0a49f50aefc130428c2d2a33e90d`; earlier reconciliation `1b56be6f` remains in Git history. Fetch current refs at task boundaries; the board alone owns claims/completions.
 Frozen `gauntlet/production` and protected `main` require Pat's promotion approval. Preserve branches, personal saves, evidence and signing identity.
 Current decisions: [USER_DIRECTIVES](USER_DIRECTIVES.md). Intended release: [CURRENT_GAME_SPEC](CURRENT_GAME_SPEC.md). Actual module seams, settings, saves, tests and safe reverts: [MODULES](MODULES.md).
 

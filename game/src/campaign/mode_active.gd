@@ -28,6 +28,8 @@ static func valid(value,state:Dictionary,mode:String)->bool:
 		var number=s.get(key)
 		if not (number is int or number is float) or not is_finite(number) or number<0:return false
 	if not Sim.valid_snapshot(s):return false
+	# Developer simulations never become legitimate resumable/payment candidates.
+	if s.mission.get("dev",false):return false
 	if not Rider.valid_rider_snapshot(value.rider_runtime,s):return false
 	var op:int=Run.current_operation(state) if mode=="runs" else Career.Table.CONTRACTS[state.active].op
 	var context=context_for(mode,state)

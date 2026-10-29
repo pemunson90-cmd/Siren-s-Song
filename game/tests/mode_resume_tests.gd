@@ -87,6 +87,8 @@ func exercise(mode:String):
 	check(not Active.valid(bad,state,mode),mode+" malformed stock rejected without comparison error")
 	bad=envelope.duplicate(true);bad.simulation.elapsed={}
 	check(not Active.valid(bad,state,mode),mode+" malformed clock rejected before typed feature validation")
+	bad=envelope.duplicate(true);bad.simulation.mission.dev=true
+	check(not Active.valid(bad,state,mode),mode+" DEV snapshot cannot become a legitimate checkpoint")
 
 	# Instantiate the real isolated session; its inherited startup builds a preview,
 	# which must never overwrite the stored dive or restore launch charges.
@@ -227,8 +229,120 @@ func pending_career_fittings():
 	var cold=host_at(path)
 	check(Careers.restore(cold)==candidate and cold.get_meta("career_active",{}).is_empty(),"cold reopen keeps candidate with no extra resources unlocks or payment")
 	cold.free()
+func ledger_cache(host,mode:String)->Dictionary:
+	var result={}
+	for suffix in ["archive_path","archive_state","archive_dirty","archive_locked","active","records","recorded"]:
+		var key=mode+"_"+suffix
+		if host.has_meta(key):result[key]=host.get_meta(key)
+	return result.duplicate(true)
+func dev_composition(mode:String,pending:bool):
+	var Dev=preload("res://src/debug/dev_state.gd")
+	var archive=Runs if mode=="runs" else Careers
+	var path="user://070-dev-%s-%s.save"%[mode,str(pending)];clean(path)
+	var host=host_at(path);root.add_child(host);await frames()
+	var state=Run.new_run(42) if mode=="runs" else Career.new_career()
+	check(archive.persist(host,state),mode+" DEV composition prelaunch fixture")
+	var session=load("res://scenes/main.tscn").instantiate()
+	session.set_script(load("res://src/presentation/"+mode+"/"+("expedition" if mode=="runs" else "career")+"_session.gd"))
+	session.name="ExpeditionSession" if mode=="runs" else "CareerSession";session.campaign_host=host
+	if mode=="runs":session.run_state=state
+	else:session.career_state=state
+	session.process_mode=Node.PROCESS_MODE_ALWAYS;session.freeze_campaign();host.add_child(session);await frames()
+	session._begin();session.sim.command("emp");session.sim.elapsed=3.;session._save_archive()
+	var launched:Dictionary=(session.run_state if mode=="runs" else session.career_state).duplicate(true)
+	var checkpoint:Dictionary=host.get_meta(mode+"_active",{}).duplicate(true)
+	# Reopen the actual paused session, including its spent tools and Rider counters.
+	session.queue_free();await frames()
+	var resumed=load("res://scenes/main.tscn").instantiate()
+	resumed.set_script(load("res://src/presentation/"+mode+"/"+("expedition" if mode=="runs" else "career")+"_session.gd"))
+	resumed.name="ExpeditionSession" if mode=="runs" else "CareerSession";resumed.campaign_host=host
+	if mode=="runs":resumed.run_state=archive.restore(host)
+	else:resumed.career_state=archive.restore(host)
+	resumed.process_mode=Node.PROCESS_MODE_ALWAYS;host.add_child(resumed);await frames()
+	check(resumed.active_started and resumed.sim.paused and resumed.sim.elapsed==3.,mode+" DEV case starts from exact resumed dive")
+	var tmp=path+"."+mode+".tmp"
+	if pending:
+		DirAccess.make_dir_absolute(tmp);resumed.sim.outcome="won";resumed._debrief(mode=="runs");await frames()
+		check(resumed.save_failed and host.get_meta(mode+"_archive_dirty",false),mode+" DEV case pins failed settlement candidate")
+	var held=ledger_cache(host,mode)
+	var bytes=FileAccess.get_file_as_bytes(path+"."+mode)
+	var backup=FileAccess.get_file_as_bytes(path+"."+mode+".bak")
+	resumed.debug_console.execute("end")
+	check(Dev.marked(host) and Dev.marked(resumed),mode+" DEV end permanently taints both hosts")
+	var prior:Dictionary=host.get_meta(mode+"_archive_state",{}).duplicate(true)
+	check(archive.restore(host)==prior and ledger_cache(host,mode)==held,mode+" DEV restore neither settles nor retries legitimate candidate")
+	if mode=="runs":check(Runs.abandon(host)==prior and ledger_cache(host,mode)==held,"DEV Modes END RUN preserves active ledger and records")
+	check(archive.persist(host,prior,{} if pending else checkpoint)==(not pending),mode+" DEV memory edit cannot acknowledge pending durable candidate")
+	check(ledger_cache(host,mode)==held,mode+" DEV persist preserves ordinary metadata")
+	if not pending:
+		var injected=checkpoint.duplicate(true);injected.rider_runtime.used={"emp":99}
+		check(not archive.persist(host,prior,injected),mode+" DEV memory persistence retains actual spending validation")
+	resumed.debug_console.execute("jump 41")
+	check(resumed.sim.mission.id==41 and resumed.sim.mission.get("dev",false),mode+" transient DEV jump reaches accepted operation41")
+	resumed._notification(Node.NOTIFICATION_APPLICATION_FOCUS_OUT);resumed._save_archive();resumed._debrief(true)
+	check(ledger_cache(host,mode)==held,mode+" DEV jump suspend and abandon cannot capture or settle legitimate state")
+	host.store.suspended=true
+	check(not archive.persist(host,prior),mode+" DEV persist retains suspended-store guard")
+	host.store.suspended=false;host.store.path=path+"-other";resumed._save_archive()
+	check(not FileAccess.file_exists(host.store.path+"."+mode) and ledger_cache(host,mode)==held,mode+" DEV jump cannot write through changed host profile")
+	host.store.path=path
+	Dev.leave(resumed);await frames()
+	check(not is_instance_valid(resumed),mode+" DEV Return exits even with failed candidate")
+	check(ledger_cache(host,mode)==held and FileAccess.get_file_as_bytes(path+"."+mode)==bytes and FileAccess.get_file_as_bytes(path+"."+mode+".bak")==backup,mode+" DEV Return retains exact primary backup envelope records and pending cache")
+	if pending:DirAccess.remove_absolute(tmp)
+	# A reset discards only ephemeral copies. Never turn a DEV outcome into payment.
+	Dev.restore(host,{},true);host.sim.mission.erase("dev")
+	var after=archive.restore(host)
+	check(after==prior and not host.get_meta(mode+"_archive_dirty",false),mode+" clean reset retries only original legitimate candidate")
+	var cold=host_at(path)
+	check(archive.restore(cold)==prior,mode+" cold reopen retains legitimate result or active checkpoint")
+	if mode=="runs":check(Runs.records(cold).last.size()==(1 if pending else 0),"DEV cannot add expedition record after eligibility reset")
+	else:check(after.recovered==(1 if pending else 0),"DEV cannot add career pay or standing after eligibility reset")
+	cold.free();host.queue_free();await frames()
+	# A pre-marked cold entry must also preserve a legacy in-flight ledger.
+	var disk=archive.new();disk.path=path+"."+mode
+	check(disk.save({"version":1,"run" if mode=="runs" else "career":launched}),mode+" DEV legacy fixture")
+	var marked=host_at(path);marked.set_meta("dev_profile",true)
+	var legacy_bytes=FileAccess.get_file_as_bytes(disk.path)
+	check(archive.restore(marked)==launched and FileAccess.get_file_as_bytes(disk.path)==legacy_bytes,mode+" cold DEV entry never converts legitimate legacy flight to loss")
+	check(not marked.has_meta(mode+"_archive_state"),mode+" cold DEV entry keeps legitimate cache unmodified")
+	marked.free()
+func dev_entry(mode:String):
+	var Dev=preload("res://src/debug/dev_state.gd")
+	var archive=Runs if mode=="runs" else Careers
+	var path="user://070-dev-entry-"+mode+".save";clean(path)
+	var host=host_at(path);root.add_child(host);await frames()
+	var state=Run.launch(Run.new_run(42),true) if mode=="runs" else Career.launch(Career.new_career(),"brannock_watch",true)
+	var sim=RunSim.new() if mode=="runs" else Rider.new()
+	if mode=="runs":sim.configure(state);sim.start(-1)
+	else:
+		sim.configure(state.rider);sim.start(0,"endurance",{"fitted":state.fitted,"context":Active.context_for(mode,state),"fleet_commit":false})
+		Career.Economy.apply_launch(state.economy,sim)
+	sim.command("emp");sim.elapsed=4.
+	var envelope=Active.capture(mode,state,sim)
+	check(archive.persist(host,state,envelope),mode+" premarked entry active fixture")
+	var held=ledger_cache(host,mode);var bytes=FileAccess.get_file_as_bytes(path+"."+mode)
+	Dev.mark(host);var restored=archive.restore(host)
+	var session=load("res://scenes/main.tscn").instantiate()
+	session.set_script(load("res://src/presentation/"+mode+"/"+("expedition" if mode=="runs" else "career")+"_session.gd"))
+	session.name="ExpeditionSession" if mode=="runs" else "CareerSession";session.campaign_host=host
+	if mode=="runs":session.run_state=restored
+	else:session.career_state=restored
+	session.process_mode=Node.PROCESS_MODE_ALWAYS;session.freeze_campaign();host.add_child(session);await frames()
+	check(session.active_started and session.sim.paused and session.sim.elapsed==4. and session.sim.rider_snapshot()==sim.rider_snapshot(),mode+" premarked DEV entry restores exact legitimate paused envelope")
+	Dev.restore(host,{},true);host.sim.mission.erase("dev")
+	check(Dev.marked(session) and not Dev.marked(host),mode+" mode session retains own taint after parent eligibility reset")
+	session.sim.outcome="won";session._debrief();session._save_archive()
+	check(session.screen=="dev_debrief" and ledger_cache(host,mode)==held,mode+" parent reset cannot credit DEV mode outcome")
+	Dev.leave(session);await frames()
+	check(not is_instance_valid(session) and FileAccess.get_file_as_bytes(path+"."+mode)==bytes and ledger_cache(host,mode)==held,mode+" premarked DEV Return preserves legitimate checkpoint")
+	host.queue_free();await frames()
 func run():
 	root.size=Vector2i(1080,2520)
+	for mode in ["runs","career"]:
+		await dev_composition(mode,false)
+		await dev_composition(mode,true)
+		await dev_entry(mode)
 	await pending_career_fittings()
 	await success("runs")
 	await success("career")

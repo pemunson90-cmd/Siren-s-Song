@@ -27,7 +27,8 @@ func freeze_campaign()->void:
 	campaign_host.sound.suspend();campaign_host.process_mode=Node.PROCESS_MODE_DISABLED
 func _ready()->void:
 	pinned_path=campaign_host.store.path
-	active_envelope=campaign_host.get_meta("runs_active",{}).duplicate(true)
+	if DevState.marked(self):set_meta("dev_profile",true)
+	active_envelope=preload("res://src/campaign/mode_dev.gd").active(campaign_host,"runs") if DevState.marked(self) else campaign_host.get_meta("runs_active",{}).duplicate(true)
 	sim=RunSimulation.new();sim.configure(run_state)
 	upgrade=run_state.loadout;fitted_equipment=preload("res://src/equipment/equipment_catalog.gd").default_loadout()
 	hints_seen=OnboardingText.HINTS.keys();settings=campaign_host.settings.duplicate();capture_scenario="expedition-session"
@@ -41,13 +42,14 @@ func _ready()->void:
 func _scenario(_name:String)->void:pass
 func _load_archive()->void:pass
 func _save_archive()->void:
-	if not snapshot_ready:return
+	if not snapshot_ready or DevState.marked(self):return
 	if active_started and run_state.in_flight and not recorded:
 		active_envelope=RunArchive.Active.capture("runs",run_state,sim,active_envelope)
 		save_failed=not _persist_state(run_state,active_envelope)
 	elif recorded:save_failed=not _persist_state(run_state)
 
 func _persist_state(state:Dictionary,envelope:Dictionary={})->bool:
+	if DevState.marked(self):return false
 	if campaign_host.store.path!=pinned_path:
 		campaign_host.set_meta("runs_save_error","Profile changed. Return to the original profile and retry.")
 		return false
@@ -97,6 +99,7 @@ func _begin()->void:
 	if save_failed:_show_campaign();return
 	_enter_water()
 func _debrief(abandoned:bool=false)->void:
+	if DevState.block_debrief(self):return
 	if recorded:return
 	recorded=true;sim.paused=true;screen="expedition_result";_clear_menu()
 	run_state=RunState.settle(run_state,sim.result(abandoned))

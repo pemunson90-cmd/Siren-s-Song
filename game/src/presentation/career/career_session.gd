@@ -28,7 +28,8 @@ func _bind_state()->void:
 	economy=career_state.economy;expedition=career_state.progress;fitted_equipment=career_state.fitted
 func _ready()->void:
 	pinned_path=campaign_host.store.path
-	active_envelope=campaign_host.get_meta("career_active",{}).duplicate(true)
+	if DevState.marked(self):set_meta("dev_profile",true)
+	active_envelope=preload("res://src/campaign/mode_dev.gd").active(campaign_host,"career") if DevState.marked(self) else campaign_host.get_meta("career_active",{}).duplicate(true)
 	if career_state.in_flight:selected_contract=career_state.active
 	sim=RiderDive.new()
 	_bind_state();hints_seen=OnboardingText.HINTS.keys();settings=campaign_host.settings.duplicate();capture_scenario="career-session"
@@ -47,7 +48,7 @@ func ui_density_dpi()->float:
 func ui_density_source()->String:
 	return campaign_host.ui_density_source() if is_instance_valid(campaign_host) else super.ui_density_source()
 func _save_archive()->void:
-	if not snapshot_ready:return
+	if not snapshot_ready or DevState.marked(self):return
 	# A failed between-dive write owns its exact candidate until committed.
 	var held:Dictionary=campaign_host.get_meta("career_archive_state",{})
 	if campaign_host.get_meta("career_archive_dirty",false) and not held.get("in_flight",false):
@@ -63,6 +64,7 @@ func _enter_water()->void:
 	if save_failed:CareerBoard.show(self);return
 	super._enter_water()
 func _persist_state(state:Dictionary,envelope:Dictionary={})->bool:
+	if DevState.marked(self):return false
 	if campaign_host.store.path!=pinned_path:
 		campaign_host.set_meta("career_save_error","Profile changed. Return to the original profile and retry.")
 		return false
@@ -94,6 +96,7 @@ func _begin()->void:
 	if save_failed:CareerBoard.show(self);return
 	_enter_water()
 func _debrief(abandoned:bool=false)->void:
+	if DevState.block_debrief(self):return
 	if result_pending:return
 	if not career_state.in_flight:return
 	sim.paused=true
@@ -161,8 +164,10 @@ func _unhandled_key_input(event:InputEvent)->void:
 	super._unhandled_key_input(event)
 func _return()->void:
 	if active_started or result_pending:return
-	_save_archive()
-	if save_failed:CareerBoard.show(self);return
+	# DEV leave must not write the restored or console-jumped simulation.
+	if not DevState.marked(self):
+		_save_archive()
+		if save_failed:CareerBoard.show(self);return
 	for item in prior_visibility:
 		if is_instance_valid(item.node):item.node.visible=item.visible
 	campaign_host.process_mode=prior_mode

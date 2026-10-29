@@ -19,6 +19,8 @@ static func _available(host)->bool:
 	return true
 static func restore(host)->Dictionary:
 	if not _available(host):return {}
+	if preload("res://src/debug/dev_state.gd").marked(host):
+		return preload("res://src/campaign/mode_dev.gd").restore(host,"runs",load("res://src/campaign/runs/run_archive.gd").new())
 	var location:String=host.store.path+".runs"
 	if host.get_meta("runs_archive_path","")==location:
 		var cached:Dictionary=host.get_meta("runs_archive_state",{}).duplicate(true)
@@ -47,6 +49,8 @@ static func restore(host)->Dictionary:
 	return state.duplicate(true)
 static func persist(host,state:Dictionary,envelope:Dictionary={})->bool:
 	if not _available(host):return false
+	if preload("res://src/debug/dev_state.gd").marked(host):
+		return preload("res://src/campaign/mode_dev.gd").persist(host,"runs",state,envelope,load("res://src/campaign/runs/run_archive.gd").new())
 	var archive=load("res://src/campaign/runs/run_archive.gd").new();archive.path=host.store.path+".runs"
 	if host.get_meta("runs_archive_path","")!=archive.path:restore(host)
 	if host.get_meta("runs_archive_locked",false):
@@ -80,11 +84,15 @@ static func persist(host,state:Dictionary,envelope:Dictionary={})->bool:
 	return ok
 
 static func records(host)->Dictionary:
+	if preload("res://src/debug/dev_state.gd").marked(host):
+		restore(host)
+		return preload("res://src/campaign/mode_dev.gd").entry(host,"runs").get("records",Records.empty()).duplicate(true)
 	restore(host)
 	return host.get_meta("runs_records",Records.empty()).duplicate(true)
 
 static func abandon(host)->Dictionary:
 	var state=restore(host)
+	if preload("res://src/debug/dev_state.gd").marked(host):return state
 	if state.is_empty() or state.status!="active" or host.get_meta("runs_archive_dirty",false):return state
 	var envelope:Dictionary=host.get_meta("runs_active",{})
 	var ended:Dictionary

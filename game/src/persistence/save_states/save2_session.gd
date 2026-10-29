@@ -14,7 +14,7 @@ static func restore(host,kind:String,index:int,token:String)->bool:
    host.set_meta("save2_session_error","Profile selection changed. No saved campaign was replaced.");return false
  var process=host.is_processing();var physics=host.is_physics_processing();var mode=host.process_mode
  host.store.suspended=true;host.save_retry_pending=false;host.set_process(false);host.set_physics_process(false);host.process_mode=Node.PROCESS_MODE_DISABLED
- if not storage.load_entry(kind,index,host.store,true,token):
+ if not storage.load_entry(kind,index,host.store,true,token,preload("res://src/debug/dev_state.gd").marked(host)):
   host.store.suspended=false;host.process_mode=mode;host.set_process(process);host.set_physics_process(physics)
   host.set_meta("save2_session_error",storage.warning);Controller.notice(host,storage.warning);return false
  if host.sound!=null:host.sound.suspend()
