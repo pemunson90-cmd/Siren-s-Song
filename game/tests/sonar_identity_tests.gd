@@ -78,6 +78,12 @@ func run():
  check(Identity.contact_mode(hidden)=="CHARGING","mode masking preserves actionable charge")
  hidden.mode="INTERCEPT LISTEN"
  check(Identity.contact_mode(hidden)=="LISTEN","unidentified mode strips interceptor alias but preserves listening")
+ var orphan=Sim.new();orphan.start(0);orphan.sirens=[];orphan.sonar["identified"]={}
+ orphan.contacts={7:{"type":"relay","source":"active"}}
+ Identity.decorate(orphan,7)
+ check(Identity.contact_type(orphan.contacts[7])=="STATIC","orphaned cached acoustic contact uses safe coarse cached role")
+ orphan.sonar.identified[7]="relay";Identity.decorate(orphan,7)
+ check(Identity.contact_type(orphan.contacts[7])=="relay","orphaned cache retains earned identity without indexing absent roster")
  await audio_checks(s)
  print("PROBE active hunter: HUNTER -> ",Identity.contact_type({"type":"hunter","source":"active"}))
  print("PROBE stationary relay: RELAY -> ",Identity.coarse("relay"))

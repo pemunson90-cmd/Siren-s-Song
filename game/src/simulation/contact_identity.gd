@@ -28,7 +28,8 @@ static func sighted(sim,id:int)->bool:
  return false
 static func decorate(sim,id:int)->void:
  if not sim.contacts.has(id):return
- sim.contacts[id]["display_type"]=sim.sonar.identified[id] if known(sim,id) else coarse(str(sim.sirens[id].get("type","patroller")))
+ var role=str(sim.sirens[id].get("type","patroller")) if id>=0 and id<sim.sirens.size() else str(sim.contacts[id].get("type","unknown"))
+ sim.contacts[id]["display_type"]=sim.sonar.identified[id] if known(sim,id) else coarse(role)
 static func observe(sim)->void:
  for id in sim.sirens.size():
   if sighted(sim,id):identify(sim,id)
