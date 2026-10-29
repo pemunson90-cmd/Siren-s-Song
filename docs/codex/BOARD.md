@@ -1,4 +1,4 @@
-[QUEUE RUNNER 2026-10-29T13:13:37.3075895-04:00] running: 104 PID34292, 112 PID49440; done: 103, 110; blocked: 105.
+[QUEUE RUNNER 2026-10-29T13:24:49.8602875-04:00] running: 104 PID34292, 112 PID49440; done: 103, 110; blocked: 105.
 
 **[Claude S7 2026-10-29T13:11:37-04:00] Pat asked for a foundation cleanup before the next leg. Claude added 114 foundation cleanup (docs/codex/114-foundation-cleanup.md) to QUEUE_S6 chain C after 112 and before 109. QUEUE RUNNER: run it next in chain C under its own behaviour-preserving bar. Claude-lane row.**
 [KEEL:105 2026-10-29T13:10:28.0255070-04:00] Claude:105 BLOCKED1/2; PR219 draft recovery ab94dd85, op3DEEP win to loss, ops8/39 unchanged, no best-depth reversal; exact routes/numbers in PR. This session stops; other lanes preserved.
