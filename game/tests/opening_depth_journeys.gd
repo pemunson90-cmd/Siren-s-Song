@@ -76,18 +76,33 @@ func result(s,label):
  check(Sim.valid_snapshot(s.snapshot()),label+" completed current snapshot validates")
  print("OPENING ",label," outcome=",s.outcome," time=",s.elapsed," hull=",s.hull," oxygen=",s.oxygen," alive=",s.units.map(func(u):return u.alive)," tools=",s.tools)
 func blackwater():
- var s=Sim.new();s.start(2)
- check(shift(s,0,2) and travel(s,0,Vector2(300,800)),"Blackwater Quietus chooses a safe deep rendezvous outside sweep reach")
+ var fit=preload("res://src/equipment/equipment_catalog.gd").canonical({"drone_a":"drone_deep_cells"})
+ var s=Sim.new();s.start(2,"endurance",{"fitted":fit})
+ # Source-known ordinary routes; readiness comes from the received context.
+ # The west perch must actually be within the quiet receiver's passive reach.
  s.command("select",{"unit":1});s.command("drone_drive",{"mode":"quiet"})
- check(travel(s,1,Vector2(760,400)) and record(s,1,0),"Blackwater quiet drone actually samples REQUEST at passive reach in middle")
- s.command("drone_drive",{"mode":"transit"})
- check(travel(s,1,Vector2(300,800)),"Blackwater loaded drone makes a fast physical return to Quietus")
+ check(travel(s,1,Vector2(360,200)) and travel(s,1,Vector2(575,200)),"Blackwater request scout reaches its physical western listening perch")
+ var request=s.blackwater_context(0,1)
+ print("BLACKWATER REQUEST RECEIVED CONTEXT ",request," passive=",s.passive_range(1))
+ check(request.ready and request.settled and request.quiet and request.distance<s.passive_range(1) and s.units[1].band==1 and record(s,1,0),"Blackwater quiet drone actually samples REQUEST at passive reach in middle")
+ check(shift(s,0,2) and travel(s,0,Vector2(300,800)),"Blackwater Quietus chooses a safe deep rendezvous outside sweep reach")
+ s.command("select",{"unit":1});s.command("drone_drive",{"mode":"transit"})
+ check(travel(s,1,Vector2(300,200)) and travel(s,1,Vector2(300,800)),"Blackwater loaded drone makes a fast physical return to Quietus")
  check(not s.command("blackwater_handoff",{"carrier":1}) and not s.Delivery.complete(s),"Blackwater mismatched depth cannot remotely deliver raw data")
  check(shift(s,1,2) and s.command("blackwater_handoff",{"carrier":1}),"Blackwater real buffer handoff works at settled deep rendezvous")
  check(travel(s,0,Vector2(720,540)),"Blackwater loaded Quietus actually passes beneath western basalt")
  lull(s,0,1,1);check(shift(s,0,1) and travel(s,0,Vector2(1360,340)) and record(s,0,1),"Blackwater Quietus actually receives eastern fixed REPLY")
+ # Bring both independent helpers into the mouth before Quietus departs. The
+ # fitted cells stay on their real craft throughout, including the depth return.
+ check(shift(s,1,1),"Blackwater loaded helper returns to recovery depth")
+ check(travel(s,1,Vector2(300,800)) and travel(s,1,s.mission.extraction+Vector2(0,-45)),"Blackwater request helper physically reaches recovery")
+ check(travel(s,2,s.mission.extraction+Vector2(0,45)),"Blackwater second helper physically reaches recovery")
  check(travel(s,0,Vector2(1120,720)) and travel(s,0,Vector2(760,720)) and travel(s,0,s.mission.extraction),"Blackwater returns both physical buffers aboard Quietus in the middle layer, above the deep sweeper")
  result(s,"BLACKWATER custody/depth")
+ var recovered=s.module_recovery_status().get("result",{})
+ check([1,2].all(func(id):return id in recovered.get("recovered_drones",[])),"Blackwater both helpers return with Quietus")
+ check("drone_deep_cells" in recovered.get("recovered",[]) and recovered.get("lost",[]).is_empty(),"Blackwater fitted hardware physically returns on its original helper")
+ print("BLACKWATER HARDWARE RECOVERY ",s.mission.get("module_recovery",{}))
 func foundry():
  var s=Sim.new();s.start(3)
  check(shift(s,0,2) and travel(s,0,Vector2(960,500)),"Foundry Quietus actually crosses beneath central spine")

@@ -8,6 +8,14 @@ func check(ok:bool,label:String)->void:
 func advance(s,seconds:float)->void:
  s.paused=false
  for n in roundi(seconds*60):s.advance(Sim.STEP)
+func travel(s,point:Vector2)->bool:
+ if not s.command("route",{"point":point}):return false
+ for n in 1500:
+  advance(s,.1)
+  if not s.units[0].alive or not s.outcome.is_empty():return false
+  if s.units[0].pos.distance_to(point)<10 and s.units[0].vel.length()<2:
+   s.paused=true;return true
+ s.paused=true;return false
 func _initialize()->void:
  var s=Sim.new();s.start(8)
  check(s.mission.has("shelf_habitat"),"Shelf Return contains occupied galleries with physical warning/response state")
@@ -22,8 +30,16 @@ func _initialize()->void:
  var paused=s.snapshot();s.advance(8)
  check(s.snapshot()==paused,"pause cannot advance residents or earn a reply")
  advance(s,2.7)
+ # The exhaust front masks the western return at the alarm. Move the real
+ # listener along the inner water route until that return can actually arrive.
+ check(travel(s,Vector2(700,1400)),"common-call listener physically clears the masked alarm water")
+ advance(s,2.7)
  check(s.all_records() and s.mission.shelf_habitat.receipts.size()==2,"actual local returns secure both shelter acknowledgements")
  check(not s.command("shelf_alarm"),"finite common alarm cannot be farmed as an unlimited lure")
+ check(travel(s,Vector2(560,1055)),"listener physically visits the optional west service receiver")
+ check(s.camera_context().ready and s.command("camera"),"public LISTEN receives the independent west service account")
+ advance(s,4.2);s.paused=true
+ check(s.mission.objectives.any(func(o):return o.get("site_id","")=="shelf_service" and o.captured),"west service account is actually retained with both shelter receipts")
  check(Sim.valid_snapshot(s.snapshot()),"ordinary current habitat state is a valid active save")
  var restored=Sim.new();check(restored.restore(s.snapshot()) and restored.mission.shelf_habitat==s.mission.shelf_habitat,"resident response and received proofs restore without replaying work")
  var quiet=Sim.new();quiet.start(8);quiet.sirens=[]
