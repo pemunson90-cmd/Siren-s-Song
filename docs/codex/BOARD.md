@@ -1,5 +1,7 @@
 [QUEUE RUNNER 2026-10-29T17:10:27.2338716-04:00] running: 113 PID13428, 111 PID29896; done: 103, 106, 110, 112, 109, 114, 108; blocked: 105, 104.
 
+**[Claude S7 2026-10-29T17:11:47-04:00] Queued 115 (thermal layer ops) and 116 (radio report ops) after 113 in chain S. They rebuild 2 to 3 existing ops so the blocked 105/104 rules decide the plan (096 method). Claude-lane rows.**
+
 [Claude108 2026-10-29T17:07:44.5441807-04:00] DONE: PR224 merged ec026af6; Confluence selects two recovery variants, revised fleet evidence approved, all7 green. Bounded108 closed; runner owns successors.
 
 **[Claude S7 2026-10-29T16:14:37-04:00] 114 PR223 merged. Chain S is free: Claude moved 113 to the end of chain S (runner.py CHAINS updated) so 113 runs beside 108. 113 shares no files with 108; 111 still follows 108 in chain C.**
@@ -412,5 +414,7 @@ Boundary follow-up28Oct03:12UTC: Windows completion check PASSES from current in
 | 109 | 112 SORLEY RESCUE REWARD BECOMES PILOTAGE CHARTS | DONE | [218](https://github.com/pemunson90-cmd/Siren-s-Song/pull/218) | 2026-10-29T13:33:43.1456490-04:00 | Merged 3ffd8281; lasting MIDDLE pilotage in Needle Strait/Furnace Drift replaces supplies, old stock retained, no ending vote; HIGH review, all7 exact-head CI40914888630, local1022/0 +8 SILENT voyages. |
 | 110 | 113 PRESENTATION: SILHOUETTES, ROLE SOUNDS, SEA LIFE, PLACEHOLDER KEY ART | CLAIMED (claude-lane, codex-fresh-113, 2026-10-29T16:15:26.6401628-04:00) | | | [handoff](113-presentation-pass.md) |
 | 111 | 114 FOUNDATION CLEANUP FROM THE S7 PR AUDIT | DONE (claude-lane, codex-fresh-114) | [PR223](https://github.com/pemunson90-cmd/Siren-s-Song/pull/223) | 2026-10-29T16:13:49.2017908-04:00 | [KEEL:114 verified] Merge58311200;103 net lines removed, Sorley cap1.30, old saves retained,10/10 full voyages identical with bare SILENT; independent HIGH and all7 exact-head checks green. [handoff](114-foundation-cleanup.md) |
+| 112 | 115 MAKE THE ONE-BAND THERMAL LAYER MATTER IN REAL OPS | QUEUED (claude-lane, Pat 29 Oct) | | | [handoff](115-thermal-ops.md) |
+| 113 | 116 MAKE SIREN RADIO REPORTS MATTER IN REAL OPS | QUEUED (claude-lane, Pat 29 Oct) | | | [handoff](116-radio-ops.md) |
 | 89 | 092 HIDDEN RESCUE OF SORLEY'S BOY (Pat ruling 28 Oct, experiment) | DONE | [207](https://github.com/pemunson90-cmd/Siren-s-Song/pull/207) | 2026-10-28T22:42:43Z | Hidden physical rescue, pilotage and epilogue; no ending vote/thread change integrated THROUGH207; batch review/checks above; owned paths released, shared seams now root070. |
 | 88 | 091 WHOLE-GAME COLD AUDIT (read-only) | CLAIMED (codex-root, fresh HIGH blind whole-game critic) | | 2026-10-29T04:19:07-04:00 | [PAT: current order; KEEL: local process/worktree inventory] 091 claimed from OPEN before dispatch; no active critic process found. Owner codex-root, fresh HIGH blind whole-game critic. Audit exact promoted production13a64ed0d17c1564670c124cba8110e11f065329/tree54459644057b559a22d0353492e5ec2876ce4394. Claim publication awaits independent MEDIUM metadata review; root starts the fresh critic only after reviewed claim publication. No critic dispatched, audit run or result claimed. |
