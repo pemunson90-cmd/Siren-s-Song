@@ -1,8 +1,8 @@
 # Handoff 070: EXPEDITION AND CAREER DIVE RESUME AFTER APP KILL
 
-Status: CLAIMED (codex-root; actual implementation dispatched, session54516, Sol6.1 medium)
-Claimed at: 28 Oct 2026 UTC (dispatch; prior reservation 16:56 ET)
-Claimed by: codex-root/session54516; Siren-s-Song-codex-070, claude/lane-mode-resume; base152111a1; uses070-resume-scout.result.txt. UNCOMMITTED code only; future independent review before commit. No concurrent095/101 mode-archive writer: original101/session27092 exited and collected; localdb5b360 fixes need review/reconciliation later.
+Status: CLAIMED (codex-root; PR211 published, runtime pending)
+Claimed at: 28 Oct 2026 (root retained)
+Claimed by: codex-root; claude/lane-mode-resume; PR211
 Finished at:
 
 Precondition: 056 is DONE (career half after 057). Scout note: 056 DONE; 057 DONE for the career half. The expedition half can ship alone. Read ORCHESTRATION_2026-10-26.md first.
@@ -30,6 +30,9 @@ Import + core. Never more than ORCHESTRATION section 5 requires. Suite ranks: mo
 
 ## Return
 PR into claude/integration; merge on green; close per ORCHESTRATION section 7.
+
+## Current prepared status
+PR211 published head02f3576e; own run40805408003 guidance/core pass, runtime pending. Root final37bb is doc-only reconciliation of newly accepted095; no merge. Root retains070/097 under Pat two-lane rule; no Claude handoff/restart.
 
 ## Completion
 (five lines max)

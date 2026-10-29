@@ -1,8 +1,8 @@
 # Handoff 097: MAKE THE FLEET MATTER IN THE EARLY WAYPOINT OPS (2, 6, 7, 8, 9, 13, 39)
 
-Status: OPEN
-Claimed at:
-Claimed by:
+Status: PREPARED (codex-root; retained)
+Claimed at: 28 Oct 2026 (root retained)
+Claimed by: codex-root; no Claude handoff/restart
 Finished at:
 
 Precondition: not owned by another CLAIMED handoff. Leave op 37 alone (092 owns the Sorley content). Read HANDOFF.md and ORCHESTRATION_2026-10-26.md first. Current review rule (Pat, 28 Oct): independent Sol6.1-high review of the frozen patch before commit and before merge.
@@ -50,6 +50,9 @@ Import + core; the region's existing journey suites (update source-known routes 
 
 ## Return
 PR into claude/integration; independent review, merge on green; close per ORCHESTRATION section 7; one LEDGER line.
+
+## Current prepared status
+PREPARED local3d7955982583823e9029aaf33678610b520e1554; final070 union HIGH review59 APPROVE tree63192. Review57 APPROVE14573 provisionally resolves review53 HOLD5/7 to6/7 using new op2 STANDARD SILENT pair23/0: bare WIN86.35s hull100 H33.52 O2 70.90 received lock2.58s; EQ WIN69.90s hull100 H17.20 O2 81.17 zero locks; both buffers, helpers/fitted cells returned. Source53 original code + guidance/placement57 reviewed. Current op6 outcome valid, metrics lost; remaining pressure historical. No fresh seven-op matrix, human or affordability claim. Publication awaits updated070 parent + review; no PR097. Original22-file/1378 hashes and failed candidates/counterexamples retained externally; no new Pat decision currently.
 
 ## Completion
 (five lines max: per-op before/after class and the main pattern used)
