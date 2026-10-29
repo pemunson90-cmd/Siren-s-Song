@@ -1,6 +1,4 @@
 extends RefCounted
-# Presentation-only rollback. Disabled restores the original bed and master dynamics.
-static var enabled := true
 const RegionTable=preload("res://src/presentation/art/region_table.gd")
 const BEDS := {
 	"shelf": {"stream":preload("res://assets/audio/regions/shelf.wav"),"gain_db":-19.0},
@@ -13,5 +11,4 @@ const BEDS := {
 	"calder": {"stream":preload("res://assets/audio/regions/calder.wav"),"gain_db":-21.0},
 }
 static func bed(mission: Dictionary) -> Dictionary:
-	if not enabled:return {}
 	return BEDS.get(RegionTable.key(mission),BEDS.shelf)

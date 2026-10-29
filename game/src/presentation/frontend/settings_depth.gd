@@ -2,10 +2,7 @@ extends RefCounted
 # SETDEPTH (handoff 072): settings pages, mixer split, haptic strength and coverage, gesture timing.
 # Seams: SettingsStore.sanitize (new keys), FrontendSettings.apply/vibrate, Frontend._settings_screen,
 # Soundscape.play (bus category), CueObserver._emit (haptic coverage), MapGesture and ToolHelp (presets).
-# Revert: ENABLED=false restores one settings column, fixed 45 ms pulses on the original four cues,
-# the original gesture numbers, and routes every cue through the effects bus. New keys stay inert.
 # AI-DESIGNED numbers below are tunable; the owner ratifies them.
-const ENABLED := true
 const PAGES := ["audio", "display", "controls"]
 const PAGE_LABELS := {"audio": "AUDIO", "display": "DISPLAY", "controls": "CONTROLS"}
 # Mixer rows: key, label, slider id suffix. "music" keeps its key (ambience and tension bed) so old files load.
@@ -26,14 +23,12 @@ const DRAG_PX := [9.0, 14.0, 24.0]
 const HOLD_LABELS := ["SHORT", "NORMAL", "LONG"]
 const HOLD_SECONDS := [0.3, 0.5, 0.85]
 static func haptic_cue(cue: String) -> bool:
-	return cue in HAPTIC_BASE_CUES or (ENABLED and cue in HAPTIC_EXTRA_CUES)
+	return cue in HAPTIC_BASE_CUES or cue in HAPTIC_EXTRA_CUES
 static func pulse_ms(ms: int, values: Dictionary) -> int:
-	if not ENABLED: return ms
 	return roundi(float(ms) * HAPTIC_SCALE[clampi(int(values.get("haptic_strength", 2)), 1, 3)])
 static func bus_category(cue: String) -> String:
-	if not ENABLED: return "effects"
 	return "alerts" if cue in ALERT_CUES else ("messages" if cue in MESSAGE_CUES else "effects")
 static func drag_threshold(values: Dictionary) -> float:
-	return DRAG_PX[clampi(int(values.get("drag_preset", 1)), 0, 2)] if ENABLED else DRAG_PX[1]
+	return DRAG_PX[clampi(int(values.get("drag_preset", 1)), 0, 2)]
 static func hold_seconds(values: Dictionary) -> float:
-	return HOLD_SECONDS[clampi(int(values.get("hold_preset", 1)), 0, 2)] if ENABLED else HOLD_SECONDS[1]
+	return HOLD_SECONDS[clampi(int(values.get("hold_preset", 1)), 0, 2)]

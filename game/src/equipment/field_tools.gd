@@ -8,7 +8,6 @@ extends RefCounted
 # Revert: set enabled=false (no counts, no effect, orders refuse) or remove the seam lines and table rows.
 const enabled=true
 # Touch target for every tool order button, in dp (a presentation host builds it).
-const TOUCH_DP=48
 # 098 cargo per charge in hundredths of one cargo place. Provisional, AI-DESIGNED.
 const CARGO_WEIGHTS={"emp":5,"decoy":5,"sonobuoy":5,"recon":10,"knock":10,"silt_screen":10,"hull_patch":20,"relay_buoy":20}
 # 100 separate lockers, hundredths. Role maxima from the original bundles are95/15/50.

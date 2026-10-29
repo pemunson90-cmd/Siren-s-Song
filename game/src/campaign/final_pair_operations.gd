@@ -16,7 +16,7 @@ static func supports_identity(id:int,c:Dictionary)->bool:return id==c.source_id
 static func entries()->Array:
  var result=[]
  for id in IDS:
-  result.append({"id":id,"factory":"res://src/campaign/final_pair_operations.gd","config":{"source_id":id,"history":true},"behaviors":["signals_v2","history"],"prerequisites":[25 if id==30 else 30],"facts":[],"records":[key(id),key(id)+"_bonus"]+(["final_listen_%d"%id] if LAYOUTS[id].ARC6 else []),"campaign":true,"route":"","required_facts":{}})
+  result.append({"id":id,"factory":"res://src/campaign/final_pair_operations.gd","config":{"source_id":id,"history":true},"behaviors":["signals_v2","history"],"prerequisites":[25 if id==30 else 30],"facts":[],"records":[key(id),key(id)+"_bonus"]+["final_listen_%d"%id],"campaign":true,"route":"","required_facts":{}})
  return result
 static func key(id:int)->String:return "final_photo_"+str(id)
 static func build(c:Dictionary,history:Dictionary={})->Dictionary:
@@ -30,9 +30,7 @@ static func build(c:Dictionary,history:Dictionary={})->Dictionary:
  # 096 existing unknown-return optics and longer optional integration reward parallel scouting.
  # Revert this block and the180s budget to restore the earlier survey margin.
  m.objectives[1]["duration"]=36.
- m.objectives[1]["unknown"]=true
- m.objectives[1]["alias"]="UNRESOLVED TERMINAL RETURN"
- m.objectives[1]["lead"]={"r":200.,"off":Vector2(70,-60),"sight":170.}
+ P.unknown(m.objectives[1],"UNRESOLVED TERMINAL RETURN",200.,Vector2(70,-60))
  m.brief+=" Scout the unresolved return with a drone at its recorded depth; the separated branch costs Quietus oxygen and exposes its approach."
  if row.has("listen"):
   # Optional local work: passive hydrophone reception in settled MIDDLE (Quietus only).

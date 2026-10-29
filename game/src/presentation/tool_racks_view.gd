@@ -14,7 +14,7 @@ static func _redraw(host,action:Callable)->void:
   if is_instance_valid(heading) and heading.get_parent()==host.panel_box:host.scroll.scroll_vertical=position
  ).call_deferred()
 static func fill(host,choice:String)->void:
- host.upgrade=choice;host.tool_racks=Racks.template(choice,host.fitted_equipment)
+ host.upgrade=choice;host.tool_racks=Racks.template(choice)
 static func edit(host,slot:String,id:String,delta:int)->void:
  var next=host.tool_racks.duplicate(true)
  next[slot][id]=int(next[slot].get(id,0))+delta
@@ -33,7 +33,7 @@ static func summary(host)->String:
  return "\n".join(lines)
 static func stock(host)->String:
  var parts=[]
- for id in Tools.ids():parts.append("%d %s"%[Racks.total(host.tool_racks,id),{"decoy":"DECOYS","knock":"TORPEDOES"}.get(id,Tools.spec(id).name.to_upper())])
+ for id in Tools.ids():parts.append("%d %s"%[Racks.total(host.tool_racks,id),Racks.label(id)])
  return " / ".join(parts)
 static func show(host)->void:
  if not Racks.enabled:return

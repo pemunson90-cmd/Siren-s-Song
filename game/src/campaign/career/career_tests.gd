@@ -38,8 +38,8 @@ func run():
 	corrupt=state.duplicate(true);corrupt.serial=1
 	check(not State.valid(corrupt),"reject inconsistent contract serial")
 	for faction in Table.FACTIONS:
-		var starter=Table.CONTRACTS.keys().filter(func(id):return Table.CONTRACTS[id].faction==faction and Table.CONTRACTS[id].standing==Table.MIN_STANDING)[0]
-		var higher=Table.CONTRACTS.keys().filter(func(id):return Table.CONTRACTS[id].faction==faction and Table.CONTRACTS[id].standing==2)[0]
+		var starter=Table.CONTRACTS.keys().filter(func(id):return Table.CONTRACTS[id].faction==faction and Table.CONTRACTS[id].get("standing",Table.MIN_STANDING)==Table.MIN_STANDING)[0]
+		var higher=Table.CONTRACTS.keys().filter(func(id):return Table.CONTRACTS[id].faction==faction and Table.CONTRACTS[id].get("standing",Table.MIN_STANDING)==2)[0]
 		var base=State.new_career();var before=base.economy.stock.duplicate()
 		check(not State.open(base,higher),"regional contract starts closed "+faction)
 		var launched=State.launch(base,starter)

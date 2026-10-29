@@ -24,8 +24,6 @@ func _initialize() -> void:
 	call_deferred("run")
 func run() -> void:
 	var previous := FrontSettings.current.duplicate(true)
-	var previous_enabled: bool = RegionAudioTable.enabled
-	RegionAudioTable.enabled = true
 	check(not SettingsStore.sanitize({}).night_mode, "old settings default night mode off")
 	check(not SettingsStore.sanitize({"night_mode": "true"}).night_mode, "string cannot enable night mode")
 	check(not SettingsStore.sanitize({"night_mode": 1}).night_mode, "number cannot enable night mode")
@@ -59,14 +57,10 @@ func run() -> void:
 			check(night_index == -1, "disabled night mode removes live compressor")
 	FrontSettings.apply({"night_mode": true}, host)
 	host.sound._sync_night_mode()
-	RegionAudioTable.enabled = false
-	host.sound._sync_night_mode()
-	check(effect_index("SirenNightMode") == -1, "disabled region table removes night compressor")
 	FrontSettings.apply({"night_mode": "true"}, host)
 	check(not host.sound.night_mode and not FrontSettings.current.night_mode, "apply sanitizes corrupt night mode")
 	host.sound.free()
 	host.free()
-	RegionAudioTable.enabled = previous_enabled
 	FrontSettings.apply(previous)
 	for suffix in ["", ".tmp"]:
 		DirAccess.remove_absolute(store.path + suffix)

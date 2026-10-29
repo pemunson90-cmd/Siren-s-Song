@@ -68,7 +68,7 @@ const Economy=preload("res://src/campaign/economy.gd")
 var economy:Dictionary=Economy.new_state()
 var challenge_records:Dictionary={}
 var fitted_equipment:Dictionary=preload("res://src/equipment/equipment_catalog.gd").default_loadout()
-var tool_racks:Dictionary=preload("res://src/equipment/tool_racks.gd").template("endurance",fitted_equipment)
+var tool_racks:Dictionary=preload("res://src/equipment/tool_racks.gd").template("endurance")
 var upgrade := "endurance"
 var capture_scenario := ""
 var frame := 0
@@ -677,7 +677,7 @@ func _load_archive() -> void:
 		photo_intel=saved.get("intel",{}).duplicate(true)
 		fitted_equipment=preload("res://src/equipment/equipment_catalog.gd").canonical(saved.get("equipment",{}))
 		fitted_equipment=FleetInventory.reconcile_fitting(fitted_equipment,FleetInventory.available(_equipment_entitlements(),fleet))
-		tool_racks=preload("res://src/equipment/tool_racks.gd").migrated(saved,fitted_equipment)
+		tool_racks=preload("res://src/equipment/tool_racks.gd").migrated(saved)
 		economy=Economy.Losses.migrated(saved.economy) if saved.has("economy") else Economy.legacy_state(fitted_equipment)
 		fitted_equipment=Economy.Losses.fitting(economy,FleetInventory.reconcile_fitting(fitted_equipment,FleetInventory.available(_equipment_entitlements(),fleet,economy)))
 		recovered_evidence=saved.get("evidence",{})
@@ -697,41 +697,7 @@ func _load_archive() -> void:
 	if not store.warning.is_empty():archive_warning=store.warning;sim.message=store.warning
 	_update_archive_status()
 func _settings_menu() -> void:
-	if preload("res://src/presentation/frontend/menu_reach.gd").settings(self):return
-	_clear_menu(); screen="settings"
-	_menu_text("QUIETUS / SETTINGS",30)
-	_menu_text("Actionable sound cues also appear in the tactical display. Audio pauses when you suspend the dive.",18)
-	for field in ["music","effects"]:
-		var key=field
-		_menu_text("%s VOLUME"%key.to_upper(),17)
-		var slider=HSlider.new(); slider.min_value=0; slider.max_value=1; slider.step=0.05; slider.value=settings.get(key,0.5); slider.custom_minimum_size.y=ui_touch_height; slider.set_meta("ui_action","volume_"+key); panel_box.add_child(slider)
-		slider.value_changed.connect(func(value): settings[key]=value; sound.set(key+"_volume",value); _save_archive())
-	var audio_modes=HBoxContainer.new(); audio_modes.add_theme_constant_override("separation",8); panel_box.add_child(audio_modes)
-	var mute_button=_button(panel_box,"MUTE: %s"%("ON" if sound.muted else "OFF"),func(): sound.muted=not sound.muted; settings.mute=sound.muted; _save_archive(); _settings_menu(),"mute")
-	var night_button=_button(panel_box,"NIGHT MODE: %s"%("ON" if FrontendSettings.current.night_mode else "OFF"),func():_set_accessibility("night_mode",not FrontendSettings.current.night_mode),"setting_night_mode")
-	for button in [mute_button,night_button]:
-		button.reparent(audio_modes); button.size_flags_horizontal=Control.SIZE_EXPAND_FILL
-	_menu_text("TEXT SIZE · applies to menus and the dive display",17)
-	var sizes=HBoxContainer.new(); sizes.add_theme_constant_override("separation",8); panel_box.add_child(sizes)
-	for choice in [["NORMAL",1.0],["LARGE",1.3],["EXTRA LARGE",1.5]]:
-		var scale:float=choice[1]
-		var b=Button.new(); b.text=choice[0]; b.custom_minimum_size=Vector2(0,ui_touch_height); b.size_flags_horizontal=Control.SIZE_EXPAND_FILL; b.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
-		b.focus_mode=Control.FOCUS_ALL; b.toggle_mode=true; b.button_pressed=is_equal_approx(FrontendSettings.text_scale(),scale)
-		b.set_meta("action","text_scale_%d"%roundi(scale*100)); b.set_meta("ui_action","text_scale_%d"%roundi(scale*100))
-		b.pressed.connect(_set_text_scale.bind(scale),CONNECT_DEFERRED); sizes.add_child(b)
-	for cap in [30,60]:
-		var selected_cap:int=cap
-		var b=Button.new(); b.text="CAP %d FPS"%selected_cap; b.custom_minimum_size=Vector2(0,ui_touch_height); b.size_flags_horizontal=Control.SIZE_EXPAND_FILL
-		b.focus_mode=Control.FOCUS_ALL; b.toggle_mode=true; b.button_pressed=FrontendSettings.current.frame_cap==selected_cap
-		b.set_meta("action","frame_cap_%d"%selected_cap); b.set_meta("ui_action","frame_cap_%d"%selected_cap)
-		b.pressed.connect(_set_accessibility.bind("frame_cap",selected_cap),CONNECT_DEFERRED); audio_modes.add_child(b)
-	_button(panel_box,"SHOW FIRST-DIVE TIPS AGAIN",func(): hints_seen=[]; _save_archive(); sim.message="Tips will show again in the opening operations"; _settings_menu(),"reset_tips")
-	for row in [["safe_palette","SAFE PALETTE"],["audio_captions","AUDIO CAPTIONS"],["haptics","HAPTICS"]]:
-		var key:String=row[0]
-		_button(panel_box,"%s: %s"%[row[1],"ON" if FrontendSettings.current[key] else "OFF"],func():_set_accessibility(key,not FrontendSettings.current[key]),"setting_"+key)
-	preload("res://src/presentation/ops_home/ops_home.gd").settings_entry(self)
-	_button(menu_footer,"BACK TO OPERATIONS",_show_campaign,"back"); menu_footer.show()
-	call_deferred("_layout")
+	preload("res://src/presentation/frontend/menu_reach.gd").settings(self)
 func _set_text_scale(scale:float) -> void:
 	_set_accessibility("text_scale",scale)
 func _set_accessibility(key:String,value:Variant) -> void:

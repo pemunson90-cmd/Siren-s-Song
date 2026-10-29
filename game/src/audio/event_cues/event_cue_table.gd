@@ -1,10 +1,8 @@
 extends RefCounted
 # EVENT AUDIO levels, priorities and repeat limits. Tunable numbers live only here.
-# Revert: enabled=false restores today's soundscape exactly (no node, no state read).
 # Generated cues share PhotoWave synthesis; gains are dB on the existing effects bus,
 # so mute/volume, the master peak guard and the Night mode compressor still apply.
 # Captions: each id has a row in presentation/accessibility/cue_table.gd TEXT.
-static var enabled:=true
 const VOICES:=3
 const MAX_PER_FRAME:=2
 # Field tool ids whose stock drop (a successful use) plays the cue of the same name.

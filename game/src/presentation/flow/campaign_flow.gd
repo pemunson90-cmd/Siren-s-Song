@@ -45,7 +45,7 @@ static func show_campaign(host) -> void:
 		var supplies=host._loadout_stock(choice)
 		rows.append("%s · %d%% / %d / %d"%[choice.to_upper(),supplies[0],supplies[1],supplies[2]])
 	host._menu_text("\n".join(rows),14)
-	host._menu_text("FREE TOOLS: 3 DECOYS / 2 TORPEDOES; 2 DRONES\nDISRUPT: 12s / SURVEY: 8s, audible",14)
+	host._menu_text("TOOLS: "+FitSurfaceModel.stock_text(host.tool_racks)+"\nDISRUPT: 12s / SURVEY: 8s, audible",14)
 	host._button(host.panel_box,"CYCLE LOADOUT · endurance / disruption / survey",host._cycle_loadout,"loadout")
 	host._button(host.panel_box,"AUDIO / SETTINGS",host._settings_menu,"settings")
 	preload("res://src/presentation/ops_home/ops_home.gd").arrange(host)
@@ -63,7 +63,7 @@ static func show_fittings(host)->void:
 static func cycle_loadout(host)->void:
 	var reading_position=host.scroll.scroll_vertical
 	host.upgrade=["endurance","disruption","survey"][( ["endurance","disruption","survey"].find(host.upgrade)+1)%3]
-	host.tool_racks=preload("res://src/equipment/tool_racks.gd").template(host.upgrade,host.fitted_equipment)
+	host.tool_racks=preload("res://src/equipment/tool_racks.gd").template(host.upgrade)
 	host._save_archive()
 	host._show_campaign()
 	var heading=host.panel_box.get_child(0)
@@ -290,6 +290,6 @@ static func new_campaign(host)->void:
 	host.completed=[];host.unlocked=0;host.expedition={};host.recovered_evidence={};host.photo_records={};host.photo_intel={};host.hints_seen=[]
 	host.fleet={};host.economy=EconomyPanel.take_draft(host)
 	host.fitted_equipment=preload("res://src/equipment/equipment_catalog.gd").default_loadout();host.upgrade="endurance"
-	host.tool_racks=preload("res://src/equipment/tool_racks.gd").template(host.upgrade,host.fitted_equipment)
+	host.tool_racks=preload("res://src/equipment/tool_racks.gd").template(host.upgrade)
 	preload("res://src/presentation/first_siren_cue/cue_archive.gd").restore_types(host,{})  # a new campaign forgets seen Siren kinds
 	host._start_mission(0);host._save_archive();host._show_campaign()

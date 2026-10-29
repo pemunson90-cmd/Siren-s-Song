@@ -3,7 +3,6 @@ extends RefCounted
 # then the FIELD LOG (messages received and evidence recovered, by operation).
 # Seam: archive_nav.gd entry and tabs. Read-only over host.photo_records, recovered_evidence,
 # expedition and the voices log; evidence rows open the existing field-record gallery.
-# Android Back returns to Operations (Main's ordinary rule). Revert: archive_table.enabled=false.
 const Table=preload("res://src/presentation/archive/archive_table.gd")
 const Nav=preload("res://src/presentation/archive/archive_nav.gd")
 const Catalog=preload("res://src/campaign/operation_catalog.gd")
@@ -48,7 +47,6 @@ static func artifacts(host)->Array:
 			"spent":material in state.get("spent",[])})
 	return result
 static func show(host)->void:
-	if not Table.enabled:return
 	var reading_position=host.scroll.scroll_vertical if host.screen=="archive" else 0
 	host.screen="archive";host.sim.paused=true;host._clear_menu()
 	Nav.header(host,"archive")

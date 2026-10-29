@@ -6,7 +6,7 @@ const TITLES={32:"Calder Shut-In",33:"The Human Gallery",34:"Beneath the Well",3
 # 096 provisional endurance data. Revert this table to1080s to restore the earlier
 # oxygen margin; no life-support, damage or sensing rules change.
 const OXYGEN={32:210.,33:360.,34:420.,35:360.,36:360.}
-const ITEMS={32:"trench_seal_core",33:"choir_reed",35:"deep_keel_plate"}
+const ITEMS=preload("res://src/campaign/recovered_items.gd").ITEMS
 const WORK_KEYS={32:"calder_32_shut_in",33:"calder_33_gallery",34:"calder_34_disconnect",35:"calder_35_lift",36:"calder_36_breaker"}
 const WORK_NAMES={32:"MANUAL WELL SHUT-IN",33:"SURVIVOR GALLERY EQUALIZER",34:"DRILL FEED DISCONNECT",35:"BROKEN DECK LIFT",36:"GUARD STATION BREAKER"}
 const ACCOUNTS={
@@ -31,7 +31,7 @@ static func entries()->Array:
  var result=[]
  for id in IDS:
   var k=key(id)
-  result.append({"id":id,"factory":"res://src/campaign/calder_trench_operations.gd","config":{"source_id":id,"history":true},"behaviors":["signals_v2","history","glass_reach"]+(["thermal"] if id in [32,33,34] else []),"prerequisites":[31 if id==32 else 32 if id in [33,35,36] else 33],"facts":[k,k+"_bonus"],"records":[k,k+"_bonus",WORK_KEYS[id]]+(Capstone.keys().slice(0,2) if id==34 and L.ENABLED and Capstone.ENABLED else [])+([L.MODULE_SITES[34].key] if id==34 and L.MODULE_SITES_ENABLED else []),"campaign":true,"route":"","required_facts":{}})
+  result.append({"id":id,"factory":"res://src/campaign/calder_trench_operations.gd","config":{"source_id":id,"history":true},"behaviors":["signals_v2","history","glass_reach"]+(["thermal"] if id in [32,33,34] else []),"prerequisites":[31 if id==32 else 32 if id in [33,35,36] else 33],"facts":[k,k+"_bonus"],"records":[k,k+"_bonus",WORK_KEYS[id]]+(Capstone.keys().slice(0,2) if id==34 and L.ENABLED and Capstone.ENABLED else [])+([L.MODULE_SITES[34].key] if id==34 else []),"campaign":true,"route":"","required_facts":{}})
  return result
 static func make(id:int,history:Dictionary={})->Dictionary:
  return build({"source_id":id,"history":true},history)
@@ -53,7 +53,7 @@ static func build(c:Dictionary,history:Dictionary={})->Dictionary:
   for stage in [0,1]:m.objectives.append(W.machine(works[stage].key,works[stage].name,works[stage].pos,works[stage].effect,false,12.))
   m.structures=works.map(func(w):return w.gate)
  # 065 optional interactions share CAMERA work, never required_site_ids.
- if L.MODULE_SITES_ENABLED and id in L.MODULE_SITES:
+ if id in L.MODULE_SITES:
   var site=L.MODULE_SITES[id]
   if id==34:
    m.objectives.append(W.machine(site.key,site.name,row.current+site.offset,site.effect.duplicate(true),true,site.duration,site.module))
@@ -64,7 +64,7 @@ static func build(c:Dictionary,history:Dictionary={})->Dictionary:
   m.thermal_revision=1;m.thermal_fronts=[{"area":row.front,"transmission":.55,"close_range":90.}]
  m.brief=ACCOUNTS[id]+"\nPrimary photograph is in DEEP. Return Quietus to "+row.mouth+" in settled MIDDLE. "+(CAPSTONE_BRIEF if not works.is_empty() else WORK_BRIEF if id in [32,33,34] else OPTIONAL_BRIEF)
  if id in ITEMS:m.brief+=" Use REACH WORK to winch the marked physical material within60m at DEEP, then return its living carrier to the recovery mouth."
- if L.MODULE_SITES_ENABLED and id in L.MODULE_SITES:
+ if id in L.MODULE_SITES:
   m.brief+="\nAI-DESIGNED optional CAMERA work: seal on Quietus halves marked pump/lift time and sound; tuner on a drone silences the marked breaker. Bare work takes12s."
  return m
 static func _photo(k:String,label:String,pos:Vector2,band:int,art:String,optional:bool)->Dictionary:

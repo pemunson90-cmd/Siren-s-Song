@@ -1,6 +1,6 @@
 extends RefCounted
 # Touch-first career menus use Main's existing scroll column and 48dp buttons.
-# Revert with CareerTable.ENABLED; all spending uses the existing economy APIs.
+# All spending uses the existing economy APIs.
 const Table=preload("res://src/campaign/career/career_table.gd")
 const State=preload("res://src/campaign/career/career_state.gd")
 const Economy=preload("res://src/campaign/economy.gd")
@@ -35,7 +35,7 @@ static func show(host)->void:
 			if c.faction!=faction:continue
 			var available=State.open(host.career_state,id)
 			var title=host.Simulation.Missions.make(c.op,host._launch_context(c.op)).title
-			var button=host._button(host.panel_box,"%s\n%s · PAY %s"%[title.to_upper(),"OPEN" if available else "LOCKED · NEED STANDING %d"%c.standing,Economy.fmt(c.reward)],host._select_contract.bind(id),"career_contract_"+id)
+			var button=host._button(host.panel_box,"%s\n%s · PAY %s"%[title.to_upper(),"OPEN" if available else "LOCKED · NEED STANDING %d"%c.get("standing",Table.MIN_STANDING),Economy.fmt(c.reward)],host._select_contract.bind(id),"career_contract_"+id)
 			button.disabled=not available or host.save_failed
 			host._menu_text(Riders.description(State.rider_offer(host.career_state,id)),16)
 static func confirm_abandon(host)->void:
@@ -53,9 +53,7 @@ static func briefing(host)->void:
 	var rider=State.rider_offer(host.career_state,host.selected_contract)
 	host._menu_text(Riders.description(rider),17)
 	if not rider.is_empty():
-		host._button(host.panel_box,"RIDER · "+("ACCEPTED" if host.accept_rider else "DECLINED"),func():
-			host.accept_rider=not host.accept_rider;briefing(host)
-		,"career_rider")
+		host._button(host.panel_box,"RIDER · "+("ACCEPTED" if host.accept_rider else "DECLINED"),preload("res://src/presentation/rider_choice.gd").toggle.bind(host,briefing.bind(host)),"career_rider")
 	var begin=host._button(host.panel_box,"ACCEPT CONTRACT · START PAUSED",host._begin,"career_begin")
 	begin.disabled=host.save_failed or not Economy.can_pay(host.economy,Economy.refit_cost(host.economy,host.fitted_equipment))
 	host._button(host.panel_box,"FLEET / FITTINGS",host._show_fittings,"career_fittings")

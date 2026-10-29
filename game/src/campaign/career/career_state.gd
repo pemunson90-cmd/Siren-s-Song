@@ -1,6 +1,6 @@
 extends RefCounted
 # Separate career economy, regional evidence and fitted fleet. No ending resolver.
-# Revert: disable CareerTable.ENABLED; campaign archives never contain this state.
+# Campaign archives never contain this career state.
 const Table=preload("res://src/campaign/career/career_table.gd")
 const Economy=preload("res://src/campaign/economy.gd")
 const Equipment=preload("res://src/equipment/equipment_catalog.gd")
@@ -13,7 +13,7 @@ static func new_career()->Dictionary:
 	return {"version":1,"standing":standing,"economy":Economy.new_state(),"fitted":Equipment.default_loadout(),
 		"progress":{"completed":[],"facts":{},"entitlements":[]},"active":"","in_flight":false,"serial":0,"recovered":0,"lost":0,"report":"Choose a regional contract. Each recovery improves standing; higher trust opens regional work."}
 static func open(state:Dictionary,id:String)->bool:
-	return Table.CONTRACTS.has(id) and state.standing[Table.CONTRACTS[id].faction]>=Table.CONTRACTS[id].standing
+	return Table.CONTRACTS.has(id) and state.standing[Table.CONTRACTS[id].faction]>=Table.CONTRACTS[id].get("standing",Table.MIN_STANDING)
 static func rider_offer(state:Dictionary,id:String)->Dictionary:
 	return Riders.offer(Riders.Table.SEED,int(state.serial)+1,id)
 static func launch(state:Dictionary,id:String,accept_rider:bool=true)->Dictionary:

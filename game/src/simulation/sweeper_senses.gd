@@ -22,10 +22,15 @@ const PROFILES:={
 	"sentinel":{"ear":0.95,"attention":16.0,"search_hold":true,"search_turn_speed":0.8},
 	"sweeper":{"ear":1.3,"attention":20.0,"patrol_speed":22.0,"investigate_speed":34.0,"stands":true,"lane_needs_points":true},
 }
+static var _profiles:Dictionary={}
 static func profile(enemy)->Dictionary:
- var p:Dictionary=DEFAULT.duplicate()
- p.merge(PROFILES.get(enemy.get("type","patroller"),{}),true)
- return p
+ var role=enemy.get("type","patroller")
+ if not _profiles.has(role):
+  var p:Dictionary=DEFAULT.duplicate()
+  p.merge(PROFILES.get(role,{}),true)
+  p.make_read_only()
+  _profiles[role]=p
+ return _profiles[role]
 static func is_sweeper(enemy)->bool:
  return enemy.get("type","")==EnemyTypes.SWEEPER
 # Hearing radius multiplier applied to every noise a Siren can hear.

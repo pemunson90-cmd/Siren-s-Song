@@ -84,7 +84,7 @@ func _ready() -> void:
 	process_mode=Node.PROCESS_MODE_ALWAYS
 	set_meta("audio_attribution",ATTRIBUTION)
 	_bus(AMBIENCE_BUS); _bus(EFFECTS_BUS)
-	if Depth.ENABLED: _bus(ALERTS_BUS); _bus(MESSAGES_BUS)
+	_bus(ALERTS_BUS); _bus(MESSAGES_BUS)
 	var guarded=false
 	for i in AudioServer.get_bus_effect_count(0):
 		if AudioServer.get_bus_effect(0,i).resource_name=="SirenPeakGuard": guarded=true
@@ -97,7 +97,7 @@ func _ready() -> void:
 	tension=AudioStreamPlayer.new(); tension.stream=stream("tension"); tension.bus=AMBIENCE_BUS; tension.volume_db=-80; add_child(tension); tension.play()
 	engine=AudioStreamPlayer.new(); engine.stream=stream("engine"); engine.bus=EFFECTS_BUS; engine.volume_db=-80; add_child(engine); engine.play()
 	for bed in [ambience,engine,tension]: bed.stream_paused=true
-	lock_voice=AudioStreamPlayer.new();lock_voice.stream=stream("alert");lock_voice.bus=ALERTS_BUS if Depth.ENABLED else EFFECTS_BUS;lock_voice.volume_db=-6;add_child(lock_voice)
+	lock_voice=AudioStreamPlayer.new();lock_voice.stream=stream("alert");lock_voice.bus=ALERTS_BUS;lock_voice.volume_db=-6;add_child(lock_voice)
 	for n in 5:
 		var bus_name="SirenVoice%d"%n; var index=_bus(bus_name,EFFECTS_BUS)
 		var panner: AudioEffectPanner
@@ -107,7 +107,7 @@ func _ready() -> void:
 		panners.append(panner)
 		var voice=AudioStreamPlayer.new(); voice.bus=bus_name; voice.volume_db=-7.5; add_child(voice); voices.append(voice)
 func _sync_night_mode() -> void:
-	var enabled=night_mode and RegionAudioTable.enabled
+	var enabled=night_mode
 	for i in AudioServer.get_bus_effect_count(0):
 		if AudioServer.get_bus_effect(0,i).resource_name=="SirenNightMode":
 			if not enabled:AudioServer.remove_bus_effect(0,i)
@@ -219,18 +219,17 @@ func _play_recording(cue:String,relative_position:Vector2,sound_override:String)
 	for i in voices.size():
 		var voice=voices[i]
 		if not voice.playing:
-			if Depth.ENABLED: _route_voice(i,cue)
+			_route_voice(i,cue)
 			panners[i].pan=clampf(relative_position.x/550.0,-0.8,0.8); voice.stream=cues[recording]; voice.play(); return
 func apply_bus_levels() -> void:
 	var ambience_index=AudioServer.get_bus_index(AMBIENCE_BUS); var effects_index=AudioServer.get_bus_index(EFFECTS_BUS)
 	AudioServer.set_bus_mute(ambience_index,muted or music_volume<=0); AudioServer.set_bus_mute(effects_index,muted or effects_volume<=0)
 	AudioServer.set_bus_volume_db(ambience_index,linear_to_db(maxf(0.001,music_volume)))
 	AudioServer.set_bus_volume_db(effects_index,linear_to_db(maxf(0.001,effects_volume)))
-	if Depth.ENABLED:
-		for row in [[ALERTS_BUS,alerts_volume],[MESSAGES_BUS,messages_volume]]:
-			var split=AudioServer.get_bus_index(row[0])
-			if split<0:continue
-			AudioServer.set_bus_mute(split,muted or row[1]<=0); AudioServer.set_bus_volume_db(split,linear_to_db(maxf(0.001,row[1])))
+	for row in [[ALERTS_BUS,alerts_volume],[MESSAGES_BUS,messages_volume]]:
+		var split=AudioServer.get_bus_index(row[0])
+		if split<0:continue
+		AudioServer.set_bus_mute(split,muted or row[1]<=0); AudioServer.set_bus_volume_db(split,linear_to_db(maxf(0.001,row[1])))
 # SETDEPTH: an idle voice chain sends to the cue's category bus (alerts, messages or effects) before it plays.
 func _route_voice(i: int,cue: String) -> void:
 	var category=Depth.bus_category(cue)

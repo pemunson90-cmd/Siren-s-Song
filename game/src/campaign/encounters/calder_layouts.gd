@@ -7,8 +7,7 @@ extends RefCounted
 static var ENABLED=true
 # 065 AI-DESIGNED optional work positions and tuning, separate from core gates.
 # Seal bypass stops drill wash before the mandatory disconnect; lift and breaker
-# reuse their authored physical benefits. Revert: MODULE_SITES_ENABLED=false.
-static var MODULE_SITES_ENABLED=true
+# reuse their authored physical benefits.
 const MODULE_SITES={
  34:{"key":"calder_34_wash_bypass","name":"OPTIONAL WASH BYPASS","offset":Vector2(0,100),"module":"quietus_wellhead_seal","duration":12.,"effect":{"calm":0.,"noise":{"radius":900.,"label":"WASH BYPASS PUMP","duration":8.}}},
  35:{"module":"quietus_wellhead_seal"},

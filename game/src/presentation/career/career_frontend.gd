@@ -1,6 +1,6 @@
 extends RefCounted
 # One mode seam opens a separate Main/simulation pair and a profile-pinned sidecar.
-# Revert: disable CareerTable.ENABLED. Keep saved career files.
+# Saved career files stay separate from campaign archives.
 const State=preload("res://src/campaign/career/career_state.gd")
 const Archive=preload("res://src/campaign/career/career_archive.gd")
 static func show(front)->void:

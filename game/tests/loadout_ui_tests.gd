@@ -53,7 +53,7 @@ func run():
 			var s=starts[option];var row="%s · %d%% / %d / %d"%[option.to_upper(),s.oxygen,s.tools.emp,s.tools.recon]
 			check("O₂ / DISRUPT / SURVEY" in text and row in text,"comparison exposes actual "+option+" stock while "+choice+" selected")
 		var ordinary=starts[choice];var drones=ordinary.units.slice(1).filter(func(u):return u.alive).size()
-		check("FREE TOOLS:" in text and ("%d DECOYS"%ordinary.tools.decoy) in text and ("%d DRONES"%drones) in text,"common equipment matches actual start while "+choice+" selected")
+		check("TOOLS:" in text and ("%d DECOYS"%ordinary.tools.decoy) in text and ("%d DRONES"%drones) in text,"common equipment matches actual start while "+choice+" selected")
 		check(button("resume")!=null and button("resume").text.begins_with("RESUME DIVE") and game.sim.snapshot()==active,"selection explains active equipment preservation")
 		check(game.sim.snapshot()==active,"cycling next-dive choice preserves spent resources and paused route")
 		print("CHOICE ",choice," expected=",expected," active=",game.sim.tools," labels=",text)
@@ -62,6 +62,12 @@ func run():
 	var effects=copy();var d=starts.disruption;d.sirens[0].pos=d.units[0].pos+Vector2(100,0);d.command("emp");var survey=starts.survey;survey.command("recon")
 	check("12s" in effects and d.sirens[0].stun==12,"advertised disruption duration matches actual command effect")
 	check("8s" in effects and "audible" in effects and survey.recon_time==8 and survey.noises.any(func(n):return n.label=="RECON UPLINK"),"advertised survey duration and emission match actual command")
+	var racks=game.tool_racks.duplicate(true)
+	for slot in game.tool_racks:
+		game.tool_racks[slot].erase("decoy");game.tool_racks[slot].erase("knock")
+	game.tool_racks.quietus.decoy=1;game._show_campaign();await settle()
+	check("TOOLS: 1 DECOYS / 0 TORPEDOES; 2 DRONES" in copy() and game.sim.snapshot()==active,"editable rack counts replace the fixed briefing line while preserving active dive")
+	game.tool_racks=racks;game._show_campaign();await settle()
 	await click(button("resume"));check(game.screen=="mission" and game.sim.snapshot()==active,"genuine resume preserves the active dive's equipment and plan")
 	game._show_campaign();game._briefing(0);await settle()
 	var arc=game.get_node_or_null("ArcCard")

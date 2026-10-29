@@ -4,6 +4,13 @@ extends "res://tests/challenges_ui_tests.gd"
 const Settings=preload("res://src/presentation/frontend/frontend_settings.gd")
 const Store=preload("res://src/persistence/settings_store.gd")
 const Table=preload("res://src/presentation/quality/quality_table.gd")
+class RuntimeProbe extends "res://src/presentation/quality/quality_runtime.gd":
+ var refresh_count:=0
+ func refresh(host,periodic:bool)->bool:
+  var redraw=super.refresh(host,periodic)
+  if redraw:refresh_count+=1
+  return redraw
+var draw_count:=0
 func touch(index:int,point:Vector2,down:bool):
  var e=InputEventScreenTouch.new();e.index=index;e.position=point;e.pressed=down;root.push_input(e,true)
 func shape_quality(shape):
@@ -11,6 +18,7 @@ func shape_quality(shape):
  var path="user://quality-ui-%d.json"%shape.x
  var store=Store.new();store.path=path;check(store.save_settings({}),"legacy-style settings fixture saved")
  var game=load("res://scenes/main.tscn").instantiate();game.set_script(load("res://tests/density_main.gd"));game.capture_scenario="runtime-test";game.settings_path=path
+ game.quality_runtime=RuntimeProbe.new()
  if shape.x==2520:game.fixture_safe_area=Rect2(136,0,2384,1080)
  root.add_child(game);await settle();game._show_campaign();await settle()
  var front=Front.new();front.settings_store.path=path;game.add_child(front);front.setup(game);await settle()
@@ -35,11 +43,12 @@ func shape_quality(shape):
   await press(game,"quality_dismiss")
   check(game.quality_runtime.governor.suggestion().is_empty(),"actual live suggestion dismisses through touch")
   game.sim.paused=true;Settings.apply({"quality":Table.LOW_EFFECTS},game)
- var before=game.ocean.quality_draw_count;var refresh_before=game.quality_runtime.refresh_count
+ game.ocean.draw.connect(func():draw_count+=1)
+ var before=draw_count;var refresh_before=game.quality_runtime.refresh_count
  var tick=Time.get_ticks_usec();await create_timer(3.0).timeout
  var seconds=float(Time.get_ticks_usec()-tick)/1000000.0
- var draws=game.ocean.quality_draw_count-before;var refreshes=game.quality_runtime.refresh_count-refresh_before
- print("QUALITY UI actual paused shape=",shape," seconds=",seconds," draws=",draws," hz=",draws/seconds," main_refreshes=",refreshes," backend=",DisplayServer.get_name())
+ var draws=draw_count-before;var refreshes=game.quality_runtime.refresh_count-refresh_before
+ print("QUALITY UI actual paused shape=",shape," seconds=",seconds," draws=",draws," hz=",draws/seconds," backend=",DisplayServer.get_name())
  if DisplayServer.get_name()!="headless":
   check(draws>0 and draws/seconds<15.0,"actual paused ocean redraws below 15Hz")
   check(refreshes>0 and refreshes/seconds<15.0,"actual paused Main refreshes below 15Hz")
@@ -47,11 +56,11 @@ func shape_quality(shape):
  # Drag in clear chart water: real injected touch, no direct pan callback.
  var point=game.ocean.global_position+Vector2(game.ocean.size.x*.45,game.ocean.size.y*.55)
  var offset=game.ocean.world_offset;touch(0,point,true);await process_frame
- before=game.ocean.quality_draw_count
+ before=draw_count
  var drag=InputEventScreenDrag.new();drag.index=0;drag.position=point+Vector2(90,30);drag.relative=Vector2(90,30);root.push_input(drag,true)
  await process_frame;await process_frame
  check(game.map_gesture.active() and game.ocean.world_offset!=offset,"paused real-touch drag pans immediately")
- check(game.ocean.quality_draw_count>before,"paused gesture redraws on the next frame")
+ check(draw_count>before,"paused gesture redraws on the next frame")
  touch(0,drag.position,false);await settle()
  var scale=game.ocean.world_scale
  touch(0,point,true);touch(1,point+Vector2(120,0),true);await process_frame
@@ -60,9 +69,9 @@ func shape_quality(shape):
  check(game.ocean.world_scale>scale,"paused touch pinch zoom remains live")
  touch(0,point,false);touch(1,drag.position,false);await settle()
  # Explicit resume retains full per-frame ocean drawing immediately.
- before=game.ocean.quality_draw_count;game.sim.paused=false
+ before=draw_count;game.sim.paused=false
  await process_frame;await process_frame
- check(game.ocean.quality_draw_count>before,"resume redraws on next rendered frame")
+ check(draw_count>before,"resume redraws on next rendered frame")
  game.sim.paused=true
  # Supply synthetic governor samples to test consent UI, separately from actual frame timing.
  var governor=load("res://src/presentation/quality/quality_governor.gd").new(false)
