@@ -49,6 +49,7 @@ glass_network_tests|GLASS NETWORK|42|31
 glass_work_tests|GLASS WORK|43|32
 glass_research_tests|GLASS RESEARCH|44|33
 glass_reach_journeys|GLASS JOURNEY|45|34
+glass_fleet_pairs_tests|GLASS FLEET PAIRS|321|422
 glass_reach_ui_tests|GLASS REACH UI|46|35
 iron_choir_tests|IRON CHOIR|47|36
 industrial_jobs_tests|INDUSTRIAL JOBS|48|37

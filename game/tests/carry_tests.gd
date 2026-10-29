@@ -1,5 +1,7 @@
 extends SceneTree
 const Sim=preload("res://src/simulation/simulation.gd")
+const Glass=preload("res://tests/glass_reach_journeys.gd")
+const GlassVoyage=preload("res://tests/glass_fleet_voyage.gd")
 const Catalog=preload("res://src/campaign/operation_catalog.gd")
 const Carry=preload("res://src/campaign/carry/carry.gd")
 const Table=preload("res://src/campaign/carry/carry_table.gd")
@@ -19,27 +21,24 @@ func go(s,point)->bool:
  s.paused=false
  for n in 18000:
   s.advance(Sim.STEP)
+  if s.units[0].has("chart_stop") and n%30==0:s.command("route",{"point":point})
   if not s.outcome.is_empty() or (s.units[0].route.is_empty() and s.units[0].vel.length()<2):break
  s.paused=true
  return (s.outcome=="won" or s.units[0].pos.distance_to(point)<25) and s.units[0].alive
 func dive(s,band)->bool:
  if not s.command("depth",{"band":band}):return false
  tick(s,4.2);return s.units[0].band==band and s.units[0].transition.is_empty()
-# Bare-Quietus courses copied from glass_reach_journeys.gd for the ops a carry row changes.
-# Keep the 15/16 return surveys: passive travel earns the detour around measured
-# terrain before the final mouth order; retained courses cannot invent that water.
-const COURSES={
- 14:[["go",Vector2(1000,1300)],["depth",2],["go",Vector2(1000,720)],["depth",1],["go",Vector2(950,560)],["camera"],["depth",2],["go",Vector2(1000,1300)],["depth",1],["go",Vector2(2000,1800)],["exit"]],
- 15:[["go",Vector2(800,2420)],["work","vane"],["go",Vector2(1000,2000)],["go",Vector2(1000,1150)],["go",Vector2(1000,600)],["camera"],["go",Vector2(1000,1150)],["go",Vector2(1000,2600)],["go",Vector2(1000,2900)],["go",Vector2(1000,3350)],["exit"]],
- 16:[["go",Vector2(1400,2250)],["depth",2],["go",Vector2(1400,1560)],["depth",1],["camera"],["depth",2],["go",Vector2(1400,2250)],["depth",1],["go",Vector2(700,2000)],["go",Vector2(200,800)],["go",Vector2(200,300)],["exit"]],
- 17:[["depth",0],["go",Vector2(2700,1450)],["depth",1],["depth",2],["go",Vector2(2860,1395)],["recover"],["go",Vector2(2700,1450)],["depth",1],["go",Vector2(600,1350)],["go",Vector2(400,850)],["go",Vector2(2470,850)],["go",Vector2(2470,400)],["go",Vector2(2700,420)],["camera"],["exit",1]],
- 20:[["go",Vector2(1150,1685)],["recover"],["go",Vector2(1200,1600)],["camera"],["exit"]],
- 21:[["go",Vector2(2300,1500)],["go",Vector2(1950,800)],["go",Vector2(1700,1200)],["camera"],["go",Vector2(1635,1300)],["depth",2],["recover"],["depth",1],["go",Vector2(1950,800)],["go",Vector2(2300,1500)],["exit"]]}
+# Share the current Glass source-known courses, including their depth/corner work.
+# Carry changes facts and guards, never the underlying course's physical validity.
+const COURSES=Glass.COURSES
 func course(s,id,steps)->bool:
  for step in steps:
   match step[0]:
    "go":if not go(s,step[1]):check(false,"bare course reaches "+str(step[1])+" "+str(id));return false
    "depth":if not dive(s,step[1]):check(false,"bare depth crossing to band "+str(step[1])+" "+str(id));return false
+   "middle":
+    if s.units[0].band!=1 and not dive(s,1):return false
+   "wait":tick(s,step[1])
    "work":check(s.command("glass_action",{"action":step[1]}),"bare local machine accepts work "+str(id));tick(s,8.2)
    "camera":
     check(s.command("camera"),"account acquisition starts "+str(id));tick(s,s.mission.objectives[0].duration+.2)
@@ -53,7 +52,7 @@ func progress(thread:String,facts:Dictionary):
  var f={"deep":"received carrier","confluence_route":"concealed","resolution":"concealed_recovery"};f.merge(facts,true)
  return {"version":2,"route":thread,"routes":[thread],"completed":[6,7,9,11,12],"facts":f,"notes":{},"references":{},"entitlements":[],"history":[],"selected_thread":thread}
 func journey(id:int,p:Dictionary,steps=null):
- var s=Sim.new();s.start(id,"endurance",{"context":Sim.Consequences.context(p)})
+ var s=GlassVoyage.new();s.start(id,"endurance",{"context":Sim.Consequences.context(p)})
  s.units[1].alive=false;s.units[2].alive=false
  var tools=s.tools.duplicate()
  course(s,id,COURSES[id] if steps==null else steps)
