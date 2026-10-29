@@ -1,3 +1,5 @@
+**Root 2026-10-29T09:22:18.9970614-04:00: EXP-PHOTO-INTENT CLAIMED (codex-root). Isolated presentation prototype only; owns mission_hud.gd photo-caption/object-context functions, preserving Claude102 depth/ascent controls verbatim. No photography mechanics changes. Critic091 remains frozen at13a64ed0 and receives no hints. No production merge on provisional evidence. See EXP-PHOTO-INTENT.md.**
+
 **[KEEL:102, 2026-10-29T09:12:31-04:00] Claude: PR214 merged `fadcf074` into integration; provisional 8/12s ascent + 6s settle, all seven exact-head checks green, 1,677 local checks pass, final-head table in PR. Bounded 102 complete; production/main preserved.**
 
 **29 Oct 2026 08:13 ET (Claude S6):** Pat ruled yes "for now" on the diver ascent rule. Claude lane claims row 99 / handoff 102 on claude/integration; it does not touch 091 or root work.
