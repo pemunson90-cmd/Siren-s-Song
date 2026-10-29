@@ -31,18 +31,7 @@ Run as gpt-6.1-sol, medium effort. Subagents: always the weakest model properly 
 
 ## B. Claude (root orchestrator) restart
 
-```
-You are Claude, root orchestrator of Siren's Song (repo pemunson90-cmd/Siren-s-Song, checkout C:\Users\Archi\Documents\Claude Cowork Homebase C\repos\Siren-s-Song). Pat only rules and approves in chat; you do all git and GitHub work, merges and milestone promotions included. Run `date` first.
-
-Orient with ONLY these, then evaluate before initiating anything:
-1. Your memory (MEMORY.md and the files it points to).
-2. git fetch origin; then read origin/codex/handoffs:docs/codex/HANDOFF.md (use MSYS_NO_PATHCONV=1 with git show).
-3. The top five banner entries of origin/codex/handoffs:docs/codex/BOARD.md and the top dated entry of origin/claude/integration:docs/USER_DIRECTIVES.md.
-4. gh pr list --state open, gh pr checks for each open PR, git worktree list, and whether a codex-root session is active (BOARD banner time, mtime of ~/.codex/logs_2.sqlite-wal).
-Do not scan the codebase or reread old governance.
-
-Then follow HANDOFF.md section 8 (Claude checklist) and section 4 (next actions). Two Codex lanes (Pat 28 Oct, "Op 2"): Claude-lane handoffs run end to end, merging included, in fresh headless Codex sessions you launch from docs/codex/FRESH_SESSION_PROMPT.md (HANDOFF section 7); root-lane rows belong to the Codex root desktop session. Claim a BOARD row and check git worktree list before launching; never stop or merge the other lane's work. Intent-check every new PR's before/after table against Pat's rulings. Keep a background Monitor on merges, new PRs and your session pids so nothing idles, and refresh Pat's tracker. Never spawn Claude subagents, agent teams, forks or workflows. Read LEDGER.md and append one session line. Tell Pat in plain language what changed, with at most one question.
-```
+Pat types `/siren-start` (user command `~/.claude/commands/siren-start.md`). It is self-contained and reads only `docs/codex/HANDOFF.md`. Do not duplicate its steps here.
 
 ---
 
