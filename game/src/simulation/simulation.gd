@@ -1244,12 +1244,20 @@ func _station_intent(s: Dictionary,heard: bool,dt: float) -> void:
 		if s.mode=="DORMANT": s.route.clear(); return
 	elif s.pos.distance_to(s.goal)<35:
 		s.mode="SEARCH"
+		var role_senses= Sweeper.profile(s)
+		# Sentinel approaches fresh evidence normally, then holds and scans that
+		# reached station. Tether/return and renewed sound remain authoritative.
+		if role_senses.search_hold:
+			s.route.clear()
+			s.angle=wrapf(s.angle+float(role_senses.search_turn_speed)*dt,-PI,PI)
+			return
 		# Search the observed area, never the pilot's now-hidden location.
 		if not heard:
 			var center:Vector2=s.get("last_known",s.goal)
-			for attempt in 8:
+			var points:int=role_senses.search_points
+			for attempt in points:
 				var index=int(s.get("search_index",0)); s["search_index"]=index+1
-				var point=center+Vector2.from_angle(index*TAU/8)*80.0
+				var point=center+Vector2.from_angle(index*TAU/points)*float(role_senses.search_radius)
 				if not path(s.pos,point).is_empty(): s.goal=point; break
 	s.path_time-=dt
 	if s.path_time<=0 or s.route.is_empty() or s.route.back().pos.distance_to(s.goal)>1:

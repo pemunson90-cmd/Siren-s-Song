@@ -7,6 +7,12 @@
 
 [KEEL / implementation] Rescue grants lasting MIDDLE-water pilotage passages in Needle Strait and Furnace Drift through earned-chart certification. Both rescue tiers grant charts; old rescue facts qualify automatically and earlier supplies remain. Charts disclose terrain clearance, never Sirens. Passage extents are AI-DESIGNED. The rescue epilogue stays separate from ending votes.
 
+## 29 October 2026: distinct hunter and sentinel senses (handoff 103)
+
+5. "Should hunter and sentinel Sirens each get their own hearing, search and attention, so each type needs a different plan? (Siren senses, your call.)" = "Yes (Recommended)" (6)
+
+[PAT, verbatim ruling recorded in PAT_RULINGS_2026-10-29.md, Claude S6] This authorizes the named role differences. Silent sight 180 m, cruise sight 290 m, the four-second interruptible lock warning, beam, collision, damage and hull rules retain their existing behavior. New profile values are AI-DESIGNED and provisional.
+
 ## 29 October 2026: advanced economy and easier presets (handoff 110)
 
 [PAT, verbatim selections recorded in PAT_RULINGS_2026-10-29.md, items 9 and 10]
