@@ -1,14 +1,10 @@
-[QUEUE RUNNER 2026-10-29T12:55:20.1059984-04:00] running: 105 PID50316, 112 PID49440; done: 103, 110; blocked: none.
+[QUEUE RUNNER 2026-10-29T12:57:48.7520958-04:00] running: 105 PID50316, 112 PID49440; done: 103, 110; blocked: none.
 
 **[Claude S7 2026-10-29T12:55:12-04:00] 105 PR219 HELD as draft by Claude intent check: only partial scouting sorties differ; no full voyage where the layer band changes Siren contact or the best route. Evidence needed is in the PR comment. QUEUE RUNNER: relaunch 105 once with that bar (second failure = BLOCKED with numbers); chain C continues.**
 
 **[KEEL:103b, 2026-10-29T12:34:41.9153221-04:00] Claude: PR216 mergedb522312c; role contrast and Well/Sorley plan changes proved, reviewed7210e36f and all7 checks green. Bounded103 DONE; other claims preserved.**
 
-[QUEUE RUNNER 2026-10-29T12:31:26.3997977-04:00] running: 103 PID52948, 112 PID49440; done: 110; blocked: none.
-
 **[KEEL:110, 2026-10-29T11:56:19.8268561-04:00] Claude: PR217 merged4b6955aa; advanced economy and easier-only next-dock presets complete. Independent HIGH review, intent PASS, all7 exact-head checks green; local1175/0 and bare SILENT floor preserved. Bounded110 done; other claims untouched.**
-
-[QUEUE RUNNER 2026-10-29T11:53:14.1398520-04:00] running: 103 PID52948, 110 PID2880; done: none; blocked: none.
 
 **[KEEL:107, 2026-10-29T10:54:55.3599660-04:00] Claude: PR215 merged5acb079d, Ironman permanent losses complete; reviewed exact tree and all7 checks green, local1271/0. Empty bays retain the bare floor. Bounded107 done; other claims preserved.**
 
@@ -389,7 +385,7 @@ Boundary follow-up28Oct03:12UTC: Windows completion check PASSES from current in
 | 99 | 102 CARRIED SURVIVORS SLOW ASCENT (Pat 29 Oct, provisional "for now") | DONE (claude-lane, codex-fresh-102) | [PR214](https://github.com/pemunson90-cmd/Siren-s-Song/pull/214) | 2026-10-29T13:11:24Z | 8/12s carried ascent, 6s settle, visible HUD and compatible resume; bare SILENT carry ops finish; [handoff](102-diver-ascent-rate.md). |
 | 100 | 103 SIREN ROLE SENSES: hunter and sentinel hear, search and attend differently | DONE | [216](https://github.com/pemunson90-cmd/Siren-s-Song/pull/216) | 2026-10-29T12:34:41.9153221-04:00 | [KEEL:103b] Merged b522312c; matched-noise sweep/hold contrast and two operation plans differ by role. Independent HIGH reviewbef0a467, Claude S7 intent PASS, all7 exact-head checks green40907173698; full fleet pressure/finishability retained. Source-known simulation, no phone claim. |
 | 101 | 104 SIRENS RADIO EACH OTHER WITH A VISIBLE, INTERRUPTIBLE CHARGE (2+ patrollers) | QUEUED (claude-lane, Pat 29 Oct) | | | [handoff](104-siren-reports.md) |
-| 102 | 105 THERMAL LAYER COVERS ONE DEPTH BAND ONLY | CLAIMED (claude-lane, codex-fresh-105, 2026-10-29T12:38:00.8405432-04:00) | | | [handoff](105-thermal-one-band.md) |
+| 102 | 105 THERMAL LAYER COVERS ONE DEPTH BAND ONLY | CLAIMED (claude-lane, codex-fresh-105r, 2026-10-29T12:57:48.4961546-04:00; PR219 draft, sole intent revision) | | | [handoff](105-thermal-one-band.md) |
 | 103 | 106 SONAR SHOWS A ROUGH SIREN TYPE UNTIL SEEN OR PHOTOGRAPHED | QUEUED (claude-lane, Pat 29 Oct) | | | [handoff](106-sonar-coarse-class.md) |
 | 104 | 107 IRONMAN: LOST DRONES AND MODULES ARE GONE FOR GOOD | DONE | [215](https://github.com/pemunson90-cmd/Siren-s-Song/pull/215) | 2026-10-29T14:54:44Z | Ironman loss state, paid replacements and named history integrated5acb079d; HIGH review107 approved treea12c6fb2, all7 green40888538512, local1271/0; SILENT bare ACCESSIBLE/STANDARD finish with empty bays. |
 | 105 | 108 ONE MORE STORY FORK IN ARC 5 | QUEUED (claude-lane, Pat 29 Oct) | | | [handoff](108-arc5-second-fork.md) |
