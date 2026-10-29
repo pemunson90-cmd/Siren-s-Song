@@ -1,9 +1,9 @@
 # Handoff 070: EXPEDITION AND CAREER DIVE RESUME AFTER APP KILL
 
-Status: CLAIMED (codex-root; PR211 published, runtime pending)
+Status: DONE (codex-root; PR211 merged044dd3bc)
 Claimed at: 28 Oct 2026 (root retained)
 Claimed by: codex-root; claude/lane-mode-resume; PR211
-Finished at:
+Finished at: 28 Oct 2026 (root closeout)
 
 Precondition: 056 is DONE (career half after 057). Scout note: 056 DONE; 057 DONE for the career half. The expedition half can ship alone. Read ORCHESTRATION_2026-10-26.md first.
 Codex may merge: yes, into claude/integration only, on green guidance + game-smoke for the exact head, merge commit.
@@ -31,8 +31,12 @@ Import + core. Never more than ORCHESTRATION section 5 requires. Suite ranks: mo
 ## Return
 PR into claude/integration; merge on green; close per ORCHESTRATION section 7.
 
-## Current prepared status
-PR211 published head02f3576e; own run40805408003 guidance/core pass, runtime pending. Root final37bb is doc-only reconciliation of newly accepted095; no merge. Root retains070/097 under Pat two-lane rule; no Claude handoff/restart.
+## Current status
+DONE PR211 head fede2d1192ffd95b8b942372fab053c4e0caba40; all seven required checks SUCCESS40809465805; merged044dd3bcc3170ebaefd45d3216808fbe7751e598. Root verified fresh head/checks and exact merge tree b410 before merge; source reviews52/55 and final mechanical60A b410 approved before commits. Paused Expedition/Career preserve actual resources, Rider counters, pinned candidate, once-only settlement, records and DEV isolation; source-focused201/0, console274/0, records125/0. No actual Android process-kill or human acceptance claim. 070-owned archives released subject to current claims; 097 candidate already includes070 fede.
 
 ## Completion
-(five lines max)
+- PR211 merged044dd3bcc3170ebaefd45d3216808fbe7751e598; reviewed headfede2d1192ffd95b8b942372fab053c4e0caba40, all7 SUCCESS40809465805.
+- Source52/55 and final mechanical60A b410 approved before commits; root verified exact merge tree before merge.
+- Paused Expedition/Career preserve resources, Rider counters, pinned candidate, once-only settlement, records and DEV isolation.
+- Source-focused201/0, console274/0, records125/0; actual Android process kill and human acceptance remain unclaimed.
+- Owned archives released subject to current claims;097 candidate already includes070 fede; root continues097 then090/091.
