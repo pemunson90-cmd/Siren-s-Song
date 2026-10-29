@@ -1,9 +1,9 @@
 # Handoff 097: MAKE THE FLEET MATTER IN THE EARLY WAYPOINT OPS (2, 6, 7, 8, 9, 13, 39)
 
-Status: PREPARED (codex-root; retained)
+Status: DONE
 Claimed at: 28 Oct 2026 (root retained)
 Claimed by: codex-root; no Claude handoff/restart
-Finished at:
+Finished at: verified merged; metadata closeout 2026-10-29T03:19:12-04:00
 
 Precondition: not owned by another CLAIMED handoff. Leave op 37 alone (092 owns the Sorley content). Read HANDOFF.md and ORCHESTRATION_2026-10-26.md first. Current review rule (Pat, 28 Oct): independent Sol6.1-high review of the frozen patch before commit and before merge.
 Codex may merge: yes, into claude/integration only, after independent approval and green required checks on the exact head, merge commit.
@@ -51,8 +51,5 @@ Import + core; the region's existing journey suites (update source-known routes 
 ## Return
 PR into claude/integration; independent review, merge on green; close per ORCHESTRATION section 7; one LEDGER line.
 
-## Current prepared status
-PUBLISHED PR212 head8b938470; UPDATED own gate pending (old40bf four-journey failures retained as evidence). Root48688 completed four TEST fixture-only repairs, independently reviewed62 and published: opening55/0, recipient72/0, nativeUI142/0, shelf27/0; no assertion weakening or source edits. Independent HIGH review62 APPROVE; root verified exact hashes, committed82478d5f and recorded accepted070 ancestry in content-identical8b938470. Historical6/7 pressure remains provisional with op6 limits, not DONE. Candidate already includes070 fede; original evidence and failed candidates preserved. Root retains097, then090/091; no Claude handoff/restart or new Pat decision needed. Pat two-lane ownership holds; Claude094/095/101 DONE remain untouched.
-
 ## Completion
-(five lines max: per-op before/after class and the main pattern used)
+DONE PR212 head b6f078531113540c1d26512a029a4f1b281d61e6; all7 SUCCESS40830248954; merged8b456b55d9d9e73fe7b2954d86a69ab84d10aa52. Root fresh head/checks/exact reviewed merge-tree54459644 verified. Source reviews57/59/61 and repair reviews62/64/65/66 approved before commits/hashes. Historical6/7 pressure remains provisional with op6 limits; original22-file WIP/1378 hashes and failed candidates preserved externally. No affordability, human or physical-phone claim.
