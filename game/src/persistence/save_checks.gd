@@ -43,6 +43,7 @@ const save_checks = [
 	["initial", ModuleRecovery, "valid", "snapshot"],
 	["initial", Operations, "valid", "mission_time"],
 	["initial", Correlator, "valid_state", "correlation_time"],
+	["features", preload("res://src/simulation/contact_identity.gd"), "valid", "snapshot"],
 	["features", ObservedStun, "valid", "snapshot"],
 	["features", DroneOperations, "valid", "snapshot"],
 	["features", Glass, "valid", "snapshot"],

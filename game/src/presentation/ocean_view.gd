@@ -408,7 +408,7 @@ func _draw() -> void:
 		var aim=float(c.angle)
 		var observed_target=sim.contact_target(c)
 		if fresh and c.lock>0 and not observed_target.is_empty(): aim=c.pos.angle_to_point(observed_target.pos)
-		_siren(c.pos,aim,fresh,c.get("type","patroller"),maxf(0,float(c.get("pin_time",0))-(sim.elapsed-c.time)) if fresh else 0.0)
+		_siren(c.pos,aim,fresh,preload("res://src/simulation/contact_identity.gd").contact_type(c),maxf(0,float(c.get("pin_time",0))-(sim.elapsed-c.time)) if fresh else 0.0)
 		if fresh and c.lock>0:
 			if not observed_target.is_empty() and observed_target.alive and sim.line_clear(c.pos,observed_target.pos):
 				var target:Vector2=observed_target.pos

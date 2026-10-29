@@ -45,6 +45,7 @@ const Choir=preload("res://src/simulation/industrial_jobs.gd")
 const Glass=preload("res://src/simulation/glass_reach_work.gd")
 const Network=preload("res://src/simulation/acoustic_network.gd")
 const Sweeper=preload("res://src/simulation/sweeper_senses.gd")
+const ContactIdentity=preload("res://src/simulation/contact_identity.gd")
 const Sonar=preload("res://src/simulation/advanced_sonar.gd")
 const Photo=preload("res://src/simulation/photo_capture.gd")
 const Pricing=preload("res://src/simulation/photo_pricing/photo_pricing.gd")
@@ -132,6 +133,7 @@ func start(index: int, upgrade: String = "endurance", launch:Dictionary={}) -> v
 	sirens = mission.sirens.duplicate(true)
 	Depth.initialize(self);Network.initialize(self);Industry.initialize(self);sonar=Sonar.initial();depth_charts={};geometry_band=1
 	known = {}; contacts = {}; events = []; noises = []; projectiles=[]
+	ContactIdentity.seed(self,launch.get("context",{}).get("intel",{}))
 	elapsed=0.0; oxygen=100.0; hull=100.0; paused=true; selected=0; queue_mode=false; pass_through=true; outcome=""
 	message="Chart loaded. Tap a craft for DEPTH / SONAR; tap water to plot a route."
 	ping_time=0.0; recon_time=0.0; captures=[{},{},{}]; accumulator=0.0
@@ -1036,6 +1038,7 @@ func _observe() -> void:
 	for i in contacts:
 		if elapsed-contacts[i].time>20: expired.append(i)
 	for i in expired: contacts.erase(i)
+	ContactIdentity.observe(self)
 # Acquisition provenance; active sonar/survey and remote beam warnings are not
 # a passive observation by every craft. Main reads the resulting cache only.
 func passive_receivers(point:Vector2,band:int=1)->Array:
