@@ -116,13 +116,16 @@ func run():
  var fleet=ObservedSim.new();fleet.start(41,"endurance",{"tool_racks":{"quietus":{},"drone_a":{"emp":1},"drone_b":{}}})
  var fleet_tools=fleet.tools.duplicate(true)
  fleet.command("select",{"unit":1})
+ # Quiet propulsion limits the approach report; one local Disrupt covers the winch.
+ # Return west of the southern shard instead of passing the sentinel after its stun ends.
+ fleet.command("drone_drive",{"mode":"quiet"})
  var fleet_ok=unit_dive(fleet,2) and unit_go(fleet,Vector2(1600,1500)) and unit_go(fleet,Vector2(1250,980)) and unit_dive(fleet,1) and unit_dive(fleet,0) and unit_go(fleet,Vector2(1420,980))
  if fleet_ok:
   print("FLEET APPROACH ",fleet.units[1].pos," guards=",fleet.sirens.map(func(g):return [g.pos,g.lock,g.band]))
   fleet.command("emp")
   fleet_ok=fleet.command("salvage",{"item":"witness_capsule"});tick(fleet,4.05)
   print("FLEET LOADED ",fleet.mission.witness_evacuation," guards=",fleet.sirens.map(func(g):return [g.pos,g.lock,g.stun,g.band]))
-  fleet_ok=fleet_ok and fleet.mission.witness_evacuation.state=="carried" and unit_go(fleet,Vector2(1600,1550)) and unit_go(fleet,Vector2(1100,1700)) and unit_go(fleet,Vector2(300,1500)) and unit_dive(fleet,1)
+  fleet_ok=fleet_ok and fleet.mission.witness_evacuation.state=="carried" and unit_go(fleet,Vector2(1250,980)) and unit_go(fleet,Vector2(1100,1100)) and unit_go(fleet,Vector2(1100,1700)) and unit_go(fleet,Vector2(300,1500)) and unit_dive(fleet,1)
   fleet_ok=fleet_ok and fleet.command("witness_land");tick(fleet,.1)
  print("SORLEY FLEET outcome=",fleet.outcome," time=",fleet.elapsed," hull=",fleet.hull," lock_samples=",fleet.lock_frames," max_lock=",fleet.max_lock," peak_hunt=",fleet.peak_hunt," quiet=",fleet.mission.sorley_quiet," hunt=",fleet.recon_feedback()," tools=",fleet.tools," message=",fleet.message)
  check(fleet_ok and fleet.outcome=="won","independent drone physically brings the boy home while Quietus waits at lift")

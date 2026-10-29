@@ -1,3 +1,9 @@
+## 29 October 2026: distinct hunter and sentinel senses (handoff 103)
+
+5. "Should hunter and sentinel Sirens each get their own hearing, search and attention, so each type needs a different plan? (Siren senses, your call.)" = "Yes (Recommended)" (6)
+
+[PAT, verbatim ruling recorded in PAT_RULINGS_2026-10-29.md, Claude S6] This authorizes the named role differences. Silent sight 180 m, cruise sight 290 m, the four-second interruptible lock warning, beam, collision, damage and hull rules retain their existing behavior. New profile values are AI-DESIGNED and provisional.
+
 ## 29 October 2026: carried survivors slow ascent (handoff 102)
 
 [PAT, verbatim as recorded in handoff 102, ~08:10 ET] Asked "Should carrying survivors slow how fast the sub can change depth? I recommend yes." Pat: "For now* Yes*". This ruling is provisional, "for now".
