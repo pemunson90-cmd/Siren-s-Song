@@ -1,6 +1,7 @@
 [QUEUE RUNNER 2026-10-29T13:09:14.0234738-04:00] running: 105 PID49812, 112 PID49440; done: 103, 110; blocked: none.
 
 **[Claude S7 2026-10-29T13:11:37-04:00] Pat asked for a foundation cleanup before the next leg. Claude added 114 foundation cleanup (docs/codex/114-foundation-cleanup.md) to QUEUE_S6 chain C after 112 and before 109. QUEUE RUNNER: run it next in chain C under its own behaviour-preserving bar. Claude-lane row.**
+[KEEL:105 2026-10-29T13:10:28.0255070-04:00] Claude:105 BLOCKED1/2; PR219 draft recovery ab94dd85, op3DEEP win to loss, ops8/39 unchanged, no best-depth reversal; exact routes/numbers in PR. This session stops; other lanes preserved.
 
 **[Claude S7 2026-10-29T12:55:12-04:00] 105 PR219 HELD as draft by Claude intent check: only partial scouting sorties differ; no full voyage where the layer band changes Siren contact or the best route. Evidence needed is in the PR comment. QUEUE RUNNER: relaunch 105 once with that bar (second failure = BLOCKED with numbers); chain C continues.**
 
@@ -387,7 +388,7 @@ Boundary follow-up28Oct03:12UTC: Windows completion check PASSES from current in
 | 99 | 102 CARRIED SURVIVORS SLOW ASCENT (Pat 29 Oct, provisional "for now") | DONE (claude-lane, codex-fresh-102) | [PR214](https://github.com/pemunson90-cmd/Siren-s-Song/pull/214) | 2026-10-29T13:11:24Z | 8/12s carried ascent, 6s settle, visible HUD and compatible resume; bare SILENT carry ops finish; [handoff](102-diver-ascent-rate.md). |
 | 100 | 103 SIREN ROLE SENSES: hunter and sentinel hear, search and attend differently | DONE | [216](https://github.com/pemunson90-cmd/Siren-s-Song/pull/216) | 2026-10-29T12:34:41.9153221-04:00 | [KEEL:103b] Merged b522312c; matched-noise sweep/hold contrast and two operation plans differ by role. Independent HIGH reviewbef0a467, Claude S7 intent PASS, all7 exact-head checks green40907173698; full fleet pressure/finishability retained. Source-known simulation, no phone claim. |
 | 101 | 104 SIRENS RADIO EACH OTHER WITH A VISIBLE, INTERRUPTIBLE CHARGE (2+ patrollers) | QUEUED (claude-lane, Pat 29 Oct) | | | [handoff](104-siren-reports.md) |
-| 102 | 105 THERMAL LAYER COVERS ONE DEPTH BAND ONLY | CLAIMED (claude-lane, codex-fresh-105r, 2026-10-29T12:57:48.4961546-04:00; PR219 draft, sole intent revision) | | | [handoff](105-thermal-one-band.md) |
+| 102 | 105 THERMAL LAYER COVERS ONE DEPTH BAND ONLY | BLOCKED (claude-lane; sole S7 revision: 1/2 causal ops, no best-depth reversal) | [PR219 draft](https://github.com/pemunson90-cmd/Siren-s-Song/pull/219), head ab94dd85 | | Op3 DEEP win84.03s/H17.20/L3.10 before to loss72.87s/H22.87/L6.97 after; ops8/39 identical. Reviewed recovery only, no merge; [handoff](105-thermal-one-band.md). |
 | 103 | 106 SONAR SHOWS A ROUGH SIREN TYPE UNTIL SEEN OR PHOTOGRAPHED | QUEUED (claude-lane, Pat 29 Oct) | | | [handoff](106-sonar-coarse-class.md) |
 | 104 | 107 IRONMAN: LOST DRONES AND MODULES ARE GONE FOR GOOD | DONE | [215](https://github.com/pemunson90-cmd/Siren-s-Song/pull/215) | 2026-10-29T14:54:44Z | Ironman loss state, paid replacements and named history integrated5acb079d; HIGH review107 approved treea12c6fb2, all7 green40888538512, local1271/0; SILENT bare ACCESSIBLE/STANDARD finish with empty bays. |
 | 105 | 108 ONE MORE STORY FORK IN ARC 5 | QUEUED (claude-lane, Pat 29 Oct) | | | [handoff](108-arc5-second-fork.md) |
