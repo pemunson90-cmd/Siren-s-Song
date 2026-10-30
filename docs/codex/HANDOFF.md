@@ -22,12 +22,13 @@ Read the PR's before/after tables, not its summary, and its latest comments. Che
 - A table identical everywhere has not met a "must change play" ruling. Presentation-only work must show physics identical.
 - **Protected (Pat's call only):** beam lethality, 4 s interruptible lock warning, collision/hull/damage, Siren and role senses (silent 180 m, cruise 290 m), PR70 sweeper, photography design (exposure, grading), ending conditions, art direction. Story text: 1-2 line placeholders, no em dashes. Never an APK, force push, amend or branch deletion.
 
-## State (2026-10-29T18:51:19-0400)
-- `gauntlet/production` 13a64ed0 = Promotion 3. `claude/integration` has everything merged since (102-114, 106-113, 111 PR226 last).
-- **091 audit DONE:** frozen verdict `C:/Users/Archi/.cache/sirens-song-toolchain/artifacts/critic-091-13a64ed0/audit/INDEPENDENT_VERDICT.md` (16 findings F1-F16; END OF LINE reached). Root keeps COLD_REVIEW_4 and known-items reconciliation.
-- **Chain S:** 115 thermal ops (PR227 HELD: op 39 bare lost all Siren pressure; revision running) -> 116 radio ops -> 121 photo evidence (F1/F15, Pat yes 29 Oct).
-- **Chain C:** 117 tool cargo all modes (building) -> 118 readability (F2/F6/F16) -> 119 orders (F3/F5/F13) -> 120 navigation (F4/F9/F10/F11).
-- Blocked: 105 PR219, 104 PR220 (replaced by 115/116). Parked: 099 slower SILENT.
+## State (2026-10-29T22:22:30-0400, end of Claude S8)
+- `gauntlet/production` 13a64ed0 = Promotion 3. Merged to integration this session: 113 PR225, 111 PR226, 117 PR228, 115 PR227.
+- **091 audit DONE** (verdict `C:/Users/Archi/.cache/sirens-song-toolchain/artifacts/critic-091-13a64ed0/audit/INDEPENDENT_VERDICT.md`; root keeps COLD_REVIEW_4).
+- **Chain C:** 118 PR229 (PASS given, then red CI: fleet handle covers warning relay target + shard 1; CI-repair phase A running; procedural HOLD posted, so re-check the refreshed PR and post PASS again) -> 119 PR230 (full PASS; merges after 118) -> 120 (phase A built by Claude subagent, b522d357; waits) -> 124 cleanup (PR-audit items plus 118/119 label leftovers).
+- **Chain S:** 116 radio ops (phase A building on merged 115) -> 121 photo evidence (phase A built by Claude subagents, f9f76a7d, all 24 required subjects; waits).
+- **Root lane:** 122 Promotion 4 then 123 cold audit 5, queued; start them (BOARD banner to root) when rows 115-121 all read DONE or BLOCKED.
+- auto.py patched twice this session (no pipe capture; phase C ends `PHASE C CIFAIL` instead of marking BLOCKED). Claude subagents were Pat-approved for one usage window only (see memory).
 
 ## Next actions
 1. Intent-check every waiting PR (PASS or HOLD comment).
