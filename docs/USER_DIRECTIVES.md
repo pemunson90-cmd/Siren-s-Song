@@ -273,3 +273,8 @@ Compare actual gameplay with strong shipped references and disclose comparison l
 The unchanged Claude audit, audited source, F1–F7 response and checkpoint refs are on archive/claude-audit-2026-10-19 under docs/audit/.
 Genuine critic saves and raw input are published on gauntlet/checkpoint/touch-play-2026-10-20; source and session provenance remain explicit.
 Agent play and software renders support game development; human enjoyment, headphone audio and physical Fold7 ergonomics require their own evidence.
+
+## Photo record art direction (handoff 121)
+
+Ruling (Pat, 2026-10-29T18:48:40-0400, widget): "Can Codex draw new photo images that clearly show each subject (the people, the bore, the damage) in the game's current art style, without changing how exposure or photo grades work? This touches art direction, which is your call." = "Yes (Recommended)".
+Compositions are AI-DESIGNED placeholders Pat can replace.
