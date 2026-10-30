@@ -32,7 +32,8 @@ Read the PR's before/after tables, not its summary, and its latest comments. Che
 1. Intent-check every waiting PR (PASS or HOLD comment).
 2. After 121 lands, ask Pat (yes/no) about F7/F8/F14: an authored ending and more varied late-campaign evidence (story text rule). F12 collision staging is protected: suggestion only.
 3. Pat deferred: wariness mark on chart, SURVIVAL in-dive pressure; ask after the audit batches.
-4. After the audit batches: economy and Hunt calibration from simulated campaigns, then Promotion 4 (root), then Pat plays on his phone.
+4. **Next gauntlet loop (Pat 29 Oct: after the fixes):** when rows 115-121 all read DONE or BLOCKED, post a BOARD banner telling root to start 122 Promotion 4, then 123 cold audit 5 (fresh blind critic, region sessions). Then turn COLD_REVIEW_5 into fix batches and repeat (AGENTS.md loop).
+5. Still open: 116 is paused until 115 merges (its notes already say PHASE A CONTINUE). Hunt calibration note: op 39 bare pressure fell from Hunt 92 to 22 in 115.
 
 ## How-to
 - Repo checkout on `main` is stale: read live refs with `MSYS_NO_PATHCONV=1 git show origin/<ref>:<path>`. Never read the whole BOARD (89 KB) or LEDGER (40 KB): `head -c 2000` / `tail -n 5`.
