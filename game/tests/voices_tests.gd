@@ -63,10 +63,10 @@ func _initialize():
  var broken=data.duplicate(true);broken.voices=["0:brief","0:brief"]
  check(not store.valid(broken),"archive with corrupt voices is rejected")
  DirAccess.remove_absolute(store.path);DirAccess.remove_absolute(store.path+".bak")
- # Credits: placeholder creator, engine and tools, then the audio attribution.
+ # Credits: public creator line with source placeholder, engine, tools and audio attribution.
  var text=""
  for line in Credits.credits(load("res://src/audio/soundscape.gd").ATTRIBUTION):text+=line.text+"\n"
- check(text.contains("Created by (to be named)") and text.contains("Godot Engine 4.6.3") and text.contains("MIT License"),"credits name engine and keep the creator placeholder")
+ check(text.contains("An independent reconnaissance game") and not text.contains("(to be named)") and text.contains("Godot Engine 4.6.3") and text.contains("MIT License") and Credits.CREATOR=="Created by (to be named)","credits name engine, show public copy and retain the source creator placeholder")
  check(text.contains("Creative Commons Attribution 3.0") and text.contains("TOOLS"),"credits keep CC-BY audio credits and list tools")
  print("VOICES CHECKS ",checks," FAILURES ",failures)
  quit(1 if failures else 0)

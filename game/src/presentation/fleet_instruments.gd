@@ -114,7 +114,7 @@ func _ordinary_task(id:int)->String:
  return state+" · "+("LOW" if u.silent else "OPEN")+" · "+("QUIET42" if u.get("drone_drive","")=="quiet" else "TRANSIT96")
 func _layout_commands():
  var hud=host.mission_hud
- if not host.advanced_orders or hud.sheet.visible or hud.ring_buttons.is_empty():return
+ if not host.advanced_orders or hud.sheet.visible or hud.ring_buttons.is_empty() or hud.order_dock.visible:return
  var subject=host.sim.units[hud.subject.get("unit",host.sim.selected)].pos if hud.subject.get("kind","")=="craft" else hud.subject.get("pos",host.sim.units[host.sim.selected].pos)
  hud.anchor=host.ocean.screen_position(subject)
  var h=host.ui_touch_height
@@ -142,10 +142,11 @@ func refresh(blocked:Array):
  var sim=host.sim;var ocean=host.ocean;var h=host.ui_touch_height;var font_size=maxi(14,roundi(h*.26));var font=ThemeDB.fallback_font
  if sim.selected!=last_selected or (visible and not was_visible):detail_until=sim.elapsed+3.;last_selected=sim.selected
  was_visible=visible
- var safe=Rect2(Vector2(12,h+24),Vector2(maxf(h,size.x-24),maxf(h,size.y-h*2-54)))
- var occupied=blocked.duplicate();occupied.append_array(ocean.objective_touch_rects(h))
+ var safe=Rect2(ocean.chart_origin()+Vector2(12,h+24),Vector2(maxf(h,ocean.chart_width()-24),maxf(h,size.y-h*2-54)))
+ var site_targets=ocean.objective_touch_rects(h)
+ var occupied=blocked.duplicate();occupied.append_array(site_targets)
  var positions=sim.units.map(func(u):return ocean.screen_position(u.pos))
- var viewport=Rect2(Vector2.ZERO,size)
+ var viewport=Rect2(ocean.chart_origin(),Vector2(ocean.chart_width(),size.y))
  # Bodies clipped by the viewport or covered by actual controls get an edge
  # handle. Fully exposed craft keep their target exactly on the physical body.
  var on_screen=positions.map(func(at):
@@ -159,6 +160,13 @@ func refresh(blocked:Array):
   if not b.visible:continue
   var at:Vector2=positions[id];var offscreen=not on_screen[id];var bearing=(at-safe.get_center()).normalized()
   var box=Ring.edge_rect(at,safe,h,occupied) if offscreen else Rect2(at-Vector2.ONE*h/2,Vector2.ONE*h)
+  # Keep actual body/site coincidence under the nearest-owner input rule.
+  # Only the oversized badge brushing a nearby site needs another position.
+  var projected=not offscreen and site_targets.any(func(r):return r.intersects(box) and not r.has_point(at))
+  if projected:
+   var center=Ring.command_center(at,safe,Vector2.ONE*h/2,occupied)
+   box=Rect2(center-Vector2.ONE*h/2,Vector2.ONE*h)
+   if occupied.any(func(r):return r.intersects(box.grow(3))):box=Ring.edge_rect(at,safe,h,occupied)
   if not box.has_area():b.hide();continue # FLEET remains available if all edges are occupied.
   occupied.append(box.grow(5))
   b.position=box.position;b.custom_minimum_size=Vector2.ONE*h;b.size=Vector2.ONE*h;b.text="";b.add_theme_stylebox_override("normal",StyleBoxEmpty.new());b.add_theme_stylebox_override("hover",StyleBoxEmpty.new());b.add_theme_stylebox_override("pressed",StyleBoxEmpty.new());b.add_theme_stylebox_override("focus",StyleBoxEmpty.new())
@@ -212,6 +220,7 @@ func refresh(blocked:Array):
   var bounds=box.merge(cue_rect) if cue_rect.has_area() else box
   if reading.visible:bounds=bounds.merge(reading.get_rect())
   readouts.append({"unit":id,"rect":bounds,"handle_rect":box,"text_rect":reading.get_rect() if reading.visible else Rect2(),"text":reading.text if reading.visible else ["Q","A","B"][id]+" · "+" · ".join(captions),"anchor":at,"offscreen":offscreen,"direction":bearing,"progress":progress,"ring":not offscreen,"reserves":reserves,"cues":cues,"captions":captions,"active":active,"detail_visible":reading.visible})
+  readouts.back().projected=projected
  for reading in readouts:
   # Near-coincident bodies must not masquerade as whichever badge painted last.
   reading.cluster=[]
@@ -227,6 +236,7 @@ func _draw():
  var h=host.ui_touch_height if host!=null else 48.;var text_size=maxi(14,roundi(h*.26))
  for reading in _paint_order():
   var center:Vector2=reading.handle_rect.get_center();var id:int=reading.unit;var selected=id==host.sim.selected;var ink=Color("c0e8df") if selected else Color("8ec3c2")
+  if reading.get("projected",false):draw_line(reading.anchor,center,Color("476f79"),1.5,true)
   if reading.offscreen:
    draw_style_box(_edge_style(selected),reading.handle_rect)
    var direction=["→","↘","↓","↙","←","↖","↑","↗"][posmod(roundi(reading.direction.angle()/(PI/4)),8)]

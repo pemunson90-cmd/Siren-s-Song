@@ -3,6 +3,7 @@ extends RefCounted
 # simulation state or changes the source camera context.
 const Table=preload("res://src/presentation/status_text/status_table.gd")
 static func present(sim,text:String)->String:
+ text=preload("res://src/presentation/public_copy.gd").present(text)
  if not Table.enabled or not text.contains(Table.FALLBACK):return text
  if sim==null or sim.mission==null:return text
  var id:int=int(sim.mission.get("id",-1))

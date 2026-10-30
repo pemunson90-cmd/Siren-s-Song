@@ -37,6 +37,19 @@ func shape_case(shape):
  s.contacts={0:{"pos":u.pos+Vector2(80,0),"time":11.,"mode":"LOCKING","lock":2.,"target":0,"type":"patroller","source":"optical","angle":0.,"band":1}}
  s.events=[{"type":"sweep_received","receiver":0,"time":11.,"direction":Vector2.UP}]
  game.sound.muted=true;game.sound.update(s,0.);game._layout();await settle()
+ # Exercise free-chart captions after the staged photo activates onboarding.
+ # The explicit full-chart hint fixture below still verifies no-space fallback.
+ # Suspended root: let child chart/status geometry settle before steady-state sampling.
+ for n in 2:game._refresh();await settle()
+ # Several already-earned first-use hints can follow one another. Acknowledge each.
+ for n in 8:
+  if not game.mission_hud.hints.panel.visible:break
+  await press(game,"hint_dismiss");game._refresh();await settle()
+ check(not game.mission_hud.hints.panel.visible,"free-chart caption fixture acknowledges current tutorial hints")
+ # A deliberate free-chart pan leaves caption space beside the live optical dock.
+ # The crowded fallback remains a separate case below.
+ if shape.x==2520:
+  game.ocean.pan_chart(Vector2(0,-150));game._refresh();await settle()
  var baseline=s.snapshot();var view=game.audio_captions
  print("A11Y GEOMETRY ",shape," visible=",view.visible," high=",view.get_meta("placement_height",0)," text=",view.text," rect=",view.get_global_rect()," host=",game.size," occupied=",view.occupied)
  check(view.visible and "HEARD" in view.text,"muted critical receiver captions are drawn beside live camera and lock")

@@ -10,7 +10,7 @@ const ENGINE := ["Made with Godot Engine 4.6.3.",
 const TOOLS := ["Godot editor and GDScript. GitHub Actions for automated checks.",
 	"AI assisted development with Claude Code and Codex."]
 static func credits(resource: Resource) -> Array:
-	var out := [{"text": "SIREN'S SONG", "heading": true}, {"text": CREATOR, "heading": false},
+	var out := [{"text": "SIREN'S SONG", "heading": true}, {"text": preload("res://src/presentation/public_copy.gd").present(CREATOR), "heading": false},
 		{"text": "ENGINE", "heading": true}]
 	for text in ENGINE: out.append({"text": text, "heading": false})
 	out.append({"text": "TOOLS", "heading": true})

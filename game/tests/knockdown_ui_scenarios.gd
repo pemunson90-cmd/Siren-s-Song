@@ -6,8 +6,8 @@ func check(ok: bool,text: String) -> void:
  checks+=1
  if not ok:failures+=1;printerr("FAIL: ",text)
 func _initialize() -> void:call_deferred("run")
-func wait_frames() -> void:
- for n in 4:await process_frame
+func wait_frames(count:int=4) -> void:
+ for n in count:await process_frame
 func click(point: Vector2) -> void:
  var motion=InputEventMouseMotion.new();motion.position=point;motion.global_position=point;root.push_input(motion,true);await process_frame
  for down in [true,false]:
@@ -32,9 +32,12 @@ func run() -> void:
   check(ui.order_buttons.has("knock"),"secondary order includes distinct KNOCK tool")
   if not ui.order_buttons.has("knock"):ui.queue_free();await process_frame;await create_timer(0.5).timeout;finish();return
   setup(ui);await wait_frames()
-  ui.ocean.zoom_at(2.0,ui.ocean.size/2);ui.ocean.pan_chart(ui.ocean.size/2-ui.ocean.screen_position(ui.sim.units[0].pos));await wait_frames()
+  # Native child chart fitting and the paused root refresh settle asynchronously.
+  ui.ocean.zoom_at(2.0,ui.ocean.planning_size/2);ui.ocean.pan_chart(ui.ocean.planning_size/2-ui.ocean.screen_position(ui.sim.units[0].pos));await wait_frames(12)
   check(not ui.order_buttons.camera.is_visible_in_tree() and ui.order_buttons.knock.is_visible_in_tree(),"contextual TOOLS projection exposes distinct torpedo action")
-  var rect=ui.order_buttons.knock.get_global_rect();var scale=Vector2(profile.size)/ui.get_viewport_rect().size
+  var rect=ui.order_buttons.knock.get_global_rect();var scale=Vector2(profile.size)/ui.get_viewport_rect().size;var center=ui.mission_hud.center
+  for n in 2:await process_frame
+  check(ui.order_buttons.knock.get_global_rect()==rect and ui.mission_hud.center==center,"settled stationary torpedo target keeps its input position")
   check(ui.get_global_rect().encloses(rect) and rect.size.x*scale.x>=48*profile.dpi/160.0 and rect.size.y*scale.y>=48*profile.dpi/160.0,"knock target stays safe and touch sized")
   await click(rect.get_center())
   check(ui.knock_armed and "QUIETUS" in ui.detail_label.text and "150m" in ui.detail_label.text and "impact pins 8s" in ui.detail_label.text and "noisy flight" in ui.detail_label.text and "CANCEL" in ui.order_buttons.knock.text,"armed targeting explains launcher/range and visible cancellation")

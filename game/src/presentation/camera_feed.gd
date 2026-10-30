@@ -22,7 +22,12 @@ var _vm_key:=""
 var _buttons:Array=[]
 var quality_rect:=Rect2()
 var picture_rect:=Rect2()
+var footer_rect:=Rect2()
+var footer_scroll:ScrollContainer
+var footer_label:Label
 var time:=0.0
+var compact:=false
+var toggle_rect:=Rect2()
 # ART1 publishes own cached optics only. Flash preview is deliberately excluded.
 var art_lamp_pos:=Vector2.ZERO
 var art_lamp_aim:=0.0
@@ -47,6 +52,8 @@ static func acquisition_progress(state)->float:
 	return clampf(clock.elapsed/clock.duration,0,1) if clock.duration>0 else 0.
 func _ready() -> void:
 	clip_contents=true; mouse_filter=Control.MOUSE_FILTER_STOP
+	footer_scroll=ScrollContainer.new();footer_scroll.horizontal_scroll_mode=ScrollContainer.SCROLL_MODE_DISABLED;add_child(footer_scroll)
+	footer_label=Label.new();footer_label.autowrap_mode=TextServer.AUTOWRAP_WORD;footer_label.size_flags_horizontal=Control.SIZE_EXPAND_FILL;footer_scroll.add_child(footer_label)
 func _process(dt: float) -> void:
 	if not Settings.reduced_motion():time+=dt
 	_vm_age+=dt;queue_redraw()
@@ -71,11 +78,41 @@ static func viewfinder_visible(state) -> bool:
 	if state==null:return false
 	if state.capture_unit>=0:return state.selected==state.capture_unit
 	return not Photo.preview(state,state.selected).is_empty()
+var owned_pointers:Dictionary={}
+var owned_emulated_mouse:=false
+var details_touch=preload("res://src/presentation/touch_scroll.gd").new()
+func route_input(event:InputEvent)->bool:
+	if footer_scroll!=null and details_touch.feed(footer_scroll,event):return true
+	if not (event is InputEventScreenTouch or event is InputEventScreenDrag or event is InputEventMouse):return false
+	var id=event.index if event is InputEventScreenTouch or event is InputEventScreenDrag else -1
+	# Godot dispatches the primary touch's mouse partner first. Latch its
+	# original target through release, even if a fold moves the panel. Secondary
+	# fingers cannot acquire or clear this mouse ownership.
+	if event is InputEventMouse and event.device==InputEvent.DEVICE_ID_EMULATION:
+		if event is InputEventMouseButton and event.button_index==MOUSE_BUTTON_LEFT and event.pressed:
+			var point=event.position-global_position
+			owned_emulated_mouse=is_visible_in_tree() and (toggle_rect.has_point(point) or _buttons.any(func(b):return b.rect.has_point(point)))
+		var owned=owned_emulated_mouse
+		if event is InputEventMouseButton and event.button_index==MOUSE_BUTTON_LEFT and not event.pressed:owned_emulated_mouse=false
+		return owned
+	var press=(event is InputEventScreenTouch and event.pressed) or (event is InputEventMouseButton and event.pressed and event.button_index==MOUSE_BUTTON_LEFT)
+	var release=(event is InputEventScreenTouch and not event.pressed) or (event is InputEventMouseButton and not event.pressed)
+	if release:
+		var owned=owned_pointers.has(id);owned_pointers.erase(id);return owned
+	if not press:return owned_pointers.has(id)
+	if not is_visible_in_tree():return false
+	var point=event.position-global_position
+	if not toggle_rect.has_point(point) and not _buttons.any(func(b):return b.rect.has_point(point)):return false
+	owned_pointers[id]=true
+	var local=event.duplicate();local.position=point;_gui_input(local)
+	return true
 func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.device==InputEvent.DEVICE_ID_EMULATION:return
 	var tap=(event is InputEventMouseButton and event.pressed and event.button_index==MOUSE_BUTTON_LEFT) or (event is InputEventScreenTouch and event.pressed)
 	if not tap or sim==null:return
 	var point=event.position
+	if toggle_rect.has_point(point):
+		compact=not compact;accept_event();queue_redraw();return
 	for button in _buttons:
 		if button.rect.has_point(point):
 			sim.command("frame",button.args);_vm_age=1.0;accept_event();return
@@ -83,13 +120,26 @@ func preferred_width()->float:
 	# Reserve the full flash + tight + focus row at the largest selected text size.
 	var button_width=maxf(maxf(48,touch_height)+4,maxi(17,receiver_font_size)*6.)
 	return maxf(480,maxf(touch_height*7.5,button_width*3+16))
+func preferred_height()->float:
+	return 100000. # The dock uses the available height; its details scroll independently.
+func _draw_toggle()->void:
+	var fs=maxi(17,receiver_font_size)
+	toggle_rect=Rect2(size.x-maxf(touch_height,fs*6.)-8,4,maxf(touch_height,fs*6.),maxf(touch_height,fs+14.))
+	draw_rect(toggle_rect,Color("12333a"));draw_rect(toggle_rect,PHOSPHOR,false,1)
+	draw_string(ThemeDB.fallback_font,toggle_rect.position+Vector2(8,toggle_rect.size.y*.68),"OPEN" if compact else "FOLD",HORIZONTAL_ALIGNMENT_LEFT,toggle_rect.size.x-16,fs,PHOSPHOR)
 func _draw_photo(t:Dictionary) -> void:
 	var o:Dictionary=t.o;var uid:int=t.unit;var live:bool=t.get("live",false)
 	var font=ThemeDB.fallback_font;var fs:=maxi(17,receiver_font_size)
 	var bh:=maxf(48,touch_height)
-	var control_top:=float(fs+14)
+	var control_top:=maxf(float(fs+14),maxf(touch_height,fs+14.)+10)
 	draw_rect(Rect2(Vector2.ZERO,size),Color("07151d"));draw_rect(Rect2(Vector2.ZERO,size),Color("6b9d9f"),false,1)
-	var quality_top:=control_top+bh+8
+	var cfg=Photo.settings(sim,uid);var op=Photo.optics(sim,uid)
+	var bw:=maxf(bh+4,fs*6.0)
+	var specs:Array=[["TIGHT" if cfg.mode=="tight" else "WIDE",{"mode":"wide" if cfg.mode=="tight" else "tight"}]]
+	if op.flash:specs.append(["FLASH %d"%Photo.flash_left(sim,uid) if cfg.flash else "NO FLASH",{"flash":not cfg.flash}])
+	if cfg.mode=="tight":specs.append(["FOCUS",{"cycle_focus":true}])
+	var columns=maxi(1,floori((size.x-16)/bw))
+	var quality_top:=control_top+ceili(float(specs.size())/columns)*(bh+4)+8
 	var picture_top:=quality_top+fs+24
 	var picture:=Rect2(8,picture_top,size.x-16,maxf(20,size.y-picture_top-fs*2-22))
 	picture_rect=picture
@@ -103,9 +153,27 @@ func _draw_photo(t:Dictionary) -> void:
 		art_lamp_range=float(_frame.get("range",0));art_lamp_unit=uid;art_lamp_band=int(_frame.get("band",-1))
 		art_lamp_mission=sim.mission.id;art_lamp_clock=sim.elapsed;art_lamp_source=sim.mission
 		_vm=PhotoView.from_frame(_frame,"siren" if o.has("siren") else "site",str(o.get("optical",o.get("site_id",""))),str(o.subject.get("type","")) if o.has("siren") else "")
+	var status=Photo.progress_text(sim,uid,o) if live else str(t.get("ctx",{}).get("text",""))
+	status=status.split(" "+String.chr(0xb7)+" SHARP")[0]
+	status=status.replace(" "+String.chr(0xb7)+" "+Photo.label(o),"")
+	if not live:
+		for r in _frame.get("rows",[]):
+			if r.apparent and not r.ready and not r.why.is_empty():status="%s: %s"%[r.label,r.why];break
+	var remaining=maxf(1.,size.y-picture_top-16.)
+	picture.size.y=maxf(120.,remaining*.52)
+	picture_rect=picture
+	footer_rect=Rect2(8,picture.end.y+8,size.x-16,maxf(1.,size.y-picture.end.y-16))
+	footer_scroll.position=footer_rect.position;footer_scroll.size=footer_rect.size;footer_scroll.show()
+	var lines=[Photo.label(o),status]
+	var pricing=preload("res://src/simulation/photo_pricing/photo_pricing.gd")
+	var readout=pricing.readout(sim,uid,o)
+	if not readout.is_empty():
+		lines.append("FILM %d / %d"%[readout.film,readout.cap])
+		for line in readout.lines:lines.append(str(line.text))
+		for line in pricing.windows(sim,o,_frame):lines.append(str(line.text))
+	footer_label.text="\n".join(lines);footer_label.add_theme_font_size_override("font_size",fs)
 	PhotoView.draw(self,picture,_vm,time,fs)
 	if not live and Quality.decorative_enabled("ambient_sea_life",Settings.current.get("quality",Quality.STANDARD)):_draw_ambient_sea_life(picture)
-	Priced.draw_viewfinder(self,sim,uid,o,picture,fs,_frame)
 	_draw_quality(quality_rect,fs)
 	var since:=time-_filed_at
 	if not Settings.reduced_motion() and since>=0.0 and since<4.6 and not _filed.is_empty():
@@ -128,36 +196,23 @@ func _draw_photo(t:Dictionary) -> void:
 			for m in _filed.frame.marks:
 				if float(m.q)>0:names.append(str(m.label))
 			var cap:String=("FRAME %d FILED · %d%%"%[int(_filed.id),roundi(float(_filed.q)*100)]) if good else "UNUSABLE · NOT FILED"
-			draw_string(font,Vector2(inset.position.x,inset.end.y+fs+4),cap,HORIZONTAL_ALIGNMENT_LEFT,inset.size.x,fs-2,Color("e0bf83") if good else Color("e08a73"))
-			if since>1.4:draw_string(font,Vector2(inset.position.x,inset.end.y+2*fs+6),fit_caption(("RESOLVED " if not names.is_empty() else "NOTHING RESOLVED")+", ".join(names),inset.size.x,fs-3),HORIZONTAL_ALIGNMENT_LEFT,-1,fs-3,Color("a9c9c7"))
+			footer_label.text+="\n"+cap+"\n"+(("RESOLVED " if not names.is_empty() else "NOTHING RESOLVED")+", ".join(names))
 	_buttons=[]
-	var cfg=Photo.settings(sim,uid);var op=Photo.optics(sim,uid)
 	art_lamp_strength=float(op.lamp)
 	preload("res://src/presentation/art/art_renderer.gd").cache_lamp(art_lamp_fov,art_lamp_range,art_lamp_strength)
-	var bx:=size.x-8.0;var bw:=maxf(bh+4,fs*6.0)
-	var specs:Array=[["TIGHT" if cfg.mode=="tight" else "WIDE",{"mode":"wide" if cfg.mode=="tight" else "tight"}]]
-	if op.flash:specs.append(["FLASH %d"%Photo.flash_left(sim,uid) if cfg.flash else "NO FLASH",{"flash":not cfg.flash}])
-	if cfg.mode=="tight":specs.append(["FOCUS",{"cycle_focus":true}])
-	for spec in specs:
-		bx-=bw
-		var r:=Rect2(bx,control_top,bw-4,bh)
+	for i in specs.size():
+		var spec=specs[i]
+		var r:=Rect2(8+(i%columns)*bw,control_top+floori(float(i)/columns)*(bh+4),bw-4,bh)
 		draw_rect(r,Color("12333a"));draw_rect(r,Color("8cdcd3") if spec[0]!="NO FLASH" else Color("4a6a6e"),false,1)
 		draw_string(font,r.position+Vector2(6,bh*0.7),spec[0],HORIZONTAL_ALIGNMENT_LEFT,r.size.x-8,fs,PHOSPHOR)
 		_buttons.append({"rect":r,"args":spec[1]})
-	draw_string(font,Vector2(10,fs+6),"%s / %s"%["EXPOSING" if live else "VIEWFINDER",sim.units[uid].name],HORIZONTAL_ALIGNMENT_LEFT,size.x-20,fs,PHOSPHOR)
-	var status:String
-	if live:status=Photo.progress_text(sim,uid,o)
-	else:
-		status=str(t.get("ctx",{}).get("text",""))
-		for r in _frame.get("rows",[]):
-			if r.apparent and not r.ready and not r.why.is_empty():status="%s: %s"%[r.label,r.why];break
-	status=fit_caption(status.split(" · SHARP")[0],size.x-20,fs)
-	draw_string(font,Vector2(10,size.y-fs-18),fit_caption(Photo.label(o) if Photo.applies(o) else str(o.name),size.x-90,fs),HORIZONTAL_ALIGNMENT_LEFT,-1,fs,Color("e0bf83"))
+
+	draw_string(font,Vector2(10,fs+6),fit_caption(("EXPOSING" if live else "VIEW")+" / "+["Q","A","B"][uid],size.x-maxf(touch_height,fs*6.)-30,fs),HORIZONTAL_ALIGNMENT_LEFT,-1,fs,PHOSPHOR)
+	_draw_toggle()
 	if live:
 		var progress:=acquisition_progress(sim)
-		draw_string(font,Vector2(size.x-70,size.y-fs-18),"%02d%%"%int(progress*100),HORIZONTAL_ALIGNMENT_LEFT,-1,fs,PHOSPHOR)
-		draw_rect(Rect2(10,size.y-9,size.x-20,3),Color("25464b"));draw_rect(Rect2(10,size.y-9,(size.x-20)*progress,3),PHOSPHOR)
-	draw_string(font,Vector2(10,size.y-12),status,HORIZONTAL_ALIGNMENT_LEFT,-1,fs,Color("a9c9c7"))
+		draw_rect(Rect2(picture.position.x,picture.end.y-5,picture.size.x,3),Color("25464b"));draw_rect(Rect2(picture.position.x,picture.end.y-5,picture.size.x*progress,3),PHOSPHOR)
+
 func _draw_ambient_sea_life(picture:Rect2)->void:
 	# Viewfinder atmosphere only: no species data, collision, chart marks, sonar
 	# return, photo finding or archived-frame modification. Olive is not contact cyan.
@@ -179,10 +234,15 @@ func _draw_quality(picture:Rect2,fs:int)->void:
 		draw_rect(Rect2(x,y+5,width,6),Color("25464b"))
 		draw_rect(Rect2(x,y+5,width*value,6),PHOSPHOR)
 func _draw() -> void:
+	if footer_scroll!=null:footer_scroll.hide()
 	_buttons=[]
 	art_lamp_strength=0.0
 	if sim==null:return
 	var subject:=subject_view()
+	if compact:
+		draw_rect(Rect2(Vector2.ZERO,size),Color("07151d"));_draw_toggle()
+		draw_string(ThemeDB.fallback_font,Vector2(10,receiver_font_size+10),"OPTICS / "+sim.units[sim.selected].name,HORIZONTAL_ALIGNMENT_LEFT,size.x-toggle_rect.size.x-30,receiver_font_size,PHOSPHOR)
+		return
 	if not subject.is_empty():_draw_photo(subject);return
 	if sim.capture_unit<0: return
 	var objective=Photo.obj(sim,sim.capture_target)

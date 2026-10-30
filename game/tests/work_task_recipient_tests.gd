@@ -122,6 +122,25 @@ func run():
    check(WorkTask.load_tag(g.sim)=="ARRIVED · CONFIRMED","observed arrival is confirmed at the load "+tag)
    state.seen.time=g.sim.elapsed-6.
    check(WorkTask.load_tag(g.sim)=="ARRIVED \u00b7 CONFIRMED","observed arrival stays confirmed after sight ages "+tag)
+  # The large-text dock carries the same recipient and task refusal as the ring.
+  g._start_mission(34);g._enter_water();g.sim.sirens=[];g.sim.paused=true
+  var settings=preload("res://src/presentation/frontend/frontend_settings.gd")
+  var old_scale=settings.current.get("text_scale",1.)
+  settings.current.text_scale=1.5;g._layout()
+  settle(g,1,disc_pos+Vector2(0,30),0,disc_pos);g._order("select",{"unit":1})
+  var target={"kind":"objective","index":disc,"name":g.sim.mission.objectives[disc].name,"pos":disc_pos}
+  g.mission_hud.open("object",target);g._refresh();await frames()
+  check(g.mission_hud.text_scale==1.5 and g.mission_hud.order_dock.is_visible_in_tree(),"large-text fixture uses the offered setting and real dock "+tag)
+  check(g.mission_hud.order_dock_context.is_visible_in_tree() and "NEEDS MIDDLE" in g.mission_hud.order_dock_context.text and "BY DRONE A" in g.mission_hud.order_dock_context.text,"large-text object dock names recipient and required band "+tag)
+  await shot("work-dock-band-"+tag)
+  settle(g,1,wash_pos+away*40.,1,wash_pos);g.mission_hud.task={"index":disc,"owner":1}
+  g.mission_hud.open("craft",{"kind":"craft","index":1,"pos":g.sim.units[1].pos});g._refresh();await frames()
+  check(g.order_buttons.camera.disabled and g.mission_hud.order_dock_context.is_visible_in_tree() and "HELD" in g.mission_hud.order_dock_context.text and "TASK" in g.mission_hud.order_dock_context.text,"large-text craft dock explains chosen-task hold instead of optional readiness "+tag)
+  await shot("work-dock-held-"+tag)
+  g.mission_hud.open("choose",target);g._refresh();await frames()
+  check(g.mission_hud.order_dock_context.is_visible_in_tree() and target.name in g.mission_hud.order_dock_context.text and "CRAFT OR OBJECT?" in g.mission_hud.order_dock_context.text,"large-text choice keeps object identity "+tag)
+  await shot("work-dock-choice-"+tag)
+  settings.current.text_scale=old_scale;g._layout()
   # Ordinary objectives occupied by another craft use the same visible choice.
   g._start_mission(2);g._enter_water();g.sim.sirens=[];g.sim.paused=true
   var ordinary=g.sim.mission.objectives[0].pos

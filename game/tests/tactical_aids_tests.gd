@@ -133,20 +133,48 @@ func run():
   for scale in [1.,1.5]:
    Settings.apply(Store.sanitize({"text_scale":scale}),g);g._layout();await settle()
    var h=g.mission_hud;h.open("tools");await settle()
+   if h.order_dock.visible:h.order_dock_scroll.scroll_vertical=0;await settle()
+   var normal_dock=h.order_dock.get_rect()
    var normal={}
-   for b in h.ring_buttons:normal[b.get_meta("action")]=b.position+b.size/2-h.center
+   for b in h.ring_buttons:
+    normal[b.get_meta("action")]=b.position+b.size/2 if h.order_dock.visible else b.position+b.size/2-h.center
    var pause_x=g.pause_button.position.x;var fleet_x=g.advanced_button.position.x
    Settings.apply(Store.sanitize({"text_scale":scale,"mirrored_hud":true}),g);g._layout();await settle()
    check(is_equal_approx(g.pause_button.position.x,fleet_x) and is_equal_approx(g.advanced_button.position.x,pause_x),"top clusters swap "+str(dimensions)+" scale "+str(scale))
+   if h.order_dock.visible:
+    h.order_dock_scroll.scroll_vertical=0;await settle()
+    check(absf(h.order_dock.position.x-(h.size.x-normal_dock.end.x))<1. and h.order_dock.size==normal_dock.size,"command dock mirrors across safe HUD")
+   var mirrored={}
+   for b in h.ring_buttons:mirrored[b.get_meta("action")]=b.position+b.size/2
    for b in h.ring_buttons:
     var delta=b.position+b.size/2-h.center;var old=normal[b.get_meta("action")]
-    check(delta.distance_to(Vector2(-old.x,old.y))<1.,"radial action mirrors "+str(b.get_meta("action")))
+    if h.order_dock.visible:
+     check(mirrored[b.get_meta("action")].distance_to(old)<1.,"mirrored dock preserves canonical reading order "+str(b.get_meta("action")))
+     h.order_dock_scroll.ensure_control_visible(b);await settle()
+     check(h.order_dock_scroll.get_global_rect().encloses(b.get_global_rect()),"mirrored dock reveals full target")
+    else:check(delta.distance_to(Vector2(-old.x,old.y))<1.,"radial action mirrors "+str(b.get_meta("action")))
     var dp=float(root.size.x)/root.get_visible_rect().size.x*160./420.
     check(b.size.x*dp>=48. and b.size.y*dp>=48.,"physical 48 dp target preserved")
-    check(Rect2(Vector2.ZERO,h.size).encloses(b.get_rect()),"mirrored target inside safe HUD")
+    check(Rect2(h.global_position,h.size).encloses(b.get_global_rect()),"mirrored target inside safe HUD")
    for i in h.ring_buttons.size():
-    var point=h.center+preload("res://src/presentation/status_text/status_view.gd").radial_point(h,-PI/2+TAU*i/h.ring_buttons.size(),h.ring_radius)
-    check(h.sector_at(h.global_position+point)==h.ring_buttons[i],"visible mirrored wedge matches hit action")
+    if h.order_dock.visible:
+     var b=h.ring_buttons[i];h.order_dock_scroll.ensure_control_visible(b);await settle()
+     var point=b.get_global_rect().get_center()
+     check(h.witness_button_at(point)==b and h.sector_at(point)==null,"visible mirrored dock target owns hit without ghost wedge")
+    else:
+     var point=h.center+preload("res://src/presentation/status_text/status_view.gd").radial_point(h,-PI/2+TAU*i/h.ring_buttons.size(),h.ring_radius)
+     check(h.sector_at(h.global_position+point)==h.ring_buttons[i],"visible mirrored wedge matches hit action")
+   if h.order_dock.visible:
+    g.ocean._sync_camera()
+    var chart=Rect2(g.ocean.chart_origin(),g.ocean.planning_size)
+    check(not chart.intersects(h.order_dock.get_rect()) and Rect2(Vector2.ZERO,h.size).encloses(chart),"mirrored dock reserves chart on opposite side")
+    var world=g.sim.units[g.sim.selected].pos;var pixel=g.ocean.screen_position(world)
+    check(g.ocean.map_position(pixel).distance_to(world)<.01,"mirrored chart pick matches rendered world")
+    # Start a free view away from zoom/world clamps before testing anchor math.
+    var anchor=chart.get_center();g.ocean.fit_chart();g.ocean.zoom_at(1.5,anchor)
+    var before_zoom=g.ocean.map_position(anchor)
+    g.ocean.zoom_at(1.1,anchor)
+    check(g.ocean.map_position(anchor).distance_to(before_zoom)<.01,"mirrored chart zoom retains its anchor")
    h.dismiss();await settle();await tap(g.pause_button.get_global_rect().get_center())
    check(not g.sim.paused,"mirrored pause touch resumes")
    await tap(g.pause_button.get_global_rect().get_center());check(g.sim.paused,"mirrored pause touch pauses")

@@ -69,10 +69,13 @@ func controls_friction(game,name:String):
  game._refresh();await settle()
  var before=s.snapshot()
  await tap(ocean.global_position+ocean.screen_position(s.units[0].pos))
+ # This fixture suspends the root's refresh loop. Child layout still resolves
+ # chart/status size, so explicitly refresh against that resolved chart first.
+ game._refresh();await settle()
  check(game.advanced_orders and hud.page=="craft","body tap opens the actual command ring "+name)
  var body=ocean.own_craft_rects()[0]
  var outer=hud.ring_radius+game.ui_touch_height*.65
- var projection=Rect2(hud.center-Vector2.ONE*outer,Vector2.ONE*outer*2)
+ var projection=hud.order_dock.get_rect() if hud.order_dock.visible else Rect2(hud.center-Vector2.ONE*outer,Vector2.ONE*outer*2)
  check(not projection.intersects(body),"command ring leaves its own craft visible "+name)
  for b in hud.ring_buttons+[hud.close_button]:
   check(not b.get_global_rect().intersects(game.pause_button.get_global_rect()),"command targets leave pause reachable "+name)
@@ -81,7 +84,7 @@ func controls_friction(game,name:String):
  var heading=s.units[0].angle;s.units[0].angle=PI/2;game._refresh();await settle()
  body=ocean.own_craft_rects()[0]
  var rotated=Rect2(body.get_center()-Vector2(body.size.y,body.size.x)/2,Vector2(body.size.y,body.size.x))
- projection=Rect2(hud.center-Vector2.ONE*outer,Vector2.ONE*outer*2)
+ projection=hud.order_dock.get_rect() if hud.order_dock.visible else Rect2(hud.center-Vector2.ONE*outer,Vector2.ONE*outer*2)
  check(not projection.intersects(rotated),"command ring also clears the craft when its hull turns vertical "+name)
  s.units[0].angle=heading;game._refresh();await settle()
  hud.dismiss();await settle()
@@ -94,7 +97,7 @@ func controls_friction(game,name:String):
  check(not fleet.is_visible_in_tree(),"FIT popup owns touches while craft handles are hidden "+name)
  await tap(game.zoom_buttons[2].get_global_rect().get_center())
  check(ocean.chart_camera.mode=="overview" and s.snapshot()==before,"FIT touch changes only camera, never craft or route "+name)
- projection=Rect2(hud.center-Vector2.ONE*outer,Vector2.ONE*outer*2)
+ projection=hud.order_dock.get_rect() if hud.order_dock.visible else Rect2(hud.center-Vector2.ONE*outer,Vector2.ONE*outer*2)
  check(not projection.intersects(ocean.own_craft_rects()[0]),"FIT immediately keeps the command ring clear of its craft "+name)
  check(hud.anchor.distance_to(ocean.screen_position(s.units[0].pos))<1.,"FIT updates the ring tether to the actual craft position "+name)
  await capture(name+"-fit-isolated")
@@ -131,7 +134,9 @@ func run():
   for id in 3:
    var r=row(fleet,id)
    if not r.get("offscreen",true):
-    check(fleet.buttons[id].get_rect().get_center().distance_to(ocean.screen_position(s.units[id].pos))<1,"visible craft target stays centred on body "+name)
+    if r.get("projected",false):
+     check(not ocean.objective_touch_rects(game.ui_touch_height).any(func(target):return not target.has_point(r.anchor) and target.intersects(fleet.buttons[id].get_rect())),"visible craft badge clears nearby site targets "+name)
+    else:check(fleet.buttons[id].get_rect().get_center().distance_to(ocean.screen_position(s.units[id].pos))<1,"visible craft target stays centred on body "+name)
     check(r.get("ring",false),"visible reserve is a spatial ring "+name)
    check(fleet.buttons[id].size.x>=game.ui_touch_height and fleet.buttons[id].size.y>=game.ui_touch_height,"rings preserve full touch size")
   check(is_equal_approx(row(fleet,0).get("reserves",[{},{}])[1].get("fraction",0.),1.),"endurance stock fills the shared oxygen reference")

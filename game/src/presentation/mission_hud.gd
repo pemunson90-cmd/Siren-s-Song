@@ -33,6 +33,7 @@ var pressure_style:StyleBoxFlat
 var measurement_style:StyleBoxFlat
 var sheet_body:VBoxContainer
 var sheet_fit_pending=false
+var intent_fit_pending=false
 var sheet_scroll:ScrollContainer
 var details_return="water"
 var sheet_pointers:Dictionary={}
@@ -62,13 +63,27 @@ var tool_help=preload("res://src/presentation/tool_help/tool_help.gd").new()
 var help_return="tools"
 var help_text=""
 var help_consumed=false
+var order_dock:PanelContainer
+var order_dock_header:Label
+var order_dock_context:Label
+var order_dock_scroll:ScrollContainer
+var order_dock_commands:VBoxContainer
+var dock_pointers:Dictionary={}
+var dock_touch=preload("res://src/presentation/touch_scroll.gd").new()
 # 119: chosen object work, last work result, and a pending craft/object choice.
 var task:Dictionary={}
 var task_result:Dictionary={}
 var choose_units:Array=[]
 var choose_next="object"
+
 func setup(owner):
  host=owner;mouse_filter=Control.MOUSE_FILTER_IGNORE
+ order_dock=PanelContainer.new();add_child(order_dock);order_dock.hide()
+ var dock_body=VBoxContainer.new();order_dock.add_child(dock_body)
+ order_dock_header=Label.new();order_dock_header.autowrap_mode=TextServer.AUTOWRAP_WORD;dock_body.add_child(order_dock_header)
+ order_dock_scroll=ScrollContainer.new();order_dock_scroll.horizontal_scroll_mode=ScrollContainer.SCROLL_MODE_DISABLED;order_dock_scroll.size_flags_vertical=Control.SIZE_EXPAND_FILL;dock_body.add_child(order_dock_scroll)
+ order_dock_commands=VBoxContainer.new();order_dock_commands.size_flags_horizontal=Control.SIZE_EXPAND_FILL;order_dock_commands.add_theme_constant_override("separation",8);order_dock_scroll.add_child(order_dock_commands)
+ order_dock_context=Label.new();order_dock_context.autowrap_mode=TextServer.AUTOWRAP_WORD;order_dock_commands.add_child(order_dock_context)
  add_child(tool_help);tool_help.setup(self)
  blocker=Control.new();blocker.mouse_filter=Control.MOUSE_FILTER_STOP;add_child(blocker);blocker.gui_input.connect(_outside)
  for key in host.order_buttons:
@@ -126,6 +141,7 @@ func setup(owner):
  warning_style=alert_style
  pressure_style=StyleBoxFlat.new();pressure_style.bg_color=Color(0,0,0,0);pressure_style.content_margin_left=10;pressure_style.content_margin_right=10
  intent=host._label(self,"",18);intent.mouse_filter=Control.MOUSE_FILTER_IGNORE;intent.text_overrun_behavior=TextServer.OVERRUN_NO_TRIMMING;intent.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+ intent.minimum_size_changed.connect(_schedule_intent_fit)
  fleet=preload("res://src/presentation/fleet_instruments.gd").new();add_child(fleet);fleet.setup(host);host.ocean.fleet_instruments=fleet
  guard=preload("res://src/presentation/order_guard.gd").new();add_child(guard);guard.setup(host)
  chart_choice=preload("res://src/presentation/chart_stop_choice.gd").new();add_child(chart_choice);chart_choice.setup(host)
@@ -240,6 +256,7 @@ func owns_pointer(event) -> bool:
  if draining and (event is InputEventScreenTouch or event is InputEventScreenDrag or (event is InputEventMouse and event.device==InputEvent.DEVICE_ID_EMULATION)):return true
  return false
 func sector_at(point:Vector2) -> Button:
+ if has_meta(StatusView.GRID):return null
  if not host.advanced_orders or page in ["inspect","signals","recovery","order_help"] or ring_buttons.is_empty():return null
  var local=StatusView.radial_local(self,point-global_position-center);var distance=local.length()
  if distance<ring_radius-touch_height*.65 or distance>ring_radius+touch_height*.6:return null
@@ -255,13 +272,16 @@ func recovery_button_at(point:Vector2) -> Button:
   if button.is_visible_in_tree() and button.get_global_rect().has_point(point):return button
  return null
 func witness_button_at(point:Vector2) -> Button:
+ if order_dock.visible and not order_dock_scroll.get_global_rect().has_point(point):return null
  # Every projected command has the same tap owner. New actions need no list.
  for button in command_controls():
   if button.is_visible_in_tree() and button.get_global_rect().has_point(point):return button
  return null
 func label_at(point:Vector2) -> bool:
- return action_controls().values().any(func(b):return b.get_global_rect().has_point(point))
+ return action_controls().values().any(func(b):return b.get_global_rect().has_point(point) and (not order_dock.visible or b.get_parent()!=order_dock_commands or order_dock_scroll.get_global_rect().has_point(point)))
 func popup_input(event) -> bool:
+ if order_dock.visible and dock_touch.feed(order_dock_scroll,event,_dock_tap):
+  popup_gesture.cancel();tool_help.cancel();return true
  if (event is InputEventScreenTouch or event is InputEventScreenDrag or event is InputEventMouse) and hints.blocks(event.position):
   tool_help.cancel();popup_gesture.cancel();sector_press=null;return false
  if help_consumed:
@@ -300,6 +320,10 @@ func popup_input(event) -> bool:
   if chosen==released and not chosen.disabled:chosen.pressed.emit()
   return true
  return false
+func _dock_tap(start:Vector2,end:Vector2)->void:
+ for b in ring_buttons:
+  if not b.disabled and b.is_visible_in_tree() and b.get_global_rect().has_point(start) and b.get_global_rect().has_point(end):
+   b.pressed.emit();return
 func _outside(event):
  if event is InputEventScreenTouch or event is InputEventMouseButton:
   var point=event.position+blocker.global_position
@@ -352,10 +376,13 @@ func command_controls() -> Array:
   elif not host.sim.blackwater_handoff_context(host.sim.selected).packets.is_empty():controls.append(extra.blackwater_handoff)
  return controls
 func layout(bounds:Vector2,h:float):
+ for b in ring_buttons+[close_button]:
+  if b!=null and b.get_parent()!=self:b.reparent(self,false)
+ order_dock.hide();host.ocean.command_dock_width=0.;host.ocean.command_dock_left=false;host.ocean.status_floor=0.
  bounds=StatusView.content_bounds(self,bounds)
  position=Vector2.ZERO;size=bounds;touch_height=h
  text_scale=preload("res://src/presentation/frontend/frontend_settings.gd").text_scale()
- var font=maxi(14,roundi(h*.26*text_scale));var bw=h*1.55*text_scale;var bh=h*maxf(1.,text_scale*.9)
+ var font=maxi(14,roundi(h*.26*text_scale));var bw=h*1.55*text_scale;var bh=ceilf(h*maxf(1.,text_scale*.9))
  for b in host.order_buttons.values()+host.unit_buttons+extra.values()+[close_button,focus_button,host.pause_button,host.advanced_button]+host.zoom_buttons:
   b.mouse_filter=Control.MOUSE_FILTER_IGNORE if b in command_controls() else Control.MOUSE_FILTER_STOP
   b.hide();b.custom_minimum_size=Vector2(bw,bh);b.size=Vector2(bw,bh);b.add_theme_font_size_override("font_size",font)
@@ -402,14 +429,23 @@ func layout(bounds:Vector2,h:float):
  for label in [host.title_label,host.detail_label,instrument_info]:label.add_theme_font_size_override("font_size",font)
  alarm.position=Vector2(bw+32,12);alarm.size=Vector2(maxf(1,bounds.x-h*6.*text_scale-64),h);alarm.add_theme_font_size_override("font_size",font)
  host.pause_button.move_to_front();alarm.move_to_front();refresh();queue_redraw()
-# Status text wraps to as many lines as it needs (capped) and grows upward from the bottom edge.
+# Measure the Label's resolved wrapping, rather than a separate Font estimate.
+# Its complete status grows upward; the chart reserves the space beside it.
 func _fit_intent():
  if intent==null or not intent.visible or size.x<=0:return
  var font=intent.get_theme_font_size("font_size");var line=ceili(intent.get_theme_font("font").get_height(font))
- var wide=maxf(1.,size.x-32)
- var needed=intent.get_theme_font("font").get_multiline_string_size(intent.text,HORIZONTAL_ALIGNMENT_LEFT,wide,font).y
- var height=clampf(ceil(needed)+8,line*2+8,line*5+8)
- intent.custom_minimum_size=Vector2(wide,height);intent.size=Vector2(wide,height);intent.position=Vector2(16,size.y-height-14)
+ var wide=maxf(1.,host.ocean.chart_width()-32)
+ intent.custom_minimum_size.x=wide;intent.size.x=wide
+ var height=maxf(ceil(intent.get_minimum_size().y)+8.,line*2+8.)
+ intent.custom_minimum_size.y=height;intent.size.y=height;intent.position=host.ocean.chart_origin()+Vector2(16,size.y-height-14)
+ host.ocean.status_floor=maxf(1.,intent.position.y-12.)
+func _schedule_intent_fit():
+ if intent_fit_pending:return
+ intent_fit_pending=true;call_deferred("_resolved_intent_fit")
+func _resolved_intent_fit():
+ intent_fit_pending=false
+ if intent==null or not intent.visible or not is_inside_tree():return
+ _fit_intent();host._refresh()
 func _schedule_sheet_fit():
  if sheet_fit_pending:return
  sheet_fit_pending=true;call_deferred("_fit_sheet")
@@ -510,6 +546,7 @@ func refresh():
  for entry in host.ocean.contact_entries():
   if entry.urgent or (entry.fresh and ("REPORT" in entry.text or "STUNNED" in entry.text)):warnings.append(entry.text)
  host.ocean.warnings_in_hud=host.advanced_orders
+ host.ocean.optical_suppressed=host.advanced_orders
  alarm.text="\n".join(warnings) if host.advanced_orders else "OP PRESSURE · %s"%pressure.stage
  alarm.visible=not warnings.is_empty() if host.advanced_orders else pressure.hunt>0
  var received=sim.Sonar.feedback(sim,sim.selected).rows.duplicate();received.reverse()
@@ -524,6 +561,18 @@ func refresh():
  alarm.add_theme_color_override("font_color",Color("ffb99b") if host.advanced_orders else Color("bbaa82"))
  var alert_font=alarm.get_theme_font_size("font_size")
  alarm.size=Vector2(maxf(1,size.x-touch_height*6.*text_scale-64),touch_height) if host.advanced_orders else Vector2(minf(size.x-touch_height*3.1*text_scale-56,ThemeDB.fallback_font.get_string_size(alarm.text,HORIZONTAL_ALIGNMENT_LEFT,-1,alert_font).x+22),ThemeDB.fallback_font.get_height(alert_font)+8)
+ fleet.visible=not host.advanced_orders and not host.decoy_armed and not host.knock_armed
+ if not host.decoy_armed and not host.knock_armed:
+  for task_text in [WorkTask.line(sim,task),WorkTask.result_line(task_result),WorkTask.load_status(sim)]:
+   if not task_text.is_empty():intent.text+="\n"+task_text
+  intent.text+="\n"+sim.Depth.context(sim)
+ StatusView.apply(self)
+ _fit_intent()
+ var aid_font=maxi(14,roundi(touch_height*.26*text_scale))
+ guard.refresh(Vector2(host.ocean.chart_width(),size.y),touch_height,aid_font,intent.position.y if intent.visible else size.y)
+ chart_choice.refresh(Vector2(host.ocean.chart_width(),size.y),touch_height,aid_font,intent.position.y if intent.visible else size.y,not guard.panel.visible and not guard.undo_button.visible)
+ hints.refresh(size,touch_height,aid_font,host.ocean.instrument_top+touch_height+34)
+ preload("res://src/presentation/field_tool_view.gd").place_notice(self)
  var blocked=[]
  for button in action_controls().values():
   if button not in fleet.buttons:blocked.append(Rect2(button.global_position-global_position,button.size))
@@ -533,22 +582,11 @@ func refresh():
   if aid.visible:blocked.append(Rect2(aid.global_position-global_position,aid.size))
  for rect in host.ocean.contact_readout_rects():blocked.append(rect)
  if host.ocean.optical_feed.is_visible_in_tree():blocked.append(host.ocean.optical_feed.get_rect())
- fleet.visible=not host.advanced_orders and not host.decoy_armed and not host.knock_armed
- if not host.decoy_armed and not host.knock_armed:
-  for task_text in [WorkTask.line(sim,task),WorkTask.result_line(task_result),WorkTask.load_status(sim)]:
-   if not task_text.is_empty():intent.text+="\n"+task_text
-  intent.text+="\n"+sim.Depth.context(sim)
- StatusView.apply(self)
- _fit_intent()
- var aid_font=maxi(14,roundi(touch_height*.26*text_scale))
- guard.refresh(size,touch_height,aid_font,intent.position.y if intent.visible else size.y)
- chart_choice.refresh(size,touch_height,aid_font,intent.position.y if intent.visible else size.y,not guard.panel.visible and not guard.undo_button.visible)
- hints.refresh(size,touch_height,aid_font,host.ocean.instrument_top+touch_height+34)
- preload("res://src/presentation/field_tool_view.gd").place_notice(self)
+
  fleet.refresh(blocked)
  host.ocean.ui_blocked_rects=occupied_rects().map(func(r):return Rect2(r.position-host.ocean.global_position,r.size))
  if host.decoy_armed or host.knock_armed:
-  close_button.text="CANCEL";close_button.position=Vector2(size.x/2-touch_height*.775,size.y-touch_height-12);close_button.show()
+  close_button.text="CANCEL";close_button.position=Vector2((host.ocean.chart_width()-close_button.size.x)/2,(intent.position.y if intent.visible else size.y)-close_button.size.y-12);close_button.show()
  else:close_button.text="CANCEL" if page=="recovery" else "LOCAL ORDERS" if page=="inspect" and subject.get("subkind","")=="concealed" else "BACK";close_button.visible=host.advanced_orders
  if page=="order_help":instrument_info.text=help_text;host.title_label.hide();host.detail_label.hide()
  queue_redraw()
@@ -558,6 +596,7 @@ func refresh():
   if not transition.is_empty():instrument_info.text="%s → %s · %.1fs remaining\n"%[sim.Depth.NAMES[u.band],sim.Depth.NAMES[transition.to],transition.remaining]+instrument_info.text
 
  HuntMeter.sync(self)
+ if has_meta(StatusView.GRID):StatusView.fit_dock(self)
 
 func _draw():
  caption_rects.clear()
@@ -567,6 +606,7 @@ func _draw():
  draw_line(tether,center,Color(.3,.8,.8,.32),1.5)
  draw_circle(tether,5,Color("80cbc8"),false,1.5)
  if page in ["inspect","signals","recovery","order_help"]:return
+ if has_meta(StatusView.GRID):return
  StatusView.draw_disc(self,ring_radius-h*.7,Color(.012,.038,.055,.78))
  for i in ring_buttons.size():
   var points=PackedVector2Array();var from=-PI/2+TAU*(i-.5)/ring_buttons.size()+.012;var until=-PI/2+TAU*(i+.5)/ring_buttons.size()-.012

@@ -164,12 +164,19 @@ static func draw(ctx:Dictionary,look:String)->void:
 static func _see(g:Dictionary,id:String)->float:
 	return clampf(float(g.evs.get(id,0.0))*1.2,0.0,1.0)
 # The seabed falls away into the trench beyond x.
+static func trench_polygon(rect:Rect2,x:float,base:float,s:float)->PackedVector2Array:
+	var top:float=base-s*0.06
+	if rect.size.x<=0.0 or rect.size.y<=0.0 or s<=0.0 or x>=rect.end.x-2.0 or top>=rect.end.y:return PackedVector2Array()
+	# A subject can leave only a sliver of trench at the picture's right edge.
+	# Keep its sloping foot left of that edge, so the sides never cross.
+	var foot:float=x+minf(s*0.1,(rect.end.x-x)*0.5)
+	return PackedVector2Array([Vector2(x,top),Vector2(rect.end.x,top-s*0.02),rect.end,Vector2(foot,rect.end.y)])
 static func _trench(g:Dictionary,x:float)->void:
 	var ci:CanvasItem=g.ci;var rect:Rect2=g.rect;var al:float=g.al;var base:float=g.base;var s:float=g.s
-	var top:float=base-s*0.06
-	if x>=rect.end.x-2.0:return
-	ci.draw_polygon(PackedVector2Array([Vector2(x,top),Vector2(rect.end.x,top-s*0.02),Vector2(rect.end.x,rect.end.y),Vector2(x+s*0.1,rect.end.y)]),PackedColorArray([Color(0.0,0.01,0.015,al*0.9),Color(0.0,0.01,0.015,al*0.9),Color(0.0,0.0,0.005,al),Color(0.0,0.0,0.005,al)]))
-	ci.draw_line(Vector2(x,top),Vector2(rect.end.x,top-s*0.02),Color(0.7,0.88,0.84,al*0.3*float(g.lit)),1.5)
+	var pts:=trench_polygon(rect,x,base,s)
+	if pts.is_empty():return
+	ci.draw_polygon(pts,PackedColorArray([Color(0.0,0.01,0.015,al*0.9),Color(0.0,0.01,0.015,al*0.9),Color(0.0,0.0,0.005,al),Color(0.0,0.0,0.005,al)]))
+	ci.draw_line(pts[0],pts[1],Color(0.7,0.88,0.84,al*0.3*float(g.lit)),1.5)
 static func _plated_wall(g:Dictionary,l:float,r:float,t:float,b:float)->void:
 	var ci:CanvasItem=g.ci;var al:float=g.al
 	var body:Color=_steel(g.tone,1.0);var dark:Color=_steel(g.tone,0.45)

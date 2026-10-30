@@ -53,6 +53,10 @@ static func badge_rect(view,sim,touch:float,blocked:Array)->Rect2:
  var size=Vector2(touch*1.55,touch);var radius=maxf(touch*1.1,72*view.world_scale if sim.selected==0 else 24*view.world_scale)
  var avoid=blocked.duplicate();avoid.append_array(view.own_craft_rects());avoid.append_array(view.ship_instrument_rects());avoid.append_array(view.contact_readout_rects())
  for site in sim.observable_sites():avoid.append(Rect2(view.screen_position(site.pos)-Vector2.ONE*40*view.world_scale,Vector2.ONE*80*view.world_scale))
+ # Earned corridor and withdrawal targets retain their own full touch region.
+ var target_radius=maxf(touch*.5,64*view.world_scale)
+ for corridor in sim.extraction_corridors():avoid.append(Rect2(view.screen_position(corridor.pos)-Vector2.ONE*target_radius,Vector2.ONE*target_radius*2))
+ if entry(sim):avoid.append(Rect2(view.screen_position(sim.mission.extraction)-Vector2.ONE*target_radius,Vector2.ONE*target_radius*2))
  if view.optical_feed!=null and view.optical_feed.visible:avoid.append(view.optical_feed.get_rect())
  for offset in [Vector2(radius+12,-touch*.5),Vector2(-radius-size.x-12,-touch*.5),Vector2(radius+12,touch*.6),Vector2(-radius-size.x-12,touch*.6),Vector2(-size.x*.5,-radius-touch-12),Vector2(-size.x*.5,radius+12)]:
   var at=(p+offset).clamp(Vector2(12,view.instrument_top+8),view.size-size-Vector2(12,12));var area=Rect2(at,size)

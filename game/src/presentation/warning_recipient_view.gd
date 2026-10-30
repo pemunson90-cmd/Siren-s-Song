@@ -24,19 +24,34 @@ static func primary_subject(sim)->Dictionary:
 static func markers(view,sim,touch:float)->Array:
  var info=status(sim);var result=[]
  if info.is_empty():return result
- var occupied=view.ui_blocked_rects+view.own_craft_rects()+view.ship_instrument_rects()+view.contact_readout_rects()
  var bounds=Rect2(Vector2(12,view.instrument_top+12),view.size-Vector2(24,view.instrument_top+touch+30))
+ # During sizing or teardown the chart may have no room for a full target.
+ # Wait for usable chart space instead of projecting into inverted bounds.
+ if bounds.size.x<touch or bounds.size.y<touch:return result
+ var occupied=view.ui_blocked_rects+view.own_craft_rects()+view.ship_instrument_rects()+view.contact_readout_rects()
+ # Badges must not intercept the other known object's physical touch target.
+ var radius=maxf(touch*.32,25*view.world_scale)
+ for key in ["recipient","gate"]:
+  if info[key].known:occupied.append(Rect2(view.screen_position(info[key].pos)-Vector2.ONE*radius,Vector2.ONE*radius*2))
  var extent=Vector2(minf(touch*3.1,bounds.size.x),touch)
  for key in ["recipient","gate"]:
   var item=info[key]
   if not item.known:continue
   var anchor=view.screen_position(item.pos)
   if not Rect2(Vector2.ZERO,view.size).has_point(anchor):continue
+  var marker_text=("PASSAGE OPEN" if item.opened else "MANUAL RELEASE · AUDIBLE") if key=="gate" else (item.phase.to_upper()+" · %d%%"%roundi(item.hull)) if item.live else "LAST FIX · %ds"%floori(item.age)
+  var placed=false
   for offset in [Vector2(.9,-.5),Vector2(-4.,-.5),Vector2(-1.5,-1.7),Vector2(-1.5,.9),Vector2(.9,1.2),Vector2(-4.,1.2),Vector2(.9,-2.),Vector2(-5.,-.5),Vector2(2.,-.5)]:
    var box=Rect2((anchor+offset*touch).clamp(bounds.position,bounds.end-extent),extent)
    if occupied.any(func(rect):return rect.intersects(box.grow(5))):continue
-   result.append({"rect":box,"anchor":anchor,"subject":subject(item,key),"text":("PASSAGE OPEN" if item.opened else "MANUAL RELEASE · AUDIBLE") if key=="gate" else (item.phase.to_upper()+" · %d%%"%roundi(item.hull)) if item.live else "LAST FIX · %ds"%floori(item.age)})
-   occupied.append(box);break
+   result.append({"rect":box,"anchor":anchor,"subject":subject(item,key),"text":marker_text})
+   occupied.append(box);placed=true;break
+  if not placed:
+   var center=preload("res://src/presentation/fleet_ring.gd").command_center(anchor,bounds,extent/2,occupied.map(func(rect):return rect.grow(2)))
+   var box=Rect2(center-extent/2,extent)
+   if bounds.encloses(box) and not occupied.any(func(rect):return rect.intersects(box.grow(5))):
+    result.append({"rect":box,"anchor":anchor,"subject":subject(item,key),"text":marker_text})
+    occupied.append(box)
  return result
 static func pick(view,sim,point:Vector2,touch:float,bodies:bool=true)->Dictionary:
  for marker in markers(view,sim,touch):
