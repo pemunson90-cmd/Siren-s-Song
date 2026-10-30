@@ -17,7 +17,12 @@ const LOOKS={
 	"glass_record_33":"gallery_people","glass_record_33_bonus":"reed_scoring",
 	"glass_record_34":"bore_junction","glass_record_34_bonus":"impact_face",
 	"glass_record_35":"crushed_keel","glass_record_35_bonus":"empty_berths",
-	"glass_record_36":"guard_window","glass_record_36_bonus":"permit_stone"}
+	"glass_record_36":"guard_window","glass_record_36_bonus":"permit_stone",
+	"spire":"signal_spire","relay_west":"relay_spine","relay_east":"relay_wall",
+	"furnace":"vent_mouth","cradle":"launch_cradle","well_pattern":"array_ribs",
+	"well_aperture":"rim_aperture","well_return":"archive_face","transmitter":"vane_crown",
+	"departure":"wake_split","final_photo_30":"scour_edge","final_photo_30_bonus":"spindle_collar",
+	"final_photo_31":"survivor_marks","final_photo_31_bonus":"feed_terminals"}
 # Foundry art regions (source pixels) reused as Siren surface detail.
 const SPINE=Rect2(700,60,140,700)
 const CYLINDERS=Rect2(470,320,200,330)
@@ -120,7 +125,7 @@ static func person(ci:CanvasItem,feet:Vector2,h:float,kind:String,sil:Color,rim:
 static func draw(ctx:Dictionary,look:String)->void:
 	var ci:CanvasItem=ctx.ci;var rect:Rect2=ctx.rect
 	var g:={"ci":ci,"rect":rect,"cx":float(ctx.cx)+float(ctx.dx),"base":float(ctx.base),"s":float(ctx.s),"a":float(ctx.a),"al":float(ctx.alpha),
-		"light":float(ctx.light),"detail":clampf(float(ctx.sharp)*1.3,0.0,1.0),"ev":float(ctx.get("ev",0.0)),"seed":int(ctx.seed),"time":float(ctx.time)}
+		"light":float(ctx.light),"detail":clampf(float(ctx.sharp)*1.3,0.0,1.0),"ev":float(ctx.get("ev",0.0)),"seed":int(ctx.seed),"time":float(ctx.time),"evs":ctx.get("evs",{})}
 	# A composed scene foreshortens gently; it stays readable side on.
 	g["fx"]=lerpf(0.72,1.0,absf(cos(g.a)))
 	g["w"]=minf(g.s*2.3*g.fx,rect.size.x*0.9)
@@ -139,7 +144,32 @@ static func draw(ctx:Dictionary,look:String)->void:
 		"empty_berths":_empty_berths(g)
 		"guard_window":_guard_window(g)
 		"permit_stone":_permit_stone(g)
+		"signal_spire":_signal_spire(g)
+		"relay_spine":_relay(g,true)
+		"relay_wall":_relay(g,false)
+		"vent_mouth":_vent_mouth(g)
+		"launch_cradle":_launch_cradle(g)
+		"array_ribs":_array_ribs(g)
+		"rim_aperture":_rim_aperture(g)
+		"archive_face":_archive_face(g)
+		"vane_crown":_vane_crown(g)
+		"wake_split":_wake_split(g)
+		"scour_edge":_scour_edge(g)
+		"spindle_collar":_spindle_collar(g)
+		"survivor_marks":_survivor_marks(g)
+		"feed_terminals":_feed_terminals(g)
 # --- shared pieces -------------------------------------------------------------
+# How legible one feature's evidence is: its own resolved quality, so a subject
+# with several features shows each one only when the frame resolved that one.
+static func _see(g:Dictionary,id:String)->float:
+	return clampf(float(g.evs.get(id,0.0))*1.2,0.0,1.0)
+# The seabed falls away into the trench beyond x.
+static func _trench(g:Dictionary,x:float)->void:
+	var ci:CanvasItem=g.ci;var rect:Rect2=g.rect;var al:float=g.al;var base:float=g.base;var s:float=g.s
+	var top:float=base-s*0.06
+	if x>=rect.end.x-2.0:return
+	ci.draw_polygon(PackedVector2Array([Vector2(x,top),Vector2(rect.end.x,top-s*0.02),Vector2(rect.end.x,rect.end.y),Vector2(x+s*0.1,rect.end.y)]),PackedColorArray([Color(0.0,0.01,0.015,al*0.9),Color(0.0,0.01,0.015,al*0.9),Color(0.0,0.0,0.005,al),Color(0.0,0.0,0.005,al)]))
+	ci.draw_line(Vector2(x,top),Vector2(rect.end.x,top-s*0.02),Color(0.7,0.88,0.84,al*0.3*float(g.lit)),1.5)
 static func _plated_wall(g:Dictionary,l:float,r:float,t:float,b:float)->void:
 	var ci:CanvasItem=g.ci;var al:float=g.al
 	var body:Color=_steel(g.tone,1.0);var dark:Color=_steel(g.tone,0.45)
@@ -499,3 +529,442 @@ static func _permit_stone(g:Dictionary)->void:
 		ci.draw_line(Vector2(pr.position.x+pr.size.x*0.12,y),Vector2(pr.end.x-pr.size.x*(0.12+0.2*rnd(k)),y),Color(0.02,0.04,0.05,al*lerpf(0.3,0.9,see)),maxf(1.0,h*0.02))
 	if see>0.7 and float(g.detail)>0.55:
 		_text(ci,pr.position+Vector2(pr.size.x*0.1,pr.size.y*0.25),"PERMIT",clampi(int(h*0.08),8,14),Color(0.02,0.04,0.05,al))
+# --- ops 0 to 31 ----------------------------------------------------------------
+# 0: the Corran signal spire. A leaning steel derrick beside its plated housing;
+# the battery beacon at the crown, the drill string snapped clean below it, and
+# deep parallel scoring on the housing's sheltered side.
+static func _signal_spire(g:Dictionary)->void:
+	var ci:CanvasItem=g.ci;var rect:Rect2=g.rect;var al:float=g.al
+	var s:float=g.s;var w:float=g.w;var cx:float=g.cx;var base:float=g.base
+	var b:float=_see(g,"beacon");var d:float=_see(g,"drill");var sc:float=_see(g,"scoring")
+	var hl:float=cx-w*0.46;var hr:float=cx-w*0.02;var ht:float=base-s*0.34
+	_plated_wall(g,hl,hr,ht,base)
+	var steel:Color=_steel(g.tone,1.1)
+	var lean:float=s*0.16
+	var l0:=Vector2(cx,base);var r0:=Vector2(cx+w*0.22,base)
+	var top:=Vector2(cx+w*0.11+lean,base-s*0.9)
+	var lt:=top+Vector2(-w*0.025,0);var rt:=top+Vector2(w*0.025,0)
+	var lw:float=maxf(2.0,s*0.022)
+	ci.draw_line(l0,lt,steel,lw);ci.draw_line(r0,rt,steel,lw)
+	var brace:=_c(steel,lerpf(0.4,1.0,float(g.detail)))
+	for k in 6:
+		var f0:float=float(k)/6.0;var f1:float=float(k+1)/6.0
+		var a0:=l0.lerp(lt,f0);var b0:=r0.lerp(rt,f0);var a1:=l0.lerp(lt,f1);var b1:=r0.lerp(rt,f1)
+		ci.draw_line(a1,b1,brace,maxf(1.0,lw*0.5))
+		if float(g.detail)>0.35:
+			ci.draw_line(a0,b1,brace,1.0);ci.draw_line(b0,a1,brace,1.0)
+	ci.draw_rect(Rect2(top+Vector2(-w*0.04,-s*0.05),Vector2(w*0.08,s*0.05)),steel)
+	# Scoring on the housing's sheltered side.
+	if sc>0.0:
+		for k in 4:
+			var p0:=Vector2(hr-w*0.2+k*w*0.035,ht+s*0.05);var p1:=p0+Vector2(w*0.07,s*0.24)
+			ci.draw_line(p0,p1,Color(0.0,0.01,0.015,al*lerpf(0.4,0.95,sc)),maxf(2.0,s*0.022))
+			if sc>0.4:ci.draw_line(p0+Vector2(2,1),p1+Vector2(2,1),Color(0.8,0.92,0.88,al*0.45*float(g.lit)),1.0)
+			if sc>0.7 and float(g.detail)>0.55:
+				ci.draw_colored_polygon(PackedVector2Array([p1,p1+Vector2(s*0.025,-s*0.01),p1+Vector2(s*0.01,s*0.02)]),_steel(g.tone,1.4))
+	# Drill string from the crown boom, snapped clean partway down.
+	var hang:=top+Vector2(w*0.1,s*0.02)
+	ci.draw_line(top+Vector2(0,-s*0.02),hang,steel,maxf(1.5,lw*0.7))
+	var brk:=Vector2(hang.x,base-s*0.4)
+	if d<=0.0:
+		ci.draw_line(hang,brk,_c(steel,0.3),maxf(1.5,s*0.015))
+	else:
+		var pa:float=lerpf(0.5,1.0,d)
+		ci.draw_line(hang,brk,_c(steel,pa),maxf(2.0,s*0.028))
+		for k in 4:
+			var p:=hang.lerp(brk,0.18+0.2*k)
+			ci.draw_line(p+Vector2(-s*0.025,0),p+Vector2(s*0.025,0),_c(steel.lightened(0.2),pa),maxf(2.0,s*0.018))
+		if d>0.35:
+			ci.draw_polyline(PackedVector2Array([brk+Vector2(-s*0.016,0),brk+Vector2(-s*0.006,s*0.01),brk+Vector2(s*0.004,-s*0.004),brk+Vector2(s*0.016,s*0.006)]),Color(0.95,1.0,0.98,al*0.95),1.5)
+			var g0:=Vector2(hang.x+w*0.04,base+s*0.03);var g1:=Vector2(hang.x+w*0.3,base+s*0.06)
+			ci.draw_line(g0,g1,_c(steel,pa*0.9),maxf(2.0,s*0.026))
+			ci.draw_circle(g0,maxf(1.5,s*0.014),Color(0.95,1.0,0.98,al*0.85))
+		if d>0.7 and float(g.detail)>0.5:
+			for k in 3:ci.draw_arc(brk,s*(0.04+0.03*k),0.3,PI-0.3,10,Color(0.75,0.9,0.86,al*0.3),1.0)
+	# The beacon on battery at the crown.
+	var lamp:=top+Vector2(0,-s*0.08)
+	if b<=0.0:
+		ci.draw_circle(lamp,maxf(2.0,s*0.03),_steel(g.tone,0.6))
+		_glow(ci,rect,lamp,s*0.08,s*0.08,Color(1.0,0.8,0.5,0.12*al),3)
+	else:
+		var pulse:float=0.65+0.35*sin(float(g.time)*3.0)
+		_glow(ci,rect,lamp,s*0.2*b,s*0.2*b,Color(1.0,0.82,0.5,0.4*al*pulse),5)
+		ci.draw_circle(lamp,maxf(2.0,s*0.032),Color(1.0,0.95,0.8,al))
+		if b>0.6 and float(g.detail)>0.5:
+			var box:=Rect2(l0+Vector2(-w*0.07,-s*0.1),Vector2(w*0.06,s*0.1))
+			ci.draw_rect(box,_steel(g.tone,0.9))
+			ci.draw_circle(box.position+Vector2(box.size.x*0.5,s*0.025),maxf(1.0,s*0.012),_c(AMBER,al))
+			ci.draw_line(box.position+Vector2(box.size.x,s*0.02),l0.lerp(lt,0.95),_c(steel,0.7),1.0)
+# 1: a seabed transponder relay, its riser parted and its clock stopped. The
+# west relay stands under the basalt spine; the east one beside the long wall.
+static func _relay(g:Dictionary,west:bool)->void:
+	var ci:CanvasItem=g.ci;var rect:Rect2=g.rect;var al:float=g.al
+	var s:float=g.s;var w:float=g.w;var cx:float=g.cx;var base:float=g.base
+	var h:float=_see(g,"housing");var c:float=_see(g,"clock")
+	if west:
+		var ridge:=PackedVector2Array([Vector2(cx-w*0.62,base),Vector2(cx-w*0.5,base-s*0.7),Vector2(cx-w*0.32,base-s*1.08),Vector2(cx-w*0.18,base-s*0.9),Vector2(cx-w*0.06,base-s*0.5),Vector2(cx+w*0.02,base)])
+		_stone(ci,ridge,g.tone,0.8,int(g.seed)+101)
+		ci.draw_polyline(PackedVector2Array([ridge[1],ridge[2],ridge[3]]),Color(0.75,0.9,0.86,al*0.3*float(g.lit)),1.2)
+	else:
+		var wl:float=cx-w*0.62;var wr:float=minf(rect.end.x,cx+w*0.2)
+		_stone(ci,PackedVector2Array([Vector2(wl,base-s*0.42),Vector2(wr,base-s*0.38),Vector2(wr,base-s*0.06),Vector2(wl,base-s*0.06)]),g.tone,0.75,int(g.seed)+102)
+		ci.draw_line(Vector2(wl,base-s*0.42),Vector2(wr,base-s*0.38),Color(0.75,0.9,0.86,al*0.3*float(g.lit)),1.2)
+	var bx:float=cx+w*0.12;var bw:float=w*0.12;var bt:float=base-s*0.62;var bb:float=base-s*0.3
+	var steel:Color=_steel(g.tone,1.0)
+	for x in [bx-bw*0.8,bx,bx+bw*0.8]:
+		ci.draw_line(Vector2(lerpf(bx,x,0.6),bb),Vector2(x,base),_steel(g.tone,0.7),maxf(1.5,s*0.018))
+	ci.draw_polygon(PackedVector2Array([Vector2(bx-bw,bt),Vector2(bx+bw,bt),Vector2(bx+bw,bb),Vector2(bx-bw,bb)]),PackedColorArray([steel,_steel(g.tone,0.6),_steel(g.tone,0.4),_steel(g.tone,0.7)]))
+	ci.draw_colored_polygon(_ellipse(Vector2(bx,bt),bw,s*0.035),_steel(g.tone,1.3))
+	ci.draw_line(Vector2(bx-bw,bt+(bb-bt)*0.2),Vector2(bx+bw,bt+(bb-bt)*0.2),Color(0.85,0.6,0.3,al*0.5),maxf(1.5,s*0.015))
+	if h>0.3:
+		# The riser parted: frayed ends above the housing, the upper run adrift.
+		var r0:=Vector2(bx,bt);var r1:=Vector2(bx+w*0.02,bt-s*0.22)
+		ci.draw_line(r0,r1,_c(steel,lerpf(0.5,1.0,h)),maxf(1.5,s*0.02))
+		for k in 3:ci.draw_line(r1,r1+Vector2((k-1)*s*0.02,-s*0.035),Color(0.85,0.95,0.92,al*0.8*h),1.0)
+		var drift:=PackedVector2Array()
+		for i in 7:drift.append(Vector2(bx+w*0.08+i*w*0.03,bt-s*0.42-sin(i*0.9)*s*0.04))
+		ci.draw_polyline(drift,_c(steel,0.5*h),maxf(1.0,s*0.014))
+	if h>0.6 and float(g.detail)>0.5:
+		ci.draw_circle(Vector2(bx+bw*0.7,bt+s*0.03),maxf(1.0,s*0.012),Color(0.9,0.25,0.18,al*0.9))
+	var dc:=Vector2(bx,bt+(bb-bt)*0.6);var dr:float=maxf(4.0,minf(bw*0.55,(bb-bt)*0.3))
+	if c<=0.0:
+		ci.draw_circle(dc,dr,_steel(g.tone,0.35))
+		return
+	ci.draw_circle(dc,dr,_c(Color(0.82,0.86,0.78),al*lerpf(0.5,1.0,c)))
+	ci.draw_arc(dc,dr,0,TAU,24,_steel(g.tone,1.3),maxf(1.0,dr*0.15))
+	var hand:=Color(0.02,0.03,0.035,al)
+	ci.draw_line(dc,dc+Vector2(cos(-0.6),sin(-0.6))*dr*0.55,hand,maxf(1.5,dr*0.14))
+	ci.draw_line(dc,dc+Vector2(cos(2.1),sin(2.1))*dr*0.85,hand,maxf(1.0,dr*0.09))
+	if c>0.6 and float(g.detail)>0.5:
+		for i in 12:
+			var a:float=TAU*i/12.0
+			ci.draw_line(dc+Vector2(cos(a),sin(a))*dr*0.8,dc+Vector2(cos(a),sin(a))*dr*0.95,hand,1.0)
+		ci.draw_line(dc+Vector2(-dr*0.7,-dr*0.5),dc+Vector2(dr*0.4,dr*0.75),Color(1,1,1,al*0.55),1.0)
+# 3: the Siren furnace vent. A basalt mound with foundry flanks, heat at the
+# mouth, a feed line leaving it; the lining inside is grown, not cast.
+static func _vent_mouth(g:Dictionary)->void:
+	var ci:CanvasItem=g.ci;var rect:Rect2=g.rect;var al:float=g.al
+	var s:float=g.s;var w:float=g.w;var cx:float=g.cx;var base:float=g.base
+	var m:float=_see(g,"mouth");var ln:float=_see(g,"lining")
+	var mound:=PackedVector2Array()
+	for i in 17:
+		var a:float=PI+PI*i/16.0
+		mound.append(Vector2(cx+cos(a)*w*0.4,base+sin(a)*s*0.78*(0.92+0.08*rnd(i+int(g.seed)))))
+	_stone(ci,mound,g.tone,0.9,int(g.seed)+3)
+	_art(ci,Rect2(cx-w*0.34,base-s*0.42,w*0.12,s*0.38),CYLINDERS,g.tone,0.8)
+	_art(ci,Rect2(cx+w*0.2,base-s*0.38,w*0.13,s*0.3),FINS,g.tone,0.8)
+	# Feed line south toward the frames.
+	var f0:=Vector2(cx+w*0.3,base-s*0.12);var f1:=Vector2(minf(rect.end.x-4.0,cx+w*0.62),base+s*0.05)
+	ci.draw_line(f0,f1,_steel(g.tone,0.8),maxf(3.0,s*0.05))
+	ci.draw_line(f0,f1,Color(0.9,0.22,0.16,al*0.35*(0.4+float(g.lit))),1.5)
+	var mc:=Vector2(cx-w*0.02,base-s*0.5);var rx:float=w*0.1*float(g.fx);var ry:float=s*0.13
+	_glow(ci,rect,mc,rx*2.6,ry*2.4,Color(1.0,0.5,0.22,(0.18+0.3*m)*al),5)
+	ci.draw_colored_polygon(_ellipse(mc,rx,ry),Color(0.02,0.01,0.008,al))
+	if m>0.0:
+		ci.draw_colored_polygon(_ellipse(mc+Vector2(0,ry*0.15),rx*0.45,ry*0.4),Color(1.0,0.58,0.26,al*m))
+		ci.draw_colored_polygon(_ellipse(mc+Vector2(0,ry*0.15),rx*0.2,ry*0.18),Color(1.0,0.9,0.6,al*m))
+		for k in 3:
+			var pts:=PackedVector2Array()
+			for i in 8:pts.append(mc+Vector2((k-1)*rx*0.5+sin(i*1.2+float(g.time)*2.0+k)*rx*0.12,-ry-i*s*0.035))
+			ci.draw_polyline(pts,Color(1.0,0.7,0.4,al*0.3*m),1.0)
+	if ln>0.0:
+		# Grown lamellae reaching in from the rim, thinnest at the mouth.
+		for i in 18:
+			var a:float=TAU*i/18.0+rnd(i*7)*0.15
+			var k:float=0.5+0.22*rnd(i*13+int(g.seed))
+			var p0:=mc+Vector2(cos(a)*rx,sin(a)*ry);var p1:=mc+Vector2(cos(a)*rx*k,sin(a)*ry*k)
+			var n:=Vector2(-sin(a),cos(a))*maxf(1.0,rx*0.08)
+			ci.draw_colored_polygon(PackedVector2Array([p0-n,p0+n,p1]),Color(0.78,0.72,0.6,al*0.8*ln))
+		if ln>0.5:_ring(ci,mc,rx,ry,Color(0.95,0.92,0.82,al*0.7*ln),1.0)
+		if ln>0.7 and float(g.detail)>0.55:
+			for i in 10:
+				var a:float=TAU*rnd(i*5+3)
+				var p:=mc+Vector2(cos(a)*rx*0.7,sin(a)*ry*0.7)
+				ci.draw_line(p,p+Vector2(cos(a+0.8),sin(a+0.8))*rx*0.12,Color(0.9,0.85,0.72,al*0.7),1.0)
+	else:
+		_ring(ci,mc,rx,ry,_steel(g.tone,0.5),maxf(1.0,ry*0.08))
+# 3: the launch cradle. Siren frames standing open on rails that run to the
+# trench edge, still warm.
+static func _launch_cradle(g:Dictionary)->void:
+	var ci:CanvasItem=g.ci;var rect:Rect2=g.rect;var al:float=g.al
+	var s:float=g.s;var w:float=g.w;var cx:float=g.cx;var base:float=g.base
+	var rl:float=_see(g,"rails");var fr:float=_see(g,"frames")
+	var edge:float=cx+w*0.44
+	_trench(g,edge)
+	var steel:Color=_steel(g.tone,1.2)
+	var rails:=[[Vector2(cx-w*0.6,base-s*0.04),Vector2(edge,base-s*0.06)],[Vector2(cx-w*0.6,base+s*0.05),Vector2(edge+s*0.03,base+s*0.02)]]
+	if rl>0.3:
+		for k in 14:
+			var f:float=float(k)/13.0
+			var ra:Vector2=rails[0][0].lerp(rails[0][1],f);var rb:Vector2=rails[1][0].lerp(rails[1][1],f)
+			ci.draw_line(ra,rb,_steel(g.tone,0.6),maxf(1.0,s*0.012))
+	for r in rails:
+		ci.draw_line(r[0],r[1],_c(steel,lerpf(0.4,1.0,rl)),maxf(1.5,s*0.018))
+		if rl>0.6:ci.draw_circle(r[1],maxf(1.5,s*0.014),Color(0.9,1.0,0.96,al*0.8))
+	for k in 3:
+		var x:float=cx-w*0.34+w*0.24*k
+		var fw:float=w*0.15;var fh:float=s*(0.72-0.04*k)
+		var t:float=base-s*0.02-fh
+		var post:float=maxf(3.0,w*0.022)
+		if fr<=0.0:
+			ci.draw_rect(Rect2(x-fw*0.5,t,fw,fh),Color(0.02,0.03,0.035,al*0.75),false,post)
+			continue
+		var fa:float=lerpf(0.5,1.0,fr)
+		var c:={"light":g.light,"alpha":al*fa}
+		_art(ci,Rect2(x-fw*0.5,t,post,fh),SPINE,c,0.9)
+		_art(ci,Rect2(x+fw*0.5-post,t,post,fh),SPINE,c,0.9)
+		_art(ci,Rect2(x-fw*0.5,t,fw,post),Rect2(330,620,800,60),c,0.9)
+		_art(ci,Rect2(x-fw*0.5,t+fh*0.55,fw,post*0.8),Rect2(330,660,800,60),c,0.9)
+		ci.draw_line(Vector2(x-fw*0.5+post*0.5,t),Vector2(x-fw*0.5+post*0.5,t+fh),Color(0.9,0.22,0.16,al*0.35*fr),1.0)
+		for j in [Vector2(x-fw*0.5,t),Vector2(x+fw*0.5,t),Vector2(x-fw*0.5,t+fh*0.55),Vector2(x+fw*0.5,t+fh*0.55)]:
+			_glow(ci,rect,j,s*0.05,s*0.05,Color(1.0,0.55,0.25,0.35*al*fr),3)
+		if fr>0.5:
+			for i in 2:
+				var pts:=PackedVector2Array()
+				for n in 6:pts.append(Vector2(x+(i-0.5)*fw*0.4+sin(n*1.3+float(g.time)*2.0+k)*fw*0.05,t-n*s*0.03))
+				ci.draw_polyline(pts,Color(1.0,0.7,0.4,al*0.25*fr),1.0)
+		if fr>0.7 and float(g.detail)>0.55:
+			for side in [-1.0,1.0]:
+				ci.draw_line(Vector2(x+side*fw*0.5,t+fh*0.3),Vector2(x+side*fw*0.22,t+fh*0.38),_steel(g.tone,1.2),maxf(1.5,post*0.5))
+# 4: the listening well's array ribs along the rim; resolved, each rib carries
+# notches in a repeating count of one, two, three.
+static func _array_ribs(g:Dictionary)->void:
+	var ci:CanvasItem=g.ci;var al:float=g.al
+	var s:float=g.s;var w:float=g.w;var cx:float=g.cx;var base:float=g.base
+	var ri:float=_see(g,"ribs");var co:float=_see(g,"count")
+	var rim:=PackedVector2Array()
+	for i in 13:
+		var f:float=float(i)/12.0
+		rim.append(Vector2(cx-w*0.5+w*f,base-s*0.12-s*0.1*sin(PI*f)))
+	rim.append(Vector2(cx+w*0.5,base));rim.append(Vector2(cx-w*0.5,base))
+	_stone(ci,rim,g.tone,0.85,int(g.seed)+4)
+	var heights:=[0.85,0.65,0.45]
+	for k in 9:
+		var f:float=(float(k)+0.5)/9.0
+		var x:float=cx-w*0.46+w*0.92*f
+		var y0:float=base-s*0.12-s*0.1*sin(PI*f)
+		var rh:float=s*float(heights[k%3]);var rw:float=w*0.026
+		var lean:float=(cx-x)*0.06
+		var rib:=PackedVector2Array([Vector2(x-rw,y0+2),Vector2(x+rw,y0+2),Vector2(x+rw*0.45+lean,y0-rh),Vector2(x-rw*0.45+lean,y0-rh)])
+		_stone(ci,rib,g.tone,0.95,k*11+int(g.seed))
+		if ri>0.3:ci.draw_line(Vector2(x+rw,y0),Vector2(x+rw*0.45+lean,y0-rh),Color(0.75,0.9,0.86,al*0.4*ri*float(g.lit)),1.0)
+		if co>0.0:
+			for n in (k%3)+1:
+				var ny:float=y0-rh*(0.55+0.12*n)
+				var nx:float=x+lean*(0.55+0.12*n)
+				ci.draw_line(Vector2(nx-rw*0.7,ny),Vector2(nx+rw*0.7,ny),Color(PHOSPHOR.r,PHOSPHOR.g,PHOSPHOR.b,al*co),maxf(1.5,s*0.016))
+				if co>0.6 and float(g.detail)>0.5:ci.draw_line(Vector2(nx-rw*0.7,ny+2),Vector2(nx+rw*0.7,ny+2),Color(0,0.01,0.015,al*0.7),1.0)
+# 4: the profile aperture: a stepped opening cut into the well rim.
+static func _rim_aperture(g:Dictionary)->void:
+	var ci:CanvasItem=g.ci;var rect:Rect2=g.rect;var al:float=g.al
+	var s:float=g.s;var w:float=g.w*0.85;var cx:float=g.cx;var base:float=g.base
+	var f:float=_see(g,"face")
+	var h:float=s*0.8;var t:float=base-h
+	_stone_face(g,cx-w*0.5,cx+w*0.5,t,base,int(g.seed)+40)
+	_art(ci,Rect2(cx-w*0.32,t+h*0.15,w*0.08,h*0.75),PANEL,g.tone,0.8)
+	_art(ci,Rect2(cx+w*0.24,t+h*0.15,w*0.08,h*0.75),PANEL,g.tone,0.8)
+	var steps:=4
+	for k in steps:
+		var sw:float=w*(0.16-0.03*k)*float(g.fx);var top:float=t+h*(0.12+0.06*k)
+		var bot:float=base-h*(0.04+0.03*k)
+		var col:Color=Color(0.0,0.008,0.012,al*(0.55+0.15*k))
+		if f<=0.0:col=Color(0.0,0.008,0.012,al*0.7)
+		var arch:=PackedVector2Array([Vector2(cx-sw,bot),Vector2(cx-sw,top+sw),Vector2(cx,top),Vector2(cx+sw,top+sw),Vector2(cx+sw,bot)])
+		ci.draw_colored_polygon(arch,col)
+		if f>0.0 and k<steps-1:
+			ci.draw_polyline(PackedVector2Array([Vector2(cx-sw,bot),Vector2(cx-sw,top+sw),Vector2(cx,top)]),Color(0.8,0.94,0.9,al*0.5*f*(0.4+float(g.lit))),1.2)
+		if f<=0.0:break
+	if f>0.6:
+		_glow(ci,rect,Vector2(cx,base-h*0.4),w*0.04,h*0.15,Color(PHOSPHOR.r,PHOSPHOR.g,PHOSPHOR.b,0.25*al*f),3)
+	if f>0.7 and float(g.detail)>0.55:
+		for k in 6:ci.draw_line(Vector2(cx-w*0.16*float(g.fx),t+h*(0.3+0.08*k)),Vector2(cx-w*0.13*float(g.fx),t+h*(0.3+0.08*k)),Color(0.8,0.94,0.9,al*0.4),1.0)
+# 4: the return archive: rows of fine grooves laid into a panel in the rim face.
+static func _archive_face(g:Dictionary)->void:
+	var ci:CanvasItem=g.ci;var al:float=g.al
+	var s:float=g.s;var w:float=g.w*0.9;var cx:float=g.cx;var base:float=g.base
+	var f:float=_see(g,"face")
+	var h:float=s*0.85;var t:float=base-h
+	_stone_face(g,cx-w*0.5,cx+w*0.5,t,base,int(g.seed)+41)
+	var pr:=Rect2(cx-w*0.32,t+h*0.2,w*0.64,h*0.62)
+	ci.draw_rect(pr,_steel(g.tone,0.45))
+	_art(ci,Rect2(pr.position.x-w*0.05,pr.position.y,w*0.05,pr.size.y),PANEL,g.tone,0.8)
+	_art(ci,Rect2(pr.end.x,pr.position.y,w*0.05,pr.size.y),PANEL,g.tone,0.8)
+	if f<=0.0:return
+	var rows:=6;var lines:int=int(lerpf(5.0,20.0,float(g.detail)*f))
+	for r in rows:
+		var y0:float=pr.position.y+pr.size.y*(float(r)+0.15)/rows;var y1:float=y0+pr.size.y*0.7/rows
+		ci.draw_line(Vector2(pr.position.x,y1+2),Vector2(pr.end.x,y1+2),Color(0,0.01,0.015,al*0.7),1.5)
+		var x:float=pr.position.x+3.0
+		for n in lines:
+			x+=pr.size.x/float(lines+2)*(0.5+rnd(r*31+n*7+int(g.seed)))
+			if x>pr.end.x-3.0:break
+			ci.draw_line(Vector2(x,y0),Vector2(x,y1),Color(0.78,0.9,0.86,al*0.55*f*(0.35+float(g.lit))),1.0)
+	ci.draw_colored_polygon(PackedVector2Array([pr.position+Vector2(pr.size.x*0.2,0),pr.position+Vector2(pr.size.x*0.32,0),pr.position+Vector2(pr.size.x*0.12,pr.size.y),pr.position+Vector2(0,pr.size.y)]),Color(0.85,0.97,0.95,al*0.08*f*float(g.lit)))
+# 5: the transmitter crown. Nested resonator vanes on a basalt plinth all open
+# toward the trench; resolved, the throat at their focus pulses into it.
+static func _vane_crown(g:Dictionary)->void:
+	var ci:CanvasItem=g.ci;var rect:Rect2=g.rect;var al:float=g.al
+	var s:float=g.s;var w:float=g.w;var cx:float=g.cx;var base:float=g.base
+	var v:float=_see(g,"vanes");var th:float=_see(g,"throat")
+	_trench(g,cx+w*0.36)
+	_stone(ci,PackedVector2Array([Vector2(cx-w*0.32,base),Vector2(cx-w*0.24,base-s*0.22),Vector2(cx+w*0.14,base-s*0.22),Vector2(cx+w*0.22,base)]),g.tone,0.85,int(g.seed)+5)
+	var fc:=Vector2(cx+w*0.08,base-s*0.55)
+	for k in 5:
+		var r0:float=s*(0.12+0.09*k);var r1:float=r0+s*0.045
+		var band:=PackedVector2Array();var inner:=PackedVector2Array()
+		for i in 13:
+			var a:float=PI*0.55+PI*0.9*i/12.0
+			band.append(fc+Vector2(cos(a)*r1*float(g.fx),sin(a)*r1))
+			inner.append(fc+Vector2(cos(a)*r0*float(g.fx),sin(a)*r0))
+		var seam:=inner.slice(2,11)
+		inner.reverse()
+		_stone(ci,band+inner,g.tone,lerpf(0.6,1.05,v),k*19+int(g.seed))
+		if v>0.3:ci.draw_polyline(band,Color(0.75,0.9,0.86,al*0.4*v*float(g.lit)),1.2)
+		if v>0.5:ci.draw_polyline(seam,Color(0.9,0.22,0.16,al*0.35*v),1.0)
+	ci.draw_colored_polygon(_ellipse(fc,s*0.06*float(g.fx),s*0.08),Color(0.0,0.008,0.012,al))
+	if th<=0.0:return
+	_glow(ci,rect,fc,s*0.1,s*0.1,Color(PHOSPHOR.r,PHOSPHOR.g,PHOSPHOR.b,0.3*al*th),4)
+	var ph:float=fposmod(float(g.time)*0.5,1.0)
+	for k in 3:
+		var f:float=fposmod(ph+k/3.0,1.0)
+		ci.draw_arc(fc,s*(0.12+0.18*f),-0.55,0.75,12,Color(PHOSPHOR.r,PHOSPHOR.g,PHOSPHOR.b,al*0.55*th*(1.0-f)),1.5)
+	if th>0.6 and float(g.detail)>0.5:
+		var a:=fc+Vector2(s*0.1,s*0.06);var b:=Vector2(minf(rect.end.x-6.0,cx+w*0.5),base+s*0.06)
+		for i in 7:ci.draw_line(a.lerp(b,i/7.0),a.lerp(b,(i+0.5)/7.0),_c(AMBER,al*0.45),1.0)
+# 5: the outbound wakes. Disturbed silt lines run out from the shelf; resolved
+# with a thermal frame, they split at a warm fracture, one south and one west.
+static func _wake_split(g:Dictionary)->void:
+	var ci:CanvasItem=g.ci;var rect:Rect2=g.rect;var al:float=g.al
+	var s:float=g.s;var w:float=g.w;var cx:float=g.cx;var base:float=g.base
+	var ln:float=_see(g,"lines");var fr:float=_see(g,"fracture")
+	var shelf:=PackedVector2Array()
+	for i in 11:shelf.append(Vector2(cx-w*0.6+w*1.2*i/10.0,base-s*0.75+(rnd(i*7+int(g.seed))-0.5)*s*0.1))
+	shelf.append(Vector2(cx+w*0.6,base-s*0.04));shelf.append(Vector2(cx-w*0.6,base-s*0.04))
+	_stone(ci,shelf,g.tone,0.8,int(g.seed)+50)
+	var src:=Vector2(cx,base-s*0.04);var split:=Vector2(cx,base+s*0.1)
+	var bottom:float=minf(rect.end.y-4.0,base+s*0.4)
+	var la:float=al*lerpf(0.25,0.85,ln)
+	var west:=Vector2(maxf(rect.position.x+6.0,cx-w*0.5),split.y+(bottom-split.y)*0.55)
+	var south:=Vector2(cx+w*0.22,bottom)
+	for k in 5:
+		var off:float=(k-2)*w*0.025
+		var col:=Color(0.72,0.84,0.8,la*(0.7+0.3*rnd(k)))
+		ci.draw_line(src+Vector2(off*0.6,0),split+Vector2(off,0),col,maxf(1.0,s*0.012))
+		if fr<=0.0:
+			ci.draw_line(split+Vector2(off,0),Vector2(cx+off*1.6,bottom),Color(col.r,col.g,col.b,col.a*0.5),maxf(1.0,s*0.012))
+		else:
+			var dst:Vector2=west if k<2 else south
+			ci.draw_polyline(PackedVector2Array([split+Vector2(off,0),split.lerp(dst,0.5)+Vector2(off,(dst.y-split.y)*-0.1),dst+Vector2(off,0)]),col,maxf(1.0,s*0.012))
+	if fr<=0.0:return
+	var crack:=PackedVector2Array()
+	for i in 9:crack.append(split+Vector2((i-4)*w*0.03,(rnd(i*5+int(g.seed))-0.5)*s*0.03))
+	_glow(ci,rect,split,w*0.16,s*0.05,Color(1.0,0.5,0.2,0.35*al*fr),4)
+	ci.draw_polyline(crack,Color(1.0,0.62,0.3,al*fr),maxf(1.5,s*0.016))
+	if fr>0.6 and float(g.detail)>0.5:
+		for k in 3:
+			var pts:=PackedVector2Array()
+			for i in 6:pts.append(split+Vector2((k-1)*w*0.06+sin(i*1.4+float(g.time)*2.0)*s*0.01,-i*s*0.03))
+			ci.draw_polyline(pts,Color(1.0,0.7,0.4,al*0.3*fr),1.0)
+# 30: the scour edge. A Siren-coursed structure whose corner the current has
+# worn round and grooved, a silt fan at its foot.
+static func _scour_edge(g:Dictionary)->void:
+	var ci:CanvasItem=g.ci;var al:float=g.al
+	var s:float=g.s;var w:float=g.w;var cx:float=g.cx;var base:float=g.base
+	var e:float=_see(g,"mark")
+	var l:float=cx-w*0.5;var c:float=cx+w*0.14;var t:float=base-s*0.82;var rr:float=s*0.12
+	var block:=PackedVector2Array([Vector2(l,base),Vector2(l,t)])
+	for i in 7:
+		var a:float=-PI*0.5+PI*0.5*i/6.0
+		block.append(Vector2(c-rr+cos(a)*rr,t+rr+sin(a)*rr))
+	block.append(Vector2(c+s*0.04,base))
+	_stone(ci,block,g.tone,0.9,int(g.seed)+30)
+	for k in 3:
+		var y:float=t+s*(0.18+0.22*k)
+		_art(ci,Rect2(l+w*0.02,y,(c-l)-w*0.04,s*0.07),Rect2(330,620+k*40,800,60),g.tone,0.85)
+	if e<=0.0:return
+	for k in 6:
+		var y:float=t+s*(0.12+0.12*k)
+		var pts:=PackedVector2Array([Vector2(c-w*0.16,y),Vector2(c-w*0.04,y+s*0.01),Vector2(c+s*0.01,y+s*0.03)])
+		ci.draw_polyline(pts,Color(0.0,0.01,0.015,al*lerpf(0.4,0.9,e)),maxf(1.5,s*0.014))
+		if e>0.4:ci.draw_polyline(PackedVector2Array([pts[0]+Vector2(0,2),pts[1]+Vector2(0,2),pts[2]+Vector2(0,2)]),Color(0.8,0.92,0.88,al*0.35*float(g.lit)),1.0)
+	ci.draw_line(Vector2(c-s*0.01,t+rr),Vector2(c+s*0.02,base-s*0.05),Color(0.85,0.95,0.92,al*0.4*e*(0.4+float(g.lit))),maxf(2.0,s*0.02))
+	if e>0.6 and float(g.detail)>0.5:
+		for i in 7:
+			var p:=Vector2(c+s*0.04,base-s*0.01)
+			ci.draw_line(p,p+Vector2(s*(0.12+0.04*i),s*(0.01+0.012*i)),Color(0.72,0.82,0.78,al*0.35),1.0)
+# 30 bonus: a spindle whose collar is scored with fine turning rings.
+static func _spindle_collar(g:Dictionary)->void:
+	var ci:CanvasItem=g.ci;var al:float=g.al
+	var s:float=g.s;var w:float=g.w;var cx:float=g.cx;var base:float=g.base
+	var e:float=_see(g,"mark")
+	for x in [cx-w*0.3,cx+w*0.3]:
+		ci.draw_line(Vector2(x,base),Vector2(x,base-s*0.95),_steel(g.tone,0.8),maxf(3.0,s*0.04))
+	ci.draw_line(Vector2(cx-w*0.34,base-s*0.95),Vector2(cx+w*0.34,base-s*0.95),_steel(g.tone,0.9),maxf(3.0,s*0.05))
+	var sw:float=w*0.07
+	ci.draw_polygon(PackedVector2Array([Vector2(cx-sw,base-s*0.92),Vector2(cx+sw,base-s*0.92),Vector2(cx+sw,base),Vector2(cx-sw,base)]),PackedColorArray([_steel(g.tone,1.2),_steel(g.tone,0.6),_steel(g.tone,0.5),_steel(g.tone,1.0)]))
+	var cr:=Rect2(cx-sw*1.7,base-s*0.58,sw*3.4,s*0.2)
+	ci.draw_polygon(PackedVector2Array([cr.position,Vector2(cr.end.x,cr.position.y),cr.end,Vector2(cr.position.x,cr.end.y)]),PackedColorArray([_steel(g.tone,1.3),_steel(g.tone,0.6),_steel(g.tone,0.5),_steel(g.tone,1.1)]))
+	if e<=0.0:return
+	var n:int=int(lerpf(4.0,14.0,float(g.detail)*e))
+	for k in n:
+		var y:float=cr.position.y+cr.size.y*(float(k)+0.5)/n
+		ci.draw_line(Vector2(cr.position.x+2,y),Vector2(cr.end.x-2,y),Color(0.0,0.01,0.015,al*0.6*e),1.0)
+	ci.draw_line(Vector2(cr.position.x+cr.size.x*0.3,cr.position.y),Vector2(cr.position.x+cr.size.x*0.3,cr.end.y),Color(0.95,1.0,0.98,al*0.5*e*(0.4+float(g.lit))),maxf(2.0,sw*0.3))
+	if e>0.65 and float(g.detail)>0.5:
+		for i in 8:ci.draw_circle(Vector2(cx+(rnd(i*3)-0.5)*w*0.3,base+s*0.02+rnd(i*7)*s*0.04),1.0+rnd(i),Color(0.8,0.9,0.88,al*0.6))
+# 31: the bell berth. A diving bell's nameplate, scratched by hand with tally
+# marks and an arrow once the frame resolves it.
+static func _survivor_marks(g:Dictionary)->void:
+	var ci:CanvasItem=g.ci;var al:float=g.al
+	var s:float=g.s;var w:float=g.w;var cx:float=g.cx;var base:float=g.base
+	var e:float=_see(g,"mark")
+	var bw:float=w*0.3;var bt:float=base-s*0.95;var skirt:float=base-s*0.38
+	var bell:=PackedVector2Array()
+	for i in 17:
+		var a:float=PI+PI*i/16.0
+		bell.append(Vector2(cx+cos(a)*bw,skirt+sin(a)*(skirt-bt)))
+	var dome:=bell.duplicate()
+	bell.append(Vector2(cx+bw*1.05,base-s*0.02));bell.append(Vector2(cx-bw*1.05,base-s*0.02))
+	ci.draw_colored_polygon(bell,_steel(g.tone,0.8))
+	ci.draw_polyline(dome,Color(0.75,0.92,0.88,al*0.35*float(g.lit)),1.5)
+	ci.draw_line(Vector2(cx-bw,skirt),Vector2(cx+bw,skirt),_steel(g.tone,0.45),maxf(2.0,s*0.025))
+	if float(g.detail)>0.5:
+		for k in 14:ci.draw_circle(Vector2(cx-bw+bw*2.0*(k+0.5)/14.0,skirt+s*0.025),1.0,Color(0.75,0.9,0.86,al*0.35*float(g.lit)))
+	var port:=Vector2(cx-bw*0.45,skirt-(skirt-bt)*0.5)
+	ci.draw_circle(port,s*0.07,_steel(g.tone,1.2));ci.draw_circle(port,s*0.05,Color(0.08,0.12,0.12,al))
+	var pr:=Rect2(cx-bw*0.05,skirt+s*0.06,bw*0.85,s*0.18)
+	ci.draw_rect(pr,_steel(g.tone,1.4))
+	ci.draw_rect(pr,Color(0.0,0.02,0.03,al*0.6),false,1.5)
+	if e<=0.0:return
+	var stamp:=Color(0.02,0.04,0.05,al*0.7)
+	ci.draw_line(pr.position+Vector2(pr.size.x*0.1,pr.size.y*0.25),pr.position+Vector2(pr.size.x*0.7,pr.size.y*0.25),stamp,maxf(1.0,s*0.016))
+	var scr:=Color(0.95,0.97,0.92,al*lerpf(0.4,0.95,e))
+	for grp in 3:
+		var gx:float=pr.position.x+pr.size.x*(0.1+0.28*grp);var gy0:float=pr.position.y+pr.size.y*0.45;var gy1:float=pr.end.y-pr.size.y*0.12
+		for n in 4:ci.draw_line(Vector2(gx+n*pr.size.x*0.045,gy0),Vector2(gx+n*pr.size.x*0.045+1,gy1),scr,1.2)
+		ci.draw_line(Vector2(gx-pr.size.x*0.02,gy1),Vector2(gx+pr.size.x*0.17,gy0),scr,1.2)
+	if e>0.6 and float(g.detail)>0.5:
+		var a0:=Vector2(pr.end.x+s*0.05,pr.position.y);var a1:=Vector2(pr.end.x+s*0.05,pr.end.y+s*0.1)
+		ci.draw_line(a0,a1,scr,1.4);ci.draw_line(a1,a1+Vector2(-s*0.03,-s*0.03),scr,1.4);ci.draw_line(a1,a1+Vector2(s*0.03,-s*0.03),scr,1.4)
+		var palm:=Vector2(pr.position.x-s*0.08,pr.position.y+pr.size.y*0.4)
+		ci.draw_circle(palm,s*0.03,Color(0.85,0.9,0.86,al*0.3))
+		for n in 4:ci.draw_line(palm+Vector2((n-1.5)*s*0.016,-s*0.025),palm+Vector2((n-1.5)*s*0.02,-s*0.06),Color(0.85,0.9,0.86,al*0.3),maxf(1.0,s*0.01))
+# 31 bonus: the security feed room seen through its window, a bank of terminals.
+static func _feed_terminals(g:Dictionary)->void:
+	var ci:CanvasItem=g.ci;var al:float=g.al
+	var s:float=g.s;var w:float=g.w;var cx:float=g.cx;var base:float=g.base
+	var e:float=_see(g,"mark")
+	var h:float=s*0.85;var l:float=cx-w*0.5;var r:float=cx+w*0.5;var t:float=base-h
+	_plated_wall(g,l,r,t,base)
+	var wr:=Rect2(l+w*0.1,t+h*0.18,w*0.8,h*0.5)
+	ci.draw_rect(wr,Color(0.03,0.06,0.07,al))
+	for k in 5:
+		var sr:=Rect2(wr.position.x+wr.size.x*(0.05+0.19*k),wr.position.y+wr.size.y*0.25,wr.size.x*0.15,wr.size.y*0.38)
+		ci.draw_rect(sr,Color(PHOSPHOR.r*0.4,PHOSPHOR.g*0.4,PHOSPHOR.b*0.4,al*(0.25+0.5*e)))
+		ci.draw_rect(Rect2(sr.position.x,sr.end.y,sr.size.x,wr.size.y*0.2),Color(0.02,0.03,0.035,al))
+		if e>0.3:
+			for n in 3:ci.draw_line(sr.position+Vector2(sr.size.x*0.12,sr.size.y*(0.3+0.22*n)),sr.position+Vector2(sr.size.x*(0.3+0.5*rnd(k*7+n)),sr.size.y*(0.3+0.22*n)),Color(PHOSPHOR.r,PHOSPHOR.g,PHOSPHOR.b,al*e),1.0)
+		if e>0.65 and float(g.detail)>0.5:
+			for n in int(sr.size.y/3.0):ci.draw_line(Vector2(sr.position.x,sr.position.y+n*3.0),Vector2(sr.end.x,sr.position.y+n*3.0),Color(0,0,0,al*0.25),1.0)
+	ci.draw_rect(wr,_steel(g.tone,0.7),false,maxf(2.0,h*0.03))
+	ci.draw_colored_polygon(PackedVector2Array([wr.position+Vector2(wr.size.x*0.3,0),wr.position+Vector2(wr.size.x*0.38,0),wr.position+Vector2(wr.size.x*0.24,wr.size.y),wr.position+Vector2(wr.size.x*0.16,wr.size.y)]),Color(0.85,0.97,0.95,al*0.08*(0.4+float(g.lit))))

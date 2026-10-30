@@ -90,8 +90,8 @@ static func apply(m:Dictionary,id:int,context:Dictionary)->void:
 			m.brief+=" The base is theirs, and it keeps a rhythm. An optional long observation of its frame bays pays for patience: hold the camera across a whole cycle from outside its reach."
 		4:
 			_tag(objs[0],S(0.6,100.0,0.2,["ribs"],[F("ribs","ARRAY RIBS",0.0,PI,0.04),F("count","RIB COUNT",0.0,1.0,0.4,0.4,{"intel":"well_array","gloss":"The ribs repeat a count, not a word.","finding":{"kind":"note","text":"RIB COUNT · the ribs repeat a count, not a word"}})]))
-			_tag(objs[1],S(0.0,80.0,0.2,["face"],[F("face","APERTURE",0.0,PI,0.04)]),"well_aperture","A dark aperture in the rim.")
-			_tag(objs[2],S(PI,80.0,0.2,["face"],[F("face","ARCHIVE FACE",0.0,PI,0.04)]),"well_return","The rim's return archive.")
+			_tag(objs[1],S(0.0,80.0,0.2,["face"],[F("face","APERTURE",0.0,PI,0.04)]),"well_aperture","A narrow opening cut into the well rim in stepped lips, dark all the way back. It was made, not broken.")
+			_tag(objs[2],S(PI,80.0,0.2,["face"],[F("face","ARCHIVE FACE",0.0,PI,0.04)]),"well_return","Rows of fine grooves laid into a panel in the rim face, unevenly spaced like a recording. The well keeps its returns here.")
 		5:
 			_tag(objs[0],S(1.2,100.0,0.4,["vanes"],[
 				F("vanes","RESONATOR VANES",0.0,PI,0.04,-0.3,{"glow":0.4}),

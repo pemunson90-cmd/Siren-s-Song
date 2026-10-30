@@ -23,10 +23,17 @@ static func look_for(vm:Dictionary)->String:
 # it; the same visibility rule the feature marks use below. Picture only.
 static func evidence_level(vm:Dictionary,dev:float)->float:
 	var ev:=0.0
+	for q in evidence_by_id(vm,dev).values():ev=maxf(ev,float(q))
+	return ev
+# The same rule per feature id, so a subject with several features shows each
+# piece of evidence only once the frame resolved that feature.
+static func evidence_by_id(vm:Dictionary,dev:float)->Dictionary:
+	var out:={}
 	for mark in vm.get("marks",[]):
 		var q:float=float(mark.q)
-		if q>0.0 and (dev>=0.45+0.4*(1.0-q) or dev>=1.0):ev=maxf(ev,q)
-	return ev
+		var id:=str(mark.get("id",""))
+		if q>0.0 and (dev>=0.45+0.4*(1.0-q) or dev>=1.0):out[id]=maxf(q,float(out.get(id,0.0)))
+	return out
 # Clamps a polygon into the picture so glows never bleed over the interface.
 static func _clamp_poly(pts:PackedVector2Array,r:Rect2)->PackedVector2Array:
 	var out:=PackedVector2Array()
@@ -60,7 +67,7 @@ static func draw(ci:CanvasItem,rect:Rect2,vm:Dictionary,time:float,font_size:int
 	# The subject, once per ghost pass: a soft frame smears into doubled edges.
 	var cx:float=rect.position.x+rect.size.x*(0.5+float(vm.u)*0.5)
 	var scale_px:float=clampf(float(vm.size)/maxf(float(vm.dist),20.0)/maxf(float(vm.fov),0.2)*rect.size.x,16.0,rect.size.x*1.1)
-	var ctx:={"ci":ci,"rect":rect,"cx":cx,"base":floor_top+rect.size.y*0.1,"s":minf(scale_px,rect.size.y*0.62),"a":float(vm.aspect),"light":light,"glow":float(vm.get("glow",0.0)),"sharp":sharp,"seed":seed_n,"time":time,"flash":flash,"low":low,"vm":vm,"clarity":clarity,"ev":evidence_level(vm,dev)}
+	var ctx:={"ci":ci,"rect":rect,"cx":cx,"base":floor_top+rect.size.y*0.1,"s":minf(scale_px,rect.size.y*0.62),"a":float(vm.aspect),"light":light,"glow":float(vm.get("glow",0.0)),"sharp":sharp,"seed":seed_n,"time":time,"flash":flash,"low":low,"vm":vm,"clarity":clarity,"ev":evidence_level(vm,dev),"evs":evidence_by_id(vm,dev)}
 	var blur:float=(1.0-sharp)*13.0
 	var passes:Array=[[0.0,1.0]] if blur<1.3 else ([[-blur,0.22],[blur,0.22],[-blur*0.5,0.3],[blur*0.5,0.3],[0.0,0.85]] if blur>6.0 else [[-blur,0.3],[blur,0.3],[0.0,1.0]])
 	for p in passes:
