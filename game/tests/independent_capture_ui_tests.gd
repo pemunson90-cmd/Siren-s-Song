@@ -39,6 +39,10 @@ func run():
   check(game.mission_hud.fleet.status(1).contains("PHOTO") and game.mission_hud.fleet.status(2).contains("PHOTO"),"%s fleet reports both cameras working"%dimensions)
   for id in [2,1,0,1]:
    await choose(id)
+   # Commands own the screen; inspect the selected feed after returning to water.
+   check(game.advanced_orders and not game.ocean.optical_feed.visible,"%s station controls reserve the screen"%dimensions)
+   await tap(game.mission_hud.close_button.get_global_rect().get_center())
+   check(not game.advanced_orders,"%s real BACK returns to the selected optical station"%dimensions)
    check(game.sim.selected==id,"%s touch switches optical station to craft%d"%[dimensions,id])
    check(game.ocean.optical_feed.visible==(id>0),"%s optical inset follows selected working station%d"%[dimensions,id])
    if id>0:check(game.sim.capture_target==id-1 and game.sim.capture_unit==id and is_equal_approx(game.sim.capture_time,1.0 if id==2 else 0.0),"%s selected feed projects its own record and elapsed time%d"%[dimensions,id-1])
