@@ -109,8 +109,11 @@ static func fit(hud)->void:
  hud.close_button.position=back.position
 # A large-text command dock reserves chart width and scrolls its full-size actions.
 static func fit_grid(hud,_visible:Rect2)->void:
+ # Vertical reading order stays canonical when the dock changes hands.
+ hud.ring_buttons=hud.command_controls()
  for b in hud.ring_buttons:
   if b.get_parent()!=hud.order_dock_commands:b.reparent(hud.order_dock_commands,false)
+  hud.order_dock_commands.move_child(b,hud.ring_buttons.find(b)+1)
   b.mouse_filter=Control.MOUSE_FILTER_STOP;b.size_flags_horizontal=Control.SIZE_EXPAND_FILL
   b.custom_minimum_size.x=0
  if hud.close_button.get_parent()!=hud.order_dock_scroll.get_parent():hud.close_button.reparent(hud.order_dock_scroll.get_parent(),false)
@@ -133,7 +136,9 @@ static func fit_dock(hud)->void:
   if meter.visible:top=maxf(top,hud.touch_height+24.+meter.size.y)
  var width=minf(hud.size.x*.52,hud.host.ocean.optical_feed.preferred_width())
  hud.host.ocean.command_dock_width=width
- hud.order_dock.position=Vector2(hud.size.x-width-12,top)
+ var mirrored=preload("res://src/presentation/frontend/frontend_settings.gd").current.get("mirrored_hud",false)
+ hud.host.ocean.command_dock_left=mirrored
+ hud.order_dock.position=Vector2(12 if mirrored else hud.size.x-width-12,top)
  hud.order_dock.size=Vector2(width,maxf(1.,hud.size.y-top-12.))
  hud.order_dock.show();hud.order_dock.move_to_front()
 static func fit_sheet(hud)->void:

@@ -55,6 +55,7 @@ var instrument_top:=64.0
 var ui_blocked_rects:Array=[]
 var optical_suppressed:=false
 var command_dock_width:=0.
+var command_dock_left:=false
 var status_floor:=0.
 var planning_size:=Vector2.ZERO
 var instrument_height=48.
@@ -152,8 +153,10 @@ func chart_width()->float:
 	if command_dock_width>0:return size.x-command_dock_width-28.
 	if not presenting_mission or sim==null or optical_feed==null or not optical_feed.viewfinder_visible(sim):return size.x
 	return size.x-minf(size.x*.52,optical_feed.preferred_width())-28.
+func chart_origin()->Vector2:
+	return Vector2(command_dock_width+28.,0.) if command_dock_left and command_dock_width>0. else Vector2.ZERO
 func _sync_camera() -> void:
-	chart_camera.configure(planning_size if planning_size.x>0 else size,world_size())
+	chart_camera.configure(planning_size if planning_size.x>0 else size,world_size(),chart_origin())
 	if chart_camera.mode=="follow" and sim!=null:chart_camera.follow(sim.units[sim.selected].pos)
 	world_scale=chart_camera.scale;world_offset=chart_camera.offset
 func focus_craft() -> void:

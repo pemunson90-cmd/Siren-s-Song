@@ -359,7 +359,7 @@ func command_controls() -> Array:
 func layout(bounds:Vector2,h:float):
  for b in ring_buttons+[close_button]:
   if b!=null and b.get_parent()!=self:b.reparent(self,false)
- order_dock.hide();host.ocean.command_dock_width=0.;host.ocean.status_floor=0.
+ order_dock.hide();host.ocean.command_dock_width=0.;host.ocean.command_dock_left=false;host.ocean.status_floor=0.
  bounds=StatusView.content_bounds(self,bounds)
  position=Vector2.ZERO;size=bounds;touch_height=h
  text_scale=preload("res://src/presentation/frontend/frontend_settings.gd").text_scale()
@@ -418,7 +418,7 @@ func _fit_intent():
  var wide=maxf(1.,host.ocean.chart_width()-32)
  intent.custom_minimum_size.x=wide;intent.size.x=wide
  var height=maxf(ceil(intent.get_minimum_size().y)+8.,line*2+8.)
- intent.custom_minimum_size.y=height;intent.size.y=height;intent.position=Vector2(16,size.y-height-14)
+ intent.custom_minimum_size.y=height;intent.size.y=height;intent.position=host.ocean.chart_origin()+Vector2(16,size.y-height-14)
  host.ocean.status_floor=maxf(1.,intent.position.y-12.)
 func _schedule_intent_fit():
  if intent_fit_pending:return

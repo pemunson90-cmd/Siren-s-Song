@@ -138,11 +138,11 @@ func refresh(blocked:Array):
  var sim=host.sim;var ocean=host.ocean;var h=host.ui_touch_height;var font_size=maxi(14,roundi(h*.26));var font=ThemeDB.fallback_font
  if sim.selected!=last_selected or (visible and not was_visible):detail_until=sim.elapsed+3.;last_selected=sim.selected
  was_visible=visible
- var safe=Rect2(Vector2(12,h+24),Vector2(maxf(h,ocean.chart_width()-24),maxf(h,size.y-h*2-54)))
+ var safe=Rect2(ocean.chart_origin()+Vector2(12,h+24),Vector2(maxf(h,ocean.chart_width()-24),maxf(h,size.y-h*2-54)))
  var site_targets=ocean.objective_touch_rects(h)
  var occupied=blocked.duplicate();occupied.append_array(site_targets)
  var positions=sim.units.map(func(u):return ocean.screen_position(u.pos))
- var viewport=Rect2(Vector2.ZERO,Vector2(ocean.chart_width(),size.y))
+ var viewport=Rect2(ocean.chart_origin(),Vector2(ocean.chart_width(),size.y))
  # Bodies clipped by the viewport or covered by actual controls get an edge
  # handle. Fully exposed craft keep their target exactly on the physical body.
  var on_screen=positions.map(func(at):

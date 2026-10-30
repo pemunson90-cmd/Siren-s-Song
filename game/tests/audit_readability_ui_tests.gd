@@ -200,11 +200,25 @@ func recovery_case():
  u.pos=mouth.pos;u.vel=Vector2.ZERO;u.transition={}
  check(Recovery.carrier_check(sim,1,mouth).unmet.is_empty(),"eligible middle carrier is ready")
  sim=null
+func camera_snapshot_case():
+ var camera=preload("res://src/presentation/chart_camera.gd").new()
+ camera.configure(Vector2(800,600),Vector2(2400,2800));camera.follow(Vector2(400,2100))
+ var followed=camera.snapshot();var scale=camera.scale
+ camera.configure(Vector2(560,1100),Vector2(2400,2800))
+ check(camera.snapshot()==followed and not is_equal_approx(camera.scale,scale),"responsive follow layout preserves saved intent while scale reflows")
+ var restored=preload("res://src/presentation/chart_camera.gd").new()
+ restored.configure(camera.view_size,camera.world_size);restored.restore(followed)
+ check(restored.snapshot()==followed and is_equal_approx(restored.scale,camera.scale),"canonical follow snapshot restores the same rendered view")
+ var legacy=followed.duplicate();legacy.zoom=8.;restored.restore(legacy)
+ check(restored.snapshot()==followed and is_equal_approx(restored.scale,camera.scale),"existing derived follow zoom still restores to the responsive view")
+ camera.zoom_at(1.5,camera.view_size/2);var free=camera.snapshot()
+ camera.configure(Vector2(1000,600),camera.world_size)
+ check(camera.snapshot()==free,"free camera retains exact chosen magnification across reflow")
 func run():
  Input.set_emulate_touch_from_mouse(true)
  for arg in OS.get_cmdline_user_args():
   if arg.begins_with("--capture-dir="):capture_dir=arg.trim_prefix("--capture-dir=");DirAccess.make_dir_recursive_absolute(capture_dir)
- recovery_case()
+ recovery_case();camera_snapshot_case()
  check("Counterweight Grave observation" in Copy.present("Observed choir_27"),"observations name recovered operation")
  check(not "AI-DESIGNED" in Copy.present("AI-DESIGNED optional CAMERA work"),"manual copy removes author label")
  check("EXPEDITION HUNT 2" in Seed.setup_context(preload("res://src/campaign/runs/run_state.gd").new_run(166421881)),"seed context distinguishes expedition Hunt modifier")
