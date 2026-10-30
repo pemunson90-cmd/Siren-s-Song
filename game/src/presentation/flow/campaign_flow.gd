@@ -105,8 +105,8 @@ static func briefing(host, index: int) -> void:
 	var stock=host._loadout_stock(host.upgrade)
 	var fit_start=host.panel_box.get_child_count()
 	if not host._campaign_pristine() and not EconomyPanel.briefing_line(host).is_empty():host._menu_text(EconomyPanel.briefing_line(host),14)
-	# Audit 091 F10: launch, retry and bare-baseline cost plus one mount line per craft, before any long fitting list.
-	if not compact and not host._campaign_pristine() and not EconomyPanel.briefing_line(host).is_empty():host._menu_text(preload("res://src/presentation/launch_summary.gd").text(host),14)
+	# Audit 091 F10: later briefings compare costs and mounts; the opening briefing keeps fit details optional.
+	if index>0 and not compact and not host._campaign_pristine() and not EconomyPanel.briefing_line(host).is_empty():host._menu_text(preload("res://src/presentation/launch_summary.gd").text(host),14)
 	preload("res://src/presentation/crew/crew_view.gd").briefing(host,index)
 	host._menu_text("NEXT DIVE / RETRY · %s\nO₂ %d%% · DISRUPT %d · SURVEY %d · %d DECOYS · %d TORPEDOES"%[host.upgrade.to_upper(),stock[0],preload("res://src/equipment/tool_racks.gd").total(host.tool_racks,"emp"),preload("res://src/equipment/tool_racks.gd").total(host.tool_racks,"recon"),preload("res://src/equipment/tool_racks.gd").total(host.tool_racks,"decoy"),preload("res://src/equipment/tool_racks.gd").total(host.tool_racks,"knock")],17)
 	# Frames open after the first dive; recovered fittings appear once earned. A toggle folds them away.
@@ -140,7 +140,7 @@ static func briefing(host, index: int) -> void:
 			host.panel_box.remove_child(control);host.menu_footer.add_child(control)
 			control.size_flags_horizontal=Control.SIZE_EXPAND_FILL;control.mouse_filter=Control.MOUSE_FILTER_STOP
 	host._button(host.menu_footer,"BACK TO\nOPS" if compact else "BACK TO\nOPERATIONS",host._show_campaign,"back")
-	if not host._campaign_pristine() and not EconomyPanel.briefing_line(host).is_empty():host._button(host.menu_footer,"COSTS /\nRETRY",func():preload("res://src/presentation/launch_summary.gd").show(host,index),"launch_costs")
+	if index>0 and not host._campaign_pristine() and not EconomyPanel.briefing_line(host).is_empty():host._button(host.menu_footer,"COSTS /\nRETRY",func():preload("res://src/presentation/launch_summary.gd").show(host,index),"launch_costs")
 	host.menu_footer.show()
 	if compact:preload("res://src/campaign/onboarding2/briefing_layout.gd").attach(host)
 	preload("res://src/presentation/arcs/arc_card.gd").intro(host,index)
