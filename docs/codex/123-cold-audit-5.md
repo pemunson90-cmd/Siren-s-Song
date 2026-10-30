@@ -1,6 +1,6 @@
 # Handoff 123: WHOLE-GAME COLD AUDIT 5 (read-only, next gauntlet loop)
 
-Status: QUEUED (codex-root)
+Status: CLAIMED (codex-root; fresh regional blind critics on production26e09906; no critic dispatched yet)
 
 Precondition: 122 is DONE (audit the promoted production snapshot). Read-only: no game edits, no commits to claude/integration.
 Codex may merge: no merge; commit the report to codex/handoffs only.
@@ -18,3 +18,5 @@ The 091 findings F1 to F16 (`COLD_REVIEW_4.md`) and the fixes since: 115 thermal
 
 ## Return
 Frozen own verdict, then reconciliation, compact COLD_REVIEW_5, BOARD row DONE, one LEDGER line. Raw evidence stays external.
+
+Claim: root prepares fresh external runtime from exactproduction26e099065eb69ee97e0eb7d6eeb21795bc324f12/treebddd92b369deaeffd252850e37a5c2c591349151. Separate opening/middle/late/side-mode contexts, short critic-authored progress handoffs only; no091report/knownitems/source/routes supplied. Claim precedes runtimeworktree/critic dispatch; all raw evidence external, noAPK.
