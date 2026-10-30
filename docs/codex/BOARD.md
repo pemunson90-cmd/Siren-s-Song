@@ -1,4 +1,4 @@
-**Root DOC-RESUME CLAIMED: docs/RESUME.md current-pointer repair only, after124DONE. Remove obsolete active070/097 and118/124 proposed/pending assertions, retain provenance inGit; currentrefs/BOARDauthority,123blindcriticexternalunchanged. No gamecode or promotionhead change. Independent review beforecommit.**
+**Root DOC-RESUME DONE: PR236 merged8b0634a8 after independent78 exacttree0dbf9577/base2ef78adf approval and own documentation guidance/core/game-smoke SUCCESS. RESUME ownership released; no game change, production/main/critic26e09906 untouched.**
 
 [QUEUE RUNNER 2026-10-30T07:46:03.9119391-04:00] running: none; done: 103, 106, 113, 115, 116, 121, 110, 112, 109, 114, 108, 111, 117, 119, 118, 120, 124; blocked: 105, 104.
 
