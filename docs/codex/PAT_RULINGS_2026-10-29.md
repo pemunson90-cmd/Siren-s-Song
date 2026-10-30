@@ -72,3 +72,8 @@ Pat: "I honestly just don't like the controls. It basically means you can comple
 Q: "Should I drop the one-press travel shortcuts and make planned waypoints plus an in-reach job menu the way you move? I recommend yes, and stripping the route-target part out of 126 before it merges."
 Pat: "They are fine for testing but they will absolutely have to be stripped for release play".
 Applied: 126 merges with its shortcuts (testing); 127 RELEASE CONTROLS gates every one-press travel order behind dev state and adds in-reach jobs, depth pair, recall.
+
+## 2026-10-30T19:21:49-04:00 (Claude S11, chat): movement risk and edge assist
+
+Pat on D9 (straight legs instead of auto-path): "You should still be able to crash. But there should be moderate autopilot for edges and stuff so you're not just getting stuck grinding on things if you fuck up. I don't know figure it out it still got to be a game like there still has to be some challenge and risk to it."
+Applied in 127: straight legs, rock legs allowed with warning, crash damage unchanged, edge slide/hold assist.
