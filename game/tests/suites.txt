@@ -147,6 +147,8 @@ torpedo_aim_ui_tests|TORPEDO AIM|135|178
 foundry_departure_tests|FOUNDRY DEPARTURE|136|138
 thermal_lee_tests|THERMAL LEE|137|175
 thermal_transmission_tests|THERMAL TRANSMISSION|138|176
+thermal_band_tests|THERMAL BAND|753|853
+thermal_operation_tests|THERMAL OPERATION|754|854
 thermal_ui_tests|THERMAL UI|139|177
 terminal_tick_tests|TERMINAL TICK|140|174
 extraction_survival_tests|EXTRACTION SURVIVAL|141|135

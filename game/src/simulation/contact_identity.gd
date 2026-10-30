@@ -23,7 +23,7 @@ static func sighted(sim,id:int)->bool:
   var u=sim.units[uid]
   if not u.alive:continue
   var reach=sim.passive_range(uid)*sim.Depth.transmission(u,enemy)
-  if sim.mission.get("thermal_revision",0)==1:reach*=sim.Thermal.transmission(PackedVector2Array([u.pos,enemy.pos]),sim.mission.thermal_fronts)
+  if sim.mission.get("thermal_revision",0)==1:reach*=sim.Thermal.reception(sim,u,enemy)
   if u.pos.distance_to(enemy.pos)<reach and sim.Depth.sight(sim,u,enemy):return true
  return false
 static func decorate(sim,id:int)->void:
