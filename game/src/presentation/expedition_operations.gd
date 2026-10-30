@@ -77,6 +77,7 @@ static func debrief(main)->bool:
    if next_mission.id!=next:continue
    main._button(main.panel_box,"CONTINUE / %s"%next_mission.title,func():main._briefing(next),"next_expedition")
   main._menu_text("Dive time %02d:%02d / Hull %d%%"%[int(main.sim.elapsed)/60,int(main.sim.elapsed)%60,int(main.sim.hull)],17)
+  preload("res://src/presentation/damage_log/damage_log.gd").debrief(main)
  else:
   main._menu_text("INCOMPLETE WITHDRAWAL" if main.sim.outcome=="withdrawn" else "OPERATION LOST",30)
   preload("res://src/presentation/witness_evacuation_view.gd").arrival(main)
@@ -84,6 +85,7 @@ static func debrief(main)->bool:
   main._menu_text(main.sim.message,20)
   main._menu_text(preload("res://src/presentation/loss_summary.gd").line(main.sim),17)
   preload("res://src/presentation/death_cause/cause_log.gd").debrief(main)
+  preload("res://src/presentation/damage_log/damage_log.gd").debrief(main)
   main._menu_text("Field observations remain in the archive. This operation grants no new recovered fitting, continuation or committed history.",17)
   preload("res://src/presentation/module_recovery_view.gd").debrief(main)
  if not main.recovered_evidence.is_empty():main._button(main.panel_box,"REVIEW FIELD RECORDS",func():main._evidence_gallery(0),"evidence")

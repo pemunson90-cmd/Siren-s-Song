@@ -101,9 +101,12 @@ static func briefing(host, index: int) -> void:
 	var thermal_line=preload("res://src/simulation/thermal_front.gd").briefing(briefing)
 	if not thermal_line.is_empty():host._menu_text(thermal_line,17)
 	preload("res://src/presentation/archive/voice_feed.gd").briefing(host,index)
+	if compact and not host._campaign_pristine() and not EconomyPanel.briefing_line(host).is_empty():host._menu_text(preload("res://src/presentation/launch_summary.gd").short(host),14)
 	var stock=host._loadout_stock(host.upgrade)
 	var fit_start=host.panel_box.get_child_count()
 	if not host._campaign_pristine() and not EconomyPanel.briefing_line(host).is_empty():host._menu_text(EconomyPanel.briefing_line(host),14)
+	# Audit 091 F10: later briefings compare costs and mounts; the opening briefing keeps fit details optional.
+	if index>0 and not compact and not host._campaign_pristine() and not EconomyPanel.briefing_line(host).is_empty():host._menu_text(preload("res://src/presentation/launch_summary.gd").text(host),14)
 	preload("res://src/presentation/crew/crew_view.gd").briefing(host,index)
 	host._menu_text("NEXT DIVE / RETRY · %s\nO₂ %d%% · DISRUPT %d · SURVEY %d · %d DECOYS · %d TORPEDOES"%[host.upgrade.to_upper(),stock[0],preload("res://src/equipment/tool_racks.gd").total(host.tool_racks,"emp"),preload("res://src/equipment/tool_racks.gd").total(host.tool_racks,"recon"),preload("res://src/equipment/tool_racks.gd").total(host.tool_racks,"decoy"),preload("res://src/equipment/tool_racks.gd").total(host.tool_racks,"knock")],17)
 	# Frames open after the first dive; recovered fittings appear once earned. A toggle folds them away.
@@ -129,12 +132,15 @@ static func briefing(host, index: int) -> void:
 	,"begin")
 	begin.disabled=not EconomyPanel.can_begin(host)
 	if compact:
+		if not begin.disabled:begin.text="DIVE\nPAUSED"
 		manual_control.text="FIELD\nMANUAL"
+		if fold_control!=null:fold_control.text="FIT\n"+("HIDE" if host.get_meta("onboard2_fit_open",false) else "SHOW")
 		for control in [manual_control,fold_control]:
 			if control==null:continue
 			host.panel_box.remove_child(control);host.menu_footer.add_child(control)
 			control.size_flags_horizontal=Control.SIZE_EXPAND_FILL;control.mouse_filter=Control.MOUSE_FILTER_STOP
-	host._button(host.menu_footer,"BACK TO\nOPERATIONS",host._show_campaign,"back")
+	host._button(host.menu_footer,"BACK TO\nOPS" if compact else "BACK TO\nOPERATIONS",host._show_campaign,"back")
+	if index>0 and not host._campaign_pristine() and not EconomyPanel.briefing_line(host).is_empty():host._button(host.menu_footer,"COSTS /\nRETRY",func():preload("res://src/presentation/launch_summary.gd").show(host,index),"launch_costs")
 	host.menu_footer.show()
 	if compact:preload("res://src/campaign/onboarding2/briefing_layout.gd").attach(host)
 	preload("res://src/presentation/arcs/arc_card.gd").intro(host,index)
@@ -145,7 +151,7 @@ static func fold_fit(host, nodes:Array,holder:Array) -> void:
 	for node in nodes:node.visible=show
 	if host.screen=="briefing" and BriefRows029.applies(int(host.get_meta("onboard2_fit_index",-1))):
 		host.set_meta("onboard2_fit_open",show)
-		holder[0].text=BriefRows029.FOLD_LABELS.hide if show else BriefRows029.FOLD_LABELS.show
+		holder[0].text="FIT\nHIDE" if show else "FIT\nSHOW"
 	else:holder[0].text="HIDE FRAMES AND FITTINGS" if show else "SHOW FRAMES AND FITTINGS"
 	host.call_deferred("_layout")
 
@@ -225,6 +231,7 @@ static func debrief(host) -> void:
 		host.ModuleRecovery.debrief(host)
 		host._show_photo_grade(host.sim.mission.objectives)
 		host._menu_text("Dive time %02d:%02d  /  Hull %d%%  /  Life support %d%%"%[int(host.sim.elapsed)/60,int(host.sim.elapsed)%60,int(host.sim.hull),int(host.sim.oxygen)],17)
+		preload("res://src/presentation/damage_log/damage_log.gd").debrief(host)
 		if host.mission_index==5:
 			host._menu_text("YOUR FIELD RECORD · ACROSS DIVES",14)
 			host._menu_text(preload("res://src/campaign/archive_recap.gd").summary(host.recovered_evidence),14)
@@ -235,7 +242,7 @@ static func debrief(host) -> void:
 			if 6 in host.ExpeditionCampaign.available(host.completed,host.expedition):host._button(host.panel_box,"BEYOND THE WARNING / THE DIVERGENCE",func():host._briefing(6),"expedition6")
 		else: host._button(host.panel_box,"NEXT DIVE",func(): host._briefing(host.mission_index+1),"next_dive")
 	else:
-		host._menu_text("SIGNAL LOST",32); host._menu_text(host.sim.message,22); host._menu_text(preload("res://src/presentation/loss_summary.gd").line(host.sim),17); preload("res://src/presentation/death_cause/cause_log.gd").debrief(host); host._menu_text("Field records remain reviewable after loss or abandonment. Only successful extraction advances the campaign.",17)
+		host._menu_text("SIGNAL LOST",32); host._menu_text(host.sim.message,22); host._menu_text(preload("res://src/presentation/loss_summary.gd").line(host.sim),17); preload("res://src/presentation/death_cause/cause_log.gd").debrief(host); preload("res://src/presentation/damage_log/damage_log.gd").debrief(host); host._menu_text("Field records remain reviewable after loss or abandonment. Only successful extraction advances the campaign.",17)
 		host.BlackwaterDelivery.debrief(host)
 		host.ModuleRecovery.debrief(host)
 	host._button(host.panel_box,"RETRY DIVE",func(): host._briefing(host.mission_index),"retry")

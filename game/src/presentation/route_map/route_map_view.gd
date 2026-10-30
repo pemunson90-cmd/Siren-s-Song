@@ -116,6 +116,9 @@ func _focus_current():
  var available=graph.nodes.filter(func(row):return row.state=="AVAILABLE")
  var recovered=host.completed+host.expedition.get("completed",[])
  var id:int=available[0].id if not available.is_empty() else recovered.back() if not recovered.is_empty() else 0
+ # Audit 091 F9: centre the operation continuing the most recently advanced branch.
+ var branch=preload("res://src/presentation/current_branch.gd").pick(recovered,available.map(func(row):return row.id))
+ if branch>=0:id=branch
  if not board.centers.has(id):return
  var center:Vector2=board.centers[id]
  chart.set_deferred("scroll_horizontal",roundi(center.x-chart.size.x*.5));chart.set_deferred("scroll_vertical",roundi(center.y-chart.size.y*.5))

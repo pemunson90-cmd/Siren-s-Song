@@ -90,6 +90,7 @@ independent_capture_tests|INDEPENDENT CAPTURE|78|139
 independent_capture_ui_tests|INDEPENDENT CAPTURE UI|79|140
 turn_safe_navigation_tests|TURN SAFE NAVIGATION|80|57
 earned_course_continuity_tests|EARNED COURSE CONTINUITY|81|64
+audit_navigation_tests|AUDIT NAVIGATION|758|858|render
 module_recovery_tests|MODULE RECOVERY|82|66
 expanded_region_tests|EXPANDED REGION|83|132
 expanded_region_journeys|EXPANDED JOURNEYS|84|131

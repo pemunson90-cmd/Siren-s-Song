@@ -14,7 +14,7 @@ static func operation_id(node)->int:
  return -1
 static func arrange(host)->void:
  if not Table.enabled:return
- var recovered=[];var next=null;var resume=null;var quick=[];var later_available=false
+ var recovered=[];var next=null;var resume=null;var quick=[];var later_available=false;var open_rows={}
  var completed=host._campaign_completed()
  # The former three decorative headings can fill a cover display at 150% text.
  var headings=host.panel_box.get_children().slice(0,3)
@@ -26,7 +26,9 @@ static func arrange(host)->void:
   if id>=0:
    if id>=6 and id not in completed:later_available=true
    if id in completed:recovered.append(node)
-   elif not node.disabled and next==null:next=node
+   elif not node.disabled:
+    if next==null:next=node
+    if not open_rows.has(id):open_rows[id]=node
   if action(node)=="resume":resume=node
   if action(node) in ["route_map","fittings","economy"]:quick.append(node)
  var top=HBoxContainer.new();top.add_theme_constant_override("separation",Table.GAP);host.panel_box.add_child(top);host.panel_box.move_child(top,3)
@@ -45,7 +47,18 @@ static func arrange(host)->void:
  # Default disabled padding differs from the game's active button style.
  # Match their geometry so changing Resume availability cannot rewrap the row.
  for control in [resume,primary]:control.add_theme_stylebox_override("disabled",control.get_theme_stylebox("normal"))
- var shortcuts=HBoxContainer.new();shortcuts.add_theme_constant_override("separation",Table.GAP);host.panel_box.add_child(shortcuts);host.panel_box.move_child(shortcuts,4)
+ # Audit 091 F9: when the first open row is older optional work, also offer the operation
+ # that continues the most recently advanced branch. Both rows remain in the list.
+ var shortcut_at=4
+ var branch_id=preload("res://src/presentation/current_branch.gd").pick(completed,open_rows.keys())
+ if branch_id>=0 and open_rows[branch_id]!=next:
+  var branch_row=open_rows[branch_id]
+  var branch=host._button(host.panel_box,"CONTINUE CURRENT BRANCH · "+str(branch_row.text).split("\n")[0],func():
+   if is_instance_valid(branch_row):branch_row.pressed.emit()
+  ,"current_branch")
+  branch.custom_minimum_size.y=maxf(branch.custom_minimum_size.y,host.ui_touch_height)
+  host.panel_box.move_child(branch,4);shortcut_at=5
+ var shortcuts=HBoxContainer.new();shortcuts.add_theme_constant_override("separation",Table.GAP);host.panel_box.add_child(shortcuts);host.panel_box.move_child(shortcuts,shortcut_at)
  for node in quick:node.reparent(shortcuts);node.size_flags_horizontal=Control.SIZE_EXPAND_FILL
  for node in quick:
   if action(node)=="fittings":node.text="FITTINGS"
