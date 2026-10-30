@@ -78,6 +78,9 @@ func overlap_gate(g,label:String):
  var gates=preload("res://src/presentation/warning_recipient_view.gd").markers(g.ocean,s,g.ui_touch_height).filter(func(m):return m.subject.subkind=="warning_gate")
  check(not gates.is_empty(),"known gate keeps its independent object target "+label)
  if gates.is_empty():return
+ var occupied=g.ocean.ui_blocked_rects+g.ocean.own_craft_rects()+g.ocean.ship_instrument_rects()+g.ocean.contact_readout_rects()
+ check(not occupied.any(func(rect):return rect.intersects(gates[0].rect.grow(5))),"known gate full target clears retained task status and craft readouts "+label)
+ check(gates[0].rect.size.y>=g.ui_touch_height and Rect2(Vector2.ZERO,g.ocean.size).encloses(gates[0].rect),"known gate fallback retains full touch size and chart bounds "+label)
  await tap(g.ocean.global_position+gates[0].rect.get_center());await tap(h.extra.route_here.get_global_rect().get_center())
  advance(s,12)
  print("LOCAL_GATE_ROUTE ",label," distance=",s.units[0].pos.distance_to(PANEL)," speed=",s.units[0].vel.length())
