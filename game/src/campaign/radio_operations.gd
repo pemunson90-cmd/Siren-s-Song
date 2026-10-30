@@ -11,4 +11,6 @@ static func apply(m:Dictionary)->void:
   e.patrol_points=[p,p+Vector2(0,180) if m.id==31 else p+Vector2(180,0)]
   e.patrol_index=0
  m.structures.append_array(SCREENS[m.id])
- m.brief+=" A pair of recovery watches can share your last seen area after a visible 3s report. Break contact before it completes, or use Disrupt or a decoy. The outside contour stays open."
+static func brief(m:Dictionary)->void:
+ if m.id in WATCHES and m.get("contact_report_revision",0)==2:
+  m.brief+=" A pair of recovery watches can share your last seen area after a visible 3s report. Break contact before it completes, or use Disrupt or a decoy. The outside contour stays open."

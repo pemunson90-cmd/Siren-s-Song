@@ -21,6 +21,12 @@ func run():
  for id in Catalog.registered_ids():
   var m=Catalog.make(id);var count=m.sirens.filter(Reports.eligible).size()
   check((m.get("contact_report_revision",0)==2)==(count>=2),"op %d enables radio exactly when two eligible Sirens exist"%id)
+ var carried=Sim.new();carried.start(31,"endurance",{"context":{"facts":{"warning_chain":"service_local_receipt"}}})
+ check(carried.sirens.filter(Reports.eligible).size()==1 and not carried.mission.has("contact_report_revision"),"recovered receipt removes its watch before fresh radio eligibility")
+ check(Sim.valid_snapshot(carried.snapshot()),"single-watch carried operation starts with a valid current snapshot")
+ var carried_copy=Sim.new()
+ check(carried_copy.restore(carried.snapshot()),"single-watch carried operation restores without enabling a peer report")
+ check(not carried.mission.brief.contains("A pair of recovery watches"),"single remaining watch briefing never promises a radio pair")
  var s=fixture();tick(s,2.1)
  check(s.sirens[0].report.charge>2 and not s.sirens[1].has("report_interest"),"new radio does not finish at legacy two seconds")
  var partial=s.snapshot();var restored=Sim.new()
