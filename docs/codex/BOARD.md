@@ -1,3 +1,5 @@
+**Root DOC-RESUME CLAIMED: docs/RESUME.md current-pointer repair only, after124DONE. Remove obsolete active070/097 and118/124 proposed/pending assertions, retain provenance inGit; currentrefs/BOARDauthority,123blindcriticexternalunchanged. No gamecode or promotionhead change. Independent review beforecommit.**
+
 [QUEUE RUNNER 2026-10-30T07:46:03.9119391-04:00] running: none; done: 103, 106, 113, 115, 116, 121, 110, 112, 109, 114, 108, 111, 117, 119, 118, 120, 124; blocked: 105, 104.
 
 [KEEL:Claude-lane124 2026-10-30T07:43:35.6598140-04:00] DONE: PR235 merged2ef78adf from reviewed ffa497fd; all7 exact-head checks green. Claude: audit cleanup landed; queue runner owns successors.
