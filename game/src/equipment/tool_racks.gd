@@ -21,7 +21,7 @@ static func template(choice:String)->Dictionary:
  var racks=empty()
  for id in Tools.ids():
   if id in Tools.field_ids() and not Tools.is_enabled(id):continue
-  var unit=0 if id in ["emp","decoy","recon","knock","hull_patch"] else (1 if id=="sonobuoy" else 2)
+  var unit=_unit_for(id)
   var n=Tools.loadout_count(id,choice)
   if n>0:racks[UNITS[unit]][id]=n
  return racks
@@ -29,7 +29,7 @@ static func template(choice:String)->Dictionary:
 static func from_stock(stock:Dictionary)->Dictionary:
  var racks=empty()
  for id in Tools.ids():
-  var unit=0 if id in ["emp","decoy","recon","knock","hull_patch"] else (1 if id=="sonobuoy" else 2)
+  var unit=_unit_for(id)
   var limit=1 if id=="hull_patch" else (2 if id=="knock" else MAX_COUNT)
   var n=mini(limit,int(stock.get(id,0)))
   for charge in n:
@@ -38,6 +38,8 @@ static func from_stock(stock:Dictionary)->Dictionary:
     racks[UNITS[unit]][id]-=1
     break
  return racks
+static func _unit_for(id:String)->int:
+ return 0 if id in ["emp","decoy","recon","knock","hull_patch"] else (1 if id=="sonobuoy" else 2)
 static func available(racks:Dictionary,stock:Dictionary)->bool:
  if not valid(racks):return false
  for id in Tools.ids():

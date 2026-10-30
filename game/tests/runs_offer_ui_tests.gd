@@ -57,6 +57,16 @@ func offer_case(shape,choice):
 	var picked=Offers.choose(pending,id)
 	check(session.screen=="expedition_menu" and session.run_state==picked and Archive.restore(host)==picked,"touch picks exact saved resources and route "+id)
 	check(session.sim.mission.id==State.current_operation(picked),"selected authored operation previews")
+	var rack_tool="";var rack_slot=""
+	for tool in RunTable.TOOLS:
+		for slot in Racks.UNITS:
+			if rack_tool.is_empty() and int(session.tool_racks[slot].get(tool,0))>0:rack_tool=tool;rack_slot=slot
+	var rack_count=int(session.tool_racks[rack_slot][rack_tool])
+	await press(session,"mode_rack_remove_"+rack_slot+"_"+rack_tool)
+	check(session.tool_racks[rack_slot][rack_tool]==rack_count-1 and session.run_state.tool_racks[rack_slot][rack_tool]==rack_count-1,"expedition rack remove touch syncs finite run stock")
+	await press(session,"mode_rack_add_"+rack_slot+"_"+rack_tool)
+	check(session.tool_racks[rack_slot][rack_tool]==rack_count and session.run_state.tool_racks[rack_slot][rack_tool]==rack_count,"expedition rack add touch restores allocation")
+	check(button(session,"mode_rack_add_"+rack_slot+"_"+rack_tool).disabled,"expedition rack add remains blocked at finite stock limit")
 	await press(session,"run_return");Modes.start(front);await settle();session=host.get_node("ExpeditionSession")
 	check(session.screen=="expedition_menu" and session.run_state==picked,"picked reload has no second grant or slate")
 	await press(session,"run_begin")
@@ -68,8 +78,10 @@ func offer_case(shape,choice):
 	for tool in RunTable.TOOLS:
 		var allocated=Racks.total(launched_racks,tool)
 		if allocated>picked.stock[tool]:allocations_fit_stock=false
-		if session.sim.tools.has(tool) and session.sim.tools[tool]!=allocated:allocations_fit_stock=false
-		if tool in preload("res://src/equipment/field_tools.gd").field_ids() and session.sim.mission.field_tools.counts[tool]!=allocated:allocations_fit_stock=false
+		if tool in preload("res://src/equipment/field_tools.gd").field_ids():
+			if not session.sim.mission.field_tools.counts.has(tool) or session.sim.mission.field_tools.counts[tool]!=allocated:allocations_fit_stock=false
+		else:
+			if not session.sim.tools.has(tool) or session.sim.tools[tool]!=allocated:allocations_fit_stock=false
 	check(allocations_fit_stock,"launched rack allocations fit selected finite stock and simulation counts")
 	check(host.sim.snapshot()==snapshot and FileAccess.get_file_as_bytes(path)==campaign_bytes and FileAccess.get_file_as_string(path+".career")=="career resources preserved","campaign simulation/archive and career bytes unchanged")
 	session._return();await settle();host.queue_free();await settle()
