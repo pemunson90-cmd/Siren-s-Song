@@ -9,17 +9,19 @@ static func initialize(sim):
   if e.get("type","") in ROLES:e["network"]=initial()
 static func key(p:Dictionary)->String:return "%d:%.6f"%[p.origin,p.born]
 static func link(sim,a:Dictionary,b:Dictionary)->bool:
+ if sim.mission.get("thermal_revision",0)==1:
+  return not preload("res://src/simulation/thermal_front.gd").arrivals(sim,b,a.pos,700.*sim.Depth.transmission(b,a),a).is_empty()
  return not sim.band_acoustics[a.band].arrivals(a.pos,b.pos,700.*sim.Depth.transmission(a,b)).is_empty()
 static func heard(sim,e:Dictionary)->Dictionary:
  var candidates=[]
  for id in sim.units.size():
   var u=sim.units[id]
   if u.alive and e.band in sim.Depth.occupied(u) and sim.propulsion_speed(u)>12:
-   candidates.append({"pos":u.pos,"radius":minf(650.,sim.motion_radius(id)*1.6)})
+   candidates.append({"pos":u.pos,"radius":minf(650.,sim.motion_radius(id)*1.6),"band":u.band,"transition":u.get("transition",{})})
  for noise in sim.noises:
   if noise.band==e.band and noise.label in ["ACTIVE SONAR","CAMERA","DISRUPTION","KNOCKDOWN","TORPEDO RUN","DECOY","RECOVERY WINCH","REACH MACHINERY","CHOIR MACHINERY","CHOIR BERTH RELEASE","PRESSURE SLEEVE"]:candidates.append(noise)
  for candidate in candidates:
-  var arrivals=sim.band_acoustics[e.band].arrivals(e.pos,candidate.pos,candidate.radius)
+  var arrivals=preload("res://src/simulation/thermal_front.gd").arrivals(sim,e,candidate.pos,candidate.radius,candidate) if sim.mission.get("thermal_revision",0)==1 else sim.band_acoustics[e.band].arrivals(e.pos,candidate.pos,candidate.radius)
   if arrivals.is_empty():continue
   var arrival=arrivals[0];var point=(candidate.pos if arrival.direct else arrival.goal)/GRID
   point=(point.round()*GRID).clamp(Vector2.ONE*80,sim.world_size()-Vector2.ONE*80)

@@ -424,7 +424,7 @@ func _build_navigation() -> void:
 			if blocked(Vector2(x*40+20,y*40+20),21): navigation.set_point_solid(Vector2i(x,y))
 	var acoustic_shapes=rock_shapes.duplicate()
 	for r in Depth.structures(self,geometry_band):acoustic_shapes.append(PackedVector2Array([r.position,Vector2(r.end.x,r.position.y),r.end,Vector2(r.position.x,r.end.y)]))
-	acoustic_paths.configure(acoustic_shapes,world_size(),mission.get("thermal_fronts",[]) if mission.get("thermal_revision",0)==1 else [])
+	acoustic_paths.configure(acoustic_shapes,world_size(),Thermal.fronts(mission,1))
 	band_navigation={1:navigation}
 	for band in [0,2]:
 		var grid=AStarGrid2D.new();grid.region=Rect2i(Vector2i.ZERO,cells);grid.cell_size=Vector2(TILE,TILE);grid.offset=Vector2(20,20);grid.diagonal_mode=AStarGrid2D.DIAGONAL_MODE_ONLY_IF_NO_OBSTACLES;grid.update()
@@ -435,7 +435,7 @@ func _build_navigation() -> void:
 		band_navigation[band]=grid
 	band_acoustics={1:acoustic_paths}
 	for band in [0,2]:
-		var propagation=Acoustics.new();propagation.configure(Depth.shapes(self,band),world_size(),mission.get("thermal_fronts",[]));band_acoustics[band]=propagation
+		var propagation=Acoustics.new();propagation.configure(Depth.shapes(self,band),world_size(),Thermal.fronts(mission,band));band_acoustics[band]=propagation
 func blocked(p: Vector2, radius: float = 12.0) -> bool:
 	if geometry_band!=1:return not Depth.clear(self,p,p,geometry_band,radius)
 	if p.x<radius or p.y<radius or p.x>world_size().x-radius or p.y>world_size().y-radius: return true
@@ -726,7 +726,7 @@ func departure_feedback() -> Dictionary:
 # Own known emissions only. Reception and enemy reaction remain sensor evidence.
 # Derive from existing clocks so pause/restore need no extra lifetime state.
 func acoustic_feedback() -> Dictionary:
-	var result={"motion":[],"pulses":[],"responses":[],"revision":mission.get("acoustic_revision",0),"thermal":mission.get("thermal_revision",0)==1}
+	var result={"motion":[],"pulses":[],"responses":[],"revision":mission.get("acoustic_revision",0),"thermal":mission.get("thermal_revision",0)==1,"thermal_band":Thermal.BAND_NAMES[Thermal.band(mission)]}
 	for u in units:
 		# Match actual movement hearing, including residual speed after SILENT.
 		if u.alive and (propulsion_speed(u)>0.0 if mission.get("acoustic_revision",0)==1 else propulsion_speed(u)>50):
@@ -1025,6 +1025,10 @@ func _observe() -> void:
 		if contact_visible(sirens[i]):
 			contacts[i]={"pos":sirens[i].pos,"time":elapsed,"mode":sirens[i].mode,"lock":sirens[i].lock,"angle":sirens[i].angle,"target":sirens[i].target,"type":sirens[i].get("type","patroller"),"band":sirens[i].band,"transition":sirens[i].transition.duplicate(),"source":"optical","confidence":1.0}
 			contacts[i]["seen_by"]=passive_receivers(sirens[i].pos,sirens[i].band)
+			if mission.get("thermal_revision",0)==1:
+				for occupied_band in Depth.occupied(sirens[i]):
+					for receiver in passive_receivers(sirens[i].pos,occupied_band):
+						if receiver not in contacts[i].seen_by:contacts[i].seen_by.append(receiver)
 			if sirens[i].get("recipient_target",false):contacts[i]["recipient_target"]=true
 			if sirens[i].get("report",{}).get("charge",0)>0:contacts[i]["report_remaining"]=ContactReports.CHARGE-sirens[i].report.charge
 			if sirens[i].get("report",{}).get("sent",0)>0:contacts[i]["report_sent"]=true
@@ -1047,7 +1051,7 @@ func passive_receivers(point:Vector2,band:int=1)->Array:
 		var u=units[i]
 		if not u.alive:continue
 		var radius=passive_range(i)
-		if mission.get("thermal_revision",0)==1:radius*=Thermal.transmission(PackedVector2Array([u.pos,point]),mission.thermal_fronts)
+		if mission.get("thermal_revision",0)==1:radius*=Thermal.transmission(PackedVector2Array([u.pos,point]),Thermal.fronts(mission,band))
 		if band in Depth.occupied(u) and u.pos.distance_to(point)<radius and Depth.clear(self,u.pos,point,band):receivers.append(i)
 	return receivers
 func scout_context(unit_id:int=-1)->Dictionary:
@@ -1061,7 +1065,7 @@ func contact_visible(enemy:Dictionary)->bool:
 	if WorldRegion.survey_visible(self,enemy.pos):return true
 	for i in units.size():
 		var u=units[i];var reach=passive_range(i)*Depth.transmission(u,enemy)
-		if mission.get("thermal_revision",0)==1:reach*=Thermal.transmission(PackedVector2Array([u.pos,enemy.pos]),mission.thermal_fronts)
+		if mission.get("thermal_revision",0)==1:reach*=Thermal.reception(self,u,enemy)
 		if u.alive and u.pos.distance_to(enemy.pos)<reach and Depth.sight(self,u,enemy):return true
 	var target=int(enemy.get("target",-1))
 	if enemy.get("lock",0)>0 and enemy.get("stun",0)<=0 and target>=0 and target<units.size():
@@ -1209,16 +1213,16 @@ func _heard_arrival(s:Dictionary)->Dictionary:
 	var best:Dictionary={}
 	var recipient=Choir.body(self) if not Choir.body(self).is_empty() else Recipient.body(self)
 	if not recipient.is_empty() and recipient.alive and recipient.vel.length()>1:
-		var arrival=Acoustics.choose(band_acoustics[s.band].arrivals(s.pos,recipient.pos,recipient.vel.length_squared()*.12*Recon.readiness(s)*Sweeper.ear(s)*Depth.transmission(s,recipient)),int(s.patrol))
+		var arrival=Acoustics.choose(Thermal.arrivals(self,s,recipient.pos,recipient.vel.length_squared()*.12*Recon.readiness(s)*Sweeper.ear(s)*Depth.transmission(s,recipient),recipient),int(s.patrol))
 		if not arrival.is_empty():best=arrival;best["suspicion"]=0.3
 	for u in units:
 		if not u.alive:continue
-		var arrival=Acoustics.choose(band_acoustics[s.band].arrivals(s.pos,u.pos,motion_radius(units.find(u))*Recon.readiness(s)*Sweeper.ear(s)*Depth.transmission(s,u)),int(s.patrol))
+		var arrival=Acoustics.choose(Thermal.arrivals(self,s,u.pos,motion_radius(units.find(u))*Recon.readiness(s)*Sweeper.ear(s)*Depth.transmission(s,u),u),int(s.patrol))
 		if not arrival.is_empty() and (best.is_empty() or arrival.strength>best.strength):
 			best=arrival;best["suspicion"]=0.3;best["player_craft"]=true
 	for noise in noises:
 		if noise.label in ["BUOY REPORT WINDUP","RELAY FORWARD","INTERCEPTOR WINDUP","WARDEN CHARGE","WARDEN PRESSURE"]:continue
-		var arrival=Acoustics.choose(band_acoustics[s.band].arrivals(s.pos,noise.pos,noise.radius*Recon.readiness(s)*Sweeper.ear(s)*Depth.transmission(s,noise)),int(s.patrol))
+		var arrival=Acoustics.choose(Thermal.arrivals(self,s,noise.pos,noise.radius*Recon.readiness(s)*Sweeper.ear(s)*Depth.transmission(s,noise),noise),int(s.patrol))
 		if not arrival.is_empty() and (best.is_empty() or arrival.strength>best.strength):
 			best=arrival;best["suspicion"]=0.45;best["pulse"]=true;best["player_craft"]=noise.label in NoticeSources.CRAFT_EMISSIONS
 			if noise.has("record"):best["record"]=noise.record

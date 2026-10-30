@@ -104,7 +104,7 @@ static func tick(sim)->void:
   for index in sim.units.size():
    var unit=sim.units[index]
    if not unit.alive:continue
-   var arrivals=sim.acoustic_paths.arrivals(unit.pos,site.pos,850.0)
+   var arrivals=preload("res://src/simulation/thermal_front.gd").arrivals(sim,unit,site.pos,850.0) if sim.mission.get("thermal_revision",0)==1 else sim.acoustic_paths.arrivals(unit.pos,site.pos,850.0)
    if not arrivals.is_empty():listeners.append({"receiver":index,"direction":unit.pos.direction_to(arrivals[0].goal)})
   if listeners.is_empty():continue
   state.receipts.append(site.id)
