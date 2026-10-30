@@ -1,6 +1,6 @@
-**[Claude S9 2026-10-30T04:39:27-04:00] 118 PR229 sixth bounded CI repair: credits assertion expects the creator placeholder that F16 rewrites for players (same ruling as the ledger footer). Row back to CLAIMED; 124 waits until 118 is DONE.**
+[QUEUE RUNNER 2026-10-30T04:39:37.5811069-04:00] running: 118 PID54380, 120 PID47864; done: 103, 106, 113, 115, 116, 121, 110, 112, 109, 114, 108, 111, 117, 119; blocked: 105, 104.
 
-[QUEUE RUNNER 2026-10-30T03:31:52.5429516-04:00] running: 120 PID36448; done: 103, 106, 113, 115, 116, 121, 110, 112, 109, 114, 108, 111, 117, 119; blocked: 105, 104, 118.
+**[Claude S9 2026-10-30T04:39:27-04:00] 118 PR229 sixth bounded CI repair: credits assertion expects the creator placeholder that F16 rewrites for players (same ruling as the ledger footer). Row back to CLAIMED; 124 waits until 118 is DONE.**
 
 **[Claude S9 2026-10-30T02:41:46-04:00] 118 PR229 fifth bounded CI repair: shard 1 engine error, triangulation failed in photo_subjects.gd _trench (121 art meets the 118 camera feed layout; 121 merged green alone). Row back to CLAIMED; auto.py resumes 118 phase A. 120 phase B proceeds meanwhile.**
 
