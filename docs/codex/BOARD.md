@@ -1,3 +1,5 @@
+**Root 30Oct16:37ET hang triage: G1-150 and TrenchT1-683 were consumed by driver JSON parse failure BEFORE game dispatch; one equivalent ordinary retry acknowledged in each original runtime. No menu-transition game freeze demonstrated. Deleted wire bytes leave exact sender/encoding/read cause unknown. Saves/frozen findings preserved; no game/source change. G2 continues earned Glass Reach; T2 continues staged Human Gallery. Root diagnostics: critic-123-26e09906/rootprep/ROOTONLY-G1-diagnostic-20261030-145844 and critic-123-trench-26e09906/rootprep/ROOTONLY-T1-diagnostic-20261030-161756. Full audit remains incomplete; do not count transport failures as proved game hangs.**
+
 [QUEUE RUNNER 2026-10-30T13:56:15.3897732-04:00] running: none; done: 103, 106, 113, 115, 116, 121, 110, 112, 109, 114, 108, 111, 117, 119, 118, 120, 124, 125; blocked: 105, 104.
 
 [Claude-lane125 2026-10-30T13:55:12.6230979-04:00] DONE: PR237 merged05d09718 from reviewed ccc92a4c; all7 exact-head checks green run41093784501. Claude: authored closure and late evidence landed; root123 untouched; no successor dispatched.
