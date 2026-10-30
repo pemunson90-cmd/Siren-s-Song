@@ -65,3 +65,10 @@ Pat: "The storyline is the least important besides how it affects branching path
 
 Q: "Should I build the improvement plan this way: each piece judged blind against named reference games, keeping only changes that win? I recommend yes. You can swap any of those references for games you'd rather we match." (Pieces: chart and touch controls, HUD and UI, graphics, audio, Siren combat, mission variety, progression and fittings, side modes. Proposed references: Cold Waters, FTL, Into the Breach, Highfleet, Barotrauma, Mini Motorways.)
 Pat: "Approved. At every major milestone you should stop and evaluate our progress, find areas where we can tighten up our workflow or improve, find our weakest areas, and essentially run a mini gauntlet loop against our own workflow".
+
+## 2026-10-30T19:18:37-04:00 (Claude S11, chat): controls are autopilot; travel shortcuts test-only
+
+Pat: "I honestly just don't like the controls. It basically means you can complete almost every mission while half of your maneuvering is just clicking a button and watching autopilot. That defeats the whole purpose of the entire waypoint mode and the pause planning selection stuff. There should be controls for depth, interacting with nearby interactable objects, movement controls and recover drones."
+Q: "Should I drop the one-press travel shortcuts and make planned waypoints plus an in-reach job menu the way you move? I recommend yes, and stripping the route-target part out of 126 before it merges."
+Pat: "They are fine for testing but they will absolutely have to be stripped for release play".
+Applied: 126 merges with its shortcuts (testing); 127 RELEASE CONTROLS gates every one-press travel order behind dev state and adds in-reach jobs, depth pair, recall.

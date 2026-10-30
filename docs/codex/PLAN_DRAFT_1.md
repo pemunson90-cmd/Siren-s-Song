@@ -32,6 +32,7 @@ Not a game bug: the four critic stalls were the test driver dropping half-writte
 0. **Harness fix (root, not game work).** Driver returns an explicit parse-error result; sender and driver write temp-then-rename. Needed before any further critic run.
 1. **Truthful commands (Claude lane, first).** Real exit names; legal approach points per work site; job-specific verbs; a named reason on every grey action; per-craft tool counts in the brief and the craft menu. Small, mostly text and target selection, verified in source.
 2. **Stable board and clear threat (root lane, in parallel).** Tap ownership with an explicit chooser for overlapping targets; no chart re-fit on panel open; a reserved threat stack nothing covers; every craft action reachable at 150%.
+1b. **Release controls (Claude lane, right after 1; Pat 30 Oct).** One-press travel shortcuts become test-only; in release play the player moves by planned legs, changes depth, works what is in reach and recalls drones. Handoff 127.
 3. **Recovery manifest (Claude lane, after 1).** Per-craft in/out list before recovery triggers, hold or confirm when a craft is outside or working; own-fleet path conflict warning.
 4. **Route flow (after 2).** "New measurement, course still clear" continues without a stop; a stop names the obstruction.
 5. **Prep and results.** Fittings and Career decision first; full dive-end stats on every path.
