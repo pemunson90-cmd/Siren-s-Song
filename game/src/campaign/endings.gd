@@ -65,7 +65,7 @@ static func resolve(progress:Dictionary,channel:String="")->Dictionary:
  elif id=="hidden_harbour" and concealed in ["shelf_service","shelf_baffle"]:
   result.outcome="Port Ardent's six came out of the shore-end bunker."
   var mouth="The short service approach stays open: a direct route for the crew, and for sound." if concealed=="shelf_service" else "The north entrance is baffled. The crew take the longer lower turn through quieter water."
-  result.story=carrier_name(arrival)+" landed Kestrel's sonar operator alive. She told Quietus how the bunker could be opened from the water. Quietus cleared the approach and cut the blast door; the cutter ran loud. "+mouth+" All six came out. "+progress.facts.get("witness_recovery","")
+  result.story=carrier_name(arrival)+" landed Kestrel's sonar operator alive. Quietus towed and placed the collapsed screen, then received the bunker watch's reply. "+mouth+" All six came out. "+progress.facts.get("witness_recovery","")
  var warning=progress.get("facts",{}).get("warning_arrival","")
  if id in ["beacon_pact","surface_reckoning"] and warning in ["exposed","sheltered"]:
   var passage="the sheltered service passage" if warning=="sheltered" else "the exposed eastern channel"

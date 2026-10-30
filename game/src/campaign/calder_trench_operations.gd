@@ -70,11 +70,11 @@ static func build(c:Dictionary,history:Dictionary={})->Dictionary:
 # 121 AI-DESIGNED record interpretations: what the archived image shows and why it
 # matters. Caption text only; Pat may replace any line.
 const READINGS={
- "DRILL INTO THE OLD RIBS":"A human drill string is driven into the curved Siren ribs at a fresh bright cut. The breach was drilled, not struck.",
+ "DRILL INTO THE OLD RIBS":"The drill string enters older Siren ribs at a fresh bright cut. This is a human breach inside the strike ground, not a hole made by the strike.",
  "GUARD SHIFT NAMEPLATE":"A watch roster plate beside the gallery hatch, its lines still legible. The guard post was manned when the strike came.",
- "DRILLERS AND GUARDS AT THE GLASS":"Four drillers in hard hats and two armed guards stand behind the lit gallery glass, palms on the pane. They are alive.",
+ "DRILLERS AND GUARDS AT THE GLASS":"Four drillers and two armed guards share the lit refuge, palms on its glass. The drilling and military accounts concern the same living people.",
  "SIREN REED SCORING":"Long parallel cuts in the stone above a loose choir reed. Siren work, not tool marks.",
- "HUMAN BORE THROUGH SIREN FOUNDATION":"A steel bore cuts through carved Siren courses, ending their red seams at raw stone. The drill went through, not around.",
+ "HUMAN BORE THROUGH SIREN FOUNDATION":"Carved Siren seams end at the steel bore's raw cut. Older foundations lay in the drill's path; this was an occupied structure, not empty seabed.",
  "FIRST STRIKE IMPACT FACE":"A cratered, glassed face with fractures running out from one point. The heaviest damage faces the bore.",
  "KEEL UNDER THE DRILL DECK":"The fallen drill deck lies across a guard boat keel, its contact face buckled inward. The deck came down on the boat.",
  "MISSING GUARD BERTHS":"Five guard berth cradles; one holds a hull, the rest hang empty with loose lines. Most of the guard boats are gone.",

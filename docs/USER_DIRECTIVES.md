@@ -221,6 +221,11 @@ Development integration is `claude/integration`; `gauntlet/production` remains t
 
 # Current user directives — read before accepting work
 
+## 30 October 2026: authored closure and late evidence (125)
+
+Claude asked: "Should Codex add an authored campaign ending plus more varied late-campaign evidence (F7/F8/F14), with story lines as 1-2 line AI-designed placeholders you can replace? I recommend yes."
+Pat: "Yes". Ending conditions remain protected. Task125 adds read-only consequence lines and evidence interpretations, plus factual action wording; the branch structure and physical rules stay as accepted.
+
 ## Latest priority — substantial playable content
 Prioritize substantial new playable content; concentrate regression, bug hunting and refinement at meaningful integration boundaries or when continuing would become prohibitively difficult or expensive. Preserve current-milestone independent approval, final-head CI, physical rules and fair information.
 

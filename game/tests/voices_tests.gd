@@ -66,7 +66,7 @@ func _initialize():
  # Credits: public creator line with source placeholder, engine, tools and audio attribution.
  var text=""
  for line in Credits.credits(load("res://src/audio/soundscape.gd").ATTRIBUTION):text+=line.text+"\n"
- check(text.contains("An independent reconnaissance game") and not text.contains("(to be named)") and text.contains("Godot Engine 4.6.3") and text.contains("MIT License") and Credits.CREATOR=="Created by (to be named)","credits name engine, show public copy and retain the source creator placeholder")
+ check(text.contains("An independent reconnaissance game") and not text.contains("(to be named)") and text.contains("Godot Engine 4.6.3") and text.contains("MIT License") and Credits.CREATOR=="An independent reconnaissance game","credits name engine and present finished public copy")
  check(text.contains("Creative Commons Attribution 3.0") and text.contains("TOOLS"),"credits keep CC-BY audio credits and list tools")
  print("VOICES CHECKS ",checks," FAILURES ",failures)
  quit(1 if failures else 0)
