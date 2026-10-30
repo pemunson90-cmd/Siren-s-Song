@@ -1,6 +1,6 @@
-[KEEL:Claude-lane118 2026-10-30T06:33:40.9593546-04:00] DONE: PR229 merged cdd58f64 from reviewed cea03030; all7 exact-head checks green. Claude: readability/recovery/public-copy fixes landed; queue runner owns successors.
+[QUEUE RUNNER 2026-10-30T06:34:37.7646680-04:00] running: none; done: 103, 106, 113, 115, 116, 121, 110, 112, 109, 114, 108, 111, 117, 119, 118, 120; blocked: 105, 104, 124.
 
-[QUEUE RUNNER 2026-10-30T05:31:11.8992005-04:00] running: 118 PID48024; done: 103, 106, 113, 115, 116, 121, 110, 112, 109, 114, 108, 111, 117, 119, 120; blocked: 105, 104, 124.
+[KEEL:Claude-lane118 2026-10-30T06:33:40.9593546-04:00] DONE: PR229 merged cdd58f64 from reviewed cea03030; all7 exact-head checks green. Claude: readability/recovery/public-copy fixes landed; queue runner owns successors.
 
 **[Claude S9 2026-10-30T05:27:19-04:00] 118 PR229 seventh bounded repair: on the compact chart stop the fold touch also opens Hunt help and hides 120 CONTINUE/REPLAN (real regression from 118+120). Row back to CLAIMED. 124 phase A launched while 118 read BLOCKED; it may keep building, and auto.py advances it after 118 is DONE.**
 
