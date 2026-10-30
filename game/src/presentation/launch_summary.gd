@@ -6,6 +6,14 @@ const Economy=preload("res://src/campaign/economy.gd")
 const EconomyPanel=preload("res://src/presentation/economy_panel.gd")
 const Racks=preload("res://src/equipment/tool_racks.gd")
 const FitModel=preload("res://src/presentation/fit_surface/fit_surface.gd")
+static func show(host,index:int)->void:
+ host.screen="reference";host._clear_menu()
+ host.set_meta("launch_costs_open",true)
+ host._menu_text("NEXT LAUNCH / RETRY",18)
+ host._menu_text(short(host),14)
+ host._menu_text(text(host),14)
+ host._button(host.menu_footer,"BACK TO LAUNCH",func():host._briefing(index),"back")
+ host.menu_footer.show();host.call_deferred("_layout")
 static func _sum(a:Dictionary,b:Dictionary)->Dictionary:
  var out=a.duplicate()
  for key in b:out[key]=out.get(key,0)+b[key]
@@ -40,7 +48,13 @@ static func text(host)->String:
  else:lines.append("RETRY SAME FIT · %s · balance then covers %s more"%[retry,"%d+"%covered if covered>=9 else str(covered)])
  lines.append("BARE STANDARD FLEET, NO EXTRA CHARGES · FREE")
  var context=host._equipment_context() if host.has_method("_equipment_context") else {}
- if not context.is_empty():lines.append(FitModel.summary(context))
+ if not context.is_empty():
+  lines.append(FitModel.summary(context))
+  var slots=FitModel.Catalog.canonical(context.get("slots",{}))
+  for unit in 3:
+   var names=[]
+   for id in FitModel.Catalog.items_for(slots,unit):names.append(str(FitModel.Catalog.ITEMS[id].name))
+   lines.append("%s MOUNTS · %s"%[["QUIETUS","DRONE A","DRONE B"][unit],", ".join(names) if not names.is_empty() else "BARE"])
  return "\n".join(lines)
 # Two lines for compact briefings: launch/retry/bare costs, then one short mount entry per craft.
 static func short(host)->String:
@@ -48,6 +62,7 @@ static func short(host)->String:
  var cover="SHORT" if covered<0 else ("%d+"%covered if covered>=9 else str(covered))
  var line="LAUNCH %s · RETRY SAME FIT %s · RETRIES COVERED %s · BARE FLEET FREE"%[Economy.fmt(EconomyPanel.launch_cost(host)),Economy.fmt(retry_cost(host)),cover]
  var context=host._equipment_context() if host.has_method("_equipment_context") else {}
+ line=Economy.balance_text(host.economy)+"\n"+line
  if context.is_empty():return line
  var slots=FitModel.Catalog.canonical(context.get("slots",{}));var mounts=[]
  for unit in 3:

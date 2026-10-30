@@ -26,8 +26,8 @@ func setup(owner)->void:
  var box=VBoxContainer.new();box.add_theme_constant_override("separation",6);panel.add_child(box)
  prompt=Label.new();prompt.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;prompt.mouse_filter=Control.MOUSE_FILTER_IGNORE;box.add_child(prompt)
  var row=HFlowContainer.new();row.add_theme_constant_override("h_separation",8);row.add_theme_constant_override("v_separation",8);box.add_child(row)
- continue_button=_button(row,"CONTINUE TO RETAINED DESTINATION",continue_course,"chart_continue")
- replan_button=_button(row,"REPLAN COURSE",replan,"chart_replan")
+ continue_button=_button(row,"CONTINUE COURSE",continue_course,"chart_continue")
+ replan_button=_button(row,"REPLAN",replan,"chart_replan")
  var chip=StyleBoxFlat.new();chip.bg_color=Color(.018,.055,.075,.94);chip.border_color=NEW_EDGE;chip.set_border_width_all(1);chip.set_corner_radius_all(6)
  chip.content_margin_left=12;chip.content_margin_right=12;chip.content_margin_top=8;chip.content_margin_bottom=8
  panel.add_theme_stylebox_override("panel",chip)
@@ -90,12 +90,12 @@ func refresh(bounds:Vector2,h:float,font:int,floor_y:float,clear:bool)->void:
  if panel.visible:
   var u=sim.units[sim.selected];var goals=retained_goals()
   var reason=str(u.chart_stop)
-  var edge="%d new terrain face%s marked amber"%[fresh.size(),"" if fresh.size()==1 else "s"] if not fresh.is_empty() else "no new face near the craft"
-  prompt.text="%s · CHART STOP · %s · %s.\nRetained destination: %d stop%s, %dm. CONTINUE replots it through charted water and stops at any further unknown edge."%[u.name,reason.to_upper(),edge,goals.size(),"" if goals.size()==1 else "s",roundi(u.pos.distance_to(goals.back().pos))]
+  var edge="%d new amber edges"%fresh.size() if not fresh.is_empty() else "no new edge"
+  prompt.text="%s · %s · %s\nRetained destination: %dm · %d stop%s"%[u.name,reason.to_upper(),edge,roundi(u.pos.distance_to(goals.back().pos)),goals.size(),"" if goals.size()==1 else "s"]
   for c in [prompt,continue_button,replan_button]:c.add_theme_font_size_override("font_size",font)
   for b in [continue_button,replan_button]:
    var widest=0.0
-   for word in b.text.split(" ",false):widest=maxf(widest,b.get_theme_font("font").get_string_size(word,HORIZONTAL_ALIGNMENT_LEFT,-1,font).x)
+   widest=b.get_theme_font("font").get_string_size(b.text,HORIZONTAL_ALIGNMENT_LEFT,-1,font).x
    b.custom_minimum_size=Vector2(maxf(h*1.55,widest+b.get_theme_stylebox("normal").get_minimum_size().x+2),h)
   var width=minf(bounds.x-24,maxf(720.0,bounds.x*.62))
   # An autowrapped label needs its own width inside the panel or it wraps per glyph.
@@ -110,7 +110,19 @@ func refresh(bounds:Vector2,h:float,font:int,floor_y:float,clear:bool)->void:
 func _place(bounds:Vector2,h:float,floor_y:float)->void:
  if not panel.visible:return
  panel.reset_size()
- panel.position=Vector2((bounds.x-panel.size.x)/2,maxf(minf(h*2,bounds.y-panel.size.y-4),minf(floor_y,bounds.y)-panel.size.y-10))
+ var top=minf(h+8,bounds.y-panel.size.y-4)
+ var bottom=maxf(top,minf(floor_y,bounds.y)-panel.size.y-10)
+ var craft:Vector2=host.ocean.screen_position(host.sim.units[host.sim.selected].pos)
+ var best=Vector2(12,top);var best_score=INF
+ for point in [Vector2(12,top),Vector2(bounds.x-panel.size.x-12,top),Vector2(12,bottom),Vector2(bounds.x-panel.size.x-12,bottom)]:
+  var rect=Rect2(point,panel.size);var score=0.0
+  if rect.has_point(craft):score+=10000.
+  score+=maxf(0.,h-craft.distance_to(craft.clamp(rect.position,rect.end)))
+  for face in fresh:
+   var a:Vector2=host.ocean.screen_position(face[0]);var b:Vector2=host.ocean.screen_position(face[1])
+   if rect.has_point(a) or rect.has_point(b) or Geometry2D.segment_intersects_segment(a,b,rect.position,rect.end)!=null:score+=1.
+  if score<best_score:best_score=score;best=point
+ panel.position=best
 func _process(_dt:float)->void:
  if panel!=null and panel.visible and not fresh.is_empty():queue_redraw()
 func _draw()->void:

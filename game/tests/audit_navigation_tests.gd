@@ -49,6 +49,8 @@ func chart_stop_case(shape:Vector2i,scale:float)->void:
  check(choice.prompt.text.contains("Retained destination") and not choice.prompt.text.contains("—"),"prompt names the retained destination without an em dash")
  var panel_rect=choice.panel.get_global_rect()
  check(game.get_viewport_rect().encloses(panel_rect),"choice stays on screen")
+ check(panel_rect.size.y<game.get_viewport_rect().size.y*.45,"chart decision leaves most of the chart visible at large text")
+ check(not panel_rect.has_point(game.ocean.screen_position(s.units[0].pos)),"chart decision leaves the selected craft visible")
  # Twin: the manual replot of the same destination the audit player issued at every stop.
  var twin=Sim.new();twin.start(0);wall_fixture(twin);twin.paused=true
  twin.command("route",{"point":goal});measure_wall(twin);move_for(twin,30)
@@ -72,13 +74,17 @@ func records_case(shape:Vector2i,scale:float)->void:
  var game=await make_game(shape,scale)
  game.recovered_evidence.clear()
  for n in 45:game.recovered_evidence["audit_record_%d"%n]={"name":"RECORD %d"%(n+1),"caption":"Caption %d."%(n+1),"optical":"audit_record_%d"%n}
+ game.recovered_evidence.audit_record_44.name="DRILLERS AND GUARDS AT THE GLASS"
  game._evidence_gallery(0);await settle()
  var newest=button(game,"newest_record")
  check(newest!=null and game.scroll.get_global_rect().encloses(newest.get_global_rect()),"NEWEST RECORD is reachable without scrolling")
  await press(game,"newest_record")
  var text=""
  for label in game.panel_box.find_children("*","Label",true,false):text+=label.text+"\n"
- check(text.contains("45 OF 45") and text.contains("RECORD 45"),"one tap reaches the newest of 45 records")
+ check(text.contains("45 OF 45") and text.contains("DRILLERS AND GUARDS AT THE GLASS"),"one tap reaches the newest of 45 records")
+ for id in ["previous_record","next_record","newest_record"]:
+  var nav=button(game,id)
+  check(nav!=null and game.scroll.get_global_rect().encloses(nav.get_global_rect()),"navigation stays visible above long record titles: "+id)
  check(button(game,"newest_record")!=null and button(game,"newest_record").disabled,"newest record says it is already newest")
  await press(game,"previous_record");text=""
  for label in game.panel_box.find_children("*","Label",true,false):text+=label.text+"\n"
@@ -105,10 +111,11 @@ func branch_home_case(shape:Vector2i,scale:float)->void:
  case_label=str(["home",shape,scale])
  var game=await make_game(shape,scale)
  game.completed=[0,1,2,3,4,5];game.unlocked=5;game.active_started=false
- game.expedition=preload("res://src/campaign/campaign_consequences.gd").upgrade({"version":2,"route":"deep","routes":["deep"],"completed":[6,7,9,11,12,14,15,16,17],"facts":{"deep":"observed","confluence_route":"concealed"}})
+ game.expedition=preload("res://src/campaign/campaign_consequences.gd").upgrade({"version":2,"route":"deep","routes":["deep"],"completed":[6,7,9,11,12,14,15,37,16,20,17,18,19,22,23,27,24,25,30,31,32,33],"facts":{"deep":"observed","confluence_route":"concealed"}})
  var before=[game.completed.duplicate(),game.expedition.duplicate(true)]
  game._show_campaign();await settle()
  var branch=button(game,"current_branch")
+ check(branch!=null,"older optional work does not hide the current Trench continuation")
  if branch!=null:
   check(game.scroll.get_global_rect().encloses(branch.get_global_rect()),"current branch is on the first screen")
   await press(game,"current_branch")
@@ -131,6 +138,11 @@ func launch_case(shape:Vector2i,scale:float)->void:
  for label in game.panel_box.find_children("*","Label",true,false):
   if label.is_visible_in_tree():all+=label.text+"\n"
  if game.screen=="briefing":check(all.contains("RETRY SAME FIT") and all.contains("BARE FLEET FREE") and all.contains("MOUNTED"),"briefing shows launch, retry, bare cost and mounts outside the preparation fold")
+ var costs=button(game,"launch_costs")
+ check(costs!=null and game.menu_footer.get_global_rect().encloses(costs.get_global_rect()),"launch cost comparison stays one tap away in the pinned footer")
+ if costs!=null:
+  await press(game,"launch_costs")
+  check(game.screen=="reference" and button(game,"back")!=null,"cost comparison opens directly and offers return to launch")
  game.queue_free();await settle()
 func damage_case()->void:
  case_label="damage"
@@ -154,6 +166,18 @@ func damage_case()->void:
  check(not text.contains("—"),"damage record has no em dash")
  s.units[1].alive=false;s.elapsed+=1.;log.sample()
  check(log.summary().contains("LOST"),"a lost drone is recorded")
+ # Continuous hazard fields damage hull by less than half a percent per frame.
+ # Sample at render cadence so small losses cannot vanish when the observer rebases.
+ log.bind(s)
+ var initial=s.hull
+ for tick in 120:
+  s.elapsed+=1./60.;s.hull-=8./60.;log.sample()
+ rows=log.events()
+ check(rows.size()==1 and is_equal_approx(rows[0].loss,16.) and is_equal_approx(rows[0].after,initial-16.),"two seconds of frame-sized hazard losses retain all sixteen hull points")
+ log.bind(s)
+ for hit in 13:
+  s.elapsed+=3.;s.hull-=1.;log.sample()
+ check(log.events().size()==12 and log.summary().contains("HULL -13% OBSERVED") and log.summary().contains("Most recent 12 events"),"bounded event history retains the full observed total and discloses omitted rows")
  game.queue_free();await settle()
 func run():
  branch_checks()

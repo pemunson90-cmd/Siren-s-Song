@@ -9,7 +9,7 @@ extends Node
 # Revert: remove the install line in main.gd, the debrief() calls, and this folder.
 const Effects=preload("res://src/simulation/field_tool_effects.gd")
 const MERGE_SECONDS=2.0
-const MIN_LOSS=0.5
+const MIN_LOSS=0.000001
 const CAP=12
 var sim
 var owner_ref
@@ -19,6 +19,8 @@ var hull=-1.
 var collision=0.
 var alive:Array=[]
 var rows:Array=[]
+var total_loss=0.0
+var trimmed=false
 static func install(owner)->void:
  var log=load("res://src/presentation/damage_log/damage_log.gd").new()
  log.name="DamageLog";log.owner_ref=owner;owner.hud.add_child(log);log.bind(owner.sim)
@@ -32,7 +34,7 @@ func bind(source)->void:
 func _collision_ledger()->float:
  return float(Effects.state(sim).get("repairable_collision_loss",0.0)) if sim!=null and sim.mission.has(Effects.KEY) else 0.0
 func _reset()->void:
- rows.clear();mission_ref=sim.mission if sim!=null else {}
+ rows.clear();total_loss=0.0;trimmed=false;mission_ref=sim.mission if sim!=null else {}
  clock=sim.elapsed if sim!=null else -1.;hull=float(sim.hull) if sim!=null else -1.
  collision=_collision_ledger();alive=sim.units.map(func(u):return u.get("alive",true)) if sim!=null else []
 func _process(_dt:float)->void:
@@ -50,6 +52,7 @@ func sample()->void:
   hull=now;collision=ledger;clock=sim.elapsed;return
  var loss:float=hull-now
  if loss>=MIN_LOSS:
+  total_loss+=loss
   var by_collision:float=clampf(ledger-collision,0.0,loss)
   if by_collision>=MIN_LOSS:_record("COLLISION",by_collision,now+(loss-by_collision),_strike_text())
   if loss-by_collision>=MIN_LOSS:_record("NOT A COLLISION",loss-by_collision,now,"")
@@ -58,7 +61,7 @@ func sample()->void:
   if i>0 and was and not sim.units[i].get("alive",true):
    rows.append({"t0":sim.elapsed,"t1":sim.elapsed,"kind":"LOST","craft":str(sim.units[i].get("name","DRONE")),"loss":0.0,"after":0.0,"note":""})
  alive=sim.units.map(func(u):return u.get("alive",true))
- while rows.size()>CAP:rows.pop_front()
+ while rows.size()>CAP:rows.pop_front();trimmed=true
  hull=now;collision=ledger;clock=sim.elapsed
 func _strike_text()->String:
  var text=str(sim.message)
@@ -78,9 +81,8 @@ func summary()->String:
  if sim==null:return ""
  sample()
  if rows.is_empty():return ""
- var total=0.0
- for row in rows:total+=row.loss
- var lines=["DAMAGE RECORD · QUIETUS HULL -%d%% THIS DIVE"%roundi(total) if total>0 else "DAMAGE RECORD"]
+ var lines=["DAMAGE RECORD · QUIETUS HULL -%d%% OBSERVED"%roundi(total_loss) if total_loss>0 else "DAMAGE RECORD"]
+ if trimmed:lines.append("Most recent %d events shown."%CAP)
  for row in rows:
   var when=_clock(row.t0) if row.t1-row.t0<1.0 else "%s to %s"%[_clock(row.t0),_clock(row.t1)]
   match row.kind:

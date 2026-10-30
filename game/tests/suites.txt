@@ -90,6 +90,7 @@ independent_capture_tests|INDEPENDENT CAPTURE|78|139
 independent_capture_ui_tests|INDEPENDENT CAPTURE UI|79|140
 turn_safe_navigation_tests|TURN SAFE NAVIGATION|80|57
 earned_course_continuity_tests|EARNED COURSE CONTINUITY|81|64
+audit_navigation_tests|AUDIT NAVIGATION|758|858|render
 module_recovery_tests|MODULE RECOVERY|82|66
 expanded_region_tests|EXPANDED REGION|83|132
 expanded_region_journeys|EXPANDED JOURNEYS|84|131
@@ -99,6 +100,8 @@ drone_drive_ui_tests|DRONE DRIVE UI|87|127
 drone_operations_tests|DRONE OPERATIONS|88|128
 drone_operations_ui_tests|DRONE OPERATIONS UI|89|129
 contact_reports_tests|CONTACT REPORT|90|46
+siren_radio_tests|SIREN RADIO|755|855
+radio_operation_tests|RADIO OPERATION|756|856
 contact_reports_ui_tests|CONTACT REPORT UI|91|47
 blackwater_courier_tests|COURIER|92|98
 blackwater_delivery_tests|BLACKWATER DELIVERY|93|63
@@ -147,6 +150,8 @@ torpedo_aim_ui_tests|TORPEDO AIM|135|178
 foundry_departure_tests|FOUNDRY DEPARTURE|136|138
 thermal_lee_tests|THERMAL LEE|137|175
 thermal_transmission_tests|THERMAL TRANSMISSION|138|176
+thermal_band_tests|THERMAL BAND|753|853
+thermal_operation_tests|THERMAL OPERATION|754|854
 thermal_ui_tests|THERMAL UI|139|177
 terminal_tick_tests|TERMINAL TICK|140|174
 extraction_survival_tests|EXTRACTION SURVIVAL|141|135
@@ -192,6 +197,7 @@ lock_warning_tests|LOCK WARNING|158|145
 lock_warning_ui_tests|LOCK WARNING UI|159|146
 order_row_scenarios|ORDER ROW|160|151
 order_task_ui_scenarios|TASK UI|161|152
+work_task_recipient_tests|WORK TASK|752|852
 performance_measurements|PERFORMANCE|162|153
 nav_clearance_tests|NAV CLEARANCE|163|184
 nav_following_probe|NAV FOLLOW|164|185
@@ -203,6 +209,7 @@ opening_fleet_tests|OPENING FLEET|169|190
 cold_review_ui_tests|COLD REVIEW UI|170|191|render
 cold_review_archive_tests|COLD REVIEW ARCHIVE|171|192
 audit_photo_integrity_tests|AUDIT PHOTO INTEGRITY|172|193
+audit_photo_evidence_tests|AUDIT PHOTO EVIDENCE|757|857
 audit_photo_ui_tests|AUDIT PHOTO UI|173|194
 audit_findings_provenance_tests|AUDIT FINDINGS PROVENANCE|174|195
 audit_artifact_cargo_tests|AUDIT ARTIFACT CARGO|175|196
@@ -341,4 +348,3 @@ expedition_session_tests|EXPEDITION SESSION|371|471
 career_tests|CAREER|380|480
 rider_tests|RIDER|312|413
 rider_ui_tests|RIDER UI|313|414|render
-audit_navigation_tests|AUDIT NAVIGATION|752|852|render

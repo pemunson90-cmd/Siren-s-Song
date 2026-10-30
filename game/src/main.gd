@@ -22,6 +22,8 @@ const FleetInventory=preload("res://src/campaign/fleet_inventory.gd")
 const OnboardingText=preload("res://src/campaign/onboarding_text.gd")
 const FrontendSettings=preload("res://src/presentation/frontend/frontend_settings.gd")
 const SettingsStore=preload("res://src/persistence/settings_store.gd")
+const WorkTaskView=preload("res://src/presentation/work_task/work_task.gd")
+const WORK_ORDERS=["salvage","chain_power","chain_route","chain_send","concealed_tow","witness_land","warning_gate","warning_depart","rendezvous_release","wake_playback","shelf_warn","shelf_alarm"]
 var sim = Simulation.new()
 var store=SaveStore.new()
 var sound
@@ -232,6 +234,7 @@ func _layout(cancel_gesture:bool=true) -> void:
 		ocean.ui_blocked_rects=mission_hud.occupied_rects().map(func(r):return Rect2(r.position-ocean.global_position,r.size))
 	if menu!=null:
 		menu.position=Vector2(maxf(24,(size.x-800)/2),24); menu.size=Vector2(minf(800,size.x-48),size.y-48)
+		if screen=="reference" and get_meta("launch_costs_open",false):menu.position=Vector2(16,16);menu.size=size-Vector2(32,32)
 		if archive_status_text!=null:archive_status_text.add_theme_font_size_override("font_size",maxi(17,roundi(h*.26*FrontendSettings.text_scale())))
 		for button in menu.find_children("*","Button",true,false):
 			button.custom_minimum_size.y=h; button.add_theme_font_size_override("font_size",maxi(17,roundi(h*0.29*FrontendSettings.text_scale())))
@@ -268,11 +271,14 @@ func _start_mission(index: int) -> void:
 	if debug_console!=null:debug_console.reset_metrics()
 	if mission_hud!=null:
 		mission_hud.hints.dismiss();mission_hud.tool_help.cancel()
-		mission_hud.subject={};mission_hud.page="craft"
+		mission_hud.subject={};mission_hud.page="craft";mission_hud.task={};mission_hud.task_result={};mission_hud.choose_units=[]
 	ocean.sim=sim; ocean.focus_craft(); screen="mission"; menu.hide(); hud.show(); _refresh()
 func _primary_action() -> void:
 	if decoy_armed or knock_armed:
 		decoy_armed=false;knock_armed=false;map_gesture.cancel();knock_press.clear();sim.message="Targeting cancelled";_refresh();return
+	# 119: an unfinished chosen task is never swapped for another optional job.
+	var held=WorkTaskView.held_reason(sim,mission_hud.task) if mission_hud!=null else ""
+	if not held.is_empty():mission_hud.task_result={"owner":WorkTaskView.NAMES[sim.selected],"ok":false,"text":held};_refresh();return
 	var photographic=sim.camera_context()
 	if photographic.get("ready",false) and preload("res://src/simulation/photo_context.gd").is_photo(sim,photographic):_order("camera");return
 	var shelter=preload("res://src/presentation/shelf_habitat_view.gd").nearest(sim)
@@ -317,7 +323,10 @@ func _order(order: String,args: Dictionary={}) -> void:
 	knock_armed=false; ocean.knock_targeting=false; decoy_armed=false; ocean.decoy_targeting=false
 	var undo_record={}
 	if order=="route" and sim.outcome.is_empty() and mission_hud!=null and mission_hud.guard!=null:undo_record=mission_hud.guard.capture()
+	var worker=sim.selected
 	var accepted=sim.command(order,args)
+	if mission_hud!=null and (order=="camera" or order.ends_with("_action") or order in WORK_ORDERS):
+		mission_hud.task_result={"owner":WorkTaskView.NAMES[worker],"ok":accepted,"text":sim.message}
 	if accepted and not undo_record.is_empty():mission_hud.guard.arm_undo(undo_record)
 	if order=="knock" and not accepted: knock_armed=aiming
 	if order=="decoy" and not accepted:decoy_armed=aiming_decoy
@@ -462,6 +471,12 @@ func _map_event(event: InputEvent,local_event: bool=false) -> bool:
 				_order("decoy",{"point":ocean.map_position(action.tap-ocean.global_position)})
 			knock_press.clear(); return true
 		var context=ocean.pick_context(action.tap-ocean.global_position,ui_touch_height)
+		# 119: an object under a different craft offers a visible recipient choice.
+		if not context.is_empty() and context.kind not in ["craft","fleet"]:
+			var under=ocean.craft_at(action.tap-ocean.global_position,ui_touch_height)
+			if under.any(func(id):return id!=sim.selected):
+				mission_hud.choose_units=under;mission_hud.choose_next="inspect" if context.get("subkind","")=="concealed" else "habitat" if context.kind=="habitat" else "object" if context.kind=="objective" else "salvage" if context.kind=="salvage" else "craft"
+				mission_hud.open("choose",context);return true
 		if not context.is_empty():
 			if context.kind=="craft" and context.unit!=sim.selected:_order("select",{"unit":context.unit})
 			mission_hud.open("inspect" if context.get("subkind","")=="concealed" else "habitat" if context.kind=="habitat" else "object" if context.kind=="objective" else "salvage" if context.kind=="salvage" else "fleet" if context.kind=="fleet" else "craft",context);return true
@@ -507,6 +522,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 			elif knock_armed or decoy_armed:_primary_action()
 			else:sim.paused=true;_show_campaign()
 func _clear_menu() -> void:
+	set_meta("launch_costs_open",false)
 	preload("res://src/presentation/arcs/arc_card.gd").back(self)
 	var resolution=get_node_or_null("ConfluenceResolution")
 	if resolution!=null:remove_child(resolution);resolution.queue_free()

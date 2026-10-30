@@ -37,9 +37,16 @@ static func build(c:Dictionary,history:Dictionary={})->Dictionary:
   var listen=W.listen(row.listen.key,row.listen.name,row.listen.pos,row.listen.evidence)
   listen.optional=true;m.objectives.append(listen)
  return m
+# 121 AI-DESIGNED record interpretations: what the archived image shows and why it
+# matters. Caption text only; Pat may replace any line.
+const READINGS={
+ "SCOUR EDGE":"The structure's corner is worn round and grooved by long current scour. Old wear, not a fresh strike.",
+ "SPINDLE WEAR":"Fine rings are scored into the spindle collar where it turns. The wear comes from turning, not impact.",
+ "HUMAN SURVIVOR MARKS":"Tally marks scratched by hand into the bell-berth nameplate, an arrow beside them. People sheltered here and kept count.",
+ "FEED TERMINALS":"A bank of security feed terminals behind the glass, their screen marks still on the film. This room watched the feed."}
 static func _photo(k:String,label:String,pos:Vector2,band:int,optional:bool)->Dictionary:
  var subject=P.S(PI,100.,0.55,["mark"],[P.F("mark",label,0.,PI,0.12,0.,{"art":ART[label],"glow":0.7,"finding":{"kind":"person" if label=="HUMAN SURVIVOR MARKS" else "note","text":label,"off":Vector2.ZERO}})])
  subject["band"]=band
- var o=W.photo(k,label,pos,label,subject,4.,optional)
+ var o=W.photo(k,label,pos,READINGS.get(label,label),subject,4.,optional)
  o["band"]=band
  return o

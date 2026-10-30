@@ -98,8 +98,9 @@ static func briefing(host, index: int) -> void:
 		if not photo_problems.is_empty():host._menu_text(photo_problems,17)
 		if host.ExpeditionOperations.briefing(host,index):pass
 		manual_control=host._button(host.panel_box,"FIELD MANUAL · full rules and orders",func(): host._reference(index),"manual")
+	var thermal_line=preload("res://src/simulation/thermal_front.gd").briefing(briefing)
+	if not thermal_line.is_empty():host._menu_text(thermal_line,17)
 	preload("res://src/presentation/archive/voice_feed.gd").briefing(host,index)
-	# Audit 091 F10: compact briefings keep two lines of launch economics and mounts above the preparation fold.
 	if compact and not host._campaign_pristine() and not EconomyPanel.briefing_line(host).is_empty():host._menu_text(preload("res://src/presentation/launch_summary.gd").short(host),14)
 	var stock=host._loadout_stock(host.upgrade)
 	var fit_start=host.panel_box.get_child_count()
@@ -131,12 +132,15 @@ static func briefing(host, index: int) -> void:
 	,"begin")
 	begin.disabled=not EconomyPanel.can_begin(host)
 	if compact:
+		if not begin.disabled:begin.text="DIVE\nPAUSED"
 		manual_control.text="FIELD\nMANUAL"
+		if fold_control!=null:fold_control.text="FIT\n"+("HIDE" if host.get_meta("onboard2_fit_open",false) else "SHOW")
 		for control in [manual_control,fold_control]:
 			if control==null:continue
 			host.panel_box.remove_child(control);host.menu_footer.add_child(control)
 			control.size_flags_horizontal=Control.SIZE_EXPAND_FILL;control.mouse_filter=Control.MOUSE_FILTER_STOP
-	host._button(host.menu_footer,"BACK TO\nOPERATIONS",host._show_campaign,"back")
+	host._button(host.menu_footer,"BACK TO\nOPS" if compact else "BACK TO\nOPERATIONS",host._show_campaign,"back")
+	if not host._campaign_pristine() and not EconomyPanel.briefing_line(host).is_empty():host._button(host.menu_footer,"COSTS /\nRETRY",func():preload("res://src/presentation/launch_summary.gd").show(host,index),"launch_costs")
 	host.menu_footer.show()
 	if compact:preload("res://src/campaign/onboarding2/briefing_layout.gd").attach(host)
 	preload("res://src/presentation/arcs/arc_card.gd").intro(host,index)
@@ -147,7 +151,7 @@ static func fold_fit(host, nodes:Array,holder:Array) -> void:
 	for node in nodes:node.visible=show
 	if host.screen=="briefing" and BriefRows029.applies(int(host.get_meta("onboard2_fit_index",-1))):
 		host.set_meta("onboard2_fit_open",show)
-		holder[0].text=BriefRows029.FOLD_LABELS.hide if show else BriefRows029.FOLD_LABELS.show
+		holder[0].text="FIT\nHIDE" if show else "FIT\nSHOW"
 	else:holder[0].text="HIDE FRAMES AND FITTINGS" if show else "SHOW FRAMES AND FITTINGS"
 	host.call_deferred("_layout")
 

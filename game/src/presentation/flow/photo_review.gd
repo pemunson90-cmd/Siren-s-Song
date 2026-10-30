@@ -44,7 +44,6 @@ static func evidence_gallery(host, index: int,shot_index:int=-1,compare:bool=fal
 	var shots:Array=entry.get("shots",[])
 	var kind="PHOTOGRAPH" if not shots.is_empty() else ("ACOUSTIC" if host._evidence_is_text(entry) else ("HYDROPHONE" if entry.optical in ["blackwater_request","blackwater_reply"] else "OPTICAL"))
 	host._menu_text("FIELD %s RECORDS / %d OF %d"%[kind,index+1,keys.size()],18)
-	host._menu_text(entry.name,28)
 	# Audit 091 F9: record navigation sits above the plate so it never needs a scroll;
 	# NEWEST reaches the latest record in one tap instead of stepping through every older one.
 	if keys.size()>1:
@@ -55,6 +54,7 @@ static func evidence_gallery(host, index: int,shot_index:int=-1,compare:bool=fal
 			host._button(nav,"NEWEST RECORD",func(): host._evidence_gallery(keys.size()-1),"newest_record")]:
 			b.size_flags_horizontal=Control.SIZE_EXPAND_FILL
 		nav.get_child(2).disabled=at_index==keys.size()-1
+	host._menu_text(entry.name,28)
 	if not shots.is_empty():
 		var best:=0
 		for i in shots.size():

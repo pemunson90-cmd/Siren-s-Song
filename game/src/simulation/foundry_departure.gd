@@ -33,7 +33,7 @@ static func feedback(sim)->Dictionary:
  for i in sim.units.size():
   var u=sim.units[i]
   if not u.alive:continue
-  var options=sim.band_acoustics[u.band].arrivals(u.pos,source,radius(sim.elapsed)*sim.Depth.transmission(u,{"band":2}))
+  var options=preload("res://src/simulation/thermal_front.gd").arrivals(sim,u,source,radius(sim.elapsed)*sim.Depth.transmission(u,{"band":2}),{"band":2})
   if not options.is_empty():
    # A bent arrival supplies its first bearing, never a through-rock source dot.
    var arrival=options[0]

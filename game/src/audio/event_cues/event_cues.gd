@@ -20,6 +20,7 @@ var last_clock:=-1.
 var hull:=-1.
 var materials:Dictionary={}
 var tool_counts:Dictionary={}
+var reporting:Dictionary={}
 var lifecycle_suspended:=false
 var host_ref
 static func sync(host,sim,dt:float,active:bool)->void:
@@ -89,9 +90,15 @@ func advance(sim,_dt:float,active:bool)->void:
  var allowed=audible and active and not host_ref.system_suspended and not lifecycle_suspended
  var frozen=sim.paused or not active or host_ref.system_suspended or lifecycle_suspended
  var found=_materials(sim);var tools=_tools(sim)
+ var reports={}
+ for id in sim.contacts:
+  var contact=sim.contacts[id]
+  if sim.elapsed-float(contact.time)<0.25 and contact.get("report_remaining",0)>0:reports[id]=true
  if not is_same(mission_ref,sim.mission) or sim.elapsed<last_clock:
-  mission_ref=sim.mission;hull=sim.hull;materials=found;tool_counts=tools;queued=[]
+  mission_ref=sim.mission;hull=sim.hull;materials=found;tool_counts=tools;reporting=reports;queued=[]
  elif active and not sim.paused and sim.outcome.is_empty():
+  for id in reports:
+   if not reporting.has(id):_raise("siren_report",sim)
   var hit=Table.hull_cue(hull-sim.hull)
   if not hit.is_empty():_raise(hit,sim)
   for key in found:
@@ -102,7 +109,7 @@ func advance(sim,_dt:float,active:bool)->void:
  if active:
   for id in Table.TOOLS:
    if tools[id]<int(tool_counts.get(id,tools[id])):_raise(id,sim)
- last_clock=sim.elapsed;hull=sim.hull;materials=found;tool_counts=tools
+ last_clock=sim.elapsed;hull=sim.hull;materials=found;tool_counts=tools;reporting=reports
  _flush(allowed,frozen)
  if not audible or not active:
   for voice in voices:voice.stop()
