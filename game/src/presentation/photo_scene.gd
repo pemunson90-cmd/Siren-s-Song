@@ -13,9 +13,20 @@ const LOOKS={"spire":"tower","relay_west":"housing","relay_east":"housing","furn
 const ART={"beacon":"lamp","drill":"string","scoring":"scoring","housing":"none","clock":"clock","mouth":"mouth","lining":"lining","rails":"rails","frames":"frames","hatch":"hatch","ribs":"none","count":"count","face":"none","vanes":"none","throat":"throat","lines":"lines","fracture":"fracture","stack":"lamp","plume":"plume","channel":"channel","prism":"none","facets":"facets","form":"none","array":"array","gait":"gait","overview":"none"}
 static func rnd(n:int)->float:
 	return fposmod(sin(float(n)*12.9898)*43758.5453,1.0)
+const Subjects=preload("res://src/presentation/photo_subjects.gd")
 static func look_for(vm:Dictionary)->String:
 	if str(vm.get("kind","site"))=="siren":return "siren"
-	return LOOKS.get(str(vm.get("key","")),"tower")
+	var key:=str(vm.get("key",""))
+	if Subjects.LOOKS.has(key):return Subjects.LOOKS[key]
+	return LOOKS.get(key,"tower")
+# Best resolved feature quality once the plate has developed far enough to show
+# it; the same visibility rule the feature marks use below. Picture only.
+static func evidence_level(vm:Dictionary,dev:float)->float:
+	var ev:=0.0
+	for mark in vm.get("marks",[]):
+		var q:float=float(mark.q)
+		if q>0.0 and (dev>=0.45+0.4*(1.0-q) or dev>=1.0):ev=maxf(ev,q)
+	return ev
 # Clamps a polygon into the picture so glows never bleed over the interface.
 static func _clamp_poly(pts:PackedVector2Array,r:Rect2)->PackedVector2Array:
 	var out:=PackedVector2Array()
@@ -49,7 +60,7 @@ static func draw(ci:CanvasItem,rect:Rect2,vm:Dictionary,time:float,font_size:int
 	# The subject, once per ghost pass: a soft frame smears into doubled edges.
 	var cx:float=rect.position.x+rect.size.x*(0.5+float(vm.u)*0.5)
 	var scale_px:float=clampf(float(vm.size)/maxf(float(vm.dist),20.0)/maxf(float(vm.fov),0.2)*rect.size.x,16.0,rect.size.x*1.1)
-	var ctx:={"ci":ci,"rect":rect,"cx":cx,"base":floor_top+rect.size.y*0.1,"s":minf(scale_px,rect.size.y*0.62),"a":float(vm.aspect),"light":light,"glow":float(vm.get("glow",0.0)),"sharp":sharp,"seed":seed_n,"time":time,"flash":flash,"low":low,"vm":vm,"clarity":clarity}
+	var ctx:={"ci":ci,"rect":rect,"cx":cx,"base":floor_top+rect.size.y*0.1,"s":minf(scale_px,rect.size.y*0.62),"a":float(vm.aspect),"light":light,"glow":float(vm.get("glow",0.0)),"sharp":sharp,"seed":seed_n,"time":time,"flash":flash,"low":low,"vm":vm,"clarity":clarity,"ev":evidence_level(vm,dev)}
 	var blur:float=(1.0-sharp)*13.0
 	var passes:Array=[[0.0,1.0]] if blur<1.3 else ([[-blur,0.22],[blur,0.22],[-blur*0.5,0.3],[blur*0.5,0.3],[0.0,0.85]] if blur>6.0 else [[-blur,0.3],[blur,0.3],[0.0,1.0]])
 	for p in passes:
@@ -67,7 +78,8 @@ static func draw(ci:CanvasItem,rect:Rect2,vm:Dictionary,time:float,font_size:int
 			var art:String=str(mark.get("art",""))
 			if art.is_empty():art=str(ART.get(str(mark.id),"none"))
 			var alpha:float=clampf((dev-visible_at)/0.15+0.4,0.4,1.0) if dev<1.0 else 1.0
-			_feature(ctx,art,Vector2(mx,my),q,alpha)
+			# Composed subjects draw their own resolved evidence in the scene.
+			if not Subjects.has(look):_feature(ctx,art,Vector2(mx,my),q,alpha)
 			if not str(mark.get("find","")).is_empty():
 				var d:Vector2=Vector2(mx,my-22.0)
 				ci.draw_colored_polygon(PackedVector2Array([d+Vector2(0,-7),d+Vector2(7,0),d+Vector2(0,7),d+Vector2(-7,0)]),Color(AMBER,0.92*alpha))
@@ -137,6 +149,10 @@ static func _subject(ctx:Dictionary,look:String)->void:
 	body.a=al;shade.a=al
 	var line:Color=Color(0.01,0.03,0.04,al*0.55*detail)
 	var hi:Color=Color(0.7,0.9,0.86,al*0.35*clampf(float(ctx.light)*1.3,0,1))
+	if Subjects.has(look):
+		Subjects.draw(ctx,look)
+		ci.draw_rect(Rect2(cx-s*0.5,base+1,s,s*0.04),Color(0,0.01,0.015,0.35*al))
+		return
 	match look:
 		"siren":_siren(ctx,cx,base,s,a,front,side,body,shade,detail,al)
 		"wall":
