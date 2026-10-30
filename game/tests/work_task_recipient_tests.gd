@@ -57,6 +57,9 @@ func run():
   check(g.mission_hud.task.get("index",-1)==disc and g.mission_hud.task.get("owner",-1)==1,"opening the object names it as DRONE A's chosen task "+tag)
   check(WorkTask.captions(g.sim,g.mission_hud.subject)[0]=="BY DRONE A","object projection names its order recipient before sending "+tag)
   await shot("work-object-"+tag)
+  settle(g,1,disc_pos+Vector2(0,30),0,disc_pos)
+  check("NEEDS MIDDLE" in WorkTask.captions(g.sim,g.mission_hud.subject),"long object name cannot hide needed band "+tag)
+  settle(g,1,disc_pos+Vector2(0,30),1,disc_pos)
   # F5 (1371): object under A while Q is selected asks which one is meant.
   g.mission_hud.dismiss();g._order("select",{"unit":0});g.ocean.focus_craft();g._refresh();await frames()
   await world_tap(g,disc_pos)
@@ -117,5 +120,14 @@ func run():
    check("LAST FIX 6s" in WorkTask.load_status(g.sim) and "not confirmed" in WorkTask.load_status(g.sim),"stale fix never reads as arrival "+tag)
    state.seen.time=g.sim.elapsed;state.seen.state="arrived"
    check(WorkTask.load_tag(g.sim)=="ARRIVED · CONFIRMED","observed arrival is confirmed at the load "+tag)
+   state.seen.time=g.sim.elapsed-6.
+   check(WorkTask.load_tag(g.sim)=="ARRIVED \u00b7 CONFIRMED","observed arrival stays confirmed after sight ages "+tag)
+  # Ordinary objectives occupied by another craft use the same visible choice.
+  g._start_mission(2);g._enter_water();g.sim.sirens=[];g.sim.paused=true
+  var ordinary=g.sim.mission.objectives[0].pos
+  settle(g,0,ordinary+Vector2(-150,100));settle(g,1,ordinary);settle(g,2,ordinary+Vector2(-200,180))
+  g._order("select",{"unit":0});g.ocean.focus_craft();g._refresh();await frames()
+  await world_tap(g,ordinary)
+  check(g.mission_hud.page=="choose" and 1 in g.mission_hud.choose_units,"ordinary objective overlap offers craft or object choice "+tag)
   g.queue_free();await frames()
  print("WORK TASK CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)

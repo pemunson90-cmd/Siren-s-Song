@@ -84,14 +84,25 @@ static func result_line(result:Dictionary)->String:
 	if result.is_empty():return ""
 	return "LAST · %s · %s · %s"%[result.owner,"STARTED" if result.ok else "REFUSED",result.text]
 
-# Short centre caption for an object's projection (two lines, <=22 chars).
+# Recipient and actionable refusal in the object projection center.
 static func captions(sim,subject:Dictionary)->Array:
 	var lines=["BY "+NAMES[sim.selected]]
 	if pinnable(subject):
 		var reason=object_reason(sim,int(subject.index))
 		var work=sim.capture_at_target(int(subject.index))
-		lines.append(("WORKING %s"%LETTERS[work.unit]) if work.unit>=0 else "CAMERA READY" if reason.is_empty() else reason.substr(0,22))
+		lines.append(("WORKING %s %.1f/%ds"%[LETTERS[work.unit],work.elapsed,roundi(work.duration)]) if work.unit>=0 else "CAMERA READY" if reason.is_empty() else short_reason(sim,int(subject.index),reason))
 	return lines
+
+# Put the actionable requirement first; object identity is already in the ring.
+static func short_reason(sim,index:int,reason:String)->String:
+	var sites=sim.observable_sites()
+	if index<0 or index>=sites.size():return "NO SITE"
+	var o=sites[index];var bands=bands_of(o);var u=sim.units[sim.selected]
+	if u.band not in bands:return "NEEDS "+sim.Depth.NAMES[bands[0]]
+	var distance=u.pos.distance_to(o.pos);var reach=sim.Photo.reach(sim,sim.selected)
+	if distance>reach:return "RANGE %dm / %dm"%[roundi(distance),roundi(reach)]
+	if int(sim.camera_context().get("target",-1))!=index:return "CAMERA AIMS ELSEWHERE"
+	return reason
 
 # Observed moving load: confirmed motion, escort hold, last fix or arrival.
 static func load_status(sim)->String:
@@ -99,8 +110,8 @@ static func load_status(sim)->String:
 	var info=sim.choir_context()
 	if info.is_empty() or info.load.is_empty():return ""
 	var body=info.load;var name=str(body.name)
-	if body.age>=1.:return "%s · LAST FIX %ds · %s · arrival not confirmed"%[name,int(body.age),str(body.state).to_upper()]
 	if body.state=="arrived":return "%s · ARRIVED · CONFIRMED"%name
+	if body.age>=1.:return "%s · LAST FIX %ds · %s · arrival not confirmed"%[name,int(body.age),str(body.state).to_upper()]
 	if body.state!="transit":return "%s · %s"%[name,str(body.state).to_upper()]
 	var mid=int(sim.mission.get("id",-1))
 	if not Rules.ESCORT.has(mid):return "%s · TRANSIT · OBSERVED"%name

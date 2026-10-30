@@ -117,6 +117,10 @@ func pick_context(point:Vector2,touch:float) -> Dictionary:
 	var tender=Rendezvous.pick(self,sim,point,touch,false)
 	if not tender.is_empty():return tender
 	choices=craft_at(point,touch)
+	# Keep an occupied ordinary object available for explicit recipient choice.
+	if choices.any(func(id):return id!=sim.selected):
+		var object=objective_context(point,touch)
+		if not object.is_empty():return object
 	if choices.size()>1:return {"kind":"fleet","pos":map_position(point)}
 	if choices.size()==1:return {"kind":"craft","unit":choices[0],"pos":sim.units[choices[0]].pos}
 	tender=Rendezvous.pick(self,sim,point,touch)
