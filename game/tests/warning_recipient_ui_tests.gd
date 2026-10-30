@@ -6,6 +6,30 @@ const HOME=Vector2(2420,240)
 var checks=0
 var failures=0
 var capture_dir=""
+class MarkerViewport:
+ extends RefCounted
+ var size=Vector2(800,600)
+ var instrument_top=64.
+ var world_scale=1.
+ var ui_blocked_rects=[]
+ func own_craft_rects():return []
+ func ship_instrument_rects():return []
+ func contact_readout_rects():return []
+ func screen_position(point):return Vector2(400,300)+(point-Vector2(1840,440))*.2
+func marker_bounds_case(s,label:String):
+ var projection=preload("res://src/presentation/warning_recipient_view.gd")
+ var view=MarkerViewport.new();var before=s.snapshot()
+ for touch_size in [48.,126.]:
+  for dimensions in [Vector2.ZERO,Vector2(64,64),Vector2(800,64),Vector2(24+touch_size-1,600),Vector2(800,64+touch_size*2+29)]:
+   view.size=dimensions
+   check(projection.markers(view,s,touch_size).is_empty(),"unusable chart defers full recipient targets %s %s %s"%[label,touch_size,dimensions])
+  view.size=Vector2(800,900)
+  var markers=projection.markers(view,s,touch_size)
+  var bounds=Rect2(Vector2(12,76),view.size-Vector2(24,64+touch_size+30))
+  check(markers.size()==2,"recipient and gate badges return when chart has room %s %s"%[label,touch_size])
+  for marker in markers:
+   check(bounds.encloses(marker.rect) and marker.rect.size.x>=touch_size and marker.rect.size.y>=touch_size,"restored badge keeps full in-bounds touch ownership %s %s"%[label,touch_size])
+ check(s.snapshot()==before,"transient badge layout preserves physical state "+label)
 func _initialize():call_deferred("run")
 func check(ok:bool,label:String):
  checks+=1
@@ -159,6 +183,7 @@ func run():
   await tap(g.order_buttons.camera.get_global_rect().get_center())
   check(h.subject.get("subkind","")=="warning_gate" and not g.order_buttons.camera.disabled and g.order_buttons.camera.text in ["CAMERA","CAMERA\nLISTEN","LISTEN"],"nearby closed gate context retains actual pending camera/listen "+label)
   await pending_gate_actions(g,label)
+  marker_bounds_case(s,label)
   s.units[0].pos=BERTH+Vector2(-100,0);s.units[0].vel=Vector2.ZERO
   g.ocean.focus_craft();await sync(g)
   await tap(g.ocean.global_position+g.ocean.screen_position(BERTH))

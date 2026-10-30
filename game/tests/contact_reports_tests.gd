@@ -10,7 +10,7 @@ func check(ok:bool,label:String):
  if not ok:failures+=1;printerr("FAIL ",label)
 func fixture():
  # Explicit mechanic fixture; ordinary authored finale trace is separate.
- var s=Sim.new();s.start(5);s.mission.rocks=[];s.mission.structures=[];s.mission.depth_geometry={};s._build_navigation()
+ var s=Sim.new();s.start(5);s.mission.contact_report_revision=1;s.mission.rocks=[];s.mission.structures=[];s.mission.depth_geometry={};s._build_navigation()
  for i in 3:s.units[i].pos=Vector2(700,600);s.units[i].alive=i==0;s.units[i].vel=Vector2.ZERO
  s.sirens=s.sirens.slice(0,2)
  for i in 2:
@@ -23,7 +23,7 @@ func _initialize():
  var earlier_unchanged=true
  for chapter in 5:
   var earlier=Sim.new();earlier.start(chapter);earlier_unchanged=earlier_unchanged and not earlier.mission.has("contact_report_revision")
- check(earlier_unchanged,"earlier authored encounters retain their existing pacing and briefings")
+ check(not earlier_unchanged,"fresh earlier multi-patroller encounters opt into radio reports")
  check(s._heard_arrival(s.sirens[1]).is_empty(),"quiet peer lacks original stimulus")
  sight(s,1.0);check(s.sirens[0].get("report",{}).get("charge",0)>0.9 and s.sirens[1].get("attention_time",0)==0,"report has an interruptible charge")
  s._observe();var rows=Feedback.entries(s.contacts,s.elapsed,s.units)

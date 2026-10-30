@@ -24,12 +24,15 @@ static func primary_subject(sim)->Dictionary:
 static func markers(view,sim,touch:float)->Array:
  var info=status(sim);var result=[]
  if info.is_empty():return result
+ var bounds=Rect2(Vector2(12,view.instrument_top+12),view.size-Vector2(24,view.instrument_top+touch+30))
+ # During sizing or teardown the chart may have no room for a full target.
+ # Wait for usable chart space instead of projecting into inverted bounds.
+ if bounds.size.x<touch or bounds.size.y<touch:return result
  var occupied=view.ui_blocked_rects+view.own_craft_rects()+view.ship_instrument_rects()+view.contact_readout_rects()
  # Badges must not intercept the other known object's physical touch target.
  var radius=maxf(touch*.32,25*view.world_scale)
  for key in ["recipient","gate"]:
   if info[key].known:occupied.append(Rect2(view.screen_position(info[key].pos)-Vector2.ONE*radius,Vector2.ONE*radius*2))
- var bounds=Rect2(Vector2(12,view.instrument_top+12),view.size-Vector2(24,view.instrument_top+touch+30))
  var extent=Vector2(minf(touch*3.1,bounds.size.x),touch)
  for key in ["recipient","gate"]:
   var item=info[key]
