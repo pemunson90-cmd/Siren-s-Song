@@ -34,7 +34,7 @@ static func run(t):
  s=target_fixture(2);s.sirens[0].band=1;s.units[1].alive=true;s.units[1].pos=s.units[0].pos;s.units[1].band=1;s._observe()
  t.check(s.knockdown_targets().is_empty(),"MIDDLE allied observation cannot offer an unreachable guard to DEEP Quietus")
  t.check(not s.command("knock",{"target":0}) and s.tools.knock==2 and s.projectiles.is_empty(),"cross-band rejection spends no ammunition")
- s=target_fixture(2);s.units[0].silent=true;s.sirens[0].pos=Vector2(1425,820);s.units[1].alive=true;s.units[1].band=2;s.units[1].pos=Vector2(1400,820);s.mission.darkness=true;s.mission.thermal_revision=1;s.mission.thermal_fronts=[{"area":Rect2(1320,780,30,80),"transmission":.5,"close_range":40.}];s._observe()
+ s=target_fixture(2);s.units[0].silent=true;s.sirens[0].pos=Vector2(1425,820);s.units[1].alive=true;s.units[1].band=2;s.units[1].pos=Vector2(1400,820);s.mission.darkness=true;s.mission.thermal_revision=1;s.mission.thermal_band=2;s.mission.thermal_fronts=[{"area":Rect2(1320,780,30,80),"transmission":.5,"close_range":40.}];s._observe()
  t.check(s.contacts[0].seen_by==[1] and s.knockdown_targets().size()==1 and s.command("knock",{"target":0}),"same-band ally may legitimately acquire a target through the shared fleet observation")
  for band in [1,2]:
   s=target_fixture(band);s.sirens[0].band=1;s.sirens[0].transition={"to":2,"remaining":3.};s._observe()
