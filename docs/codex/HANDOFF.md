@@ -29,6 +29,7 @@ Read the PR's before/after tables, not its summary, and its latest comments. Che
 - Pat said yes (2026-10-30T12:09:01-04:00) to the authored ending plus late-campaign evidence (F7/F8/F14): queued as 125, BOARD row 122, chain 2. 124 PR235 merged 2ef78adf; root 122 Promotion 4 merged 26e09906; root holds 123 cold audit 5.
 
 ## Next actions
+0. **FREEZE (Pat 2026-10-30T12:53:27-04:00):** no new game items queued in either lane after 125. Root runs remaining 123 regions in parallel (late campaign to ending; side modes). When COLD_REVIEW_5 lands, Claude writes ONE comprehensive ranked plan from it plus open COLD_REVIEW_4 items (F12 etc.) and the story-depth gap, then fans out across both lanes.
 1. Intent-check every waiting PR (PASS or HOLD comment). 124 is next.
 2. Intent-check 125 when its PR is ready (ending conditions and physics must be identical).
 3. Pat deferred: wariness mark on chart, SURVIVAL in-dive pressure; ask after the audit batches.

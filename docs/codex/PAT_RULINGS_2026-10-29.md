@@ -51,3 +51,8 @@ Pat: "After the fixes (Recommended)". Pat had said: "it seems like we're slowing
 
 Q: "Should Codex add an authored campaign ending plus more varied late-campaign evidence (F7/F8/F14), with story lines as 1-2 line AI-designed placeholders you can replace? I recommend yes."
 Pat: "Yes". Queued as 125 (BOARD row 122). Ending conditions stay protected.
+
+## 2026-10-30T12:53:27-04:00 (Claude S10, chat)
+
+Pat asked for a real gauntlet stop: evaluate the whole game, find every weak point, one comprehensive plan, then fan out. Claude asked: "Should I freeze new building after 125 merges and ask root to run the remaining critic regions in parallel (late arcs with the ending, and side modes)? The full verdict would land today, then I'd write one complete improvement plan and run it across both lanes. I recommend yes."
+Pat: "Yes, freeze and run the critic in parallel".
