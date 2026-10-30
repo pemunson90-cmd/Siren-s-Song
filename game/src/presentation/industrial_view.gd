@@ -47,7 +47,9 @@ static func draw(view,sim=null):
    view.draw_rect(Rect2(pos-Vector2(48,20),Vector2(96,40)),Color("29454e"));view.draw_rect(Rect2(pos-Vector2(48,20),Vector2(96,40)),color,false,3.)
    for x in [-25,0,25]:view.draw_rect(Rect2(pos+Vector2(x,-10),Vector2(8,8)),color)
   view.draw_arc(pos,42,0,TAU,24,color,1.5)
-  view._label(pos+Vector2(50,35),body.name+" / "+(body.state.to_upper() if body.age<.3 else "LAST FIX %ds"%int(body.age)),color,13)
+  # 119: observed motion, escort hold, last fix or confirmed arrival at the load.
+  var tag=preload("res://src/presentation/work_task/work_task.gd").load_tag(sim)
+  view._label(pos+Vector2(50,35),body.name+" / "+(tag if not tag.is_empty() else body.state.to_upper() if body.age<.3 else "LAST FIX %ds"%int(body.age)),color,maxi(13,roundi(view.feedback_font_size/maxf(view.world_scale,.01))))
  for patch in sim.Industry.patches(sim):
   view.draw_circle(patch.pos,patch.radius,Color(.9,.35,.16,.10));view.draw_arc(patch.pos,patch.radius,0,TAU,40,Color("e79a60"),2.)
   view._label(patch.pos+Vector2(10,-15),"PRESSURE / %.1fs"%patch.remaining,AMBER,13)
