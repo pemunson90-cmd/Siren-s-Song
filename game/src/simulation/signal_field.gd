@@ -16,7 +16,7 @@ static func observe(sim,active:bool=false)->void:
   for id in sim.units.size():
    var unit=sim.units[id]
    if not unit.alive:continue
-   var arrivals=sim.band_acoustics[unit.band].arrivals(unit.pos,pos,900.0*sim.Depth.transmission(unit,{"band":1}))
+   var arrivals=preload("res://src/simulation/thermal_front.gd").arrivals(sim,unit,pos,900.0*sim.Depth.transmission(unit,{"band":1}))
    if arrivals.is_empty():continue
    var arrival=arrivals[0];var direction:Vector2=unit.pos.direction_to(arrival.goal)
    observations.append({"receiver":id,"origin":unit.pos,"direction":direction,"time":sim.elapsed,"uncertainty":0.18 if arrival.direct else 0.65,"label":source.label})

@@ -1,3 +1,15 @@
+## 29 October 2026: interruptible local Siren radio (handoffs 104/116)
+
+[PAT, verbatim ruling recorded in PAT_RULINGS_2026-10-29.md, item 6] "On ops with 2+ patrolling Sirens, should they radio each other with a visible charge-up you can interrupt? (Protected, your call.)" = "Yes, 2+ patrollers (Recommended)"
+
+[KEEL / AI-DESIGNED implementation] New multi-patroller operations enable a 3s, local acoustic report carrying a coarse last-seen point and observed depth. Breaking sight, Disrupt or a received distraction cancels the charge. Fresh local evidence stays authoritative. Existing revision-one dives retain their original behavior. Final Marks31 and Calder Gallery33 relocate existing watches to make recovery approaches expose the report choice; small physical screens offer a quiet break. Other protected rules retain their existing behavior. Phase B owns fleet measurements and the PR intent table.
+
+## 29 October 2026: one-band thermal acoustic cover (handoffs 105/115)
+
+[PAT, verbatim ruling recorded in PAT_RULINGS_2026-10-29.md, item 7] "Should the thermal layer cover only one depth band, so picking a depth decides who can hear you? (Protected, your call.)" = "Yes (Recommended)"
+
+[KEEL / AI-DESIGNED implementation] Each authored thermal front masks only its named band, with emitter and listener settled in that band. Transitions retain an exposed path. Briefing and chart name the band. Foundry uses MIDDLE; the optional shelf exhaust's narrow MIDDLE strip and relocated existing deep watch make a louder flash-photo return favor MIDDLE over DEEP. The flash policy is one legal route, not proof of globally optimal depth. Other protected rules retain their existing behavior.
+
 ## 29 October 2026: tool cargo in Career and Expedition (handoff 117)
 
 [PAT, verbatim ruling recorded in handoff 117, chat ~17:50 ET] Claude asked "Should extra tools cost cargo in Career and Expedition too (today campaign only)? I recommend yes, so the loadout choice matters everywhere." Pat: "Yes to all".

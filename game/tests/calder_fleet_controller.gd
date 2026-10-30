@@ -10,6 +10,7 @@ var scout_shot=false
 var scout_started=false
 var breaker_staged=false
 var replan_at=[0.,0.,0.]
+var disrupt_after=0.
 # Park across Quietus' final approach, keeping the recovery convoy out of its lane.
 const APPROACH={30:Vector2(1180,300),31:Vector2(880,1000),32:Vector2(1100,2900),33:Vector2(1900,1150),34:Vector2(1050,2150),35:Vector2(2900,1450),36:Vector2(1000,1300)}
 func parking(unit:int)->Vector2:
@@ -33,6 +34,7 @@ func start(index:int,upgrade:String="endurance",launch:Dictionary={})->void:
  if index!=36:
   # The spare receiver takes its module to the recovery mouth in parallel.
   super.command("select",{"unit":2})
+  if index in [31,33]:super.command("depth",{"band":2 if index==31 else 0})
   super.command("route",{"point":parking(2)})
  super.command("select",{"unit":0})
 func advance(dt:float)->void:
@@ -53,10 +55,13 @@ func advance(dt:float)->void:
   if body.alive and body.has("chart_stop") and not body.route.is_empty() and elapsed>=replan_at[id]:
    super.command("select",{"unit":id})
    super.command("route",{"point":body.route.back().pos});replan_at[id]=elapsed+1.
- # Only a received live warning justifies spending a real Disrupt charge.
+ # Spend finite Disrupt on received live radio charge-ups as well as lock warnings.
+ # Waiting for lock lets the new recovery pair finish its report and surround a drone.
  for c in contacts.values():
-  if elapsed-float(c.time)<.3 and float(c.lock)>1.2 and tools.emp>0:
-   super.command("select",{"unit":maxi(0,int(c.target))});super.command("emp");break
+  if elapsed>=disrupt_after and elapsed-float(c.time)<.3 and (float(c.lock)>1.2 or float(c.get("report_remaining",0.))>0.) and tools.emp>0:
+   super.command("select",{"unit":maxi(0,int(c.target))})
+   if super.command("emp"):disrupt_after=elapsed+5.
+   break
  if scout_goal>=0 and units[1].alive:
   var o=mission.objectives[scout_goal];var u=units[1]
   super.command("select",{"unit":1})
@@ -66,6 +71,8 @@ func advance(dt:float)->void:
    elif elapsed-scout_frame_at>=3. and not scout_shot:
     scout_shot=super.command("camera")
   if o.captured and not scout_return:
-   if u.band!=1:super.command("depth",{"band":1})
+   # Bring the film back outside the new MIDDLE recovery watch, then rendezvous.
+   var return_band=(2 if mission.id==31 else 0) if mission.id in [31,33] else 1
+   if u.band!=return_band:super.command("depth",{"band":return_band})
    super.command("route",{"point":parking(1)});scout_return=true
  super.command("select",{"unit":old});handling=false
