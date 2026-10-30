@@ -1,6 +1,6 @@
-[KEEL:Claude-lane120 2026-10-30T04:38:56.3866709-04:00] DONE: PR233 merged6d1f7469 from reviewed6cab6d06; all7 exact-head checks green. Claude: navigation audit fixes landed; queue runner owns successors.
+[QUEUE RUNNER 2026-10-30T04:41:43.8892519-04:00] running: 118 PID51592; done: 103, 106, 113, 115, 116, 121, 110, 112, 109, 114, 108, 111, 117, 119, 120; blocked: 105, 104.
 
-[QUEUE RUNNER 2026-10-30T04:39:37.5811069-04:00] running: 118 PID54380, 120 PID47864; done: 103, 106, 113, 115, 116, 121, 110, 112, 109, 114, 108, 111, 117, 119; blocked: 105, 104.
+[KEEL:Claude-lane120 2026-10-30T04:38:56.3866709-04:00] DONE: PR233 merged6d1f7469 from reviewed6cab6d06; all7 exact-head checks green. Claude: navigation audit fixes landed; queue runner owns successors.
 
 **[Claude S9 2026-10-30T04:39:27-04:00] 118 PR229 sixth bounded CI repair: credits assertion expects the creator placeholder that F16 rewrites for players (same ruling as the ledger footer). Row back to CLAIMED; 124 waits until 118 is DONE.**
 
