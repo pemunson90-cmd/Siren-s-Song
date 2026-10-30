@@ -79,19 +79,28 @@ static func viewfinder_visible(state) -> bool:
 	if state.capture_unit>=0:return state.selected==state.capture_unit
 	return not Photo.preview(state,state.selected).is_empty()
 var owned_pointers:Dictionary={}
+var owned_emulated_mouse:=false
 var details_touch=preload("res://src/presentation/touch_scroll.gd").new()
 func route_input(event:InputEvent)->bool:
 	if footer_scroll!=null and details_touch.feed(footer_scroll,event):return true
-	if not visible:
-		owned_pointers.clear();return false
 	if not (event is InputEventScreenTouch or event is InputEventScreenDrag or event is InputEventMouse):return false
 	var id=event.index if event is InputEventScreenTouch or event is InputEventScreenDrag else -1
-	if event is InputEventMouse and event.device==InputEvent.DEVICE_ID_EMULATION:return owned_pointers.has(id)
+	# Godot dispatches the primary touch's mouse partner first. Latch its
+	# original target through release, even if a fold moves the panel. Secondary
+	# fingers cannot acquire or clear this mouse ownership.
+	if event is InputEventMouse and event.device==InputEvent.DEVICE_ID_EMULATION:
+		if event is InputEventMouseButton and event.button_index==MOUSE_BUTTON_LEFT and event.pressed:
+			var point=event.position-global_position
+			owned_emulated_mouse=is_visible_in_tree() and (toggle_rect.has_point(point) or _buttons.any(func(b):return b.rect.has_point(point)))
+		var owned=owned_emulated_mouse
+		if event is InputEventMouseButton and event.button_index==MOUSE_BUTTON_LEFT and not event.pressed:owned_emulated_mouse=false
+		return owned
 	var press=(event is InputEventScreenTouch and event.pressed) or (event is InputEventMouseButton and event.pressed and event.button_index==MOUSE_BUTTON_LEFT)
 	var release=(event is InputEventScreenTouch and not event.pressed) or (event is InputEventMouseButton and not event.pressed)
 	if release:
 		var owned=owned_pointers.has(id);owned_pointers.erase(id);return owned
 	if not press:return owned_pointers.has(id)
+	if not is_visible_in_tree():return false
 	var point=event.position-global_position
 	if not toggle_rect.has_point(point) and not _buttons.any(func(b):return b.rect.has_point(point)):return false
 	owned_pointers[id]=true
