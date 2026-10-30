@@ -60,3 +60,8 @@ Pat: "Yes, freeze and run the critic in parallel".
 ## 2026-10-30T12:57:49-04:00 (Claude S10, chat): gauntlet priorities
 
 Pat: "The storyline is the least important besides how it affects branching paths. The main point of the gauntlet loop right now is gameplay, graphics, ux, ui, bugs, features. The whole point is that we have a complete game. We review it, figure out where it's lacking especially in comparison to other AAA releases, and then we plan out the upgrades, and then we execute."
+
+## 2026-10-30T13:04:53-04:00 (Claude S10, chat): reference-judged plan and workflow gauntlet
+
+Q: "Should I build the improvement plan this way: each piece judged blind against named reference games, keeping only changes that win? I recommend yes. You can swap any of those references for games you'd rather we match." (Pieces: chart and touch controls, HUD and UI, graphics, audio, Siren combat, mission variety, progression and fittings, side modes. Proposed references: Cold Waters, FTL, Into the Breach, Highfleet, Barotrauma, Mini Motorways.)
+Pat: "Approved. At every major milestone you should stop and evaluate our progress, find areas where we can tighten up our workflow or improve, find our weakest areas, and essentially run a mini gauntlet loop against our own workflow".

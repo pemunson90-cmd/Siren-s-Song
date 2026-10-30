@@ -29,6 +29,8 @@ Read the PR's before/after tables, not its summary, and its latest comments. Che
 - Pat said yes (2026-10-30T12:09:01-04:00) to the authored ending plus late-campaign evidence (F7/F8/F14): queued as 125, BOARD row 122, chain 2. 124 PR235 merged 2ef78adf; root 122 Promotion 4 merged 26e09906; root holds 123 cold audit 5.
 
 ## Next actions
+- **Plan method (Pat 2026-10-30T13:04:53-04:00):** split the game into pieces (chart/touch, HUD/UI, graphics, audio, Siren combat, mission variety, progression/fittings, side modes), each with 1-2 named reference games (Cold Waters, FTL, Into the Breach, Highfleet, Barotrauma, Mini Motorways). A fresh critic judges each change blind against its reference with specific reasons; keep only winners (ratchet); discard rounds with bad captures.
+- **Workflow gauntlet (Pat 2026-10-30T13:04:53-04:00, standing):** at every major milestone (promotion, audit freeze, plan fan-out done) stop and review our own workflow: where time, tokens or CI cycles were wasted, our weakest process areas, one or two concrete fixes; record them here and apply them.
 0. **FREEZE (Pat 2026-10-30T12:53:27-04:00):** no new game items queued in either lane after 125. Root runs remaining 123 regions in parallel (late campaign to ending; side modes). When COLD_REVIEW_5 lands, Claude writes ONE comprehensive ranked plan from it plus open COLD_REVIEW_4 items (F12 etc.), ranked by gameplay, graphics, UX/UI, bugs and features against AAA releases (story only where it shapes branching, Pat 2026-10-30T12:57:49-04:00), then fans out across both lanes.
 1. Intent-check every waiting PR (PASS or HOLD comment). 124 is next.
 2. Intent-check 125 when its PR is ready (ending conditions and physics must be identical).
