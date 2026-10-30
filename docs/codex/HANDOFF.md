@@ -25,7 +25,7 @@ Read the PR's before/after tables, not its summary, and its latest comments. Che
 ## State (2026-10-29T22:22:30-0400, end of Claude S8)
 - `gauntlet/production` 13a64ed0 = Promotion 3. Merged to integration this session: 113 PR225, 111 PR226, 117 PR228, 115 PR227.
 - **091 audit DONE** (verdict `C:/Users/Archi/.cache/sirens-song-toolchain/artifacts/critic-091-13a64ed0/audit/INDEPENDENT_VERDICT.md`; root keeps COLD_REVIEW_4).
-- **Chain C:** 118 PR229 (PASS given, then red CI: fleet handle covers warning relay target + shard 1; CI-repair phase A running; procedural HOLD posted, so re-check the refreshed PR and post PASS again) -> 119 PR230 (full PASS; merges after 118) -> 120 (phase A built by Claude subagent, b522d357; waits) -> 124 cleanup (PR-audit items plus 118/119 label leftovers).
+- **Chain C (order now 119 -> 118 -> 120 -> 124):** 119 PR230 full PASS, merging on green. 118 PR229 in a SECOND CI repair (its layout broke knockdown UI and warning-recipient UI suites; procedural HOLD stands, re-check and re-PASS after). 120 built (b522d357), waits. 124 cleanup last. 116 PR231 draft is measuring; intent-check when ready.
 - **Chain S:** 116 radio ops (phase A building on merged 115) -> 121 photo evidence (phase A built by Claude subagents, f9f76a7d, all 24 required subjects; waits).
 - **Root lane:** 122 Promotion 4 then 123 cold audit 5, queued; start them (BOARD banner to root) when rows 115-121 all read DONE or BLOCKED.
 - auto.py patched twice this session (no pipe capture; phase C ends `PHASE C CIFAIL` instead of marking BLOCKED). Claude subagents were Pat-approved for one usage window only (see memory).
