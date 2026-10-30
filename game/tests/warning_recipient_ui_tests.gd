@@ -79,6 +79,9 @@ func overlap_gate(g,label:String):
  check(not gates.is_empty(),"known gate keeps its independent object target "+label)
  if gates.is_empty():return
  var occupied=g.ocean.ui_blocked_rects+g.ocean.own_craft_rects()+g.ocean.ship_instrument_rects()+g.ocean.contact_readout_rects()
+ var radius=maxf(g.ui_touch_height*.32,25*g.ocean.world_scale)
+ var recipient_body=Rect2(g.ocean.screen_position(s.warning_recipient_status().recipient.pos)-Vector2.ONE*radius,Vector2.ONE*radius*2)
+ check(not gates[0].rect.intersects(recipient_body),"gate badge never intercepts recipient physical target "+label)
  check(not occupied.any(func(rect):return rect.intersects(gates[0].rect.grow(5))),"known gate full target clears retained task status and craft readouts "+label)
  check(gates[0].rect.size.y>=g.ui_touch_height and Rect2(Vector2.ZERO,g.ocean.size).encloses(gates[0].rect),"known gate fallback retains full touch size and chart bounds "+label)
  await tap(g.ocean.global_position+gates[0].rect.get_center());await tap(h.extra.route_here.get_global_rect().get_center())
