@@ -18,6 +18,12 @@ class ObservedSim:
   peak_hunt=maxf(peak_hunt,float(mission.get("reconnaissance",{}).get("hunt",0.)))
   for guard in sirens:
    if guard.lock>0:lock_frames+=1;max_lock=maxf(max_lock,guard.lock)
+# Wait for the actual authored depth duration, including carried-survivor ascent.
+static func dive(s,band)->bool:
+ if s.units[0].band==band and s.units[0].transition.is_empty():return true
+ if not s.command("depth",{"band":band}):return false
+ tick(s,float(s.units[0].transition.remaining)+.2)
+ return s.units[0].band==band and s.units[0].transition.is_empty()
 func progress()->Dictionary:
  return {"version":2,"route":"deep","routes":["deep"],"facts":{"deep":"Recovered branch"},"completed":[6],"notes":{},"references":{},"entitlements":[],"history":[],"selected_thread":"deep"}
 func run():
@@ -69,9 +75,7 @@ func run():
  check(not C.valid(bad),"corrupt log encoding rejected")
  bad=p.duplicate(true);bad.notes=[]
  check(not C.valid(bad),"malformed notes rejected without crash")
- var s=ObservedSim.new();s.start(41)
- for tool in s.tools:s.tools[tool]=0
- for tool in s.mission.field_tools.counts:s.mission.field_tools.counts[tool]=0
+ var s=ObservedSim.new();s.start(41,"endurance",{"tool_racks":{"quietus":{},"drone_a":{},"drone_b":{}}})
  check(Catalog.valid_definition(Catalog.definition(41)) and Sim.valid_snapshot(s.snapshot()),"rescue definition and initial save validate")
  for preset in ["standard","accessible"]:
   var economy=preload("res://src/campaign/economy.gd").new_state(preset)
@@ -107,24 +111,27 @@ func run():
  var recovered=C.recover(p,s.mission)
  check(recovered.facts.get("sorley_boy")=="rescued" and C.valid(recovered),"physical bare arrival commits exactly one rescue fact")
  var e={"stock":{"scrap":0,"cells":0,"alloy":0},"report":""}
- S.credit(e,p,recovered);check(e.stock.scrap==2 and e.stock.cells==0,"ordinary rescue receives modest reward")
- S.credit(e,recovered,recovered);check(e.stock.scrap==2,"replay cannot duplicate reward")
- var fleet=ObservedSim.new();fleet.start(41)
+ S.credit(e,p,recovered);check(e.stock.scrap==0 and e.stock.cells==0 and e.report.contains("PILOTAGE CHARTS"),"ordinary rescue receives pilotage charts")
+ S.credit(e,recovered,recovered);check(e.stock.scrap==0,"replay cannot duplicate reward")
+ var fleet=ObservedSim.new();fleet.start(41,"endurance",{"tool_racks":{"quietus":{},"drone_a":{"emp":1},"drone_b":{}}})
  var fleet_tools=fleet.tools.duplicate(true)
  fleet.command("select",{"unit":1})
+ # Quiet propulsion limits the approach report; one local Disrupt covers the winch.
+ # Return west of the southern shard instead of passing the sentinel after its stun ends.
+ fleet.command("drone_drive",{"mode":"quiet"})
  var fleet_ok=unit_dive(fleet,2) and unit_go(fleet,Vector2(1600,1500)) and unit_go(fleet,Vector2(1250,980)) and unit_dive(fleet,1) and unit_dive(fleet,0) and unit_go(fleet,Vector2(1420,980))
  if fleet_ok:
   print("FLEET APPROACH ",fleet.units[1].pos," guards=",fleet.sirens.map(func(g):return [g.pos,g.lock,g.band]))
   fleet.command("emp")
   fleet_ok=fleet.command("salvage",{"item":"witness_capsule"});tick(fleet,4.05)
   print("FLEET LOADED ",fleet.mission.witness_evacuation," guards=",fleet.sirens.map(func(g):return [g.pos,g.lock,g.stun,g.band]))
-  fleet_ok=fleet_ok and fleet.mission.witness_evacuation.state=="carried" and unit_go(fleet,Vector2(1600,1550)) and unit_go(fleet,Vector2(1100,1700)) and unit_go(fleet,Vector2(300,1500)) and unit_dive(fleet,1)
+  fleet_ok=fleet_ok and fleet.mission.witness_evacuation.state=="carried" and unit_go(fleet,Vector2(1250,980)) and unit_go(fleet,Vector2(1100,1100)) and unit_go(fleet,Vector2(1100,1700)) and unit_go(fleet,Vector2(300,1500)) and unit_dive(fleet,1)
   fleet_ok=fleet_ok and fleet.command("witness_land");tick(fleet,.1)
  print("SORLEY FLEET outcome=",fleet.outcome," time=",fleet.elapsed," hull=",fleet.hull," lock_samples=",fleet.lock_frames," max_lock=",fleet.max_lock," peak_hunt=",fleet.peak_hunt," quiet=",fleet.mission.sorley_quiet," hunt=",fleet.recon_feedback()," tools=",fleet.tools," message=",fleet.message)
  check(fleet_ok and fleet.outcome=="won","independent drone physically brings the boy home while Quietus waits at lift")
  var quiet=C.recover(p,fleet.mission)
  check(quiet.facts.get("sorley_boy")=="rescued_quiet" and fleet.tools.emp==fleet_tools.emp-1,"real intact lock-free drone voyage earns quiet tier using one finite Disrupt")
- S.credit(e,p,quiet);check(e.stock.scrap==6 and e.stock.cells==2,"quiet intact drone tier rewards preparation")
+ S.credit(e,p,quiet);check(e.stock.scrap==0 and e.stock.cells==0,"quiet intact drone earns charts without supplies")
  var ending=progress();ending.completed=[6,7,9,11,12];ending.facts.confluence_route="concealed"
  check(Endings.resolve(ending).story.contains(S.LEFT),"unfound boy has different ending placeholder")
  ending.facts.sorley_boy="rescued"
@@ -150,5 +157,5 @@ func unit_go(s,point)->bool:
  return body.alive and body.pos.distance_to(point)<25.
 func unit_dive(s,band:int)->bool:
  if not s.command("depth",{"band":band}):return false
- tick(s,4.2)
+ tick(s,float(s.units[s.selected].transition.remaining)+.2)
  return s.units[s.selected].band==band and s.units[s.selected].transition.is_empty()

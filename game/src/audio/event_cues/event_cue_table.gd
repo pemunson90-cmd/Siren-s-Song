@@ -1,10 +1,8 @@
 extends RefCounted
 # EVENT AUDIO levels, priorities and repeat limits. Tunable numbers live only here.
-# Revert: enabled=false restores today's soundscape exactly (no node, no state read).
 # Generated cues share PhotoWave synthesis; gains are dB on the existing effects bus,
 # so mute/volume, the master peak guard and the Night mode compressor still apply.
 # Captions: each id has a row in presentation/accessibility/cue_table.gd TEXT.
-static var enabled:=true
 const VOICES:=3
 const MAX_PER_FRAME:=2
 # Field tool ids whose stock drop (a successful use) plays the cue of the same name.
@@ -16,6 +14,7 @@ const HULL_TIERS:=[{"min":0.01,"id":"hull_light"},{"min":6.,"id":"hull_medium"},
 # recording rows reuse an imported Soundscape recording (their sound already plays from the
 # event stream); they exist so a caller may use play() and so captions/priority are in one place.
 const CUES:={
+ "siren_report":{"seconds":.6,"gain_db":-22.,"hz":[620.,880.],"noise":.2,"curve":1.,"pulses":3,"interval":1.,"priority":5},
  "hull_light":{"seconds":.22,"gain_db":-26.,"hz":[150.,95.],"noise":.5,"curve":1.2,"pulses":1,"interval":.8,"priority":3},
  "hull_medium":{"seconds":.36,"gain_db":-21.,"hz":[120.,60.],"noise":.55,"curve":1.1,"pulses":2,"interval":.8,"priority":4},
  "hull_heavy":{"seconds":.55,"gain_db":-16.,"hz":[90.,38.],"noise":.65,"curve":.9,"pulses":3,"interval":.8,"priority":6},

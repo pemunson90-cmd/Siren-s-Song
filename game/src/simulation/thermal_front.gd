@@ -1,10 +1,41 @@
 extends RefCounted
 # Authored horizontal cold-water interface. This is a game-scale transmission
 # approximation, not calibrated thermocline/refraction physics.
+const DEFAULT_BAND=1
+const BAND_NAMES=["SHALLOW","MIDDLE","DEEP"]
+static func band(mission:Dictionary)->int:
+ return mission.get("thermal_band",DEFAULT_BAND)
+static func fronts(mission:Dictionary,path_band:int)->Array:
+ return mission.get("thermal_fronts",[]) if mission.get("thermal_revision",0)==1 and path_band==band(mission) else []
+static func briefing(mission:Dictionary)->String:
+ if mission.get("thermal_revision",0)!=1:return ""
+ return "COLD FRONT / %s only: sound weakens across it when emitter and listener share this band. Other bands are unmasked; depth transitions remain exposed in both bands."%BAND_NAMES[band(mission)]
+static func arrivals(sim,receiver:Dictionary,source:Vector2,radius:float,source_body:Dictionary={})->Array:
+ # Geometry remains receiver-band geometry. Masking requires both ends in the
+ # layer. Either body crossing out of it supplies an exposed sound path.
+ var bands=[receiver.get("band",1)]
+ if sim.mission.get("thermal_revision",0)==1 and not receiver.get("transition",{}).is_empty():
+  var destination=receiver.transition.to
+  if band(sim.mission) in [bands[0],destination]:bands.append(destination)
+ var best=[];var strength=0.
+ for depth in bands:
+  var masked=source_body.is_empty() or sim.Depth.occupied(source_body)==[band(sim.mission)]
+  var options=sim.band_acoustics.get(depth,sim.acoustic_paths).arrivals(receiver.pos,source,radius,masked)
+  var peak=0.
+  for option in options:peak=maxf(peak,option.strength)
+  if peak>strength:best=options;strength=peak
+ return best
+static func reception(sim,receiver:Dictionary,source:Dictionary)->float:
+ var result=0.
+ for depth in sim.Depth.occupied(receiver):
+  if depth not in sim.Depth.occupied(source) or not sim.Depth.optical_clear(sim,receiver.pos,source.pos,depth):continue
+  result=maxf(result,transmission(PackedVector2Array([receiver.pos,source.pos]),fronts(sim.mission,depth)))
+ return result
 static func foundry() -> Array:
  return [{"area":Rect2(1000,780,320,120),"transmission":0.55,"close_range":120.0}]
 static func valid_mission(mission:Dictionary)->bool:
- if not mission.has("thermal_revision") and not mission.has("thermal_fronts"):return true
+ if not mission.has("thermal_revision") and not mission.has("thermal_fronts"):return not mission.has("thermal_band")
+ if mission.has("thermal_band") and (not mission.thermal_band is int or mission.thermal_band not in [0,1,2]):return false
  if (mission.get("id",-1) not in [3,8] and not preload("res://src/campaign/operation_catalog.gd").supports(mission.get("id",-1),"thermal")) or mission.get("acoustic_revision",0)!=1 or not mission.get("thermal_revision") is int or mission.thermal_revision!=1:return false
  var fronts=mission.get("thermal_fronts")
  if not fronts is Array or fronts.size()!=1:return false

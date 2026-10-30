@@ -33,9 +33,13 @@ static func show(front,seed_value:int,back:Callable,start:Callable)->void:
 		if edit.text!=cleaned:
 			var caret=edit.caret_column;edit.text=cleaned;edit.caret_column=mini(caret,cleaned.length())
 		var chosen=parse(cleaned);begin.disabled=chosen<0
-		preview.text="Enter a seed in range." if chosen<0 else Records.modifiers(State.new_run(chosen))
+		preview.text="Enter a seed in range." if chosen<0 else setup_context(State.new_run(chosen))
 	edit.text_changed.connect(refresh)
 	front._button("RANDOM SEED",func():
 		edit.text=str(randi_range(0,State.Table.MAX_SEED));refresh.call(edit.text)
 	,"run_seed_random")
 	refresh.call(edit.text)
+
+static func setup_context(state:Dictionary)->String:
+	var op=State.current_operation(state)
+	return "%s LOADOUT / %s / EXPEDITION HUNT %d\nFIRST OPERATION HUNT %d. Each operation caps the expedition modifier to its supported pressure; the in-dive meter shows current pressure."%[state.loadout.to_upper(),State.Table.SCARCITY[state.scarcity].to_upper(),state.hunt_stage,State.starting_hunt(state,op)]

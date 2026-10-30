@@ -218,12 +218,6 @@ func shape_case(shape):
 		await android_back()
 		var persisted=SettingsStore.new();persisted.path=settings_path
 		check(persisted.load_settings().reduced_motion==chosen,"Back flushes a pending setting without waiting for debounce")
-	ReachTable.enabled=false;game._show_campaign();await settle()
-	check(button(game,"menu_title")==null and button(game,"menu_challenges")==null and button(game,"menu_credits")==null,"off switch removes the new navigation entries")
-	await press(game,"settings")
-	var legacy_cap=button(game,"frame_cap_60")
-	check(button(game,"text_scale_115")==null and control(game,"volume_master")==null and legacy_cap!=null and legacy_cap.focus_mode==Control.FOCUS_ALL and button(game,"back")!=null,"legacy settings routing retains focusable frame cap")
-	await android_back();ReachTable.enabled=true;game._show_campaign();await settle()
 	for b in game.find_children("*","Button",true,false):
 		if b.is_visible_in_tree() and b.get_meta("ui_action","") in ["settings","menu_title","menu_challenges","menu_credits"]:
 			check(b.get_global_rect().size.y>=game.ui_touch_height-1,"Operations control meets host density touch target: "+str(b.get_meta("ui_action")))

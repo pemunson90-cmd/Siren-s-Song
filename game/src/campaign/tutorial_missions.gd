@@ -76,7 +76,7 @@ static func make(i: int) -> Dictionary:
 		result.brief+=" A recovered request may announce a survey glider; catching it is optional, and the fixed relays work in either order. Blackwater breaks the bulk uplink: field notes are kept, but raw data stays on the craft that sampled it. Bring that craft within 60m of Quietus, settle both below 2m/s with a clear line, then TRANSFER. Lost buffers stay at the wreck; one audible local 4s winch recovers data and kit there, or Quietus can SAMPLE the relay again. Data Quietus samples itself is already aboard; spare drones need not return."
 	if i==3:
 		result["departure_revision"]=1
-		result["thermal_revision"]=1;result["thermal_fronts"]=preload("res://src/simulation/thermal_front.gd").foundry()
+		result["thermal_revision"]=1;result["thermal_band"]=1;result["thermal_fronts"]=preload("res://src/simulation/thermal_front.gd").foundry()
 		result.brief+=" A charted cold-water front crosses the southern channel. Sound and passive contacts weaken across it in both directions. Waiting west of it may protect a staging drone, but costs information and time. Close sight and visible beam charges still expose you; optical photography remains noisy."
 		result.brief+=" The plant's motors cycle up, then a load moves out southeast. Its lit return comes from below our operating depth: it is not cover or an obstacle. Listen and watch the Siren guards before you cross. Waiting costs time; crossing early and loud may need a disruption. Sight still outranks the plant noise."
 		var factory=Rect2(1120,140,400,600)

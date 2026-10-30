@@ -22,9 +22,10 @@ const INCOME={"first":{"scrap":3,"cells":2,"alloy":0},"replay":{"scrap":1,"cells
  "module_scrap":2,"artifact_alloy":3}
 # Manufacturing: scrap = BASE + power of the fitting; alien-derived fittings also take alloy.
 const ITEM_BASE_SCRAP=2
+# AI-DESIGNED standard drone manufacturing price; same price for either bay/chassis.
+const DRONE_PRICE={"scrap":4,"cells":2}
 const ALIEN=["quietus_pressure_sleeve","drone_traction_yoke","quietus_prism","quietus_decoder","quietus_wellhead_seal","drone_choir_tuner"]
 # Per-item price overrides keyed by item id, e.g. {"photo_flash":{"scrap":3}}.
-const ITEM_PRICE={}
 const RESEARCH_COST={"alloy":2}
 const REFINE={"scrap":6,"alloy":1}
 # Hull and chassis entitlements: bought with alloy, or granted by research of a recipe target.
@@ -33,3 +34,10 @@ const UNLOCK_PRICE={"hull:quiet":{"alloy":4},"hull:fast":{"alloy":4},"chassis:sc
 const REPAIR_HULL_PER_STEP=25
 const TARGETS=["quietus","drone_a","drone_b"]
 const LABELS={"quietus":"QUIETUS HULL","drone_a":"DRONE A","drone_b":"DRONE B"}
+
+# 110 AI-DESIGNED bounded setup controls. Starting stock scales START (alloy stays zero).
+# Preset price applies first; repair is an additional multiplier for repairs ONLY.
+const ADVANCED={"repair":{"min":0.5,"max":2.0,"step":0.25,"default":1.0},
+ "income":{"min":0.5,"max":2.0,"step":0.25,"default":1.0},
+ "start":{"min":0.0,"max":3.0,"step":0.5,"default":1.0}}
+const EASIER_ORDER=["survival","standard","accessible"]

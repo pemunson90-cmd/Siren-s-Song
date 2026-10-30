@@ -12,7 +12,7 @@ func data_checks():
   # These pre098 counts are the player-facing stock, independently of allocation.
   var original={"endurance":[2,3,2,2,2,1,1,1],"disruption":[3,3,2,2,1,2,1,0],"survey":[2,3,3,2,3,1,1,2]}
   var ids=["emp","decoy","recon","knock","sonobuoy","silt_screen","hull_patch","relay_buoy"]
-  var seeded=Racks.template(choice,Catalog.default_loadout())
+  var seeded=Racks.template(choice)
   for i in ids.size():check(Racks.total(seeded,ids[i])==original[choice][i],"original pre098 template bundle "+choice+" "+ids[i])
   for id in Tools.field_ids():check(Tools.initial_counts(choice)[id]==Tools.loadout_count(id,choice),"legacy controller bundle "+choice+" "+id)
   for hull in Catalog.Hulls.HULLS:
@@ -48,11 +48,11 @@ func data_checks():
  check(not Racks.valid(bad),"drone cannot carry Quietus-only torpedo")
  bad=Racks.empty();bad.drone_a.hull_patch=1
  check(not Racks.valid(bad),"drone cannot carry Quietus-only patch")
- var e=Economy.new_state();var extra=Racks.template("endurance",Catalog.default_loadout());extra.drone_a.emp=4
- check(Racks.cost(Racks.template("endurance",Catalog.default_loadout()),"endurance",e).is_empty() and not Racks.cost(extra,"endurance",e).is_empty(),"template free, extra manufactured through economy")
+ var e=Economy.new_state();var extra=Racks.template("endurance");extra.drone_a.emp=4
+ check(Racks.cost(Racks.template("endurance"),"endurance",e).is_empty() and not Racks.cost(extra,"endurance",e).is_empty(),"template free, extra manufactured through economy")
  var iron=Economy.new_state("standard",true)
  check(Racks.cost(extra,"endurance",iron)==Racks.cost(extra,"endurance",e),"Ironman extras retain manufacturing price each launch")
- check(Racks.cost(Racks.template("endurance",Catalog.default_loadout()),"endurance",Economy.new_state("accessible")).is_empty(),"Accessible template stays free")
+ check(Racks.cost(Racks.template("endurance"),"endurance",Economy.new_state("accessible")).is_empty(),"Accessible template stays free")
  var s=Sim.new();s.start(0,"endurance",{"tool_racks":Racks.empty()})
  check(s.tools.values().all(func(n):return n==0) and Effects.state(s).counts.values().all(func(n):return n==0),"empty rack really launches with no finite stock")
  var survey=Racks.empty();survey.drone_a.sonobuoy=3
@@ -71,9 +71,9 @@ func data_checks():
  check(s.command("emp") and s.tools.emp==0 and s.mission.tool_racks.drone_b.emp==0,"selected-craft legacy effect spends owner charge")
 func template_case(choice:String,fit:Dictionary)->void:
  var label="%s %s/%s/%s"%[choice,fit.hull,fit.chassis_a,fit.chassis_b]
- var racks=Racks.template(choice,fit)
+ var racks=Racks.template(choice)
  check(Racks.valid(racks) and Racks.reason(fit,racks).is_empty(),"aware template launchable "+label)
- var migrated=Racks.migrated({"upgrade":choice,"equipment":fit},fit)
+ var migrated=Racks.migrated({"upgrade":choice,"equipment":fit})
  check(migrated==racks and Racks.reason(fit,migrated).is_empty(),"legacy migration launchable "+label)
  for unit in 3:
   var b=Catalog.budget(fit,unit)
@@ -87,19 +87,19 @@ func template_case(choice:String,fit:Dictionary)->void:
    check(Racks.winch_capacity({"launch_equipment":fit,"tool_racks":spill},unit)==b.cargo_cap-b.cargo-1,"overflow reduces winch places "+label+" "+str(unit))
   else:check(not Racks.reason(fit,spill).is_empty(),"zero general cargo refuses overflow "+label+" "+str(unit))
  for id in Tools.ids():check(Racks.total(racks,id)==Tools.loadout_count(id,choice),"all frame combinations keep original bundle "+label+" "+id)
- check(Racks.migrated({"tool_racks":racks},fit)==racks,"saved rack preserved "+label)
+ check(Racks.migrated({"tool_racks":racks})==racks,"saved rack preserved "+label)
 func migration_checks(fit:Dictionary)->void:
  var old={"upgrade":"survey","tool_racks":Racks.empty()}
- check(Racks.migrated(old,fit)==Racks.template("survey",fit),"098 automatic empty template refilled")
+ check(Racks.migrated(old)==Racks.template("survey"),"098 automatic empty template refilled")
  old.tool_racks.drone_a.emp=0
- check(Racks.migrated(old,fit)==old.tool_racks,"098 edited zero-count key kept")
+ check(Racks.migrated(old)==old.tool_racks,"098 edited zero-count key kept")
  old.tool_racks.drone_a.emp=2
- var kept=Racks.migrated(old,fit)
+ var kept=Racks.migrated(old)
  check(kept==old.tool_racks,"098 edited nonempty rack kept")
  kept.drone_a.emp=3
  check(old.tool_racks.drone_a.emp==2,"migration copies edited racks independently")
  Racks.write_archive(old,Racks.empty())
- check(Racks.valid_archive(old) and Racks.migrated(old,fit)==Racks.empty(),"new intentional empty rack survives repeat migration")
+ check(Racks.valid_archive(old) and Racks.migrated(old)==Racks.empty(),"new intentional empty rack survives repeat migration")
  for bad in [true,"100",99,101]:
   old.tool_racks_version=bad
   check(not Racks.valid_archive(old),"invalid locker archive marker refused "+str(bad))
@@ -140,7 +140,7 @@ func shape_case(shape):
  game.fitted_equipment=Catalog.canonical({"hull":"quiet","chassis_a":"scout","chassis_b":"endurance"})
  for choice in Tools.LOADOUTS:
   RackView.fill(game,choice)
-  check(game.tool_racks==Racks.template(choice,game.fitted_equipment) and EconomyPanel098.can_begin(game),"fittings template honors current fit "+choice+" "+label)
+  check(game.tool_racks==Racks.template(choice) and EconomyPanel098.can_begin(game),"fittings template honors current fit "+choice+" "+label)
  var archive=game._archive();check(game.store.valid(archive),"new rack profile validates "+label)
  var disk=Store098.new();disk.path="user://098-racks.save"
  check(archive.tool_racks_version==Racks.ARCHIVE_VERSION and disk.save(archive) and disk.load_game().tool_racks==game.tool_racks,"binary profile roundtrip preserves versioned racks "+label)
@@ -151,7 +151,7 @@ func shape_case(shape):
  var old098=archive.duplicate(true);old098.erase("tool_racks_version");old098.tool_racks=Racks.empty()
  check(disk.save(old098),"098 empty template profile remains accepted "+label)
  game._load_archive()
- check(game.tool_racks==Racks.template(old098.upgrade,game.fitted_equipment),"Main refills098 empty template after disk reload "+label)
+ check(game.tool_racks==Racks.template(old098.upgrade),"Main refills098 empty template after disk reload "+label)
  var edited098=old098.duplicate(true);edited098.tool_racks.drone_a.emp=0
  check(disk.save(edited098),"098 edited zero-key profile saves "+label)
  game._load_archive()
@@ -159,7 +159,7 @@ func shape_case(shape):
  var legacy=archive.duplicate(true);legacy.erase("tool_racks");legacy.erase("tool_racks_version")
  check(disk.save(legacy),"old profile remains accepted "+label)
  game.store=disk;game._load_archive()
- check(game.tool_racks==Racks.template(legacy.upgrade,game.fitted_equipment),"Main migrates loaded old profile to its template "+label)
+ check(game.tool_racks==Racks.template(legacy.upgrade),"Main migrates loaded old profile to its template "+label)
  for suffix in ["",".bak"]:DirAccess.remove_absolute(disk.path+suffix)
  archive.tool_racks.drone_a.emp=-1;check(not game.store.valid(archive),"malformed profile racks rejected "+label)
  await android_back();check(game.screen=="menu","Android Back returns from racks "+label)

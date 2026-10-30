@@ -123,7 +123,8 @@ static func departure_signature(context:Dictionary)->String:
  var left=[]
  for module in context.get("left",[]):left.append([module.item,module.state,module.unit])
  return str([context.get("available",false),context.get("corridor",{}),left,context.get("recovered",[])])
-static func consequence(sim)->String:
+static func consequence(sim,economy:Dictionary={})->String:
+ var iron=preload("res://src/campaign/ironman_losses.gd").active(economy)
  if not sim.has_method("module_recovery_status"):return ""
  var result=status(sim).get("result",{});var lines=[];var absent=false
  for id in [1,2]:
@@ -136,13 +137,26 @@ static func consequence(sim)->String:
   for item in result.get(key,[]):names.append(name(item))
   if not names.is_empty():lines.append(("MODULES RECOVERED · " if key=="recovered" else "LEFT BEHIND · ")+", ".join(names))
  if not result.get("lost",[]).is_empty() and sim.mission.get("fleet_commit",false):lines.append("Listed modules are unavailable for future launches.")
- if absent:lines.append("Bare replacement drones remain available.")
- if sim.outcome!="won" or not sim.mission.get("fleet_commit",false):lines.append("Retry / replay leaves permanent module stock unchanged.")
+ if absent:lines.append("Ironman replacements require paid manufacturing. Empty bays can launch." if iron else "Bare replacement drones remain available.")
+ if not iron and (sim.outcome!="won" or not sim.mission.get("fleet_commit",false)):lines.append("Retry / replay leaves permanent module stock unchanged.")
  return "\n".join(lines)
 static func debrief(main)->void:
- var text=consequence(main.sim)
+ var text=consequence(main.sim,main.get("economy") if main.get("economy") is Dictionary else {})
  if not text.is_empty():main._menu_text("FLEET RECOVERY\n"+text,17)
  Cache.debrief(main)
+# Presentation mirror of the existing carrier checks; departure_context remains authoritative.
+static func carrier_check(sim,unit:int,corridor:Dictionary)->Dictionary:
+ var u=sim.units[unit];var distance=u.pos.distance_to(corridor.pos);var speed=u.vel.length()
+ var clear=sim.Depth.clear(sim,u.pos,corridor.pos,u.band)
+ var unmet=[]
+ if not u.alive:unmet.append("CRAFT LOST")
+ if u.band!=1:unmet.append("CHANGE TO MIDDLE")
+ if not u.transition.is_empty():unmet.append("FINISH DEPTH CHANGE")
+ if distance>=65.:unmet.append("MOVE INSIDE 65m")
+ if speed>=12.:unmet.append("SLOW BELOW 12m/s")
+ if not clear:unmet.append("CLEAR TERRAIN TO MOUTH")
+ return {"band":u.band,"distance":distance,"speed":speed,"clear":clear,"unmet":unmet,
+  "text":"%s / %s%s\nDISTANCE %.1fm / UNDER 65m / SPEED %.1fm/s / UNDER 12m/s\nTERRAIN %s\n%s"%[u.name,sim.Depth.NAMES[u.band]," / CHANGING DEPTH" if not u.transition.is_empty() else "",distance,speed,"CLEAR" if clear else "BLOCKED","READY" if unmet.is_empty() else "NEEDS: "+"; ".join(unmet)]}
 static func confirm_departure(main)->void:
  var context=main.sim.departure_context()
  if not context.available:return
@@ -150,11 +164,27 @@ static func confirm_departure(main)->void:
  main.departure_confirmation=departure_signature(context)
  main._menu_text("RECOVERY DECISION",24)
  main._menu_text("RETURN TO · "+context.corridor.name.to_upper(),17)
- main._menu_text("Abandoned kits are unavailable next launch. Bare drones remain available." if main.sim.mission.get("fleet_commit",false) else "COMPLETED REPLAY · permanent module stock unchanged.",16)
+ if preload("res://src/campaign/ironman_losses.gd").active(main.economy):main._menu_text("IRONMAN: unrecovered drones and fittings are permanently lost, including replays. Replacements require paid manufacturing.",16)
+ else:main._menu_text("Abandoned kits are unavailable next launch. Bare drones remain available." if main.sim.mission.get("fleet_commit",false) else "COMPLETED REPLAY · permanent module stock unchanged.",16)
  for module in context.left:
   var place="SALVAGE · LOCAL RETRIEVAL" if module.state=="salvage" else main.sim.units[module.unit].name+" · "+("INACTIVE CARGO" if module.state=="cargo" else "FITTED · OUTSIDE MOUTH")
   main._menu_text(name(module.item)+"\n"+place,17)
- main._menu_text("Return each carrier to this mouth: within 65m, below 12m/s, clear of terrain. Salvage needs a local 4s audible retrieval. Carried kits stay inactive until recovered.",16)
+ main._menu_text("Return each carrier in MIDDLE with no depth change underway: under 65m, below 12m/s, clear of terrain. Salvage needs a local 4s audible retrieval. Carried kits stay inactive until recovered.",16)
+ for id in main.sim.units.size():
+  var check=carrier_check(main.sim,id,context.corridor)
+  main._menu_text(check.text,17)
+  if not main.sim.units[id].alive:continue
+  var receiver=id
+  if check.band!=1 and main.sim.units[id].transition.is_empty():
+   main._button(main.panel_box,main.sim.units[id].name+" / CHANGE TO MIDDLE",func():
+    main._order("depart",{"confirm":false});main._order("select",{"unit":receiver})
+    main._order("depth",{"band":1});main._enter_water()
+   ,"recovery_band_%d"%id)
+  if check.speed>=12.:
+   main._button(main.panel_box,main.sim.units[id].name+" / HOLD TO SETTLE",func():
+    main._order("depart",{"confirm":false});main._order("select",{"unit":receiver})
+    main._order("hold");main._enter_water()
+   ,"recovery_hold_%d"%id)
  var holders=[]
  for module in context.left:
   if module.state!="salvage" and module.unit>0 and main.sim.units[module.unit].alive and module.unit not in holders:

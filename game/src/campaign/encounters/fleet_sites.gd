@@ -25,9 +25,9 @@ static func apply(m:Dictionary)->void:
    account.optional=true
    m.objectives.append(account)
    var pos=Vector2(900,1150)
-   m.sirens.append({"pos":pos,"home":pos,"goal":pos,"vel":Vector2.ZERO,"route":[],"angle":-PI/2,"mode":"PATROL","suspicion":0.,"stun":0.,"lock":0.,"target":-1,"patrol":0,"path_time":0.,"type":"sentinel"})
+   m.sirens.append(_sentinel(pos,0))
    pos=Vector2(1450,1200)
-   m.sirens.append({"pos":pos,"home":pos,"goal":pos,"vel":Vector2.ZERO,"route":[],"angle":-PI/2,"mode":"PATROL","suspicion":0.,"stun":0.,"lock":0.,"target":-1,"patrol":1,"path_time":0.,"type":"sentinel"})
+   m.sirens.append(_sentinel(pos,1))
    m.signal_sources.append({"id":"glass_record_37_hydrophone","label":"SOUTH HYDROPHONE ACCOUNT","pos":SCOUT_SOURCE,"evidence":"The trawler's southern hydrophone records a service cadence.","located":false,"cadence":[1.5,2.5,1.5],"optional":true})
    m.brief+="\nOptional south pilot account: a Low noise hull helps cross the southern lane at transit speed below the listener. Standard craft can take it slowly; the DEEP trawler photograph remains the job."
    m.brief+="\nScout drones can receive the optional hydrophone account from 400m south, beyond the eastern listener's approach. Shorter receivers must close in or fit a survey array."
@@ -49,3 +49,8 @@ static func apply(m:Dictionary)->void:
    m.objectives.append(patrol)
    m.brief+="\nOptional exhaust patrol account: LISTEN in MIDDLE near (2300,1100), beside the moving southern patrol. Drop a sonobuoy from the eastern basin to watch coarse bearings turn away before crossing; bearings give direction, never range or a guaranteed safe window. The outer contour or a patient approach needs no tool; the exhaust photograph remains the job."
 
+static func _sentinel(pos:Vector2,patrol:int)->Dictionary:
+ var guard=preload("res://src/campaign/encounters/roster.gd").guard("sentinel",pos,1,[],{"angle":-PI/2,"patrol":patrol})
+ # Preserve the authored stationary format; launch supplies its depth defaults.
+ for key in ["band","patrol_points","patrol_index"]:guard.erase(key)
+ return guard

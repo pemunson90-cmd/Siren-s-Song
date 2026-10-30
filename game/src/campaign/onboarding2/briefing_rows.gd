@@ -5,10 +5,10 @@ extends RefCounted
 static var enabled=true
 const ROWS={
  3:["Photograph FURNACE and LAUNCH CRADLE; recover Quietus.","Open plant water offers little cover.","DEEP bypasses basalt, not the plant."],
- 4:["Collect the well's three records; recover Quietus.","The hunter follows noise.","Depth changes the approach."],
+ 4:["Collect the well's three records; recover Quietus.","The hunter hears farther, sweeps the last noise, then loses attention sooner.","Depth changes the approach."],
  5:["Record crown and wakes; LISTEN in the lee; recover.","Only Quietus can take the listening record.","Hold LISTEN for six seconds."],
  6:["Locate a carrier and recover through its named exit.","Received bearings can bend around rock.","The physical exit selects your route."],
- 7:["Receive SADDLE SERVICE ACCOUNT and Quietus's tender packet; recover north.","A sentinel holds the berthing water.","A drone can receive the service account; RELEASE BERTH moves the tender audibly."],
+ 7:["Receive SADDLE SERVICE ACCOUNT and Quietus's tender packet; recover north.","The sentinel hears less far, then holds and turns with longer attention.","A drone can receive the service account; RELEASE BERTH moves the tender audibly."],
  8:["Deliver warning, hear both replies, recover Quietus.","The resonator call draws the hunter.","Sending alone is not acknowledgement."],
  9:["Receive the live return with Quietus; recover north.","A bearing or cadence does not prove safety.","Close scouting works without a correlator."],
  10:["Power and route the warning; commission and recover.","Moving the power craft cuts its umbilical.","Backup power lets Quietus work alone."],

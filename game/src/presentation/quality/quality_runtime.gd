@@ -10,7 +10,6 @@ var last_tick:int=0
 var wall_seconds:=0.0
 var last_context:int=0
 var last_visual:int=0
-var refresh_count:=0
 var notice:PanelContainer
 func process(host, _dt:float)->void:
 	var now=Time.get_ticks_usec()
@@ -37,14 +36,13 @@ func refresh(host,periodic:bool)->bool:
 	var changed=visual!=last_visual
 	last_visual=visual
 	var redraw=not periodic or governor.should_redraw(wall_seconds,host.sim.paused,changed,false,host.map_gesture.active())
-	if redraw:refresh_count+=1
 	return redraw
 func _build_notice(host)->void:
 	notice=PanelContainer.new();notice.name="QualitySuggestion";host.hud.add_child(notice)
-	var box=HBoxContainer.new();notice.add_child(box)
-	var label=Label.new();label.text="LOW EFFECTS may improve frame rate.";label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;label.size_flags_horizontal=Control.SIZE_EXPAND_FILL;box.add_child(label)
+	var box=VBoxContainer.new();notice.add_child(box)
+	var label=Label.new();label.text="LOW EFFECTS may improve frame rate.";label.autowrap_mode=TextServer.AUTOWRAP_WORD;label.size_flags_horizontal=Control.SIZE_EXPAND_FILL;box.add_child(label)
 	for row in [["USE LOW EFFECTS","quality_accept"],["DISMISS","quality_dismiss"]]:
-		var b=Button.new();b.text=row[0];b.custom_minimum_size.y=host.ui_touch_height
+		var b=Button.new();b.text=row[0];b.size_flags_horizontal=Control.SIZE_EXPAND_FILL;b.custom_minimum_size.y=host.ui_touch_height
 		b.custom_minimum_size.x=host.ui_touch_height*1.6;b.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
 		b.set_meta("ui_action",row[1]);box.add_child(b)
 		if row[1]=="quality_accept":b.pressed.connect(func():_accept(host),CONNECT_DEFERRED)

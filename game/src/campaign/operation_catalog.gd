@@ -95,12 +95,19 @@ static func make(id:int,history:Dictionary={})->Dictionary:
  var m=factory.build(d.config,history) if factory.has_method("build") else factory.make(d.config.source_id,history) if d.config.history else factory.make(d.config.source_id)
  if not m is Dictionary or not m.has_all(["id","objectives","sirens","extraction","rocks"]):return {}
  m.id=id
+ preload("res://src/campaign/radio_operations.gd").apply(m)
+ var ascent_brief=preload("res://src/simulation/survivor_ascent.gd").briefing(m)
+ if not ascent_brief.is_empty():m.brief+="\n"+ascent_brief
  preload("res://src/campaign/sorley_rescue.gd").apply(m)
  preload("res://src/campaign/carry/carry.gd").apply(m,id,history)
  preload("res://src/campaign/photo_ops.gd").apply(m,id,history)
  preload("res://src/simulation/photo_pricing/photo_pricing_data.gd").apply(m,id)
  preload("res://src/photo_rules/rule_data.gd").apply(m,id)
  preload("res://src/campaign/photo_intel.gd").apply_effects(m,id,history)
+ preload("res://src/campaign/sorley_rescue.gd").chart_reward(m,history)
+ preload("res://src/campaign/arcs/choir_fork.gd").apply(m,history)
+ preload("res://src/simulation/contact_reports.gd").configure(m)
+ preload("res://src/campaign/radio_operations.gd").brief(m)
  return m
 static func prerequisites_met(id:int,completed:Array)->bool:
  var d=definition(id)

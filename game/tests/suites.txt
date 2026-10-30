@@ -34,7 +34,9 @@ campaign_consequence_tests|CAMPAIGN CONSEQUENCES|29|48
 campaign_equipment_save_tests|CAMPAIGN EQUIPMENT SAVE|30|49
 operation_catalog_tests|OPERATION CATALOG|31|19
 depth_sonar_tests|DEPTH SONAR|32|20
+survivor_ascent_tests|SURVIVOR ASCENT|741|841
 sweeper_tests|SWEEPER|33|22
+role_senses_tests|ROLE SENSES|744|844
 depth_policy_journeys|DEPTH POLICY|34|23
 depth_sonar_ui_tests|DEPTH SONAR UI|35|24
 depth_policy_ui_tests|DEPTH POLICY UI|36|25
@@ -52,6 +54,7 @@ glass_reach_journeys|GLASS JOURNEY|45|34
 glass_fleet_pairs_tests|GLASS FLEET PAIRS|321|422
 glass_reach_ui_tests|GLASS REACH UI|46|35
 iron_choir_tests|IRON CHOIR|47|36
+choir_fork_tests|CHOIR FORK|748|848
 industrial_jobs_tests|INDUSTRIAL JOBS|48|37
 industrial_threats_tests|INDUSTRIAL THREATS|49|38
 iron_research_tests|IRON RESEARCH|50|41
@@ -87,6 +90,7 @@ independent_capture_tests|INDEPENDENT CAPTURE|78|139
 independent_capture_ui_tests|INDEPENDENT CAPTURE UI|79|140
 turn_safe_navigation_tests|TURN SAFE NAVIGATION|80|57
 earned_course_continuity_tests|EARNED COURSE CONTINUITY|81|64
+audit_navigation_tests|AUDIT NAVIGATION|758|858|render
 module_recovery_tests|MODULE RECOVERY|82|66
 expanded_region_tests|EXPANDED REGION|83|132
 expanded_region_journeys|EXPANDED JOURNEYS|84|131
@@ -96,6 +100,8 @@ drone_drive_ui_tests|DRONE DRIVE UI|87|127
 drone_operations_tests|DRONE OPERATIONS|88|128
 drone_operations_ui_tests|DRONE OPERATIONS UI|89|129
 contact_reports_tests|CONTACT REPORT|90|46
+siren_radio_tests|SIREN RADIO|755|855
+radio_operation_tests|RADIO OPERATION|756|856
 contact_reports_ui_tests|CONTACT REPORT UI|91|47
 blackwater_courier_tests|COURIER|92|98
 blackwater_delivery_tests|BLACKWATER DELIVERY|93|63
@@ -144,6 +150,8 @@ torpedo_aim_ui_tests|TORPEDO AIM|135|178
 foundry_departure_tests|FOUNDRY DEPARTURE|136|138
 thermal_lee_tests|THERMAL LEE|137|175
 thermal_transmission_tests|THERMAL TRANSMISSION|138|176
+thermal_band_tests|THERMAL BAND|753|853
+thermal_operation_tests|THERMAL OPERATION|754|854
 thermal_ui_tests|THERMAL UI|139|177
 terminal_tick_tests|TERMINAL TICK|140|174
 extraction_survival_tests|EXTRACTION SURVIVAL|141|135
@@ -189,6 +197,7 @@ lock_warning_tests|LOCK WARNING|158|145
 lock_warning_ui_tests|LOCK WARNING UI|159|146
 order_row_scenarios|ORDER ROW|160|151
 order_task_ui_scenarios|TASK UI|161|152
+work_task_recipient_tests|WORK TASK|752|852
 performance_measurements|PERFORMANCE|162|153
 nav_clearance_tests|NAV CLEARANCE|163|184
 nav_following_probe|NAV FOLLOW|164|185
@@ -200,6 +209,8 @@ opening_fleet_tests|OPENING FLEET|169|190
 cold_review_ui_tests|COLD REVIEW UI|170|191|render
 cold_review_archive_tests|COLD REVIEW ARCHIVE|171|192
 audit_photo_integrity_tests|AUDIT PHOTO INTEGRITY|172|193
+audit_photo_evidence_tests|AUDIT PHOTO EVIDENCE|757|857
+photo_trench_geometry_tests|PHOTO TRENCH GEOMETRY|759|861|render
 audit_photo_ui_tests|AUDIT PHOTO UI|173|194
 audit_findings_provenance_tests|AUDIT FINDINGS PROVENANCE|174|195
 audit_artifact_cargo_tests|AUDIT ARTIFACT CARGO|175|196
@@ -211,6 +222,8 @@ fix2_frontend_ui_tests|FIX2 FRONTEND UI|180|201|render
 fix2_photo_routing_tests|FIX2 PHOTO ROUTING|181|202
 fix2_menu_ui_tests|FIX2 MENU UI|182|203|render
 fix2_camera_ui_tests|FIX2 CAMERA UI|183|204|render
+audit_readability_ui_tests|AUDIT READABILITY UI|209|234|render
+audit_optics_touch_tests|AUDIT OPTICS TOUCH|760|863|render
 fix2_feedback_ui_tests|FIX2 FEEDBACK UI|184|205|render
 fix2_state_tests|FIX2 STATE|185|206
 fix2_study_ui_tests|FIX2 STUDY UI|186|207|render
@@ -242,6 +255,8 @@ a11y_cues_ui_tests|A11Y CUES UI|-|228|render
 ai_trace_tests|AI TRACE|208|231
 acoustic_path_cull_tests|ACOUSTIC PATH CULL|225|248
 sonar_feedback_cache_tests|SONAR FEEDBACK CACHE|226|249
+sonar_identity_tests|SONAR IDENTITY|746|846
+presentation_pass_tests|PRESENTATION PASS|749|849
 goal_bearing_cache_tests|GOAL BEARING CACHE|227|250
 roster_tests|ROSTER|217|240
 terrain_tests|TERRAIN|218|241
@@ -264,6 +279,7 @@ archive_views_ui_tests|ARCHIVE VIEWS UI|531|631|render
 menu_reach_ui_tests|MENU REACH UI|241|261|render
 settings_lifecycle_ui_tests|SETTINGS LIFECYCLE UI|242|262|render
 debug_console_tests|DEBUG CONSOLE|721|821|render
+tactical_aids_tests|TACTICAL AIDS|750|850|render
 settings_depth_tests|SETTINGS DEPTH|580|680
 settings_depth_ui_tests|SETTINGS DEPTH UI|581|681|render
 finale_provisional_tests|FINALE|243|263
@@ -273,6 +289,7 @@ save2_storage_tests|SAVE2 STORAGE|245|265
 save2_fork_tests|SAVE2 FORKS|246|266
 save2_ui_tests|SAVE2 UI|247|267|render
 ironman_integrity_tests|IRONMAN INTEGRITY|570|670
+ironman_losses_tests|IRONMAN LOSSES|742|842
 early_reward2_tests|EARLY REWARD2|231|255
 early_reward2_ui_tests|EARLY REWARD2 UI|232|256|render
 death_cause_tests|DEATH CAUSE|230|253
@@ -298,9 +315,14 @@ photo_row_slide_mark_journey_tests|PHOTO ROW SLIDE MARK JOURNEY|259|279
 photo_row_bell_name_journey_tests|PHOTO ROW BELL NAME JOURNEY|260|280
 photo_row_feed_room_journey_tests|PHOTO ROW FEED ROOM JOURNEY|261|281
 status_text_tests|STATUS TEXT|262|282
-status_text_ui_tests|STATUS TEXT UI|263|283|render
+status_text_ui_tests|STATUS TEXT UI|263|-|render
+# CI partitions retain the complete source table and both native Fold shapes.
+status_text_table_ui_tests|STATUS TEXT UI|-|862|render
+status_text_cover_ui_tests|STATUS TEXT UI|-|859|render
+status_text_inner_ui_tests|STATUS TEXT UI|-|860|render
 
 hunt_pressure_tests|HUNT PRESSURE|264|284
+hunt_cap_coverage_tests|HUNT CAP COVERAGE|747|847
 hunt_pressure_integration_tests|HUNT INTEGRATION|265|285
 hunt_meter_ui_tests|HUNT METER UI|266|286|render
 calder_trench_journey_tests|CALDER TRENCH JOURNEY|300|400
@@ -310,6 +332,7 @@ regional_settings_tests|REGIONAL SETTINGS|301|401
 frame_cap_settings_tests|FRAME CAP SETTINGS|390|490
 optional_thread_journey_tests|OPTIONAL THREAD JOURNEY|302|402
 sorley_rescue_tests|SORLEY RESCUE|740|840
+sorley_pilotage_tests|SORLEY PILOTAGE|745|845
 optional_cache_tests|OPTIONAL CACHE|303|404
 optional_cache_journey_tests|OPTIONAL CACHE JOURNEY|304|405
 quality_tests|QUALITY|305|406
@@ -317,10 +340,13 @@ quality_ui_tests|QUALITY UI|306|407|render
 economy_tests|ECONOMY|350|450
 economy_save_tests|ECONOMY SAVE|351|451
 economy_campaign_sim_tests|ECONOMY CAMPAIGN|352|452
+economy_options_tests|ECONOMY OPTIONS|743|843
 crew_tests|CREW|590|690
 field_tools_tests|FIELD TOOLS|360|460
 tool_racks_tests|TOOL RACKS|361|461|render
+mode_tool_cargo_tests|MODE TOOL CARGO|751|851
 expedition_runs_tests|EXPEDITION RUNS|370|470
+seeded_siren_patrol_tests|SEEDED SIREN PATROL|372|472
 run_records_tests|RUN RECORDS|310|411
 mode_resume_tests|MODE RESUME|318|418
 runs_offer_tests|RUNS OFFER|308|408

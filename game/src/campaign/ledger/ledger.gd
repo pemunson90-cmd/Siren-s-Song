@@ -2,11 +2,10 @@ extends RefCounted
 # 078 campaign ledger: read-only account built from saved facts, completed list, research and photo intel.
 # Seam: Ledger.build(progress,intel) -> panels; shown by presentation/ledger/ledger_view.gd. No saved fields,
 # no ending rules. Absent or malformed data prints "not recorded" only for expected facts, else nothing.
-# Revert: Table.enabled=false.
 const Table=preload("res://src/campaign/ledger/ledger_table.gd")
 const Research=preload("res://src/campaign/glass_research.gd")
-static func build(progress,intel)->Array:
- if not Table.enabled or not progress is Dictionary:return []
+static func build(progress,intel,economy:Dictionary={})->Array:
+ if not progress is Dictionary:return []
  var facts=progress.get("facts",{}) if progress.get("facts",{}) is Dictionary else {}
  var done=progress.get("completed",[]) if progress.get("completed",[]) is Array else []
  var thread=str(progress.get("selected_thread",progress.get("route","")))
@@ -23,13 +22,17 @@ static func build(progress,intel)->Array:
   rows.people.append(sorley)
  var counts=_counts(progress,intel)
  rows["knowledge"]=counts+rows.get("knowledge",[])
+ var losses=preload("res://src/campaign/ironman_losses.gd").lines(economy)
+ if not losses.is_empty():rows["infrastructure"]=rows.get("infrastructure",[])+losses
+ var economy_lines=preload("res://src/campaign/economy_options.gd").lines(economy)
+ if not economy_lines.is_empty():rows["infrastructure"]=rows.get("infrastructure",[])+economy_lines
  var result=[]
  for panel in Table.PANELS:
   result.append({"id":panel[0],"title":panel[1],"rows":rows.get(panel[0],[Table.NOT_RECORDED])})
  return result
 static func _fact_row(row:Array,facts:Dictionary,done:Array,thread:String)->String:
  if not row[4].is_empty() and row[4]!=thread:return ""
- var value=str(facts.get(row[2],"")).strip_edges()
+ var value=str(facts.get(row[2],facts.get("varne_staff","") if row[1]=="Varne staff" else "")).strip_edges()
  var line=Table.NOT_RECORDED
  if not value.is_empty():
   line=row[5].get(value,Table.UNKNOWN_VALUE%value.replace("_"," ").left(Table.MAX_VALUE_CHARS)+".")

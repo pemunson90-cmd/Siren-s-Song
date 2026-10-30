@@ -22,7 +22,7 @@ static func install(owner)->void:
  cue.name="FirstSirenCue";owner.hud.add_child(cue);cue.setup(owner)
 func setup(owner)->void:
  host=owner;mouse_filter=Control.MOUSE_FILTER_IGNORE
- voice=AudioStreamPlayer.new();voice.bus=Sound.ALERTS_BUS if Sound.Depth.ENABLED else Sound.EFFECTS_BUS;voice.stream=Sound.stream(Table.AUDIO.id)
+ voice=AudioStreamPlayer.new();voice.bus=Sound.ALERTS_BUS;voice.stream=Sound.stream(Table.AUDIO.id)
  voice.volume_db=Table.AUDIO.gain_db;voice.pitch_scale=Table.AUDIO.pitch;host.sound.add_child(voice)
  tracker.noticed.connect(_notice);tracker.bind(host.sim);hide()
 func _notice(row:Dictionary)->void:

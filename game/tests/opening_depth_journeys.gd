@@ -117,7 +117,8 @@ func well():
  var s=Sim.new();s.start(4)
  check(shift(s,0,0) and travel(s,0,Vector2(360,590)) and travel(s,0,Vector2(800,390)),"Well shallow west crossing reaches northern pattern vantage")
  check(shift(s,0,1) and record(s,0,0),"Well middle receiver physically records unassigned pattern")
- check(shift(s,0,2) and travel(s,0,Vector2(1170,400)),"Well deep east passage retains uncertain hunter information")
+ # The northern camera edge keeps the shutter farther from the hunter; all sound and attention timings still apply.
+ check(shift(s,0,2) and travel(s,0,Vector2(1150,380)),"Well deep east passage retains uncertain hunter information")
  lull(s,0,1,1,Vector2(1000,650));check(shift(s,0,1) and record(s,0,1),"Well middle aperture image is real without promising moving reference")
  check(shift(s,0,2) and travel(s,0,Vector2(1000,650)) and travel(s,0,Vector2(560,850)),"Well moving deep withdrawal evades stale sweeper returns")
  check(travel(s,0,Vector2(620,835)),"Well deep approach to the southern vantage");lull(s,0,1,2);check(shift(s,0,1) and record(s,0,2),"Well middle southern archive remains reachable across layer choices")

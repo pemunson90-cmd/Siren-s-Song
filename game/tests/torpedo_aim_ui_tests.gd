@@ -87,7 +87,8 @@ func run():
   await setup(g);g._order("camera");g._order("knock");await frames()
   var optical_aims=g.ocean.knock_aim_targets()
   check(g.ocean.optical_feed.visible and optical_aims.size()==2 and optical_aims.all(func(a):return not a.rect.intersects(g.ocean.optical_feed.get_rect())),"both aim callouts remain available clear of actual optical inset")
-  await setup(g);g.ocean.zoom_at(4.,g.ocean.size/2);g.ocean.pan_chart(Vector2(10000,10000))
+  await setup(g);g.ocean.zoom_at(4.,g.ocean.planning_size/2);g.ocean.pan_chart(Vector2(-10000,-10000))
+  check(g.sim.knockdown_targets().all(func(c):return not Rect2(Vector2.ZERO,g.ocean.size).has_point(g.ocean.screen_position(c.pos))),"pan fixture puts every cached contact outside the full viewport")
   check(g.ocean.knock_aim_targets().is_empty(),"offscreen cached contacts get no callouts")
   g.queue_free();await frames();await create_timer(.5).timeout
  finish()

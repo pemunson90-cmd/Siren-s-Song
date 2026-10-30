@@ -10,6 +10,7 @@ const CreditsText = preload("res://src/presentation/frontend/credits_text.gd")
 const Soundscape = preload("res://src/audio/soundscape.gd")
 const Depth = preload("res://src/presentation/frontend/settings_depth.gd")
 const ReachTable=preload("res://src/presentation/frontend/menu_reach_table.gd")
+const TITLE_ART=preload("res://assets/title/splash.svg")
 enum Profile { NONE, OK, RECOVERED, UNREADABLE }
 var profile_picker = preload("res://src/persistence/profiles/profile_picker.gd").new()
 var host: Control
@@ -124,6 +125,8 @@ func _title_screen() -> void:
 	_reset("title")
 	title_label = _text("SIREN'S SONG", 42, Color("80d9cf"))
 	_text("ONE PILOT. TWO DRONES. AN OCEAN THAT LISTENS.", 14)
+	var key_art=TextureRect.new();key_art.texture=TITLE_ART;key_art.expand_mode=TextureRect.EXPAND_IGNORE_SIZE;key_art.custom_minimum_size=Vector2(0,148);key_art.size_flags_horizontal=Control.SIZE_EXPAND_FILL;key_art.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED;key_art.mouse_filter=Control.MOUSE_FILTER_IGNORE;column.add_child(key_art)
+	_text("PLACEHOLDER KEY ART · QUIETUS SILHOUETTE", 11, Color("82916c"))
 	if not profile_message.is_empty():
 		var notice := _text(profile_message, 16, Color("efc28d")); notice.name = "ProfileNotice"
 	if profile == Profile.NONE:
@@ -157,8 +160,7 @@ func _new_campaign() -> void:
 		_dismiss(); host._show_campaign()
 	else:
 		_dismiss(); host._confirm_new_campaign()
-# SETDEPTH: three pages (AUDIO, DISPLAY, CONTROLS) sharing one values store. With Depth.ENABLED false the
-# original single column is rebuilt. Every control keeps its ui_action id; the footer repeats on each page.
+# Settings pages share one values store and stable ui_action ids.
 var settings_page := "audio"
 func _settings_screen() -> void:
 	_reset("settings")
@@ -166,17 +168,15 @@ func _settings_screen() -> void:
 	_text("SETTINGS", 32, Color("80d9cf"))
 	_text("Saved on this device, separate from your campaign.", 14)
 	if not settings_store.warning.is_empty(): _text(settings_store.warning, 15, Color("efc28d"))
-	var paged: bool = Depth.ENABLED
-	if paged:
-		if not settings_page in Depth.PAGES: settings_page = "audio"
-		var tabs := _choice_row()
-		for page in Depth.PAGES:
-			var id: String = page
-			var tab := _choice_button(tabs, Depth.PAGE_LABELS[id], "settings_page_" + id, settings_page == id)
-			tab.pressed.connect(func(): settings_page = id; _settings_screen(), CONNECT_DEFERRED)
-	if not paged or settings_page == "audio": _audio_page()
-	if not paged or settings_page == "display": _display_page()
-	if not paged or settings_page == "controls": _controls_page()
+	if not settings_page in Depth.PAGES: settings_page = "audio"
+	var tabs := _choice_row()
+	for page in Depth.PAGES:
+		var id: String = page
+		var tab := _choice_button(tabs, Depth.PAGE_LABELS[id], "settings_page_" + id, settings_page == id)
+		tab.pressed.connect(func(): settings_page = id; _settings_screen(), CONNECT_DEFERRED)
+	if settings_page == "audio": _audio_page()
+	if settings_page == "display": _display_page()
+	if settings_page == "controls": _controls_page()
 	if host.has_method("_save_archive"):
 		_button("SHOW FIRST-DIVE TIPS AGAIN",func():host.hints_seen=[];host._save_archive();_settings_screen(),"reset_tips")
 	_button("RESET TO DEFAULTS", func(): values = SettingsStore.DEFAULTS.duplicate(); _set_value("master", 1.0); _settings_screen(), "settings_reset")
@@ -203,7 +203,7 @@ func _choice_setting(title: String, key: String, id_prefix: String, labels: Arra
 		var b := _choice_button(row, labels[n], "%s_%d" % [id_prefix, picked], int(values[key]) == picked)
 		b.pressed.connect(func(): _set_value(key, picked); _settings_screen(), CONNECT_DEFERRED)
 func _audio_page() -> void:
-	var rows: Array = Depth.MIXER if Depth.ENABLED else [["master", "MASTER VOLUME"], ["music", "MUSIC VOLUME"], ["effects", "EFFECTS VOLUME"]]
+	var rows: Array = Depth.MIXER
 	for row in rows:
 		var key: String = row[0]
 		var caption := _text("%s  %d%%" % [row[1], roundi(values[key] * 100)], 17)
@@ -215,7 +215,7 @@ func _audio_page() -> void:
 	var night_button := _button("NIGHT MODE: %s" % ("ON" if values.night_mode else "OFF"), func(): _set_value("night_mode", not values.night_mode); _settings_screen(), "setting_night_mode")
 	for button in [mute_button, night_button]:
 		button.reparent(audio_modes); button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	if Depth.ENABLED: _text(Depth.NIGHT_NOTE, 14)
+	_text(Depth.NIGHT_NOTE, 14)
 func _display_page() -> void:
 	_quality_row()
 	_text("TEXT SIZE", 17)
@@ -230,7 +230,6 @@ func _display_page() -> void:
 		var cap_button := _choice_button(caps, "CAP %d FPS" % selected_cap, "frame_cap_%d" % selected_cap, values.frame_cap == selected_cap)
 		cap_button.pressed.connect(func(): _set_value("frame_cap", selected_cap); _settings_screen(), CONNECT_DEFERRED)
 	var rows := [["high_contrast", "HIGH CONTRAST"], ["reduced_motion", "REDUCED MOTION"], ["safe_palette", "SAFE PALETTE"], ["audio_captions", "AUDIO CAPTIONS"]]
-	if not Depth.ENABLED: rows.insert(2, ["haptics", "HAPTICS"])
 	for row in rows: _toggle_row(row[0], row[1])
 func _quality_row() -> void:
 	_text("QUALITY · decorative water effects", 17)
@@ -240,7 +239,11 @@ func _quality_row() -> void:
 		var b := _choice_button(choices, picked.replace("_", " "), "quality_" + picked.to_lower(), values.quality == picked)
 		b.pressed.connect(func(): _set_value("quality", picked); _settings_screen(), CONNECT_DEFERRED)
 func _controls_page() -> void:
-	if not Depth.ENABLED: return
+	_toggle_row("mirrored_hud", "MIRRORED HUD")
+	_text("Swap left and right controls for one-handed play.", 14)
+	_toggle_row("auto_pause_notice", "TACTICAL AID: PAUSE ON FIRST NOTICE")
+	_toggle_row("auto_pause_lock", "TACTICAL AID: PAUSE ON LOCK WARNING")
+	_text("Optional Accessible aids for any preset. Resume when ready; warning time freezes during pause.", 14)
 	_toggle_row("haptics", "HAPTICS")
 	_choice_setting("HAPTIC STRENGTH · pulse length", "haptic_strength", "haptic_strength", Depth.HAPTIC_LABELS.slice(1), 1)
 	_text("Pulses cover lock, sweeper warning, film empty, loss, impact, torpedo launch, recovery and shutter.", 14)

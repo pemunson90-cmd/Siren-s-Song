@@ -1,0 +1,10 @@
+<!-- Replaceable placeholder key art: Quietus silhouette over deep water. -->
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+ <defs><linearGradient id="water" x2="0" y2="1"><stop stop-color="#081720"/><stop offset="1" stop-color="#102b34"/></linearGradient><radialGradient id="pool"><stop stop-color="#28444a" stop-opacity=".52"/><stop offset="1" stop-color="#07141c" stop-opacity="0"/></radialGradient></defs>
+ <rect width="1280" height="720" fill="url(#water)"/><ellipse cx="620" cy="338" rx="500" ry="265" fill="url(#pool)"/>
+ <g fill="none" stroke="#3f6868" stroke-opacity=".36" stroke-width="2"><path d="M0 543 Q260 509 475 548T930 536T1280 547M0 601 Q240 578 477 608T927 596T1280 611M0 666 Q260 641 514 670T1005 657T1280 669"/><path d="M190 0v720m155-720v720m730-720v720m155-720v720" stroke-opacity=".12"/></g>
+ <g transform="translate(640 335)"><path d="M-352 -4 -294 -52 -150 -65 -108 -82 -28 -80 47 -61 250 -50 347 -10 330 20 242 52 -295 51 -352 20Z" fill="#263841" stroke="#a3b5ad" stroke-width="5" stroke-linejoin="round"/><path d="M-255 -37H218M-286 31H247" stroke="#526a6d" stroke-width="5"/><path d="M-54 -80 -28 -114 7 -78M-238 -54v103m89-111v113m254-76v73" fill="none" stroke="#82916c" stroke-width="4"/><path d="M-3 -82 7 -112 19 -80" fill="none" stroke="#c09860" stroke-width="5"/></g>
+ <text x="640" y="116" text-anchor="middle" fill="#d1d9d0" font-family="sans-serif" font-size="37" letter-spacing="12">SIREN'S SONG</text>
+ <text x="640" y="622" text-anchor="middle" fill="#82916c" font-family="sans-serif" font-size="20" letter-spacing="8">PLACEHOLDER KEY ART · QUIETUS SILHOUETTE</text>
+ <text x="640" y="657" text-anchor="middle" fill="#79929a" font-family="sans-serif" font-size="15" letter-spacing="4">ONE PILOT · TWO DRONES · AN OCEAN THAT LISTENS</text>
+</svg>

@@ -1,6 +1,4 @@
 extends RefCounted
-# 094: set BELL_TEAMWORK=false to restore carrier-only decompression stops.
-const BELL_TEAMWORK=true
 const Catalog=preload("res://src/campaign/operation_catalog.gd")
 const Rules=preload("res://src/campaign/encounters/choir_rules.gd")
 static func applies(m:Dictionary)->bool:return Catalog.supports(m.get("id",-1),"iron_choir") and m.get("iron_choir") is Dictionary
@@ -42,7 +40,7 @@ static func context(sim,action:String,id:int=-1)->Dictionary:
  elif action in ["east","west"] and load.state!="moored":result.reason="Voyage already deliberately started"
  elif action=="west" and sim.mission.id==25 and not state.sites[1].done:result.reason="Open or staff the western service berth first"
  elif not Rules.needs_missing(sim.mission.id,state,action).is_empty():result.reason="Finish "+Rules.needs_missing(sim.mission.id,state,action).to_upper()+" first"
- elif action in Rules.WITH_LOAD.get(sim.mission.id,[]) and (load.state not in (["towed","free"] if sim.mission.id==27 else ["towed"]) or (load.state=="towed" and load.carrier!=id and not (BELL_TEAMWORK and sim.mission.id==28)) or load.pos.distance_to(site.pos)>75):result.reason="Bring the real load to this station"
+ elif action in Rules.WITH_LOAD.get(sim.mission.id,[]) and (load.state not in (["towed","free"] if sim.mission.id==27 else ["towed"]) or (load.state=="towed" and load.carrier!=id and not (sim.mission.id==28)) or load.pos.distance_to(site.pos)>75):result.reason="Bring the real load to this station"
  elif action=="recover" and a.state not in ["site","wreck"]:result.reason="Material sealed, carried or recovered"
  elif action in ["bypass","isolate","cradle","land"] and (load.state!="towed" or load.carrier!=id or load.pos.distance_to(site.pos)>75):result.reason="Tow the real load locally to its receiving socket"
  elif not site.is_empty() and site.done:result.reason="Machinery work already complete"
@@ -112,7 +110,7 @@ static func tick(sim,dt:float):
   var job=state.jobs[id];var u=sim.units[id]
   # 094: a second local craft can operate a bell stop while its carrier holds position.
   # The real occupied load must remain alive, towed and at the station throughout.
-  var bell_departed=BELL_TEAMWORK and sim.mission.id==28 and job.action in ["lock_a","lock_b"] and (not load.alive or load.state!="towed" or load.band!=job.band or load.pos.distance_to(job.pos)>75 or not sim.Depth.clear(sim,load.pos,job.pos,job.band))
+  var bell_departed=sim.mission.id==28 and job.action in ["lock_a","lock_b"] and (not load.alive or load.state!="towed" or load.band!=job.band or load.pos.distance_to(job.pos)>75 or not sim.Depth.clear(sim,load.pos,job.pos,job.band))
   if bell_departed or not u.alive or u.hold!="HOLD" or u.band!=job.band or not u.transition.is_empty() or u.pos.distance_to(job.pos)>60 or not sim.Depth.clear(sim,u.pos,job.pos,u.band):
    state.jobs[id]={}
    if u.hold=="HOLD":u.hold=""

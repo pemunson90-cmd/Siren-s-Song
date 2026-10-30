@@ -1,6 +1,5 @@
 extends RefCounted
 # RESEARCH and ARCHIVE view data. Presentation only; revert with enabled=false.
-static var enabled=true
 const GAP=12
 const TEXT={"entry":"RESEARCH / ARCHIVE / FIELD LOG","research":"RESEARCH","archive":"ARCHIVE","log":"FIELD LOG"}
 # Best photographs listed per region (sharpest first).

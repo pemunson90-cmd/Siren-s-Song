@@ -41,7 +41,7 @@ func run():
  var rack_archive=game._archive()
  check(rack_archive.tool_racks_version==100 and game.store.valid(rack_archive),"DEV archive retains locker migration version")
  game.tool_racks=dev.Racks.empty();dev.Racks.write_archive(rack_archive,game.tool_racks)
- check(dev.Racks.migrated(rack_archive,game.fitted_equipment)==dev.Racks.empty(),"explicit empty DEV racks survive locker migration")
+ check(dev.Racks.migrated(rack_archive)==dev.Racks.empty(),"explicit empty DEV racks survive locker migration")
  game.sim.selected=0;dev.execute("grant hull_patch")
  var racks_before=game.tool_racks.duplicate(true)
  check(dev.execute("grant hull_patch")!="Granted hull_patch" and game.tool_racks==racks_before,"grant retains hull patch count limit")

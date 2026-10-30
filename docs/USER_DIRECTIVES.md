@@ -1,3 +1,99 @@
+## 29 October 2026: interruptible local Siren radio (handoffs 104/116)
+
+[PAT, verbatim ruling recorded in PAT_RULINGS_2026-10-29.md, item 6] "On ops with 2+ patrolling Sirens, should they radio each other with a visible charge-up you can interrupt? (Protected, your call.)" = "Yes, 2+ patrollers (Recommended)"
+
+[KEEL / AI-DESIGNED implementation] New multi-patroller operations enable a 3s, local acoustic report carrying a coarse last-seen point and observed depth. Breaking sight, Disrupt or a received distraction cancels the charge. Fresh local evidence stays authoritative. Existing revision-one dives retain their original behavior. Final Marks31 and Calder Gallery33 relocate existing watches to make recovery approaches expose the report choice; small physical screens offer a quiet break. Other protected rules retain their existing behavior. Phase B owns fleet measurements and the PR intent table.
+
+## 29 October 2026: one-band thermal acoustic cover (handoffs 105/115)
+
+[PAT, verbatim ruling recorded in PAT_RULINGS_2026-10-29.md, item 7] "Should the thermal layer cover only one depth band, so picking a depth decides who can hear you? (Protected, your call.)" = "Yes (Recommended)"
+
+[KEEL / AI-DESIGNED implementation] Each authored thermal front masks only its named band, with emitter and listener settled in that band. Transitions retain an exposed path. Briefing and chart name the band. Foundry uses MIDDLE; the optional shelf exhaust's narrow MIDDLE strip and relocated existing deep watch make a louder flash-photo return favor MIDDLE over DEEP. The flash policy is one legal route, not proof of globally optimal depth. Other protected rules retain their existing behavior.
+
+## 29 October 2026: tool cargo in Career and Expedition (handoff 117)
+
+[PAT, verbatim ruling recorded in handoff 117, chat ~17:50 ET] Claude asked "Should extra tools cost cargo in Career and Expedition too (today campaign only)? I recommend yes, so the loadout choice matters everywhere." Pat: "Yes to all".
+
+[KEEL / implementation scope] Career and Expedition launches use the shared per-craft tool lockers and cargo overflow rule with their own supplies. Cargo weights, locker sizes and extra-charge prices remain AI-DESIGNED. Existing active dives retain their stored stock and capacity rules.
+
+## 29 October 2026: optional tactical pause aids and mirrored HUD (handoff 111)
+
+11. "Add tactical aids such as auto-pause when a Siren first notices you, as an Accessible option off by default?" = "Yes (Recommended)" (11)
+18. "Add a mirrored HUD option for one-handed play?" = "Yes (Recommended)" (21)
+
+[PAT, verbatim selections recorded in PAT_RULINGS_2026-10-29.md, Claude S6] Both options are authorized.
+
+[KEEL / implementation] Device settings offer separate first-notice and received-lock pause toggles plus mirrored HUD, all off by default and available on any preset. First notice uses the existing any-craft acquisition signal, once per Siren during the dive; a fresh received lock episode on any living craft also pauses when enabled. Brief gaps for the same Siren/craft pair coalesce until two continuous clear simulation seconds (AI-DESIGNED UI rearm); a different Siren or target pauses immediately. Optional presentation history survives active-dive restores, including Expedition and Career, so an ongoing notice or warning does not replay on resume. Older saves prime live craft acquisitions and received warnings. Pause is unlimited and resumes through the ordinary control. Mirroring swaps pause/fleet sides and radial side actions with matching touch wedges. Warning timing, sensing, beams, collision, hull and damage retain their existing rules. No phone acceptance is claimed.
+
+## 29 October 2026: presentation placeholders (handoff 113)
+
+[PAT, verbatim selections recorded in PAT_RULINGS_2026-10-29.md, Claude S6]
+
+15. "Give each hull and chassis a distinct silhouette so you can tell them apart at a glance? (Art, your call.)" = "Yes (Recommended)" (17)
+16. "Give each Siren role its own sound, heard only once sonar has earned it?" = "Yes (Recommended)" (20)
+17. "Add a little ambient sea life, in colours that never look like contacts and never on sonar? (Art, your call.)" = "Yes, limited (Recommended)" (19)
+19. "Use a placeholder title art, icon and splash built from the Quietus silhouette until you supply art?" = "Yes, placeholder (Recommended)" (18, 22)
+
+[KEEL / implementation scope] Silhouettes, synthesized role cues, limited visual sea life and replaceable Quietus key art are AI-DESIGNED placeholders consistent with the existing palette. Exact role sounds share the earned identification boundary from handoff 106. Sea life is decorative, excluded from sonar and chart, and disabled in battery saver. Simulation and campaign rules retain their existing behavior.
+
+## 29 October 2026: second story fork in arc 5 (handoff 108)
+
+2. "Add one more story fork in arc 5, so earlier play picks which later ops you get?" = "Yes, one fork (Recommended)" (2)
+
+[PAT, verbatim ruling recorded in PAT_RULINGS_2026-10-29.md, Claude S6] The named arc-five fork is authorized.
+
+[KEEL / AI-DESIGNED implementation] The recovered Confluence channel selects the recovery route for Pressure Stair and Choir Cut. Concealed and missing legacy facts retain southern recovery; overt uses existing northern/eastern water. Physical work, thread commitment and ending votes retain their existing rules. Active dives retain their stored mission and corridor.
+
+## 29 October 2026: coarse sonar identification (handoff 106)
+
+3. "Should sonar only show a rough Siren type until you see or photograph it? (Changes Siren sense display, your call.)" = "Yes (Recommended)" (9)
+
+[PAT, verbatim ruling recorded in PAT_RULINGS_2026-10-29.md, Claude S6] The named sensing presentation change is authorized.
+
+[KEEL / implementation scope] Sonar presents a coarse class until any craft sees the Siren or photographs identify it. Identification lasts for that Siren through the dive; recovered photographed dossier roles can pre-identify. Chart, contact list and audio use the same knowledge boundary. Class labels are AI-DESIGNED. Sensing, sight ranges, lock, beam, collision, damage and hull rules retain their existing behavior.
+
+## 29 October 2026: expedition Siren starts and patrol timing (handoff 109)
+
+8. "Should expedition seeds also shuffle Siren start positions and patrol timing (never their senses)?" = "Yes (Recommended)" (12)
+
+[PAT, verbatim selection recorded in PAT_RULINGS_2026-10-29.md, Claude S6] This authorizes deterministic Expedition-only start placement and patrol phase along authored safe paths. Campaign and Career retain authored starts. Placement bounds and phase values are AI-DESIGNED; Siren senses, role, lock, beam, collision, damage and hull rules retain their existing behavior.
+
+## 29 October 2026: Sorley pilotage charts (handoff 112)
+
+[PAT, verbatim selections recorded in PAT_RULINGS_2026-10-29.md, items 12 and 13]
+
+12. "Change the Sorley rescue reward from supplies to pilotage charts?" = "Yes, charts (Recommended)"
+13. "Should the Sorley rescue count as one vote toward which ending you get?" = "No, keep it separate (Recommended)"
+
+[KEEL / implementation] Rescue grants lasting MIDDLE-water pilotage passages in Needle Strait and Furnace Drift through earned-chart certification. Both rescue tiers grant charts; old rescue facts qualify automatically and earlier supplies remain. Charts disclose terrain clearance, never Sirens. Passage extents are AI-DESIGNED. The rescue epilogue stays separate from ending votes.
+
+## 29 October 2026: distinct hunter and sentinel senses (handoff 103)
+
+5. "Should hunter and sentinel Sirens each get their own hearing, search and attention, so each type needs a different plan? (Siren senses, your call.)" = "Yes (Recommended)" (6)
+
+[PAT, verbatim ruling recorded in PAT_RULINGS_2026-10-29.md, Claude S6] This authorizes the named role differences. Silent sight 180 m, cruise sight 290 m, the four-second interruptible lock warning, beam, collision, damage and hull rules retain their existing behavior. New profile values are AI-DESIGNED and provisional.
+
+## 29 October 2026: advanced economy and easier presets (handoff 110)
+
+[PAT, verbatim selections recorded in PAT_RULINGS_2026-10-29.md, items 9 and 10]
+
+9. "Add a small set of custom economy values (repair cost, income, starting stock) behind an ADVANCED toggle?" = "Yes, small set (Recommended)" (15)
+10. "Allow switching to an easier preset mid-campaign (not in Ironman), marked in the ledger?" = "Yes (Recommended)" (16)
+
+[KEEL / implementation scope] Advanced starts off. Custom settings are identified in campaign records. Easier preset changes outside Ironman take effect at the next dock and remain in ledger history. Numerical bounds and implementation details are AI-DESIGNED.
+
+## 29 October 2026: Ironman permanent losses (handoff 107)
+
+[PAT, verbatim selection recorded in PAT_RULINGS_2026-10-29.md, item 1] "In Ironman mode, should a drone or module lost in a dive be gone for good?" = "Yes, Ironman only (Recommended)" (QUESTIONS_FOR_PAT 14)
+
+[KEEL / operating effect] Existing dive loss and non-recovery rules remove the lost drone or fitted module from the Ironman profile. Replacements cost manufacturing resources. Quietus remains available and an empty drone bay can launch, preserving the bare floor on ACCESSIBLE and STANDARD. Other modes retain their existing recovery behaviour. Replacement prices and implementation details are AI-DESIGNED.
+
+## 29 October 2026: carried survivors slow ascent (handoff 102)
+
+[PAT, verbatim as recorded in handoff 102, ~08:10 ET] Asked "Should carrying survivors slow how fast the sub can change depth? I recommend yes." Pat: "For now* Yes*". This ruling is provisional, "for now".
+
+[KEEL / AI-DESIGNED provisional timing] Upward band changes with one survivor take 8 seconds, with multiple survivors 12 seconds, followed by 6 seconds at the new band before another ascent. Values stay together in survivor_ascent.gd for retuning. Existing carry permissions and tow restrictions remain authoritative; descent keeps its existing timing.
+
 ## 28 October 2026: hidden rescue of Sorley's boy (handoff 092)
 
 [PAT, quoted in Claude S5 handoff 092, ~11:50 ET] "Experiment with a hidden rescue mission that requires either found logs off the beaten path, or certain photos. So its an option side quest with at least one game reward and ending changes."
@@ -177,3 +273,8 @@ Compare actual gameplay with strong shipped references and disclose comparison l
 The unchanged Claude audit, audited source, F1–F7 response and checkpoint refs are on archive/claude-audit-2026-10-19 under docs/audit/.
 Genuine critic saves and raw input are published on gauntlet/checkpoint/touch-play-2026-10-20; source and session provenance remain explicit.
 Agent play and software renders support game development; human enjoyment, headphone audio and physical Fold7 ergonomics require their own evidence.
+
+## Photo record art direction (handoff 121)
+
+Ruling (Pat, 2026-10-29T18:48:40-0400, widget): "Can Codex draw new photo images that clearly show each subject (the people, the bore, the damage) in the game's current art style, without changing how exposure or photo grades work? This touches art direction, which is your call." = "Yes (Recommended)".
+Compositions are AI-DESIGNED placeholders Pat can replace.

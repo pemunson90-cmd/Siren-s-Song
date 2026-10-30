@@ -26,6 +26,7 @@ func freeze_campaign()->void:
 	campaign_host.sound.suspend();campaign_host.process_mode=Node.PROCESS_MODE_DISABLED
 func _bind_state()->void:
 	economy=career_state.economy;expedition=career_state.progress;fitted_equipment=career_state.fitted
+	tool_racks=career_state.get("tool_racks",preload("res://src/equipment/tool_racks.gd").template("endurance")).duplicate(true)
 func _ready()->void:
 	pinned_path=campaign_host.store.path
 	if DevState.marked(self):set_meta("dev_profile",true)
@@ -36,6 +37,7 @@ func _ready()->void:
 	super._ready();active_started=false
 	if not active_envelope.is_empty():
 		active_started=CareerArchive.Active.restore_sim(sim,active_envelope,career_state,"career")
+		if active_started:tactical_aids.restore_history(active_envelope.get("tactical_pause_history"))
 		mission_index=sim.mission.id;ocean.sim=sim;ocean.focus_craft()
 	snapshot_ready=true
 	FrontendSettings.apply(FrontendSettings.current,self);sound.muted=campaign_host.sound.muted
@@ -56,8 +58,10 @@ func _save_archive()->void:
 		save_failed=not _persist_state(career_state)
 		return
 	career_state.fitted=fitted_equipment.duplicate(true)
+	if not active_started:career_state.tool_racks=tool_racks.duplicate(true)
 	if active_started and career_state.in_flight and not result_pending:
 		active_envelope=CareerArchive.Active.capture("career",career_state,sim,active_envelope)
+		active_envelope["tactical_pause_history"]=tactical_aids.saved_history()
 	else:active_envelope={}
 	save_failed=not _persist_state(career_state,active_envelope)
 func _enter_water()->void:
@@ -87,6 +91,7 @@ func _select_contract(id:String)->void:
 	selected_contract=id;accept_rider=true;CareerBoard.briefing(self)
 func _begin()->void:
 	if active_started or career_state.in_flight or save_failed:return
+	career_state.tool_racks=tool_racks.duplicate(true)
 	var launched=Career.launch(career_state,selected_contract,accept_rider)
 	if not launched.in_flight:return
 	career_state=launched;_bind_state();result_pending=false;active_envelope={}

@@ -3,9 +3,7 @@ extends Node
 # Seam: Soundscape.update calls sync() once per frame; Soundscape.event_cue(id) stays the entry point for
 # callers that own an event (research). Observes simulation state and the public event list read-only, incl.
 # a drop in mission field_tools counts (a successful tool use; refused uses spend nothing). No hook in simulation.
-# Unknown ids are ignored, so a tool nobody fires yet is safe. Disabled restores today's sound.
-# Revert: event_cue_table.enabled=false, or remove the Soundscape sync/event_cue lines and
-# the TEXT rows; retain the table and tests.
+# Unknown ids are ignored, so a tool nobody fires yet is safe.
 const Table=preload("res://src/audio/event_cues/event_cue_table.gd")
 const Wave=preload("res://src/audio/photo_audio/photo_wave.gd")
 # Immutable PCM is shared across soundscapes, as in PhotoWave.stream(). Keep players,
@@ -22,10 +20,11 @@ var last_clock:=-1.
 var hull:=-1.
 var materials:Dictionary={}
 var tool_counts:Dictionary={}
+var reporting:Dictionary={}
 var lifecycle_suspended:=false
 var host_ref
 static func sync(host,sim,dt:float,active:bool)->void:
- if not Table.enabled or not host.is_inside_tree():return
+ if not host.is_inside_tree():return
  var layer=host.get_node_or_null("EventAudio")
  if layer==null:
   layer=load("res://src/audio/event_cues/event_cues.gd").new();layer.name="EventAudio"
@@ -42,11 +41,11 @@ func setup(host)->void:
 # Entry point for callers that own an event (field tools, research): sound.event_cue("sonobuoy").
 # Plays at once when audible, honouring the id's repeat interval. Unknown ids are ignored.
 func fire(id:String)->bool:
- if not Table.enabled or not Table.CUES.has(id):return false
+ if not Table.CUES.has(id):return false
  if host_ref.muted or host_ref.effects_volume<=0 or host_ref.system_suspended or lifecycle_suspended:return false
  return _play(id,false)
 func request(id:String)->bool:
- if not Table.enabled or not Table.CUES.has(id):return false
+ if not Table.CUES.has(id):return false
  queued.append(id)
  return true
 func _now()->float:
@@ -91,9 +90,15 @@ func advance(sim,_dt:float,active:bool)->void:
  var allowed=audible and active and not host_ref.system_suspended and not lifecycle_suspended
  var frozen=sim.paused or not active or host_ref.system_suspended or lifecycle_suspended
  var found=_materials(sim);var tools=_tools(sim)
+ var reports={}
+ for id in sim.contacts:
+  var contact=sim.contacts[id]
+  if sim.elapsed-float(contact.time)<0.25 and contact.get("report_remaining",0)>0:reports[id]=true
  if not is_same(mission_ref,sim.mission) or sim.elapsed<last_clock:
-  mission_ref=sim.mission;hull=sim.hull;materials=found;tool_counts=tools;queued=[]
+  mission_ref=sim.mission;hull=sim.hull;materials=found;tool_counts=tools;reporting=reports;queued=[]
  elif active and not sim.paused and sim.outcome.is_empty():
+  for id in reports:
+   if not reporting.has(id):_raise("siren_report",sim)
   var hit=Table.hull_cue(hull-sim.hull)
   if not hit.is_empty():_raise(hit,sim)
   for key in found:
@@ -104,7 +109,7 @@ func advance(sim,_dt:float,active:bool)->void:
  if active:
   for id in Table.TOOLS:
    if tools[id]<int(tool_counts.get(id,tools[id])):_raise(id,sim)
- last_clock=sim.elapsed;hull=sim.hull;materials=found;tool_counts=tools
+ last_clock=sim.elapsed;hull=sim.hull;materials=found;tool_counts=tools;reporting=reports
  _flush(allowed,frozen)
  if not audible or not active:
   for voice in voices:voice.stop()

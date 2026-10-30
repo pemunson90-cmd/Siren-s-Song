@@ -1,14 +1,13 @@
 extends RefCounted
-# 065 optional machinery profiles. Revert: MODULE_WORK_ENABLED=false restores
-# bare work. Caller seams: capture duration, start sound and recorded operator.
+# 065 optional machinery profiles.
+# Caller seams: capture duration, start sound and recorded operator.
 # AI-DESIGNED tuning; existing endurance/reach bonuses stay in the catalog.
-static var MODULE_WORK_ENABLED=true
 const MODULE_WORK={
  "quietus_wellhead_seal":{"units":[0],"time_scale":0.5,"noise_scale":0.5},
  "drone_choir_tuner":{"units":[1,2],"time_scale":1.0,"noise_scale":0.0}}
 static func machine_spec(sim,o:Dictionary,unit:int)->Dictionary:
  var module_id=o.get("needs_item","")
- if not MODULE_WORK_ENABLED or not o.get("optional",false) or not o.has("glass_effect") or module_id not in MODULE_WORK:return {}
+ if not o.get("optional",false) or not o.has("glass_effect") or module_id not in MODULE_WORK:return {}
  var rule=MODULE_WORK[module_id]
  var fitted=unit in rule.units and sim.Equipment.has(sim.mission.get("launch_equipment",{}),unit,module_id)
  return {"duration":float(o.get("duration",12.))*(rule.time_scale if fitted else 1.0),"time_scale":rule.time_scale if fitted else 1.0,"noise_scale":rule.noise_scale if fitted else 1.0}
@@ -23,7 +22,7 @@ static func begin_machine(sim,o:Dictionary,unit:int,radius:float,duration:float)
   var body=sim.units[unit]
   sim._noise(body.pos,radius*spec.noise_scale,"LOCAL MACHINERY",duration*spec.time_scale,body.band)
  return true
-const ITEMS={17:"silt_spindle",20:"prism_core",21:"keeper_wafer",32:"trench_seal_core",33:"choir_reed",35:"deep_keel_plate",37:"trawler_screw"}
+const ITEMS=preload("res://src/campaign/recovered_items.gd").ITEMS
 static func applies(m:Dictionary)->bool:return m.has("glass_reach") and preload("res://src/campaign/operation_catalog.gd").supports(m.get("id",-1),"glass_reach")
 static func busy(sim,id:int)->bool:return applies(sim.mission) and not sim.mission.glass_reach.job.is_empty() and sim.mission.glass_reach.job.unit==id
 static func artifact(sim)->Dictionary:return sim.mission.glass_reach.artifact if applies(sim.mission) else {}
@@ -113,7 +112,6 @@ static func tick(sim,dt:float):
     if enemy.get("type","")=="buoy":enemy.stun=maxf(enemy.stun,120.);enemy.network.packet={};enemy.network.charge=0.
   if sim.mission.id==18:
    sim.mission.expedition_facts.glass_choice=job.action
-   sim.mission.expedition_facts.varne_staff=job.action
    sim.mission.objectives[0].captured=true;recorded(sim,sim.mission.objectives[0]);sim._record_secured(sim.mission.objectives[0],job.unit)
   sim.message="Local service water opened; reporting spur remains supplied" if job.action=="service" else "Local reporting spur interrupted; outside water remains open"
  elif job.action=="gate":open_gate(sim);sim.message="Local service gate opened"
@@ -135,7 +133,10 @@ static func recover(sim,corridor:Dictionary):
  a.state="recovered";a.carrier=-1;a.band=1;a.pos=corridor.pos;sim.mission.glass_reach.retrieved=true
 static func recorded(sim,o:Dictionary,unit:int=-1):
  if not applies(sim.mission):return
- if o.get("site_id","").begins_with("glass_record_"):sim.mission.expedition_facts[o.site_id]=o.evidence
+ var site_id=o.get("site_id","")
+ # Fleet work is already retained as recovered records; these facts have no reader.
+ var fleet_record=preload("res://src/campaign/encounters/fleet_sites.gd").records(int(sim.mission.id)).has(site_id)
+ if site_id.begins_with("glass_record_") and not fleet_record:sim.mission.expedition_facts[site_id]=o.evidence
  if o.get("glass_effect") is Dictionary:apply_effect(sim,o,unit)
 # Authored machinery (encounters/work_sites.gd machine) changes real water once.
 static func apply_effect(sim,o:Dictionary,unit:int=-1):

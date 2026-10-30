@@ -1,6 +1,6 @@
 extends RefCounted
 # Touch-first career menus use Main's existing scroll column and 48dp buttons.
-# Revert with CareerTable.ENABLED; all spending uses the existing economy APIs.
+# All spending uses the existing economy APIs.
 const Table=preload("res://src/campaign/career/career_table.gd")
 const State=preload("res://src/campaign/career/career_state.gd")
 const Economy=preload("res://src/campaign/economy.gd")
@@ -35,7 +35,7 @@ static func show(host)->void:
 			if c.faction!=faction:continue
 			var available=State.open(host.career_state,id)
 			var title=host.Simulation.Missions.make(c.op,host._launch_context(c.op)).title
-			var button=host._button(host.panel_box,"%s\n%s · PAY %s"%[title.to_upper(),"OPEN" if available else "LOCKED · NEED STANDING %d"%c.standing,Economy.fmt(c.reward)],host._select_contract.bind(id),"career_contract_"+id)
+			var button=host._button(host.panel_box,"%s\n%s · PAY %s"%[title.to_upper(),"OPEN" if available else "LOCKED · NEED STANDING %d"%c.get("standing",Table.MIN_STANDING),Economy.fmt(c.reward)],host._select_contract.bind(id),"career_contract_"+id)
 			button.disabled=not available or host.save_failed
 			host._menu_text(Riders.description(State.rider_offer(host.career_state,id)),16)
 static func confirm_abandon(host)->void:
@@ -48,16 +48,14 @@ static func briefing(host)->void:
 	var mission=host.Simulation.Missions.make(c.op,host._launch_context(c.op))
 	heading(host,"CAREER / "+mission.title.to_upper(),"career_briefing")
 	host._menu_text("%s\n%s\n%s"%[Table.FACTIONS[c.faction],c.brief,mission.brief],18)
-	host._menu_text("RECOVERY PAY · %s\nSTANDING %d · SUCCESS +%d / LOSS %d\nNEXT LAUNCH · %s"%[Economy.fmt(c.reward),host.career_state.standing[c.faction],Table.SUCCESS,Table.LOSS,Economy.fmt(Economy.refit_cost(host.economy,host.fitted_equipment))],17)
+	host._menu_text("RECOVERY PAY · %s\nSTANDING %d · SUCCESS +%d / LOSS %d\nNEXT LAUNCH · %s"%[Economy.fmt(c.reward),host.career_state.standing[c.faction],Table.SUCCESS,Table.LOSS,Economy.fmt(preload("res://src/presentation/economy_panel.gd").launch_cost(host))],17)
 	host._menu_text("Paused physical operation. Oxygen, film and field tools replenish each dive. Damage persists through the existing economy; bare standard equipment always launches free. Interrupted dives resume paused; abandoning records a contract loss.",16)
 	var rider=State.rider_offer(host.career_state,host.selected_contract)
 	host._menu_text(Riders.description(rider),17)
 	if not rider.is_empty():
-		host._button(host.panel_box,"RIDER · "+("ACCEPTED" if host.accept_rider else "DECLINED"),func():
-			host.accept_rider=not host.accept_rider;briefing(host)
-		,"career_rider")
+		host._button(host.panel_box,"RIDER · "+("ACCEPTED" if host.accept_rider else "DECLINED"),preload("res://src/presentation/rider_choice.gd").toggle.bind(host,briefing.bind(host)),"career_rider")
 	var begin=host._button(host.panel_box,"ACCEPT CONTRACT · START PAUSED",host._begin,"career_begin")
-	begin.disabled=host.save_failed or not Economy.can_pay(host.economy,Economy.refit_cost(host.economy,host.fitted_equipment))
+	begin.disabled=host.save_failed or not preload("res://src/presentation/economy_panel.gd").can_begin(host)
 	host._button(host.panel_box,"FLEET / FITTINGS",host._show_fittings,"career_fittings")
 	host._button(host.panel_box,"BACK TO CONTRACT BOARD",host._show_campaign,"career_board")
 static func spend(host,title:String,cost:Dictionary,action:Callable,id:String)->void:
@@ -87,6 +85,7 @@ static func fittings(host)->void:
 	host._button(host.panel_box,"SUPPLIES / MANUFACTURE / RESEARCH",host._show_economy,"career_supplies")
 	host._menu_text("Unlock hulls and chassis with existing alloy prices. Manufacture conventional modules or research recovered alien material, then fit it for the next dive.",17)
 	_guard_fittings(host,EquipmentView.loadout(host,host.fitted_equipment,func(key,id):host._choose_equipment(key,id,-1)))
+	preload("res://src/presentation/mode_racks_view.gd").show(host,false)
 	_guard_fittings(host,EquipmentView.fitting(host,host._equipment_context(),func(key,id):host._choose_equipment(key,id,-1)))
 static func _guard_fittings(host,buttons:Array)->void:
 	for button in buttons:

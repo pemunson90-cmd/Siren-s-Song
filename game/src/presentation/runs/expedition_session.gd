@@ -35,6 +35,7 @@ func _ready()->void:
 	super._ready();active_started=false
 	if not active_envelope.is_empty():
 		active_started=RunArchive.Active.restore_sim(sim,active_envelope,run_state,"runs")
+		if active_started:tactical_aids.restore_history(active_envelope.get("tactical_pause_history"))
 		mission_index=sim.mission.id;ocean.sim=sim;ocean.focus_craft()
 	snapshot_ready=true
 	FrontendSettings.apply(FrontendSettings.current,self);sound.muted=campaign_host.sound.muted
@@ -45,6 +46,7 @@ func _save_archive()->void:
 	if not snapshot_ready or DevState.marked(self):return
 	if active_started and run_state.in_flight and not recorded:
 		active_envelope=RunArchive.Active.capture("runs",run_state,sim,active_envelope)
+		active_envelope["tactical_pause_history"]=tactical_aids.saved_history()
 		save_failed=not _persist_state(run_state,active_envelope)
 	elif recorded:save_failed=not _persist_state(run_state)
 
@@ -71,7 +73,7 @@ func _show_campaign()->void:
 	_menu_text("EXPEDITION · SEED %d"%run_state.seed,30)
 	_menu_text("OPERATION %d / %d · %s"%[run_state.cursor+1,run_state.operations.size(),sim.mission.title.to_upper()],20)
 	_menu_text(sim.mission.brief,17)
-	_menu_text("%s LOADOUT · %s · STARTING HUNT %d\nTools carry across recovered operations. Film and oxygen replenish for each dive."%[run_state.loadout.to_upper(),RunTable.SCARCITY[run_state.scarcity].to_upper(),RunState.starting_hunt(run_state,RunState.current_operation(run_state))],17)
+	_menu_text("%s LOADOUT · %s · OPERATION START HUNT %d\nThe expedition Hunt modifier is capped for this operation. The in-dive meter shows current pressure.\nTools carry across recovered operations. Film and oxygen replenish for each dive."%[run_state.loadout.to_upper(),RunTable.SCARCITY[run_state.scarcity].to_upper(),RunState.starting_hunt(run_state,RunState.current_operation(run_state))],17)
 	if active_started:
 		if save_failed:
 			_menu_text("SAVE PENDING · "+str(campaign_host.get_meta("runs_save_error","")),17)
@@ -83,9 +85,9 @@ func _show_campaign()->void:
 		var rider=RunState.rider_offer(run_state)
 		_menu_text(RunState.Riders.description(rider,RunState.rider_bonus_text(rider)),17)
 		if not rider.is_empty():
-			_button(panel_box,"RIDER · "+("ACCEPTED" if accept_rider else "DECLINED"),func():
-				accept_rider=not accept_rider;_show_campaign()
-			,"run_rider")
+			_button(panel_box,"RIDER · "+("ACCEPTED" if accept_rider else "DECLINED"),preload("res://src/presentation/rider_choice.gd").toggle.bind(self,_show_campaign),"run_rider")
+		tool_racks=run_state.get("tool_racks",preload("res://src/equipment/tool_racks.gd").from_stock(run_state.stock)).duplicate(true)
+		preload("res://src/presentation/mode_racks_view.gd").show(self,true)
 		_button(panel_box,"BEGIN OPERATION · START PAUSED",_begin,"run_begin")
 		_button(panel_box,"RETURN TO MODES",_return,"run_return")
 	call_deferred("_layout")
@@ -94,6 +96,7 @@ func _begin()->void:
 	if not RunArchive._available(campaign_host):
 		_menu_text("LAUNCH PAUSED · "+str(campaign_host.get_meta("runs_save_error","")),17);return
 	var launched=RunState.launch(run_state,accept_rider)
+	if not launched.in_flight:return
 	run_state=launched;sim.configure(run_state);recorded=false;active_envelope={}
 	_start_mission(RunState.current_operation(run_state));_save_archive()
 	if save_failed:_show_campaign();return

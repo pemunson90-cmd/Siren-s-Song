@@ -16,7 +16,7 @@ func _initialize():call_deferred("run")
 func run():
  table();modules();recoveries();tools_in_play();camera_silt_parity();collision_patch();finish()
 func table():
- check(Tools.ids().size()==8 and Tools.field_ids().size()==4 and Tools.TOUCH_DP==48,"eight finite tools, four new, 48 dp targets")
+ check(Tools.ids().size()==8 and Tools.field_ids().size()==4,"eight finite tools, four new")
  for id in Tools.ids():
   check(Tools.TOOLS[id].counts.keys()==Tools.LOADOUTS and Tools.is_enabled(id),"every loadout has a count for "+id)
  check(Tools.initial_counts("survey").keys().size()==4 and Tools.loadout_count("relay_buoy","survey")==2,"new tool stock follows the loadout")

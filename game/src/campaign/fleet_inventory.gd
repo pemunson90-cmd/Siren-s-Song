@@ -2,10 +2,10 @@ extends RefCounted
 # Entitlements describe discoveries; this ledger records physical modules left
 # on a first successful recovery. Failure, retry and replay never spend stock.
 const Catalog=preload("res://src/equipment/equipment_catalog.gd")
-static func available(earned:Array,fleet:Dictionary={})->Array:
+static func available(earned:Array,fleet:Dictionary={},economy:Dictionary={})->Array:
  var lost=[]
  for result in fleet.get("outcomes",{}).values():lost.append_array(result.lost)
- return earned.filter(func(item):return item not in lost)
+ return preload("res://src/campaign/ironman_losses.gd").available(economy,earned.filter(func(item):return item not in lost))
 # Frames are always available; only missing mount items return to empty.
 static func reconcile_fitting(fitted:Dictionary,available_items:Array)->Dictionary:
  var result=fitted.duplicate(true)

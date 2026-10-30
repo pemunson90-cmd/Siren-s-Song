@@ -2,6 +2,10 @@
 config_version=5
 [application]
 config/name="Siren's Song"
+config/icon="res://assets/title/icon.svg"
+boot_splash/image="res://assets/title/splash.png"
+boot_splash/bg_color=Color(0.027,0.078,0.098,1)
+boot_splash/fullsize=false
 run/main_scene="res://scenes/main.tscn"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/description="One pilot. Two drones. An ocean that listens."

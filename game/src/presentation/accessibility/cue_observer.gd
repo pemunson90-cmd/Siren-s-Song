@@ -21,13 +21,14 @@ var history:Array=[]
 var emitted:Array=[]
 var pulse_requests=0
 var selected=-1
-func _emit(cue:String,time:float,suffix:String="")->void:
+func _emit(cue:String,time:float,suffix:String="",caption_override:String="")->void:
  if not Table.TEXT.has(cue):return
  emitted.append(cue)
  if Depth.haptic_cue(cue) and Settings.vibrate(Table.PULSE_MS):pulse_requests+=1
  if not Settings.current.get("audio_captions",false):return
- rows.append({"text":str(Table.TEXT[cue])+suffix,"until":time+Table.SECONDS})
- history.append({"text":str(Table.TEXT[cue])+suffix,"at":time})
+ var caption=str(Table.TEXT[cue]) if caption_override.is_empty() else caption_override
+ rows.append({"text":caption+suffix,"until":time+Table.SECONDS})
+ history.append({"text":caption+suffix,"at":time})
  while rows.size()>Table.MAX_ROWS:rows.pop_front()
  while history.size()>Table.HISTORY_ROWS:history.pop_front()
 # Caption for an event audio cue raised after observe() this frame. Same gates as _emit.
@@ -48,15 +49,16 @@ func observe(sim,active:bool)->void:
   rows.clear();history.clear();received=preload("res://src/audio/received_cues.gd").new();received_factory=preload("res://src/audio/received_cues.gd").new()
  var running=active and not sim.paused and sim.outcome.is_empty()
  if not reset and running:
-  for event in sim.events:
+  for raw_event in sim.events:
+   var event=preload("res://src/simulation/contact_identity.gd").event(sim,raw_event)
    var cue=str(event.get("type",""))
    if cue in ["carrier_received","return_received","sweep_received"]:
-    if not received.take(event,sim.selected,sim.elapsed,true).is_empty():_emit(cue,sim.elapsed)
+    if not received.take(event,sim.selected,sim.elapsed,true).is_empty():_emit(cue,sim.elapsed,"",event.get("caption",""))
    elif cue=="factory" and event.has("receiver"):
     # Existing industrial receiver events have identical reception fields but
     # use a shared factory timbre. Apply the same gate on an independent cache.
     var reception=event.duplicate();reception.type="carrier_received"
-    if not received_factory.take(reception,sim.selected,sim.elapsed,true).is_empty():_emit("factory",sim.elapsed)
+    if not received_factory.take(reception,sim.selected,sim.elapsed,true).is_empty():_emit("factory",sim.elapsed,"",event.get("caption",""))
    elif cue=="factory" and event.get("industrial",false):_emit("factory",sim.elapsed)
    elif cue=="factory":continue # Scripted base response already has mandatory message text.
    elif Table.TEXT.has(cue):_emit(cue,sim.elapsed)

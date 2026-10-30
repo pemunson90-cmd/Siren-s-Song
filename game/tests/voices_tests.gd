@@ -41,9 +41,6 @@ func _initialize():
  check(not Voices.hear(log,99,"brief") and not Voices.hear(log,0,"bogus"),"no line, no log entry")
  Voices.hear(log,3,"mid");Voices.hear(log,3,"debrief")
  check(Voices.operations(log)==[0,3],"log lists operations in order")
- Table.enabled=false
- check(Voices.row(0,"brief").is_empty() and not Voices.hear(log,5,"brief"),"off switch hides every line")
- Table.enabled=true
  # Progress is the player's own: objective captured, carrier recovered or a site job done.
  check(not Voices.progress({}) and not Voices.progress({"objectives":[{"captured":false}]}),"no progress, no message")
  check(Voices.progress({"objectives":[{"captured":true}]}),"captured objective counts")
@@ -66,10 +63,10 @@ func _initialize():
  var broken=data.duplicate(true);broken.voices=["0:brief","0:brief"]
  check(not store.valid(broken),"archive with corrupt voices is rejected")
  DirAccess.remove_absolute(store.path);DirAccess.remove_absolute(store.path+".bak")
- # Credits: placeholder creator, engine and tools, then the audio attribution.
+ # Credits: public creator line with source placeholder, engine, tools and audio attribution.
  var text=""
  for line in Credits.credits(load("res://src/audio/soundscape.gd").ATTRIBUTION):text+=line.text+"\n"
- check(text.contains("Created by (to be named)") and text.contains("Godot Engine 4.6.3") and text.contains("MIT License"),"credits name engine and keep the creator placeholder")
+ check(text.contains("An independent reconnaissance game") and not text.contains("(to be named)") and text.contains("Godot Engine 4.6.3") and text.contains("MIT License") and Credits.CREATOR=="Created by (to be named)","credits name engine, show public copy and retain the source creator placeholder")
  check(text.contains("Creative Commons Attribution 3.0") and text.contains("TOOLS"),"credits keep CC-BY audio credits and list tools")
  print("VOICES CHECKS ",checks," FAILURES ",failures)
  quit(1 if failures else 0)

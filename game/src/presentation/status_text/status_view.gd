@@ -8,6 +8,7 @@ const Expedition=preload("res://src/presentation/expedition_view.gd")
 const AXES="status_radial_axes"
 const HINT="status_arrivals_hint"
 const PENDING="status_fit_pending"
+const GRID="status_command_grid"
 static func content_bounds(hud,bounds:Vector2)->Vector2:
  if not Table.enabled or not Layout.enabled:return bounds
  var end:Vector2=hud.get_viewport_rect().end-hud.global_position
@@ -69,6 +70,7 @@ static func _free_back(hud,area:Rect2,rects:Array)->Rect2:
   return rect
  return Rect2()
 static func fit(hud)->void:
+ if hud.has_meta(GRID):hud.remove_meta(GRID)
  if not Table.enabled or not Layout.enabled or not hud.host.advanced_orders:return
  var visible=_area(hud)
  if hud.page in ["inspect","signals","recovery","order_help"]:
@@ -76,6 +78,8 @@ static func fit(hud)->void:
   fit_sheet(hud);return
  var buttons:Array=hud.ring_buttons
  if buttons.is_empty():return
+ if hud.text_scale>=1.5:
+  fit_grid(hud,visible);return
  var r:float=hud.ring_radius
  var original=_rects(buttons,hud.center,Vector2.ONE*r)
  var needs=_intersects(original) or original.any(func(rect):return not visible.encloses(rect)) or not visible.encloses(hud.close_button.get_rect())
@@ -98,10 +102,48 @@ static func fit(hud)->void:
    var candidate=_free_back(hud,visible,rects)
    if candidate.has_area():chosen=rects;at=c;axes=radius;back=candidate;break
   rx+=maxf(1,hud.touch_height*Layout.SEARCH_STEP)
- if chosen.is_empty():return
+ if chosen.is_empty():
+  fit_grid(hud,visible);return
  hud.center=at;hud.set_meta(AXES,axes)
  for i in buttons.size():buttons[i].position=chosen[i].position
  hud.close_button.position=back.position
+# A large-text command dock reserves chart width and scrolls its full-size actions.
+static func fit_grid(hud,_visible:Rect2)->void:
+ # Vertical reading order stays canonical when the dock changes hands.
+ hud.ring_buttons=hud.command_controls()
+ for b in hud.ring_buttons:
+  if b.get_parent()!=hud.order_dock_commands:b.reparent(hud.order_dock_commands,false)
+  hud.order_dock_commands.move_child(b,hud.ring_buttons.find(b)+1)
+  b.mouse_filter=Control.MOUSE_FILTER_STOP;b.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+  b.custom_minimum_size.x=0
+ if hud.close_button.get_parent()!=hud.order_dock_scroll.get_parent():hud.close_button.reparent(hud.order_dock_scroll.get_parent(),false)
+ hud.close_button.mouse_filter=Control.MOUSE_FILTER_STOP
+ if hud.has_meta(AXES):hud.remove_meta(AXES)
+ hud.set_meta(GRID,true);fit_dock(hud)
+static func fit_dock(hud)->void:
+ var font=hud.instrument_info.get_theme_font_size("font_size")
+ var caption=hud.host.sim.units[hud.host.sim.selected].name+" / "+hud.page.to_upper()
+ hud.order_dock_context.text=""
+ if hud.page=="craft" and hud.host.order_buttons.camera in hud.ring_buttons:
+  hud.order_dock_context.text="\n".join(hud.camera_caption())
+ if hud.page in ["object","salvage","plant","habitat"]:
+  hud.order_dock_context.text=str(hud.subject.get("name","OBJECT"))+"\n"+"\n".join(hud.WorkTask.captions(hud.host.sim,hud.subject))
+ if hud.page=="choose":hud.order_dock_context.text=str(hud.subject.get("name","OBJECT"))+"\nCRAFT OR OBJECT?"
+ if hud.page=="fleet":hud.order_dock_context.text=str(hud.get_meta(HINT,""))
+ hud.order_dock_context.visible=not hud.order_dock_context.text.is_empty()
+ hud.order_dock_context.add_theme_font_size_override("font_size",font)
+ hud.order_dock_header.text=caption;hud.order_dock_header.add_theme_font_size_override("font_size",font)
+ var top=maxf(hud.host.pause_button.get_rect().end.y,hud.alarm.get_rect().end.y if hud.alarm.visible else 0.)+12.
+ if hud.has_meta("hunt_meter_button"):
+  var meter=hud.get_meta("hunt_meter_button")
+  if meter.visible:top=maxf(top,hud.touch_height+24.+meter.size.y)
+ var width=minf(hud.size.x*.52,hud.host.ocean.optical_feed.preferred_width())
+ hud.host.ocean.command_dock_width=width
+ var mirrored=preload("res://src/presentation/frontend/frontend_settings.gd").current.get("mirrored_hud",false)
+ hud.host.ocean.command_dock_left=mirrored
+ hud.order_dock.position=Vector2(12 if mirrored else hud.size.x-width-12,top)
+ hud.order_dock.size=Vector2(width,maxf(1.,hud.size.y-top-12.))
+ hud.order_dock.show();hud.order_dock.move_to_front()
 static func fit_sheet(hud)->void:
  if not Table.enabled or not Layout.enabled or not hud.host.advanced_orders or not hud.sheet.visible:return
  var area=_area(hud);var m=Layout.MARGIN;var top=hud.touch_height+Layout.HEADER_OFFSET

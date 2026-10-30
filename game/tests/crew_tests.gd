@@ -83,13 +83,13 @@ func step(s,seconds):
  s.paused=false
  for n in ceili(seconds*60):s.advance(Sim.STEP)
  s.paused=true
-func recorded_crew(facts:Dictionary,key:String,name:String,op:int):
+func recorded_crew(facts:Dictionary,key:String,name:String,op:int,row_id:String=""):
  check(facts.has(key),"existing completion records "+key)
  var panels=Ledger.build({"selected_thread":"deep","facts":facts},{})
  check(panels[0].rows.any(func(r):return r.begins_with(name+": recorded as ")),"ledger reads completion "+key)
  var lines=Crew.briefing_lines(facts,op)
  check(lines.size()==1,"one crew line for completion "+key)
- check(Crew.briefing_lines(facts,op)==lines and Crew.present(facts).filter(func(r):return r.id==key).size()==1,"repeated read never duplicates crew "+key)
+ check(Crew.briefing_lines(facts,op)==lines and Crew.present(facts).filter(func(r):return r.id==(key if row_id.is_empty() else row_id)).size()==1,"repeated read never duplicates crew "+key)
  var economy=Economy.new_state();var before=economy.duplicate(true)
  Crew.credit(economy,{}, {"facts":facts});Crew.credit(economy,{"facts":facts},{"facts":facts})
  check(economy==before,"briefing-only crew never changes stock "+key)
@@ -108,12 +108,18 @@ func rescue_completions():
  recorded_crew(after.facts,"tessaly_divers","Tessaly divers",14)
  check(Campaign.valid(after),"divers optional fact survives campaign validation")
  check(Campaign.recover(after,s.mission)==after,"repeat recovery preserves first divers record")
+ check(Crew.present({"varne_staff":"service"}).any(func(row):return row.id=="varne_staff"),"legacy Varne staff fact still supplies the recorded crew")
+ check(not Crew.present({"glass_choice":"unknown","varne_staff":"service"}).any(func(row):return row.id=="varne_staff"),"canonical Varne choice takes precedence over legacy alias")
+ var legacy=p.duplicate(true);legacy.notes["varne_staff"]="service"
+ check(Campaign.valid(legacy),"legacy Varne staff campaign notes remain loadable")
+ var saved=Sim.new();saved.start(18);saved.mission.expedition_facts["varne_staff"]="service"
+ check(Sim.valid_snapshot(saved.snapshot()),"legacy Varne staff active mission remains loadable")
  for action in ["service","sever"]:
   s=Sim.new();s.start(18);s.sirens=[]
-  check(not s.mission.expedition_facts.has("varne_staff"),"no Varne fact before work "+action)
+  check(not s.mission.expedition_facts.has("glass_choice"),"no Varne fact before work "+action)
   s.units[0].pos=s.mission.glass_reach.work_pos;s.units[0].vel=Vector2.ZERO
   check(s.command("glass_action",{"action":action}),"start existing habitat work "+action);step(s,8.2)
-  recorded_crew(s.mission.expedition_facts,"varne_staff","Varne staff",19)
+  recorded_crew(s.mission.expedition_facts,"glass_choice","Varne staff",19,"varne_staff")
   check(Sim.valid_snapshot(s.snapshot()),"Varne completion save validates "+action)
  s=Sim.new();s.start(25);s.sirens=[]
  check(not s.mission.expedition_facts.has("hollins_last_shift"),"no Hollins fact before arrival")

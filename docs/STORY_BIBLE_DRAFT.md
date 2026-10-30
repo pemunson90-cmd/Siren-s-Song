@@ -72,6 +72,6 @@ Modifiers inside each family: witness_arrival names which craft physically carri
 ## 6. Decisions for Pat
 1. Does the op 6 deep or shelf choice mean "drilling crews first" or "military crews first"? (yes or change)
 2. Overt endings: should one of them be Quietus learned as harmless (OPEN WATER) and the other Quietus marked (MARKED), or should both overt endings mark it? (choice)
-3. Should saturation divers be a real rule: carried survivors with a maximum ascent rate that limits how fast Quietus can change bands? (yes or no)
+3. [PAT, handoff 102, 29 Oct 2026] RULED provisionally: "For now* Yes*". Carried survivors slow ascent; exact timing remains AI-DESIGNED for retuning.
 4. Approve the three title renames in section 3? (yes, no, or your names)
 5. Keep Foreman Rill and Nera from the current Iron Choir accounts, given new surnames and drilling roles, or replace them? (keep or replace)

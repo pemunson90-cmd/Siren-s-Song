@@ -1,7 +1,5 @@
 extends RefCounted
 # Fit surface tunables. AI-DESIGNED (Pat tunes the order and wording).
-# Seam: fit_surface.gd. Revert: set enabled=false and fittings plus the briefing return to the flat legacy list.
-const enabled=true
 # Mount sections in reading order. Items whose mount is empty or unknown fall under OTHER.
 const MOUNT_ORDER=["SENSOR","HARDWARE","UTILITY","OPTICS","PROPULSION","CARGO"]
 const OTHER="OTHER"

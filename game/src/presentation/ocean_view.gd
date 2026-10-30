@@ -35,17 +35,15 @@ var quality_tier:String=Quality.STANDARD:
 		if quality_tier==Quality.normalize(value):return
 		quality_tier=Quality.normalize(value)
 		queue_redraw()
-var quality_gate=preload("res://src/presentation/quality/quality_governor.gd").new()
+var quality_gate=preload("res://src/presentation/quality/redraw_gate.gd").new()
 var quality_gesture_active:=false
 var _quality_visual_key:int=0
-var quality_draw_count:=0 # Actual CanvasItem draw callbacks, useful for scoped runtime probes.
 var rocks: Array = []
 var foundry=preload("res://assets/structures/foundry.png")
 var quietus=preload("res://assets/craft/quietus.png")
 var basalt=preload("res://assets/materials/basalt.png")
 # Presentation-only static contours. Disable to rebuild the identical points on
 # every draw; cache retains only the last world extent and never reads sim state.
-var contour_cache_enabled := true
 var _contour_extent := Vector2(-1,-1)
 var _contour_points: Array = []
 var camera_flash := 0.0
@@ -55,6 +53,11 @@ var knock_touch_size:=48.0
 var feedback_font_size:=14
 var instrument_top:=64.0
 var ui_blocked_rects:Array=[]
+var optical_suppressed:=false
+var command_dock_width:=0.
+var command_dock_left:=false
+var status_floor:=0.
+var planning_size:=Vector2.ZERO
 var instrument_height=48.
 var oxygen_capacity=100.
 var fleet_instruments
@@ -105,7 +108,11 @@ func pick_context(point:Vector2,touch:float) -> Dictionary:
 	if not industrial.is_empty():return industrial
 	if sim.mission.has("glass_reach") and sim.mission.glass_reach.artifact.is_empty():
 		var pos=sim.mission.glass_reach.work_pos
-		if point.distance_to(screen_position(pos))<maxf(touch*.5,24*world_scale):return {"kind":"objective","subkind":"glass_work","name":"REACH MACHINERY","pos":pos}
+		if point.distance_to(screen_position(pos))<maxf(touch*.5,24*world_scale):
+			# 119: a public machine whose work is CAMERA owns its own projection.
+			var machine=_machine_at(pos)
+			if machine>=0:return {"kind":"objective","index":machine,"name":observable_sites()[machine].name,"pos":observable_sites()[machine].pos}
+			return {"kind":"objective","subkind":"glass_work","name":"REACH MACHINERY","pos":pos}
 	for marker in salvage_markers():
 		if marker.rect.has_point(point):return {"kind":"salvage","item":marker.site.item,"name":marker.site.name.to_upper(),"pos":marker.site.pos}
 	var shelter=Shelf.pick(self,sim,point,touch,false)
@@ -114,17 +121,34 @@ func pick_context(point:Vector2,touch:float) -> Dictionary:
 	if not recipient.is_empty():return recipient
 	var tender=Rendezvous.pick(self,sim,point,touch,false)
 	if not tender.is_empty():return tender
+	choices=craft_at(point,touch)
+	# Keep an occupied ordinary object available for explicit recipient choice.
+	if choices.any(func(id):return id!=sim.selected):
+		var object=objective_context(point,touch)
+		if not object.is_empty():return object
+	if choices.size()>1:return {"kind":"fleet","pos":map_position(point)}
+	if choices.size()==1:return {"kind":"craft","unit":choices[0],"pos":sim.units[choices[0]].pos}
+	tender=Rendezvous.pick(self,sim,point,touch)
+	if not tender.is_empty():return tender
+	return objective_context(point,touch)
+# Living craft whose real hit shape contains the point (shared with the
+# 119 craft/object choice so both use the same touch geometry).
+func craft_at(point:Vector2,touch:float)->Array:
+	_sync_camera();var choices=[]
 	for id in sim.units.size():
 		var u=sim.units[id]
 		if not u.alive:continue
 		var local=(point-screen_position(u.pos)).rotated(-u.angle)
 		var half=Vector2(66,18)*world_scale if id==0 else Vector2(18,8)*world_scale
 		if Rect2(-half,half*2).grow(touch*.32).has_point(local):choices.append(id)
-	if choices.size()>1:return {"kind":"fleet","pos":map_position(point)}
-	if choices.size()==1:return {"kind":"craft","unit":choices[0],"pos":sim.units[choices[0]].pos}
-	tender=Rendezvous.pick(self,sim,point,touch)
-	if not tender.is_empty():return tender
-	return objective_context(point,touch)
+	return choices
+# Reach work positions without local Reach actions coincide with a CAMERA machine.
+func _machine_at(pos:Vector2)->int:
+	if sim.mission.id in [15,18,19]:return -1
+	var sites=observable_sites()
+	for id in sites.size():
+		if sites[id].has("glass_effect") and sites[id].pos.distance_to(pos)<1.:return id
+	return -1
 func objective_context(point:Vector2,touch:float)->Dictionary:
 	var wake=Wake.pick(self,sim,point,touch)
 	if not wake.is_empty():return wake
@@ -146,8 +170,14 @@ func objective_context(point:Vector2,touch:float)->Dictionary:
 	return Expedition.pick(self,sim,point,touch)
 func salvage_markers()->Array:
 	return preload("res://src/presentation/module_recovery_view.gd").markers(self,sim,instrument_height)
+func chart_width()->float:
+	if command_dock_width>0:return size.x-command_dock_width-28.
+	if not presenting_mission or sim==null or optical_feed==null or not optical_feed.viewfinder_visible(sim):return size.x
+	return size.x-minf(size.x*.52,optical_feed.preferred_width())-28.
+func chart_origin()->Vector2:
+	return Vector2(command_dock_width+28.,0.) if command_dock_left and command_dock_width>0. else Vector2.ZERO
 func _sync_camera() -> void:
-	chart_camera.configure(size,world_size())
+	chart_camera.configure(planning_size if planning_size.x>0 else size,world_size(),chart_origin())
 	if chart_camera.mode=="follow" and sim!=null:chart_camera.follow(sim.units[sim.selected].pos)
 	world_scale=chart_camera.scale;world_offset=chart_camera.offset
 func focus_craft() -> void:
@@ -162,10 +192,16 @@ func fit_chart() -> void:
 func _process(dt: float) -> void:
 	phase+=dt; camera_flash=Palette.pulse(maxf(0,camera_flash-dt),minf(.08,maxf(0,camera_flash-dt)));_sync_camera()
 	if optical_feed!=null:
-		optical_feed.sim=sim; optical_feed.visible=presenting_mission and sim!=null and sim.outcome.is_empty() and optical_feed.viewfinder_visible(sim)
-		var height=minf(maxf(300,optical_feed.touch_height*4.8),size.y-instrument_top-54)
-		optical_feed.size=Vector2(minf(size.x-28,optical_feed.preferred_width()),height)
-		optical_feed.position=Vector2(14,maxf(instrument_top+40,size.y-height-14))
+		optical_feed.sim=sim; optical_feed.visible=not optical_suppressed and presenting_mission and sim!=null and sim.outcome.is_empty() and optical_feed.viewfinder_visible(sim)
+		# Reserve an optical dock beside the chart, above the reflowing status.
+		var width=minf(size.x*.52,optical_feed.preferred_width())
+		var top=instrument_top+4.
+		var height=minf(optical_feed.preferred_height(),maxf(1.,size.y-top-14.))
+		if optical_feed.compact:height=maxf(optical_feed.touch_height,optical_feed.receiver_font_size+14.)+8.
+		optical_feed.size=Vector2(width,height)
+		optical_feed.position=Vector2(size.x-width-14.,top)
+		planning_size=Vector2(chart_width(),status_floor if status_floor>0. else size.y)
+
 	var visual_key=hash([world_scale,world_offset,size,presenting_mission,quality_tier,decoy_targeting,knock_targeting,sim.selected if sim!=null else -1])
 	var changed=visual_key!=_quality_visual_key
 	_quality_visual_key=visual_key
@@ -229,18 +265,16 @@ func knock_aim_key(point:Vector2) -> int:
 	# A broad phone hit area cannot infer intent between overlapping bodies.
 	return hits[0] if hits.size()==1 else -1
 func _depth_contours(extent: Vector2) -> Array:
-	if contour_cache_enabled and extent==_contour_extent:return _contour_points
+	if extent==_contour_extent:return _contour_points
 	var lines: Array=[]
 	for n in int(ceil(extent.y/135.0)):
 		var points=PackedVector2Array()
 		for k in int(ceil(extent.x/38.0))+1:
 			points.append(Vector2(k*38,80+n*135+sin(k*0.19+n)*32))
 		lines.append(points)
-	if contour_cache_enabled:
-		_contour_extent=extent;_contour_points=lines
+	_contour_extent=extent;_contour_points=lines
 	return lines
 func _draw() -> void:
-	quality_draw_count+=1
 	if sim==null or ocean==null: return
 	_sync_camera()
 	draw_rect(Rect2(Vector2.ZERO,size),Color("050f17"))
@@ -265,7 +299,7 @@ func _draw() -> void:
 			var area:Rect2=front.area
 			draw_rect(area,Color(0.22,0.54,0.7,0.07))
 			draw_rect(area,Color(0.36,0.66,0.78,0.38),false,1.2/world_scale)
-			_label(area.position+Vector2(120,106),str(sim.mission.get("photo_lane","COLD FRONT")),Color(0.46,0.7,0.78,0.8),14)
+			_label(area.position+Vector2(120,106),str(sim.mission.get("photo_lane","COLD FRONT"))+" / "+sim.Thermal.BAND_NAMES[sim.Thermal.band(sim.mission)],Color(0.46,0.7,0.78,0.8),14)
 	_draw_departure()
 	# Own cached camera wash sits below stone and unknown-water fog. It does
 	# not query photographic columns, hidden terrain, enemies or visibility.
@@ -412,7 +446,7 @@ func _draw() -> void:
 		var aim=float(c.angle)
 		var observed_target=sim.contact_target(c)
 		if fresh and c.lock>0 and not observed_target.is_empty(): aim=c.pos.angle_to_point(observed_target.pos)
-		_siren(c.pos,aim,fresh,c.get("type","patroller"),maxf(0,float(c.get("pin_time",0))-(sim.elapsed-c.time)) if fresh else 0.0)
+		_siren(c.pos,aim,fresh,preload("res://src/simulation/contact_identity.gd").contact_type(c),maxf(0,float(c.get("pin_time",0))-(sim.elapsed-c.time)) if fresh else 0.0)
 		if fresh and c.lock>0:
 			if not observed_target.is_empty() and observed_target.alive and sim.line_clear(c.pos,observed_target.pos):
 				var target:Vector2=observed_target.pos
@@ -621,9 +655,13 @@ func _craft(u: Dictionary,index: int) -> void:
 	if index==sim.selected:
 		draw_line(p+Vector2(-55,-38),p+Vector2(-42,-38),CYAN,2)
 		draw_line(p+Vector2(-55,-38),p+Vector2(-55,-25),CYAN,2)
+		# 119: persistent selected-craft ring, outside the high-contrast outline.
+		draw_arc(p,84. if index==0 else 36.,0,TAU,48,Color(CYAN,.85),maxf(2.,3./world_scale))
 	draw_set_transform(world_offset+p*world_scale,u.angle,Vector2.ONE*world_scale)
 	if ArtTable.enabled:
-		Art.craft(self,index)
+		var fittings:Dictionary=sim.mission.get("launch_equipment",{})
+		var frame=str(fittings.get("hull","standard")) if index==0 else str(fittings.get("chassis_a" if index==1 else "chassis_b","standard"))
+		Art.craft(self,index,frame)
 	elif index==0:
 		draw_texture_rect_region(quietus,Rect2(-66,-17,132,34),Rect2(60,145,1940,390))
 		if u.vel.length()>8:

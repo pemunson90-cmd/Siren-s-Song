@@ -5,7 +5,7 @@ const Records=preload("res://src/campaign/runs/run_records.gd")
 const Catalog=preload("res://src/campaign/operation_catalog.gd")
 const Tools=preload("res://src/equipment/field_tools.gd")
 static func lines(row:Dictionary)->Array:
-	var out=["SEED %d / %d OF %d OPERATIONS CLEARED"%[row.seed,row.depth,row.total],Records.modifiers(row)]
+	var out=["SEED %d / %d OF %d OPERATIONS CLEARED"%[row.seed,row.depth,row.total],Records.modifiers(row).replace("STARTING HUNT","EXPEDITION HUNT")]
 	out.append("RESOURCES / CHARGES SPENT + GAINED")
 	for key in Records.Table.TOOLS:
 		out.append("%s: %d spent / %d gained"%[Tools.spec(key).name,row.spent[key],row.gained[key]])

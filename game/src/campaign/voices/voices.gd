@@ -3,7 +3,6 @@ extends RefCounted
 # one debrief line) from the recurring characters, and the log of lines the player received.
 # Seam: presentation/archive/voice_feed.gd shows lines at briefing, HUD log row and debrief and
 # persists the log as the optional archive field "voices" (registered in persistence/save_checks.gd).
-# Data: voices_table.gd. Revert: Table.enabled=false. An absent field means nothing received yet.
 # Pure rules, no simulation writes. Fair information: a mid-dive line fires only on the player's
 # own progress (a captured objective, a retrieved carrier or a finished site job).
 const Table=preload("res://src/campaign/voices/voices_table.gd")
@@ -15,7 +14,7 @@ static func key(op:int,slot:String)->String:
 static func row(op:int,slot:String)->Dictionary:
 	if op==41 and not preload("res://src/campaign/sorley_rescue.gd").enabled:return {}
 	var slot_index=Table.SLOTS.find(slot)
-	if not Table.enabled or slot_index<0:return {}
+	if slot_index<0:return {}
 	var set:Array=Table.LINES.get(op,Table.GENERIC if op in Table.GENERIC_IDS else [])
 	if slot_index>=set.size():return {}
 	return {"speaker":Table.SPEAKERS[set[slot_index][0]],"text":set[slot_index][1]}

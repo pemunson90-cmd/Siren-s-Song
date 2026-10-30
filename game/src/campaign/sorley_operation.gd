@@ -20,6 +20,6 @@ static func build(c:Dictionary,history:Dictionary={})->Dictionary:
  preload("res://src/campaign/divergence_missions.gd")._patrol(m,Vector2(900,1180),[Vector2(900,1180),Vector2(1150,1550),Vector2(1650,1540),Vector2(1600,1160)])
  m.sirens[1].type="hunter";m.sirens[1].band=1
  m.endurance={"oxygen_seconds":600.,"drone_seconds":480.}
- m.brief="Sorley's boy is at the SHALLOW air-pocket window (1450,980). Approach below the eastern patrol, ascend outside the wreck, then WINCH the sealed pod within60m after settling. LAND at SOUTH BOAT LIFT (300,1500) in MIDDLE; recover Quietus there too.\nThe 4s winch is audible. Bare Quietus can wait for the patrol and use depth and the long southern return. An intact drone landing without a lock warning or hull damage earns extra supplies: scout first, reserve power, and use finite Disrupt or silt to protect the transfer."
- m.record="Sorley's boy was landed at the south boat. Supplies from his father are aboard Brannock."
+ m.brief="Sorley's boy is at the SHALLOW air-pocket window (1450,980). Approach below the eastern patrol, ascend outside the wreck, then WINCH the sealed pod within60m after settling. LAND at SOUTH BOAT LIFT (300,1500) in MIDDLE; recover Quietus there too.\nThe 4s winch is audible. Bare Quietus can wait for the patrol and use depth and the long southern return. Bringing him home earns MIDDLE-water pilotage charts for Needle Strait and Furnace Drift. An intact drone can keep Quietus safely at the lift: scout first, reserve power, and use finite Disrupt or silt to protect the transfer."
+ m.record="Sorley's boy was landed at the south boat. Pilotage charts from his father are aboard Brannock."
  return m

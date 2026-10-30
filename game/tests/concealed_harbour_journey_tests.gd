@@ -39,9 +39,9 @@ func go(s,point:Vector2,quiet:bool=true)->bool:
   tick(s)
  print("STUCK ",point," actual ",s.units[0].pos," ",s.message);return false
 func run_case(thread:String,placement:String,north:bool=true):
- var s=Sim.new();s.start(12,"endurance",{"context":{"thread":thread,"completed":[6,7,9,11] if thread=="deep" else [6,8,10,11],"facts":{},"references":{}}})
+ var s=Sim.new();s.start(12,"endurance",{"tool_racks":{"quietus":{},"drone_a":{},"drone_b":{}},"context":{"thread":thread,"completed":[6,7,9,11] if thread=="deep" else [6,8,10,11],"facts":{},"references":{}}})
  s.units[1].alive=false;s.units[2].alive=false
- s.tools={"emp":0,"recon":0,"decoy":0,"knock":0};distance=0;drag_reaction=false;tow_clip=false;reply_heard=false;reply_investigation=false
+ distance=0;drag_reaction=false;tow_clip=false;reply_heard=false;reply_investigation=false
  var success=true
  var approach=[Vector2(580,1900),Vector2(1380,1940),Vector2(1380,1100),Vector2(1840,800)] if thread=="deep" else [Vector2(580,1900),Vector2(1380,1940),Vector2(1380,1600),Vector2(1800,1200),Vector2(1840,800)]
  for p in approach:

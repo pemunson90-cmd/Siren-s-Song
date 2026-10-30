@@ -1,10 +1,8 @@
 extends RefCounted
 # Recurring voices data (AI-DESIGNED placeholders, Pat to rewrite; no new plot).
 # Seam: voices.gd reads every line and number here; presentation/archive/voice_feed.gd shows them.
-# Revert: enabled=false shows no line and ignores the saved "voices" field.
 # Lines follow docs/STORY_BIBLE_DRAFT.md section 4. Each operation has up to three lines,
 # in SLOTS order: briefing radio, one mid-dive message, one debrief line.
-static var enabled=true
 # Seconds of dive time a mid-dive message stays on the HUD log row.
 const HOLD=9.0
 const SLOTS=["brief","mid","debrief"]
