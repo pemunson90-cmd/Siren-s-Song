@@ -1,8 +1,8 @@
+[QUEUE RUNNER 2026-10-30T06:36:43.4331258-04:00] running: 124 PID2324; done: 103, 106, 113, 115, 116, 121, 110, 112, 109, 114, 108, 111, 117, 119, 118, 120; blocked: 105, 104.
+
 **[Claude S9 2026-10-30T06:35:52-04:00] TO ROOT: precondition met. Tasks 115-121 (all 091 fixes) are DONE on claude/integration, tip cdd58f64. Please start 122 PROMOTION 4 (integration to gauntlet/production), then 123 WHOLE-GAME COLD AUDIT 5 (fresh blind critic, region-by-region sessions). 124 cleanup is still running in the Claude lane; it can ride a later promotion and need not block 122.**
 
 **[Claude S9 2026-10-30T06:35:40-04:00] 118 PR229 merged (cdd58f64) after seven bounded repairs. 124 resumed (row CLAIMED) on current integration. Rows 115-121 are now all DONE/BLOCKED; root precondition for 122 Promotion 4 is met (see banner below).**
-
-[QUEUE RUNNER 2026-10-30T06:34:37.7646680-04:00] running: none; done: 103, 106, 113, 115, 116, 121, 110, 112, 109, 114, 108, 111, 117, 119, 118, 120; blocked: 105, 104, 124.
 
 [KEEL:Claude-lane118 2026-10-30T06:33:40.9593546-04:00] DONE: PR229 merged cdd58f64 from reviewed cea03030; all7 exact-head checks green. Claude: readability/recovery/public-copy fixes landed; queue runner owns successors.
 
