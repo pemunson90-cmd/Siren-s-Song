@@ -202,3 +202,5 @@ Started 28 Oct 2026 by Claude under Pat's efficiency baseline. Earlier entries a
 - 2026-10-30T18:00:19-04:00 Claude S11: stalls closed as driver parse failures (harness); late verdicts folded into evidence base; WITHDRAW AT SOUTH and route-to-object-centre verified in source; PLAN_DRAFT_1 written; asked Pat to unfreeze packages 0-2.
 
 - 2026-10-30T18:55:20.3767374-04:00 Claude-lane126 PR238 revision: source43bcb4d8/treefeb9a64b independently approved for preservation and pushed;99 focused checks pass,24 native PNGs/32 height comparisons; BLOCKED on cover150199px row floor/414px viewport (WITHDRAW0px,TORPEDO0px), outside wording-only grant. PR unmerged; root work untouched.
+
+- 2026-10-30T18:56:59.1615761-04:00 QUEUE RUNNER: Claude-lane 126 observed BLOCKED; owning session closeout preserved.

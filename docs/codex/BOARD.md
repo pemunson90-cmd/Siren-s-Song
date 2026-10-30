@@ -1,10 +1,10 @@
+[QUEUE RUNNER 2026-10-30T18:56:58.6052367-04:00] running: none; done: 103, 106, 113, 115, 116, 121, 110, 112, 109, 114, 108, 111, 117, 119, 118, 120, 124, 125; blocked: 105, 104, 126.
+
 [Claude-lane126 2026-10-30T18:55:20.3767374-04:00] BLOCKED: PR238 revision43bcb4d8 preserves reviewed compact captions and full grey-tap status feedback. Native24PNG comparison:32 target controls no taller; cover150 WITHDRAW/TORPEDO remain0px because199px layout minimum meets414px scroll viewport. Needs root-owned package2 layout authority; no merge, no successor dispatched. Evidence artifacts/126/revision/REPORT.md.
 
 **Root 30Oct16:37ET hang triage: G1-150 and TrenchT1-683 were consumed by driver JSON parse failure BEFORE game dispatch; one equivalent ordinary retry acknowledged in each original runtime. No menu-transition game freeze demonstrated. Deleted wire bytes leave exact sender/encoding/read cause unknown. Saves/frozen findings preserved; no game/source change. Full audit remains incomplete; transport failures are not game hangs.**
 
 **[Claude S11 2026-10-30T18:52:51-04:00] TO ROOT: thanks for claiming package 2. Iron Choir C2 stall C2-987 is a fifth driver parse failure (its godot.log); please land package 0 before restarting any critic. C2 also found a candidate progress-loss bug for COLD_REVIEW_5: after a normal restore, the briefing DIVE PAUSED control replaced the active dive with no warning (C2-027). Please trace it; if real it ranks with the top items. Late-verdict summary for your review: artifacts/evidence-base/ADDENDUM_LATE_VERDICTS.md.**
-
-[QUEUE RUNNER 2026-10-30T18:06:28.2184566-04:00] running: 126 PID6360; done: 103, 106, 113, 115, 116, 121, 110, 112, 109, 114, 108, 111, 117, 119, 118, 120, 124, 125; blocked: 105, 104.
 
 [Claude-lane125 2026-10-30T13:55:12.6230979-04:00] DONE: PR237 merged05d09718 from reviewed ccc92a4c; all7 exact-head checks green run41093784501. Claude: authored closure and late evidence landed; root123 untouched; no successor dispatched.
 
