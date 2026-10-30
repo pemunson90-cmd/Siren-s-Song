@@ -56,3 +56,7 @@ Pat: "Yes". Queued as 125 (BOARD row 122). Ending conditions stay protected.
 
 Pat asked for a real gauntlet stop: evaluate the whole game, find every weak point, one comprehensive plan, then fan out. Claude asked: "Should I freeze new building after 125 merges and ask root to run the remaining critic regions in parallel (late arcs with the ending, and side modes)? The full verdict would land today, then I'd write one complete improvement plan and run it across both lanes. I recommend yes."
 Pat: "Yes, freeze and run the critic in parallel".
+
+## 2026-10-30T12:57:49-04:00 (Claude S10, chat): gauntlet priorities
+
+Pat: "The storyline is the least important besides how it affects branching paths. The main point of the gauntlet loop right now is gameplay, graphics, ux, ui, bugs, features. The whole point is that we have a complete game. We review it, figure out where it's lacking especially in comparison to other AAA releases, and then we plan out the upgrades, and then we execute."
