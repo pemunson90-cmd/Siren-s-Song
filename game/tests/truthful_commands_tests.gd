@@ -67,6 +67,13 @@ func run():
  check(button.text=="ROUTE\nMIDDLE","native radial route and short band token each fit one line")
  button.text="TORPEDO\n0";Copy.reason_button(button,"Quietus only")
  check(button.text=="TORPEDO\n0","native radial retains tool count without adding a third rendered line")
+ for op in [16,17,20]:
+  sim.start(op)
+  var caption=Copy.recovery_label(sim)
+  var distance=roundi(sim.units[0].pos.distance_to(sim.mission.extraction))
+  check(distance>=1000 and caption.ends_with("%dm"%distance),"distant actual recovery retains exact metres op%d"%op)
+  for line in caption.split("\n"):
+   check(button.get_theme_font("font").get_string_size(line,HORIZONTAL_ALIGNMENT_LEFT,-1,38).x<=223.85,"actual recovery fits native radial line width op%d: %s"%[op,line])
  button.free()
  var g=load("res://scenes/main.tscn").instantiate();g.set_script(load("res://tests/density_main.gd"));g.store.path="user://truthful-commands.save";g.capture_scenario="runtime-test"
  root.add_child(g);await frames();g.set_process(false)

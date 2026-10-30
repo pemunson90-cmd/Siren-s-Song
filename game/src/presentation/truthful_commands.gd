@@ -266,8 +266,11 @@ static func recovery_label(sim)->String:
  for pair in [["NORTH","N."],["SOUTH","S."],["EAST","E."],["WEST","W."]]:name=name.replace(pair[0],pair[1])
  name=name.replace(" RECOVERY","").replace(" MOUTH","")
  name=name.replace("REACH","RCH").replace("COLLAR","CLR").replace(" ","")
- if name.length()>5:name=name.left(5)
- return "WITHDRAW\n%s%dm"%[name,roundi(sim.units[0].pos.distance_to(sim.mission.extraction))]
+ var distance=roundi(sim.units[0].pos.distance_to(sim.mission.extraction))
+ # Keep exact metres on distant mouths without wrapping the native radial.
+ # Direction plus the mouth's initial remains identifiable in the full chooser.
+ name=name.left(3 if distance>=1000 else 5)
+ return "WITHDRAW\n%s%dm"%[name,distance]
 
 static func activate(hud,button)->void:
  if not button.disabled:
