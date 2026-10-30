@@ -108,7 +108,11 @@ func pick_context(point:Vector2,touch:float) -> Dictionary:
 	if not industrial.is_empty():return industrial
 	if sim.mission.has("glass_reach") and sim.mission.glass_reach.artifact.is_empty():
 		var pos=sim.mission.glass_reach.work_pos
-		if point.distance_to(screen_position(pos))<maxf(touch*.5,24*world_scale):return {"kind":"objective","subkind":"glass_work","name":"REACH MACHINERY","pos":pos}
+		if point.distance_to(screen_position(pos))<maxf(touch*.5,24*world_scale):
+			# 119: a public machine whose work is CAMERA owns its own projection.
+			var machine=_machine_at(pos)
+			if machine>=0:return {"kind":"objective","index":machine,"name":observable_sites()[machine].name,"pos":observable_sites()[machine].pos}
+			return {"kind":"objective","subkind":"glass_work","name":"REACH MACHINERY","pos":pos}
 	for marker in salvage_markers():
 		if marker.rect.has_point(point):return {"kind":"salvage","item":marker.site.item,"name":marker.site.name.to_upper(),"pos":marker.site.pos}
 	var shelter=Shelf.pick(self,sim,point,touch,false)
@@ -117,17 +121,34 @@ func pick_context(point:Vector2,touch:float) -> Dictionary:
 	if not recipient.is_empty():return recipient
 	var tender=Rendezvous.pick(self,sim,point,touch,false)
 	if not tender.is_empty():return tender
+	choices=craft_at(point,touch)
+	# Keep an occupied ordinary object available for explicit recipient choice.
+	if choices.any(func(id):return id!=sim.selected):
+		var object=objective_context(point,touch)
+		if not object.is_empty():return object
+	if choices.size()>1:return {"kind":"fleet","pos":map_position(point)}
+	if choices.size()==1:return {"kind":"craft","unit":choices[0],"pos":sim.units[choices[0]].pos}
+	tender=Rendezvous.pick(self,sim,point,touch)
+	if not tender.is_empty():return tender
+	return objective_context(point,touch)
+# Living craft whose real hit shape contains the point (shared with the
+# 119 craft/object choice so both use the same touch geometry).
+func craft_at(point:Vector2,touch:float)->Array:
+	_sync_camera();var choices=[]
 	for id in sim.units.size():
 		var u=sim.units[id]
 		if not u.alive:continue
 		var local=(point-screen_position(u.pos)).rotated(-u.angle)
 		var half=Vector2(66,18)*world_scale if id==0 else Vector2(18,8)*world_scale
 		if Rect2(-half,half*2).grow(touch*.32).has_point(local):choices.append(id)
-	if choices.size()>1:return {"kind":"fleet","pos":map_position(point)}
-	if choices.size()==1:return {"kind":"craft","unit":choices[0],"pos":sim.units[choices[0]].pos}
-	tender=Rendezvous.pick(self,sim,point,touch)
-	if not tender.is_empty():return tender
-	return objective_context(point,touch)
+	return choices
+# Reach work positions without local Reach actions coincide with a CAMERA machine.
+func _machine_at(pos:Vector2)->int:
+	if sim.mission.id in [15,18,19]:return -1
+	var sites=observable_sites()
+	for id in sites.size():
+		if sites[id].has("glass_effect") and sites[id].pos.distance_to(pos)<1.:return id
+	return -1
 func objective_context(point:Vector2,touch:float)->Dictionary:
 	var wake=Wake.pick(self,sim,point,touch)
 	if not wake.is_empty():return wake
@@ -634,6 +655,8 @@ func _craft(u: Dictionary,index: int) -> void:
 	if index==sim.selected:
 		draw_line(p+Vector2(-55,-38),p+Vector2(-42,-38),CYAN,2)
 		draw_line(p+Vector2(-55,-38),p+Vector2(-55,-25),CYAN,2)
+		# 119: persistent selected-craft ring, outside the high-contrast outline.
+		draw_arc(p,84. if index==0 else 36.,0,TAU,48,Color(CYAN,.85),maxf(2.,3./world_scale))
 	draw_set_transform(world_offset+p*world_scale,u.angle,Vector2.ONE*world_scale)
 	if ArtTable.enabled:
 		var fittings:Dictionary=sim.mission.get("launch_equipment",{})

@@ -56,6 +56,11 @@ func stock_reference(game):
   game._refresh();await settle()
   check(sim.snapshot()==before and row(fleet,0).reserves[1]==warning and fleet.telemetry[0].visible,"binary restore retains the same reserve scale and numeric critical state")
   for suffix in ["",".bak",".tmp"]:DirAccess.remove_absolute(store.path+suffix)
+# Occupied objectives now require an explicit recipient choice before selection.
+func choose_craft_if_needed(game,id:int,selected_before:int):
+ if game.mission_hud.page!="choose":return
+ check(game.sim.selected==selected_before and id in game.mission_hud.choose_units,"object conflict preserves recipient until explicit craft choice")
+ await tap(game.mission_hud.extra["choose_unit_"+str(id)].get_global_rect().get_center())
 func controls_friction(game,name:String):
  var s=game.sim;var hud=game.mission_hud;var ocean=game.ocean;var fleet=hud.fleet
  hud.dismiss();s.command("select",{"unit":0})
@@ -102,7 +107,9 @@ func controls_friction(game,name:String):
   if not target.is_visible_in_tree():continue
   var offscreen=row(fleet,id).get("offscreen",false)
   var camera=ocean.chart_camera.snapshot()
+  var selected_before=s.selected
   await tap(target.get_global_rect().get_center())
+  await choose_craft_if_needed(game,id,selected_before)
   check(s.selected==id,"handle touch chooses its craft "+name)
   check(ocean.chart_camera.mode=="follow" if offscreen else ocean.chart_camera.snapshot()==camera,"handle touch preserves view intent instead of fitting "+name)
   check(not game.zoom_buttons[2].is_visible_in_tree(),"handle touch never exposes or presses FIT "+name)
@@ -148,8 +155,15 @@ func run():
   s.command("chain_power",{"mode":"disconnect"});game._refresh()
   hud.dismiss();await settle()
   var before=tactical(s);var at=fleet.buttons[1].get_global_rect().get_center()
+  var was_offscreen=row(fleet,1).get("offscreen",false)
+  var selected_before=s.selected
   await tap(at)
-  check(s.selected==1 and game.advanced_orders and hud.page=="craft","one body tap selects and opens its actual context")
+  await choose_craft_if_needed(game,1,selected_before)
+  if was_offscreen and not game.advanced_orders:
+   check(s.selected==1 and ocean.chart_camera.mode=="follow","edge handle first focuses its craft without opening a stale context")
+   await tap(fleet.buttons[1].get_global_rect().get_center())
+   await choose_craft_if_needed(game,1,1)
+  check(s.selected==1 and game.advanced_orders and hud.page=="craft","body tap or explicit object conflict choice opens its actual craft context")
   check(tactical(s)==before,"context inspection preserves physical work and reserves")
   hud.dismiss();await settle();ocean.fit_chart();game._refresh();await settle()
   ocean.focus_craft();ocean.zoom_at(2.,ocean.size/2);game._refresh();await settle()
@@ -166,9 +180,10 @@ func run():
   s.units[1].pos=s.units[0].pos;s.units[2].pos=s.units[0].pos;ocean.fit_chart();game._refresh();await settle()
   check(row(fleet,s.selected).get("cluster",[]).size()==3 and row(fleet,s.selected).get("identity","")=="A +2","coincident craft show the selected identity and the other-body count")
   await tap(ocean.global_position+ocean.screen_position(s.units[0].pos))
-  check(game.advanced_orders and hud.page=="fleet","true craft overlap requests explicit fleet choice")
+  check(game.advanced_orders and (hud.page=="fleet" or (hud.page=="choose" and hud.choose_units.size()==3)),"true craft overlap requests explicit craft choice")
   check(tactical(s).units[0].pos==s.units[0].pos,"overlap does not issue a route")
-  await tap(game.unit_buttons[2].get_global_rect().get_center())
+  if hud.page=="choose":await choose_craft_if_needed(game,2,s.selected)
+  else:await tap(game.unit_buttons[2].get_global_rect().get_center())
   check(s.selected==2 and hud.page=="craft","explicit fleet choice opens the chosen clustered craft")
   hud.dismiss();await settle()
   # Exact critical reserves remain numeric, even for an unselected craft.

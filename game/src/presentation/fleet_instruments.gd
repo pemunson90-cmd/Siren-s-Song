@@ -62,7 +62,11 @@ func handle_input(event)->bool:
  if action.has("tap") and pressed_unit>=0 and buttons[pressed_unit].get_global_rect().has_point(point):
   var local=point-host.ocean.global_position;var site=host.ocean.objective_context(local,host.ui_touch_height)
   var site_closer=not readouts.any(func(r):return r.unit==pressed_unit and r.offscreen) and site.get("kind","") in ["objective","salvage"] and pressed_units.all(func(id):return local.distance_to(host.ocean.screen_position(site.pos))<local.distance_to(host.ocean.screen_position(host.sim.units[id].pos)))
-  if site_closer:host.mission_hud.open("salvage" if site.kind=="salvage" else "object",site)
+  var occupied_site=not readouts.any(func(r):return r.unit==pressed_unit and r.offscreen) and site.get("kind","") in ["objective","salvage"] and pressed_units.any(func(id):return id!=host.sim.selected)
+  if occupied_site:
+   host.mission_hud.choose_units=pressed_units.duplicate();host.mission_hud.choose_next="salvage" if site.kind=="salvage" else "object"
+   host.mission_hud.open("choose",site)
+  elif site_closer:host.mission_hud.open("salvage" if site.kind=="salvage" else "object",site)
   elif pressed_units.size()>1:host.mission_hud.open("fleet",{"kind":"fleet","pos":host.ocean.map_position(point-host.ocean.global_position)})
   else:_activate(pressed_unit)
  if not gesture.active():pressed_unit=-1

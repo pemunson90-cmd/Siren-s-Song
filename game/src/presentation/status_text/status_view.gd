@@ -123,11 +123,14 @@ static func fit_grid(hud,_visible:Rect2)->void:
 static func fit_dock(hud)->void:
  var font=hud.instrument_info.get_theme_font_size("font_size")
  var caption=hud.host.sim.units[hud.host.sim.selected].name+" / "+hud.page.to_upper()
- if hud.page=="craft":
-  var context=Copy.present(hud.host.sim,str(hud.host.sim.camera_context().get("text","")))
-  hud.order_dock_context.text=context.split(" "+String.chr(0xb7)+" SHARP")[0]
+ hud.order_dock_context.text=""
+ if hud.page=="craft" and hud.host.order_buttons.camera in hud.ring_buttons:
+  hud.order_dock_context.text="\n".join(hud.camera_caption())
+ if hud.page in ["object","salvage","plant","habitat"]:
+  hud.order_dock_context.text=str(hud.subject.get("name","OBJECT"))+"\n"+"\n".join(hud.WorkTask.captions(hud.host.sim,hud.subject))
+ if hud.page=="choose":hud.order_dock_context.text=str(hud.subject.get("name","OBJECT"))+"\nCRAFT OR OBJECT?"
  if hud.page=="fleet":hud.order_dock_context.text=str(hud.get_meta(HINT,""))
- hud.order_dock_context.visible=hud.page in ["craft","fleet"] and not hud.order_dock_context.text.is_empty()
+ hud.order_dock_context.visible=not hud.order_dock_context.text.is_empty()
  hud.order_dock_context.add_theme_font_size_override("font_size",font)
  hud.order_dock_header.text=caption;hud.order_dock_header.add_theme_font_size_override("font_size",font)
  var top=maxf(hud.host.pause_button.get_rect().end.y,hud.alarm.get_rect().end.y if hud.alarm.visible else 0.)+12.
