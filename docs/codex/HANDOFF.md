@@ -1,6 +1,6 @@
 # HANDOFF (Claude orchestrator, Siren's Song). Read this, nothing else, on restart.
 
-Updated 2026-10-29T18:51:19-0400 (Claude S8). Live refs, PRs and BOARD are newer when they disagree. Pat's dated words (USER_DIRECTIVES on claude/integration, PAT_RULINGS_2026-10-29.md here) outrank this. Older detail: `HANDOFF_ARCHIVE_2026-10-29.md` (read only when a question needs it).
+Updated 2026-10-30T06:36:19-04:00 (Claude S9). Live refs, PRs and BOARD are newer when they disagree. Pat's dated words (USER_DIRECTIVES on claude/integration, PAT_RULINGS_2026-10-29.md here) outrank this. Older detail: `HANDOFF_ARCHIVE_2026-10-29.md` (read only when a question needs it).
 
 ## Roles
 - **Pat** rules and approves in chat only; never ask him to operate anything. One plain yes/no or widget question, recommendation first, only when it is his call.
@@ -11,7 +11,7 @@ Updated 2026-10-29T18:51:19-0400 (Claude S8). Live refs, PRs and BOARD are newer
 - Folder `C:/Users/Archi/.cache/sirens-song-toolchain/artifacts/queue-s6`. `auto.py` (plain Python, pid in `auto.pid`) ticks every 2 min, reads `CHAINS`/`ITEMS` in `runner.py`, launches phase A build, B measure+PR (reasoning low), C merge sessions handing off through `NNN.notes.md`.
 - **Phase C starts only after Claude posts a PR comment containing `CLAUDE INTENT: PASS`.** `CLAUDE INTENT: HOLD` relaunches phase A once; a second failure gets marked BLOCKED with numbers.
 - auto.log EVENT lines: `PR<n> ready; waiting for Claude intent check` means act now. Also `exited without a PHASE line` / `Claude please inspect`.
-- **Red CI in phase C:** auto.log says `required CI failed in phase C`. Repair: set the BOARD row CLAIMED (if a session marked it BLOCKED), append a repair note plus `PHASE A CONTINUE` to `NNN.notes.md`, reset that session's `phase` to `A` in runner-state.json, post `CLAUDE INTENT: HOLD (procedural, pending CI repair)`, and post PASS again after re-checking the refreshed PR.
+- **Red CI in phase C:** auto.log says `required CI failed in phase C`. Repair: set the BOARD row CLAIMED (if a session marked it BLOCKED), append a repair note plus `PHASE A CONTINUE` to `NNN.notes.md`, reset that session's `phase` to `A`, `starts` to 3 and `revisions` to 1 in runner-state.json (revisions=1 stops auto.py treating the procedural HOLD as a revision request; starts>MAX_CONTINUES+3 halts the item), drop `waiting`/`alerted`, post `CLAUDE INTENT: HOLD (procedural, pending CI repair)`, and post PASS again after re-checking the refreshed PR. Never append text after a session's final PHASE line (auto.py reads the last PHASE line). A chain advances past a BLOCKED row, so flip it back to CLAIMED before the next item launches. Process kills are denied by the auto-mode classifier.
 - If auto.py is dead: `Start-Process python -ArgumentList '-I','auto.py' -WorkingDirectory <folder> -WindowStyle Hidden -PassThru`, write the pid to `auto.pid`.
 - Queue a new item: write `docs/codex/NNN-slug.md` (copy 118's shape), add a BOARD row `| <row> | NNN TITLE | QUEUED (claude-lane, Pat 29 Oct) | | | [handoff](NNN-slug.md) |`, add `NNN:(row,'slug')` to ITEMS and NNN to a chain in `runner.py`.
 - Watch: Monitor command `bash C:/Users/Archi/.cache/sirens-song-toolchain/artifacts/queue-s6/watch.sh` (30 min max; re-arm on expiry).
@@ -22,20 +22,17 @@ Read the PR's before/after tables, not its summary, and its latest comments. Che
 - A table identical everywhere has not met a "must change play" ruling. Presentation-only work must show physics identical.
 - **Protected (Pat's call only):** beam lethality, 4 s interruptible lock warning, collision/hull/damage, Siren and role senses (silent 180 m, cruise 290 m), PR70 sweeper, photography design (exposure, grading), ending conditions, art direction. Story text: 1-2 line placeholders, no em dashes. Never an APK, force push, amend or branch deletion.
 
-## State (2026-10-29T22:22:30-0400, end of Claude S8)
-- `gauntlet/production` 13a64ed0 = Promotion 3. Merged to integration this session: 113 PR225, 111 PR226, 117 PR228, 115 PR227, 119 PR230.
-- **091 audit DONE** (verdict `C:/Users/Archi/.cache/sirens-song-toolchain/artifacts/critic-091-13a64ed0/audit/INDEPENDENT_VERDICT.md`; root keeps COLD_REVIEW_4).
-- **Chain C (order now 119 -> 118 -> 120 -> 124):** 119 PR230 MERGED. 118 PR229 in a SECOND CI repair (its layout broke knockdown UI and warning-recipient UI suites; procedural HOLD stands, re-check and re-PASS after). 120 built (b522d357), waits. 124 cleanup last. 116 PR231 draft is measuring; intent-check when ready.
-- **Chain S:** 116 radio ops (phase A building on merged 115) -> 121 photo evidence (phase A built by Claude subagents, f9f76a7d, all 24 required subjects; waits).
-- **Root lane:** 122 Promotion 4 then 123 cold audit 5, queued; start them (BOARD banner to root) when rows 115-121 all read DONE or BLOCKED.
-- auto.py patched twice this session (no pipe capture; phase C ends `PHASE C CIFAIL` instead of marking BLOCKED). Claude subagents were Pat-approved for one usage window only (see memory).
+## State (2026-10-30T06:36:19-04:00, Claude S9)
+- claude/integration tip cdd58f64. Merged this session: 116 PR231 (radio ops), 121 PR232 (photo evidence), 120 PR233 (navigation), 118 PR229 (readability, after seven bounded CI repairs, the last one a real touch-ownership regression between 118's fold and 120's CONTINUE). PR220 closed as superseded.
+- Tasks 115-121 all DONE. BOARD banner told root to start 122 Promotion 4, then 123 cold audit 5.
+- 124 PR audit cleanup resumed in phase A on current integration (it had self-blocked on overlap with 118).
+- Pat asked (unanswered as of this update): an authored ending plus more varied late-campaign evidence (F7/F8/F14), story lines as 1-2 line AI-DESIGNED placeholders. Claude recommended yes.
 
 ## Next actions
-1. Intent-check every waiting PR (PASS or HOLD comment).
-2. After 121 lands, ask Pat (yes/no) about F7/F8/F14: an authored ending and more varied late-campaign evidence (story text rule). F12 collision staging is protected: suggestion only.
+1. Intent-check every waiting PR (PASS or HOLD comment). 124 is next.
+2. When Pat answers the ending/evidence question: if yes, queue the item (docs/codex/NNN-slug.md, BOARD row, runner.py ITEMS/CHAINS).
 3. Pat deferred: wariness mark on chart, SURVIVAL in-dive pressure; ask after the audit batches.
-4. **Next gauntlet loop (Pat 29 Oct: after the fixes):** when rows 115-121 all read DONE or BLOCKED, post a BOARD banner telling root to start 122 Promotion 4, then 123 cold audit 5 (fresh blind critic, region sessions). Then turn COLD_REVIEW_5 into fix batches and repeat (AGENTS.md loop).
-5. Still open: 116 is paused until 115 merges (its notes already say PHASE A CONTINUE). Hunt calibration note: op 39 bare pressure fell from Hunt 92 to 22 in 115.
+4. When root's 123 COLD_REVIEW_5 lands, turn it into fix batches and repeat (AGENTS.md loop).
 
 ## How-to
 - Repo checkout on `main` is stale: read live refs with `MSYS_NO_PATHCONV=1 git show origin/<ref>:<path>`. Never read the whole BOARD (89 KB) or LEDGER (40 KB): `head -c 2000` / `tail -n 5`.
