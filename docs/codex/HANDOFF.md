@@ -1,6 +1,6 @@
 # HANDOFF (Claude orchestrator, Siren's Song). Read this, nothing else, on restart.
 
-Updated 2026-10-30T06:36:19-04:00 (Claude S9). Live refs, PRs and BOARD are newer when they disagree. Pat's dated words (USER_DIRECTIVES on claude/integration, PAT_RULINGS_2026-10-29.md here) outrank this. Older detail: `HANDOFF_ARCHIVE_2026-10-29.md` (read only when a question needs it).
+Updated 2026-10-30T12:09:01-04:00 (Claude S10). Live refs, PRs and BOARD are newer when they disagree. Pat's dated words (USER_DIRECTIVES on claude/integration, PAT_RULINGS_2026-10-29.md here) outrank this. Older detail: `HANDOFF_ARCHIVE_2026-10-29.md` (read only when a question needs it).
 
 ## Roles
 - **Pat** rules and approves in chat only; never ask him to operate anything. One plain yes/no or widget question, recommendation first, only when it is his call.
@@ -26,11 +26,11 @@ Read the PR's before/after tables, not its summary, and its latest comments. Che
 - claude/integration tip cdd58f64. Merged this session: 116 PR231 (radio ops), 121 PR232 (photo evidence), 120 PR233 (navigation), 118 PR229 (readability, after seven bounded CI repairs, the last one a real touch-ownership regression between 118's fold and 120's CONTINUE). PR220 closed as superseded.
 - Tasks 115-121 all DONE. BOARD banner told root to start 122 Promotion 4, then 123 cold audit 5.
 - 124 PR audit cleanup resumed in phase A on current integration (it had self-blocked on overlap with 118).
-- Pat asked (unanswered as of this update): an authored ending plus more varied late-campaign evidence (F7/F8/F14), story lines as 1-2 line AI-DESIGNED placeholders. Claude recommended yes.
+- Pat said yes (2026-10-30T12:09:01-04:00) to the authored ending plus late-campaign evidence (F7/F8/F14): queued as 125, BOARD row 122, chain 2. 124 PR235 merged 2ef78adf; root 122 Promotion 4 merged 26e09906; root holds 123 cold audit 5.
 
 ## Next actions
 1. Intent-check every waiting PR (PASS or HOLD comment). 124 is next.
-2. When Pat answers the ending/evidence question: if yes, queue the item (docs/codex/NNN-slug.md, BOARD row, runner.py ITEMS/CHAINS).
+2. Intent-check 125 when its PR is ready (ending conditions and physics must be identical).
 3. Pat deferred: wariness mark on chart, SURVIVAL in-dive pressure; ask after the audit batches.
 4. When root's 123 COLD_REVIEW_5 lands, turn it into fix batches and repeat (AGENTS.md loop).
 

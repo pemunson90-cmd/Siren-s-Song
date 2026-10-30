@@ -46,3 +46,8 @@ Pat: "Yes (Recommended)" (option text: "Fixes the audit's top finding. Same styl
 
 Q: "Start the next gauntlet loop (Promotion 4, then a fresh blind critic) after the five audit fixes (116, 118-121) land, about 4 hours, rather than now?"
 Pat: "After the fixes (Recommended)". Pat had said: "it seems like we're slowing down and getting close to being ready to launch the next gauntlet loop on the game".
+
+## 2026-10-30T12:09:01-04:00 (Claude S10, chat)
+
+Q: "Should Codex add an authored campaign ending plus more varied late-campaign evidence (F7/F8/F14), with story lines as 1-2 line AI-designed placeholders you can replace? I recommend yes."
+Pat: "Yes". Queued as 125 (BOARD row 122). Ending conditions stay protected.
