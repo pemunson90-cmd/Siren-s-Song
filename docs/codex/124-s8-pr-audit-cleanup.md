@@ -11,6 +11,7 @@ Source: a read-only Haiku audit Pat authorised (29 Oct, S7 precedent) of merged 
 2. **Test hole (PR228):** `runs_offer_ui_tests.gd` ~67-71: the `session.sim.tools.has(tool) and` guard skips the count check when a key is absent. Assert the key exists for every allocated tool instead. Strengthen only.
 3. **Duplication (PR228):** `mode_racks_view.gd` change()/show() duplicate `tool_racks_view.gd` edit()/show() and drop its `Racks.enabled` guard; reuse the existing view code. `tool_racks.gd` from_stock repeats template()'s unit mapping; share it.
 4. **Small sprawl:** PR226 builds the `"%d:%d"` pair key inline three times in `tactical_aids.gd` (54, 61, 78): one helper. `mission_hud.gd` 352/362 re-preload frontend_settings inline: one const. PR225 `soundscape.gd` duplicate PhotoWave preload and repeated -7.5 literal: one each.
+5. **118 leftovers (Claude intent note on PR229):** at 150% text on the cover shape, the chart hint 'SCORED PLATING hidden from here' overlaps the 'UNKNOWN SIGNAL SOURCE' label and is clipped at the docked viewfinder edge; inside the viewfinder the subject label 'BEACON LAMP' overlaps the '100m ASPECT 0 WIDE' readout (artifacts/118/phase-b/screenshots-r3/after81a-2520x1080-150-F2-first-second-photo-optics.png). Fix placement; show before/after native screenshots on both shapes at 100% and 150%.
 Leave PR226's lock-threshold auto-pause as is (Pat ruling 11).
 
 ## Bar
