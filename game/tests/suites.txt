@@ -208,6 +208,7 @@ opening_fleet_tests|OPENING FLEET|169|190
 cold_review_ui_tests|COLD REVIEW UI|170|191|render
 cold_review_archive_tests|COLD REVIEW ARCHIVE|171|192
 audit_photo_integrity_tests|AUDIT PHOTO INTEGRITY|172|193
+audit_photo_evidence_tests|AUDIT PHOTO EVIDENCE|757|857
 audit_photo_ui_tests|AUDIT PHOTO UI|173|194
 audit_findings_provenance_tests|AUDIT FINDINGS PROVENANCE|174|195
 audit_artifact_cargo_tests|AUDIT ARTIFACT CARGO|175|196
@@ -313,9 +314,9 @@ photo_row_feed_room_journey_tests|PHOTO ROW FEED ROOM JOURNEY|261|281
 status_text_tests|STATUS TEXT|262|282
 status_text_ui_tests|STATUS TEXT UI|263|-|render
 # CI partitions retain the complete source table and both native Fold shapes.
-status_text_table_ui_tests|STATUS TEXT UI|-|857|render
-status_text_cover_ui_tests|STATUS TEXT UI|-|858|render
-status_text_inner_ui_tests|STATUS TEXT UI|-|859|render
+status_text_table_ui_tests|STATUS TEXT UI|-|858|render
+status_text_cover_ui_tests|STATUS TEXT UI|-|859|render
+status_text_inner_ui_tests|STATUS TEXT UI|-|860|render
 
 hunt_pressure_tests|HUNT PRESSURE|264|284
 hunt_cap_coverage_tests|HUNT CAP COVERAGE|747|847
