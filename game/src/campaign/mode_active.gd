@@ -6,6 +6,7 @@ const Run=preload("res://src/campaign/runs/run_state.gd")
 const Career=preload("res://src/campaign/career/career_state.gd")
 const Equipment=preload("res://src/equipment/equipment_catalog.gd")
 const Tools=preload("res://src/equipment/field_tools.gd")
+const Racks=preload("res://src/equipment/tool_racks.gd")
 const Rider=preload("res://src/presentation/career/rider_dive.gd")
 static func capture(mode:String,state:Dictionary,sim,previous:Dictionary={})->Dictionary:
 	return {"version":1,"launch_id":previous.get("launch_id",Crypto.new().generate_random_bytes(16).hex_encode()),
@@ -44,6 +45,9 @@ static func valid(value,state:Dictionary,mode:String)->bool:
 	if mode=="career":
 		for key in Tools.ids():
 			if key not in Tools.field_ids() or Tools.is_enabled(key):budget[key]=Tools.loadout_count(key,"endurance")
+	if state.has("tool_racks"):
+		budget={}
+		for key in Tools.ids():budget[key]=Racks.total(state.tool_racks,key)
 	for key in Tools.field_ids():
 		if not Tools.is_enabled(key):budget.erase(key)
 	var counts:Dictionary=s.tools.duplicate();counts.merge(s.mission.get("field_tools",{}).get("counts",{}),true)
@@ -53,9 +57,13 @@ static func valid(value,state:Dictionary,mode:String)->bool:
 		if int(value.rider_runtime.used.get(key,0))!=int(budget[key])-int(counts[key]):return false
 	for key in value.rider_runtime.used:
 		if not counts.has(key):return false
-	# The modes currently launch pooled stock. Reject injected owner racks;
-	# canonical Simulation validation preserves aggregate/owner equality if present.
-	if s.mission.has("tool_racks"):return false
+	# Legacy states keep pooled stock. New launches bind owner racks to their ledger;
+	# canonical Simulation validation also preserves aggregate/owner equality.
+	if s.mission.has("tool_racks")!=state.has("tool_racks"):return false
+	if state.has("tool_racks"):
+		for slot in Racks.UNITS:
+			for key in Tools.ids():
+				if int(s.mission.tool_racks[slot].get(key,0))>int(state.tool_racks[slot].get(key,0)):return false
 	return true
 static func restore_sim(sim,value:Dictionary,state:Dictionary,mode:String)->bool:
 	if not valid(value,state,mode):return false

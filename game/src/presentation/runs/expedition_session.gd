@@ -86,6 +86,8 @@ func _show_campaign()->void:
 		_menu_text(RunState.Riders.description(rider,RunState.rider_bonus_text(rider)),17)
 		if not rider.is_empty():
 			_button(panel_box,"RIDER · "+("ACCEPTED" if accept_rider else "DECLINED"),preload("res://src/presentation/rider_choice.gd").toggle.bind(self,_show_campaign),"run_rider")
+		tool_racks=run_state.get("tool_racks",preload("res://src/equipment/tool_racks.gd").from_stock(run_state.stock)).duplicate(true)
+		preload("res://src/presentation/mode_racks_view.gd").show(self,true)
 		_button(panel_box,"BEGIN OPERATION · START PAUSED",_begin,"run_begin")
 		_button(panel_box,"RETURN TO MODES",_return,"run_return")
 	call_deferred("_layout")
@@ -94,6 +96,7 @@ func _begin()->void:
 	if not RunArchive._available(campaign_host):
 		_menu_text("LAUNCH PAUSED · "+str(campaign_host.get_meta("runs_save_error","")),17);return
 	var launched=RunState.launch(run_state,accept_rider)
+	if not launched.in_flight:return
 	run_state=launched;sim.configure(run_state);recorded=false;active_envelope={}
 	_start_mission(RunState.current_operation(run_state));_save_archive()
 	if save_failed:_show_campaign();return

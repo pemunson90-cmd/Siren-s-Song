@@ -6,6 +6,7 @@ const Economy=preload("res://src/campaign/economy.gd")
 const Equipment=preload("res://src/equipment/equipment_catalog.gd")
 const Research=preload("res://src/campaign/glass_research.gd")
 const Ops=preload("res://src/campaign/operation_catalog.gd")
+const Racks=preload("res://src/equipment/tool_racks.gd")
 const Riders=preload("res://src/campaign/career/riders.gd")
 static func new_career()->Dictionary:
 	var standing={}
@@ -19,7 +20,14 @@ static func rider_offer(state:Dictionary,id:String)->Dictionary:
 static func launch(state:Dictionary,id:String,accept_rider:bool=true)->Dictionary:
 	var next=state.duplicate(true)
 	if state.in_flight or not open(state,id):return next
+	var racks=Economy.Losses.racks(next.economy,next.get("tool_racks",Racks.template("endurance")))
+	var extra=Racks.cost(racks,"endurance",next.economy)
+	var cost=Economy.refit_cost(next.economy,next.fitted)
+	for key in extra:cost[key]=cost.get(key,0)+extra[key]
+	if not Racks.reason(next.fitted,racks).is_empty() or not Economy.can_pay(next.economy,cost):return state.duplicate(true)
 	if not Economy.charge_launch(next.economy,next.fitted):return state.duplicate(true)
+	Economy.pay(next.economy,extra)
+	next.tool_racks=racks
 	next.active=id;next.in_flight=true;next.serial+=1
 	next.rider=rider_offer(state,id) if accept_rider else {}
 	return next
@@ -57,7 +65,8 @@ static func manufacture(state:Dictionary,item:String)->bool:
 	if not Economy.pay(state.economy,Economy.item_cost(item,state.economy)):return false
 	state.progress.entitlements.append(item);return true
 static func valid(value)->bool:
-	if not value is Dictionary or value.size()!=(12 if value.has("rider") else 11) or not value.has_all(["version","standing","economy","fitted","progress","active","in_flight","serial","recovered","lost","report"]):return false
+	if not value is Dictionary or value.size()!=11+int(value.has("rider"))+int(value.has("tool_racks")) or not value.has_all(["version","standing","economy","fitted","progress","active","in_flight","serial","recovered","lost","report"]):return false
+	if value.has("tool_racks") and not Racks.valid(value.tool_racks):return false
 	if not value.version is int or value.version!=1 or not Economy.valid(value.economy) or not Equipment.valid_fitting(value.fitted):return false
 	if not value.standing is Dictionary or value.standing.size()!=Table.FACTIONS.size():return false
 	for faction in Table.FACTIONS:
