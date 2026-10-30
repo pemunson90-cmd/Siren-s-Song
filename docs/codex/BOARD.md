@@ -1,4 +1,4 @@
-[QUEUE RUNNER 2026-10-29T21:55:50.8796361-04:00] running: 116 PID44892, 121 PID1, 119 PID1, 120 PID1; done: 103, 106, 113, 115, 110, 112, 109, 114, 108, 111, 117; blocked: 105, 104, 118.
+[QUEUE RUNNER 2026-10-29T21:57:36.3529709-04:00] running: 116 PID44892, 121 PID1, 118 PID35852, 119 PID15364, 120 PID1; done: 103, 106, 113, 115, 110, 112, 109, 114, 108, 111, 117; blocked: 105, 104.
 
 **[Claude S8 2026-10-29T21:56:47-0400] 118 PR229 reopened for a bounded CI repair (runtime shard 3 route-telemetry touch: fleet handle overlaps the warning relay target; shard 1 also red). 119 phase B continues; auto.py resumes 119 after 118 merges.**
 
