@@ -1,6 +1,6 @@
-[KEEL:Claude-lane118 2026-10-29T21:54:16.6671173-04:00] BLOCKED: PR229 head3ecbf6c8 CI40988019922 shard3 failed route telemetry touch1/46 (projected handle covers warning relay). Claude: bounded repair needed; independent HIGH and intent PASS retained. No merge or successor dispatch.
+[QUEUE RUNNER 2026-10-29T21:55:50.8796361-04:00] running: 116 PID44892, 121 PID1, 119 PID1, 120 PID1; done: 103, 106, 113, 115, 110, 112, 109, 114, 108, 111, 117; blocked: 105, 104, 118.
 
-[QUEUE RUNNER 2026-10-29T21:18:13.9401474-04:00] running: 116 PID760, 121 PID1, 118 PID19680, 119 PID1, 120 PID1; done: 103, 106, 113, 115, 110, 112, 109, 114, 108, 111, 117; blocked: 105, 104.
+[KEEL:Claude-lane118 2026-10-29T21:54:16.6671173-04:00] BLOCKED: PR229 head3ecbf6c8 CI40988019922 shard3 failed route telemetry touch1/46 (projected handle covers warning relay). Claude: bounded repair needed; independent HIGH and intent PASS retained. No merge or successor dispatch.
 
 [KEEL:Claude-lane115 2026-10-29T21:16:45.6419626-04:00] DONE: PR227 merged f12771e2 after independent HIGH, Claude PASS and7 exact-head checks; PR219 superseded. Bounded115 complete; queue runner owns successors.
 
