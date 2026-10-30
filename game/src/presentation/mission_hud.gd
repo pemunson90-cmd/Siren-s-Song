@@ -17,6 +17,7 @@ const Witness=preload("res://src/presentation/witness_evacuation_view.gd")
 const CenterLayout=preload("res://src/presentation/radial_layout/center_layout.gd")
 const StatusView=preload("res://src/presentation/status_text/status_view.gd")
 const AllStop=preload("res://src/simulation/all_stop/all_stop.gd")
+const WorkTask=preload("res://src/presentation/work_task/work_task.gd")
 # A tap opens an object-owned projection. A separate tap chooses an action.
 var host
 var blocker:Control
@@ -60,6 +61,11 @@ var tool_help=preload("res://src/presentation/tool_help/tool_help.gd").new()
 var help_return="tools"
 var help_text=""
 var help_consumed=false
+# 119: chosen object work, last work result, and a pending craft/object choice.
+var task:Dictionary={}
+var task_result:Dictionary={}
+var choose_units:Array=[]
+var choose_next="object"
 func setup(owner):
  host=owner;mouse_filter=Control.MOUSE_FILTER_IGNORE
  add_child(tool_help);tool_help.setup(self)
@@ -90,6 +96,9 @@ func setup(owner):
  for action in ["work","route","attach","release","east","west","lock_a","lock_b","lock_c","bypass","isolate","service","cooling","cradle","land","reconnect","dismantle","recover"]:
   var key="choir_"+action;var text={"work":"CHOIR WORK","route":"ROUTE TO\nLOCAL WORK","east":"START EAST\nVOYAGE","west":"START WEST\nVOYAGE","attach":"ATTACH\nPHYSICAL TOW","release":"RELEASE\nTOW","recover":"WINCH\nMATERIAL"}.get(action,action.replace("_"," ").to_upper())
   extra[key]=host._button(self,text,func():_extra(key),key)
+ for i in 3:
+  var unit_key="choose_unit_%d"%i;extra[unit_key]=host._button(self,WorkTask.NAMES[i]+"\nORDERS",func():_extra(unit_key),unit_key)
+ extra.choose_object=host._button(self,"OBJECT",func():_extra("choose_object"),"choose_object")
  extra.wake_playback=host._button(self,"PLAY OLD LOOP\nONCE ·15s",func():host._order("wake_playback"),"wake_playback")
  for entry in [["warning_exposed","EXPOSED\nUNGATED COURSE"],["warning_sheltered","SHELTERED\nSERVICE COURSE"],["warning_gate","OPEN SERVICE\n650m / 6s"]]:
   var key=entry[0];extra[key]=host._button(self,entry[1],func():_extra(key),key)
@@ -146,6 +155,7 @@ func open(next:String="craft",context:Dictionary={}):
   if not wake.is_empty():subject=wake
  if next in ["object","inspect"] and subject.get("subkind","")=="wake_repeater":sheet_scroll.scroll_vertical=0
  page=next;instruments_open=page in ["inspect","signals"]
+ if page=="object" and WorkTask.pinnable(subject):task=WorkTask.pin(host.sim,subject)
  if page=="inspect" and subject.get("subkind","")=="concealed":sheet_scroll.scroll_vertical=0
  host.advanced_orders=true;host._layout()
 func dismiss():
@@ -163,9 +173,14 @@ func _back():
   if details_return=="water":dismiss()
   else:open(details_return)
  elif page=="view":open("fleet")
- elif page in ["craft","object","fleet","salvage","plant","habitat","recovery"]:dismiss()
+ elif page in ["craft","object","fleet","salvage","plant","habitat","recovery","choose"]:dismiss()
  else:open("habitat" if subject.get("kind","")=="habitat" else "plant" if subject.get("kind","")=="plant" else "object" if subject.get("kind","")=="objective" else "salvage" if subject.get("kind","")=="salvage" else "craft")
 func _extra(key:String):
+ if key.begins_with("choose_unit_"):
+  var id=int(key.trim_prefix("choose_unit_"))
+  if id!=host.sim.selected:host._order("select",{"unit":id})
+  open("craft",{"kind":"craft","unit":id,"pos":host.sim.units[id].pos});return
+ if key=="choose_object":open(choose_next,subject);return
  if key=="audio_log":
   help_return="fleet";help_text=host.sound.accessibility.history_text();open("order_help");return
  if key=="choir_work":open("choir");return
@@ -292,6 +307,7 @@ func _outside(event):
 func command_controls() -> Array:
  match page:
   "cache":return Cache.controls(self)
+  "choose":return choose_units.map(func(id):return extra["choose_unit_%d"%id])+[extra.choose_object]
   "choir":
    var controls=[]
    for action in host.sim.Choir.actions(host.sim):controls.append(extra["choir_"+action])
@@ -456,6 +472,17 @@ func refresh():
  var photographic=sim.camera_context()
  if preload("res://src/simulation/photo_context.gd").is_photo(sim,photographic):
   host.order_buttons.camera.text="PHOTO";host.order_buttons.camera.disabled=false
+ # 119: an object's CAMERA works that object only; the main CAMERA never
+ # swaps the owner's unfinished chosen task for a different optional job.
+ host.order_buttons.camera.tooltip_text=""
+ if page=="object" and WorkTask.pinnable(subject):
+  host.order_buttons.camera.tooltip_text=WorkTask.object_reason(sim,int(subject.index))
+  if int(photographic.get("target",-1))!=int(subject.index):host.order_buttons.camera.disabled=true
+ elif page!="object":
+  var held=WorkTask.held_reason(sim,task)
+  if not held.is_empty():host.order_buttons.camera.disabled=true;host.order_buttons.camera.tooltip_text=held
+ for i in 3:extra["choose_unit_%d"%i].disabled=not sim.units[i].alive
+ extra.choose_object.text=str(subject.get("name","OBJECT")).substr(0,14)+"\nBY "+WorkTask.LETTERS[sim.selected]
  var fitted=Equipment.status(sim)
  if not fitted.is_empty():instrument_info.text+="\n\n"+fitted
  if page=="inspect" and subject.get("kind","") in ["craft","fleet"]:
@@ -505,7 +532,10 @@ func refresh():
  for rect in host.ocean.contact_readout_rects():blocked.append(rect)
  if host.ocean.optical_feed.is_visible_in_tree():blocked.append(host.ocean.optical_feed.get_rect())
  fleet.visible=not host.advanced_orders and not host.decoy_armed and not host.knock_armed
- if not host.decoy_armed and not host.knock_armed:intent.text+="\n"+sim.Depth.context(sim)
+ if not host.decoy_armed and not host.knock_armed:
+  for task_text in [WorkTask.line(sim,task),WorkTask.result_line(task_result),WorkTask.load_status(sim)]:
+   if not task_text.is_empty():intent.text+="\n"+task_text
+  intent.text+="\n"+sim.Depth.context(sim)
  StatusView.apply(self)
  _fit_intent()
  var aid_font=maxi(14,roundi(touch_height*.26*text_scale))
@@ -567,6 +597,8 @@ func _draw():
  if page=="cache":lines.append_array(Cache.captions(host.sim))
  if page=="plant":lines.append(WarningChain.radial_state(WarningChain.context(host.sim)))
  elif page=="craft" and host.order_buttons.camera in ring_buttons:lines.append_array(camera_caption())
+ if page in ["object","salvage","plant","habitat"]:lines.append_array(WorkTask.captions(host.sim,subject))
+ if page=="choose":lines.append("CRAFT OR OBJECT?")
  lines=StatusView.captions(self,lines)
  var first_y=CenterLayout.first_baseline(center.y,close_button.get_rect(),h,text_scale,lines.size(),font,text_size)
  for n in lines.size():
@@ -581,6 +613,8 @@ func acoustics_carry_caption()->String:
 func camera_caption() -> Array:
  var sim=host.sim;var button=host.order_buttons.camera
  var verb=button.text.replace("\n"," ")
+ var held=WorkTask.held_reason(sim,task)
+ if not held.is_empty():return [verb,"▸ TASK "+WorkTask.label(sim,WorkTask.site(sim,task)).substr(0,16),"HELD · OPEN THE OTHER JOB"]
  var context=sim.camera_context();var target=int(context.get("target",-1))
  if target==-2:return [verb,"▸ SIREN S%d"%(int(context.get("siren",0))+1)]
  if target>=0 and target<sim.mission.objectives.size():
