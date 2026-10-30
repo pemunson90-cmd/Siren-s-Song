@@ -23,9 +23,9 @@ Read the PR's before/after tables, not its summary, and its latest comments. Che
 - **Protected (Pat's call only):** beam lethality, 4 s interruptible lock warning, collision/hull/damage, Siren and role senses (silent 180 m, cruise 290 m), PR70 sweeper, photography design (exposure, grading), ending conditions, art direction. Story text: 1-2 line placeholders, no em dashes. Never an APK, force push, amend or branch deletion.
 
 ## State (2026-10-29T22:22:30-0400, end of Claude S8)
-- `gauntlet/production` 13a64ed0 = Promotion 3. Merged to integration this session: 113 PR225, 111 PR226, 117 PR228, 115 PR227.
+- `gauntlet/production` 13a64ed0 = Promotion 3. Merged to integration this session: 113 PR225, 111 PR226, 117 PR228, 115 PR227, 119 PR230.
 - **091 audit DONE** (verdict `C:/Users/Archi/.cache/sirens-song-toolchain/artifacts/critic-091-13a64ed0/audit/INDEPENDENT_VERDICT.md`; root keeps COLD_REVIEW_4).
-- **Chain C (order now 119 -> 118 -> 120 -> 124):** 119 PR230 full PASS, merging on green. 118 PR229 in a SECOND CI repair (its layout broke knockdown UI and warning-recipient UI suites; procedural HOLD stands, re-check and re-PASS after). 120 built (b522d357), waits. 124 cleanup last. 116 PR231 draft is measuring; intent-check when ready.
+- **Chain C (order now 119 -> 118 -> 120 -> 124):** 119 PR230 MERGED. 118 PR229 in a SECOND CI repair (its layout broke knockdown UI and warning-recipient UI suites; procedural HOLD stands, re-check and re-PASS after). 120 built (b522d357), waits. 124 cleanup last. 116 PR231 draft is measuring; intent-check when ready.
 - **Chain S:** 116 radio ops (phase A building on merged 115) -> 121 photo evidence (phase A built by Claude subagents, f9f76a7d, all 24 required subjects; waits).
 - **Root lane:** 122 Promotion 4 then 123 cold audit 5, queued; start them (BOARD banner to root) when rows 115-121 all read DONE or BLOCKED.
 - auto.py patched twice this session (no pipe capture; phase C ends `PHASE C CIFAIL` instead of marking BLOCKED). Claude subagents were Pat-approved for one usage window only (see memory).
