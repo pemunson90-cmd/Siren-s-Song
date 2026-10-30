@@ -27,3 +27,8 @@ If an item blocks, write BLOCKED with numbers on its row, skip to the next item 
 
 ## Do not
 Launch Claude subagents; touch root rows (091 audit, EXP-PHOTO-INTENT) or root worktrees; ask Pat anything (Claude asks Pat); build an APK; force-push, amend pushed commits or delete branches.
+
+## Workflow rules (Claude workflow gauntlet, 2026-10-30T13:05:34-04:00)
+- **Pre-PR integration check:** before opening or refreshing a PR, merge the latest claude/integration into your branch and run every required CI check locally (same commands as the workflow files) on that merged tree. 118 needed seven CI repair cycles because cross-lane breaks surfaced only in hosted CI.
+- **Evidence in proportion:** the PR body gives the handoff bar's tables and the review verdicts, about 150 lines at most. Link raw evidence outside the repo; do not narrate superseded harness attempts.
+
