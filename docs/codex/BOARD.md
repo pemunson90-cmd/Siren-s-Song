@@ -1,6 +1,6 @@
-**Root DOC-RESUME DONE: PR236 merged8b0634a8 after independent78 exacttree0dbf9577/base2ef78adf approval and own documentation guidance/core/game-smoke SUCCESS. RESUME ownership released; no game change, production/main/critic26e09906 untouched.**
+[QUEUE RUNNER 2026-10-30T12:12:53.3523932-04:00] running: 125 PIDunknown; done: 103, 106, 113, 115, 116, 121, 110, 112, 109, 114, 108, 111, 117, 119, 118, 120, 124; blocked: 105, 104.
 
-[QUEUE RUNNER 2026-10-30T07:46:03.9119391-04:00] running: none; done: 103, 106, 113, 115, 116, 121, 110, 112, 109, 114, 108, 111, 117, 119, 118, 120, 124; blocked: 105, 104.
+**Root DOC-RESUME DONE: PR236 merged8b0634a8 after independent78 exacttree0dbf9577/base2ef78adf approval and own documentation guidance/core/game-smoke SUCCESS. RESUME ownership released; no game change, production/main/critic26e09906 untouched.**
 
 [KEEL:Claude-lane124 2026-10-30T07:43:35.6598140-04:00] DONE: PR235 merged2ef78adf from reviewed ffa497fd; all7 exact-head checks green. Claude: audit cleanup landed; queue runner owns successors.
 
@@ -482,6 +482,6 @@ Boundary follow-up28Oct03:12UTC: Windows completion check PASSES from current in
 | 119 | 122 PROMOTION 4 (091 FIXES TO PRODUCTION) | DONE (codex-root, PR234 merge26e09906; HIGH75/own41044499250 all7green) | | | [handoff](122-promotion-4.md) |
 | 120 | 123 WHOLE-GAME COLD AUDIT 5 (read-only) | CLAIMED (codex-root, fresh blind regional audit on26e09906) | | | [handoff](123-cold-audit-5.md) |
 | 121 | 124 S8 PR AUDIT CLEANUP (PRS 225, 226, 228) | DONE (claude-lane, codex-fresh-124) | [PR235](https://github.com/pemunson90-cmd/Siren-s-Song/pull/235) | Merged 2ef78adf from independently approved ffa497fd; Claude PASS and all7 exact-head checks green; cleanup, stronger tool/Career tests and large-text fixes;16 SILENT voyages,8 identical pairs. | [handoff](124-s8-pr-audit-cleanup.md) |
-| 122 | 125 AUTHORED ENDING AND VARIED LATE-CAMPAIGN EVIDENCE (091 F7/F8/F14) | QUEUED (claude-lane, Pat 30 Oct) | | | [handoff](125-authored-ending.md) |
+| 122 | 125 AUTHORED ENDING AND VARIED LATE-CAMPAIGN EVIDENCE (091 F7/F8/F14) | CLAIMED (claude-lane, codex-fresh-125, 2026-10-30T12:12:52.0171943-04:00) | | | [handoff](125-authored-ending.md) |
 | 89 | 092 HIDDEN RESCUE OF SORLEY'S BOY (Pat ruling 28 Oct, experiment) | DONE | [207](https://github.com/pemunson90-cmd/Siren-s-Song/pull/207) | 2026-10-28T22:42:43Z | Hidden physical rescue, pilotage and epilogue; no ending vote/thread change integrated THROUGH207; batch review/checks above; owned paths released, shared seams now root070. |
 | 88 | 091 WHOLE-GAME COLD AUDIT (read-only) | DONE (bounded audit and post-freeze reconciliation) | [draft report](../design/COLD_REVIEW_4.md) | Own report2026-10-29T18:41:40-04:00 | [KEEL: frozen verdict/preparation] Frozen13a64ed0/tree54459644; own SHA256612446ac, six hashes verified;29 recoveries/END OF LINE, Expedition3/3, Career1win/2losses, challenges2wins/1loss, Ironman opening/both shapes;16 original findings, F1 highest. Post-freeze093 reconciliation complete04cbb121; original ranks unchanged. Root independent review before commit; raw evidence external, limits in report, other claims untouched. Original pre-dispatch claim retained in task091 history. |
