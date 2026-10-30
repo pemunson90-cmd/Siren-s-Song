@@ -82,9 +82,26 @@ func shape_case(shape):
   await capture(stamp+"-orders")
   await command_scroll_case(game,stamp)
   game.mission_hud.dismiss();await settle()
+  await cancel_target_case(game,feed,stamp)
  await departure_touch_case(game,str(shape.x))
  game.queue_free();await settle()
  Settings.current=preload("res://src/persistence/settings_store.gd").DEFAULTS.duplicate()
+func cancel_target_case(game,feed,stamp):
+ # A real tool-arm gesture must leave CANCEL in the clear chart on both shapes.
+ game.mission_hud.open("tools");await settle()
+ var button=game.order_buttons.knock
+ if game.mission_hud.order_dock.visible:
+  game.mission_hud.order_dock_scroll.ensure_control_visible(button);await settle()
+ var stock=game.sim.tools.knock
+ await tap(button.get_global_rect().get_center());await settle()
+ var cancel=game.mission_hud.close_button
+ check(game.knock_armed and cancel.is_visible_in_tree(),"torpedo targeting exposes cancel "+stamp)
+ check(not feed.visible or not cancel.get_global_rect().intersects(feed.get_global_rect()),"target cancel clears the optical dock "+stamp)
+ check(Rect2(game.global_position,game.size).encloses(cancel.get_global_rect()),"target cancel keeps its full safe-area target "+stamp)
+ check(not cancel.get_global_rect().intersects(game.mission_hud.intent.get_global_rect()),"target cancel clears the complete status text "+stamp)
+ await capture(stamp+"-target-cancel")
+ await tap(cancel.get_global_rect().get_center())
+ check(not game.knock_armed and game.sim.tools.knock==stock,"real cancel tap clears targeting without spending "+stamp)
 func departure_touch_case(game,label):
  var fitting=preload("res://src/equipment/equipment_catalog.gd").default_loadout();fitting.drone_a="drone_deep_cells"
  game.sim.start(0,"endurance",{"fitted":fitting,"fleet_commit":false})

@@ -32,7 +32,7 @@ func run() -> void:
   check(ui.order_buttons.has("knock"),"secondary order includes distinct KNOCK tool")
   if not ui.order_buttons.has("knock"):ui.queue_free();await process_frame;await create_timer(0.5).timeout;finish();return
   setup(ui);await wait_frames()
-  ui.ocean.zoom_at(2.0,ui.ocean.size/2);ui.ocean.pan_chart(ui.ocean.size/2-ui.ocean.screen_position(ui.sim.units[0].pos));await wait_frames()
+  ui.ocean.zoom_at(2.0,ui.ocean.planning_size/2);ui.ocean.pan_chart(ui.ocean.planning_size/2-ui.ocean.screen_position(ui.sim.units[0].pos));await wait_frames()
   check(not ui.order_buttons.camera.is_visible_in_tree() and ui.order_buttons.knock.is_visible_in_tree(),"contextual TOOLS projection exposes distinct torpedo action")
   var rect=ui.order_buttons.knock.get_global_rect();var scale=Vector2(profile.size)/ui.get_viewport_rect().size
   check(ui.get_global_rect().encloses(rect) and rect.size.x*scale.x>=48*profile.dpi/160.0 and rect.size.y*scale.y>=48*profile.dpi/160.0,"knock target stays safe and touch sized")

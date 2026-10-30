@@ -551,7 +551,7 @@ func refresh():
  fleet.refresh(blocked)
  host.ocean.ui_blocked_rects=occupied_rects().map(func(r):return Rect2(r.position-host.ocean.global_position,r.size))
  if host.decoy_armed or host.knock_armed:
-  close_button.text="CANCEL";close_button.position=Vector2(size.x/2-touch_height*.775,size.y-touch_height-12);close_button.show()
+  close_button.text="CANCEL";close_button.position=Vector2((host.ocean.chart_width()-close_button.size.x)/2,(intent.position.y if intent.visible else size.y)-close_button.size.y-12);close_button.show()
  else:close_button.text="CANCEL" if page=="recovery" else "LOCAL ORDERS" if page=="inspect" and subject.get("subkind","")=="concealed" else "BACK";close_button.visible=host.advanced_orders
  if page=="order_help":instrument_info.text=help_text;host.title_label.hide();host.detail_label.hide()
  queue_redraw()

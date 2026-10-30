@@ -110,8 +110,12 @@ func run():
   mouse=mouse.duplicate();mouse.position=e.position;mouse.global_position=e.position;mouse.pressed=false;root.push_input(mouse,true);await settle();Input.set_emulate_touch_from_mouse(was_touch)
   check(g.advanced_orders and h.page=="signals" and g.sim.snapshot()==before,"detail-panel touch scrolling preserves observation and tactical state")
   check(h.sheet_scroll.get_v_scroll_bar().max_value<=h.sheet_scroll.size.y or h.sheet_scroll.scroll_vertical>0,"overflowing measurement details are reachable by actual touch scroll")
-  g.sim.mission.signal_observations=actual;h.dismiss();g.ocean.fit_chart();g._refresh();await settle();before=g.sim.snapshot()
-  var corridor=g.sim.extraction_corridors().filter(func(c):return c.route=="shelf")[0];await tap(g.ocean.global_position+g.ocean.screen_position(corridor.pos))
+  g.sim.mission.signal_observations=actual;h.dismiss();g.ocean.fit_chart();g._refresh();await settle()
+  # Suspended root: child chart reservation settles before its hit map refresh.
+  g._refresh();await settle();before=g.sim.snapshot()
+  var corridor=g.sim.extraction_corridors().filter(func(c):return c.route=="shelf")[0]
+  check(not h.blocks(g.ocean.global_position+g.ocean.screen_position(corridor.pos)),"arrival badge leaves the charted corridor target accessible")
+  await tap(g.ocean.global_position+g.ocean.screen_position(corridor.pos))
   check(g.advanced_orders and h.subject.get("subkind","")=="corridor" and g.sim.snapshot()==before,"charted corridor tap opens observational context without choosing a branch")
   check(not g.order_buttons.camera.visible and "PLOT" in h.extra.route_here.text,"corridor offers explicit route planning rather than remote recording")
   check(g._ui_metrics().context_subject_kind=="corridor","native metrics distinguish charted corridor from ordinary camera-recordable site")
