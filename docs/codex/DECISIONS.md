@@ -1,0 +1,9 @@
+# Decisions Claude made for Pat to revert (newest first)
+
+Pat 2026-10-30 ~18:00: "only surface questions that need me, otherwise record all decision points and keep me posted so I can revert them." Each line: what, why, how to revert.
+
+- **D5 2026-10-30T18:00 Lane split for packages 1 and 2.** Claude lane (126) owns wording, disabled reasons and route target selection; root owns layout, hit-testing, chart camera, threat stack, 150%. Why: both touch mission_hud.gd; splitting by concern avoids the 118-style cross-lane CI repairs. Revert: reassign on BOARD.
+- **D4 2026-10-30T17:59 Package order.** 0 harness, 1 truthful commands, 2 stable board (parallel), then 3 recovery manifest, 4 route flow, 5 prep/results, 6 look and sound (read-only comparison now, building waits for Pat's art calls), 7 late op variety. Why: ranked by player cost and by how surely the bug is verified. Revert: reorder in PLAN_DRAFT_1.
+- **D3 2026-10-30T17:59 Reference games per piece.** Into the Breach (commands), Mini Motorways + Door Kickers (chart/touch, routes), Cold Waters (HUD/threat), FTL (fleet/extraction, prep), Iron Lung + Barotrauma + Mark of the Ninja (look/sound), Into the Breach + Highfleet (mission variety). Why: Astra's list plus Pat's allowed swaps. Revert: swap any name.
+- **D2 2026-10-30T17:56 Critic stalls dropped as a game defect.** All four are driver.gd:18 parse failures in the test kit. Revert: reinstate C01 if a stall recurs after the kit fix.
+- **D1 2026-10-30T18:00 Freeze lifted for packages 0-2** (Pat "Good keep working" to the yes/no). Packages 3+ start without asking as earlier ones land, unless Pat says otherwise.
