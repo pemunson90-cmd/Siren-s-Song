@@ -90,6 +90,7 @@ independent_capture_tests|INDEPENDENT CAPTURE|78|139
 independent_capture_ui_tests|INDEPENDENT CAPTURE UI|79|140
 turn_safe_navigation_tests|TURN SAFE NAVIGATION|80|57
 earned_course_continuity_tests|EARNED COURSE CONTINUITY|81|64
+audit_navigation_tests|AUDIT NAVIGATION|758|858|render
 module_recovery_tests|MODULE RECOVERY|82|66
 expanded_region_tests|EXPANDED REGION|83|132
 expanded_region_journeys|EXPANDED JOURNEYS|84|131
@@ -209,7 +210,7 @@ cold_review_ui_tests|COLD REVIEW UI|170|191|render
 cold_review_archive_tests|COLD REVIEW ARCHIVE|171|192
 audit_photo_integrity_tests|AUDIT PHOTO INTEGRITY|172|193
 audit_photo_evidence_tests|AUDIT PHOTO EVIDENCE|757|857
-photo_trench_geometry_tests|PHOTO TRENCH GEOMETRY|758|861|render
+photo_trench_geometry_tests|PHOTO TRENCH GEOMETRY|759|861|render
 audit_photo_ui_tests|AUDIT PHOTO UI|173|194
 audit_findings_provenance_tests|AUDIT FINDINGS PROVENANCE|174|195
 audit_artifact_cargo_tests|AUDIT ARTIFACT CARGO|175|196
@@ -315,7 +316,7 @@ photo_row_feed_room_journey_tests|PHOTO ROW FEED ROOM JOURNEY|261|281
 status_text_tests|STATUS TEXT|262|282
 status_text_ui_tests|STATUS TEXT UI|263|-|render
 # CI partitions retain the complete source table and both native Fold shapes.
-status_text_table_ui_tests|STATUS TEXT UI|-|858|render
+status_text_table_ui_tests|STATUS TEXT UI|-|862|render
 status_text_cover_ui_tests|STATUS TEXT UI|-|859|render
 status_text_inner_ui_tests|STATUS TEXT UI|-|860|render
 

@@ -165,6 +165,7 @@ func _ready() -> void:
 	sound=Soundscape.new(); add_child(sound)
 	preload("res://src/presentation/first_siren_cue/first_siren_cue.gd").install(self)
 	preload("res://src/presentation/death_cause/cause_log.gd").install(self)
+	preload("res://src/presentation/damage_log/damage_log.gd").install(self)
 	resized.connect(_layout)
 	for arg in OS.get_cmdline_user_args():
 		if arg.begins_with("--scenario="): capture_scenario=arg.get_slice("=",1)
@@ -233,6 +234,7 @@ func _layout(cancel_gesture:bool=true) -> void:
 		ocean.ui_blocked_rects=mission_hud.occupied_rects().map(func(r):return Rect2(r.position-ocean.global_position,r.size))
 	if menu!=null:
 		menu.position=Vector2(maxf(24,(size.x-800)/2),24); menu.size=Vector2(minf(800,size.x-48),size.y-48)
+		if screen=="reference" and get_meta("launch_costs_open",false):menu.position=Vector2(16,16);menu.size=size-Vector2(32,32)
 		if archive_status_text!=null:archive_status_text.add_theme_font_size_override("font_size",maxi(17,roundi(h*.26*FrontendSettings.text_scale())))
 		for button in menu.find_children("*","Button",true,false):
 			button.custom_minimum_size.y=h; button.add_theme_font_size_override("font_size",maxi(17,roundi(h*0.29*FrontendSettings.text_scale())))
@@ -521,6 +523,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 			elif knock_armed or decoy_armed:_primary_action()
 			else:sim.paused=true;_show_campaign()
 func _clear_menu() -> void:
+	set_meta("launch_costs_open",false)
 	preload("res://src/presentation/arcs/arc_card.gd").back(self)
 	var resolution=get_node_or_null("ConfluenceResolution")
 	if resolution!=null:remove_child(resolution);resolution.queue_free()

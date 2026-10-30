@@ -44,6 +44,16 @@ static func evidence_gallery(host, index: int,shot_index:int=-1,compare:bool=fal
 	var shots:Array=entry.get("shots",[])
 	var kind="PHOTOGRAPH" if not shots.is_empty() else ("ACOUSTIC" if host._evidence_is_text(entry) else ("HYDROPHONE" if entry.optical in ["blackwater_request","blackwater_reply"] else "OPTICAL"))
 	host._menu_text("FIELD %s RECORDS / %d OF %d"%[kind,index+1,keys.size()],18)
+	# Audit 091 F9: record navigation sits above the plate so it never needs a scroll;
+	# NEWEST reaches the latest record in one tap instead of stepping through every older one.
+	if keys.size()>1:
+		var at_index:int=index%keys.size()
+		var nav=HFlowContainer.new();nav.add_theme_constant_override("h_separation",8);nav.add_theme_constant_override("v_separation",8);host.panel_box.add_child(nav)
+		for b in [host._button(nav,"PREVIOUS RECORD",func(): host._evidence_gallery((at_index-1+keys.size())%keys.size()),"previous_record"),
+			host._button(nav,"NEXT RECORD",func(): host._evidence_gallery((at_index+1)%keys.size()),"next_record"),
+			host._button(nav,"NEWEST RECORD",func(): host._evidence_gallery(keys.size()-1),"newest_record")]:
+			b.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+		nav.get_child(2).disabled=at_index==keys.size()-1
 	host._menu_text(entry.name,28)
 	if not shots.is_empty():
 		var best:=0
@@ -68,7 +78,6 @@ static func evidence_gallery(host, index: int,shot_index:int=-1,compare:bool=fal
 		image.expand_mode=TextureRect.EXPAND_IGNORE_SIZE; image.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED; image.custom_minimum_size=Vector2(0,minf(320,host.size.y*0.4)); host.panel_box.add_child(image)
 	host._menu_text(entry.caption,19)
 	host._show_photo_grade([entry])
-	if keys.size()>1: host._button(host.panel_box,"NEXT RECORD",func(): host._evidence_gallery((index+1)%keys.size()),"next_record")
 	host._button(host.panel_box,"INTEL AND RESEARCH",host._intel_screen,"intel")
 	host._button(host.menu_footer,"BACK TO OPERATIONS",host._show_campaign,"back"); host.menu_footer.show()
 	host.call_deferred("_layout")

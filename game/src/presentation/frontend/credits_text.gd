@@ -3,14 +3,14 @@ extends RefCounted
 # Seam: Frontend._credits_screen calls credits(); lines() is the unchanged attribution renderer.
 # Revert: call lines() directly in the frontend to restore the audio-only credits.
 # TODO(pat): name the creator line; the owner has not specified it.
-const CREATOR := "An independent reconnaissance game"
+const CREATOR := "Created by (to be named)"
 const ENGINE := ["Made with Godot Engine 4.6.3.",
 	"Copyright (c) 2014-present Godot Engine contributors. Copyright (c) 2007-2014 Juan Linietsky, Ariel Manzur.",
 	"Released under the MIT License. See godotengine.org/license."]
 const TOOLS := ["Godot editor and GDScript. GitHub Actions for automated checks.",
 	"AI assisted development with Claude Code and Codex."]
 static func credits(resource: Resource) -> Array:
-	var out := [{"text": "SIREN'S SONG", "heading": true}, {"text": CREATOR, "heading": false},
+	var out := [{"text": "SIREN'S SONG", "heading": true}, {"text": preload("res://src/presentation/public_copy.gd").present(CREATOR), "heading": false},
 		{"text": "ENGINE", "heading": true}]
 	for text in ENGINE: out.append({"text": text, "heading": false})
 	out.append({"text": "TOOLS", "heading": true})
