@@ -35,6 +35,26 @@ func make_game(id:int,shape:Vector2i):
  Settings.apply(settings,game);await settle()
  game._start_mission(id);game._layout();await settle()
  return game
+# The same commands can occupy a scroll dock at large text. Reveal by touch,
+# then verify the entire target; offscreen coordinates must never stand in for it.
+func reveal(game,button):
+ var hud=game.mission_hud
+ if not hud.order_dock.visible or button.get_parent()!=hud.order_dock_commands:return
+ var scroll=hud.order_dock_scroll
+ for attempt in 8:
+  var area=scroll.get_global_rect()
+  if area.encloses(button.get_global_rect()):return
+  var target=button.get_global_rect()
+  var delta=area.position.y-target.position.y if target.position.y<area.position.y else area.end.y-target.end.y
+  delta=signf(delta)*clampf(absf(delta),24.,area.size.y*.45)
+  var start=area.get_center();var finish=start+Vector2(0,delta)
+  var touch=InputEventScreenTouch.new();touch.index=0;touch.position=start;touch.pressed=true;root.push_input(touch,true);await process_frame
+  var previous=start
+  for n in 6:
+   var point=start.lerp(finish,float(n+1)/6.)
+   var drag=InputEventScreenDrag.new();drag.index=0;drag.position=point;drag.relative=point-previous;root.push_input(drag,true);previous=point;await process_frame
+  touch=InputEventScreenTouch.new();touch.index=0;touch.position=finish;touch.pressed=false;root.push_input(touch,true);await settle()
+ check(scroll.get_global_rect().encloses(button.get_global_rect()),"touch scrolling reveals "+str(button.get_meta("action","command")))
 func ring_geometry(game,label:String):
  var hud=game.mission_hud
  var visible=Rect2(game.global_position,game.size)
@@ -43,12 +63,19 @@ func ring_geometry(game,label:String):
  for button in hud.action_controls().values():
   if button.is_visible_in_tree() and button not in controls:controls.append(button)
  for button in controls:
+  await reveal(game,button)
   var rect=button.get_global_rect()
+  if hud.order_dock.visible and button in hud.ring_buttons:
+   check(hud.order_dock_scroll.get_global_rect().encloses(rect),label+" scrolled command fully fits its input clip")
   check(button.is_visible_in_tree() and visible.encloses(rect),label+" visible "+str(button.get_meta("action","back"))+" fits the safe viewport")
   check(rect.size.x*dp_scale>=48.0 and rect.size.y*dp_scale>=48.0,label+" "+str(button.get_meta("action","back"))+" retains 48dp touch")
  for i in controls.size():
   for j in range(i+1,controls.size()):
-   var overlap=controls[i].get_global_rect().intersection(controls[j].get_global_rect()).get_area()
+   var first=controls[i].get_global_rect();var second=controls[j].get_global_rect()
+   if hud.order_dock.visible:
+    if controls[i] in hud.ring_buttons:first=first.intersection(hud.order_dock_scroll.get_global_rect())
+    if controls[j] in hud.ring_buttons:second=second.intersection(hud.order_dock_scroll.get_global_rect())
+   var overlap=first.intersection(second).get_area()
    check(overlap<1.0,label+" command targets do not overlap "+str(i)+"/"+str(j)+" area="+str(overlap))
 func sheet_geometry(game,label:String):
  var hud=game.mission_hud
@@ -75,6 +102,7 @@ func table_ui():
   var game=await make_game(id,Vector2i(2184,1968))
   var before=game.sim.snapshot();var raw=game.sim.camera_context().get("text","");var message=game.sim.message
   await tap(game.mission_hud.fleet.buttons[0].get_global_rect().get_center())
+  await reveal(game,game.mission_hud.extra.inspect)
   await tap(game.mission_hud.extra.inspect.get_global_rect().get_center())
   check(game.mission_hud.page=="inspect" and game.detail_label.is_visible_in_tree() and game.detail_label.text==display_line(game.sim),"op%d real touch displays its exact operation status"%id)
   Table.enabled=false;game._refresh();await settle()
@@ -89,8 +117,9 @@ func touch_case(shape:Vector2i,id:int):
  var before=game.sim.snapshot();var context=game.sim.camera_context().get("text","");var message=game.sim.message
  await tap(game.mission_hud.fleet.buttons[0].get_global_rect().get_center())
  check(game.advanced_orders and game.mission_hud.page=="craft",label+" actual Quietus touch opens its command ring")
- ring_geometry(game,label+" craft")
+ await ring_geometry(game,label+" craft")
  await picture("status-%d-%d-craft"%[shape.x,id])
+ await reveal(game,game.mission_hud.extra.inspect)
  await tap(game.mission_hud.extra.inspect.get_global_rect().get_center())
  check(game.mission_hud.page=="inspect" and game.detail_label.is_visible_in_tree() and game.detail_label.text==display_line(game.sim),label+" actual STATUS touch shows the operation guidance")
  sheet_geometry(game,label+" STATUS")
@@ -104,9 +133,11 @@ func touch_case(shape:Vector2i,id:int):
  check(game.mission_hud.page=="fleet" and arrivals.is_visible_in_tree() and arrivals.disabled,label+" disabled ARRIVALS remains visible in Fleet")
  check(arrivals.text==Status.arrivals_label(0),label+" zero ARRIVALS label names signals")
  check(game.mission_hud.get_meta("status_arrivals_hint","")==Status.arrivals_hint(0),label+" Fleet caption carries the actual no-signal explanation")
- ring_geometry(game,label+" fleet")
+ await ring_geometry(game,label+" fleet")
  await picture("status-%d-%d-fleet"%[shape.x,id])
- if DisplayServer.get_name()!="headless":
+ if game.mission_hud.order_dock.visible:
+  check(game.mission_hud.order_dock_context.is_visible_in_tree() and game.mission_hud.order_dock_context.text==Status.arrivals_hint(0),label+" Fleet dock retains the no-signal explanation")
+ elif DisplayServer.get_name()!="headless":
   check(game.mission_hud.caption_rects.size()>=3,label+" Fleet explanation is drawn in the native radial caption")
   for caption in game.mission_hud.caption_rects:
    var rect=Rect2(caption.position+game.mission_hud.global_position,caption.size)
@@ -127,8 +158,9 @@ func received_arrivals(shape:Vector2i):
  await tap(game.advanced_button.get_global_rect().get_center())
  var arrivals=game.mission_hud.extra.arrivals
  check(arrivals.is_visible_in_tree() and not arrivals.disabled and arrivals.text==Status.arrivals_label(count),"earned signals enable the labeled ARRIVALS control")
- ring_geometry(game,"op9 received fleet "+str(shape))
+ await ring_geometry(game,"op9 received fleet "+str(shape))
  await picture("status-%d-9-received"%shape.x)
+ await reveal(game,arrivals)
  await tap(arrivals.get_global_rect().get_center())
  check(game.mission_hud.page=="signals" and "RECEIVED ARRIVALS" in game.mission_hud.instrument_info.text and Status.arrivals_hint(count) in game.mission_hud.instrument_info.text,"real touch opens the explained earned-signal list")
  sheet_geometry(game,"op9 received signals "+str(shape))

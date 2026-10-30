@@ -214,6 +214,7 @@ fix2_frontend_ui_tests|FIX2 FRONTEND UI|180|201|render
 fix2_photo_routing_tests|FIX2 PHOTO ROUTING|181|202
 fix2_menu_ui_tests|FIX2 MENU UI|182|203|render
 fix2_camera_ui_tests|FIX2 CAMERA UI|183|204|render
+audit_readability_ui_tests|AUDIT READABILITY UI|209|234|render
 fix2_feedback_ui_tests|FIX2 FEEDBACK UI|184|205|render
 fix2_state_tests|FIX2 STATE|185|206
 fix2_study_ui_tests|FIX2 STUDY UI|186|207|render

@@ -110,7 +110,7 @@ func _ordinary_task(id:int)->String:
  return state+" · "+("LOW" if u.silent else "OPEN")+" · "+("QUIET42" if u.get("drone_drive","")=="quiet" else "TRANSIT96")
 func _layout_commands():
  var hud=host.mission_hud
- if not host.advanced_orders or hud.sheet.visible or hud.ring_buttons.is_empty():return
+ if not host.advanced_orders or hud.sheet.visible or hud.ring_buttons.is_empty() or hud.order_dock.visible:return
  var subject=host.sim.units[hud.subject.get("unit",host.sim.selected)].pos if hud.subject.get("kind","")=="craft" else hud.subject.get("pos",host.sim.units[host.sim.selected].pos)
  hud.anchor=host.ocean.screen_position(subject)
  var h=host.ui_touch_height
@@ -138,10 +138,10 @@ func refresh(blocked:Array):
  var sim=host.sim;var ocean=host.ocean;var h=host.ui_touch_height;var font_size=maxi(14,roundi(h*.26));var font=ThemeDB.fallback_font
  if sim.selected!=last_selected or (visible and not was_visible):detail_until=sim.elapsed+3.;last_selected=sim.selected
  was_visible=visible
- var safe=Rect2(Vector2(12,h+24),Vector2(maxf(h,size.x-24),maxf(h,size.y-h*2-54)))
+ var safe=Rect2(Vector2(12,h+24),Vector2(maxf(h,ocean.chart_width()-24),maxf(h,size.y-h*2-54)))
  var occupied=blocked.duplicate();occupied.append_array(ocean.objective_touch_rects(h))
  var positions=sim.units.map(func(u):return ocean.screen_position(u.pos))
- var viewport=Rect2(Vector2.ZERO,size)
+ var viewport=Rect2(Vector2.ZERO,Vector2(ocean.chart_width(),size.y))
  # Bodies clipped by the viewport or covered by actual controls get an edge
  # handle. Fully exposed craft keep their target exactly on the physical body.
  var on_screen=positions.map(func(at):

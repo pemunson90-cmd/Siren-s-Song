@@ -73,7 +73,7 @@ func _show_campaign()->void:
 	_menu_text("EXPEDITION · SEED %d"%run_state.seed,30)
 	_menu_text("OPERATION %d / %d · %s"%[run_state.cursor+1,run_state.operations.size(),sim.mission.title.to_upper()],20)
 	_menu_text(sim.mission.brief,17)
-	_menu_text("%s LOADOUT · %s · STARTING HUNT %d\nTools carry across recovered operations. Film and oxygen replenish for each dive."%[run_state.loadout.to_upper(),RunTable.SCARCITY[run_state.scarcity].to_upper(),RunState.starting_hunt(run_state,RunState.current_operation(run_state))],17)
+	_menu_text("%s LOADOUT · %s · OPERATION START HUNT %d\nThe expedition Hunt modifier is capped for this operation. The in-dive meter shows current pressure.\nTools carry across recovered operations. Film and oxygen replenish for each dive."%[run_state.loadout.to_upper(),RunTable.SCARCITY[run_state.scarcity].to_upper(),RunState.starting_hunt(run_state,RunState.current_operation(run_state))],17)
 	if active_started:
 		if save_failed:
 			_menu_text("SAVE PENDING · "+str(campaign_host.get_meta("runs_save_error","")),17)

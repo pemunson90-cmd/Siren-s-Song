@@ -53,6 +53,10 @@ var knock_touch_size:=48.0
 var feedback_font_size:=14
 var instrument_top:=64.0
 var ui_blocked_rects:Array=[]
+var optical_suppressed:=false
+var command_dock_width:=0.
+var status_floor:=0.
+var planning_size:=Vector2.ZERO
 var instrument_height=48.
 var oxygen_capacity=100.
 var fleet_instruments
@@ -144,8 +148,12 @@ func objective_context(point:Vector2,touch:float)->Dictionary:
 	return Expedition.pick(self,sim,point,touch)
 func salvage_markers()->Array:
 	return preload("res://src/presentation/module_recovery_view.gd").markers(self,sim,instrument_height)
+func chart_width()->float:
+	if command_dock_width>0:return size.x-command_dock_width-28.
+	if not presenting_mission or sim==null or optical_feed==null or not optical_feed.viewfinder_visible(sim):return size.x
+	return size.x-minf(size.x*.52,optical_feed.preferred_width())-28.
 func _sync_camera() -> void:
-	chart_camera.configure(size,world_size())
+	chart_camera.configure(planning_size if planning_size.x>0 else size,world_size())
 	if chart_camera.mode=="follow" and sim!=null:chart_camera.follow(sim.units[sim.selected].pos)
 	world_scale=chart_camera.scale;world_offset=chart_camera.offset
 func focus_craft() -> void:
@@ -160,10 +168,16 @@ func fit_chart() -> void:
 func _process(dt: float) -> void:
 	phase+=dt; camera_flash=Palette.pulse(maxf(0,camera_flash-dt),minf(.08,maxf(0,camera_flash-dt)));_sync_camera()
 	if optical_feed!=null:
-		optical_feed.sim=sim; optical_feed.visible=presenting_mission and sim!=null and sim.outcome.is_empty() and optical_feed.viewfinder_visible(sim)
-		var height=minf(maxf(300,optical_feed.touch_height*4.8),size.y-instrument_top-54)
-		optical_feed.size=Vector2(minf(size.x-28,optical_feed.preferred_width()),height)
-		optical_feed.position=Vector2(14,maxf(instrument_top+40,size.y-height-14))
+		optical_feed.sim=sim; optical_feed.visible=not optical_suppressed and presenting_mission and sim!=null and sim.outcome.is_empty() and optical_feed.viewfinder_visible(sim)
+		# Reserve an optical dock beside the chart, above the reflowing status.
+		var width=minf(size.x*.52,optical_feed.preferred_width())
+		var top=instrument_top+4.
+		var height=minf(optical_feed.preferred_height(),maxf(1.,size.y-top-14.))
+		if optical_feed.compact:height=maxf(optical_feed.touch_height,optical_feed.receiver_font_size+14.)+8.
+		optical_feed.size=Vector2(width,height)
+		optical_feed.position=Vector2(size.x-width-14.,top)
+		planning_size=Vector2(chart_width(),status_floor if status_floor>0. else size.y)
+
 	var visual_key=hash([world_scale,world_offset,size,presenting_mission,quality_tier,decoy_targeting,knock_targeting,sim.selected if sim!=null else -1])
 	var changed=visual_key!=_quality_visual_key
 	_quality_visual_key=visual_key

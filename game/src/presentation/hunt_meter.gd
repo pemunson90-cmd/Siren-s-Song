@@ -134,6 +134,9 @@ static func _obstacles(hud,button:Button)->Array:
  var warning=hud.host.lock_warning
  if warning!=null and warning.visible and warning.banner.has_area():result.append(Rect2(warning.global_position-hud.global_position+warning.banner.position,warning.banner.size))
  if hud.sheet.visible:result.append(hud.sheet.get_rect())
+ if hud.order_dock.visible:result.append(hud.order_dock.get_rect())
+ var optics=hud.host.ocean.optical_feed
+ if optics.is_visible_in_tree():result.append(Rect2(optics.global_position-hud.global_position,optics.size))
  if hud.intent.visible and area.encloses(hud.intent.get_rect()):result.append(hud.intent.get_rect())
  if hud.fleet!=null and hud.fleet.is_visible_in_tree():
   for reading in hud.fleet.readouts:result.append(Rect2(hud.fleet.position+reading.rect.position,reading.rect.size))

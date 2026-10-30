@@ -413,6 +413,7 @@ func _input(event:InputEvent) -> void:
 	if debug_console!=null and debug_console.input(event):get_viewport().set_input_as_handled();return
 	if debug_console!=null and debug_console.panel.visible:return
 	if screen!="mission":return
+	if ocean.optical_feed.route_input(event):get_viewport().set_input_as_handled();return
 	if mission_hud.owns_pointer(event):get_viewport().set_input_as_handled();return
 	if mission_hud.fleet.handle_input(event):get_viewport().set_input_as_handled();return
 	if advanced_orders:
@@ -519,6 +520,7 @@ func _clear_menu() -> void:
 	menu_footer.hide()
 	menu.show(); hud.hide(); scroll.scroll_vertical=0
 func _menu_text(text: String,font_size: int=17) -> Label:
+	text=preload("res://src/presentation/public_copy.gd").present(text)
 	var l=_label(panel_box,text,roundi(font_size*ui_touch_height/48.0*preload("res://src/presentation/frontend/frontend_settings.gd").text_scale())); l.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART; l.custom_minimum_size.x=minf(610,size.x-120); return l
 func _loadout_stock(choice: String) -> Array:
 	return CampaignFlow.loadout_stock(self, choice)
