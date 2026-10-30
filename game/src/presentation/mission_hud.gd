@@ -53,6 +53,7 @@ var fleet
 var recovery_box:VBoxContainer
 var recovery_buttons:Array=[]
 var guard
+var chart_choice
 var hints
 var text_scale=1.0
 var caption_rects:Array=[]
@@ -118,6 +119,7 @@ func setup(owner):
  intent=host._label(self,"",18);intent.mouse_filter=Control.MOUSE_FILTER_IGNORE;intent.text_overrun_behavior=TextServer.OVERRUN_NO_TRIMMING;intent.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
  fleet=preload("res://src/presentation/fleet_instruments.gd").new();add_child(fleet);fleet.setup(host);host.ocean.fleet_instruments=fleet
  guard=preload("res://src/presentation/order_guard.gd").new();add_child(guard);guard.setup(host)
+ chart_choice=preload("res://src/presentation/chart_stop_choice.gd").new();add_child(chart_choice);chart_choice.setup(host)
  hints=preload("res://src/presentation/onboarding_hints.gd").new();add_child(hints);hints.setup(host)
 func _selected_craft():
  if host.advanced_orders:open("craft",{"kind":"craft","unit":host.sim.selected,"pos":host.sim.units[host.sim.selected].pos})
@@ -500,7 +502,7 @@ func refresh():
   if button not in fleet.buttons:blocked.append(Rect2(button.global_position-global_position,button.size))
  for label in [intent,alarm]:
   if label.visible:blocked.append(label.get_rect())
- for aid in [guard.panel,guard.undo_button,hints.panel]:
+ for aid in [guard.panel,guard.undo_button,hints.panel,chart_choice.panel]:
   if aid.visible:blocked.append(Rect2(aid.global_position-global_position,aid.size))
  for rect in host.ocean.contact_readout_rects():blocked.append(rect)
  if host.ocean.optical_feed.is_visible_in_tree():blocked.append(host.ocean.optical_feed.get_rect())
@@ -510,6 +512,7 @@ func refresh():
  _fit_intent()
  var aid_font=maxi(14,roundi(touch_height*.26*text_scale))
  guard.refresh(size,touch_height,aid_font,intent.position.y if intent.visible else size.y)
+ chart_choice.refresh(size,touch_height,aid_font,intent.position.y if intent.visible else size.y,not guard.panel.visible and not guard.undo_button.visible)
  hints.refresh(size,touch_height,aid_font,host.ocean.instrument_top+touch_height+34)
  preload("res://src/presentation/field_tool_view.gd").place_notice(self)
  fleet.refresh(blocked)
@@ -595,7 +598,7 @@ func action_controls() -> Dictionary:
  return result
 func blocks(point:Vector2) -> bool:
  if host.advanced_orders:return true
- if guard!=null and (guard.blocks(point) or hints.blocks(point)):return true
+ if guard!=null and (guard.blocks(point) or hints.blocks(point) or chart_choice.blocks(point)):return true
  for b in action_controls().values():
   if b.get_global_rect().has_point(point):return true
  return host.ocean.optical_feed!=null and host.ocean.optical_feed.is_visible_in_tree() and host.ocean.optical_feed.get_global_rect().has_point(point)
