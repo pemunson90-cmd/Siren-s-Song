@@ -1,5 +1,7 @@
 [QUEUE RUNNER 2026-10-29T20:29:16.4308673-04:00] running: 115 PID53128, 116 PID760, 118 PID19680; done: 103, 106, 113, 110, 112, 109, 114, 108, 111, 117; blocked: 105, 104.
 
+**[Claude S8 2026-10-29T20:37:15-0400] Pat approved Claude subagents for this usage window ("go wild"). Phase A of 119, 120, 121 is being built now by Claude subagents in worktrees Siren-s-Song-codex-119/120/121; auto.py runs Codex phase B (measure, independent Sol6.1-high review, PR) and C (merge) as usual. Root: these remain claude-lane rows.**
+
 **[Claude S8 2026-10-29T20:35:53-0400] TO ROOT: Pat ruled the next gauntlet loop starts after the 091 fixes land (PAT_RULINGS end). Queued for root: 122 Promotion 4 (when rows 115-121 read DONE/BLOCKED) then 123 cold audit 5 (fresh blind critic, region-by-region sessions to save tokens). Claude will ping here when the precondition is met.**
 
 [Claude-lane117 2026-10-29T20:26:25.7269593-04:00] DONE: PR228 merged dbc2f5bc; tool cargo now applies in Career/Expedition, finite reserves preserved; independent HIGH, Claude PASS and 7 exact-head checks green. Bounded117 closed; script owns successors.
@@ -440,9 +442,9 @@ Boundary follow-up28Oct03:12UTC: Windows completion check PASSES from current in
 | 113 | 116 MAKE SIREN RADIO REPORTS MATTER IN REAL OPS | CLAIMED (claude-lane, codex-fresh-116, 2026-10-29T19:54:52-0400; PAUSED by Claude until 115 merges) | | | [handoff](116-radio-ops.md) |
 | 114 | 117 EXTRA TOOLS COST CARGO IN CAREER AND EXPEDITION TOO | DONE (claude-lane, codex-fresh-117, 2026-10-29T20:26:25.7269593-04:00) | [PR228](https://github.com/pemunson90-cmd/Siren-s-Song/pull/228) | dbc2f5bc | Career/Expedition extra tools cost cargo; reserves preserved; 32 voyages, independent HIGH, Claude PASS and 7 green checks. [handoff](117-tool-cargo-all-modes.md) |
 | 115 | 118 AUDIT 091 FIX 1, TEXT SIZES, PANELS AND THE RECOVERY CHECKLIST | CLAIMED (claude-lane, codex-fresh-118, 2026-10-29T20:27:07.2139250-04:00) | | | [handoff](118-audit-readability.md) |
-| 116 | 119 AUDIT 091 FIX 2, CLEAR WORK TASKS AND THE RIGHT CRAFT | QUEUED (claude-lane, Pat 29 Oct) | | | [handoff](119-audit-orders.md) |
-| 117 | 120 AUDIT 091 FIX 3, FEWER REPEAT STOPS, FASTER RECORDS AND LOADOUTS | QUEUED (claude-lane, Pat 29 Oct) | | | [handoff](120-audit-navigation.md) |
-| 118 | 121 AUDIT 091 FIX 4, PHOTOS THAT SHOW WHAT YOU FOUND | QUEUED (claude-lane, Pat 29 Oct) | | | [handoff](121-audit-photo-evidence.md) |
+| 116 | 119 AUDIT 091 FIX 2, CLEAR WORK TASKS AND THE RIGHT CRAFT | CLAIMED (claude-lane, claude-subagent-119 phase A, 2026-10-29T20:37:15-0400; Codex phase B/C via auto.py) | | | [handoff](119-audit-orders.md) |
+| 117 | 120 AUDIT 091 FIX 3, FEWER REPEAT STOPS, FASTER RECORDS AND LOADOUTS | CLAIMED (claude-lane, claude-subagent-120 phase A, 2026-10-29T20:37:15-0400; Codex phase B/C via auto.py) | | | [handoff](120-audit-navigation.md) |
+| 118 | 121 AUDIT 091 FIX 4, PHOTOS THAT SHOW WHAT YOU FOUND | CLAIMED (claude-lane, claude-subagent-121 phase A, 2026-10-29T20:37:15-0400; Codex phase B/C via auto.py) | | | [handoff](121-audit-photo-evidence.md) |
 | 119 | 122 PROMOTION 4 (091 FIXES TO PRODUCTION) | QUEUED (codex-root, after rows 115-121 DONE/BLOCKED) | | | [handoff](122-promotion-4.md) |
 | 120 | 123 WHOLE-GAME COLD AUDIT 5 (read-only) | QUEUED (codex-root, after 122) | | | [handoff](123-cold-audit-5.md) |
 | 89 | 092 HIDDEN RESCUE OF SORLEY'S BOY (Pat ruling 28 Oct, experiment) | DONE | [207](https://github.com/pemunson90-cmd/Siren-s-Song/pull/207) | 2026-10-28T22:42:43Z | Hidden physical rescue, pilotage and epilogue; no ending vote/thread change integrated THROUGH207; batch review/checks above; owned paths released, shared seams now root070. |
