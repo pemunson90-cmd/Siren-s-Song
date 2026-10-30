@@ -39,7 +39,7 @@ static func show_campaign(host) -> void:
 	if not host.recovered_evidence.is_empty(): host._button(host.panel_box,"REVIEW FIELD RECORDS",func(): host._evidence_gallery(0),"evidence")
 	host._menu_text("Field records remain reviewable after loss or abandonment. Only successful extraction advances the campaign.",14)
 	var stock=host._loadout_stock(host.upgrade)
-	host._menu_text("NEXT DIVE / RETRY · %s\nO₂ %d%% · DISRUPT %d · SURVEY %d"%[host.upgrade.to_upper(),stock[0],preload("res://src/equipment/tool_racks.gd").total(host.tool_racks,"emp"),preload("res://src/equipment/tool_racks.gd").total(host.tool_racks,"recon")],15)
+	host._menu_text("NEXT DIVE / RETRY / %s\nO2 %d%%\n%s"%[host.upgrade.to_upper(),stock[0],preload("res://src/presentation/truthful_commands.gd").brief_stock(host.tool_racks)],15)
 	var rows=["COMPARE: O₂ / DISRUPT / SURVEY"]
 	for choice in ["endurance","disruption","survey"]:
 		var supplies=host._loadout_stock(choice)
@@ -108,7 +108,7 @@ static func briefing(host, index: int) -> void:
 	# Audit 091 F10: later briefings compare costs and mounts; the opening briefing keeps fit details optional.
 	if index>0 and not compact and not host._campaign_pristine() and not EconomyPanel.briefing_line(host).is_empty():host._menu_text(preload("res://src/presentation/launch_summary.gd").text(host),14)
 	preload("res://src/presentation/crew/crew_view.gd").briefing(host,index)
-	host._menu_text("NEXT DIVE / RETRY · %s\nO₂ %d%% · DISRUPT %d · SURVEY %d · %d DECOYS · %d TORPEDOES"%[host.upgrade.to_upper(),stock[0],preload("res://src/equipment/tool_racks.gd").total(host.tool_racks,"emp"),preload("res://src/equipment/tool_racks.gd").total(host.tool_racks,"recon"),preload("res://src/equipment/tool_racks.gd").total(host.tool_racks,"decoy"),preload("res://src/equipment/tool_racks.gd").total(host.tool_racks,"knock")],17)
+	host._menu_text("NEXT DIVE / RETRY / %s\nO2 %d%%\n%s"%[host.upgrade.to_upper(),stock[0],preload("res://src/presentation/truthful_commands.gd").brief_stock(host.tool_racks)],17)
 	# Frames open after the first dive; recovered fittings appear once earned. A toggle folds them away.
 	if not compact:fit_start=host.panel_box.get_child_count()
 	# Keep the first briefing focused; fit details stay available in its existing optional fold.

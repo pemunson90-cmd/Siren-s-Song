@@ -367,7 +367,7 @@ func _refresh() -> void:
 	pause_button.text="▶ RESUME" if sim.paused else "Ⅱ PAUSE"
 	for i in 3:
 		var work=sim.capture_feedback(i)
-		var capture_task={"receiver":"LISTEN","exchange":"SAMPLE","uplink":"LINK"}.get(PhotoCapture.obj(sim,work.target).get("kind",""),"PHOTO" if PhotoCapture.applies(PhotoCapture.obj(sim,work.target)) else "CAMERA") if work.unit>=0 else ""
+		var capture_task=WorkTaskView.action_verb(PhotoCapture.obj(sim,work.target)) if work.unit>=0 else ""
 		unit_buttons[i].modulate=Color("80d9cf") if sim.selected==i else Color.WHITE
 		unit_buttons[i].disabled=not sim.units[i].alive
 		var task="LOST" if not sim.units[i].alive else (capture_task if work.unit>=0 else (sim.units[i].hold if not sim.units[i].hold.is_empty() else ("ROUTE" if not sim.units[i].route.is_empty() else "READY")))
@@ -384,7 +384,7 @@ func _refresh() -> void:
 	order_buttons.queue.text="+ QUEUE ON" if sim.queue_mode else "REPLACE"
 	order_buttons.program.text="PLAN\nROUTE"
 	order_buttons.silent.text=("LOW\nPROFILE" if sim.units[sim.selected].silent else "OPEN\nPROFILE") if sim.selected>0 else ("SILENT ✓" if sim.units[0].silent else "CRUISE")
-	order_buttons.knock.text="CANCEL\nTORPEDO" if knock_armed else "TORPEDO\n%d"%sim.tools.get("knock",0)
+	order_buttons.knock.text="CANCEL\nTORPEDO" if knock_armed else "TORPEDO\n%d"%preload("res://src/presentation/truthful_commands.gd").stock(sim,"knock")
 	order_buttons.knock.disabled=not knock_armed and (sim.selected!=0 or not sim.units[0].alive or sim.tools.get("knock",0)<=0)
 	order_buttons.emp.text="DISRUPT\n%d"%preload("res://src/equipment/tool_racks.gd").count(sim,"emp")
 	order_buttons.emp.disabled=preload("res://src/equipment/tool_racks.gd").count(sim,"emp")<=0
