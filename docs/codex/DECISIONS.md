@@ -2,6 +2,7 @@
 
 Pat 2026-10-30 ~18:00: "only surface questions that need me, otherwise record all decision points and keep me posted so I can revert them." Each line: what, why, how to revert.
 
+- **D7 2026-10-30T19:08 Waived my own HOLD item 4 on PR238.** Cover 150% WITHDRAW/TORPEDO were hidden before 126 too (fixed 199px row floor); that is root package 2 layout. Revised 126 radial reads cleanly at 100%. Revert: re-hold PR238 until package 2 lands.
 - **D6 2026-10-30T18:43 PR238 (126) held once.** Physics identical and the fixes are right, but full-sentence reasons on radial buttons wrap one word per line and spill out of their sectors at 100%, and push withdraw/TORPEDO below the fold at cover 150%. Asked for one short reason token per button, full reason in the status line on a grey tap. Revert: post CLAUDE INTENT: PASS on PR238 to merge as it was.
 - **D5 2026-10-30T18:00 Lane split for packages 1 and 2.** Claude lane (126) owns wording, disabled reasons and route target selection; root owns layout, hit-testing, chart camera, threat stack, 150%. Why: both touch mission_hud.gd; splitting by concern avoids the 118-style cross-lane CI repairs. Revert: reassign on BOARD.
 - **D4 2026-10-30T17:59 Package order.** 0 harness, 1 truthful commands, 2 stable board (parallel), then 3 recovery manifest, 4 route flow, 5 prep/results, 6 look and sound (read-only comparison now, building waits for Pat's art calls), 7 late op variety. Why: ranked by player cost and by how surely the bug is verified. Revert: reorder in PLAN_DRAFT_1.
