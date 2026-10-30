@@ -58,6 +58,9 @@ func run():
   check(game.mission_hud.fleet.readouts.all(func(reading):return not reading.detail_visible or reading.rect.encloses(game.mission_hud.fleet.telemetry[reading.unit].get_rect())),"module-only cargo reserves each actually visible exact readout")
   game.mission_hud.dismiss();await settle();await tap(game.mission_hud.fleet.buttons[0].get_global_rect().get_center())
   if not game.advanced_orders:await tap(game.mission_hud.fleet.buttons[0].get_global_rect().get_center())
+  if game.mission_hud.page=="choose":
+   check(sim.selected==2 and 0 in game.mission_hud.choose_units,"cargo/object conflict retains recipient until explicit Quietus choice")
+   await tap(game.mission_hud.extra.choose_unit_0.get_global_rect().get_center())
   await tap(game.mission_hud.extra.inspect.get_global_rect().get_center())
   check(game.mission_hud.page=="inspect" and "INACTIVE CARGO" in game.mission_hud.instrument_info.text and "DEEP CELLS" in game.mission_hud.instrument_info.text,"deliberate STATUS preserves exact carried-module identity and inactive state")
   await capture(label+"-inactive-cargo")
