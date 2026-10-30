@@ -243,7 +243,7 @@ func _layout(cancel_gesture:bool=true) -> void:
 func _uses_tool_racks()->bool:
 	var script=get_script()
 	while script!=null:
-		if script.resource_path in ["res://src/presentation/frontend/challenge_session.gd","res://src/presentation/runs/expedition_session.gd","res://src/presentation/career/career_session.gd"]:return false
+		if script.resource_path in ["res://src/presentation/frontend/challenge_session.gd","res://src/presentation/runs/expedition_session.gd"]:return false
 		script=script.get_base_script()
 	return true
 func _start_mission(index: int) -> void:
@@ -252,8 +252,8 @@ func _start_mission(index: int) -> void:
 	if not launch.ok:sim.message="Fitting unavailable · choose available hardware or BARE";return
 	var racks=preload("res://src/equipment/tool_racks.gd")
 	if _uses_tool_racks():
-		if not racks.reason(fitted_equipment,Economy.Losses.racks(economy,tool_racks)).is_empty():sim.message=racks.reason(fitted_equipment,Economy.Losses.racks(economy,tool_racks));return
-		launch.launch["tool_racks"]=Economy.Losses.racks(economy,tool_racks)
+		var why=racks.prepare_launch(launch.launch,fitted_equipment,Economy.Losses.racks(economy,tool_racks))
+		if not why.is_empty():sim.message=why;return
 	launch.launch["context"]=_launch_context(index)
 	# The first call builds the paused display before loading an archive. Even
 	# blocked recovery needs valid craft/UI; later player launches stay guarded.

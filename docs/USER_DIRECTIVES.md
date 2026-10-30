@@ -1,3 +1,9 @@
+## 29 October 2026: tool cargo in Career and Expedition (handoff 117)
+
+[PAT, verbatim ruling recorded in handoff 117, chat ~17:50 ET] Claude asked "Should extra tools cost cargo in Career and Expedition too (today campaign only)? I recommend yes, so the loadout choice matters everywhere." Pat: "Yes to all".
+
+[KEEL / implementation scope] Career and Expedition launches use the shared per-craft tool lockers and cargo overflow rule with their own supplies. Cargo weights, locker sizes and extra-charge prices remain AI-DESIGNED. Existing active dives retain their stored stock and capacity rules.
+
 ## 29 October 2026: optional tactical pause aids and mirrored HUD (handoff 111)
 
 11. "Add tactical aids such as auto-pause when a Siren first notices you, as an Accessible option off by default?" = "Yes (Recommended)" (11)

@@ -40,7 +40,7 @@ func exercise(mode:String):
 	var sim=RunSim.new() if mode=="runs" else Rider.new()
 	if mode=="runs":sim.configure(state);sim.start(-1)
 	else:
-		sim.configure(state.rider);sim.start(0,"endurance",{"fitted":state.fitted,"context":{"completed":state.progress.completed,"facts":state.progress.facts},"fleet_commit":false})
+		sim.configure(state.rider);sim.start(0,"endurance",{"fitted":state.fitted,"tool_racks":state.tool_racks,"context":{"completed":state.progress.completed,"facts":state.progress.facts},"fleet_commit":false})
 		Career.Economy.apply_launch(state.economy,sim)
 	sim.elapsed=2.;sim.oxygen=87.;sim.units[0].pos+=Vector2(12,3)
 	sim.command("emp");sim.command("sonobuoy",{"pos":sim.units[0].pos});sim.loud_time=.5;sim.fail("CHALLENGE · persisted violation")
@@ -316,7 +316,7 @@ func dev_entry(mode:String):
 	var sim=RunSim.new() if mode=="runs" else Rider.new()
 	if mode=="runs":sim.configure(state);sim.start(-1)
 	else:
-		sim.configure(state.rider);sim.start(0,"endurance",{"fitted":state.fitted,"context":Active.context_for(mode,state),"fleet_commit":false})
+		sim.configure(state.rider);sim.start(0,"endurance",{"fitted":state.fitted,"tool_racks":state.tool_racks,"context":Active.context_for(mode,state),"fleet_commit":false})
 		Career.Economy.apply_launch(state.economy,sim)
 	sim.command("emp");sim.elapsed=4.
 	var envelope=Active.capture(mode,state,sim)

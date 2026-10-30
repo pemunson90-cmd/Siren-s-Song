@@ -5,6 +5,8 @@ const State=preload("res://src/campaign/runs/run_state.gd")
 const Offers=preload("res://src/campaign/runs/run_offers.gd")
 const Archive=preload("res://src/campaign/runs/run_archive.gd")
 const Modes=preload("res://src/presentation/runs/modes_frontend.gd")
+const Racks=preload("res://src/equipment/tool_racks.gd")
+const RunTable=preload("res://src/campaign/runs/run_table.gd")
 func offer_case(shape,choice):
 	root.size=shape;await settle()
 	var path="user://offer-ui-%d-%d.save"%[shape.x,choice]
@@ -59,7 +61,16 @@ func offer_case(shape,choice):
 	check(session.screen=="expedition_menu" and session.run_state==picked,"picked reload has no second grant or slate")
 	await press(session,"run_begin")
 	check(session.screen=="mission" and session.run_state.in_flight and session.sim.paused,"touch begins next authored operation paused")
-	check(session.sim.tools.emp==picked.stock.emp and session.sim.mission.field_tools.counts.hull_patch==picked.stock.hull_patch,"simulation starts with selected finite supplies")
+	var launched_racks:Dictionary=session.run_state.tool_racks
+	check(session.sim.mission.tool_racks==launched_racks,"simulation starts with the authoritative launched racks")
+	check(session.run_state.stock==picked.stock,"launch retains selected stock including unloaded reserves")
+	var allocations_fit_stock=true
+	for tool in RunTable.TOOLS:
+		var allocated=Racks.total(launched_racks,tool)
+		if allocated>picked.stock[tool]:allocations_fit_stock=false
+		if session.sim.tools.has(tool) and session.sim.tools[tool]!=allocated:allocations_fit_stock=false
+		if tool in preload("res://src/equipment/field_tools.gd").field_ids() and session.sim.mission.field_tools.counts[tool]!=allocated:allocations_fit_stock=false
+	check(allocations_fit_stock,"launched rack allocations fit selected finite stock and simulation counts")
 	check(host.sim.snapshot()==snapshot and FileAccess.get_file_as_bytes(path)==campaign_bytes and FileAccess.get_file_as_string(path+".career")=="career resources preserved","campaign simulation/archive and career bytes unchanged")
 	session._return();await settle();host.queue_free();await settle()
 func run():
