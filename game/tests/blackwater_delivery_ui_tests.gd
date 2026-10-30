@@ -69,7 +69,7 @@ func run():
   await touch(point,true);await move(point+Vector2(90,35),Vector2(90,35));await touch(point+Vector2(90,35),false);await settle()
   check(sim.snapshot()==before and game.ocean.chart_camera.snapshot()!=camera,"drag from the buffered craft ring pans without a route or transfer")
   sim.command("select",{"unit":1});game._refresh();h.open("craft");await settle()
-  check(game.order_buttons.camera.visible and game.order_buttons.camera.text=="SAMPLE" and h.extra.blackwater_handoff.visible and h.extra.blackwater_handoff.disabled,"remote carrier keeps SAMPLE and shows a disabled explicit local transfer")
+  check(game.order_buttons.camera.visible and game.order_buttons.camera.text.get_slice("\n",0)=="DECODE" and h.extra.blackwater_handoff.visible and h.extra.blackwater_handoff.disabled,"remote carrier keeps DECODE and shows a disabled explicit local transfer")
   h.open("inspect");await settle();check("60m" in h.instrument_info.text and "settle" in h.instrument_info.text.to_lower(),"carrier status explains local handoff readiness from public context")
   sim.local_ready=true;h.open("craft");await settle();before=sim.snapshot()
   var transfer=h.extra.blackwater_handoff.get_global_rect().get_center()

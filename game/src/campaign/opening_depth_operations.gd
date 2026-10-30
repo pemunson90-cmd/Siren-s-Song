@@ -19,8 +19,8 @@ const PROFILES={
   "bands":{0:{"remove":[1],"add":[Rect2(650,650,360,120)]},2:{"remove":[0],"add":[]}},
   "threats":{0:{"pos":Vector2(700,350),"home":Vector2(700,350),"goal":Vector2(700,350),"type":"sentinel","tether":190.0,"patrol_points":[Vector2(760,350),Vector2(760,180),Vector2(1120,180),Vector2(1120,520),Vector2(760,720)]},1:{"band":0}},
   "sweepers":[{"pos":Vector2(1120,570),"band":2}],
-  "hint":"Buffers stay on craft · SAMPLE in MIDDLE · TRANSFER at same depth within 60m.",
-  "brief":"SAMPLE REQUEST and REPLY, then bring both raw buffers aboard Quietus and return. DEEP opens the western underpass; SHALLOW opens the northern reply approach but blocks the southern glider lane. A shallow patrol and deep sweeper guard different waters. SAMPLE in MIDDLE; meet in the same settled band within 60m to TRANSFER drone buffers. Quietus can sample directly. Craft → DEPTH / SONAR shows received bearings, not promised positions."
+  "hint":"Buffers stay on craft · DECODE in MIDDLE · TRANSFER at same depth within 60m.",
+  "brief":"DECODE REQUEST and REPLY, then bring both raw buffers aboard Quietus and return. DEEP opens the western underpass; SHALLOW opens the northern reply approach but blocks the southern glider lane. A shallow patrol and deep sweeper guard different waters. DECODE in MIDDLE; meet in the same settled band within 60m to TRANSFER drone buffers. Quietus can sample directly. Craft → DEPTH / SONAR shows received bearings, not promised positions."
  },
  "foundry_layers":{
   "source":3,

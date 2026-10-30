@@ -89,6 +89,12 @@ func run():
  var brief=Copy.brief_stock(racks)
  check("QUIETUS: " in brief and "DRONE A: " in brief and "DRONE B: " in brief,"brief separates all three craft")
  check("TORPEDOES 0" in brief.get_slice("\n",1) and "DISRUPT 0" in brief.get_slice("\n",2),"brief shows each craft's zero stock")
+ # Opening brief stays short; the existing fittings page carries every craft's stock.
+ g.tool_racks=racks.duplicate(true);g._show_fittings();await frames()
+ var fitting_copy=""
+ for child in g.panel_box.get_children():
+  if child is Label:fitting_copy+=child.text+"\n"
+ check(brief in fitting_copy,"opening fittings entry shows all per-craft counts including zero")
  # Object-sheet ROUTE HERE must use the same work approach seam as the
  # dedicated Reach/Choir pages. No direct-to-centre fallback on those sheets.
  for subkind in ["glass_work","choir"]:

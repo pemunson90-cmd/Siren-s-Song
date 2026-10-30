@@ -74,7 +74,7 @@ static func cycle_loadout(host)->void:
 
 static func orders_text(host, briefing:Dictionary) -> String:
 	if briefing.get("blackwater_revision",0)==1:
-		return "ORDERS\nTap a craft for its command ring; FLEET chooses a station. Empty water plots its route; a craft that already has orders asks you to confirm. ROUTE → REPLACE / QUEUE changes append intent. PAUSE stays available. Settle and SAMPLE for two seconds. Quietus receives within156m; drones within214.5m. Cover blocks reception. An audible SONAR may prompt a local relay replay; a decoded packet explains its partner's handshake. Drone buffers TRANSFER locally to Quietus: both settled, within60m, clear link. Return with both packets aboard."
+		return "ORDERS\nTap a craft for its command ring; FLEET chooses a station. Empty water plots its route; a craft that already has orders asks you to confirm. ROUTE → REPLACE / QUEUE changes append intent. PAUSE stays available. Settle and DECODE for two seconds. Quietus receives within156m; drones within214.5m. Cover blocks reception. An audible SONAR may prompt a local relay replay; a decoded packet explains its partner's handshake. Drone buffers TRANSFER locally to Quietus: both settled, within60m, clear link. Return with both packets aboard."
 	return "ORDERS\nTap a craft for its command ring; FLEET chooses a station. Tap empty water to plot a route; a craft that already has orders asks you to confirm. Craft → ROUTE → REPLACE / QUEUE changes append intent. PAUSE stays available. Drag / pinch inspects freely; FOCUS follows the craft and FIT shows the region. CAMERA works within 240m of a gold record marker. Return Quietus after all records are secured."
 
 static func briefing(host, index: int) -> void:
@@ -108,7 +108,10 @@ static func briefing(host, index: int) -> void:
 	# Audit 091 F10: later briefings compare costs and mounts; the opening briefing keeps fit details optional.
 	if index>0 and not compact and not host._campaign_pristine() and not EconomyPanel.briefing_line(host).is_empty():host._menu_text(preload("res://src/presentation/launch_summary.gd").text(host),14)
 	preload("res://src/presentation/crew/crew_view.gd").briefing(host,index)
-	host._menu_text("NEXT DIVE / RETRY / %s\nO2 %d%%\n%s"%[host.upgrade.to_upper(),stock[0],preload("res://src/presentation/truthful_commands.gd").brief_stock(host.tool_racks)],17)
+	# The opening goal/danger stays short; its existing FITTINGS entry owns stock detail.
+	var next_dive="NEXT DIVE / RETRY / %s\nO2 %d%%"%[host.upgrade.to_upper(),stock[0]]
+	if index>=3:next_dive+="\n"+preload("res://src/presentation/truthful_commands.gd").brief_stock(host.tool_racks)
+	host._menu_text(next_dive,17)
 	# Frames open after the first dive; recovered fittings appear once earned. A toggle folds them away.
 	if not compact:fit_start=host.panel_box.get_child_count()
 	# Keep the first briefing focused; fit details stay available in its existing optional fold.
