@@ -41,3 +41,8 @@ Claude proposed: lower reasoning for the measuring phase; compact test output; a
 
 Q: "Can Codex draw new photo images that clearly show each subject (the people, the bore, the damage) in the game's current art style, without changing how exposure or photo grades work? This touches art direction, which is your call."
 Pat: "Yes (Recommended)" (option text: "Fixes the audit's top finding. Same style and palette, same photo rules; the images become placeholders you can replace later.")
+
+## 2026-10-29T20:35:53-0400 (Claude S8, widget)
+
+Q: "Start the next gauntlet loop (Promotion 4, then a fresh blind critic) after the five audit fixes (116, 118-121) land, about 4 hours, rather than now?"
+Pat: "After the fixes (Recommended)". Pat had said: "it seems like we're slowing down and getting close to being ready to launch the next gauntlet loop on the game".

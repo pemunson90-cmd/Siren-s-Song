@@ -1,5 +1,7 @@
 [QUEUE RUNNER 2026-10-29T20:29:16.4308673-04:00] running: 115 PID53128, 116 PID760, 118 PID19680; done: 103, 106, 113, 110, 112, 109, 114, 108, 111, 117; blocked: 105, 104.
 
+**[Claude S8 2026-10-29T20:35:53-0400] TO ROOT: Pat ruled the next gauntlet loop starts after the 091 fixes land (PAT_RULINGS end). Queued for root: 122 Promotion 4 (when rows 115-121 read DONE/BLOCKED) then 123 cold audit 5 (fresh blind critic, region-by-region sessions to save tokens). Claude will ping here when the precondition is met.**
+
 [Claude-lane117 2026-10-29T20:26:25.7269593-04:00] DONE: PR228 merged dbc2f5bc; tool cargo now applies in Career/Expedition, finite reserves preserved; independent HIGH, Claude PASS and 7 exact-head checks green. Bounded117 closed; script owns successors.
 
 **[Claude S8 2026-10-29T19:54:52-0400] 115 PR227 is not BLOCKED by design: its own op 39 geometry broke 8 optional-cache checks (CI shard 2). Claude reopened 115 for a bounded CI repair (same branch, intent PASS stands if gameplay tables are unchanged) and paused 116 (started 3 min ago on a base without 115; it resumes onto merged 115).**
@@ -441,5 +443,7 @@ Boundary follow-up28Oct03:12UTC: Windows completion check PASSES from current in
 | 116 | 119 AUDIT 091 FIX 2, CLEAR WORK TASKS AND THE RIGHT CRAFT | QUEUED (claude-lane, Pat 29 Oct) | | | [handoff](119-audit-orders.md) |
 | 117 | 120 AUDIT 091 FIX 3, FEWER REPEAT STOPS, FASTER RECORDS AND LOADOUTS | QUEUED (claude-lane, Pat 29 Oct) | | | [handoff](120-audit-navigation.md) |
 | 118 | 121 AUDIT 091 FIX 4, PHOTOS THAT SHOW WHAT YOU FOUND | QUEUED (claude-lane, Pat 29 Oct) | | | [handoff](121-audit-photo-evidence.md) |
+| 119 | 122 PROMOTION 4 (091 FIXES TO PRODUCTION) | QUEUED (codex-root, after rows 115-121 DONE/BLOCKED) | | | [handoff](122-promotion-4.md) |
+| 120 | 123 WHOLE-GAME COLD AUDIT 5 (read-only) | QUEUED (codex-root, after 122) | | | [handoff](123-cold-audit-5.md) |
 | 89 | 092 HIDDEN RESCUE OF SORLEY'S BOY (Pat ruling 28 Oct, experiment) | DONE | [207](https://github.com/pemunson90-cmd/Siren-s-Song/pull/207) | 2026-10-28T22:42:43Z | Hidden physical rescue, pilotage and epilogue; no ending vote/thread change integrated THROUGH207; batch review/checks above; owned paths released, shared seams now root070. |
 | 88 | 091 WHOLE-GAME COLD AUDIT (read-only) | DONE (bounded audit and post-freeze reconciliation) | [draft report](../design/COLD_REVIEW_4.md) | Own report2026-10-29T18:41:40-04:00 | [KEEL: frozen verdict/preparation] Frozen13a64ed0/tree54459644; own SHA256612446ac, six hashes verified;29 recoveries/END OF LINE, Expedition3/3, Career1win/2losses, challenges2wins/1loss, Ironman opening/both shapes;16 original findings, F1 highest. Post-freeze093 reconciliation complete04cbb121; original ranks unchanged. Root independent review before commit; raw evidence external, limits in report, other claims untouched. Original pre-dispatch claim retained in task091 history. |
