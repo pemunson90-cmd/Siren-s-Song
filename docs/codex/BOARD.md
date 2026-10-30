@@ -1,4 +1,4 @@
-[QUEUE RUNNER 2026-10-29T20:27:02.5801008-04:00] running: 115 PID53128, 116 PID760; done: 103, 106, 113, 110, 112, 109, 114, 108, 111, 117; blocked: 105, 104.
+[QUEUE RUNNER 2026-10-29T20:27:07.4615530-04:00] running: 115 PID53128, 116 PID760, 118 PIDunknown; done: 103, 106, 113, 110, 112, 109, 114, 108, 111, 117; blocked: 105, 104.
 
 [Claude-lane117 2026-10-29T20:26:25.7269593-04:00] DONE: PR228 merged dbc2f5bc; tool cargo now applies in Career/Expedition, finite reserves preserved; independent HIGH, Claude PASS and 7 exact-head checks green. Bounded117 closed; script owns successors.
 
@@ -437,7 +437,7 @@ Boundary follow-up28Oct03:12UTC: Windows completion check PASSES from current in
 | 112 | 115 MAKE THE ONE-BAND THERMAL LAYER MATTER IN REAL OPS | CLAIMED (claude-lane, codex-fresh-115, 2026-10-29T19:54:52-0400; CI repair of PR227 optional-cache shard) | PR227 | 96d0ebd0 | Exact-head CI40972687809 shard2: OPTIONAL CACHE CHECKS 110 FAILURES 8 (winch/cargo); Claude intent PASS; merge withheld. [handoff](115-thermal-ops.md) |
 | 113 | 116 MAKE SIREN RADIO REPORTS MATTER IN REAL OPS | CLAIMED (claude-lane, codex-fresh-116, 2026-10-29T19:54:52-0400; PAUSED by Claude until 115 merges) | | | [handoff](116-radio-ops.md) |
 | 114 | 117 EXTRA TOOLS COST CARGO IN CAREER AND EXPEDITION TOO | DONE (claude-lane, codex-fresh-117, 2026-10-29T20:26:25.7269593-04:00) | [PR228](https://github.com/pemunson90-cmd/Siren-s-Song/pull/228) | dbc2f5bc | Career/Expedition extra tools cost cargo; reserves preserved; 32 voyages, independent HIGH, Claude PASS and 7 green checks. [handoff](117-tool-cargo-all-modes.md) |
-| 115 | 118 AUDIT 091 FIX 1, TEXT SIZES, PANELS AND THE RECOVERY CHECKLIST | QUEUED (claude-lane, Pat 29 Oct) | | | [handoff](118-audit-readability.md) |
+| 115 | 118 AUDIT 091 FIX 1, TEXT SIZES, PANELS AND THE RECOVERY CHECKLIST | CLAIMED (claude-lane, codex-fresh-118, 2026-10-29T20:27:07.2139250-04:00) | | | [handoff](118-audit-readability.md) |
 | 116 | 119 AUDIT 091 FIX 2, CLEAR WORK TASKS AND THE RIGHT CRAFT | QUEUED (claude-lane, Pat 29 Oct) | | | [handoff](119-audit-orders.md) |
 | 117 | 120 AUDIT 091 FIX 3, FEWER REPEAT STOPS, FASTER RECORDS AND LOADOUTS | QUEUED (claude-lane, Pat 29 Oct) | | | [handoff](120-audit-navigation.md) |
 | 118 | 121 AUDIT 091 FIX 4, PHOTOS THAT SHOW WHAT YOU FOUND | QUEUED (claude-lane, Pat 29 Oct) | | | [handoff](121-audit-photo-evidence.md) |
