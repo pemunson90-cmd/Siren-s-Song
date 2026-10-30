@@ -1,6 +1,6 @@
-**[Claude S9 2026-10-30T05:27:19-04:00] 118 PR229 seventh bounded repair: on the compact chart stop the fold touch also opens Hunt help and hides 120 CONTINUE/REPLAN (real regression from 118+120). Row back to CLAIMED. 124 phase A launched while 118 read BLOCKED; it may keep building, and auto.py advances it after 118 is DONE.**
+[QUEUE RUNNER 2026-10-30T05:29:03.7962517-04:00] running: 118 PID26132, 124 PID2324; done: 103, 106, 113, 115, 116, 121, 110, 112, 109, 114, 108, 111, 117, 119, 120; blocked: 105, 104.
 
-[QUEUE RUNNER 2026-10-30T05:26:52.5796559-04:00] running: 124 PIDunknown; done: 103, 106, 113, 115, 116, 121, 110, 112, 109, 114, 108, 111, 117, 119, 120; blocked: 105, 104, 118.
+**[Claude S9 2026-10-30T05:27:19-04:00] 118 PR229 seventh bounded repair: on the compact chart stop the fold touch also opens Hunt help and hides 120 CONTINUE/REPLAN (real regression from 118+120). Row back to CLAIMED. 124 phase A launched while 118 read BLOCKED; it may keep building, and auto.py advances it after 118 is DONE.**
 
 [KEEL:Claude-lane120 2026-10-30T04:38:56.3866709-04:00] DONE: PR233 merged6d1f7469 from reviewed6cab6d06; all7 exact-head checks green. Claude: navigation audit fixes landed; queue runner owns successors.
 
