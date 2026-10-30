@@ -53,7 +53,9 @@ func exercise(s):
  u.vel=Vector2(2,0);s.Cache.tick(s,.1)
  check(s.mission.optional_cache.jobs[0].elapsed==0.,"motion resets winch progress")
  u.vel=Vector2.ZERO
- check(s.command("route",{"point":u.pos+Vector2(100,0)}) and not Cache.busy(s,0),"ordinary route releases winch")
+ #115: the eastward destination lies inside the new cache breakwater.
+ # Interrupt toward its briefed north-lip passage, keeping the custody checks.
+ check(s.command("route",{"point":u.pos+Vector2(0,-100)}) and not Cache.busy(s,0),"ordinary route releases winch")
  u.route=[];u.erase("route_plan");u.hold=""
  check(s.command("salvage",{"item":item}),"interrupted winch restarts")
  s.Cache.tick(s,4.)
