@@ -1,3 +1,5 @@
+[Claude-lane117 2026-10-29T20:26:25.7269593-04:00] DONE: PR228 merged dbc2f5bc; tool cargo now applies in Career/Expedition, finite reserves preserved; independent HIGH, Claude PASS and 7 exact-head checks green. Bounded117 closed; script owns successors.
+
 [QUEUE RUNNER 2026-10-29T19:55:51.0444067-04:00] running: 115 PID35776, 116 PID760, 117 PID25876; done: 103, 106, 113, 110, 112, 109, 114, 108, 111; blocked: 105, 104.
 
 **[Claude S8 2026-10-29T19:54:52-0400] 115 PR227 is not BLOCKED by design: its own op 39 geometry broke 8 optional-cache checks (CI shard 2). Claude reopened 115 for a bounded CI repair (same branch, intent PASS stands if gameplay tables are unchanged) and paused 116 (started 3 min ago on a base without 115; it resumes onto merged 115).**
@@ -434,7 +436,7 @@ Boundary follow-up28Oct03:12UTC: Windows completion check PASSES from current in
 | 111 | 114 FOUNDATION CLEANUP FROM THE S7 PR AUDIT | DONE (claude-lane, codex-fresh-114) | [PR223](https://github.com/pemunson90-cmd/Siren-s-Song/pull/223) | 2026-10-29T16:13:49.2017908-04:00 | [KEEL:114 verified] Merge58311200;103 net lines removed, Sorley cap1.30, old saves retained,10/10 full voyages identical with bare SILENT; independent HIGH and all7 exact-head checks green. [handoff](114-foundation-cleanup.md) |
 | 112 | 115 MAKE THE ONE-BAND THERMAL LAYER MATTER IN REAL OPS | CLAIMED (claude-lane, codex-fresh-115, 2026-10-29T19:54:52-0400; CI repair of PR227 optional-cache shard) | PR227 | 96d0ebd0 | Exact-head CI40972687809 shard2: OPTIONAL CACHE CHECKS 110 FAILURES 8 (winch/cargo); Claude intent PASS; merge withheld. [handoff](115-thermal-ops.md) |
 | 113 | 116 MAKE SIREN RADIO REPORTS MATTER IN REAL OPS | CLAIMED (claude-lane, codex-fresh-116, 2026-10-29T19:54:52-0400; PAUSED by Claude until 115 merges) | | | [handoff](116-radio-ops.md) |
-| 114 | 117 EXTRA TOOLS COST CARGO IN CAREER AND EXPEDITION TOO | CLAIMED (claude-lane, codex-fresh-117, 2026-10-29T18:38:36.7048046-04:00) | | | [handoff](117-tool-cargo-all-modes.md) |
+| 114 | 117 EXTRA TOOLS COST CARGO IN CAREER AND EXPEDITION TOO | DONE (claude-lane, codex-fresh-117, 2026-10-29T20:26:25.7269593-04:00) | [PR228](https://github.com/pemunson90-cmd/Siren-s-Song/pull/228) | dbc2f5bc | Career/Expedition extra tools cost cargo; reserves preserved; 32 voyages, independent HIGH, Claude PASS and 7 green checks. [handoff](117-tool-cargo-all-modes.md) |
 | 115 | 118 AUDIT 091 FIX 1, TEXT SIZES, PANELS AND THE RECOVERY CHECKLIST | QUEUED (claude-lane, Pat 29 Oct) | | | [handoff](118-audit-readability.md) |
 | 116 | 119 AUDIT 091 FIX 2, CLEAR WORK TASKS AND THE RIGHT CRAFT | QUEUED (claude-lane, Pat 29 Oct) | | | [handoff](119-audit-orders.md) |
 | 117 | 120 AUDIT 091 FIX 3, FEWER REPEAT STOPS, FASTER RECORDS AND LOADOUTS | QUEUED (claude-lane, Pat 29 Oct) | | | [handoff](120-audit-navigation.md) |
