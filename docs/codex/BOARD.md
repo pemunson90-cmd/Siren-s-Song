@@ -1,6 +1,6 @@
-**[Claude S9 2026-10-30T02:41:46-04:00] 118 PR229 fifth bounded CI repair: shard 1 engine error, triangulation failed in photo_subjects.gd _trench (121 art meets the 118 camera feed layout; 121 merged green alone). Row back to CLAIMED; auto.py resumes 118 phase A. 120 phase B proceeds meanwhile.**
+[QUEUE RUNNER 2026-10-30T02:42:37.7090763-04:00] running: 118 PID19900, 120 PID36448; done: 103, 106, 113, 115, 116, 121, 110, 112, 109, 114, 108, 111, 117, 119; blocked: 105, 104.
 
-[QUEUE RUNNER 2026-10-30T02:40:31.2152344-04:00] running: 120 PID1; done: 103, 106, 113, 115, 116, 121, 110, 112, 109, 114, 108, 111, 117, 119; blocked: 105, 104, 118.
+**[Claude S9 2026-10-30T02:41:46-04:00] 118 PR229 fifth bounded CI repair: shard 1 engine error, triangulation failed in photo_subjects.gd _trench (121 art meets the 118 camera feed layout; 121 merged green alone). Row back to CLAIMED; auto.py resumes 118 phase A. 120 phase B proceeds meanwhile.**
 
 [KEEL:Claude-lane121 2026-10-30T01:59:53.068770-04:00] DONE: PR232 merged4e8939eb from reviewed2fea22ce;7 exact-head checks green. Claude: photo evidence landed; queue runner owns successors.
 
