@@ -74,7 +74,7 @@ const READINGS={
  "GUARD SHIFT NAMEPLATE":"A watch roster plate beside the gallery hatch, its lines still legible. The guard post was manned when the strike came.",
  "DRILLERS AND GUARDS AT THE GLASS":"Four drillers in hard hats and two armed guards stand behind the lit gallery glass, palms on the pane. They are alive.",
  "SIREN REED SCORING":"Long parallel cuts in the stone above a loose choir reed. Siren work, not tool marks.",
- "HUMAN BORE THROUGH SIREN FOUNDATION":"A plain steel casing cuts straight through the ornate Siren courses; their red seams end at the raw stone. The drill went through, not around.",
+ "HUMAN BORE THROUGH SIREN FOUNDATION":"A steel bore cuts through carved Siren courses, ending their red seams at raw stone. The drill went through, not around.",
  "FIRST STRIKE IMPACT FACE":"A cratered, glassed face with fractures running out from one point. The heaviest damage faces the bore.",
  "KEEL UNDER THE DRILL DECK":"The fallen drill deck lies across a guard boat keel, its contact face buckled inward. The deck came down on the boat.",
  "MISSING GUARD BERTHS":"Five guard berth cradles; one holds a hull, the rest hang empty with loose lines. Most of the guard boats are gone.",
