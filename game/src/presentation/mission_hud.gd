@@ -314,13 +314,13 @@ func popup_input(event) -> bool:
   var chosen=sector_press;sector_press=null
   var released=witness_button_at(point)
   if released==null:released=recovery_button_at(point) if page=="recovery" else plant_button_at(point) if page=="plant" else sector_at(point)
-  if chosen==released and not chosen.disabled:chosen.pressed.emit()
+  if chosen==released:Truthful.activate(self,chosen)
   return true
  return false
 func _dock_tap(start:Vector2,end:Vector2)->void:
  for b in ring_buttons:
-  if not b.disabled and b.is_visible_in_tree() and b.get_global_rect().has_point(start) and b.get_global_rect().has_point(end):
-   b.pressed.emit();return
+  if b.is_visible_in_tree() and b.get_global_rect().has_point(start) and b.get_global_rect().has_point(end):
+   Truthful.activate(self,b);return
 func _outside(event):
  if event is InputEventScreenTouch or event is InputEventMouseButton:
   var point=event.position+blocker.global_position

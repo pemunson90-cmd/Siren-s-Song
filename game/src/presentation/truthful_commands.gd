@@ -186,15 +186,101 @@ static func projected_reasons(hud)->void:
  if not sim.blackwater_delivery_status().is_empty():
   for pair in [[1,"blackwater_a"],[2,"blackwater_b"],[sim.selected,"blackwater_handoff"]]:hud.extra[pair[1]].tooltip_text=local_reason(sim,sim.blackwater_handoff_context(pair[0]))
 
-# Surface existing refusal projections on the action itself, including touch
-# interfaces with no hover. Metadata prevents repeated suffixes between refreshes.
-static func reason_button(button,reason:String)->void:
+# Buttons keep a short action and one compact requirement. Full public refusal
+# text stays available to touch through the existing popup activation path.
+static func reason_token(reason:String)->String:
+ var lower=reason.to_lower()
+ if "quietus" in lower:return "QUIETUS ONLY"
+ if "zero stock" in lower:return "NONE ABOARD"
+ if "no measured approach" in lower:return "SURVEY SIDE"
+ if "needs " in lower:
+  for band in ["SHALLOW","MIDDLE","DEEP"]:
+   if band.to_lower() in lower:return "NEEDS "+band
+ if "already " in lower:return reason.to_upper()
+ if "changing depth" in lower or "depth change" in lower:return "CHANGING DEPTH"
+ if "settle below 2" in lower:return "SETTLE <2m/s"
+ if "settling" in lower or "settle" in lower:return "SETTLING"
+ # Prefer current distance to the work range when both are projected.
+ for word in reason.replace("/"," ").split(" ",false):
+  if word.ends_with("m") and word.trim_suffix("m").is_valid_int():
+   if word+" away" in reason:return word
+ if "recovery range" in lower:return reason.get_slice(" / ",0)
+ if "heading" in lower or "bearing" in lower or "face " in lower:return "ALIGN BEARING"
+ if "speed" in lower or "slow" in lower:return "SLOW DOWN"
+ if "recharg" in lower:return "RECHARGING"
+ if "active work" in lower or "busy" in lower:return "FINISH WORK"
+ if "tow" in lower:return "CHECK TOW"
+ if "arrivals" in lower:return "NO ARRIVALS"
+ if "craft lost" in lower:return "CRAFT LOST"
+ if "locate" in lower or "unknown" in lower:return "LOCATE SITE"
+ if "collision damage" in lower:return "NEEDS DAMAGE"
+ if "active"==lower:return "ACTIVE"
+ if "lock" in lower:
+  for lock in ["A","B","C"]:
+   if "lock "+lock.to_lower() in lower:return "AFTER LOCK "+lock
+  return "AFTER LOCK"
+ if "gate" in lower:return "CHECK GATE"
+ if "within" in lower or "reach" in lower or "range" in lower:return "OUT OF RANGE"
+ return "CHECK STATUS"
+
+static func short_label(base:String)->String:
+ var line=base.get_slice("\n",0)
+ var second=base.get_slice("\n",1)
+ if second.is_valid_int():return line+" "+second
+ if base.begins_with("ROUTE TO\n"):return "ROUTE"
+ # Field tools already carry count and action on line one; their original
+ # second line is availability. Preserve both words of other action labels.
+ if not line.is_empty() and line.get_slice(" ",line.get_slice_count(" ")-1).is_valid_int():return line
+ var label=base.replace("\n"," ")
+ if label=="TRANSFER TO QUIETUS":return "TRANSFER"
+ if label=="RESTORE SERVICE":return "RESTORE"
+ if label=="OPEN LOCAL GATE":return "OPEN GATE"
+ if label.begins_with("RECOVER 4s"):return "RECOVER"
+ if label.begins_with("RELEASE BERTH"):return "RELEASE BERTH"
+ return label
+
+static func reason_button(button,reason:String,inline:bool=false)->void:
  var previous=str(button.get_meta("truthful_render",""))
  var base=str(button.get_meta("truthful_base",button.text)) if button.text==previous else button.text
  button.set_meta("truthful_base",base)
- button.text=base+("\n"+reason if button.disabled and not reason.is_empty() else "")
+ button.text=base.replace("\n"," ") if inline else base
+ if button.disabled and not reason.is_empty():
+  var label=short_label(base);var token=reason_token(reason)
+  if inline:button.text=label+" / "+token
+  else:
+   # Two newline-delimited lines can still wrap to four on the native radial.
+   # Keep the original caption when an extra token would grow its text. The
+   # full refusal always remains available on tap, even without a token.
+   var font=button.get_theme_font("font");var font_size=button.get_theme_font_size("font_size")
+   var width=maxf(1.,button.size.x-4.)
+   if font.get_string_size(token,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x>width:
+    token=token.trim_prefix("NEEDS ").trim_prefix("CHECK ")
+   if font.get_string_size(label,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x<=width and font.get_string_size(token,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x<=width:
+    button.text=label+"\n"+token
  button.set_meta("truthful_render",button.text)
+ button.set_meta("truthful_reason",reason if button.disabled else "")
  button.tooltip_text=reason if button.disabled else ""
+
+static func recovery_label(sim)->String:
+ var name=recovery_name(sim).split(" / ")[0].to_upper()
+ for pair in [["NORTH","N."],["SOUTH","S."],["EAST","E."],["WEST","W."]]:name=name.replace(pair[0],pair[1])
+ name=name.replace(" RECOVERY","").replace(" MOUTH","")
+ name=name.replace("REACH","RCH").replace("COLLAR","CLR").replace(" ","")
+ if name.length()>5:name=name.left(5)
+ return "WITHDRAW\n%s%dm"%[name,roundi(sim.units[0].pos.distance_to(sim.mission.extraction))]
+
+static func activate(hud,button)->void:
+ if not button.disabled:
+  if hud.has_meta("truthful_feedback"):
+   hud.remove_meta("truthful_feedback")
+   hud.intent.visible=not hud.host.advanced_orders
+  button.pressed.emit()
+  return
+ var reason=str(button.get_meta("truthful_reason",button.tooltip_text))
+ if reason.is_empty():reason="Unavailable here"
+ hud.host.sim.message=reason
+ hud.set_meta("truthful_feedback",{"reason":reason,"page":hud.page,"unit":hud.host.sim.selected})
+ hud.host._refresh()
 
 static func apply(hud)->void:
  var sim=hud.host.sim;var u=sim.units[sim.selected]
@@ -215,7 +301,7 @@ static func apply(hud)->void:
  if hud.subject.get("kind","")=="salvage":hud.extra.salvage.tooltip_text=local_reason(sim,sim.salvage_context(hud.subject.item),sim.Depth.cargo_band(sim,hud.subject.item))
  for pair in [["depth_up",-1],["depth_down",1]]:
   var why=depth_reason(sim,pair[1]);hud.extra[pair[0]].disabled=not why.is_empty();hud.extra[pair[0]].tooltip_text=why
- hud.extra.glass_withdraw.text="WITHDRAW\n"+recovery_name(sim)
+ hud.extra.glass_withdraw.text=recovery_label(sim).replace("\n"," ") if hud.text_scale>=1.5 else recovery_label(sim)
  var q=sim.units[0]
  hud.extra.glass_withdraw.tooltip_text="Quietus required" if sim.selected!=0 else "Needs MIDDLE" if q.band!=1 else "Finish changing depth" if not q.transition.is_empty() else "%dm / 65m recovery range"%roundi(q.pos.distance_to(sim.mission.extraction)) if q.pos.distance_to(sim.mission.extraction)>65 else "Settle below 2m/s" if q.vel.length()>=2 else ""
  hud.extra.glass_withdraw.disabled=not hud.extra.glass_withdraw.tooltip_text.is_empty()
@@ -238,6 +324,17 @@ static func apply(hud)->void:
   if key=="sonar_emit" and b.disabled:why="Finish changing depth" if not u.transition.is_empty() else "Sonar recharging / %.1fs"%sim.ping_time
   if key=="glass_transfer" and b.disabled:why="Material must be aboard a drone"
   if b.disabled and why.is_empty():why="Craft lost" if not u.alive else "Quietus required" if key=="all_stop" else "No local work available" if key.ends_with("route") else "Unavailable here"
-  reason_button(b,why)
+  if key=="glass_withdraw":
+   b.set_meta("truthful_reason",why);b.tooltip_text=why
+  else:reason_button(b,why,hud.text_scale>=1.5 and hud.host.advanced_orders)
  # ARRIVALS owns its sheet after all generic sampling/machinery status writes.
  if hud.page=="signals":hud.instrument_info.text=preload("res://src/presentation/expedition_view.gd").detail(sim,hud.subject.get("receiver",-1))
+ # A grey tap owns the existing status line until a command changes the
+ # message or the player changes context, including during active machinery.
+ var feedback=hud.get_meta("truthful_feedback",{})
+ if feedback.get("reason","")==sim.message and feedback.get("page","")==hud.page and feedback.get("unit",-1)==sim.selected:
+  hud.intent.text=Work.NAMES[sim.selected]+" / "+sim.message
+  hud.intent.show()
+ elif hud.has_meta("truthful_feedback"):
+  hud.remove_meta("truthful_feedback")
+  hud.intent.visible=not hud.host.advanced_orders

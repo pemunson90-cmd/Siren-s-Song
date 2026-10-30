@@ -53,11 +53,20 @@ func run():
  check(Copy.verb({"kind":"receiver"})=="LISTEN","hydrophone names listening")
  check(Copy.verb({"kind":"exchange"})=="DECODE","packet work names decode")
  check("ACCEPTED" in Work.result_line({"owner":"DRONE A","ok":true,"text":"Tow released"}),"successful instant action does not claim work started")
- var button=Button.new();button.text="LOCK A";button.disabled=true
+ var button=Button.new();button.size=Vector2(240,100);button.add_theme_font_size_override("font_size",20);button.text="LOCK A";button.disabled=true
  Copy.reason_button(button,"Finish LOCK B first");Copy.reason_button(button,"Finish LOCK B first")
- check(button.text=="LOCK A\nFinish LOCK B first","grey reason remains visible and never accumulates")
+ check(button.text=="LOCK A\nAFTER LOCK B" and button.tooltip_text=="Finish LOCK B first","grey reason remains visible and never accumulates")
  button.disabled=false;Copy.reason_button(button,"")
  check(button.text=="LOCK A","enabled action clears old refusal")
+ # Native radial width/font: long label + long token must not become four
+ # rendered lines. Full reason remains available when the token is omitted.
+ button.disabled=true;button.size=Vector2(227.85,147);button.add_theme_font_size_override("font_size",38)
+ button.text="RELEASE\nVANE";Copy.reason_button(button,"Needs MIDDLE")
+ check(button.text=="RELEASE\nVANE" and button.tooltip_text=="Needs MIDDLE","native radial retains two-line action when token would grow it")
+ button.text="ROUTE TO\nREACH WORK";Copy.reason_button(button,"Needs MIDDLE before plotting work approach")
+ check(button.text=="ROUTE\nMIDDLE","native radial route and short band token each fit one line")
+ button.text="TORPEDO\n0";Copy.reason_button(button,"Quietus only")
+ check(button.text=="TORPEDO\n0","native radial retains tool count without adding a third rendered line")
  button.free()
  var g=load("res://scenes/main.tscn").instantiate();g.set_script(load("res://tests/density_main.gd"));g.store.path="user://truthful-commands.save";g.capture_scenario="runtime-test"
  root.add_child(g);await frames();g.set_process(false)
@@ -66,10 +75,10 @@ func run():
  var racks=Racks.empty();racks.quietus={"knock":2,"emp":3};racks.drone_a={"emp":1};Racks.launch(g.sim,racks)
  for unit in 3:
   g.sim.command("select",{"unit":unit});g.mission_hud.open("tools");g._refresh();await frames()
-  check(g.order_buttons.knock.text.begins_with("TORPEDO\n%d"%(2 if unit==0 else 0)),"tool menu torpedo count belongs to craft %d"%unit)
-  check(g.order_buttons.emp.text.begins_with("DISRUPT\n%d"%[3,1,0][unit]),"tool menu disrupt count includes this craft's zero %d"%unit)
-  if unit==2:check("Zero stock on DRONE B" in g.order_buttons.emp.text,"zero stock refusal names owning craft")
-  if unit>0:check("Quietus only" in g.order_buttons.knock.text,"drone launcher refusal names actual owner")
+  check(g.order_buttons.knock.text.replace("\n"," ").begins_with("TORPEDO %d"%(0 if unit>0 else 2)),"tool menu torpedo count belongs to craft %d"%unit)
+  check(g.order_buttons.emp.text.replace("\n"," ").begins_with("DISRUPT %d"%[3,1,0][unit]),"tool menu disrupt count includes this craft's zero %d"%unit)
+  if unit==2:check(g.order_buttons.emp.text.split("\n").size()<=2 and "Zero stock on DRONE B" in g.order_buttons.emp.tooltip_text,"zero stock refusal names owning craft")
+  if unit>0:check(g.order_buttons.knock.text.split("\n").size()<=2 and "Quietus only" in g.order_buttons.knock.tooltip_text,"drone launcher refusal names actual owner")
  var brief=Copy.brief_stock(racks)
  check("QUIETUS: " in brief and "DRONE A: " in brief and "DRONE B: " in brief,"brief separates all three craft")
  check("TORPEDOES 0" in brief.get_slice("\n",1) and "DISRUPT 0" in brief.get_slice("\n",2),"brief shows each craft's zero stock")
@@ -109,18 +118,18 @@ func run():
  g.sim.captures[0]={"target":0,"elapsed":0.};g._refresh()
  check(g.unit_buttons[0].text=="QUIETUS\nWORK","running machinery uses WORK in craft status")
  g.sim.captures[0]={};g.sim.units[0].band=0;g.mission_hud.open("glass");g._refresh()
- check("Needs MIDDLE" in g.mission_hud.extra.glass_vane.text,"grey Reach action names physical MIDDLE band")
+ check("Needs MIDDLE" in g.mission_hud.extra.glass_vane.tooltip_text and g.mission_hud.extra.glass_vane.text.begins_with("RELEASE"),"grey Reach action names physical MIDDLE band")
  g._start_mission(22);g._enter_water();g.sim.paused=true
  var station=g.sim.mission.iron_choir.sites.filter(func(site):return site.id!="release")[0]
  g.sim.recon_time=1.;g.sim.mission.survey_origin=station.pos;g.sim.units[0].band=0
  g.mission_hud.open("choir");g._refresh()
- check("Needs "+g.sim.Depth.NAMES[station.band] in g.mission_hud.extra["choir_"+station.id].text,"grey Choir work names surveyed station band")
+ check("Needs "+g.sim.Depth.NAMES[station.band] in g.mission_hud.extra["choir_"+station.id].tooltip_text,"grey Choir work names surveyed station band")
  g._start_mission(0);g._enter_water();g.sim.paused=true
  var origin:Vector2=g.sim.units[0].pos
  g.sim.mission.module_recovery.modules["drone_sampler"]={"state":"salvage","unit":-1,"pos":origin+Vector2(200,0)}
  g.sim.mission.depth_cargo["drone_sampler"]=1
  g.mission_hud.open("salvage",{"kind":"salvage","item":"drone_sampler","name":"FIELD SAMPLER","pos":origin+Vector2(200,0)});g._refresh()
- check("200m away" in g.mission_hud.extra.salvage.text and "60m" in g.mission_hud.extra.salvage.text,"grey module recovery shows current distance and reach without a context pos")
+ check(g.mission_hud.extra.salvage.text=="RECOVER\n200m" and "200m away" in g.mission_hud.extra.salvage.tooltip_text and "60m" in g.mission_hud.extra.salvage.tooltip_text,"grey module recovery shows current distance and reach without a context pos")
  # Rendezvous has a separate local-work busy guard, even with a ready decoder.
  g._start_mission(7);g._enter_water();g.sim.paused=true
  var receiver=g.sim.mission.objectives.filter(func(o):return o.get("site_id","")!="rendezvous")[0]
@@ -128,33 +137,60 @@ func run():
  g.sim.mission.module_recovery.jobs[0]={"item":"drone_sampler","elapsed":0.}
  g.mission_hud.open("craft",{"kind":"craft","unit":0,"pos":g.sim.units[0].pos});g._refresh()
  check(g.sim.camera_context().get("ready",false),"rendezvous busy refusal fixture retains a READY camera context")
- check(g.order_buttons.camera.disabled and "Finish this craft's active work first" in g.order_buttons.camera.text and not "READY" in g.order_buttons.camera.text,"grey decoder shows busy refusal rather than READY")
+ check(g.order_buttons.camera.disabled and "Finish this craft's active work first" in g.order_buttons.camera.tooltip_text and not "READY" in g.order_buttons.camera.text,"grey decoder shows busy refusal rather than READY")
  g._start_mission(10);g._enter_water();g.sim.paused=true
  var inlet=g.sim.warning_chain_context().stations.filter(func(site):return site.id=="inlet")[0]
  g.sim.units[0].pos=inlet.pos+Vector2(400,0)
  g.mission_hud.open("plant",{"kind":"plant","station":"inlet","name":inlet.name,"pos":inlet.pos});g._refresh()
- check("400m away" in g.mission_hud.extra.chain_connect.text and "60m" in g.mission_hud.extra.chain_connect.text,"grey plant action names distance to public inlet")
+ check(g.mission_hud.extra.chain_connect.text.split("\n").size()<=2 and "400m away" in g.mission_hud.extra.chain_connect.tooltip_text and "60m" in g.mission_hud.extra.chain_connect.tooltip_text,"grey plant action names distance to public inlet")
  g._start_mission(0);g._enter_water();g.sim.paused=true
  g.sim.mission.erase("tool_racks");g.sim.mission.field_tools.counts["hull_patch"]=1;g.sim.tools.knock=2;g.sim.command("select",{"unit":1})
  g.mission_hud.open("field_tools");g._refresh()
  check(Racks.count(g.sim,"hull_patch")==1 and Copy.stock(g.sim,"hull_patch")==0,"legacy global patch reserve is not drone stock")
- check(g.mission_hud.extra.hull_patch.text.begins_with("HULL PATCH 0\n") and "Quietus only" in g.mission_hud.extra.hull_patch.text,"legacy drone field menu shows zero Quietus-only patch stock")
- check(g.order_buttons.knock.text.begins_with("TORPEDO\n0"),"legacy drone menu shows zero Quietus-only torpedoes")
+ check(g.mission_hud.extra.hull_patch.text.begins_with("HULL PATCH 0\n") and "Quietus only" in g.mission_hud.extra.hull_patch.tooltip_text,"legacy drone field menu shows zero Quietus-only patch stock")
+ check(g.order_buttons.knock.text.replace("\n"," ").begins_with("TORPEDO 0"),"legacy drone menu shows zero Quietus-only torpedoes")
  for op in [2,15,16,17,20,22,30]:
   g._start_mission(op);g._enter_water();g.sim.paused=true
   check(not "AT SOUTH" in g.mission_hud.extra.glass_withdraw.text,"withdraw never invents south op%d"%op)
   var names=g.sim.extraction_corridors().filter(func(c):return c.pos.distance_to(g.sim.mission.extraction)<1.).map(func(c):return c.name)
-  if not names.is_empty():check(names[0] in g.mission_hud.extra.glass_withdraw.text,"withdraw names actual mouth op%d"%op)
+  check(g.mission_hud.extra.glass_withdraw.text==Copy.recovery_label(g.sim),"withdraw names short actual mouth and distance op%d"%op)
+  check(g.mission_hud.extra.glass_withdraw.text.split("\n").size()==2 and g.mission_hud.extra.glass_withdraw.text.begins_with("WITHDRAW\n"),"withdraw stays two lines op%d"%op)
+  if not names.is_empty():check(names[0] in Copy.recovery_name(g.sim),"full recovery name remains available op%d"%op)
   g.mission_hud.open("signals",{"kind":"signals","receiver":0});g._refresh()
   check(preload("res://src/presentation/expedition_view.gd").detail(g.sim,0) in g.mission_hud.instrument_info.text,"ARRIVALS sheet retains complete received report after generic machinery status op%d"%op)
   for key in g.mission_hud.action_controls():
    var b=g.mission_hud.action_controls()[key]
-   if b.disabled:check(not b.tooltip_text.is_empty(),"visible grey action has a reason "+str(key))
+   if b.disabled:
+    check(not str(b.get_meta("truthful_reason","")).is_empty(),"visible grey action retains full reason "+str(key))
+    check(b.text.split("\n").size()<=2,"grey action stays within two caption lines "+str(key))
+    if b!=g.mission_hud.extra.glass_withdraw:check(b.text.get_slice("\n",1).length()<=14,"reason token is short "+str(key))
  # Both UI scales repeatedly refresh an empty drone menu without stale counts.
  for scale in [1.,1.5]:
   Settings.current["text_scale"]=scale;g._start_mission(15);g._enter_water();Racks.launch(g.sim,racks);g.sim.command("select",{"unit":2})
   g.mission_hud.open("tools");g._refresh();await frames();g._refresh()
-  check("Zero stock on DRONE B" in g.order_buttons.emp.text,"visible reason at text scale %.1f"%scale)
+  check((g.order_buttons.emp.text=="DISRUPT 0 / NONE ABOARD" if scale>=1.5 else g.order_buttons.emp.text.replace("\n"," ").begins_with("DISRUPT 0")) and "Zero stock on DRONE B" in g.order_buttons.emp.tooltip_text,"visible reason at text scale %.1f"%scale)
+  # Real popup touch and dock-tap paths both explain grey actions and do not
+  # emit their command signal. Periodic refresh must retain the feedback.
+  var grey=g.order_buttons.emp;var fired=[0]
+  grey.pressed.connect(func():fired[0]+=1)
+  var state=g.sim.snapshot().duplicate(true)
+  var point=grey.get_global_rect().get_center()
+  if g.mission_hud.order_dock.visible:
+   g.mission_hud._dock_tap(point,point)
+  else:
+   for down in [true,false]:
+    var touch=InputEventScreenTouch.new();touch.index=71;touch.position=point;touch.pressed=down
+    g.mission_hud.popup_input(touch)
+  check(g.sim.message=="Zero stock on DRONE B" and g.sim.message in g.mission_hud.intent.text and g.mission_hud.intent.is_visible_in_tree(),"grey tap shows full refusal in existing status at %.1f"%scale)
+  g._refresh()
+  check(g.sim.message in g.mission_hud.intent.text,"grey refusal survives refresh at %.1f"%scale)
+  check(fired[0]==0 and grey.disabled and g.sim.snapshot()==state,"grey feedback never emits an action or changes gameplay at %.1f"%scale)
+  grey.pressed.disconnect(grey.pressed.get_connections().back().callable)
+  var enabled=Button.new();var enabled_fired=[0]
+  enabled.pressed.connect(func():enabled_fired[0]+=1)
+  Copy.activate(g.mission_hud,enabled)
+  check(enabled_fired[0]==1 and not g.mission_hud.has_meta("truthful_feedback") and not g.mission_hud.intent.visible,"enabled activation clears grey feedback without changing command handling")
+  enabled.free()
  Settings.current["text_scale"]=1.
  g.queue_free();await frames()
  print("TRUTHFUL COMMANDS CHECKS %d FAILURES %d"%[checks,failures]);quit(1 if failures else 0)
