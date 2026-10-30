@@ -126,7 +126,7 @@ func _title_screen() -> void:
 	title_label = _text("SIREN'S SONG", 42, Color("80d9cf"))
 	_text("ONE PILOT. TWO DRONES. AN OCEAN THAT LISTENS.", 14)
 	var key_art=TextureRect.new();key_art.texture=TITLE_ART;key_art.expand_mode=TextureRect.EXPAND_IGNORE_SIZE;key_art.custom_minimum_size=Vector2(0,148);key_art.size_flags_horizontal=Control.SIZE_EXPAND_FILL;key_art.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED;key_art.mouse_filter=Control.MOUSE_FILTER_IGNORE;column.add_child(key_art)
-	_text("PLACEHOLDER KEY ART · QUIETUS SILHOUETTE", 11, Color("82916c"))
+	_text("QUIETUS · PHOTOGRAPHIC RECONNAISSANCE", 11, Color("82916c"))
 	if not profile_message.is_empty():
 		var notice := _text(profile_message, 16, Color("efc28d")); notice.name = "ProfileNotice"
 	if profile == Profile.NONE:

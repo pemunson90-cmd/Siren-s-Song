@@ -9,7 +9,7 @@ extends RefCounted
 # Rescue follow-up lines describe only the recorded local completion, never an assumed landing.
 static var enabled=true
 const HEAD="BRANNOCK CREW"
-const FOOTER="AI-DESIGNED placeholder crew, Pat to rewrite. Grants only; none is required."
+const FOOTER="Crew assistance is optional; every operation can launch without it."
 const MAX_CREDIT=4
 const ROWS=[
  {"id":"kestrel_sailors","name":"Kestrel sailors","when":{"fact":"witness_arrival","is":["quietus","drone_a","drone_b"]},

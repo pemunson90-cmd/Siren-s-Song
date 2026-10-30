@@ -22,6 +22,7 @@ static func build(progress,intel,economy:Dictionary={})->Array:
   rows.people.append(sorley)
  var counts=_counts(progress,intel)
  rows["knowledge"]=counts+rows.get("knowledge",[])
+ preload("res://src/campaign/ledger/authored_closure.gd").add(rows,progress)
  var losses=preload("res://src/campaign/ironman_losses.gd").lines(economy)
  if not losses.is_empty():rows["infrastructure"]=rows.get("infrastructure",[])+losses
  var economy_lines=preload("res://src/campaign/economy_options.gd").lines(economy)

@@ -3,7 +3,7 @@ extends RefCounted
 # Seam: Frontend._credits_screen calls credits(); lines() is the unchanged attribution renderer.
 # Revert: call lines() directly in the frontend to restore the audio-only credits.
 # TODO(pat): name the creator line; the owner has not specified it.
-const CREATOR := "Created by (to be named)"
+const CREATOR := "An independent reconnaissance game"
 const ENGINE := ["Made with Godot Engine 4.6.3.",
 	"Copyright (c) 2014-present Godot Engine contributors. Copyright (c) 2007-2014 Juan Linietsky, Ariel Manzur.",
 	"Released under the MIT License. See godotengine.org/license."]

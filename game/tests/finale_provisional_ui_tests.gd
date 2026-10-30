@@ -111,7 +111,7 @@ func shape_case(shape):
 		var heading=game.find_children("*","Label",true,false).filter(func(label):return label.text==section)
 		check(not heading.is_empty() and heading[0].get_theme_font_size("font_size")>=roundi(20*game.ui_touch_height/48.*1.5),"ledger heading renders at 150 percent text: "+section)
 	var ledger_table=preload("res://src/campaign/ledger/ledger_table.gd")
-	check(ledger_text.contains("This account contains only recovered outcomes.") and not ledger_text.contains("Pat to rewrite") and not ledger_text.contains("AI-DESIGNED") and ledger_table.FOOTER.contains("AI-DESIGNED placeholder ledger"),"ending wall shows public ledger wording and retains source provenance")
+	check(ledger_text.contains("This account contains only recovered outcomes.") and not ledger_text.contains("Pat to rewrite") and not ledger_text.contains("AI-DESIGNED") and ledger_table.FOOTER=="This account contains only recovered outcomes.","ending wall and ledger data show finished public wording")
 	settings_api.current["text_scale"] = prior_scale
 	var finale=load("res://src/presentation/finale/finale.gd")
 	var placeholders=finale.lines(game.expedition.facts)

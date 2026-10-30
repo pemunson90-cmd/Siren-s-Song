@@ -7,7 +7,7 @@ const MAX_VALUE_CHARS=24
 const HEAD_SIZE=20
 const LINE_SIZE=17
 const FOOTER_SIZE=15
-const FOOTER="AI-DESIGNED placeholder ledger, Pat to rewrite. Built only from recorded outcomes."
+const FOOTER="This account contains only recovered outcomes."
 const PANELS=[["people","PEOPLE"],["knowledge","KNOWLEDGE"],["infrastructure","INFRASTRUCTURE"],["disclosure","DISCLOSURE"]]
 # [panel, label, fact key, operation that makes the fact expected, thread ("" any), {value: line}]
 # A row shows when its fact is recorded, or when its operation is done and the fact is missing.

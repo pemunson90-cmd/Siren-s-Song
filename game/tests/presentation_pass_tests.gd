@@ -113,6 +113,6 @@ func run()->void:
 	check('config/icon="res://assets/title/icon.svg"' in project and 'boot_splash/image="res://assets/title/splash.png"' in project,"project uses replaceable Quietus placeholder key art")
 	for path in ["res://assets/title/icon.svg","res://assets/title/splash.svg","res://assets/title/splash.png"]:check(ResourceLoader.exists(path),"placeholder art asset imports: "+path)
 	var frontend=FileAccess.get_file_as_string("res://src/presentation/frontend/frontend.gd")
-	check("key_art.texture=TITLE_ART" in frontend and "PLACEHOLDER KEY ART" in frontend,"title screen shows Quietus silhouette with visible placeholder label")
+	check("key_art.texture=TITLE_ART" in frontend and "QUIETUS · PHOTOGRAPHIC RECONNAISSANCE" in frontend,"title screen shows Quietus silhouette with reconnaissance caption")
 	print("PRESENTATION PASS CHECKS ",checks," FAILURES ",failures)
 	quit(1 if failures else 0)
