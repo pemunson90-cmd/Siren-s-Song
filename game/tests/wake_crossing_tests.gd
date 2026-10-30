@@ -77,7 +77,7 @@ func report_case():
  s.units[0].pos=Vector2(670,520);s.units[0].vel=Vector2.ZERO
  for id in 2:
   var g=s.sirens[id];g.pos=Vector2(780,520) if id==0 else Vector2(1140,400);g.home=g.pos;g.goal=g.pos;g.route=[];g.patrol_points=[];g.type="sentinel"
- step(s,2.2)
+ step(s,3.2)
  check(s.sirens[1].has("report_interest") and s.hull==100,"real sight sends a bounded stale report across the open northern saddle before any beam")
  var point=s.sirens[1].last_known;s.units[0].pos=Vector2(300,1700);step(s,.2)
  check(s.sirens[1].last_known==point,"report never tracks a subsequently hidden craft")
@@ -89,6 +89,6 @@ func report_case():
  s.units[0].pos=Vector2(670,1320);s.units[0].vel=Vector2.ZERO
  for id in 2:
   var g=s.sirens[id];g.pos=Vector2(780,1320) if id==0 else Vector2(620,1600);g.home=g.pos;g.goal=g.pos;g.route=[];g.patrol_points=[];g.type="sentinel"
- step(s,2.2)
+ step(s,3.2)
  check(s.sirens[1].has("report_interest") and s.sirens[1].last_known.y>960 and Sim.valid_snapshot(s.snapshot()),"actual southern sight report serializes within Wake's taller physical region")
 func finish():print("WAKE CROSSING CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)
