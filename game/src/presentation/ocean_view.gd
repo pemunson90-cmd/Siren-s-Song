@@ -53,6 +53,7 @@ var knock_touch_size:=48.0
 var feedback_font_size:=14
 var instrument_top:=64.0
 var ui_blocked_rects:Array=[]
+var world_label_rects:Array=[]
 var optical_suppressed:=false
 var command_dock_width:=0.
 var command_dock_left:=false
@@ -275,6 +276,7 @@ func _depth_contours(extent: Vector2) -> Array:
 	_contour_extent=extent;_contour_points=lines
 	return lines
 func _draw() -> void:
+	world_label_rects.clear()
 	if sim==null or ocean==null: return
 	_sync_camera()
 	draw_rect(Rect2(Vector2.ZERO,size),Color("050f17"))
@@ -749,17 +751,31 @@ func own_craft_rects() -> Array:
 func world_label_position(p:Vector2,text:String,font_size:int) -> Vector2:
 	var font=ThemeDB.fallback_font;var actual=maxi(font_size,int(12./world_scale));var extent=font.get_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,-1,actual)*world_scale
 	var origin=chart_camera.to_screen(p);var height=extent.y+6
-	var blocked=ui_blocked_rects+ship_instrument_rects()+own_craft_rects()
+	var blocked=ui_blocked_rects+ship_instrument_rects()+own_craft_rects()+world_label_rects
+	if optical_feed!=null and optical_feed.is_visible_in_tree():blocked.append(optical_feed.get_rect().grow(6))
 	for horizontal in [0,extent.x*.75,-extent.x*.75,extent.x*1.5,-extent.x*1.5]:
 		for step in [0,-1,-2,1,-3,2,-4,3]:
 			var point=origin+Vector2(horizontal,step*height)
 			point.x=clampf(point.x,12,maxf(12,size.x-extent.x-12))
 			var area=Rect2(point-Vector2(0,font.get_ascent(actual)*world_scale),extent)
 			if Rect2(Vector2.ZERO,size).encloses(area) and not blocked.any(func(r):return r.intersects(area.grow(3))):return chart_camera.to_world(point)
+	# Dense public contacts can exhaust the nearby slots. Keep the hint readable
+	# elsewhere on the chart, with the ordinary leader back to its subject.
+	for row in range(1,maxi(2,ceili(size.y/height))):
+		for x in [12.,maxf(12.,(chart_width()-extent.x)*.5),maxf(12.,chart_width()-extent.x-12.)]:
+			var point=Vector2(x,row*height)
+			var area=Rect2(point-Vector2(0,font.get_ascent(actual)*world_scale),extent)
+			if Rect2(Vector2.ZERO,size).encloses(area) and not blocked.any(func(r):return r.intersects(area.grow(3))):return chart_camera.to_world(point)
 	return Vector2.INF
+func world_label_rect(p:Vector2,text:String,font_size:int)->Rect2:
+	var font=ThemeDB.fallback_font;var actual=maxi(font_size,int(12./world_scale))
+	return Rect2(chart_camera.to_screen(p)-Vector2(0,font.get_ascent(actual)*world_scale),font.get_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,-1,actual)*world_scale)
+func reserve_world_label(p:Vector2,text:String,font_size:int)->void:
+	world_label_rects.append(world_label_rect(p,text,font_size))
 func _label(p:Vector2,text:String,color:Color,font_size:int) -> void:
 	var placed=world_label_position(p,text,font_size)
 	if placed.is_finite():
+		reserve_world_label(placed,text,font_size)
 		if placed.distance_to(p)*world_scale>feedback_font_size*2:draw_line(p,placed,Color(color,.35),1./world_scale)
 		draw_string_outline(ThemeDB.fallback_font,placed,text,HORIZONTAL_ALIGNMENT_LEFT,-1,maxi(font_size,int(12./world_scale)),maxi(1,int(3./world_scale)),Color(.01,.03,.04,.95))
 		draw_string(ThemeDB.fallback_font,placed,text,HORIZONTAL_ALIGNMENT_LEFT,-1,maxi(font_size,int(12./world_scale)),color)

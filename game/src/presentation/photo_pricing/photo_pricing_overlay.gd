@@ -41,7 +41,8 @@ static func draw_chart(ci,sim)->void:
 	var scale:float=ci.world_scale
 	var at:Vector2=rings.pos
 	if rings.hidden:
-		ci._label(at+Vector2(24,-24),Table.TEXT.reach_hidden%str(rings.label),WARN,14)
+		# The full approach advice stays in the scrollable optical details.
+		ci._label(at+Vector2(24,-24),"%s: HIDDEN"%str(rings.label),WARN,14)
 	elif float(rings.plain)>0.0:
 		ci.draw_arc(at,rings.plain,0,TAU,72,Color(Palette.color("reach",GREEN),0.8),2.0/scale)
 		ci._label(at+Vector2.from_angle(-0.8)*float(rings.plain),"%s %dm"%[str(rings.label),roundi(rings.plain)],Palette.color("reach",GREEN),14)

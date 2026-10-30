@@ -2,16 +2,17 @@ extends RefCounted
 # Optional player pause hooks. Uses the existing any-craft acquisition signal and
 # fresh received contacts; never changes sensing, lock accumulation or damage.
 const Settings=preload("res://src/presentation/frontend/frontend_settings.gd")
+const Stun=preload("res://src/simulation/observed_stun.gd")
 # AI-DESIGNED UI episode rearm: brief contact/cover gaps must not demand
 # repeated resume taps. This never changes an actual lock or warning display.
 const LOCK_CLEAR_SECONDS=2.0
-const Stun=preload("res://src/simulation/observed_stun.gd")
 var host
 var mission:Dictionary={}
 var clock=-1.
 var noticed:Dictionary={}
 var lock_seen:Dictionary={}
 var pending_notice=false
+static func _pair_key(id:int,target:int)->String:return "%d:%d"%[id,target]
 func bind(owner)->void:
  host=owner
  host.sim.siren_notice.connect(_notice)
@@ -51,14 +52,14 @@ func restore_history(value=null)->void:
     var id=row[0];var target=row[1];var time=row[2]
     if not id is int or id<0 or id>=sim.sirens.size() or not target is int or target<0 or target>=sim.units.size():continue
     if not (time is int or time is float) or not is_finite(time) or time<0 or time>sim.elapsed or sim.elapsed-time>=LOCK_CLEAR_SECONDS:continue
-    lock_seen["%d:%d"%[id,target]]=float(time)
+    lock_seen[_pair_key(id,target)]=float(time)
  # Older archives have no history. Prime their live craft acquisition and
  # received warnings so resuming the already paused dive does not replay them.
  for id in sim.sirens.size():
   var siren=sim.sirens[id];var target=int(siren.get("target",-1))
   if target>=0 and target<sim.units.size() and sim.units[target].alive and not siren.get("recipient_target",false):noticed[id]=true
  for pair in warnings():
-  noticed[pair[0]]=true;lock_seen["%d:%d"%[pair[0],pair[1]]]=sim.elapsed
+  noticed[pair[0]]=true;lock_seen[_pair_key(pair[0],pair[1])]=sim.elapsed
 func warnings()->Array:
  var sim=host.sim;var ids=[]
  for id in sim.contacts:
@@ -75,7 +76,7 @@ func observe()->void:
  var ids=warnings()
  var new_lock=false
  for id in ids:
-  var key="%d:%d"%[id[0],id[1]]
+  var key=_pair_key(id[0],id[1])
   if not lock_seen.has(key) or sim.elapsed-float(lock_seen[key])>=LOCK_CLEAR_SECONDS:new_lock=true
   lock_seen[key]=sim.elapsed
  if pending_notice or (new_lock and Settings.current.get("auto_pause_lock",false)):

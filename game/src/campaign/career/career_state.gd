@@ -21,6 +21,7 @@ static func launch(state:Dictionary,id:String,accept_rider:bool=true)->Dictionar
 	var next=state.duplicate(true)
 	if state.in_flight or not open(state,id):return next
 	var racks=Economy.Losses.racks(next.economy,next.get("tool_racks",Racks.template("endurance")))
+	# Career has no loadout picker; its public frontend always launches endurance.
 	var extra=Racks.cost(racks,"endurance",next.economy)
 	var cost=Economy.refit_cost(next.economy,next.fitted)
 	for key in extra:cost[key]=cost.get(key,0)+extra[key]

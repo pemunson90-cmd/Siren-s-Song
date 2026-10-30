@@ -26,6 +26,12 @@ func data_checks():
      if chassis_b in ["standard","heavy"]:fitted.drone_b="drone_sampler"
      check(Catalog.valid_fitting(fitted),"template matrix fixture is a legal fit")
      template_case(choice,fitted)
+ var stock={}
+ for id in Tools.ids():stock[id]=1
+ var stock_racks=Racks.from_stock(stock);var survey_template=Racks.template("survey")
+ for id in Tools.ids():
+  for slot in Racks.UNITS:
+   check(stock_racks[slot].get(id,0)==(1 if survey_template[slot].get(id,0)>0 else 0),"stock allocation shares template craft mapping "+id+" "+slot)
  var racks=Racks.empty();racks.quietus={"emp":1,"recon":1,"hull_patch":1}
  check(Racks.weight_ticks(racks,0)==35 and Racks.cargo_ticks(racks,0)==0 and Racks.cargo_ticks(racks,1)==0,"tools fill their own locker before general cargo")
  var fit=Catalog.canonical({"quietus":"quietus_reserve_cell"})

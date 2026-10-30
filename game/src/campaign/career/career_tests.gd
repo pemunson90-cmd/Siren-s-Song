@@ -5,6 +5,8 @@ const State=preload("res://src/campaign/career/career_state.gd")
 const Table=preload("res://src/campaign/career/career_table.gd")
 const Archive=preload("res://src/campaign/career/career_archive.gd")
 const Economy=preload("res://src/campaign/economy.gd")
+const Racks=preload("res://src/equipment/tool_racks.gd")
+const EconomyPanel=preload("res://src/presentation/economy_panel.gd")
 const CareerFront=preload("res://src/presentation/career/career_frontend.gd")
 var checks=0
 var failures=0
@@ -27,6 +29,10 @@ func press(node,id:String):
 		var event=InputEventScreenTouch.new();event.position=point;event.index=0;event.pressed=down;root.push_input(event,true);await process_frame
 		var mouse=InputEventMouseButton.new();mouse.device=InputEvent.DEVICE_ID_EMULATION;mouse.position=point;mouse.button_index=MOUSE_BUTTON_LEFT;mouse.pressed=down;root.push_input(mouse,true);await process_frame
 	await frames()
+
+func button(node,id:String):
+	var matches=node.find_children("*","Button",true,false).filter(func(b):return b.get_meta("ui_action","")==id and b.is_visible_in_tree())
+	return matches[0] if matches.size()==1 else null
 func result(won:bool=true)->Dictionary:return {"outcome":"won" if won else "lost","hull":100.,"alive":[true,true]}
 func run():
 	var state=State.new_career()
@@ -44,6 +50,7 @@ func run():
 		check(not State.open(base,higher),"regional contract starts closed "+faction)
 		var launched=State.launch(base,starter)
 		check(State.valid(launched) and launched.in_flight and base==State.new_career(),"launch is isolated and valid "+faction)
+		check(launched.tool_racks==Racks.template("endurance"),"default Career launch uses the selected endurance loadout "+faction)
 		var won=State.settle(launched,result())
 		check(State.valid(won) and won.standing[faction]==2 and State.open(won,higher),"recovery opens regional work "+faction)
 		check(won.economy.stock.scrap>before.scrap and won.recovered==1,"recovery pays existing resource "+faction)
@@ -121,15 +128,38 @@ func run():
 	check(interrupted.lost==saved.lost+1 and not interrupted.in_flight and Archive.restore(host)==interrupted,"interrupted contract fails exactly once without resetting career")
 	for shape in [Vector2i(2520,1080),Vector2i(2184,1968)]:
 		root.size=shape;await frames()
+		host.upgrade="survey"
 		CareerFront.start(front);await frames();session=host.get_node_or_null("CareerSession")
 		if session==null:check(false,"touch career session exists");continue
 		await press(session,"career_supplies");check(session.screen=="career_supplies","touch opens supplies "+str(shape))
 		await press(session,"career_board");await press(session,"career_fittings")
 		check(session.screen=="career_fittings","touch opens fleet "+str(shape))
+		var before_emp=session.tool_racks.quietus.get("emp",0)
+		await press(session,"mode_rack_remove_quietus_emp")
+		check(session.tool_racks.quietus.emp==before_emp-1 and session.career_state.tool_racks.quietus.emp==before_emp-1,"career rack remove touch commits between-dive stock")
+		await press(session,"mode_rack_add_quietus_emp")
+		check(session.tool_racks.quietus.emp==before_emp and session.career_state.tool_racks.quietus.emp==before_emp,"career rack add touch restores the selected allocation")
+		session.save_failed=true;session._show_fittings();await frames()
+		check(button(session,"mode_rack_add_quietus_emp").disabled and button(session,"mode_rack_remove_quietus_emp").disabled,"career rack touch controls retain save-failure guard")
+		session.save_failed=false;session._show_fittings();await frames()
+		await press(session,"mode_rack_add_quietus_emp")
+		check(session.tool_racks.quietus.emp==before_emp+1,"career can add a charge beyond its endurance template by touch")
 		await press(session,"career_board");await press(session,"career_contract_brannock_watch")
 		check(session.screen=="career_briefing","touch selects contract "+str(shape))
+		check(session.upgrade=="endurance","public Career session keeps its fixed endurance loadout despite campaign profile choice")
+		var display_cost=EconomyPanel.launch_cost(session)
+		var expected_cost=Economy.refit_cost(session.economy,EconomyPanel.fitted(session))
+		var extra_cost=Racks.cost(session.tool_racks,"endurance",session.economy)
+		for key in extra_cost:expected_cost[key]=expected_cost.get(key,0)+extra_cost[key]
+		check(display_cost==expected_cost and extra_cost.get("scrap",0)>0,"Career display prices extra stock against its fixed endurance baseline")
+		var stock_before=session.economy.stock.duplicate()
 		await press(session,"career_begin")
 		check(session.screen=="mission" and session.active_started,"touch launches actual operation "+str(shape))
+		var paid=true
+		for key in ["scrap","cells"]:if stock_before[key]-session.economy.stock[key]!=display_cost.get(key,0):paid=false
+		check(paid,"Career debits the same selected-loadout cost shown before launch "+str(shape))
+		check(session.sim.mission.tool_racks==session.career_state.tool_racks,"Career simulation starts with the rack allocations priced at launch")
+		check(session.sim.tools.emp==before_emp+1 and session.sim.tools.recon==2,"Career simulation launches endurance rack counts including the extra EMP")
 		root.propagate_notification(Node.NOTIFICATION_WM_GO_BACK_REQUEST);await frames()
 		check(session.screen=="career_board" and FileAccess.get_file_as_bytes(path)==campaign_bytes,"Android Back opens career board with campaign bytes intact")
 		await press(session,"career_abandon");await press(session,"career_confirm_abandon")

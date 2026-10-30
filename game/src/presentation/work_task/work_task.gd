@@ -6,6 +6,8 @@ extends RefCounted
 const Rules=preload("res://src/campaign/encounters/choir_rules.gd")
 const NAMES=["QUIETUS","DRONE A","DRONE B"]
 const LETTERS=["Q","A","B"]
+static func choice_name(name:String)->String:
+	return "DISCONNECT" if name=="DRILL FEED DISCONNECT" else name
 
 # Plain public sites only; projected stations keep their own controls.
 static func pinnable(subject:Dictionary)->bool:

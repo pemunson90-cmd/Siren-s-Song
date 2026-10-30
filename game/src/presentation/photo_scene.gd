@@ -331,13 +331,22 @@ static func _feature(ctx:Dictionary,art:String,p:Vector2,q:float,alpha:float)->v
 			for k in 4:ci.draw_polyline(PackedVector2Array([p+Vector2(-u*1.2-k*u*0.5,u*0.4),p+Vector2(-u*0.3-k*u*0.5,0),p+Vector2(u*0.6-k*u*0.5,u*0.4)]),Color(0.9,0.4,0.3,alpha*(0.8-0.18*k)),1.4)
 		_:
 			ci.draw_arc(p,7.0,0,TAU,18,Color(cool.r,cool.g,cool.b,alpha*0.55),1.2)
+static func tag_rect(rect:Rect2,p:Vector2,text:String,font_size:int,index:int)->Rect2:
+	var fs=maxi(10,font_size-3);var font=ThemeDB.fallback_font
+	var extent=font.get_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,-1,fs)
+	extent.x=minf(extent.x,rect.size.x-16)
+	var x=clampf(p.x-30,rect.position.x+8,rect.end.x-extent.x-8)
+	# Reserve the complete aspect readout, even in the shortest docked image.
+	var bottom=rect.end.y-maxi(10,font_size-2)-14
+	var y=maxf(rect.position.y+4,bottom-extent.y-float(index%3)*(extent.y+3))
+	return Rect2(Vector2(x,y),extent)
 static func _tag(ci:CanvasItem,font:Font,rect:Rect2,p:Vector2,text:String,font_size:int,index:int)->void:
 	var fs:int=maxi(10,font_size-3)
-	var x:float=clampf(p.x-30,rect.position.x+4,rect.end.x-100)
-	var y:float=rect.end.y-rect.size.y*0.2-float(index%3)*(fs+3)
+	var box=tag_rect(rect,p,text,font_size,index)
+	var x=box.position.x;var y=box.position.y+font.get_ascent(fs)
 	var c:Color=PHOSPHOR.lerp(AMBER,0.3)
 	ci.draw_line(p+Vector2(0,10),Vector2(clampf(p.x,rect.position.x+6,rect.end.x-6),y-fs),Color(c.r,c.g,c.b,0.35),1.0)
-	ci.draw_string(font,Vector2(x,y),text,HORIZONTAL_ALIGNMENT_LEFT,-1,fs,c)
+	ci.draw_string(font,Vector2(x,y),text,HORIZONTAL_ALIGNMENT_LEFT,box.size.x,fs,c)
 # --- optics ---------------------------------------------------------------------
 static func _water_effects(ci:CanvasItem,rect:Rect2,vm:Dictionary,time:float,light:float,clarity:float,sharp:float,flash:bool,dev:float,seed_n:int)->void:
 	# Backscatter veil: murky water lifts the blacks and washes the distance.

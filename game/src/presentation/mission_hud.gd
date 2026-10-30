@@ -1,5 +1,6 @@
 extends Control
 const HuntMeter=preload("res://src/presentation/hunt_meter.gd")
+const FrontendSettings=preload("res://src/presentation/frontend/frontend_settings.gd")
 const FeatureViews=preload("res://src/presentation/feature_views.gd")
 const Shelf=preload("res://src/presentation/shelf_habitat_view.gd")
 const Wake=preload("res://src/presentation/wake_crossing_view.gd")
@@ -350,7 +351,7 @@ func command_controls() -> Array:
   "route":return [host.order_buttons.queue,host.order_buttons.hold,host.order_buttons.waypoint_mode,host.order_buttons.home,host.order_buttons.program]+([extra.all_stop] if AllStop.available(host.sim) else [])+([extra.guard_menu] if host.sim.selected==0 else [])
   "guard":return [host.order_buttons.contact_hold,host.order_buttons.wait_drone,host.order_buttons.hold]
   "view":return [focus_button,host.zoom_buttons[2],host.zoom_buttons[1],host.zoom_buttons[0]]
-  "fleet":return host.unit_buttons+([extra.arrivals] if Expedition.active(host.sim) else [])+[extra.view_menu,host.order_buttons.menu]+([extra.audio_log] if preload("res://src/presentation/frontend/frontend_settings.gd").current.get("audio_captions",false) and not host.sound.accessibility.history.is_empty() else [])
+  "fleet":return host.unit_buttons+([extra.arrivals] if Expedition.active(host.sim) else [])+[extra.view_menu,host.order_buttons.menu]+([extra.audio_log] if FrontendSettings.current.get("audio_captions",false) and not host.sound.accessibility.history.is_empty() else [])
   "object":
    if subject.get("subkind","")=="choir":return [extra.choir_work,extra.route_here,extra.inspect]
    if subject.get("subkind","")=="glass_work":return [extra.glass_work,extra.route_here,extra.inspect]
@@ -381,7 +382,7 @@ func layout(bounds:Vector2,h:float):
  order_dock.hide();host.ocean.command_dock_width=0.;host.ocean.command_dock_left=false;host.ocean.status_floor=0.
  bounds=StatusView.content_bounds(self,bounds)
  position=Vector2.ZERO;size=bounds;touch_height=h
- text_scale=preload("res://src/presentation/frontend/frontend_settings.gd").text_scale()
+ text_scale=FrontendSettings.text_scale()
  var font=maxi(14,roundi(h*.26*text_scale));var bw=h*1.55*text_scale;var bh=ceilf(h*maxf(1.,text_scale*.9))
  for b in host.order_buttons.values()+host.unit_buttons+extra.values()+[close_button,focus_button,host.pause_button,host.advanced_button]+host.zoom_buttons:
   b.mouse_filter=Control.MOUSE_FILTER_IGNORE if b in command_controls() else Control.MOUSE_FILTER_STOP
@@ -394,7 +395,7 @@ func layout(bounds:Vector2,h:float):
  host.status_label.hide();host.log_label.hide()
  host.pause_button.show();host.pause_button.position=Vector2(12,12);host.pause_button.size=Vector2(bw,bh)
  host.advanced_button.visible=not host.advanced_orders;host.advanced_button.position=Vector2(bounds.x-bw-12,12);host.advanced_button.size=Vector2(bw,bh)
- if preload("res://src/presentation/frontend/frontend_settings.gd").current.get("mirrored_hud",false):
+ if FrontendSettings.current.get("mirrored_hud",false):
   host.pause_button.position.x=bounds.x-bw-12
   host.advanced_button.position.x=12
  var line_height=ceili(intent.get_theme_font("font").get_height(font))
@@ -404,7 +405,7 @@ func layout(bounds:Vector2,h:float):
  ring_buttons=command_controls()
  # Reverse side clusters while keeping the top action and readable text upright.
  # The same ordered list drives layout, wedges, fitting and hit testing.
- if preload("res://src/presentation/frontend/frontend_settings.gd").current.get("mirrored_hud",false) and ring_buttons.size()>1:
+ if FrontendSettings.current.get("mirrored_hud",false) and ring_buttons.size()>1:
   var sides=ring_buttons.slice(1);sides.reverse();ring_buttons=[ring_buttons[0]]+sides
  anchor=host.ocean.screen_position(subject.get("pos",host.sim.units[host.sim.selected].pos))
  ring_radius=h*2.25*text_scale
@@ -520,7 +521,8 @@ func refresh():
   var held=WorkTask.held_reason(sim,task)
   if not held.is_empty():host.order_buttons.camera.disabled=true;host.order_buttons.camera.tooltip_text=held
  for i in 3:extra["choose_unit_%d"%i].disabled=not sim.units[i].alive
- extra.choose_object.text=str(subject.get("name","OBJECT")).substr(0,14)+"\nBY "+WorkTask.LETTERS[sim.selected]
+ # The full object identity stays in the heading; the choice names its action.
+ extra.choose_object.text=WorkTask.choice_name(str(subject.get("name","OBJECT")))+"\nBY "+WorkTask.LETTERS[sim.selected]
  var fitted=Equipment.status(sim)
  if not fitted.is_empty():instrument_info.text+="\n\n"+fitted
  if page=="inspect" and subject.get("kind","") in ["craft","fleet"]:

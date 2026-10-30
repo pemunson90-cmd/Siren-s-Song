@@ -15,13 +15,40 @@ static func _redraw(host,action:Callable)->void:
  ).call_deferred()
 static func fill(host,choice:String)->void:
  host.upgrade=choice;host.tool_racks=Racks.template(choice)
-static func edit(host,slot:String,id:String,delta:int)->void:
+static func edit(host,slot:String,id:String,delta:int,stock:Dictionary={},stock_limited:bool=false)->bool:
+ if not Racks.enabled:return false
  var next=host.tool_racks.duplicate(true)
  next[slot][id]=int(next[slot].get(id,0))+delta
- if not Racks.valid(next):return
+ if not Racks.valid(next):return false
+ if stock_limited and not Racks.available(next,stock):return false
  # Unloading is always possible, even after choosing a smaller frame.
- if delta>0 and not Racks.reason(host.fitted_equipment,next).is_empty():return
+ if delta>0 and not Racks.reason(host.fitted_equipment,next).is_empty():return false
  host.tool_racks=next
+ return true
+static func show_mode(host,is_run:bool,change:Callable)->void:
+ if not Racks.enabled:return
+ host._menu_text("TOOLS / LOCKERS + CARGO",19)
+ host._menu_text("Each craft deploys its own tools. Extra charges beyond its locker share cargo with modules and winch work. Unload to recover cargo."+(" Unloaded stock stays ashore for later operations." if is_run else " Extra charges cost career supplies each launch."),15)
+ host._menu_text(summary(host),15)
+ var why=Racks.reason(host.fitted_equipment,host.tool_racks)
+ if not why.is_empty():host._menu_text(why,15)
+ controls(host,Racks.UNITS,change,"mode_rack",host.run_state.stock if is_run else {},false,is_run)
+static func controls(host,slots:Array,change:Callable,prefix:String,stock:Dictionary={},detailed:bool=false,stock_limited:bool=false)->void:
+ if not Racks.enabled:return
+ for slot in slots:
+  if prefix=="mode_rack":host._menu_text(slot.to_upper(),17)
+  for id in Tools.ids():
+   if slot!="quietus" and id in Racks.QUIETUS_ONLY:continue
+   if id in Tools.field_ids() and not Tools.is_enabled(id):continue
+   var n=int(host.tool_racks[slot].get(id,0))
+   var label=Racks.label(id) if prefix=="mode_rack" else Tools.spec(id).name.to_upper()
+   host._menu_text("%s %d%s"%[label,n," | %.2f SPACE EACH (LOCKER FIRST)"%[Tools.CARGO_WEIGHTS[id]/100.0] if detailed else ""],15)
+   var candidate=host.tool_racks.duplicate(true);candidate[slot][id]=n+1
+   var slot_key=slot+"_" if prefix=="mode_rack" else ""
+   var add=host._button(host.panel_box,"LOAD +1 "+Tools.spec(id).name,change.bind(slot,id,1),prefix+"_add_"+slot_key+id)
+   add.disabled=(prefix=="mode_rack" and host.save_failed) or not Racks.valid(candidate) or not Racks.reason(host.fitted_equipment,candidate).is_empty() or (stock_limited and not Racks.available(candidate,stock))
+   var remove=host._button(host.panel_box,"UNLOAD -1 "+Tools.spec(id).name,change.bind(slot,id,-1),prefix+"_remove_"+slot_key+id)
+   remove.disabled=(prefix=="mode_rack" and host.save_failed) or n<=0
 static func summary(host)->String:
  var lines=[]
  for unit in 3:
@@ -52,12 +79,4 @@ static func show(host)->void:
   var button=host._button(host.panel_box,"EDIT "+Catalog.NAMES[slot],func():_redraw(host,func():host.set_meta("rack_craft",slot)),"rack_craft_"+slot)
   button.disabled=slot==selected
  host._menu_text("%s / %s"%[Catalog.NAMES[selected],"Torpedo and Hull patch: Quietus only." if selected=="quietus" else "Loaded tools deploy from this drone. Torpedo and Hull patch: Quietus only."],15)
- for id in Tools.ids():
-  if selected!="quietus" and id in Racks.QUIETUS_ONLY:continue
-  var amount=int(host.tool_racks[selected].get(id,0))
-  host._menu_text("%s %d | %.2f SPACE EACH (LOCKER FIRST)"%[Tools.spec(id).name.to_upper(),amount,Tools.CARGO_WEIGHTS[id]/100.0],15)
-  var candidate=host.tool_racks.duplicate(true);candidate[selected][id]=amount+1
-  var add=host._button(host.panel_box,"LOAD +1 "+Tools.spec(id).name,func():_redraw(host,func():edit(host,selected,id,1)),"rack_add_"+id)
-  add.disabled=not Racks.valid(candidate) or not Racks.reason(host.fitted_equipment,candidate).is_empty()
-  var remove=host._button(host.panel_box,"UNLOAD -1 "+Tools.spec(id).name,func():_redraw(host,func():edit(host,selected,id,-1)),"rack_remove_"+id)
-  remove.disabled=amount<=0
+ controls(host,[selected],func(slot,id,delta):_redraw(host,func():edit(host,slot,id,delta)),"rack",{},true)
