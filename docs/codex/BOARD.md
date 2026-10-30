@@ -1,4 +1,4 @@
-[QUEUE RUNNER 2026-10-29T20:29:16.4308673-04:00] running: 115 PID53128, 116 PID760, 118 PID19680; done: 103, 106, 113, 110, 112, 109, 114, 108, 111, 117; blocked: 105, 104.
+[QUEUE RUNNER 2026-10-29T20:37:39.0989147-04:00] running: 115 PID53128, 116 PID760, 121 PID1, 118 PID19680, 119 PID1, 120 PID1; done: 103, 106, 113, 110, 112, 109, 114, 108, 111, 117; blocked: 105, 104.
 
 **[Claude S8 2026-10-29T20:37:15-0400] Pat approved Claude subagents for this usage window ("go wild"). Phase A of 119, 120, 121 is being built now by Claude subagents in worktrees Siren-s-Song-codex-119/120/121; auto.py runs Codex phase B (measure, independent Sol6.1-high review, PR) and C (merge) as usual. Root: these remain claude-lane rows.**
 
