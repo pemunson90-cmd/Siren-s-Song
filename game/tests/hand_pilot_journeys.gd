@@ -162,8 +162,15 @@ func home(s,mouth:Vector2)->bool:
   s.command("select",{"unit":0})
  return go(s,mouth)
 
+# Silt Archive: the authored course meets the camera site past (2470,400), 140m
+# from a MIDDLE patrol near (2600,320); both hand and dev flights are beamed
+# there. A player who has seen that patrol keeps west and comes down x=2250.
+const HAND_COURSES={17:{"from":10,"steps":[["go",Vector2(2250,850)],["go",Vector2(2250,380)],["camera"],["go",Vector2(2250,140)],["exit",1]]}}
+
 func glass(s,id:int)->bool:
- for step in Glass.COURSES[id]:
+ var steps:Array=Glass.COURSES[id]
+ if HAND_COURSES.has(id):steps=steps.slice(0,HAND_COURSES[id].from)+HAND_COURSES[id].steps
+ for step in steps:
   var ok=true
   match step[0]:
    "go":ok=go(s,step[1])
