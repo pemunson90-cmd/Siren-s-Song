@@ -34,6 +34,19 @@ static func audit(text:String,file:String)->Array:
    if not Release.TRAVEL_SHORTCUTS.has(key):problems.append("%s:%d unknown TRAVEL:%s"%[file,n+1,key])
  return problems
 
+# Review 364c124d: paused RECALL ALL from Quietus must release a recalled drone's
+# HOLD work, so the checkpoint written before unpause still validates.
+func recall_releases_jobs():
+ var Sim=load("res://src/simulation/simulation.gd")
+ var s=Sim.new();s.start(39);s.sirens=[];s.paused=true
+ var item=s.Cache.IDS[0];var p=s.Cache.pieces(s)[item];var d=s.units[1]
+ d.pos=p.pos;d.band=p.band;d.vel=Vector2.ZERO;d.transition={};s.selected=1
+ check(s.command("salvage",{"item":item}) and s.Cache.busy(s,1) and d.hold=="HOLD","drone cache winch starts under HOLD")
+ s.units[0].pos=p.pos+Vector2(70,0);s.units[0].band=d.band;s.selected=0
+ check(s.command("recall_all"),"paused RECALL ALL accepts the winching drone: "+s.message)
+ check(not s.Cache.busy(s,1) and d.hold=="","RECALL ALL releases the recalled drone's winch")
+ check(Sim.valid_snapshot(s.snapshot()),"checkpoint after paused RECALL ALL validates")
+
 func run():
  root.size=Vector2i(2520,1080)
  # Static guard over the whole game source (presentation, main and flows).
@@ -118,4 +131,5 @@ func run():
  hud.guard.tap_water(goal)
  check(g.sim.route_goals().size()==1 and g.sim.route_goals()[0].pos==goal and g.sim.units[0].route.size()==1,"release water tap installs exactly the placed straight leg")
  g.queue_free();await frames()
+ recall_releases_jobs()
  print("RELEASE CONTROLS CHECKS %d FAILURES %d"%[checks,failures]);quit(1 if failures else 0)

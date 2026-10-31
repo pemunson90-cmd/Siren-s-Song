@@ -164,7 +164,8 @@ static func recall(sim,id:int)->bool:
  var ok=sim._install_program(u,goals,false)
  sim._use_band(sim.units[sim.selected].band)
  if not ok:sim.message="Rock between %s and Quietus · plot legs back by hand"%u.name;return false
- u.hold="";u["recall"]=true;sim.captures[id]={}
+ # Leaving HOLD releases this drone's work too; Quietus-issued RECALL ALL would not.
+ u.hold="";sim.JobRelease.cancel(sim,id,"recall");u["recall"]=true;sim.captures[id]={}
  sim.message="%s · recalled to Quietus · %d leg%s"%[u.name,goals.size(),"" if goals.size()==1 else "s"]
  return true
 
