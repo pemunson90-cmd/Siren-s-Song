@@ -320,8 +320,8 @@
     "claude:sonnet",
     "codex"
    ],
-   "status": "active",
-   "phase": "B",
+   "status": "merging",
+   "phase": "C",
    "branch": "item/135-prep-results",
    "pr": 244,
    "head": "a402e7708b8ba11a63f7b4f27aa11e6220521beb",
@@ -333,7 +333,7 @@
    },
    "blocker": null,
    "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-135",
-   "updated": "2026-10-31T23:16:44Z",
+   "updated": "2026-10-31T23:24:35Z",
    "provider": "claude:sonnet",
    "started": "2026-10-31T21:45:53Z"
   },
@@ -387,16 +387,16 @@
    "branch": "item/138-player-names",
    "file": "docs/state/items/138-player-names.md",
    "attempts": {
-    "A": 2,
-    "B": 0,
+    "A": 3,
+    "B": 1,
     "C": 0
    },
    "phase": "A",
-   "pr": null,
-   "head": null,
+   "pr": 245,
+   "head": "18171024c5c15d7baf708b0694013695e42f1629",
    "blocker": null,
    "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-138",
-   "updated": "2026-10-31T23:16:48Z",
+   "updated": "2026-10-31T23:22:22Z",
    "provider": "claude:sonnet",
    "started": "2026-10-31T22:37:48Z"
   }
