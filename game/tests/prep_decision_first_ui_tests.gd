@@ -44,5 +44,5 @@ func run():
 	if history.size()==1:
 		var first=session.panel_box.get_children().filter(func(n):return n is Button and n.get_meta("ui_action","").begins_with("career_contract_"))[0]
 		check(first.get_index()<history[0].get_index(),"first contract precedes history text")
-	print("PREP DECISION FIRST UI ",checks," checks ",failures," failures")
+	print("PREP DECISION FIRST UI CHECKS ",checks," FAILURES ",failures)
 	quit(1 if failures>0 else 0)
