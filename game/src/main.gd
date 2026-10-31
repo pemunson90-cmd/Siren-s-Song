@@ -367,7 +367,7 @@ func _refresh() -> void:
 	pause_button.text="▶ RESUME" if sim.paused else "Ⅱ PAUSE"
 	for i in 3:
 		var work=sim.capture_feedback(i)
-		var capture_task={"receiver":"LISTEN","exchange":"SAMPLE","uplink":"LINK"}.get(PhotoCapture.obj(sim,work.target).get("kind",""),"PHOTO" if PhotoCapture.applies(PhotoCapture.obj(sim,work.target)) else "CAMERA") if work.unit>=0 else ""
+		var capture_task=WorkTaskView.action_verb(PhotoCapture.obj(sim,work.target)) if work.unit>=0 else ""
 		unit_buttons[i].modulate=Color("80d9cf") if sim.selected==i else Color.WHITE
 		unit_buttons[i].disabled=not sim.units[i].alive
 		var task="LOST" if not sim.units[i].alive else (capture_task if work.unit>=0 else (sim.units[i].hold if not sim.units[i].hold.is_empty() else ("ROUTE" if not sim.units[i].route.is_empty() else "READY")))
@@ -377,14 +377,14 @@ func _refresh() -> void:
 	order_buttons.waypoint_mode.text="PASS\nPOINTS" if sim.pass_through else "STOP AT\nPOINTS"
 	ocean.optical_feed.receiver_font_size=maxi(17,roundi(ui_touch_height*0.29*FrontendSettings.text_scale()))
 	ocean.optical_feed.touch_height=ui_touch_height
-	order_buttons.camera.text="SAMPLE" if sim.mission.get("blackwater_revision",0)==1 else "CAMERA\nLISTEN" if sim.mission.get("finale_revision",0)==1 else ("CAMERA\nLINK" if mission_index==1 else "CAMERA")
+	order_buttons.camera.text="DECODE" if sim.mission.get("blackwater_revision",0)==1 else "CAMERA\nLISTEN" if sim.mission.get("finale_revision",0)==1 else ("CAMERA\nLINK" if mission_index==1 else "CAMERA")
 	var camera_target:int=int(sim.camera_context().get("target",-1))
 	if camera_target==-2 or (camera_target>=0 and PhotoCapture.applies(PhotoCapture.obj(sim,camera_target))):order_buttons.camera.text="PHOTO"
 	elif camera_target>=0 and PhotoCapture.obj(sim,camera_target).get("kind","")=="receiver" and sim.mission.get("blackwater_revision",0)!=1:order_buttons.camera.text="LISTEN"
 	order_buttons.queue.text="+ QUEUE ON" if sim.queue_mode else "REPLACE"
 	order_buttons.program.text="PLAN\nROUTE"
 	order_buttons.silent.text=("LOW\nPROFILE" if sim.units[sim.selected].silent else "OPEN\nPROFILE") if sim.selected>0 else ("SILENT ✓" if sim.units[0].silent else "CRUISE")
-	order_buttons.knock.text="CANCEL\nTORPEDO" if knock_armed else "TORPEDO\n%d"%sim.tools.get("knock",0)
+	order_buttons.knock.text="CANCEL\nTORPEDO" if knock_armed else "TORPEDO\n%d"%preload("res://src/presentation/truthful_commands.gd").stock(sim,"knock")
 	order_buttons.knock.disabled=not knock_armed and (sim.selected!=0 or not sim.units[0].alive or sim.tools.get("knock",0)<=0)
 	order_buttons.emp.text="DISRUPT\n%d"%preload("res://src/equipment/tool_racks.gd").count(sim,"emp")
 	order_buttons.emp.disabled=preload("res://src/equipment/tool_racks.gd").count(sim,"emp")<=0

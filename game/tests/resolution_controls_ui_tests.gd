@@ -31,7 +31,7 @@ func run():
   check(context.get("subkind","")=="transmission","known sector has explicit context, not a physical installation")
   await tap(g.ocean.global_position+g.ocean.screen_position(site.pos))
   check(g.advanced_orders and h.page=="object" and g.sim.snapshot()==before,"sector badge tap is observational and owns release")
-  check(g.order_buttons.camera.visible and g.order_buttons.camera.text=="TRANSMIT" and g.order_buttons.camera.disabled and not h.extra.route_here.visible,"sector context discloses disabled TRANSMIT outside region without routing to badge")
+  check(g.order_buttons.camera.visible and g.order_buttons.camera.text.get_slice("\n",0)=="TRANSMIT" and "charted transmission sector" in g.order_buttons.camera.tooltip_text and g.order_buttons.camera.disabled and not h.extra.route_here.visible,"sector context discloses disabled TRANSMIT outside region without routing to badge")
   h.dismiss();await settle()
   var water=Vector2(1900,1600);await tap(g.ocean.global_position+g.ocean.screen_position(water))
   check(not g.advanced_orders and not g.sim.route_goals().is_empty() and g.sim.route_goals()[0].pos.distance_to(water)<1.,"ordinary water inside the known sector still plots route")
@@ -75,6 +75,18 @@ func run():
   check(not load("res://src/presentation/expedition_view.gd").transmission_badge(g.ocean,site,g.ui_touch_height).has_area(),"offscreen info badge cannot leave a visible orphan label or invisible hit target")
   h.open("craft",{"kind":"craft","unit":0,"pos":g.sim.units[0].pos});await settle()
   before=g.sim.snapshot();var routes_before=g.sim.route_goals().duplicate(true)
+  # Staged own-craft depth fixtures: the selected sector must explain its own
+  # gate, preserving the model instead of borrowing a nearby receiver's refusal.
+  for band in [0,2]:
+   g.sim.units[0].band=band;var gate_before=g.sim.snapshot().duplicate(true)
+   h.open("object",context);await settle()
+   check(g.order_buttons.camera.disabled and g.order_buttons.camera.text.get_slice("\n",0)=="TRANSMIT" and g.order_buttons.camera.tooltip_text=="Needs MIDDLE" and g.sim.snapshot()==gate_before,"selected transmission sector names required MIDDLE without changing state from band %d"%band)
+  g.sim.units[0].band=1
+  check(g.sim.command("depth",{"band":0}),"transmission fixture starts an ordinary depth change")
+  var changing_before=g.sim.snapshot().duplicate(true)
+  h.open("object",context);await settle()
+  check(g.order_buttons.camera.disabled and g.order_buttons.camera.text.get_slice("\n",0)=="TRANSMIT" and g.order_buttons.camera.tooltip_text=="Finish changing depth" and g.sim.snapshot()==changing_before,"selected transmission sector names active depth change without changing state")
+  g.sim.units[0].transition={};h.open("craft");await settle()
   check(g.order_buttons.camera.text=="TRANSMIT" and not g.order_buttons.camera.disabled,"settled own craft offers TRANSMIT at chosen actual position")
   await click(g.order_buttons.camera)
   check(g.sim.capture_feedback().unit==0 and not g.advanced_orders and g.sim.paused and g.sim.route_goals()==routes_before,"separate actual action tap starts paused own work without a fallthrough route")
@@ -117,7 +129,7 @@ func run():
   check(load("res://src/presentation/receiver_scene.gd").applies(13,site),"own transmitter never renders a false Foundry optical scene")
   g._start_mission(12);g.ocean.fit_chart();g._layout();await settle();site=g.sim.observable_sites()[0]
   context=g.ocean.pick_context(g.ocean.screen_position(site.pos),g.ui_touch_height);h.open("object",context);await settle()
-  check(g.order_buttons.camera.text=="ACTUATE" and g.order_buttons.camera.disabled and h.extra.route_here.visible,"physical actuator exposes local ACTUATE and ordinary approach route")
+  check(g.order_buttons.camera.text.get_slice("\n",0)=="ACTUATE" and not g.order_buttons.camera.tooltip_text.is_empty() and g.order_buttons.camera.disabled and h.extra.route_here.visible,"physical actuator exposes local ACTUATE and ordinary approach route")
   h.open("inspect");await settle();check("optional" in h.instrument_info.text.to_lower() and "reception unknown" in h.instrument_info.text and "ACTUATE" in h.instrument_info.text,"actuator status discloses voluntary machinery cost without remote hearing knowledge")
   h.dismiss();g._start_mission(0);g._layout();await settle();check(not g.order_buttons.camera.disabled and g.order_buttons.camera.text=="PHOTO","tutorial photo action is restored after operation contexts")
   g.queue_free();await settle()

@@ -16,10 +16,10 @@ const AMBER=Color("dbbb82")
 static func targets(sim)->Array:
  var info=sim.choir_context();var result=[]
  if info.is_empty():return result
- for site in info.sites:result.append({"kind":"objective","subkind":"choir","name":site.id.to_upper()+" / "+("OPEN" if site.done else "LOCAL WORK"),"pos":site.pos})
- if not info.load.is_empty():result.append({"kind":"objective","subkind":"choir","name":info.load.name+" / "+info.load.state.to_upper(),"pos":info.load.pos})
+ for site in info.sites:result.append({"kind":"objective","subkind":"choir","name":site.id.to_upper()+" / "+("OPEN" if site.done else "LOCAL WORK"),"pos":site.pos,"band":site.band})
+ if not info.load.is_empty():result.append({"kind":"objective","subkind":"choir","name":info.load.name+" / "+info.load.state.to_upper(),"pos":info.load.pos,"band":info.load.band})
  var a=info.artifact
- if not a.is_empty() and a.state in ["site","wreck"] and sim.visible(a.pos,a.band):result.append({"kind":"objective","subkind":"choir","name":a.id.replace("_"," ").to_upper(),"pos":a.pos})
+ if not a.is_empty() and a.state in ["site","wreck"] and sim.visible(a.pos,a.band):result.append({"kind":"objective","subkind":"choir","name":a.id.replace("_"," ").to_upper(),"pos":a.pos,"band":a.band})
  return result
 static func pick(view,sim,point:Vector2,touch:float)->Dictionary:
  for target in targets(sim):

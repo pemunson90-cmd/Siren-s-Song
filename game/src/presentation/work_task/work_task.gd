@@ -25,7 +25,7 @@ static func site(sim,task:Dictionary)->Dictionary:
 
 static func bands_of(o:Dictionary)->Array:
 	var bands=o.get("subject",{}).get("bands",[]) if o.get("subject") is Dictionary else []
-	return bands if not bands.is_empty() else [int(o.get("band",1))]
+	return bands if not bands.is_empty() else (preload("res://src/photo_depth/band_table.gd").SHOOT_BANDS.duplicate() if o.get("subject") is Dictionary and not o.subject.is_empty() else [int(o.get("band",1))])
 
 static func label(sim,o:Dictionary)->String:
 	return sim.Photo.label(o).to_upper() if not o.is_empty() else ""
@@ -42,7 +42,7 @@ static func held_reason(sim,task:Dictionary)->String:
 	if target<0 or target==int(task.index) or target>=sim.mission.objectives.size():return ""
 	var other=sim.observable_sites()[target]
 	if not other.get("optional",false):return ""
-	return "CAMERA HELD · %s is the chosen task · open %s to work it instead"%[label(sim,site(sim,task)),label(sim,other)]
+	return "%s HELD · %s is the chosen task · open %s to work it instead"%[action_verb(site(sim,task)),label(sim,site(sim,task)),label(sim,other)]
 
 # CAMERA inside an object's own projection works only that object.
 static func object_reason(sim,index:int)->String:
@@ -57,7 +57,7 @@ static func object_reason(sim,index:int)->String:
 	var reach=sim.Photo.reach(sim,sim.selected)
 	var distance=u.pos.distance_to(o.pos)
 	if distance>reach:return "%s · %dm / %dm reach"%[label(sim,o),roundi(distance),roundi(reach)]
-	if target>=0 and target<sites.size():return "CAMERA aims at %s · turn or move toward %s"%[label(sim,sites[target]),label(sim,o)]
+	if target>=0 and target<sites.size():return "%s aims at %s · turn or move toward %s"%[action_verb(o),label(sim,sites[target]),label(sim,o)]
 	return str(context.get("text","Not ready"))
 
 static func state(sim,task:Dictionary)->String:
@@ -84,7 +84,7 @@ static func line(sim,task:Dictionary)->String:
 
 static func result_line(result:Dictionary)->String:
 	if result.is_empty():return ""
-	return "LAST · %s · %s · %s"%[result.owner,"STARTED" if result.ok else "REFUSED",result.text]
+	return "LAST · %s · %s · %s"%[result.owner,"ACCEPTED" if result.ok else "REFUSED",result.text]
 
 # Recipient and actionable refusal in the object projection center.
 static func captions(sim,subject:Dictionary)->Array:
@@ -92,7 +92,7 @@ static func captions(sim,subject:Dictionary)->Array:
 	if pinnable(subject):
 		var reason=object_reason(sim,int(subject.index))
 		var work=sim.capture_at_target(int(subject.index))
-		lines.append(("WORKING %s %.1f/%ds"%[LETTERS[work.unit],work.elapsed,roundi(work.duration)]) if work.unit>=0 else "CAMERA READY" if reason.is_empty() else short_reason(sim,int(subject.index),reason))
+		lines.append(("WORKING %s %.1f/%ds"%[LETTERS[work.unit],work.elapsed,roundi(work.duration)]) if work.unit>=0 else action_verb(site(sim,{"index":int(subject.index)}))+" READY" if reason.is_empty() else short_reason(sim,int(subject.index),reason))
 	return lines
 
 # Put the actionable requirement first; object identity is already in the ring.
@@ -103,7 +103,7 @@ static func short_reason(sim,index:int,reason:String)->String:
 	if u.band not in bands:return "NEEDS "+sim.Depth.NAMES[bands[0]]
 	var distance=u.pos.distance_to(o.pos);var reach=sim.Photo.reach(sim,sim.selected)
 	if distance>reach:return "RANGE %dm / %dm"%[roundi(distance),roundi(reach)]
-	if int(sim.camera_context().get("target",-1))!=index:return "CAMERA AIMS ELSEWHERE"
+	if int(sim.camera_context().get("target",-1))!=index:return action_verb(o)+" AIMS ELSEWHERE"
 	return reason
 
 # Observed moving load: confirmed motion, escort hold, last fix or arrival.
@@ -131,3 +131,13 @@ static func load_tag(sim)->String:
 	if full.is_empty():return ""
 	var name=str(sim.choir_context().load.name)
 	return full.trim_prefix(name+" · ")
+
+# The shared work control names what this public site actually does.
+static func action_verb(o:Dictionary)->String:
+	if o.get("site_id","")=="rendezvous":return "DECODE"
+	if o.has("glass_effect"):return "WORK"
+	if o.get("kind","") in ["receiver","exchange"]:return "LISTEN" if o.kind=="receiver" else "DECODE"
+	if o.get("own_origin",false):return "TRANSMIT"
+	if o.get("kind","")=="actuator":return "OPERATE"
+	if o.get("kind","")=="uplink":return "LINK"
+	return "PHOTO" if o.get("subject") is Dictionary else "RECORD"

@@ -24,4 +24,4 @@ static func draw(view,sim=null)->void:
  view.draw_circle(report.pos,3.0/view.world_scale,Color("dfc07e"))
  view._label(report.pos+Vector2(-54,-26),"REPLY CARRIER",Color("dfc07e"),15)
  if report.receivers.has(sim.selected) and not sim.mission.objectives[1].captured:
-  view._label(report.pos+Vector2(-54,40),"LOCAL · SETTLE + SAMPLE",Color("a8c5b2"),14)
+  view._label(report.pos+Vector2(-54,40),"LOCAL · SETTLE + DECODE",Color("a8c5b2"),14)

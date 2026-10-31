@@ -8,7 +8,7 @@ const Priced = preload("res://src/simulation/photo_pricing/photo_pricing_table.g
 const GOALS := {
 	0: "GOAL: photograph the signal spire, then bring Quietus home.\nDANGER: Sirens hunt by sound. Go slowly and keep rock between you and them.",
 	1: "GOAL: photograph the WEST and EAST relays, then link them at the uplink.\nDANGER: patrol Sirens cover both approaches. Scout with a drone first.",
-	2: "GOAL: SAMPLE the REQUEST and REPLY relays and bring both records home.\nDANGER: Sirens hear every sonar ping. Listen first.",
+	2: "GOAL: DECODE the REQUEST and REPLY relays and bring both records home.\nDANGER: Sirens hear every sonar ping. Listen first.",
 	3: "GOAL: photograph the heat source and the structure it feeds, then return home.\nDANGER: the open plant edge has little cover. Plan your way back before the second photo.",
 	4: "GOAL: collect three records around the well, then return home.\nDANGER: a fast Siren follows noise. Break its view before its beam fires.",
 	5: "GOAL: photograph the crown and wakes, then LISTEN at the lee receiver and return home.\nDANGER: Quietus must collect the six-second listening record. Use the southern rocks for cover."

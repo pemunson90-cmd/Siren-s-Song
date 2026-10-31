@@ -89,7 +89,7 @@ func run():
   await shot("work-held-"+tag)
   g.mission_hud.dismiss();g._primary_action();g._refresh();await frames()
   check(g.sim.captures.all(func(c):return c.is_empty()),"held CAMERA starts no work "+tag)
-  check("LAST · DRONE A · REFUSED · CAMERA HELD" in g.mission_hud.intent.text and "TASK · DRILL FEED DISCONNECT · DRONE A" in g.mission_hud.intent.text,"persistent task and retained refusal are readable on water "+tag)
+  check("LAST · DRONE A · REFUSED · WORK HELD" in g.mission_hud.intent.text and "TASK · DRILL FEED DISCONNECT · DRONE A" in g.mission_hud.intent.text,"persistent task and retained refusal are readable on water "+tag)
   g._order("select",{"unit":0});g._refresh();await frames()
   check("LAST · DRONE A · REFUSED" in g.mission_hud.intent.text,"selection does not erase the refusal reason "+tag)
   # The object's own CAMERA works the object once its craft is there.
@@ -100,7 +100,7 @@ func run():
    await tap(g.order_buttons.camera)
    check(int(g.sim.captures[1].get("target",-1))==disc,"actual CAMERA touch in the projection works the disconnect "+tag)
    g._refresh();await frames()
-   check("WORKING A" in g.mission_hud.intent.text and "LAST · DRONE A · STARTED" in g.mission_hud.intent.text,"task progress and start result stay on water "+tag)
+   check("WORKING A" in g.mission_hud.intent.text and "LAST · DRONE A · ACCEPTED" in g.mission_hud.intent.text,"task progress and start result stay on water "+tag)
    await shot("work-progress-"+tag)
   # F13: moving load progress distinguishes motion, escort hold, last fix and arrival.
   g._start_mission(25);g._enter_water();g.sim.sirens=[];g.sim.paused=true
