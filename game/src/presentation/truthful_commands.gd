@@ -329,6 +329,8 @@ static func apply(hud)->void:
  var buttons=hud.extra.duplicate()
  buttons.merge(hud.host.order_buttons)
  for key in buttons:
+  # The status-copy off switch retains the legacy ARRIVALS caption.
+  if key=="arrivals" and not preload("res://src/presentation/status_text/status_table.gd").enabled:continue
   var b=buttons[key];var why=str(b.tooltip_text)
   if key in Tools.ids() and b.disabled:
    why="Quietus only" if sim.selected>0 and key in Racks.QUIETUS_ONLY else "Zero stock on "+Work.NAMES[sim.selected] if stock(sim,key)<=0 else b.text.get_slice("\n",1) if key in Tools.field_ids() else why

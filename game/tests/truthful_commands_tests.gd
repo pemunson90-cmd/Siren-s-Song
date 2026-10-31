@@ -104,6 +104,8 @@ func run():
  check("QUIETUS\nO₂ 120% · DISRUPT 3 · SURVEY 0" in opening_copy,"opening brief confirms actual selected Quietus stock")
  check(g.sim.snapshot()==stock_before,"reading launch stock preserves the active dive")
  check(Work.action_verb({"site_id":"rendezvous","kind":"receiver"})=="DECODE","tender's receiver task keeps its authored decode verb")
+ check(Work.action_verb({"kind":"receiver"})=="LISTEN","ordinary receiver keeps LISTEN distinct from exchange DECODE")
+ check(Work.action_verb({"kind":"exchange"})=="DECODE","Blackwater exchange keeps the handoff's DECODE verb")
  # Object-sheet ROUTE HERE must use the same work approach seam as the
  # dedicated Reach/Choir pages. No direct-to-centre fallback on those sheets.
  for subkind in ["glass_work","choir"]:
