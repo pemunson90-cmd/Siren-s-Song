@@ -170,19 +170,19 @@
     "codex"
    ],
    "status": "active",
-   "phase": "A",
+   "phase": "B",
    "branch": "item/129-protected-golden",
    "pr": null,
-   "head": null,
+   "head": "c0d8c75d",
    "file": "docs/state/items/129-protected-golden.md",
    "attempts": {
     "A": 2,
-    "B": 0,
+    "B": 1,
     "C": 0
    },
    "blocker": null,
    "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-129",
-   "updated": "2026-10-31T21:17:57Z",
+   "updated": "2026-10-31T21:40:37Z",
    "provider": "claude:opus",
    "started": "2026-10-31T20:23:05Z"
   },
