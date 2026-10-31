@@ -85,7 +85,7 @@
    "prov": [
     "codex"
    ],
-   "status": "active",
+   "status": "parked",
    "phase": "B",
    "branch": "root/stable-board-pkg2",
    "pr": 239,
@@ -96,7 +96,7 @@
     "B": 0,
     "C": 0
    },
-   "blocker": null
+   "blocker": "Codex root out until about 2026-11-03; keeps its locks, frees the builder slot (D30)"
   },
   {
    "id": 136,
