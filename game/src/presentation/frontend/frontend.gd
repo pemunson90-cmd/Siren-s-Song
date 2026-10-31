@@ -37,6 +37,7 @@ func setup_settings(main:Control)->void:
 	profile=Profile.NONE if host._campaign_pristine() else Profile.OK
 	column=host.panel_box;scroll=host.scroll
 	save_timer=Timer.new();save_timer.one_shot=true;save_timer.wait_time=ReachTable.SAVE_DEBOUNCE;add_child(save_timer);save_timer.timeout.connect(_persist)
+	_watch_focus()
 	_settings_screen()
 # Classifies the campaign archive without modifying it.
 static func inspect_profile(store_path: String) -> Dictionary:
@@ -78,6 +79,7 @@ func setup(main: Control, use_live_values:=false) -> bool:
 	column = VBoxContainer.new(); column.add_theme_constant_override("separation", 14); column.size_flags_horizontal = Control.SIZE_SHRINK_CENTER; margin.add_child(column)
 	save_timer = Timer.new(); save_timer.one_shot = true; save_timer.wait_time = ReachTable.SAVE_DEBOUNCE; add_child(save_timer); save_timer.timeout.connect(_persist)
 	resized.connect(_fit_column)
+	_watch_focus()
 	_title_screen()
 	return column != null
 func _process(delta: float) -> void:
@@ -87,6 +89,12 @@ func _process(delta: float) -> void:
 	if FrontendSettings.reduced_motion(): drift = 0.0; title_label.modulate.a = 1.0; return
 	drift += delta
 	title_label.modulate.a = 0.82 + 0.18 * sin(drift * 1.1)
+# Keyboard focus moves through the panel; scroll each newly focused control into view once.
+# (follow_focus re-pins on every relayout, which fights the host's repeated layouts.)
+func _watch_focus() -> void:
+	if is_inside_tree() and not get_viewport().gui_focus_changed.is_connected(_focus_moved): get_viewport().gui_focus_changed.connect(_focus_moved)
+func _focus_moved(control: Control) -> void:
+	if is_instance_valid(scroll) and scroll.is_ancestor_of(control): scroll.ensure_control_visible.call_deferred(control)
 func touch_height() -> float:
 	var h = host.get("ui_touch_height") if host != null else 48.0
 	return maxf(48.0, float(h))
@@ -118,7 +126,7 @@ func _button(text: String, action: Callable, id: String, disabled := false) -> B
 		if target==host.menu_footer:target.show()
 		return control
 	var b := Button.new(); b.text = text; b.custom_minimum_size = Vector2(0, touch_height()); b.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	b.focus_mode = Control.FOCUS_ALL; b.disabled = disabled
+	b.focus_mode = Control.FOCUS_ALL; b.disabled = disabled; b.mouse_filter = Control.MOUSE_FILTER_PASS
 	b.set_meta("action", id); b.set_meta("ui_action", id)
 	b.pressed.connect(action, CONNECT_DEFERRED); column.add_child(b); return b
 func _title_screen() -> void:
@@ -191,7 +199,7 @@ func _choice_row() -> HBoxContainer:
 func _choice_button(row: Container, text: String, id: String, selected: bool) -> Button:
 	var b := Button.new(); b.text = text; b.custom_minimum_size = Vector2(0, touch_height()); b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	b.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	b.focus_mode = Control.FOCUS_ALL; b.set_meta("ui_action", id); b.toggle_mode = true; b.button_pressed = selected
+	b.focus_mode = Control.FOCUS_ALL; b.mouse_filter = Control.MOUSE_FILTER_PASS; b.set_meta("ui_action", id); b.toggle_mode = true; b.button_pressed = selected
 	row.add_child(b)
 	return b
 # One labelled row of exclusive choices storing an index or value under `key`.

@@ -222,6 +222,86 @@ func shape_case(shape):
 		if b.is_visible_in_tree() and b.get_meta("ui_action","") in ["settings","menu_title","menu_challenges","menu_credits"]:
 			check(b.get_global_rect().size.y>=game.ui_touch_height-1,"Operations control meets host density touch target: "+str(b.get_meta("ui_action")))
 	game.queue_free();await settle();clean(archive);clean(settings_path);clean(archive+".challenges")
+func focusables(scroll):
+	var out=[]
+	for c in scroll.find_children("*","Control",true,false):
+		if c.focus_mode==Control.FOCUS_ALL and c.is_visible_in_tree() and not (c is BaseButton and c.disabled):out.append(c)
+	return out
+func wheel(point,up=false):
+	for down in [true,false]:
+		var e=InputEventMouseButton.new();e.position=point;e.global_position=point;e.button_index=MOUSE_BUTTON_WHEEL_UP if up else MOUSE_BUTTON_WHEEL_DOWN;e.pressed=down;root.push_input(e,true);await process_frame
+# One panel: the last control is reachable by wheel, touch drag and focus-next.
+func reach_panel(scroll,label):
+	await settle()
+	var bar=scroll.get_v_scroll_bar()
+	var items=focusables(scroll)
+	check(items.size()>0,"panel has focusable controls: "+label)
+	if items.is_empty():return
+	var overflow=bar.max_value-bar.page>8.0
+	var rect=scroll.get_global_rect()
+	var probe=null
+	for c in items:
+		if c is Button and rect.encloses(c.get_global_rect()):probe=c;break
+	# A STOP button swallows touch drags before the ScrollContainer can begin one.
+	for c in scroll.find_children("*","BaseButton",true,false):
+		if c.is_visible_in_tree() and c.mouse_filter==Control.MOUSE_FILTER_STOP:check(false,"button lets touch drags reach the scroll view: "+label+" "+str(c.get_meta("ui_action","?")));break
+	if overflow and probe!=null:
+		scroll.scroll_vertical=0;await settle()
+		await wheel(probe.get_global_rect().get_center())
+		check(scroll.scroll_vertical>0,"wheel over a control scrolls: "+label)
+	scroll.scroll_vertical=0;await settle()
+	items=focusables(scroll)
+	var last=items[items.size()-1]
+	items[0].grab_focus()
+	var cursor=items[0];var steps=0
+	while cursor!=last and steps<120:
+		var nxt=cursor.find_next_valid_focus()
+		if nxt==null or nxt==cursor:break
+		nxt.grab_focus();cursor=nxt;steps+=1
+		if not scroll.is_ancestor_of(cursor):break
+	await settle()
+	check(cursor==last,"focus-next reaches the last control: "+label)
+	check(scroll.get_global_rect().grow(2).encloses(last.get_global_rect()) or not overflow,"focus-next scrolls the last control into view: "+label)
+	scroll.scroll_vertical=int(bar.max_value);await settle()
+	var tail=null
+	for c in scroll.find_children("*","Control",true,false):
+		if (c is Label or c is BaseButton or c is Slider) and c.is_visible_in_tree():tail=c
+	check(tail!=null and scroll.get_global_rect().grow(2).encloses(tail.get_global_rect()),"scrolled to end shows the last content: "+label)
+func reach_case(shape):
+	root.size=shape;await settle()
+	var stem="user://menu-reach-keys-%d-%d"%[shape.x,shape.y]
+	var archive=stem+".save";var settings_path=stem+"-settings.json"
+	clean(archive);clean(settings_path);clean(archive+".challenges")
+	var game=load("res://scenes/main.tscn").instantiate()
+	game.store.path=archive;game.settings_path=settings_path
+	game.capture_scenario="runtime-test"
+	root.add_child(game);await settle();game.set_process(false)
+	game.completed=[0];game.unlocked=1
+	game._show_campaign();game.capture_scenario="";game._save_archive();game._boot_frontend();await settle()
+	var front=game.get_node_or_null("Frontend")
+	check(front!=null,"reach case frontend present at "+str(shape))
+	if front==null:game.queue_free();await settle();return
+	front.save_timer.wait_time=60.
+	for text_scale in [1.0,1.5]:
+		front._set_value("text_scale",text_scale)
+		var tag="%s %d%%"%[str(shape),roundi(text_scale*100)]
+		front._title_screen();await reach_panel(front.scroll,"title "+tag)
+		for page in ["audio","display","controls"]:
+			front.settings_page=page;front._settings_screen();await reach_panel(front.scroll,"settings/"+page+" "+tag)
+		front._credits_screen();await reach_panel(front.scroll,"credits "+tag)
+		load("res://src/presentation/frontend/challenges_frontend.gd").show(front);await reach_panel(front.scroll,"challenges "+tag)
+		front._mode_select();await reach_panel(front.scroll,"modes "+tag)
+	front._set_value("text_scale",1.0)
+	await android_back()
+	if game.get_node_or_null("Frontend")!=null:await press(game.get_node("Frontend"),"frontend_continue")
+	if await press(game,"settings"):
+		for text_scale in [1.0,1.5]:
+			FrontSettings.current.text_scale=text_scale
+			for page in ["audio","display","controls"]:
+				await press(game,"settings_page_"+page)
+				await reach_panel(game.scroll,"operations settings/%s %d%%"%[page,roundi(text_scale*100)])
+	game.queue_free();await settle();clean(archive);clean(settings_path);clean(archive+".challenges")
 func run():
 	for shape in [Vector2i(2520,1080),Vector2i(2184,1968),Vector2i(960,432)]:await shape_case(shape)
+	await reach_case(Vector2i(960,432))
 	print("MENU REACH UI CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)
