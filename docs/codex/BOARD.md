@@ -1,4 +1,4 @@
-[QUEUE RUNNER 2026-10-30T22:28:37.7129723-04:00] running: 127 PIDunknown; done: 103, 106, 113, 115, 116, 121, 110, 112, 109, 114, 108, 111, 117, 119, 118, 120, 124, 125; blocked: 105, 104, 126.
+[QUEUE RUNNER 2026-10-30T22:30:45.7905495-04:00] running: 127 PID50388; done: 103, 106, 113, 115, 116, 121, 110, 112, 109, 114, 108, 111, 117, 119, 118, 120, 124, 125; blocked: 105, 104, 126.
 
 [Claude-lane126 2026-10-30T18:55:20.3767374-04:00] BLOCKED: PR238 revision43bcb4d8 preserves reviewed compact captions and full grey-tap status feedback. Native24PNG comparison:32 target controls no taller; cover150 WITHDRAW/TORPEDO remain0px because199px layout minimum meets414px scroll viewport. Needs root-owned package2 layout authority; no merge, no successor dispatched. Evidence artifacts/126/revision/REPORT.md.
 
