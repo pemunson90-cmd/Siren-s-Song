@@ -31,7 +31,7 @@ Beam lethality, 4 s interruptible lock warning, collision/hull/damage, Siren and
 Order/command availability per wheel page, route installation for release play, new recall order, dev-state gating, brief/help text, their tests, docs, shared registration lines. Not layout, hit-testing or chart camera (root package 2). Not Siren behaviour.
 
 ## Checks
-Import + Core, orders/navigation, route, radial, presentation/HUD, expedition instruments, campaign and finishability suites; full local checks before the PR.
+Import + Core, orders/navigation, route, radial, presentation/HUD, expedition instruments, campaign and finishability suites. **Before every push: the FULL registered suite list (all shards, as CI runs it) on the final head, per-shard totals pasted in the notes and PR.** 126 lost two CI cycles by running only "affected" suites.
 
 ## Return
 PR into claude/integration with the tables above; independent review; wait for CLAUDE INTENT: PASS; merge on green; close the BOARD row and add one LEDGER line.
