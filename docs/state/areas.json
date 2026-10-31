@@ -1,0 +1,35 @@
+{
+  "_comment": "Ownership areas for runner2.py launch checks. One live item per area. Serial zones admit one live item regardless of area. Globs are relative to the repo root. Draft 2026-10-30; the orchestrator maintains this file in docs/state/.",
+  "serial_zones": [
+    "game/src/main.gd",
+    "game/src/presentation/mission_hud.gd",
+    "game/src/presentation/ocean_view.gd",
+    "game/src/simulation/simulation.gd"
+  ],
+  "areas": {
+    "sim.orders": ["game/src/simulation/orders/**", "game/src/simulation/route_program.gd"],
+    "sim.sensing": ["game/src/simulation/acoustic_paths.gd", "game/src/simulation/terrain_chart.gd", "game/src/simulation/tuning.gd"],
+    "sim.sirens": ["game/src/simulation/sirens/**", "game/src/simulation/roles/**"],
+    "hud.wording": ["game/src/presentation/truthful_commands.gd", "game/src/presentation/work_task/**", "game/src/presentation/status_text/**", "game/src/presentation/public_copy.gd"],
+    "hud.orders": ["game/src/presentation/radial/**", "game/src/presentation/order_guard.gd"],
+    "hud.layout": ["game/src/presentation/chart_camera.gd", "game/src/presentation/fleet_ring.gd", "game/src/presentation/camera_feed.gd"],
+    "campaign.flow": ["game/src/presentation/flow/**", "game/src/campaign/operation_catalog.gd"],
+    "campaign.ops": ["game/src/campaign/*_operations.gd", "game/src/campaign/terrain/**"],
+    "campaign.endings": ["game/src/campaign/endings.gd", "game/src/presentation/finale/**"],
+    "economy": ["game/src/campaign/economy.gd", "game/src/presentation/economy_panel.gd", "game/src/campaign/runs/**", "game/src/campaign/career/**"],
+    "equipment": ["game/src/equipment/**", "game/src/presentation/fittings_menu.gd"],
+    "photo": ["game/src/photo_rules/**", "game/src/photo_depth/**", "game/src/simulation/photo_capture.gd", "game/src/presentation/photo_subjects.gd", "game/src/presentation/photo_scene.gd"],
+    "persistence": ["game/src/persistence/**"],
+    "audio": ["game/src/audio/**", "game/assets/audio/**"],
+    "art": ["game/src/presentation/art/**", "game/assets/craft/**", "game/assets/structures/**", "game/assets/title/**"],
+    "debug.dev_state": ["game/src/debug/**"],
+    "frontend": ["game/src/presentation/frontend/**", "game/src/presentation/ops_home/**"],
+    "tooling": ["scripts/toolchain/**", ".github/workflows/**", "game/tests/suites.txt"],
+    "tests.shared": ["game/tests/fixtures/**", "game/tests/*_support.gd", "game/tests/*_voyage.gd"]
+  },
+  "_notes": [
+    "Paths are from the integration tree at 05d09718; the orchestrator corrects globs as files move.",
+    "An item's Files must fall inside its Areas or the runner refuses to launch it.",
+    "A change to 'tooling' or 'tests.shared' selects the full CI matrix on the PR (CI_CHANGES.md)."
+  ]
+}

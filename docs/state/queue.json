@@ -1,0 +1,299 @@
+{
+ "max_builders": 2,
+ "note": "runner2.py becomes the only writer once installed (migration step 3); until then the orchestrator edits this file.",
+ "items": [
+  {
+   "id": 126,
+   "slug": "truthful-commands",
+   "title": "Truthful commands (PR 238)",
+   "cls": "text",
+   "areas": [
+    "hud.wording"
+   ],
+   "serial": [
+    "mission_hud.gd"
+   ],
+   "deps": [],
+   "prov": [
+    "codex",
+    "claude:sonnet"
+   ],
+   "status": "active",
+   "phase": "B",
+   "branch": "claude/truthful-commands",
+   "pr": 238,
+   "head": "3cde47e4",
+   "file": "docs/state/items/126-truthful-commands.md",
+   "attempts": {
+    "A": 0,
+    "B": 0,
+    "C": 0
+   },
+   "blocker": null
+  },
+  {
+   "id": 127,
+   "slug": "release-controls",
+   "title": "Release controls, pilot by hand",
+   "cls": "sim",
+   "areas": [
+    "sim.orders",
+    "hud.orders",
+    "debug.dev_state"
+   ],
+   "serial": [
+    "mission_hud.gd"
+   ],
+   "deps": [
+    126
+   ],
+   "prov": [
+    "codex",
+    "claude:opus"
+   ],
+   "status": "queued",
+   "phase": null,
+   "branch": "item/127-release-controls",
+   "pr": null,
+   "head": null,
+   "file": "docs/state/items/127-release-controls.md",
+   "attempts": {
+    "A": 0,
+    "B": 0,
+    "C": 0
+   },
+   "blocker": null
+  },
+  {
+   "id": "PKG2",
+   "slug": "stable-board",
+   "title": "Stable board and clear threat (PR 239, root)",
+   "cls": "ui",
+   "areas": [
+    "hud.layout"
+   ],
+   "serial": [
+    "mission_hud.gd",
+    "ocean_view.gd"
+   ],
+   "deps": [],
+   "prov": [
+    "codex"
+   ],
+   "status": "active",
+   "phase": "B",
+   "branch": "root/stable-board-pkg2",
+   "pr": 239,
+   "head": "f432d0a2",
+   "file": "docs/state/items/pkg2-stable-board.md",
+   "attempts": {
+    "A": 0,
+    "B": 0,
+    "C": 0
+   },
+   "blocker": null
+  },
+  {
+   "id": 128,
+   "slug": "ci-v2",
+   "title": "CI v2: draft skip, affected selection, full matrix on merge candidate, duration shards, nightly",
+   "cls": "ui",
+   "areas": [
+    "tooling"
+   ],
+   "serial": [],
+   "deps": [],
+   "prov": [
+    "claude:opus",
+    "codex"
+   ],
+   "status": "queued",
+   "phase": null,
+   "branch": "item/128-ci-v2",
+   "pr": null,
+   "head": null,
+   "file": "docs/state/items/128-ci-v2.md",
+   "attempts": {
+    "A": 0,
+    "B": 0,
+    "C": 0
+   },
+   "blocker": null
+  },
+  {
+   "id": 129,
+   "slug": "protected-golden",
+   "title": "R3 protected rules golden test",
+   "cls": "protected",
+   "areas": [
+    "tests.shared"
+   ],
+   "serial": [],
+   "deps": [],
+   "prov": [
+    "claude:sonnet",
+    "codex"
+   ],
+   "status": "queued",
+   "phase": null,
+   "branch": "item/129-protected-golden",
+   "pr": null,
+   "head": null,
+   "file": "docs/state/items/129-protected-golden.md",
+   "attempts": {
+    "A": 0,
+    "B": 0,
+    "C": 0
+   },
+   "blocker": null
+  },
+  {
+   "id": 130,
+   "slug": "control-mix",
+   "title": "R5 control-mix telemetry (dev state only)",
+   "cls": "sim",
+   "areas": [
+    "sim.orders",
+    "debug.dev_state"
+   ],
+   "serial": [],
+   "deps": [
+    127
+   ],
+   "prov": [
+    "claude:opus",
+    "codex"
+   ],
+   "status": "queued",
+   "phase": null,
+   "branch": "item/130-control-mix",
+   "pr": null,
+   "head": null,
+   "file": "docs/state/items/130-control-mix.md",
+   "attempts": {
+    "A": 0,
+    "B": 0,
+    "C": 0
+   },
+   "blocker": null
+  },
+  {
+   "id": 131,
+   "slug": "crash-possible",
+   "title": "R4 crash possible with edge assist",
+   "cls": "sim",
+   "areas": [
+    "sim.orders"
+   ],
+   "serial": [],
+   "deps": [
+    127
+   ],
+   "prov": [
+    "claude:opus",
+    "codex"
+   ],
+   "status": "queued",
+   "phase": null,
+   "branch": "item/131-crash-possible",
+   "pr": null,
+   "head": null,
+   "file": "docs/state/items/131-crash-possible.md",
+   "attempts": {
+    "A": 0,
+    "B": 0,
+    "C": 0
+   },
+   "blocker": null
+  },
+  {
+   "id": 133,
+   "slug": "recovery-manifest",
+   "title": "Recovery manifest (PLAN_DRAFT_1 package 3)",
+   "cls": "sim",
+   "areas": [
+    "campaign.flow",
+    "hud.wording"
+   ],
+   "serial": [],
+   "deps": [
+    127
+   ],
+   "prov": [
+    "codex",
+    "claude:opus"
+   ],
+   "status": "queued",
+   "phase": null,
+   "branch": "item/133-recovery-manifest",
+   "pr": null,
+   "head": null,
+   "file": "docs/state/items/133-recovery-manifest.md",
+   "attempts": {
+    "A": 0,
+    "B": 0,
+    "C": 0
+   },
+   "blocker": null
+  },
+  {
+   "id": 134,
+   "slug": "route-flow",
+   "title": "Route flow (package 4)",
+   "cls": "sim",
+   "areas": [
+    "sim.orders"
+   ],
+   "serial": [],
+   "deps": [
+    127,
+    "PKG2"
+   ],
+   "prov": [
+    "codex",
+    "claude:opus"
+   ],
+   "status": "queued",
+   "phase": null,
+   "branch": "item/134-route-flow",
+   "pr": null,
+   "head": null,
+   "file": "docs/state/items/134-route-flow.md",
+   "attempts": {
+    "A": 0,
+    "B": 0,
+    "C": 0
+   },
+   "blocker": null
+  },
+  {
+   "id": 135,
+   "slug": "prep-results",
+   "title": "Prep and results (package 5)",
+   "cls": "ui",
+   "areas": [
+    "equipment",
+    "economy",
+    "frontend"
+   ],
+   "serial": [],
+   "deps": [],
+   "prov": [
+    "codex",
+    "claude:sonnet"
+   ],
+   "status": "queued",
+   "phase": null,
+   "branch": "item/135-prep-results",
+   "pr": null,
+   "head": null,
+   "file": "docs/state/items/135-prep-results.md",
+   "attempts": {
+    "A": 0,
+    "B": 0,
+    "C": 0
+   },
+   "blocker": null
+  }
+ ]
+}

@@ -1,3 +1,5 @@
+> **2026-10-31: workflow v2 migration started (Pat yes to question 1: Claude may build, bounded).** Live state now in docs/state/ (STATE.md, RULINGS.md, DECISIONS.md, queue.json, items/). The rest of this file is v1 history, frozen at archive/workflow-v1-2026-10-31; where they disagree docs/state wins.
+
 # HANDOFF (Claude orchestrator, Siren's Song). Read this, nothing else, on restart.
 
 Updated 2026-10-30T22:13:30-04:00 (Claude S11). Live refs, PRs and BOARD are newer when they disagree. Pat's dated words (USER_DIRECTIVES on claude/integration, PAT_RULINGS_2026-10-29.md here) outrank this. Older detail: `HANDOFF_ARCHIVE_2026-10-29.md` (read only when a question needs it).
