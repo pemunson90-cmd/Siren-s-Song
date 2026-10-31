@@ -18,6 +18,8 @@ FILES = {
         "gamma_tests|GAMMA|4|4",
         "local_only_tests|LOCAL ONLY|5|-",
         "delta_tests|DELTA|6|5",
+        "epsilon_tests|EPSILON|7|6",
+        "zeta_tests|ZETA|8|7",
         "",
     ]),
     "game/tests/run_tests.gd": 'extends SceneTree\nconst S = preload("res://src/simulation/simulation.gd")\n',
@@ -28,18 +30,29 @@ FILES = {
     # beta extends a registered suite, so it depends on alpha's sources too.
     "game/tests/beta_tests.gd": 'extends "res://tests/alpha_tests.gd"\n',
     "game/tests/gamma_tests.gd": 'extends SceneTree\nconst B = preload("res://src/feature/b.gd")\n'
-                                 'const M = preload("res://src/main.gd")\n',
+                                 'const M = preload("res://src/main.gd")\n'
+                                 'const C = preload("res://src/feature/cam.gd")\n',
     "game/tests/local_only_tests.gd": 'extends SceneTree\nconst A = preload("res://src/feature/a.gd")\n',
     "game/tests/delta_tests.gd": 'extends SceneTree\nconst W = preload("res://src/feature/wrapper.gd")\n',
+    # epsilon names flow.gd directly, but main.gd (a serial zone) also preloads it.
+    "game/tests/epsilon_tests.gd": 'extends SceneTree\nconst F = preload("res://src/feature/flow.gd")\n',
+    # zeta names dict.gd only inside a single-quoted dictionary value.
+    "game/tests/zeta_tests.gd": "extends SceneTree\nconst ROUTES = {\"a\": 'res://src/feature/dict.gd'}\n",
     "game/tests/suite-times.json": "{}\n",
     "game/tests/fixtures/sample.json": "{}\n",
-    "game/src/main.gd": 'const D = preload("res://src/feature/deep.gd")\n',
+    "game/src/main.gd": 'const D = preload("res://src/feature/deep.gd")\n'
+                        'const F = preload("res://src/feature/flow.gd")\n',
+    "game/src/feature/flow.gd": "",
+    "game/src/feature/dict.gd": "",
+    # gamma names cam.gd directly; delta also reaches it through wrapper.gd.
+    "game/src/feature/cam.gd": "",
     "game/src/simulation/simulation.gd": "",
     "game/src/feature/a.gd": "",
     "game/src/feature/b.gd": "",
     "game/src/feature/h.gd": "",
     # inner.gd is named by no suite; delta reaches it through wrapper.gd.
-    "game/src/feature/wrapper.gd": 'const I = preload("res://src/feature/inner.gd")\n',
+    "game/src/feature/wrapper.gd": 'const I = preload("res://src/feature/inner.gd")\n'
+                                   "const PATHS = ['res://src/feature/cam.gd']\n",
     "game/src/feature/inner.gd": "",
     # deep.gd is reached only through main.gd, a serial zone.
     "game/src/feature/deep.gd": "",
@@ -76,6 +89,10 @@ with tempfile.TemporaryDirectory() as tmp:
     assert changed(root, "game/tests/gamma_tests.gd")[2] == ["gamma_tests"]
     # Indirect reach through another source script when no suite names the file.
     assert changed(root, "game/src/feature/inner.gd")[2] == ["delta_tests", "gamma_tests"]
+    # A suite naming a file directly does not hide suites reaching it indirectly.
+    assert changed(root, "game/src/feature/cam.gd")[2] == ["gamma_tests", "delta_tests"]
+    # References inside dictionaries and single quotes count.
+    assert changed(root, "game/src/feature/dict.gd")[2] == ["zeta_tests", "gamma_tests"]
     # Docs, shard timings and non-game files select nothing but the canaries.
     assert changed(root, "docs/notes.md", "game/tests/suite-times.json", "README.md") == (
         False, "affected", ["gamma_tests"])
@@ -94,7 +111,8 @@ with tempfile.TemporaryDirectory() as tmp:
         "game/tests/shared_helper.gd": "shared test helper",
         "game/assets/icon.png": "game file outside src and tests",
         "game/project.godot": "game file outside src and tests",
-        "game/src/feature/deep.gd": "no suite reaches",
+        "game/src/feature/deep.gd": "serial zone reaches",
+        "game/src/feature/flow.gd": "serial zone reaches",
         "game/src/feature/unreferenced.gd": "no suite reaches",
     }
     for path, reason in full_cases.items():
@@ -124,5 +142,13 @@ with tempfile.TemporaryDirectory() as tmp:
     subprocess.run(git + ["commit", "-qam", "edit"], cwd=root, check=True)
     assert run(root, "--base", "HEAD~1", "--head", "HEAD") == (False, "affected", ["gamma_tests"])
 
-print("select-suites: direct, helper, inherited, indirect, canary, ignore, "
+# The two misses found in review, against the real tree: main.gd preloads
+# campaign_flow.gd; ocean_view.gd and photo_pricing.gd preload camera_feed.gd.
+repo = script.parents[2]
+for path in ("game/src/presentation/flow/campaign_flow.gd", "game/src/presentation/camera_feed.gd"):
+    if (repo / path).is_file():
+        full, why, _ = changed(repo, path)
+        assert full and why.startswith("serial zone reaches"), (path, why)
+
+print("select-suites: direct, helper, inherited, indirect, union, dictionary, canary, ignore, "
       f"{len(full_cases)} fallback, size-limit and git-diff cases pass")

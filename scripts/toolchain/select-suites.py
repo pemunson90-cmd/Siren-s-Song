@@ -3,16 +3,17 @@
 
 Usage: select-suites.py --base SHA [--head REF] [--root DIR] [--changed PATH ...]
 
-The map from suites to sources comes from the literal res:// strings in
-preload(...), load(...) and extends "..." lines of game/tests/*.gd. A suite
-depends on every file it names directly, and on everything named by test
-helpers it names (other game/tests scripts and *_tests.gd helpers under
-game/src), followed transitively. A changed game/src file selects the suites
-that name it this way. When no suite names it, the suites that reach it
-through other game/src scripts are used instead (never through a serial zone,
-since nearly every suite reaches main.gd or simulation.gd); when none reaches
-it that way either, the full matrix runs. The merge candidate and the nightly
-always run the full matrix, which backs up this static map.
+The dependency map comes from every quoted res:// string literal (double or
+single quotes, anywhere: preload, load, extends, dictionaries, constants) in
+game scripts and text resources (.gd, .tscn, .tres), followed transitively.
+A suite depends on everything it reaches without passing through a serial zone.
+A changed game/src file selects every suite that reaches it, directly or through
+other scripts. When in doubt it asks for the full matrix: a file that any
+serial zone (main.gd, mission_hud.gd, ocean_view.gd, simulation.gd) reaches
+transitively, a file no suite reaches, a non-suite test helper, shared test
+infrastructure, game files outside src and tests, or more than 60 suites.
+The merge candidate and the nightly always run the full matrix, which backs up
+this static map.
 
 Prints key=value lines for $GITHUB_OUTPUT on stdout:
   full=true|false
@@ -38,7 +39,8 @@ FULL_FILES = {"game/tests/suites.txt"}
 # Shard balance data only; it never changes what a suite checks.
 IGNORED_FILES = {"game/tests/suite-times.json"}
 MAX_SUITES = 60
-REF_RE = re.compile(r'(?:preload|load)\(\s*"(res://[^"]+)"\s*\)|^extends\s+"(res://[^"]+)"', re.M)
+REF_RE = re.compile(r'"(res://[^"\n]+)"|\'(res://[^\'\n]+)\'')
+FOLLOWED = (".gd", ".tscn", ".tres")
 
 
 def registry(root):
@@ -63,29 +65,24 @@ def canaries(root):
     return names
 
 
-def refs(root, rel):
-    path = root / "game" / rel
-    try:
-        text = path.read_text(encoding="utf-8")
-    except (FileNotFoundError, UnicodeDecodeError):
-        return set()
-    return {"game/" + (a or b)[len("res://"):] for a, b in REF_RE.findall(text)}
+def refs(root, rel, cache={}):
+    if rel not in cache:
+        try:
+            text = (root / rel).read_text(encoding="utf-8")
+        except (FileNotFoundError, IsADirectoryError, UnicodeDecodeError):
+            text = ""
+        cache[rel] = {"game/" + (a or b)[len("res://"):] for a, b in REF_RE.findall(text)}
+    return cache[rel]
 
 
-def is_helper(rel):
-    """A script whose own references belong to the suites that use it."""
-    return rel.startswith("game/tests/") or rel.endswith("_tests.gd")
-
-
-def closure(root, suite, follow):
-    start = f"game/tests/{suite}.gd"
+def closure(root, start, stop=frozenset()):
+    """Everything start reaches, without following files listed in stop."""
     seen, stack = {start}, [start]
     while stack:
-        current = stack.pop()
-        for ref in refs(root, current[len("game/"):]):
+        for ref in refs(root, stack.pop()):
             if ref not in seen:
                 seen.add(ref)
-                if ref.endswith(".gd") and follow(ref):
+                if ref.endswith(FOLLOWED) and ref not in stop:
                     stack.append(ref)
     return seen
 
@@ -101,8 +98,8 @@ def select(root, changed):
     rows = registry(root)
     # Only CI-registered runtime suites can be selected; core already ran.
     ci = [name for name, rank in rows.items() if rank is not None and name != "run_tests"]
-    deps = {name: closure(root, name, is_helper) for name in ci}
-    reach = None
+    deps = {name: closure(root, f"game/tests/{name}.gd", SERIAL_ZONES) for name in ci}
+    serial = set().union(*(closure(root, zone) for zone in sorted(SERIAL_ZONES)))
     chosen, notes = set(), []
     for path in sorted(set(changed)):
         rel = path[:-4] if path.endswith(".uid") else path
@@ -115,27 +112,17 @@ def select(root, changed):
             return True, f"shared test infrastructure {rel}", []
         if rel.startswith("game/tests/"):
             name = rel[len("game/tests/"):]
-            if "/" not in name and name.endswith(".gd") and name[:-3] in rows:
-                hit = {s for s, d in deps.items() if rel in d}
-                notes.append(f"{rel}: {len(hit)} CI suites (itself and dependents)")
-                chosen |= hit
-                continue
-            return True, f"shared test helper {rel}", []
-        if rel.startswith("game/src/"):
-            hit = {s for s, d in deps.items() if rel in d}
-            if not hit:
-                if reach is None:
-                    reach = {name: closure(root, name, lambda ref: ref not in SERIAL_ZONES)
-                             for name in ci}
-                hit = {s for s, d in reach.items() if rel in d}
-                if not hit:
-                    return True, f"no suite reaches {rel} outside a serial zone", []
-                notes.append(f"{rel}: {len(hit)} suites reach it indirectly")
-            else:
-                notes.append(f"{rel}: {len(hit)} suites")
-            chosen |= hit
-            continue
-        return True, f"game file outside src and tests {rel}", []
+            if not ("/" not in name and name.endswith(".gd") and name[:-3] in rows):
+                return True, f"shared test helper {rel}", []
+        elif not rel.startswith("game/src/"):
+            return True, f"game file outside src and tests {rel}", []
+        if rel in serial:
+            return True, f"serial zone reaches {rel}", []
+        hit = {s for s, d in deps.items() if rel in d}
+        if not hit and rel.startswith("game/src/"):
+            return True, f"no suite reaches {rel}", []
+        notes.append(f"{rel}: {len(hit)} suites")
+        chosen |= hit
     if len(chosen) > MAX_SUITES:
         return True, f"{len(chosen)} affected suites exceed {MAX_SUITES}", []
     ordered = sorted(chosen, key=lambda name: rows[name])

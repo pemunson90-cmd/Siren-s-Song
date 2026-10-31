@@ -3,7 +3,7 @@ name: Gauntlet PR checks
 # Draft pull requests run guidance only. Ready pull requests run core plus the
 # suites affected by the diff (scripts/toolchain/select-suites.py), falling back
 # to the full four-shard matrix when shared code or test infrastructure changes.
-# The merge queue, the nightly (nightly-integration.yml) and full=true dispatches
+# The merge queue, the nightly (nightly-integration.yml) and manual dispatches
 # always run the full matrix.
 on:
   pull_request:
@@ -11,16 +11,8 @@ on:
     types: [opened, synchronize, reopened, ready_for_review]
   merge_group:
   workflow_dispatch:
-    inputs:
-      full:
-        description: 'Run all four runtime shards (false runs import and core only)'
-        type: boolean
-        default: true
   workflow_call:
     inputs:
-      full:
-        type: boolean
-        default: true
       ref:
         description: 'Ref to check out (empty for the triggering ref)'
         type: string
@@ -189,13 +181,11 @@ jobs:
   game-runtime:
     name: game-runtime (${{ matrix.shard }}/4)
     needs: [game-core, game-affected]
-    # Pull requests run all shards only when game-affected falls back; the merge
-    # queue, schedules and full dispatches always run them.
+    # Pull requests run all shards only when game-affected falls back; every
+    # other event (merge queue, schedule, dispatch, nightly call) always runs them.
     if: >-
       ${{ !cancelled() && needs.game-core.result == 'success' && needs.game-core.outputs.game == 'true' &&
-      ((github.event_name == 'pull_request' && needs.game-affected.outputs.full == 'true') ||
-      (github.event_name != 'pull_request' &&
-      (github.event_name == 'merge_group' || github.event_name == 'schedule' || inputs.full))) }}
+      (github.event_name != 'pull_request' || needs.game-affected.outputs.full == 'true') }}
     runs-on: ubuntu-24.04
     timeout-minutes: 90
     outputs:
@@ -259,7 +249,6 @@ jobs:
         env:
           EVENT: ${{ github.event_name }}
           DRAFT: ${{ github.event.pull_request.draft }}
-          FULL_MATRIX: ${{ github.event_name == 'merge_group' || github.event_name == 'schedule' || inputs.full == true }}
           CORE_RESULT: ${{ needs.game-core.result }}
           GAME_CHANGED: ${{ needs.game-core.outputs.game }}
           AFFECTED_RESULT: ${{ needs.game-affected.result }}
@@ -272,7 +261,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          echo "event=$EVENT draft=$DRAFT full=$FULL_MATRIX core=$CORE_RESULT game=$GAME_CHANGED" \
+          echo "event=$EVENT draft=$DRAFT core=$CORE_RESULT game=$GAME_CHANGED" \
             "affected=$AFFECTED_RESULT/$AFFECTED_FULL runtime=$RUNTIME_RESULT"
           shards() {
             [[ "$RUNTIME_RESULT" == success ]]
@@ -296,8 +285,9 @@ jobs:
                   *) echo 'Missing affected-selection result' >&2; exit 1 ;;
                 esac
               else
+                # Every event other than a ready pull request needs all four shards.
                 [[ "$AFFECTED_RESULT" == skipped ]]
-                if [[ "$FULL_MATRIX" == true ]]; then shards; else [[ "$RUNTIME_RESULT" == skipped ]]; fi
+                shards
               fi
               ;;
             false) [[ "$AFFECTED_RESULT" == skipped && "$RUNTIME_RESULT" == skipped ]] ;;

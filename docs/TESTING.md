@@ -16,9 +16,10 @@ CI runs import, core, then the CI profile excluding core.
 CI by event: draft pull requests run guidance only. Ready pull requests run core
 and `game-affected`: `scripts/toolchain/select-suites.py` picks the suites whose
 res:// references reach the changed files, plus `scripts/toolchain/canaries.txt`,
-and runs them with `test.sh --profile ci --suites a,b,c`. Shared code, test
-infrastructure or more than 60 suites fall back to the four runtime shards.
-The merge queue, nightly and `full=true` dispatches always run all four shards.
+and runs them with `test.sh --profile ci --suites a,b,c`. Files a serial zone
+reaches, files no suite reaches, test infrastructure or more than 60 suites
+fall back to the four runtime shards.
+The merge queue, nightly and manual dispatches always run all four shards.
 `test.sh --shard N` balances shards by `game/tests/suite-times.json`
 (suite to seconds; the nightly uploads a fresh one as an artifact).
 

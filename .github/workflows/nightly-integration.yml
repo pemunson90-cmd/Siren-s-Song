@@ -16,7 +16,6 @@ jobs:
   full:
     uses: ./.github/workflows/gauntlet-pr-checks.yml
     with:
-      full: true
       ref: claude/integration
 
   suite-times:
