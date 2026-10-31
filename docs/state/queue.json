@@ -387,16 +387,16 @@
    "branch": "item/138-player-names",
    "file": "docs/state/items/138-player-names.md",
    "attempts": {
-    "A": 3,
-    "B": 2,
+    "A": 2,
+    "B": 1,
     "C": 0
    },
-   "phase": "review",
+   "phase": "A",
    "pr": 245,
    "head": "07ca055f2268033193a8f9c1a857aa3e3b7e275b",
    "blocker": null,
    "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-138",
-   "updated": "2026-10-31T23:36:59Z",
+   "updated": "2026-10-31T23:45:16Z",
    "provider": "claude:sonnet",
    "started": "2026-10-31T22:37:48Z"
   }
