@@ -18,18 +18,18 @@
     "codex",
     "claude:sonnet"
    ],
-   "status": "active",
-   "phase": "B",
+   "status": "done",
+   "phase": null,
    "branch": "claude/truthful-commands",
    "pr": 238,
-   "head": "3cde47e4",
+   "head": "75f59cd6",
    "file": "docs/state/items/126-truthful-commands.md",
    "attempts": {
     "A": 0,
     "B": 0,
     "C": 0
    },
-   "blocker": "shard 2 fit_surface_ui_tests 3 fails; repair builder running"
+   "blocker": null
   },
   {
    "id": 127,
@@ -48,11 +48,10 @@
     126
    ],
    "prov": [
-    "codex",
     "claude:opus"
    ],
-   "status": "queued",
-   "phase": null,
+   "status": "active",
+   "phase": "A",
    "branch": "item/127-release-controls",
    "pr": null,
    "head": null,
@@ -136,10 +135,10 @@
     "claude:opus"
    ],
    "status": "active",
-   "phase": "B",
+   "phase": "C",
    "branch": "item/128-ci-v2",
    "pr": 240,
-   "head": "96bb6744",
+   "head": "9ff652ab",
    "file": "docs/state/items/128-ci-v2.md",
    "attempts": {
     "A": 0,
