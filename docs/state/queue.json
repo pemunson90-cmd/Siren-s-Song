@@ -169,8 +169,8 @@
     "claude:sonnet",
     "codex"
    ],
-   "status": "merging",
-   "phase": "C",
+   "status": "done",
+   "phase": null,
    "branch": "item/129-protected-golden",
    "pr": 243,
    "head": "e2c7ba41e309c0037db460c7f22fc9ceab70da61",
@@ -182,7 +182,7 @@
    },
    "blocker": null,
    "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-129",
-   "updated": "2026-10-31T22:24:32Z",
+   "updated": "2026-10-31T23:05:02Z",
    "provider": "claude:opus",
    "started": "2026-10-31T20:23:05Z"
   },
