@@ -54,14 +54,14 @@
    "phase": "A",
    "branch": "item/127-release-controls",
    "pr": null,
-   "head": null,
+   "head": "78009073",
    "file": "docs/state/items/127-release-controls.md",
    "attempts": {
     "A": 0,
     "B": 0,
     "C": 0
    },
-   "blocker": null
+   "blocker": "builder stopped at session limit mid phase A; WIP pushed"
   },
   {
    "id": "PKG2",
@@ -110,15 +110,15 @@
    "status": "active",
    "phase": "A",
    "branch": "item/136-shard-all-failures",
-   "pr": null,
-   "head": null,
+   "pr": 242,
+   "head": "23e0f991",
    "file": "docs/state/items/136-shard-all-failures.md",
    "attempts": {
     "A": 0,
     "B": 0,
     "C": 0
    },
-   "blocker": null
+   "blocker": "review CHANGES fix committed as WIP, not re-verified"
   },
   {
    "id": 128,

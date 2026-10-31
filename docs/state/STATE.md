@@ -1,4 +1,4 @@
-# STATE (updated 2026-10-31T02:08:44-04:00, by orchestrator; workflow v2 migration in progress)
+# STATE (updated 2026-10-31T14:15:32-04:00, by orchestrator) PAUSED, RESUME REQUIRED
 
 ## Base
 integration: 1642acd9 (126 PR 238 and 128 CI v2 PR 240 merged)   main: a2300840 (2026-10-19)   production: 26e09906 (Promotion 4, frozen pending question 2)
@@ -7,9 +7,9 @@ nightly: not yet running (item 128)   controls mix: not yet measured (item 130)
 
 ## In flight
 | item | title | class | provider | phase | branch | PR | head |
-| 127 | Release controls | sim | claude:opus | A build | item/127-release-controls | | |
-| 136 | Shards report all failures | ui | claude:sonnet | A build | item/136-shard-all-failures | | |
-| PKG2 | Stable board | ui | codex root (active) | C: all eight own checks passed; runner handoff | root/stable-board-pkg2 | 239 | 527e4478 |
+| 127 | Release controls | sim | claude:opus | A build, stopped mid-way (WIP pushed) | item/127-release-controls | | 78009073 |
+| 136 | Shards report all failures | ui | claude:sonnet | A review fixes as WIP, unverified | item/136-shard-all-failures | 242 | 23e0f991 |
+| PKG2 | Stable board | ui | codex root (out) | B | root/stable-board-pkg2 | 239 | f432d0a2 |
 
 ## Queued (order = priority; see queue.json)
 129 protected golden, 130 control mix, 131 crash possible, 133 recovery manifest, 134 route flow, 135 prep and results
@@ -22,4 +22,10 @@ nightly: not yet running (item 128)   controls mix: not yet measured (item 130)
 - Q2 main as sole promotion target; Q3 intent card and spec line 73; Q4 daily digest; Q5 model cap (docs/workflow-v2/QUESTIONS_FOR_PAT.md on claude/workflow-v2)
 
 ## Next
-- Review and merge 136; review 127 when its draft PR lands. CI v2 live: slowest shard 37 min (was 44); nightly timing refresh should balance shard 2 (23 min).
+- Resume 127 builder from its pushed branch (worktree Siren-s-Song-item-127); then draft PR, review, intent.
+- 136: verify the WIP fix under WSL (empty selection exits non-zero; printf escapes), re-review changed lines, merge on green.
+
+## PAUSED
+- reason: Claude session usage limit hit 2026-10-31 ~02:40 ET (both builders stopped); Pat said finish up.
+- resume: run /siren-start style startup reading docs/state/STATE.md, then relaunch builders for 127 and 136 from their worktrees (branches above). auto.py (v1) still alive and idle; runner2.py built in the queue folder, not started.
+- merged this session: 126 (PR 238, 4fc459e7), 128 CI v2 (PR 240, 1642acd9). Integration tip 1642acd9.
