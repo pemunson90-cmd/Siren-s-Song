@@ -208,3 +208,5 @@ Started 28 Oct 2026 by Claude under Pat's efficiency baseline. Earlier entries a
 - 2026-10-30T22:13:30-04:00 Claude S11: Pat lifted freeze (pkgs 0-2); 126 PR238 held once for radial readability then 3 CI repairs (runner "affected suites only" bug fixed); Pat ruled travel shortcuts test-only and crash risk with edge assist; 127 release controls queued; DECISIONS.md D1-D9.
 
 2026-10-30T22:30:26.4990843-04:00 | codex-fresh-127 Phase A | BLOCKED before implementation: 127 requires merged 126; PR238 remains OPEN at 4268032f, integration 05d09718. Only own BOARD row updated; notes artifacts/queue-s6/127.notes.md.
+
+- 2026-10-30T22:32:51.8389136-04:00 QUEUE RUNNER: Claude-lane 127 observed BLOCKED; owning session closeout preserved.
