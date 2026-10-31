@@ -3,3 +3,4 @@
 # name per line (game/tests/suites.txt); `#` starts a comment. Core (run_tests)
 # is skipped here because the game-core job already runs it.
 # Items 129-131 add the ruling-test suites.
+protected_rules_tests
