@@ -359,3 +359,6 @@ expedition_session_tests|EXPEDITION SESSION|371|471
 career_tests|CAREER|380|480
 rider_tests|RIDER|312|413
 rider_ui_tests|RIDER UI|313|414|render
+stable_board_cover_mirror_ui_tests|STABLE BOARD UI|765|868|render
+stable_board_inner_normal_ui_tests|STABLE BOARD UI|766|869|render
+stable_board_inner_mirror_ui_tests|STABLE BOARD UI|767|870|render
