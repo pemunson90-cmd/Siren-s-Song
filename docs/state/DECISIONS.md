@@ -2,6 +2,7 @@
 
 Pat 2026-10-30 ~18:00: "only surface questions that need me, otherwise record all decision points and keep me posted so I can revert them." Each line: what, why, how to revert. Say "revert Dnn".
 
+- **D33 2026-10-31T19:50 Failure causes fixed, not instances (Pat asked).** runner2: seven live-boundary bugs fixed with regression tests; new pre-review hand-in gate (RED BEFORE line proving the acceptance test fails on old code, check-suites, strict summary line); builder prompts require registry and canary entries and forbid writing backslash content through the shell. Cards written against live integration, model set by class. Revert: restore runner2.py.bak-s12 and prompts.bak-s12 in the queue folder.
 - **D32 2026-10-31 Pat yes: builder cap raised from two to three.** Why: with independent items queued, the cap was the limit. Revert: set max_builders back to 2.
 - **D31 2026-10-31T17:50 Queue widened with independent work.** 135 refined to C26+C32 (C41 deferred: campaign_flow.gd is 127's); new 137 menu scroll/keys (C25) and 138 player-facing names (C47); new areas career.ui and runs.ui. Why: four of six queued items waited on 127. Revert: drop 137/138.
 - **D30 2026-10-31T16:40 PKG2 parked while Codex root is out.** New runner2 status `parked` keeps an item's file locks without holding a builder slot, so item 129 can start. Revert: set PKG2 back to active.
