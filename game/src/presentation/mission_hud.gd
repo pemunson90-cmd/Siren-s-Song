@@ -492,6 +492,7 @@ func _fit_sheet():
  sheet.size.y=height;sheet.position=at
  close_button.position=Vector2(center.x-touch_height*.775,sheet.position.y+height+8)
  StatusView.fit_sheet(self)
+ _clear_hint_overlap()
  host.call_deferred("_report_targets")
 func threat_rects()->Array:
  var rects=host.ocean.contact_readout_rects()
@@ -693,6 +694,9 @@ func refresh():
  if host.ocean.optical_feed.is_visible_in_tree():blocked.append(host.ocean.optical_feed.get_rect())
 
  fleet.refresh(blocked)
+ # Fleet layout can relocate a radial after the hint was placed. Keep every
+ # visible command tappable; retain the pending hint for a later clear view.
+ _clear_hint_overlap()
  host.ocean.ui_blocked_rects=occupied_rects().map(func(r):return Rect2(r.position-host.ocean.global_position,r.size))
  if host.decoy_armed or host.knock_armed:
   close_button.text="CANCEL";close_button.position=Vector2((host.ocean.chart_width()-close_button.size.x)/2,(intent.position.y if intent.visible else size.y)-close_button.size.y-12);close_button.show()
@@ -706,6 +710,9 @@ func refresh():
 
  HuntMeter.sync(self)
  if has_meta(StatusView.GRID):StatusView.fit_dock(self)
+
+func _clear_hint_overlap():
+ if hints.panel.visible and (command_controls()+[close_button,sheet]).any(func(b):return b.is_visible_in_tree() and b.get_global_rect().intersects(hints.panel.get_global_rect())):hints.panel.hide()
 
 func _draw():
  caption_rects.clear()
