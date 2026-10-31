@@ -113,8 +113,11 @@ if ! "$explicit"; then
     python3 "$(dirname -- "$0")/test-android-radial.py"
     python3 "$(dirname -- "$0")/test-android-planner.py"
 fi
+[[ -n "$selection" ]] || { echo 'No suites selected' >&2; exit 1; }
+failed=()
 while IFS='|' read -r scenario summary backend; do
     if "$skip_core" && [[ "$scenario" == run_tests ]]; then continue; fi
+    [[ -n "$scenario" ]] || { echo 'Empty suite name in selection' >&2; exit 1; }
     log="$ARTIFACT_DIR/$scenario.log"
     if [[ "$backend" == render ]]; then
         # Ubuntu's CI image provides Xvfb/xauth; require a real Canvas renderer.
@@ -147,7 +150,7 @@ while IFS='|' read -r scenario summary backend; do
         failed+=("$scenario"); continue
     fi
 done <<< "$selection"
-if [[ -n "${failed[*]:-}" ]]; then
+if (( ${#failed[@]} )); then
     joined=$(printf '%s, ' "${failed[@]}")
     echo "FAILED SUITES: ${joined%, }" >&2
     exit 1

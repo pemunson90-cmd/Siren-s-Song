@@ -72,4 +72,15 @@ with tempfile.TemporaryDirectory() as tmp:
     assert green.returncode == 0, "all-green run must exit zero\n" + gout
     assert "FAILED SUITES" not in gout, gout
 
+    # A profile with no ranked rows selects nothing; that must be a hard error.
+    (root / "game/tests/suites.txt").write_text("# suite|summary|local|ci
+good_tests|GOOD|1|-
+")
+    env = dict(os.environ, GODOT_BIN=str(root / "fake-godot"), JAVA_HOME=str(root),
+               TOOLCHAIN_CACHE=str(root / "cache"), ARTIFACT_DIR=str(root / "artifacts"))
+    empty = subprocess.run([bash, str(root / "scripts/toolchain/test.sh"), "--profile", "ci"],
+                           env=env, capture_output=True, text=True, timeout=120)
+    assert empty.returncode != 0, "empty selection must fail
+" + empty.stdout + empty.stderr
+
 print("test.sh failure aggregation checks passed")
