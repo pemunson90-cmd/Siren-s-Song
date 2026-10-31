@@ -50,4 +50,4 @@ static func draw(view,sim=null)->void:
   if c.active:
    var radius=40+fposmod(sim.elapsed*55,100)
    view.draw_arc(p,radius,0,TAU,48,Color(.87,.71,.4,1.-(radius-40)/100.),2./scale)
- view._label(p+Vector2(-105,-100),"OLD LOOP ·%ds"%ceili(c.remaining) if live and c.active else "EMPTY BERTHS · ONE PLAYBACK" if not c.used else "OLD LOOP · PLAYBACK SPENT",color,maxi(5,roundi(view.feedback_font_size/scale)))
+ view._label(p+Vector2(-105,-100),"OLD LOOP ·%ds"%ceili(c.remaining) if live and c.active else "EMPTY BERTHS · ONE PLAYBACK" if not c.used else "OLD LOOP · PLAYBACK SPENT",color,maxi(5,roundi(view.feedback_font_size/scale)),subject(sim,{"subkind":"wake_repeater"}))

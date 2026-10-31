@@ -322,6 +322,7 @@ status_text_ui_tests|STATUS TEXT UI|263|-|render
 status_text_table_ui_tests|STATUS TEXT UI|-|862|render
 status_text_cover_ui_tests|STATUS TEXT UI|-|859|render
 status_text_inner_ui_tests|STATUS TEXT UI|-|860|render
+stable_board_ui_tests|STABLE BOARD UI|763|866|render
 
 hunt_pressure_tests|HUNT PRESSURE|264|284
 hunt_cap_coverage_tests|HUNT CAP COVERAGE|747|847

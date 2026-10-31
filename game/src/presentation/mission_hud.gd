@@ -76,9 +76,38 @@ var task:Dictionary={}
 var task_result:Dictionary={}
 var choose_units:Array=[]
 var choose_next="object"
+var contact_scroll:ScrollContainer
+var contact_list:VBoxContainer
+var contact_touch=preload("res://src/presentation/touch_scroll.gd").new()
+var contact_signature=""
+var target_choices:Array=[]
+var target_buttons:Array=[]
+
+# All visible hit owners share one chooser, including the selected craft.
+func open_targets(choices:Array):
+ if choices.is_empty():return
+ if choices.size()==1:_open_target(choices[0]);return
+ if choices.all(func(c):return c.kind=="craft"):
+  open("fleet",{"kind":"fleet","pos":choices[0].pos});return
+ ring_buttons=ring_buttons.filter(func(b):return b not in target_buttons)
+ for b in target_buttons:b.free()
+ target_buttons.clear();target_choices=choices.duplicate(true)
+ for context in target_choices:
+  var chosen=context
+  var name=host.sim.units[context.unit].name+" · ORDERS" if context.kind=="craft" else str(context.get("name","OBJECT"))
+  var b=host._button(self,name,func():_open_target(chosen),"target_%d"%target_buttons.size())
+  target_buttons.append(b)
+ open("choose",{"kind":"fleet","name":"CHOOSE TARGET","pos":choices[0].pos})
+func _open_target(context:Dictionary):
+ if context.kind=="craft" and context.unit!=host.sim.selected:host._order("select",{"unit":context.unit})
+ var next="inspect" if context.get("subkind","")=="concealed" else "habitat" if context.kind=="habitat" else "plant" if context.kind=="plant" else "object" if context.kind=="objective" else "salvage" if context.kind=="salvage" else "fleet" if context.kind=="fleet" else "craft"
+ open(next,context)
 
 func setup(owner):
  host=owner;mouse_filter=Control.MOUSE_FILTER_IGNORE
+ contact_scroll=ScrollContainer.new();contact_scroll.horizontal_scroll_mode=ScrollContainer.SCROLL_MODE_DISABLED;add_child(contact_scroll);contact_scroll.hide()
+ var contact_bg=StyleBoxFlat.new();contact_bg.bg_color=Color(.025,.055,.07,.97);contact_scroll.add_theme_stylebox_override("panel",contact_bg)
+ contact_list=VBoxContainer.new();contact_list.size_flags_horizontal=Control.SIZE_EXPAND_FILL;contact_scroll.add_child(contact_list)
  order_dock=PanelContainer.new();add_child(order_dock);order_dock.hide()
  var dock_body=VBoxContainer.new();order_dock.add_child(dock_body)
  order_dock_header=Label.new();order_dock_header.autowrap_mode=TextServer.AUTOWRAP_WORD;dock_body.add_child(order_dock_header)
@@ -161,6 +190,8 @@ func open_recovery(destinations:Array):
   recovery_buttons.append(b)
  open("recovery",{"kind":"craft","unit":host.sim.selected,"pos":host.sim.units[host.sim.selected].pos})
 func open(next:String="craft",context:Dictionary={}):
+ if next!="choose":target_choices.clear()
+ order_dock_scroll.scroll_vertical=0
  tool_help.cancel()
  for id in host.map_gesture.touches:owned_touches[id]=true
  host.map_gesture.cancel();host.knock_press.clear();popup_gesture.cancel();sheet_pointers.clear();sector_press=null;host.knock_armed=false;host.decoy_armed=false
@@ -334,7 +365,7 @@ func _outside(event):
 func command_controls() -> Array:
  match page:
   "cache":return Cache.controls(self)
-  "choose":return choose_units.map(func(id):return extra["choose_unit_%d"%id])+[extra.choose_object]
+  "choose":return target_buttons if not target_choices.is_empty() else choose_units.map(func(id):return extra["choose_unit_%d"%id])+[extra.choose_object]
   "choir":
    var controls=[]
    for action in host.sim.Choir.actions(host.sim):controls.append(extra["choir_"+action])
@@ -384,7 +415,7 @@ func layout(bounds:Vector2,h:float):
  position=Vector2.ZERO;size=bounds;touch_height=h
  text_scale=FrontendSettings.text_scale()
  var font=maxi(14,roundi(h*.26*text_scale));var bw=h*1.55*text_scale;var bh=ceilf(h*maxf(1.,text_scale*.9))
- for b in host.order_buttons.values()+host.unit_buttons+extra.values()+[close_button,focus_button,host.pause_button,host.advanced_button]+host.zoom_buttons:
+ for b in host.order_buttons.values()+host.unit_buttons+extra.values()+target_buttons+[close_button,focus_button,host.pause_button,host.advanced_button]+host.zoom_buttons:
   b.mouse_filter=Control.MOUSE_FILTER_IGNORE if b in command_controls() else Control.MOUSE_FILTER_STOP
   b.hide();b.custom_minimum_size=Vector2(bw,bh);b.size=Vector2(bw,bh);b.add_theme_font_size_override("font_size",font)
   b.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
@@ -462,6 +493,77 @@ func _fit_sheet():
  close_button.position=Vector2(center.x-touch_height*.775,sheet.position.y+height+8)
  StatusView.fit_sheet(self)
  host.call_deferred("_report_targets")
+func threat_rects()->Array:
+ var rects=host.ocean.contact_readout_rects()
+ if contact_scroll.visible:rects.append(contact_scroll.get_rect())
+ var warning=host.lock_warning
+ if warning!=null and warning.visible:rects.append(warning.banner)
+ if alarm.visible:rects.append(alarm.get_rect())
+ return rects
+func threat_floor()->float:
+ var bottom=host.pause_button.get_rect().end.y+12.
+ for rect in threat_rects():bottom=maxf(bottom,rect.end.y+12.)
+ return bottom
+func _place_threat_stack():
+ # The Hunt chip already owns our pressure estimate; it is not a received threat.
+ if not host.advanced_orders and alarm.visible and alarm.text.begins_with("OP PRESSURE") and HuntMeter.Pressure.view(host.sim).active:alarm.hide()
+ # The header has a stable lane between the pause and Fleet targets.
+ if host.advanced_orders and alarm.visible:
+  var side=maxf(host.pause_button.size.x,close_button.size.x)+32.
+  alarm.position=Vector2(side,12);alarm.size.x=maxf(1.,size.x-side*2)
+  alarm.size.y=maxf(touch_height,alarm.get_minimum_size().y)
+ # Actual header controls reserve their complete 150% rectangles on either hand.
+ var header_bottom=0.
+ for control in [host.pause_button,host.advanced_button]:
+  if control.visible:header_bottom=maxf(header_bottom,control.get_rect().end.y+8.)
+ if host.advanced_orders:header_bottom=maxf(header_bottom,12.+close_button.size.y+8.)
+ var warning=host.lock_warning
+ var lock_height=warning.banner.size.y+8. if warning!=null and warning.visible else 0.
+ # Budget for a full action viewport, Back and container padding. Received rows
+ # retain their full text in a touch-owned scroll region when this budget is exceeded.
+ var action_height=host.pause_button.size.y
+ for button in command_controls():action_height=maxf(action_height,button.get_combined_minimum_size().y)
+ var command_room=action_height+120.
+ host.ocean.contacts_in_scroll=false
+ host.ocean.contact_top=maxf(header_bottom,alarm.get_rect().end.y+8. if alarm.visible else 0.)
+ var rows=host.ocean.contact_readout_rects()
+ var normal_bottom=host.ocean.contact_top
+ for rect in rows:normal_bottom=maxf(normal_bottom,rect.end.y+8.)
+ var overflow=(not rows.is_empty() or alarm.visible) and normal_bottom+lock_height>size.y-command_room
+ contact_scroll.visible=overflow;host.ocean.contacts_in_scroll=overflow
+ var bottom=host.ocean.contact_top
+ if overflow:
+  var alarm_text=alarm.text if alarm.visible else ""
+  alarm.hide();host.ocean.contact_top=header_bottom;bottom=header_bottom
+  contact_scroll.position=Vector2(12,bottom)
+  contact_scroll.size=Vector2(size.x-36.-(warning.banner.size.x if warning!=null and warning.visible else 0.),minf(size.y*.22,maxf(host.ocean.feedback_font_size+16.,size.y-bottom-command_room)))
+  var entries=host.ocean.contact_entries()
+  var lines=entries.map(func(entry):return entry.text)
+  # Sonar's received warning or our own pressure estimate is separate from contacts.
+  for line in alarm_text.split("\n"):
+   if not line.is_empty() and line not in lines:lines.append(line)
+  var signature=str([lines,host.ocean.feedback_font_size,contact_scroll.size.x])
+  if signature!=contact_signature:
+   contact_signature=signature
+   for child in contact_list.get_children():child.free()
+   var heading=Label.new();heading.text="RECEIVED / PRESSURE - %d - SCROLL"%lines.size();heading.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;heading.add_theme_font_size_override("font_size",host.ocean.feedback_font_size);contact_list.add_child(heading)
+   for line in lines:
+    var label=Label.new();label.text=line;label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;label.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+    label.add_theme_font_size_override("font_size",host.ocean.feedback_font_size);label.add_theme_color_override("font_color",Color("ffac8c"));contact_list.add_child(label)
+  bottom=contact_scroll.get_rect().end.y+8.;contact_scroll.move_to_front()
+  rows=[]
+ else:
+  for rect in rows:bottom=maxf(bottom,rect.end.y+8.)
+ if warning!=null and warning.visible:
+  var beside=Rect2(Vector2(size.x-warning.banner.size.x-12,host.ocean.contact_top),warning.banner.size)
+  var blocks=rows.duplicate()
+  if overflow:blocks.append(contact_scroll.get_rect())
+  for control in [host.pause_button,host.advanced_button]:
+   if control.visible:blocks.append(control.get_rect())
+  if alarm.visible:blocks.append(alarm.get_rect())
+  if blocks.any(func(r):return r.grow(8).intersects(beside)):beside.position.y=bottom
+  warning.banner=beside;warning.queue_redraw()
+
 func refresh():
  var sim=host.sim
  preload("res://src/presentation/field_tool_view.gd").refresh(self)
@@ -568,12 +670,16 @@ func refresh():
   for task_text in [WorkTask.line(sim,task),WorkTask.result_line(task_result),WorkTask.load_status(sim)]:
    if not task_text.is_empty():intent.text+="\n"+task_text
   intent.text+="\n"+sim.Depth.context(sim)
+ _place_threat_stack()
+ host.ocean.threat_bottom=threat_floor()
  StatusView.apply(self)
  _fit_intent()
  var aid_font=maxi(14,roundi(touch_height*.26*text_scale))
  guard.refresh(Vector2(host.ocean.chart_width(),size.y),touch_height,aid_font,intent.position.y if intent.visible else size.y)
  chart_choice.refresh(Vector2(host.ocean.chart_width(),size.y),touch_height,aid_font,intent.position.y if intent.visible else size.y,not guard.panel.visible and not guard.undo_button.visible)
- hints.refresh(size,touch_height,aid_font,host.ocean.instrument_top+touch_height+34)
+ hints.refresh(size,touch_height,aid_font,threat_floor())
+ # A first-notice tutorial must not cover the very warning it explains.
+ if hints.panel.visible and (not Rect2(Vector2.ZERO,size).encloses(hints.panel.get_rect()) or threat_rects().any(func(r):return r.intersects(hints.panel.get_rect())) or (order_dock.visible and hints.panel.get_rect().intersects(order_dock.get_rect()))):hints.panel.hide()
  preload("res://src/presentation/field_tool_view.gd").place_notice(self)
  var blocked=[]
  for button in action_controls().values():
@@ -582,7 +688,8 @@ func refresh():
   if label.visible:blocked.append(label.get_rect())
  for aid in [guard.panel,guard.undo_button,hints.panel,chart_choice.panel]:
   if aid.visible:blocked.append(Rect2(aid.global_position-global_position,aid.size))
- for rect in host.ocean.contact_readout_rects():blocked.append(rect)
+ for rect in threat_rects():blocked.append(rect)
+ if host.lock_warning!=null and host.lock_warning.visible:blocked.append(host.lock_warning.banner)
  if host.ocean.optical_feed.is_visible_in_tree():blocked.append(host.ocean.optical_feed.get_rect())
 
  fleet.refresh(blocked)
@@ -686,5 +793,6 @@ func occupied_rects() -> Array:
   for reading in fleet.readouts:result.append(Rect2(fleet.global_position+reading.rect.position,reading.rect.size))
  if intent.visible:result.append(intent.get_global_rect())
  if alarm.visible:result.append(alarm.get_global_rect())
+ for rect in threat_rects():result.append(Rect2(global_position+rect.position,rect.size))
  if host.advanced_orders:result.append(Rect2(center-Vector2.ONE*(ring_radius+touch_height*.65),Vector2.ONE*(ring_radius+touch_height*.65)*2))
  return result

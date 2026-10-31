@@ -85,7 +85,7 @@ static func own_help(hud)->bool:
 static func help_rects(hud)->Array:
  var area=Rect2(Vector2.ZERO,StatusView.content_bounds(hud,hud.size))
  var back=hud.close_button.size
- var top=maxf(hud.host.pause_button.get_rect().end.y+Table.HELP_PAUSE_GAP,hud.touch_height+Table.MARGIN)
+ var top=maxf(hud.threat_floor(),maxf(hud.host.pause_button.get_rect().end.y+Table.HELP_PAUSE_GAP,hud.touch_height+Table.MARGIN))
  var width=area.size.x-back.x-Table.MARGIN*Table.HELP_WIDTH_MARGIN_COUNT
  var height=area.end.y-top-Table.MARGIN
  if width<=0 or height<=0:return []
@@ -131,6 +131,7 @@ static func _obstacles(hud,button:Button)->Array:
  for other in hud.action_controls().values():
   if other!=button and other.is_visible_in_tree():result.append(Rect2(other.global_position-hud.global_position,other.size))
  if hud.alarm.visible:result.append(hud.alarm.get_rect())
+ result.append_array(hud.threat_rects())
  var warning=hud.host.lock_warning
  if warning!=null and warning.visible and warning.banner.has_area():result.append(Rect2(warning.global_position-hud.global_position+warning.banner.position,warning.banner.size))
  if hud.sheet.visible:result.append(hud.sheet.get_rect())
@@ -155,6 +156,11 @@ static func fit(hud)->void:
  var near_top=hud.touch_height+Table.MARGIN
  var middle=maxf(Table.MARGIN,(area.size.x-body.x)/2)
  var candidates=[Vector2(right,near_top),Vector2(Table.MARGIN,near_top),Vector2(right,Table.MARGIN),Vector2(middle,Table.MARGIN),Vector2(Table.MARGIN,Table.MARGIN),Vector2(right,bottom),Vector2(middle,bottom),Vector2(Table.MARGIN,bottom)]
+ # Try exact obstacle edges before the coarse scan: a full touch target can fit
+ # between the header and a craft even when the scan step skips that gap.
+ for obstacle in obstacles:
+  for y_edge in [obstacle.end.y+4.,obstacle.position.y-body.y-4.]:
+   for x_edge in [Table.MARGIN,right,obstacle.end.x+4.,obstacle.position.x-body.x-4.]:candidates.append(Vector2(x_edge,y_edge))
  var step=maxf(Table.SCAN_MIN_STEP,hud.touch_height*Table.SCAN_TOUCH_FACTOR)
  var y=near_top
  while y<=bottom:
@@ -168,7 +174,8 @@ static func fit(hud)->void:
   button.set_meta("hunt_meter_fitted",true)
   if covered_craft and old_position.distance_to(point)>.5:hud.host.call_deferred("_refresh")
   return
- button.position=Vector2(Table.MARGIN,near_top)
+ # Never paint over a received threat when a crowded viewport has no slot.
+ button.hide()
  button.set_meta("hunt_meter_fitted",false)
 static func schedule_fit(hud)->void:
  if hud.get_meta(PENDING,false):return

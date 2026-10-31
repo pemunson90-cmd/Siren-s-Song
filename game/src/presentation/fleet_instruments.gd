@@ -60,15 +60,14 @@ func handle_input(event)->bool:
  if action.get("navigation",false):host._view_changed()
  if action.has("pan") or action.has("zoom"):host._refresh()
  if action.has("tap") and pressed_unit>=0 and buttons[pressed_unit].get_global_rect().has_point(point):
-  var local=point-host.ocean.global_position;var site=host.ocean.objective_context(local,host.ui_touch_height)
-  var site_closer=not readouts.any(func(r):return r.unit==pressed_unit and r.offscreen) and site.get("kind","") in ["objective","salvage"] and pressed_units.all(func(id):return local.distance_to(host.ocean.screen_position(site.pos))<local.distance_to(host.ocean.screen_position(host.sim.units[id].pos)))
-  var occupied_site=not readouts.any(func(r):return r.unit==pressed_unit and r.offscreen) and site.get("kind","") in ["objective","salvage"] and pressed_units.any(func(id):return id!=host.sim.selected)
-  if occupied_site:
-   host.mission_hud.choose_units=pressed_units.duplicate();host.mission_hud.choose_next="salvage" if site.kind=="salvage" else "object"
-   host.mission_hud.open("choose",site)
-  elif site_closer:host.mission_hud.open("salvage" if site.kind=="salvage" else "object",site)
-  elif pressed_units.size()>1:host.mission_hud.open("fleet",{"kind":"fleet","pos":host.ocean.map_position(point-host.ocean.global_position)})
-  else:_activate(pressed_unit)
+  var offscreen=readouts.any(func(r):return r.unit==pressed_unit and r.offscreen)
+  if offscreen:_activate(pressed_unit)
+  else:
+   var targets=host.ocean.contexts_at(point-host.ocean.global_position,host.ui_touch_height)
+   # A projected badge still owns its craft; include real overlapping jobs.
+   for id in pressed_units:
+    if not targets.any(func(c):return c.kind=="craft" and c.unit==id):targets.append({"kind":"craft","unit":id,"pos":host.sim.units[id].pos})
+   host.mission_hud.open_targets(targets)
  if not gesture.active():pressed_unit=-1
  return true
 func _activate(id:int):
@@ -130,7 +129,9 @@ func _layout_commands():
   var turned=Vector2(absf(cos(heading))*body.x+absf(sin(heading))*body.y,absf(sin(heading))*body.x+absf(cos(heading))*body.y).max(body)
   protected[i]=Rect2(at-turned,turned*2)
  protected.append(host.pause_button.get_rect())
- var safe=Rect2(Vector2(12,h+24),Vector2(maxf(1,host.size.x-24),maxf(1,host.size.y-h-36)))
+ protected.append_array(hud.threat_rects())
+ var top=maxf(h+24,hud.threat_floor())
+ var safe=Rect2(Vector2(12,top),Vector2(maxf(1,host.size.x-24),maxf(1,host.size.y-top-12)))
  var center=Ring.command_center(hud.anchor,safe,half,protected)
  var delta=center-hud.center;hud.center=center
  for button in hud.ring_buttons+[hud.close_button]:button.position+=delta
