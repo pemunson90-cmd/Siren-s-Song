@@ -60,14 +60,14 @@
    "head": "78009073",
    "file": "docs/state/items/127-release-controls.md",
    "attempts": {
-    "A": 1,
+    "A": 2,
     "B": 0,
     "C": 0
    },
    "blocker": "builder stopped at session limit mid phase A; WIP pushed",
    "provider": "claude:opus",
    "started": "2026-10-31T19:12:32Z",
-   "updated": "2026-10-31T19:12:32Z"
+   "updated": "2026-10-31T20:06:39Z"
   },
   {
    "id": "PKG2",
