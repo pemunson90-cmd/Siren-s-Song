@@ -1,5 +1,5 @@
 {
- "max_builders": 2,
+ "max_builders": 3,
  "note": "runner2.py becomes the only writer once installed (migration step 3); until then the orchestrator edits this file.",
  "items": [
   {
