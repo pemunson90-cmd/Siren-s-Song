@@ -54,20 +54,20 @@
     "claude:opus"
    ],
    "status": "active",
-   "phase": "A",
+   "phase": "B",
    "branch": "item/127-release-controls",
    "pr": null,
-   "head": "78009073",
+   "head": "364c124def13c756d105a80b9d2b3b6bb08dcfe0",
    "file": "docs/state/items/127-release-controls.md",
    "attempts": {
     "A": 2,
-    "B": 0,
+    "B": 1,
     "C": 0
    },
    "blocker": "builder stopped at session limit mid phase A; WIP pushed",
    "provider": "claude:opus",
    "started": "2026-10-31T19:12:32Z",
-   "updated": "2026-10-31T20:06:39Z"
+   "updated": "2026-10-31T21:47:56Z"
   },
   {
    "id": "PKG2",
@@ -170,19 +170,19 @@
     "codex"
    ],
    "status": "active",
-   "phase": "B",
+   "phase": "A",
    "branch": "item/129-protected-golden",
-   "pr": null,
-   "head": "c0d8c75d",
+   "pr": 243,
+   "head": "c0d8c75d70d876ffba9b4280ddb0c59d1c0b235f",
    "file": "docs/state/items/129-protected-golden.md",
    "attempts": {
-    "A": 2,
+    "A": 3,
     "B": 1,
     "C": 0
    },
    "blocker": null,
    "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-129",
-   "updated": "2026-10-31T21:40:37Z",
+   "updated": "2026-10-31T21:50:13Z",
    "provider": "claude:opus",
    "started": "2026-10-31T20:23:05Z"
   },
@@ -320,18 +320,22 @@
     "claude:sonnet",
     "codex"
    ],
-   "status": "queued",
-   "phase": null,
+   "status": "active",
+   "phase": "A",
    "branch": "item/135-prep-results",
    "pr": null,
    "head": null,
    "file": "docs/state/items/135-prep-results.md",
    "attempts": {
-    "A": 0,
+    "A": 1,
     "B": 0,
     "C": 0
    },
-   "blocker": null
+   "blocker": null,
+   "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-135",
+   "updated": "2026-10-31T21:45:53Z",
+   "provider": "claude:sonnet",
+   "started": "2026-10-31T21:45:53Z"
   },
   {
    "id": 137,
