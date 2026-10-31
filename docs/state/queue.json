@@ -320,8 +320,8 @@
     "claude:sonnet",
     "codex"
    ],
-   "status": "active",
-   "phase": "review",
+   "status": "merging",
+   "phase": "C",
    "branch": "item/135-prep-results",
    "pr": 244,
    "head": "39ab6d07399f3810ac08d680a8df012b4a5dd74e",
@@ -333,7 +333,7 @@
    },
    "blocker": null,
    "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-135",
-   "updated": "2026-10-31T22:37:16Z",
+   "updated": "2026-10-31T22:45:18Z",
    "provider": "claude:sonnet",
    "started": "2026-10-31T21:45:53Z"
   },
