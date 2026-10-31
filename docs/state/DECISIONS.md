@@ -2,6 +2,7 @@
 
 Pat 2026-10-30 ~18:00: "only surface questions that need me, otherwise record all decision points and keep me posted so I can revert them." Each line: what, why, how to revert. Say "revert Dnn".
 
+- **D27 2026-10-31 Pat yes to question 2: main is the only promotion target, tagged milestone-YYYYMMDD; gauntlet/production frozen and kept.** Applied at the next milestone (migration step 12): promotion PR claude/integration into main. Revert: promote to production again.
 - **D26 2026-10-31 Item 136 queued ahead of 129: CI shards run every suite and list all failures before exiting.** Why: fail-fast per shard hid fit_surface_ui_tests on PR 238 and cost a fourth repair round. Revert: drop item 136.
 - **D25 2026-10-31 PR 240 suite selection falls back to the full matrix whenever a serial zone reaches the changed file (331 of 341 src files).** Why: the independent review found the narrower selection could merge with failing suites unrun; safety over speed. Savings now come from draft skips, duration-balanced shards and one full run per merge. Revert: restore direct-hit selection in select-suites.py.
 - **D24 2026-10-31 Old v1 files (HANDOFF, BOARD, LEDGER, QUEUE_S6, PLAN_DRAFT_1) stay readable until migration step 10, with a one-line pointer at the top of HANDOFF.** Why: a restart mid-migration must still work. Revert: drop the pointer line.

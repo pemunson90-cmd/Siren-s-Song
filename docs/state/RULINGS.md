@@ -21,6 +21,7 @@ INTENT CARD (what the player does, what must stay hard)
 ## 2. Rulings
 
 - 2026-10-31 00:00 ET (chat) [workflow]: Q "Let Claude build game items directly when Codex is out or slower, one bounded session per item, two sessions alive at most, no fan-outs? I recommend yes." A "Yes to question 1, start the migration".
+- 2026-10-31 15:06 ET (chat) [branches]: Q "Make main the only promotion target, tagged at each milestone, and freeze gauntlet/production (kept, never deleted)? I recommend yes." A "Yes and then ill reset and restart".
 
 ## 3. Rulings 29 to 30 Oct 2026 (copied unchanged from docs/codex/PAT_RULINGS_2026-10-29.md)
 
