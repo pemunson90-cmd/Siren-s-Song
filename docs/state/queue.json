@@ -105,11 +105,10 @@
     128
    ],
    "prov": [
-    "claude:sonnet",
-    "codex"
+    "claude:sonnet"
    ],
-   "status": "queued",
-   "phase": null,
+   "status": "active",
+   "phase": "A",
    "branch": "item/136-shard-all-failures",
    "pr": null,
    "head": null,
@@ -134,8 +133,8 @@
    "prov": [
     "claude:opus"
    ],
-   "status": "active",
-   "phase": "C",
+   "status": "done",
+   "phase": null,
    "branch": "item/128-ci-v2",
    "pr": 240,
    "head": "9ff652ab",
