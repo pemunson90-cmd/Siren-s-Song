@@ -40,6 +40,8 @@ static func crosses_rock(sim,a:Vector2,b:Vector2)->bool:
  var count=maxi(1,ceili(a.distance_to(b)/10.0))
  for n in count+1:
   var p=a.lerp(b,float(n)/count)
+  # A measured clear cell already certifies the whole hull footprint.
+  if sim.terrain_chart.clear_cells.has(_cell(sim.terrain_chart,p)):continue
   for offset in [Vector2.ZERO,Vector2(12,0),Vector2(-12,0),Vector2(0,12),Vector2(0,-12)]:
    if sim.terrain_chart.return_cells.has(_cell(sim.terrain_chart,p+offset)):return true
  return false

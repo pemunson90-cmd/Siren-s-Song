@@ -1,7 +1,8 @@
 extends RefCounted
+const HandLegs=preload("res://tests/hand_legs.gd") # 127: journeys place their own straight legs.
 const Simulation=preload("res://src/simulation/simulation.gd")
 static func move(s, point: Vector2) -> bool:
-	if not s.command("route",{"point":point}): return false
+	if not HandLegs.route(s,point): return false
 	s.paused=false
 	for n in 2600:
 		s.advance(0.1)
@@ -14,7 +15,6 @@ static func move(s, point: Vector2) -> bool:
 static func run(t) -> void:
 	for id in 6:
 		var s=Simulation.new(); s.start(id,"disruption")
-		s.mission["dev"]=true # 127: authored pathfinder journey runs on the dev/test route path.
 		# The fallback suite deliberately starts after both drones are lost.
 		s.units[1].alive=false; s.units[2].alive=false
 		if id==4:

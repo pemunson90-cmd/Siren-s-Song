@@ -108,10 +108,13 @@ func overlap_gate(g,label:String):
  check(not gates[0].rect.intersects(recipient_body),"gate badge never intercepts recipient physical target "+label)
  check(not occupied.any(func(rect):return rect.intersects(gates[0].rect.grow(5))),"known gate full target clears retained task status and craft readouts "+label)
  check(gates[0].rect.size.y>=g.ui_touch_height and Rect2(Vector2.ZERO,g.ocean.size).encloses(gates[0].rect),"known gate fallback retains full touch size and chart bounds "+label)
+ # 127 (Pat 2026-10-30): PLOT ROUTE is a dev/test travel shortcut; exercise it in dev state.
+ g.set_meta("dev_profile",true)
  await tap(g.ocean.global_position+gates[0].rect.get_center());await tap(h.extra.route_here.get_global_rect().get_center())
  advance(s,12)
  print("LOCAL_GATE_ROUTE ",label," distance=",s.units[0].pos.distance_to(PANEL)," speed=",s.units[0].vel.length())
  check(s.units[0].pos.distance_to(PANEL)<9 and s.units[0].vel.length()<2,"actual gate PLOT ROUTE arrives at overlapping local work position "+label)
+ g.set_meta("dev_profile",false)
  check(s.command("route",{"point":PANEL+Vector2(-40,25)}) and s.command("queue") and s.command("silent"),"stage a real retained route, queue and propulsion choice "+label)
  g.ocean.focus_craft();await sync(g);var retained=intent(s);var before=s.snapshot()
  await open_craft(g)

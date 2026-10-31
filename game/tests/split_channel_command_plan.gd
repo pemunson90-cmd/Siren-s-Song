@@ -1,13 +1,14 @@
 extends RefCounted
+const HandLegs=preload("res://tests/hand_legs.gd") # 127: journeys place their own straight legs.
 # Ordinary production commands only. Opposite-arm drone routes run while
 # Quietus takes the covered uplink approach; defensive reactions use fresh locks.
 static func play(sim=null,survey:bool=false):
  var s=sim
- if s==null:s=preload("res://src/simulation/simulation.gd").new();s.start(1,"disruption");s.mission["dev"]=true # 127: dev/test route path.
+ if s==null:s=preload("res://src/simulation/simulation.gd").new();s.start(1,"disruption")
  var returning=false;var surveyed=false;var drone_returned={1:false,2:false}
  for id in [1,2,0]:
   s.command("select",{"unit":id})
-  s.command("route",{"point":[s.mission.objectives[2].pos,s.mission.objectives[0].pos+Vector2(0,180),s.mission.objectives[1].pos+Vector2(0,180)][id]})
+  HandLegs.route(s,[s.mission.objectives[2].pos,s.mission.objectives[0].pos+Vector2(0,180),s.mission.objectives[1].pos+Vector2(0,180)][id])
  s.paused=false
  for n in 1800:
   s.advance(0.1)
@@ -26,8 +27,8 @@ static func play(sim=null,survey:bool=false):
      s.command("select",{"unit":unit_id});s.command("camera")
   for drone in [1,2]:
    if s.mission.objectives[drone-1].captured and not drone_returned[drone] and s.units[drone].alive:
-    s.command("select",{"unit":drone});s.command("route",{"point":s.mission.extraction});drone_returned[drone]=true
+    s.command("select",{"unit":drone});HandLegs.route(s,s.mission.extraction);drone_returned[drone]=true
   if s.all_records() and not returning:
-   s.command("select",{"unit":0});s.command("route",{"point":s.mission.extraction});returning=true
+   s.command("select",{"unit":0});HandLegs.route(s,s.mission.extraction);returning=true
   if not s.outcome.is_empty():break
  return s

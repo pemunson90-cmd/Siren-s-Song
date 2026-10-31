@@ -1,10 +1,11 @@
 extends RefCounted
+const HandLegs=preload("res://tests/hand_legs.gd") # 127: journeys place their own straight legs.
 const Catalog=preload("res://src/campaign/operation_catalog.gd")
 const Sim=preload("res://src/simulation/simulation.gd")
 const Campaign=preload("res://src/campaign/expedition_campaign.gd")
 const Store=preload("res://src/persistence/save_store.gd")
 static func travel(sim,point:Vector2)->bool:
- if not sim.command("route",{"point":point}):return false
+ if not HandLegs.route(sim,point):return false
  sim.paused=false
  for n in 12000:
   sim.advance(Sim.STEP)
@@ -18,7 +19,6 @@ static func run(t):
  t.check(Catalog.register_definition(d),"authored geography/configuration registers without chapter branches")
  if Catalog.definition(50).is_empty():return
  var sim=Sim.new();sim.start(50)
- sim.mission["dev"]=true # 127: authored pathfinder travel runs on the dev/test route path.
  t.check(sim.mission.title==d.config.title and sim.mission.brief==d.config.brief and sim.mission.rocks==d.config.rocks and sim.mission.world_size==d.config.world_size and sim.mission.start==d.config.start and sim.mission.extraction==d.config.extraction,"registered authored configuration changes actual world content")
  t.check(sim.mission.objectives[0].pos==d.config.plant.inlet and sim.warning_chain_context().stations[1].pos==d.config.plant.panel,"physical objectives and public stations use authored layout")
  t.check(Sim.valid_snapshot(sim.snapshot()),"new geography has a valid normal active save")

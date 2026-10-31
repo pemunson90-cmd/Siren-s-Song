@@ -1,10 +1,11 @@
 extends RefCounted
+const HandLegs=preload("res://tests/hand_legs.gd") # 127: journeys place their own straight legs.
 const Simulation=preload("res://src/simulation/simulation.gd")
 # Ordinary finite commands, no target knowledge beyond authored chart/objectives
 # and observed contacts. Retains conservative silent and exposed-leg cruise variants.
 static func travel(s,point: Vector2) -> bool:
 	s.command("select",{"unit":0})
-	if not s.command("route",{"point":point}): return false
+	if not HandLegs.route(s,point): return false
 	s.paused=false
 	var last_pulse=-1.0
 	for n in 2600:
