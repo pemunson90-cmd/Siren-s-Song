@@ -67,7 +67,7 @@ static func detail(sim)->String:
   if not packet.aboard and not packet.salvage.is_empty():state+=" · OWN WRECK"
   lines.append(packet.name+" · "+state)
  for context in carriers(sim):lines.append(sim.units[context.carrier].name+" → Q · "+context.reason)
- lines.append("TRANSFER: both craft settled below 2m/s, within 60m, clear line of sight, neither busy. Quietus can SAMPLE each relay directly; field notes alone do not deliver raw data.")
+ lines.append("TRANSFER: both craft settled below 2m/s, within 60m, clear line of sight, neither busy. Quietus can DECODE each relay directly; field notes alone do not deliver raw data.")
  return "\n".join(lines)
 static func debrief_text(sim)->String:
  if status(sim).is_empty():return ""

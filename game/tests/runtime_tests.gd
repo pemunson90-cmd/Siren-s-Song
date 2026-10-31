@@ -38,9 +38,10 @@ func run() -> void:
 	await select_craft(1)
 	check(game.sim.selected==1,"actual pointer input selects independent drone")
 	var destination=Vector2(320,800)
-	var screen_point=game.ocean.global_position+game.ocean.world_offset+destination*game.ocean.world_scale
+	var screen_point=await preload("res://tests/touch_navigation_scenarios.gd").water_point(self,game,destination)
 	await click(screen_point)
 	check(not game.sim.units[1].route.is_empty(),"actual map tap issues route to selected drone")
+	check(not game.sim.units[1].route.is_empty() and game.sim.units[1].route[-1].pos.distance_to(destination)<1,"public chart navigation retains the exact selected-drone world destination")
 	await select_craft(0)
 	check(game.sim.selected==0 and not game.sim.queue_mode,"actual sub selection clears queue mode")
 	await click(game.pause_button.get_global_rect().get_center())

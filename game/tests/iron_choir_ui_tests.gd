@@ -40,6 +40,11 @@ func run():
   check(subject.get("subkind","")=="choir","observed real ballast has interactive body")
   if subject.get("subkind","")=="choir":
    await tap_at(g.ocean.screen_position(g.sim.mission.iron_choir.load.pos)+g.ocean.global_position);await frames()
+   # The ballast and its actual nearby carrier are independent touch owners.
+   if g.mission_hud.page=="choose":
+    var owner=g.mission_hud.target_choices.find_custom(func(c):return c.get("kind","")=="objective" and c.get("subkind","")=="choir" and c.get("target_id","")=="load")
+    check(owner>=0,"owner chooser retains the actual ballast load")
+    if owner>=0:await tap(g.mission_hud.target_buttons[owner])
    check(g.mission_hud.extra.choir_work.visible,"body input exposes its industrial work menu")
    await tap(g.mission_hud.extra.choir_work);await tap(g.mission_hud.extra.choir_attach)
    check(g.sim.mission.iron_choir.load.carrier==0,"actual ballast attach input binds physical Quietus tow")

@@ -15,7 +15,7 @@ static func controls(hud)->Array:
 static func refresh(hud)->void:
  var sim=hud.host.sim;var unit=sim.units[sim.selected]
  for id in Tools.field_ids():
-  var spec=Tools.spec(id);var remaining=preload("res://src/equipment/tool_racks.gd").count(sim,id);var reason="READY"
+  var spec=Tools.spec(id);var remaining=preload("res://src/presentation/truthful_commands.gd").stock(sim,id);var reason="READY"
   if not Tools.is_enabled(id):reason="UNAVAILABLE"
   elif remaining<=0:reason="EMPTY"
   elif not unit.alive or not sim.outcome.is_empty():reason="UNAVAILABLE"

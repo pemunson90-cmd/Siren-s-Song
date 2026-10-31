@@ -1,0 +1,50 @@
+name: Nightly integration
+
+# Full guidance, import, core and four-shard runtime matrix on claude/integration,
+# then the per-suite wall times of that run as a suite-times artifact (the shape
+# of game/tests/suite-times.json, which test.sh --shard uses to balance shards).
+# Schedules run from the default branch's copy of this file.
+on:
+  schedule:
+    - cron: '30 7 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  full:
+    uses: ./.github/workflows/gauntlet-pr-checks.yml
+    with:
+      ref: claude/integration
+
+  suite-times:
+    name: suite-times
+    needs: full
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: claude/integration
+      - name: Retrieve per-shard wall times
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          pattern: suite-times-*
+          path: shard-times
+      - name: Merge wall time per suite
+        shell: bash
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          files=(shard-times/*/suite-times.tsv)
+          if (( ${#files[@]} == 0 )); then echo 'No shard recorded suite times' >&2; exit 1; fi
+          python3 scripts/toolchain/suite-times.py --out suite-times.json "${files[@]}"
+      - name: Upload suite times
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: suite-times
+          path: suite-times.json
+          if-no-files-found: error
+          retention-days: 7

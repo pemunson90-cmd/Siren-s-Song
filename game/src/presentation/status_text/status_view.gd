@@ -40,7 +40,7 @@ static func schedule_fit(hud)->void:
   var current=reference.get_ref()
   if current==null:return
   current.remove_meta(PENDING)
-  fit(current);current.queue_redraw()
+  fit(current);current._clear_hint_overlap();current.queue_redraw()
  ).call_deferred()
 static func captions(hud,lines:Array)->Array:
  if Table.enabled and hud.page=="fleet" and hud.has_meta(HINT) and hud.extra.arrivals.is_visible_in_tree():
@@ -150,6 +150,20 @@ static func fit_dock(hud)->void:
  hud.host.ocean.command_dock_left=mirrored
  hud.order_dock.position=Vector2(12 if mirrored else hud.size.x-width-12,top)
  hud.order_dock.size=Vector2(width,maxf(1.,hud.size.y-top-12.))
+ # Spend decorative panel padding before clipping a full-size action on a
+ # short viewport. Font and touch minima stay intact; the same dock scrolls.
+ hud.order_dock.remove_theme_stylebox_override("panel")
+ var panel=hud.order_dock.get_theme_stylebox("panel")
+ var row=0.
+ for button in hud.ring_buttons:row=maxf(row,button.get_combined_minimum_size().y)
+ if hud.order_dock.size.y-panel.get_minimum_size().y<row:
+  # Leave drag alignment room around a full row, using the outer bottom
+  # decoration too when necessary. Never extend past the safe viewport.
+  hud.order_dock.size.y=maxf(hud.order_dock.size.y,minf(hud.size.y-top,row+26.))
+  var compact_panel=panel.duplicate()
+  var padding=maxf(0.,floorf((hud.order_dock.size.y-row-26.)/2.))
+  compact_panel.content_margin_top=padding;compact_panel.content_margin_bottom=padding
+  hud.order_dock.add_theme_stylebox_override("panel",compact_panel)
  hud.order_dock.show();hud.order_dock.move_to_front()
 static func fit_sheet(hud)->void:
  if not Table.enabled or not Layout.enabled or not hud.host.advanced_orders or not hud.sheet.visible:return

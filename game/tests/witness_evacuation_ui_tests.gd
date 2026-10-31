@@ -64,6 +64,14 @@ func select_craft(g,unit:int,open:bool=false):
   check(index>=0,"owner chooser retains requested craft")
   if index>=0:await tap(hud.target_buttons[index].get_global_rect().get_center())
  if not open and g.advanced_orders:g.mission_hud.dismiss();await settle()
+func choose_object(g,subkind:String):
+ # Overlapping physical targets retain separate owners. Use the public chooser
+ # before the existing object action, just as a player must.
+ if g.mission_hud.page!="choose":return
+ var hud=g.mission_hud
+ var index=hud.target_choices.find_custom(func(c):return c.get("kind","")=="objective" and c.get("subkind","")==subkind)
+ check(index>=0,"owner chooser retains requested "+subkind)
+ if index>=0:await tap(hud.target_buttons[index].get_global_rect().get_center())
 func rejected(g,button,kind:String):
  var before=g.sim.snapshot();var point=button.get_global_rect().get_center()
  await touch(point,true);await mouse(point,true)
@@ -125,12 +133,12 @@ func berth_and_custody(dimensions:Vector2i,label:String):
  if g.advanced_orders:g.mission_hud.dismiss()
  s.units[1].pos=HOME+Vector2(0,35);s.units[1].vel=Vector2.ZERO;g.ocean.focus_craft();g._refresh();await settle()
  # Touch the harbour's own coordinate beside its local carrier.
- await tap(g.ocean.global_position+g.ocean.screen_position(HOME));land=g.mission_hud.extra.get("witness_land")
+ await tap(g.ocean.global_position+g.ocean.screen_position(HOME));await choose_object(g,"corridor");land=g.mission_hud.extra.get("witness_land")
  check(land!=null and land.is_visible_in_tree() and not land.disabled,"harbour object offers ready local LAND WITNESS "+label)
  if land!=null and land.is_visible_in_tree() and not land.disabled:
   target_fits(g,land,"local LAND WITNESS "+label);await rejected(g,land,"short drag")
   if g.advanced_orders:g.mission_hud.dismiss();await settle()
-  await tap(g.ocean.global_position+g.ocean.screen_position(HOME));land=g.mission_hud.extra.get("witness_land")
+  await tap(g.ocean.global_position+g.ocean.screen_position(HOME));await choose_object(g,"corridor");land=g.mission_hud.extra.get("witness_land")
   if land!=null and land.is_visible_in_tree():await tap(land.get_global_rect().get_center())
   check(s.witness_status().landed and s.witness_status().capsule.landed_by==1,"ordinary harbour touch physically lands actual drone passenger "+label)
   advance(s,.02);g._process(0);await settle()
@@ -186,7 +194,7 @@ func optional_sluice(dimensions:Vector2i,label:String):
  var g=await game_for(dimensions);var s=g.sim;await measure(g)
  s.units[0].pos=Vector2(1780,2000);s.units[0].vel=Vector2.ZERO;s.command("select",{"unit":0})
  g.ocean.focus_craft();g._refresh();await settle()
- await tap(g.ocean.global_position+g.ocean.screen_position(Vector2(1780,2040)))
+ await tap(g.ocean.global_position+g.ocean.screen_position(Vector2(1780,2040)));await choose_object(g,"actuator")
  check(g.mission_hud.page=="object" and g.order_buttons.camera.is_visible_in_tree() and not g.order_buttons.camera.disabled,"optional sluice retains its own ready local operation control "+label)
  if g.order_buttons.camera.is_visible_in_tree() and not g.order_buttons.camera.disabled:
   await tap(g.order_buttons.camera.get_global_rect().get_center())

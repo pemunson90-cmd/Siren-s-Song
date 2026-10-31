@@ -18,6 +18,7 @@ const Witness=preload("res://src/presentation/witness_evacuation_view.gd")
 const CenterLayout=preload("res://src/presentation/radial_layout/center_layout.gd")
 const StatusView=preload("res://src/presentation/status_text/status_view.gd")
 const AllStop=preload("res://src/simulation/all_stop/all_stop.gd")
+const Truthful=preload("res://src/presentation/truthful_commands.gd")
 const WorkTask=preload("res://src/presentation/work_task/work_task.gd")
 # A tap opens an object-owned projection. A separate tap chooses an action.
 var host
@@ -137,7 +138,7 @@ func setup(owner):
  extra.shelf_alarm=host._button(self,"SOUND ALARM\n1200m / ONCE",func():host._order("shelf_alarm"),"shelf_alarm")
  for entry in [["depth_menu","DEPTH / SONAR"],["depth_up","SHALLOWER"],["depth_down","DEEPER"],["sonar_sector","SECTOR"],["sonar_power","POWER"],["sonar_emit","EMIT SONAR"],["sonar_history","HISTORY"]]:
   var key=entry[0];extra[key]=host._button(self,entry[1],func():_extra(key),key)
- for pair in [["work","REACH WORK"],["recover","RECOVER\nMATERIAL"],["transfer","TRANSFER\nTO QUIETUS"],["service","RESTORE\nSERVICE"],["sever","SEVER\nSPUR"],["vane","RELEASE\nVANE"],["gate","OPEN\nLOCAL GATE"],["withdraw","WITHDRAW\nAT SOUTH"],["route","ROUTE TO\nREACH WORK"]]:
+ for pair in [["work","REACH WORK"],["recover","RECOVER\nMATERIAL"],["transfer","TRANSFER\nTO QUIETUS"],["service","RESTORE\nSERVICE"],["sever","SEVER\nSPUR"],["vane","RELEASE\nVANE"],["gate","OPEN\nLOCAL GATE"],["withdraw","WITHDRAW\nRECOVERY"],["route","ROUTE TO\nREACH WORK"]]:
   var key="glass_"+pair[0];extra[key]=host._button(self,pair[1],func():_extra(key),key)
  for action in ["work","route","attach","release","east","west","lock_a","lock_b","lock_c","bypass","isolate","service","cooling","cradle","land","reconnect","dismantle","recover"]:
   var key="choir_"+action;var text={"work":"CHOIR WORK","route":"ROUTE TO\nLOCAL WORK","east":"START EAST\nVOYAGE","west":"START WEST\nVOYAGE","attach":"ATTACH\nPHYSICAL TOW","release":"RELEASE\nTOW","recover":"WINCH\nMATERIAL"}.get(action,action.replace("_"," ").to_upper())
@@ -234,15 +235,10 @@ func _extra(key:String):
  if key=="audio_log":
   help_return="fleet";help_text=host.sound.accessibility.history_text();open("order_help");return
  if key=="choir_work":open("choir");return
- if key=="choir_route":
-  var targets=preload("res://src/presentation/industrial_view.gd").targets(host.sim)
-  if not targets.is_empty():host._order("route",{"point":subject.pos if subject.get("subkind","")=="choir" else targets[0].pos})
-  return
+ if key=="choir_route":Truthful.route(self,key);return
  if key.begins_with("choir_"):host._order("choir_action",{"action":key.trim_prefix("choir_")});return
  if key=="glass_work":open("glass");return
- if key=="glass_route":
-  var state=host.sim.glass_context();var a=state.artifact
-  host._order("route",{"point":a.pos if not a.is_empty() and a.state in ["site","wreck"] else state.work_pos});return
+ if key=="glass_route":Truthful.route(self,key);return
  if key.begins_with("glass_"):
   var args={"action":key.trim_prefix("glass_")}
   if args.action=="transfer":args["carrier"]=host.sim.glass_context().artifact.get("carrier",-1)
@@ -272,7 +268,7 @@ func _extra(key:String):
  if key=="arrivals":
   details_return="fleet" if host.advanced_orders else "water"
   open("signals",{"kind":"signals","receiver":-1 if host.advanced_orders else host.sim.selected});return
- if key=="route_here":host._order("route",{"point":subject.pos});return
+ if key=="route_here":Truthful.route(self,key);return
  if key=="salvage":host._order("salvage",{"item":subject.item});return
  if key=="rendezvous_release":host._order("rendezvous_release");return
  if key=="blackwater_data":open("delivery");return
@@ -349,13 +345,13 @@ func popup_input(event) -> bool:
   var chosen=sector_press;sector_press=null
   var released=witness_button_at(point)
   if released==null:released=recovery_button_at(point) if page=="recovery" else plant_button_at(point) if page=="plant" else sector_at(point)
-  if chosen==released and not chosen.disabled:chosen.pressed.emit()
+  if chosen==released:Truthful.activate(self,chosen)
   return true
  return false
 func _dock_tap(start:Vector2,end:Vector2)->void:
  for b in ring_buttons:
-  if not b.disabled and b.is_visible_in_tree() and b.get_global_rect().has_point(start) and b.get_global_rect().has_point(end):
-   b.pressed.emit();return
+  if b.is_visible_in_tree() and b.get_global_rect().has_point(start) and b.get_global_rect().has_point(end):
+   Truthful.activate(self,b);return
 func _outside(event):
  if event is InputEventScreenTouch or event is InputEventMouseButton:
   var point=event.position+blocker.global_position
@@ -673,6 +669,7 @@ func refresh():
   for task_text in [WorkTask.line(sim,task),WorkTask.result_line(task_result),WorkTask.load_status(sim)]:
    if not task_text.is_empty():intent.text+="\n"+task_text
   intent.text+="\n"+sim.Depth.context(sim)
+ Truthful.apply(self)
  _place_threat_stack()
  host.ocean.threat_bottom=threat_floor()
  StatusView.apply(self)

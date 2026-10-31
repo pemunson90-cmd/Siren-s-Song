@@ -9,6 +9,7 @@ skip_core=false
 suite=""
 explicit=false
 shard=""
+suites=""
 while [[ $# -gt 0 ]]; do
     case "$1" in
         --profile) profile="$2"; explicit=true; shift 2 ;;
@@ -16,6 +17,7 @@ while [[ $# -gt 0 ]]; do
         --skip-core) skip_core=true; shift ;;
         --suite) suite="$2"; explicit=true; shift 2 ;;
         --shard) shard="$2"; explicit=true; shift 2 ;;
+        --suites) suites="$2"; explicit=true; shift 2 ;;
         *) echo "Unknown argument: $1" >&2; exit 2 ;;
     esac
 done
@@ -25,11 +27,17 @@ if [[ -n "$shard" ]]; then
         echo '--shard 1..4 requires --profile ci --skip-core and no --suite' >&2; exit 2;
     }
 fi
+if [[ -n "$suites" ]]; then
+    [[ "$profile" == ci && -z "$suite" && -z "$shard" && "$suites" =~ ^[a-z0-9_]+(,[a-z0-9_]+)*$ ]] || {
+        echo '--suites a,b,c requires --profile ci, no --suite or --shard, and a non-empty list' >&2; exit 2;
+    }
+fi
 # Validate the complete registry before running any suite. Ranks preserve both
 # historical runner orders, which differed before the registry was introduced.
-selection=$(python3 - "$TOOLCHAIN_ROOT/game/tests/suites.txt" "$profile" "$suite" "$shard" <<'PYREGISTRY'
-import pathlib, re, sys
-path, profile, selected, shard = sys.argv[1:]
+selection=$(python3 - "$TOOLCHAIN_ROOT/game/tests/suites.txt" "$profile" "$suite" "$shard" "$suites" <<'PYREGISTRY'
+import json, pathlib, re, statistics, sys
+path, profile, selected, shard, listed = sys.argv[1:]
+listed = listed.split(",") if listed else []
 rows, names, ranks = [], set(), [set(), set()]
 for line in pathlib.Path(path).read_text().splitlines():
     if not line.strip() or line.startswith("#"):
@@ -48,13 +56,36 @@ for line in pathlib.Path(path).read_text().splitlines():
             assert int(rank) > 0 and int(rank) not in ranks[i], line
             ranks[i].add(int(rank))
     rank = local if profile == "local" else ci
-    if (selected and name == selected) or (not selected and rank != "-"):
+    if listed:
+        if name in listed:
+            assert rank != "-", "Suite not registered for CI: " + name
+            rows.append((int(rank), name, summary, backend))
+    elif (selected and name == selected) or (not selected and rank != "-"):
         rows.append((0 if selected else int(rank), name, summary, backend))
 assert not selected or selected in names, "Unknown suite: " + selected
+for name in listed:
+    assert name in names, "Unknown suite: " + name
 ordered = sorted(rows)
 if shard:
-    # Stable CI-rank order, balanced counts; core runs once in its own job.
-    ordered = [row for row in ordered if row[1] != "run_tests"][int(shard)-1::4]
+    # Core runs once in its own job.
+    runtime = [row for row in ordered if row[1] != "run_tests"]
+    times_path = pathlib.Path(path).with_name("suite-times.json")
+    if times_path.is_file():
+        # Duration balance: longest first (CI rank breaks ties) onto the least
+        # loaded shard (lowest shard breaks ties); missing suites take the median.
+        times = {k: float(v) for k, v in json.loads(times_path.read_text()).items()}
+        known = [times[row[1]] for row in runtime if row[1] in times]
+        median = statistics.median(known) if known else 1.0
+        cost = {row[1]: times.get(row[1], median) for row in runtime}
+        loads, owner = [0.0] * 4, {}
+        for row in sorted(runtime, key=lambda row: (-cost[row[1]], row[0])):
+            target = min(range(4), key=lambda i: (loads[i], i))
+            loads[target] += cost[row[1]]
+            owner[row[1]] = target
+        ordered = [row for row in runtime if owner[row[1]] == int(shard) - 1]
+    else:
+        # Stable CI-rank order, balanced counts.
+        ordered = runtime[int(shard)-1::4]
     assert ordered, "Empty CI shard"
 for _, name, summary, backend in ordered:
     print(name + "|" + summary + "|" + backend)
@@ -92,7 +123,10 @@ while IFS='|' read -r scenario summary backend; do
     else
         runner=("$(dirname -- "$0")/headless.sh")
     fi
+    started=$(date +%s)
     timeout --kill-after=10s 480s "${runner[@]}" --script "res://tests/$scenario.gd" 2>&1 | tee "$log"
+    # Wall seconds per suite; the nightly merges these into game/tests/suite-times.json.
+    printf '%s\t%s\n' "$scenario" "$(( $(date +%s) - started ))" >> "$ARTIFACT_DIR/suite-times.tsv"
     if grep -niE 'SCRIPT ERROR:|(^|[[:space:]])ERROR:|resources still in use|ObjectDB instances leaked' "$log"; then
         echo "Godot reported errors or leaks in $scenario" >&2; exit 1
     fi

@@ -1,15 +1,22 @@
 extends RefCounted
 static func run(t,game):
 	game.recovered_evidence.clear();game._start_mission(2);game._refresh()
-	t.check(game.order_buttons.camera.text=="SAMPLE","fresh Blackwater labels its receiver action SAMPLE")
+	t.check(game.order_buttons.camera.text.get_slice("\n",0)=="DECODE","fresh Blackwater labels its receiver action DECODE")
 	game._briefing(2);await t.process_frame
 	var copy=""
 	for child in game.panel_box.get_children():
 		if child is Label:copy+=child.text+"\n"
-	t.check("SAMPLE" in copy and not "Use CAMERA within 240m" in copy,"Blackwater briefing explains local reception without generic optical range instructions")
+	t.check("DECODE" in copy and not "Use CAMERA within 240m" in copy,"Blackwater briefing explains local reception without generic optical range instructions")
+	game._reference(2);await t.process_frame
+	copy=""
+	for child in game.panel_box.get_children():
+		if child is Label:copy+=child.text+"\n"
+	t.check("DECODE" in copy and not "SAMPLE" in copy,"Blackwater manual names its actual DECODE action")
+	var brief=game.Simulation.Missions.make(2)
+	t.check("DECODE" in brief.depth_hint and not "SAMPLE" in brief.depth_hint and brief.objectives.all(func(o):return "DECODE" in o.get("evidence","") and not "SAMPLE" in o.get("evidence","")),"Blackwater hint and earned packet instructions name DECODE")
 	game._start_mission(2);game.sim.units[0].pos=Vector2(760,330);game.sim.command("camera");game._refresh();await t.process_frame
 	t.check(game.ocean.optical_feed.visible,"receiving station owns the live hydrophone inset")
-	t.check(game.unit_buttons[0].text.ends_with("\nSAMPLE"),"receiver station shows the short SAMPLE task matching its action")
+	t.check(game.unit_buttons[0].text.ends_with("\nDECODE"),"receiver station shows the short DECODE task matching its action")
 	game.sim.command("select",{"unit":1});game._refresh();await t.process_frame
 	t.check(not game.ocean.optical_feed.visible and game.sim.capture_unit==0,"handoff hides remote receiver feed while sample stays with Quietus")
 	game.sim.command("select",{"unit":0});game.sim.paused=false

@@ -77,7 +77,7 @@ static func pick(view,sim,point:Vector2,touch:float)->Dictionary:
  return {}
 static func context_detail(sim,subject:Dictionary)->String:
  if subject.get("subkind","") in ["transmission","actuator"]:return Operations.detail(sim,subject.get("index",-1))
- if subject.get("subkind","")=="withdrawal":return "INCOMPLETE WITHDRAWAL\nReturn Quietus to the southern basin. Field observations remain; this does not complete an operation."
+ if subject.get("subkind","")=="withdrawal":return "INCOMPLETE WITHDRAWAL\nReturn Quietus to the charted withdrawal mouth. Field observations remain; this does not complete an operation."
  for corridor in sim.extraction_corridors():
   if corridor.route==subject.get("route",""):
    return "%s\n%s\nPlot the selected craft’s approach. Only Quietus’s settled arrival commits this recovery corridor."%[corridor.name,"RECOVERY AVAILABLE" if corridor.available else "RECOVERY NOT READY · approach only" if sim.mission.get("expedition_revision",0)==2 else "INTERPRET CARRIER FIRST · approach only"]

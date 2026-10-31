@@ -62,11 +62,11 @@ static func fitting(main,context:Dictionary,choose:Callable,rebuild:Callable)->A
    main._menu_text("%s\nCOST · %s"%[row.benefit,row.cost],14)
  return buttons
 # Optional fit summary keeps the opening briefing focused; fitting rows hold the detail.
-static func summary(main,context:Dictionary)->void:
+static func summary(main,context:Dictionary,stock:String="")->void:
  var detail=[]
  main._button(main.panel_box,"FIT SUMMARY · SHOW",func():
   if not detail.is_empty() and is_instance_valid(detail[0]):
    detail[0].queue_free();detail.clear()
   else:
-   detail.append(main._menu_text(Model.summary(context),14))
+   detail.append(main._menu_text(Model.summary(context)+("\n"+stock if not stock.is_empty() else ""),14))
   ,"fit_summary")

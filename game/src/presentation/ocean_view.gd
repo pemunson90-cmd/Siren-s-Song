@@ -230,8 +230,14 @@ func chart_width()->float:
 	return size.x-minf(size.x*.52,optical_feed.preferred_width())-28.
 func chart_origin()->Vector2:
 	return Vector2(command_dock_width+28.,0.) if command_dock_left and command_dock_width>0. else Vector2.ZERO
+func stable_chart_rect()->Rect2:
+	# Projection always reserves the right optical lane. Transient command docks,
+	# camera availability and folded optics must never move the chart under a tap.
+	var lane=minf(size.x*.52,optical_feed.preferred_width()) if optical_feed!=null else size.x*.52
+	return Rect2(Vector2.ZERO,Vector2(maxf(1.,size.x-lane-28.),size.y))
 func _sync_camera() -> void:
-	chart_camera.configure(size,world_size())
+	var chart=stable_chart_rect()
+	chart_camera.configure(chart.size,world_size(),chart.position)
 	if chart_camera.mode=="follow" and sim!=null:chart_camera.follow(sim.units[sim.selected].pos)
 	world_scale=chart_camera.scale;world_offset=chart_camera.offset
 func focus_craft() -> void:

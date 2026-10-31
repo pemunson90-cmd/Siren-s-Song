@@ -198,6 +198,7 @@ lock_warning_ui_tests|LOCK WARNING UI|159|146
 order_row_scenarios|ORDER ROW|160|151
 order_task_ui_scenarios|TASK UI|161|152
 work_task_recipient_tests|WORK TASK|752|852
+truthful_commands_tests|TRUTHFUL COMMANDS|763|866
 performance_measurements|PERFORMANCE|162|153
 nav_clearance_tests|NAV CLEARANCE|163|184
 nav_following_probe|NAV FOLLOW|164|185
@@ -322,7 +323,7 @@ status_text_ui_tests|STATUS TEXT UI|263|-|render
 status_text_table_ui_tests|STATUS TEXT UI|-|862|render
 status_text_cover_ui_tests|STATUS TEXT UI|-|859|render
 status_text_inner_ui_tests|STATUS TEXT UI|-|860|render
-stable_board_ui_tests|STABLE BOARD UI|763|866|render
+stable_board_ui_tests|STABLE BOARD UI|764|867|render
 
 hunt_pressure_tests|HUNT PRESSURE|264|284
 hunt_cap_coverage_tests|HUNT CAP COVERAGE|747|847

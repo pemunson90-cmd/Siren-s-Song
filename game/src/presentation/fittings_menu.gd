@@ -8,6 +8,7 @@ static func show(main)->void:
  main._button(main.panel_box,"BACK TO OPERATIONS",main._show_campaign,"back")
  main._menu_text("FITTINGS / NEXT LAUNCH",30)
  main._menu_text("Changes apply to the next dive. RESUME keeps the active dive's equipment.",16)
+ main._menu_text(preload("res://src/presentation/truthful_commands.gd").brief_stock(main.tool_racks),15)
  preload("res://src/presentation/field_tool_view.gd").fittings(main)
  if preload("res://src/campaign/economy_table.gd").enabled:main._button(main.panel_box,"SUPPLIES / COSTS",main._show_economy,"economy")
  preload("res://src/presentation/archive/archive_nav.gd").entry(main)

@@ -1,6 +1,42 @@
 extends "res://tests/status_text_ui_tests.gd"
 # Source-known layout fixtures, real engine touch and native screenshots.
 var baseline=false
+# This suite asserts live geometry and injects real touch itself. Per-scroll
+# diagnostic target dumps duplicate that work and schedule extra post-draw waits.
+# Keep the actual scene, input, renderer and all settling frames unchanged.
+class BoardMain extends "res://tests/density_main.gd":
+ func _report_targets()->void:pass
+func make_game(id:int,shape:Vector2i):
+ root.size=shape;await settle()
+ var game=load("res://scenes/main.tscn").instantiate()
+ game.set_script(BoardMain);game.capture_scenario="stable-board-ui"
+ if shape.x==2520:game.fixture_safe_area=Rect2(136,0,2384,1080)
+ root.add_child(game);await settle();game.set_process(false)
+ var settings=Store.DEFAULTS.duplicate(true);settings.text_scale=1.5
+ Settings.apply(settings,game);await settle()
+ game._start_mission(id);game._layout();await settle()
+ return game
+var settle_frames=0
+var settle_usec=0
+func settle():
+ var started=Time.get_ticks_usec()
+ var previous=0
+ var stable=0
+ for n in 6:
+  await process_frame
+  settle_frames+=1
+  # Wait for actual rendered, unchanged layout rather than six unconditional
+  # frames at every scroll step. Keep the original six-frame upper bound.
+  if DisplayServer.get_name()!="headless":await RenderingServer.frame_post_draw
+  var geometry=[]
+  for control in root.find_children("*","Control",true,false):
+   geometry.append([control.get_instance_id(),control.get_global_rect(),control.is_visible_in_tree()])
+   if control is ScrollContainer:geometry.append([control.scroll_horizontal,control.scroll_vertical])
+  var current=hash(geometry)
+  stable=stable+1 if current==previous else 0
+  previous=current
+  if stable>=2:break
+ settle_usec+=Time.get_ticks_usec()-started
 func capture_case(shape:Vector2i):
  var game=await make_game(12,shape)
  var sim=game.sim;var hud=game.mission_hud;var ocean=game.ocean
@@ -200,6 +236,9 @@ class PublicIndustry:
  extends RefCounted
  func choir_context():return {"sites":[{"id":"deep_job","done":false,"pos":Vector2(100,200),"band":2}],"load":{"name":"TEST LOAD","state":"held","pos":Vector2(100,200),"band":2},"artifact":{}}
 func run():
+ var started=Time.get_ticks_usec()
+ # Keep every rendered/input frame; do not pay display-vsync pacing for tests.
+ DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
  for arg in OS.get_cmdline_user_args():
   if arg=="--baseline":baseline=true
   if arg.begins_with("--capture-dir="):capture_dir=arg.trim_prefix("--capture-dir=")
@@ -216,5 +255,6 @@ func run():
  if not baseline:
   check(industry.targets(public_info).size()==2 and industry.target_at(public_info,public_target.pos,"site:deep_job").target_id!=industry.target_at(public_info,public_target.pos,"load").target_id,"coincident industrial site and load labels retain distinct owners")
  Settings.apply(Store.DEFAULTS)
+ print("STABLE BOARD TIMING elapsed_usec=",Time.get_ticks_usec()-started," settle_usec=",settle_usec," settle_frames=",settle_frames," drawn_frames=",Engine.get_frames_drawn())
  print("STABLE BOARD UI CHECKS ",checks," FAILURES ",failures)
  quit(1 if failures else 0)
