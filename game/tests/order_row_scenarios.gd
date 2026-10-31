@@ -43,7 +43,7 @@ func run() -> void:
   var ui=load("res://scenes/main.tscn").instantiate();ui.set_script(preload("res://tests/order_row_main.gd"));ui.capture_scenario="order-row-test";ui.fixture_dpi=profile.dpi
   if profile.inset:ui.fixture_safe_area=Rect2(profile.inset,0,profile.size.x-profile.inset,profile.size.y)
   root.add_child(ui);await settle()
-  for state in [{"mission":0,"task":"READY","stock":3},{"mission":1,"task":"ROUTE","stock":2},{"mission":5,"task":"EXPOSING","stock":1,"target":2,"label":"LISTEN"},{"mission":0,"task":"OPTICAL","stock":2,"target":0,"label":"PHOTO"},{"mission":1,"task":"UPLINK","stock":1,"target":2,"label":"LINK"},{"mission":2,"task":"LISTEN","stock":0,"target":0,"label":"SAMPLE"},{"mission":0,"task":"CONTACT","stock":0},{"mission":0,"task":"DRONE","stock":1},{"mission":0,"task":"LOST","stock":2}]:
+  for state in [{"mission":0,"task":"READY","stock":3},{"mission":1,"task":"ROUTE","stock":2},{"mission":5,"task":"EXPOSING","stock":1,"target":2,"label":"LISTEN"},{"mission":0,"task":"OPTICAL","stock":2,"target":0,"label":"PHOTO"},{"mission":1,"task":"UPLINK","stock":1,"target":2,"label":"LINK"},{"mission":2,"task":"LISTEN","stock":0,"target":0,"label":"DECODE"},{"mission":0,"task":"CONTACT","stock":0},{"mission":0,"task":"DRONE","stock":1},{"mission":0,"task":"LOST","stock":2}]:
    if not capture_dir.is_empty() and not (state.task=="READY" or (state.task=="EXPOSING" and profile.name=="cover")):continue
    # Seed the actual carrying rack for each finite-stock layout state.
    ui.tool_racks=preload("res://src/equipment/tool_racks.gd").empty()

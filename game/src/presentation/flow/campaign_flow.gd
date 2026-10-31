@@ -38,8 +38,8 @@ static func show_campaign(host) -> void:
 	if not preload("res://src/presentation/ops_home/ops_home_table.gd").enabled and not host._campaign_pristine():host._button(host.panel_box,"ERASE PROGRESS · NEW CAMPAIGN",host._confirm_new_campaign,"new_campaign")
 	if not host.recovered_evidence.is_empty(): host._button(host.panel_box,"REVIEW FIELD RECORDS",func(): host._evidence_gallery(0),"evidence")
 	host._menu_text("Field records remain reviewable after loss or abandonment. Only successful extraction advances the campaign.",14)
-	var stock=host._loadout_stock(host.upgrade)
-	host._menu_text("NEXT DIVE / RETRY · %s\nO₂ %d%% · DISRUPT %d · SURVEY %d"%[host.upgrade.to_upper(),stock[0],preload("res://src/equipment/tool_racks.gd").total(host.tool_racks,"emp"),preload("res://src/equipment/tool_racks.gd").total(host.tool_racks,"recon")],15)
+	var copy=preload("res://src/presentation/truthful_commands.gd")
+	host._menu_text(copy.launch_stock(host),15)
 	var rows=["COMPARE: O₂ / DISRUPT / SURVEY"]
 	for choice in ["endurance","disruption","survey"]:
 		var supplies=host._loadout_stock(choice)
@@ -74,7 +74,7 @@ static func cycle_loadout(host)->void:
 
 static func orders_text(host, briefing:Dictionary) -> String:
 	if briefing.get("blackwater_revision",0)==1:
-		return "ORDERS\nTap a craft for its command ring; FLEET chooses a station. Empty water plots its route; a craft that already has orders asks you to confirm. ROUTE → REPLACE / QUEUE changes append intent. PAUSE stays available. Settle and SAMPLE for two seconds. Quietus receives within156m; drones within214.5m. Cover blocks reception. An audible SONAR may prompt a local relay replay; a decoded packet explains its partner's handshake. Drone buffers TRANSFER locally to Quietus: both settled, within60m, clear link. Return with both packets aboard."
+		return "ORDERS\nTap a craft for its command ring; FLEET chooses a station. Empty water plots its route; a craft that already has orders asks you to confirm. ROUTE → REPLACE / QUEUE changes append intent. PAUSE stays available. Settle and DECODE for two seconds. Quietus receives within156m; drones within214.5m. Cover blocks reception. An audible SONAR may prompt a local relay replay; a decoded packet explains its partner's handshake. Drone buffers TRANSFER locally to Quietus: both settled, within60m, clear link. Return with both packets aboard."
 	return "ORDERS\nTap a craft for its command ring; FLEET chooses a station. Tap empty water to plot a route; a craft that already has orders asks you to confirm. Craft → ROUTE → REPLACE / QUEUE changes append intent. PAUSE stays available. Drag / pinch inspects freely; FOCUS follows the craft and FIT shows the region. CAMERA works within 240m of a gold record marker. Return Quietus after all records are secured."
 
 static func briefing(host, index: int) -> void:
@@ -102,18 +102,20 @@ static func briefing(host, index: int) -> void:
 	if not thermal_line.is_empty():host._menu_text(thermal_line,17)
 	preload("res://src/presentation/archive/voice_feed.gd").briefing(host,index)
 	if compact and not host._campaign_pristine() and not EconomyPanel.briefing_line(host).is_empty():host._menu_text(preload("res://src/presentation/launch_summary.gd").short(host),14)
-	var stock=host._loadout_stock(host.upgrade)
 	var fit_start=host.panel_box.get_child_count()
 	if not host._campaign_pristine() and not EconomyPanel.briefing_line(host).is_empty():host._menu_text(EconomyPanel.briefing_line(host),14)
 	# Audit 091 F10: later briefings compare costs and mounts; the opening briefing keeps fit details optional.
 	if index>0 and not compact and not host._campaign_pristine() and not EconomyPanel.briefing_line(host).is_empty():host._menu_text(preload("res://src/presentation/launch_summary.gd").text(host),14)
 	preload("res://src/presentation/crew/crew_view.gd").briefing(host,index)
-	host._menu_text("NEXT DIVE / RETRY · %s\nO₂ %d%% · DISRUPT %d · SURVEY %d · %d DECOYS · %d TORPEDOES"%[host.upgrade.to_upper(),stock[0],preload("res://src/equipment/tool_racks.gd").total(host.tool_racks,"emp"),preload("res://src/equipment/tool_racks.gd").total(host.tool_racks,"recon"),preload("res://src/equipment/tool_racks.gd").total(host.tool_racks,"decoy"),preload("res://src/equipment/tool_racks.gd").total(host.tool_racks,"knock")],17)
+	# The opening brief confirms Quietus stock; its FITTINGS entry owns the full per-craft list.
+	var copy=preload("res://src/presentation/truthful_commands.gd")
+	host._menu_text(copy.launch_stock(host),17)
+	if index>=3:host._menu_text(copy.brief_stock(host.tool_racks),14)
 	# Frames open after the first dive; recovered fittings appear once earned. A toggle folds them away.
 	if not compact:fit_start=host.panel_box.get_child_count()
 	# Keep the first briefing focused; fit details stay available in its existing optional fold.
 	host._button(host.panel_box,"EDIT TOOL RACKS / FITTINGS",host._show_fittings,"edit_racks")
-	FitSurface.summary(host,host._equipment_context())
+	FitSurface.summary(host,host._equipment_context(),copy.brief_stock(host.tool_racks) if index<3 else "")
 	var fold_control:Button=null
 	if 0 in host.completed or not host._equipment_entitlements().is_empty():preload("res://src/presentation/equipment_context.gd").loadout(host,host._equipment_context().slots,func(key,id):host._choose_equipment(key,id,index))
 	if not host._equipment_entitlements().is_empty():FitSurface.fitting(host,host._equipment_context(),func(slot,item):host._choose_equipment(slot,item,index),func():host._briefing(index))
