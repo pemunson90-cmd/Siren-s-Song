@@ -176,13 +176,13 @@
    "head": null,
    "file": "docs/state/items/129-protected-golden.md",
    "attempts": {
-    "A": 1,
+    "A": 2,
     "B": 0,
     "C": 0
    },
    "blocker": null,
    "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-129",
-   "updated": "2026-10-31T20:23:45Z",
+   "updated": "2026-10-31T21:17:57Z",
    "provider": "claude:opus",
    "started": "2026-10-31T20:23:05Z"
   },
