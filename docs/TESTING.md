@@ -26,6 +26,7 @@ The merge queue, nightly and manual dispatches always run all four shards.
 The core suite must end `CHECKS N FAILURES 0` with a positive check count.
 Every other suite must emit its registered prefix and the same strict ending.
 A Godot resources-still-in-use line fails CI, as do script errors and leaks.
+`test.sh` runs every selected suite even after a failure, then prints `FAILED SUITES: a, b` and exits non-zero.
 Each suite has a 480-second timeout. Touch and Android back are primary;
 keyboard checks cover fallback behavior only.
 

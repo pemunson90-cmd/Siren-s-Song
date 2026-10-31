@@ -113,8 +113,11 @@ if ! "$explicit"; then
     python3 "$(dirname -- "$0")/test-android-radial.py"
     python3 "$(dirname -- "$0")/test-android-planner.py"
 fi
+[[ -n "$selection" ]] || { echo 'No suites selected' >&2; exit 1; }
+failed=()
 while IFS='|' read -r scenario summary backend; do
     if "$skip_core" && [[ "$scenario" == run_tests ]]; then continue; fi
+    [[ -n "$scenario" ]] || { echo 'Empty suite name in selection' >&2; exit 1; }
     log="$ARTIFACT_DIR/$scenario.log"
     if [[ "$backend" == render ]]; then
         # Ubuntu's CI image provides Xvfb/xauth; require a real Canvas renderer.
@@ -124,14 +127,30 @@ while IFS='|' read -r scenario summary backend; do
         runner=("$(dirname -- "$0")/headless.sh")
     fi
     started=$(date +%s)
-    timeout --kill-after=10s 480s "${runner[@]}" --script "res://tests/$scenario.gd" 2>&1 | tee "$log"
+    rc=0
+    timeout --kill-after=10s 480s "${runner[@]}" --script "res://tests/$scenario.gd" 2>&1 | tee "$log" || rc=$?
     # Wall seconds per suite; the nightly merges these into game/tests/suite-times.json.
     printf '%s\t%s\n' "$scenario" "$(( $(date +%s) - started ))" >> "$ARTIFACT_DIR/suite-times.tsv"
+    # Keep running the remaining suites; every failure is listed once at the end.
+    if [[ "$rc" -eq 124 || "$rc" -eq 137 ]]; then
+        echo "Timed out: $scenario (exit $rc)" >&2
+        failed+=("$scenario"); continue
+    elif [[ "$rc" -ne 0 ]]; then
+        echo "Nonzero exit $rc from $scenario" >&2
+        failed+=("$scenario"); continue
+    fi
     if grep -niE 'SCRIPT ERROR:|(^|[[:space:]])ERROR:|resources still in use|ObjectDB instances leaked' "$log"; then
-        echo "Godot reported errors or leaks in $scenario" >&2; exit 1
+        echo "Godot reported errors or leaks in $scenario" >&2
+        failed+=("$scenario"); continue
     fi
     prefix="${summary:+$summary }"
-    grep -Eq "^${prefix}CHECKS [1-9][0-9]* FAILURES 0$" "$log" || {
-        echo "Missing successful $scenario summary" >&2; exit 1;
-    }
+    if ! grep -Eq "^${prefix}CHECKS [1-9][0-9]* FAILURES 0$" "$log"; then
+        echo "Missing successful $scenario summary" >&2
+        failed+=("$scenario"); continue
+    fi
 done <<< "$selection"
+if (( ${#failed[@]} )); then
+    joined=$(printf '%s, ' "${failed[@]}")
+    echo "FAILED SUITES: ${joined%, }" >&2
+    exit 1
+fi
