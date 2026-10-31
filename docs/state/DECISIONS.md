@@ -2,6 +2,8 @@
 
 Pat 2026-10-30 ~18:00: "only surface questions that need me, otherwise record all decision points and keep me posted so I can revert them." Each line: what, why, how to revert. Say "revert Dnn".
 
+- **D26 2026-10-31 Item 136 queued ahead of 129: CI shards run every suite and list all failures before exiting.** Why: fail-fast per shard hid fit_surface_ui_tests on PR 238 and cost a fourth repair round. Revert: drop item 136.
+- **D25 2026-10-31 PR 240 suite selection falls back to the full matrix whenever a serial zone reaches the changed file (331 of 341 src files).** Why: the independent review found the narrower selection could merge with failing suites unrun; safety over speed. Savings now come from draft skips, duration-balanced shards and one full run per merge. Revert: restore direct-hit selection in select-suites.py.
 - **D24 2026-10-31 Old v1 files (HANDOFF, BOARD, LEDGER, QUEUE_S6, PLAN_DRAFT_1) stay readable until migration step 10, with a one-line pointer at the top of HANDOFF.** Why: a restart mid-migration must still work. Revert: drop the pointer line.
 - **D23 2026-10-31 Workflow v2 adopted; migration started (Pat yes to question 1).** D11 to D22 below are active except D18, which waits for question 4. Questions 2, 3 and 5 remain open; their steps (main as sole promotion target, spec amendment and intent card, model cap) do not run until answered. Revert: follow docs/workflow-v2 back to the archive branch archive/workflow-v1-2026-10-31.
 - **D22 WIP pushes go to draft PRs and run no game CI.** Why: 29 of the last 60 CI runs were cancelled by superseding pushes. Revert: remove the `draft == false` condition in the workflow.

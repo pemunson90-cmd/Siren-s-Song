@@ -29,7 +29,7 @@
     "B": 0,
     "C": 0
    },
-   "blocker": null
+   "blocker": "shard 2 fit_surface_ui_tests 3 fails; repair builder running"
   },
   {
    "id": 127,
@@ -94,6 +94,35 @@
    "blocker": null
   },
   {
+   "id": 136,
+   "slug": "shard-all-failures",
+   "title": "CI shards run every suite and report all failures",
+   "cls": "ui",
+   "areas": [
+    "tooling"
+   ],
+   "serial": [],
+   "deps": [
+    128
+   ],
+   "prov": [
+    "claude:sonnet",
+    "codex"
+   ],
+   "status": "queued",
+   "phase": null,
+   "branch": "item/136-shard-all-failures",
+   "pr": null,
+   "head": null,
+   "file": "docs/state/items/136-shard-all-failures.md",
+   "attempts": {
+    "A": 0,
+    "B": 0,
+    "C": 0
+   },
+   "blocker": null
+  },
+  {
    "id": 128,
    "slug": "ci-v2",
    "title": "CI v2: draft skip, affected selection, full matrix on merge candidate, duration shards, nightly",
@@ -104,14 +133,13 @@
    "serial": [],
    "deps": [],
    "prov": [
-    "claude:opus",
-    "codex"
+    "claude:opus"
    ],
-   "status": "queued",
-   "phase": null,
+   "status": "active",
+   "phase": "B",
    "branch": "item/128-ci-v2",
-   "pr": null,
-   "head": null,
+   "pr": 240,
+   "head": "96bb6744",
    "file": "docs/state/items/128-ci-v2.md",
    "attempts": {
     "A": 0,
