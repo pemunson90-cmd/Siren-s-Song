@@ -21,3 +21,6 @@ PR 239 body.
 ## Builder notes
 Branch root/stable-board-pkg2 from origin/claude/integration. Preferred provider: codex.
 Checks before push: import, core, the affected suites for the changed files, the canary set once it exists.
+
+## Root verification — 2026-10-31 05:17 Eastern
+Current head d1dcadb92faccdcc10417e2623df2cfd019b5f14 composes actual126 and CI v2 base1642acd9. Independent HIGH99 approved exact composition; MEDIUM100 approved its documentation-only pointer correction. Own run41186670556: guidance/core/affected-selection passed; four runtime shards and final smoke still required. No merge clearance yet. Root is available despite the earlier predicted usage gap. Preserve serial-runner merge authority and all other item owners.

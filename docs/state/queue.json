@@ -83,7 +83,7 @@
    "phase": "B",
    "branch": "root/stable-board-pkg2",
    "pr": 239,
-   "head": "f432d0a2",
+   "head": "d1dcadb92faccdcc10417e2623df2cfd019b5f14",
    "file": "docs/state/items/pkg2-stable-board.md",
    "attempts": {
     "A": 0,
