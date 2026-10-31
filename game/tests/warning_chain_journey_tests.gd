@@ -1,4 +1,5 @@
 extends SceneTree
+# 127 (Pat 2026-10-30): scripted journeys here fly the dev/test pathfinder route; hand_pilot_journeys covers release play.
 # Source-known technical controllers, not blind play. Craft travel from launch,
 # all plant transitions use public commands, and original guards/tools remain.
 # Only the loss case injects a near-empty own battery after its real connection.
@@ -25,7 +26,7 @@ func defend(s,last:float)->float:
    if s.command("emp"):return s.elapsed
  return last
 func run_case(name:String,service:bool,helper:bool,lose:bool)->void:
- var s=Sim.new();s.start(10,"disruption");var stage=0;var last=-10.0;var connected_at=-1.0;var lost_at=-1.0
+ var s=Sim.new();s.start(10,"disruption");s.mission["dev"]=true;var stage=0;var last=-10.0;var connected_at=-1.0;var lost_at=-1.0
  if helper:
   route(s,1,Vector2(180,1660));s.command("queue");s.command("route",{"point":Vector2(180,1000)});s.command("route",{"point":WEST});s.command("queue")
   s.command("route_edit",{"index":1,"mode":"silent"});s.command("route_edit",{"index":2,"mode":"silent"})

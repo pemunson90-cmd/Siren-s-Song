@@ -1,10 +1,11 @@
 extends "res://tests/calder_trench_journey_tests.gd"
+# 127 (Pat 2026-10-30): scripted journeys here fly the dev/test pathfinder route; hand_pilot_journeys covers release play.
 # Two source-known, bare Quietus voyages; no staged craft, threats or captures.
 const Photo=preload("res://src/simulation/photo_capture.gd")
 const Layouts=preload("res://src/campaign/encounters/optional_layouts.gd")
 func run():
  for id in [38,39]:
-  var s=Sim.new();s.start(id)
+  var s=Sim.new();s.start(id);s.mission["dev"]=true
   var stock=s.tools.duplicate(true)
   check(s.mission.get("launch_equipment",{}).values().all(func(item):return str(item).is_empty() or str(item)=="standard"),"bare loadout "+str(id))
   check(Sim.valid_snapshot(s.snapshot()),"launch snapshot validates "+str(id))

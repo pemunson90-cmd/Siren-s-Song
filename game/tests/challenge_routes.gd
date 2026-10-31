@@ -9,6 +9,7 @@ const Patient=preload("res://tests/patient_play.gd")
 static func fresh(id:String):
  var s=Run.new()
  if not s.setup(id):printerr("CHALLENGE setup failed ",id)
+ s.mission["dev"]=true # 127: scripted challenge courses fly the dev/test pathfinder route (Pat 2026-10-30).
  return s
 static func tick(s,seconds:float)->void:
  s.paused=false

@@ -49,6 +49,7 @@ func run():
  for dimensions in [Vector2i(2520,1080),Vector2i(2184,1968)]:
   root.size=dimensions;await settle()
   var game=load("res://scenes/main.tscn").instantiate();game.set_script(load("res://tests/density_main.gd"));game.capture_scenario="blackwater-delivery-runtime-fixture"
+  game.set_meta("dev_profile",true) # 127: carrier return routes are dev/test travel shortcuts (Pat 2026-10-30).
   if dimensions.x==2520:game.fixture_safe_area=Rect2(136,0,2384,1080)
   root.add_child(game);await settle();game.set_process(false);game.completed=[0,1];game.unlocked=2;game._start_mission(2);await settle()
   var sim=game.sim;sim.sirens=[];var h=game.mission_hud;var label="cover" if dimensions.x==2520 else "inner"

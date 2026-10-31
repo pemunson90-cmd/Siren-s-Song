@@ -22,6 +22,7 @@ func start(index:int,upgrade:String="endurance",launch:Dictionary={})->void:
  if fleet_policy:
   config["fitted"]={"quietus":"quietus_wellhead_seal" if index==35 else "quietus_baffles","drone_a":"drone_deep_cells","drone_b":"drone_choir_tuner" if index==36 else "drone_survey_array"}
  super.start(index,upgrade,config)
+ mission["dev"]=true # 127: authored pathfinder journeys run on the dev/test route path (Pat 2026-10-30).
  if not fleet_policy:return
  for i in mission.objectives.size():
   var o=mission.objectives[i]

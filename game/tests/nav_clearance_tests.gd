@@ -8,7 +8,7 @@ func check(ok,label):
  checks+=1
  if not ok:failures+=1;printerr("FAIL ",label)
 func _initialize():
- var s=Sim.new();s.start(3,"endurance")
+ var s=Sim.new();s.start(3,"endurance");s.mission["dev"]=true # 127: the pathfinder route is the dev/test path (Pat 2026-10-30).
  var origin=Vector2(889.6,800);var target=s.mission.extraction
  check(Measure.leg_clearance(s,origin,origin)>=24.,"the staged near-corner start has the full requested planning margin")
  check(s.path(origin,target)==[{"pos":Vector2(940,820),"stop":false},{"pos":target,"stop":true}],"the shared non-player path remains exactly as recorded before NAV1")
