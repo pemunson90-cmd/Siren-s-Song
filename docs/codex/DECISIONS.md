@@ -2,6 +2,7 @@
 
 Pat 2026-10-30 ~18:00: "only surface questions that need me, otherwise record all decision points and keep me posted so I can revert them." Each line: what, why, how to revert.
 
+- **D10 2026-10-30T22:13 Queue runner now requires the full suite list before every push** (runner.py:64 said "affected suites only"; it cost 126 three red CI cycles). Slower Phase A, fewer CI rounds. Revert: restore runner.py.bak-s11b.
 - **D9 (revised 2026-10-30T19:21 after Pat) 127 movement:** straight legs, no auto-path around terrain; legs into measured rock allowed but drawn as a warning; crashing stays possible with existing damage; an edge assist slides a craft along a wall it grazes or holds it if stuck, so it does not grind. Revert: keep the pathfinder for taps, or drop the edge assist.
 - **D8 2026-10-30T19:18 PR238 (126) keeps its route-target fix** because Pat ruled shortcuts are fine for testing; they are stripped for release by 127. 127 queued right after 126, ahead of package 3. Revert: reorder in runner CHAINS.
 - **D7 2026-10-30T19:08 Waived my own HOLD item 4 on PR238.** Cover 150% WITHDRAW/TORPEDO were hidden before 126 too (fixed 199px row floor); that is root package 2 layout. Revised 126 radial reads cleanly at 100%. Revert: re-hold PR238 until package 2 lands.
