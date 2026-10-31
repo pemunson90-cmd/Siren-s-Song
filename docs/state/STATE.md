@@ -1,4 +1,4 @@
-# STATE (updated 2026-10-31T16:14:46-04:00, by runner2.py)
+# STATE (updated 2026-10-31T16:26:05-04:00, by runner2.py)
 
 ## Base
 integration: 348533af   main: a2300840   production: 26e09906
@@ -8,10 +8,11 @@ nightly: not yet running (item 128)   controls mix: not yet measured (item 130)
 ## In flight
 | item | title | class | provider | phase | branch | PR | head | status |
 | 127 | Release controls, pilot by hand | sim | claude:opus | A | item/127-release-controls | - | 78009073 | active |
-| PKG2 | Stable board and clear threat (PR 239, r | ui | external | B | root/stable-board-pkg2 | 239 | 527e4478 | active |
+| PKG2 | Stable board and clear threat (PR 239, r | ui | external | B | root/stable-board-pkg2 | 239 | 527e4478 | parked |
+| 129 | R3 protected rules golden test | protected | claude:opus | A | item/129-protected-golden | - | - | active |
 
 ## Queued (order = priority; see queue.json)
-129 protected-golden, 130 control-mix, 131 crash-possible, 133 recovery-manifest, 134 route-flow, 135 prep-results
+130 control-mix, 131 crash-possible, 133 recovery-manifest, 134 route-flow, 135 prep-results
 
 ## Done (branches kept)
 126 claude/truthful-commands PR 238, 136 item/136-shard-all-failures PR 242, 128 item/128-ci-v2 PR 240
