@@ -9,7 +9,7 @@ nightly: not yet running (item 128)   controls mix: not yet measured (item 130)
 | item | title | class | provider | phase | branch | PR | head |
 | 127 | Release controls | sim | claude:opus | A build | item/127-release-controls | | |
 | 136 | Shards report all failures | ui | claude:sonnet | A build | item/136-shard-all-failures | | |
-| PKG2 | Stable board | ui | codex root (active) | B: own merge-result CI running | root/stable-board-pkg2 | 239 | d1dcadb9 |
+| PKG2 | Stable board | ui | codex root (active) | C: all eight own checks passed; runner handoff | root/stable-board-pkg2 | 239 | 527e4478 |
 
 ## Queued (order = priority; see queue.json)
 129 protected golden, 130 control mix, 131 crash possible, 133 recovery manifest, 134 route flow, 135 prep and results
