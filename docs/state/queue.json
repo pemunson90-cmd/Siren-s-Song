@@ -57,11 +57,14 @@
    "head": "78009073",
    "file": "docs/state/items/127-release-controls.md",
    "attempts": {
-    "A": 0,
+    "A": 1,
     "B": 0,
     "C": 0
    },
-   "blocker": "builder stopped at session limit mid phase A; WIP pushed"
+   "blocker": "builder stopped at session limit mid phase A; WIP pushed",
+   "provider": "claude:opus",
+   "started": "2026-10-31T19:12:32Z",
+   "updated": "2026-10-31T19:12:32Z"
   },
   {
    "id": "PKG2",
@@ -114,11 +117,14 @@
    "head": "23e0f991",
    "file": "docs/state/items/136-shard-all-failures.md",
    "attempts": {
-    "A": 0,
+    "A": 1,
     "B": 0,
     "C": 0
    },
-   "blocker": "review CHANGES fix committed as WIP, not re-verified"
+   "blocker": "review CHANGES fix committed as WIP, not re-verified",
+   "provider": "claude:sonnet",
+   "started": "2026-10-31T19:12:33Z",
+   "updated": "2026-10-31T19:12:33Z"
   },
   {
    "id": 128,
