@@ -1,4 +1,5 @@
 extends RefCounted
+# 127 (Pat 2026-10-30): scripted journeys here fly the dev/test pathfinder route; hand_pilot_journeys covers release play.
 #116 source-known ordinary SILENT voyages. The off switch is a controlled report-only
 # counterfactual, never a player policy. Phase B also measures the fetched source base.
 const P=preload("res://tests/thermal_operation_plan.gd")
@@ -53,7 +54,7 @@ static func play(id:int,policy:String,preset="standard",reports_off=false):
  var s=Voyage.new();s.use_flash=false
  var racks=Racks.empty()
  if policy=="equipped":racks.quietus={"emp":2}
- s.start(id,"endurance",{"tool_racks":racks})
+ s.start(id,"endurance",{"tool_racks":racks});s.mission["dev"]=true
  var economy=preload("res://src/campaign/economy.gd")
  economy.apply_launch(economy.new_state(preset),s)
  # Park the unfitted drones in a different band through ordinary orders. They do

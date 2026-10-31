@@ -51,7 +51,6 @@ func run():
  for dimensions in [Vector2i(2520,1080),Vector2i(2184,1968)]:
   root.size=dimensions;await settle()
   var game=load("res://scenes/main.tscn").instantiate();game.set_script(load("res://tests/density_main.gd"));game.capture_scenario="warning-chain-public-ui-fixture"
-  game.set_meta("dev_profile",true) # 127: carrier return routes are dev/test travel shortcuts (Pat 2026-10-30).
   if dimensions.x==2520:game.fixture_safe_area=Rect2(136,0,2384,1080)
   root.add_child(game);await settle();game.set_process(false);await start(game)
   var sim=game.sim;var h=game.mission_hud;var label="cover" if dimensions.x==2520 else "inner"
@@ -132,7 +131,8 @@ func run():
   check(not h.extra.chain_service.disabled,"fitted field sampler receives its own actual local panel readiness")
   await click(h.extra.chain_service);await click(h.extra.chain_send)
   check(sim.warning_chain_context().result.get("proof","")=="local_receipt","fitted sampler performs explicit select and send while Quietus stays free")
-  await at(game,0,Vector2(180,1000));sim.paused=false;sim.advance(1./60.);sim.paused=true;game._process(0);await settle()
+  # 127 (Pat 2026-10-30): the carrier-to-mouth return action is a dev/test shortcut; release play hides it.
+  await at(game,0,Vector2(180,1000));game.set_meta("dev_profile",true);sim.paused=false;sim.advance(1./60.);sim.paused=true;game._process(0);await settle()
   check(game.screen=="departure" and game.panel_box.find_children("*","Button",true,false).any(func(b):return b.get_meta("action","")=="return_module_1"),"commissioned plant preserves the actual outstanding fitted-module return decision")
   await capture(label+"-commissioned-module-decision")
   game.queue_free();await settle()

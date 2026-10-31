@@ -29,6 +29,7 @@ func sample(game,unit:int,index:int):
  await craft(game,unit);check(not game.order_buttons.camera.disabled,"actual local SAMPLE is available for receiver/resample")
  await tap(game.order_buttons.camera.get_global_rect().get_center());await advance(game,2.1)
 func route_home(game,unit:int):
+ game.sim.mission["dev"]=true # 127: this carrier return leg flies the dev/test pathfinder route (Pat 2026-10-30).
  await craft(game,unit);await tap(game.order_buttons.program.get_global_rect().get_center())
  var editor=game.route_editor;var goal=game.sim.units[0].pos+Vector2(0,-25 if unit==1 else 25)
  await tap(editor.preview.global_position+editor.preview.screen_position(goal))
@@ -38,7 +39,7 @@ func route_home(game,unit:int):
  for n in 3600:
   game.sim.advance(1./60.)
   if game.sim.units[unit].route.is_empty() and game.sim.units[unit].vel.length()<2.:break
- game.sim.paused=true;game._process(0);await settle()
+ game.sim.paused=true;game.sim.mission.erase("dev");game._process(0);await settle()
  check(game.sim.units[unit].pos.distance_to(goal)<10. and game.sim.units[unit].vel.length()<2.,"carrier physically follows its actual STOP route to a settled Quietus rendezvous")
 func capture(name:String):
  if folder.is_empty() or DisplayServer.get_name()=="headless":return
@@ -49,7 +50,6 @@ func run():
  for dimensions in [Vector2i(2520,1080),Vector2i(2184,1968)]:
   root.size=dimensions;await settle()
   var game=load("res://scenes/main.tscn").instantiate();game.set_script(load("res://tests/density_main.gd"));game.capture_scenario="blackwater-delivery-runtime-fixture"
-  game.set_meta("dev_profile",true) # 127: carrier return routes are dev/test travel shortcuts (Pat 2026-10-30).
   if dimensions.x==2520:game.fixture_safe_area=Rect2(136,0,2384,1080)
   root.add_child(game);await settle();game.set_process(false);game.completed=[0,1];game.unlocked=2;game._start_mission(2);await settle()
   var sim=game.sim;sim.sirens=[];var h=game.mission_hud;var label="cover" if dimensions.x==2520 else "inner"
@@ -100,6 +100,8 @@ func run():
   sim.units[0].pos=sim.mission.extraction;sim.units[0].vel=Vector2.ZERO;sim.units[1].pos=sim.units[0].pos+Vector2(40,0);sim.units[1].vel=Vector2.ZERO;sim.units[2].pos=sim.units[0].pos+Vector2(300,0);sim.units[2].vel=Vector2.ZERO
   await advance(game,1./60.)
   check(game.screen=="mission" and not sim.departure_context().available,"remote REQUEST prevents a missing-kit departure choice even with both field notes and Quietus at recovery")
+  # 127 (Pat 2026-10-30): the carrier-to-mouth return action is a dev/test shortcut; release play hides it.
+  game.set_meta("dev_profile",true)
   await craft(game,1);await tap(h.extra.blackwater_handoff.get_global_rect().get_center());await advance(game,1./60.)
   check(game.screen=="departure" and sim.blackwater_delivery_status().complete and sim.departure_context().left.size()==1,"delivered data restores the existing outstanding module decision without auto-abandonment")
   check(game.panel_box.find_children("*","Button",true,false).any(func(b):return b.get_meta("action","")=="return_module_2") and game.panel_box.find_children("*","Label",true,false).any(func(l):return "DRONE DEEP CELLS" in l.text),"delivery and module return coexist in one actionable recovery decision")

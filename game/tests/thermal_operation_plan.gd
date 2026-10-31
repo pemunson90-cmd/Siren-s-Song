@@ -1,4 +1,5 @@
 extends RefCounted
+# 127 (Pat 2026-10-30): scripted journeys here fly the dev/test pathfinder route; hand_pilot_journeys covers release play.
 const Sim=preload("res://src/simulation/simulation.gd")
 class Voyage:
  extends "res://src/simulation/simulation.gd"
@@ -60,7 +61,7 @@ static func record(s,id,index,framed=false,linger=.3)->bool:
 static func play(id:int,band:int,voyage=null,flash:bool=true,launch:Dictionary={}):
  var s=Voyage.new() if voyage==null else voyage;s.use_flash=flash
  var config={"tool_racks":preload("res://src/equipment/tool_racks.gd").empty(),"fitted":{"quietus":"photo_flash" if id==39 else "","drone_a":"","drone_b":""}}
- config.merge(launch,true);s.start(id,"endurance",config)
+ config.merge(launch,true);s.start(id,"endurance",config);s.mission["dev"]=true
  var ok=true
  if id==3:
   ok=shift(s,0,2) and go(s,0,Vector2(960,500))
@@ -93,7 +94,7 @@ static func shelf_route(s,band:int,linger=.3,cruise=false,recovery_approach=Vect
  return ok
 static func fleet39(preset:String,equipped=false):
  var s=Voyage.new();s.use_flash=false
- s.start(39,"endurance",{"tool_racks":preload("res://src/equipment/tool_racks.gd").empty(),"fitted":{"quietus":"quietus_vector_drive" if equipped else "","drone_a":"","drone_b":""}})
+ s.start(39,"endurance",{"tool_racks":preload("res://src/equipment/tool_racks.gd").empty(),"fitted":{"quietus":"quietus_vector_drive" if equipped else "","drone_a":"","drone_b":""}});s.mission["dev"]=true
  var economy=preload("res://src/campaign/economy.gd")
  economy.apply_launch(economy.new_state(preset),s)
  var ok=shelf_route(s,1,2.,equipped)

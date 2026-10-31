@@ -1,4 +1,5 @@
 extends SceneTree
+# 127 (Pat 2026-10-30): scripted journeys here fly the dev/test pathfinder route; hand_pilot_journeys covers release play.
 const Sim=preload("res://src/simulation/simulation.gd")
 const Glass=preload("res://tests/glass_reach_journeys.gd")
 const GlassVoyage=preload("res://tests/glass_fleet_voyage.gd")
@@ -120,7 +121,7 @@ func run():
   if row.kind=="mouth":arc6_journey(row,true)
  print("CARRY CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)
 func arc6_journey(row:Dictionary,extra_mouth:bool):
- var s=Sim.new();s.start(row.op,"standard",{"context":ctx(row)})
+ var s=Sim.new();s.start(row.op,"standard",{"context":ctx(row)});s.mission["dev"]=true
  s.units[1].alive=false;s.units[2].alive=false
  var tools=s.tools.duplicate(true)
  var field=s.mission.get("field_tools",{}).get("counts",{}).duplicate(true)
