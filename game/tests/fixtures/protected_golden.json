@@ -67,6 +67,8 @@
   {"rule": "lock warning 4 s (mode)", "file": "res://src/simulation/simulation.gd", "pattern": "s\\.mode=\"LOCKING\" if s\\.lock<([0-9.]+) else \"BEAM\"", "values": ["4"]},
   {"rule": "lock warning 4 s (fire)", "file": "res://src/simulation/simulation.gd", "pattern": "if s\\.lock>=([0-9.]+):\\s+if previous_lock<([0-9.]+):", "values": ["4", "4"]},
   {"rule": "lock warning 4 s (received cue)", "file": "res://src/presentation/lock_warning.gd", "pattern": "c\\.lock>=([0-9.]+):continue[\\s\\S]*\"progress\":c\\.lock/([0-9.]+),\"remaining\":([0-9.]+)-c\\.lock", "values": ["4", "4.", "4."]},
+  {"rule": "lock warning 4 s (accrues one second per sim second, every accrual site)", "file": "res://src/simulation/simulation.gd", "pattern": "\\.lock\\+=([^;\\n]+)", "values": ["dt"]},
+  {"rule": "lock warning 4 s (threat step gets the unscaled tick)", "file": "res://src/simulation/simulation.gd", "pattern": "var vaporized=_threats\\(([^)]+)\\)", "values": ["dt"]},
   {"rule": "lock interruptible: decays when sight breaks", "file": "res://src/simulation/simulation.gd", "pattern": "s\\.target=-1; s\\.lock=maxf\\(0,s\\.lock-dt\\*([0-9.]+)\\)", "values": ["3"]},
   {"rule": "lock interruptible: resets on new target", "file": "res://src/simulation/simulation.gd", "pattern": "if s\\.target!=detected or [^:\\n]*:(s\\.lock=0\\.0)", "values": ["s.lock=0.0"]},
   {"rule": "lock interruptible: resets on stun", "file": "res://src/simulation/simulation.gd", "pattern": "s\\.stun-=dt; (s\\.lock=0\\.0)", "values": ["s.lock=0.0"]},
