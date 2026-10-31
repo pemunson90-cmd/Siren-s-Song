@@ -59,8 +59,13 @@ func run():
   game.mission_hud.dismiss();await settle();await tap(game.mission_hud.fleet.buttons[0].get_global_rect().get_center())
   if not game.advanced_orders:await tap(game.mission_hud.fleet.buttons[0].get_global_rect().get_center())
   if game.mission_hud.page=="choose":
-   check(sim.selected==2 and 0 in game.mission_hud.choose_units,"cargo/object conflict retains recipient until explicit Quietus choice")
-   await tap(game.mission_hud.extra.choose_unit_0.get_global_rect().get_center())
+   var hud=game.mission_hud
+   var craft_ids=hud.target_choices.filter(func(c):return c.kind=="craft").map(func(c):return c.unit) if not hud.target_choices.is_empty() else hud.choose_units
+   check(sim.selected==2 and 0 in craft_ids,"cargo/object conflict retains recipient until explicit Quietus choice")
+   if not hud.target_choices.is_empty():
+    var index=hud.target_choices.find_custom(func(c):return c.kind=="craft" and c.unit==0)
+    if index>=0:await tap(hud.target_buttons[index].get_global_rect().get_center())
+   else:await tap(hud.extra.choose_unit_0.get_global_rect().get_center())
   await tap(game.mission_hud.extra.inspect.get_global_rect().get_center())
   check(game.mission_hud.page=="inspect" and "INACTIVE CARGO" in game.mission_hud.instrument_info.text and "DEEP CELLS" in game.mission_hud.instrument_info.text,"deliberate STATUS preserves exact carried-module identity and inactive state")
   await capture(label+"-inactive-cargo")

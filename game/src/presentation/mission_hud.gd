@@ -408,7 +408,9 @@ func command_controls() -> Array:
   elif not host.sim.blackwater_handoff_context(host.sim.selected).packets.is_empty():controls.append(extra.blackwater_handoff)
  return controls
 func layout(bounds:Vector2,h:float):
- for b in ring_buttons+[close_button]:
+ # A newly opened page can reuse controls still parented to a hidden dock.
+ # Restore both pages before choosing the current radial/dock projection.
+ for b in ring_buttons+command_controls()+[close_button]:
   if b!=null and b.get_parent()!=self:b.reparent(self,false)
  order_dock.hide();host.ocean.command_dock_width=0.;host.ocean.command_dock_left=false;host.ocean.status_floor=0.
  bounds=StatusView.content_bounds(self,bounds)

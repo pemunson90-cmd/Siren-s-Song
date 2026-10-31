@@ -50,6 +50,9 @@ func shape_case(shape):
  # The crowded fallback remains a separate case below.
  if shape.x==2520:
   game.ocean.pan_chart(Vector2(0,-150));game._refresh();await settle()
+ # Onboarding paused this originally running audio fixture. Resume through the
+ # real control so paused fleet telemetry does not consume its free chart space.
+ if s.paused:await tap(game.pause_button.get_global_rect().get_center());game._refresh();await settle()
  var baseline=s.snapshot();var view=game.audio_captions
  print("A11Y GEOMETRY ",shape," visible=",view.visible," high=",view.get_meta("placement_height",0)," text=",view.text," rect=",view.get_global_rect()," host=",game.size," occupied=",view.occupied)
  check(view.visible and "HEARD" in view.text,"muted critical receiver captions are drawn beside live camera and lock")
@@ -66,6 +69,8 @@ func shape_case(shape):
  await capture("a11y-%d-film-empty"%shape.x)
  # Source-known no-chart-space fixture: the already existing hints occupy the
  # available chart. Captions move into the existing status text, retaining it.
+ # The crowded fallback is a separate paused planning state, entered publicly.
+ if not s.paused:await tap(game.pause_button.get_global_rect().get_center());game._refresh();await settle()
  var hints=game.mission_hud.hints.panel;var old_rect=hints.get_rect();var old_visible=hints.visible
  hints.position=Vector2.ZERO;hints.size=game.size;hints.show()
  var status_before=game.mission_hud.intent.text
