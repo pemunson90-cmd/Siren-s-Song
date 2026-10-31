@@ -22,6 +22,9 @@ Read the PR's before/after tables, not its summary, and its latest comments. Che
 - A table identical everywhere has not met a "must change play" ruling. Presentation-only work must show physics identical.
 - **Protected (Pat's call only):** beam lethality, 4 s interruptible lock warning, collision/hull/damage, Siren and role senses (silent 180 m, cruise 290 m), PR70 sweeper, photography design (exposure, grading), ending conditions, art direction. Story text: 1-2 line placeholders, no em dashes. Never an APK, force push, amend or branch deletion.
 
+## PAUSED, CODEX OUT (~4 days from 2026-10-30)
+Pat 2026-10-30T22:14:15-04:00: GPT agentic usage about to run out; Codex lanes (auto.py Claude lane and root) unavailable for about 4 days (back around 2026-11-03). The 126 repair-3 Phase A may start and die without a PHASE line; that is expected, not a code failure. On resume: check auto.log and 126.notes.md; if the last PHASE line is not CONTINUE, re-append the repair-3 note + PHASE A CONTINUE and reset runner-state 126 (phase A, starts 3, revisions 1, drop waiting/alerted). Until Codex returns, Claude work is read-only review, planning and docs unless Pat approves Claude building directly.
+
 ## State (2026-10-30T22:13:30-04:00, Claude S11 checkpoint before /clear)
 - claude/integration tip 05d09718. Production 26e09906 (Promotion 4). Main unchanged.
 - **Freeze lifted for packages 0-2** (Pat ~18:00). Plan: docs/codex/PLAN_DRAFT_1.md (+1b release controls). Pat rule: only ask what needs him; log every other call in docs/codex/DECISIONS.md (D1-D9 so far) and keep him posted.
