@@ -110,8 +110,8 @@
    "prov": [
     "claude:sonnet"
    ],
-   "status": "merging",
-   "phase": "C",
+   "status": "done",
+   "phase": null,
    "branch": "item/136-shard-all-failures",
    "pr": 242,
    "head": "e748afa50d93e492cc5c45eaf1b2891e150e0f9e",
@@ -124,7 +124,7 @@
    "blocker": null,
    "provider": "claude:sonnet",
    "started": "2026-10-31T19:12:33Z",
-   "updated": "2026-10-31T19:32:44Z"
+   "updated": "2026-10-31T20:04:29Z"
   },
   {
    "id": 128,
