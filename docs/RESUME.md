@@ -4,7 +4,7 @@ Read [USER_DIRECTIVES.md](USER_DIRECTIVES.md) first. Current user rulings overri
 
 ## Reconciled pointer — 31 October 2026 Eastern
 
-[PAT, actual composition brief31October] Development integration 1642acd96e95651e3f83b4688b4d11781b768f49 includes actual126 / PR238. Root began its uncommitted merge into reviewed PKG2 head4ca7087b072cc9e077b846cb1e2806677a164b36. The combined working candidate requires fresh independent HIGH review before the merge commit, then root-owned exact-head CI. Live status belongs to docs/state on codex/handoffs; this file is a concise entry pointer.
+Development integration: claude/integration. Last reconciled source baseline: 1642acd96e95651e3f83b4688b4d11781b768f49 (actual126 / PR238 and CI v2 / PR240). Package2 composition aad1850a1bc5401d3cc1a415ae204c8bc6453d8f received independent HIGH review99; its required current-head CI is still pending. Fetch the live integration ref before any further reconciliation. Live ownership and operational status belong to docs/state on codex/handoffs; this file remains a concise entry pointer.
 Promotion 4 / PR234 froze cdd58f64ea9d8aa088744a94deeeb93d1c6e20fb, tree bddd92b369deaeffd252850e37a5c2c591349151, and merged into gauntlet/production as 26e099065eb69ee97e0eb7d6eeb21795bc324f12. Independent Sol6.1-high review75 approved that exact snapshot; its own run41044499250 passed all seven required checks. Main remains a2300840505652168309aca0b6edf8fde9d63d0d. No APK was built.
 Tasks115–121 are integrated; later124 cleanup is integrated in development but excluded from the frozen promotion. Earlier070/097 work and118/124 repair-pending notes are completed history, not current assignments.
 
