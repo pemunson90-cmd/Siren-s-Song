@@ -14,6 +14,7 @@ static func move(s, point: Vector2) -> bool:
 static func run(t) -> void:
 	for id in 6:
 		var s=Simulation.new(); s.start(id,"disruption")
+		s.mission["dev"]=true # 127: authored pathfinder journey runs on the dev/test route path.
 		# The fallback suite deliberately starts after both drones are lost.
 		s.units[1].alive=false; s.units[2].alive=false
 		if id==4:

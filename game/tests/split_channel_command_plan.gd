@@ -3,7 +3,7 @@ extends RefCounted
 # Quietus takes the covered uplink approach; defensive reactions use fresh locks.
 static func play(sim=null,survey:bool=false):
  var s=sim
- if s==null:s=preload("res://src/simulation/simulation.gd").new();s.start(1,"disruption")
+ if s==null:s=preload("res://src/simulation/simulation.gd").new();s.start(1,"disruption");s.mission["dev"]=true # 127: dev/test route path.
  var returning=false;var surveyed=false;var drone_returned={1:false,2:false}
  for id in [1,2,0]:
   s.command("select",{"unit":id})
