@@ -54,20 +54,20 @@
     "claude:opus"
    ],
    "status": "active",
-   "phase": "B",
+   "phase": "A",
    "branch": "item/127-release-controls",
-   "pr": null,
+   "pr": 241,
    "head": "364c124def13c756d105a80b9d2b3b6bb08dcfe0",
    "file": "docs/state/items/127-release-controls.md",
    "attempts": {
-    "A": 2,
+    "A": 3,
     "B": 1,
     "C": 0
    },
    "blocker": "builder stopped at session limit mid phase A; WIP pushed",
    "provider": "claude:opus",
    "started": "2026-10-31T19:12:32Z",
-   "updated": "2026-10-31T21:47:56Z"
+   "updated": "2026-10-31T21:59:43Z"
   },
   {
    "id": "PKG2",
@@ -351,18 +351,22 @@
     "claude:sonnet",
     "codex"
    ],
-   "status": "queued",
+   "status": "active",
    "branch": "item/137-menu-scroll-keys",
    "file": "docs/state/items/137-menu-scroll-keys.md",
    "attempts": {
-    "A": 0,
+    "A": 1,
     "B": 0,
     "C": 0
    },
-   "phase": null,
+   "phase": "A",
    "pr": null,
    "head": null,
-   "blocker": null
+   "blocker": null,
+   "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-137",
+   "updated": "2026-10-31T21:55:16Z",
+   "provider": "claude:sonnet",
+   "started": "2026-10-31T21:55:16Z"
   },
   {
    "id": 138,
