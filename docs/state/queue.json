@@ -308,18 +308,17 @@
   {
    "id": 135,
    "slug": "prep-results",
-   "title": "Prep and results (package 5)",
+   "title": "Prep screens put the decision first",
    "cls": "ui",
    "areas": [
     "equipment",
-    "economy",
-    "frontend"
+    "career.ui"
    ],
    "serial": [],
    "deps": [],
    "prov": [
-    "codex",
-    "claude:sonnet"
+    "claude:sonnet",
+    "codex"
    ],
    "status": "queued",
    "phase": null,
@@ -332,6 +331,61 @@
     "B": 0,
     "C": 0
    },
+   "blocker": null
+  },
+  {
+   "id": 137,
+   "slug": "menu-scroll-keys",
+   "title": "Menu panels scroll and take keys",
+   "cls": "ui",
+   "areas": [
+    "frontend"
+   ],
+   "serial": [],
+   "deps": [],
+   "prov": [
+    "claude:sonnet",
+    "codex"
+   ],
+   "status": "queued",
+   "branch": "item/137-menu-scroll-keys",
+   "file": "docs/state/items/137-menu-scroll-keys.md",
+   "attempts": {
+    "A": 0,
+    "B": 0,
+    "C": 0
+   },
+   "phase": null,
+   "pr": null,
+   "head": null,
+   "blocker": null
+  },
+  {
+   "id": 138,
+   "slug": "player-names",
+   "title": "No internal ids on player screens",
+   "cls": "text",
+   "areas": [
+    "economy",
+    "runs.ui"
+   ],
+   "serial": [],
+   "deps": [],
+   "prov": [
+    "claude:sonnet",
+    "codex"
+   ],
+   "status": "queued",
+   "branch": "item/138-player-names",
+   "file": "docs/state/items/138-player-names.md",
+   "attempts": {
+    "A": 0,
+    "B": 0,
+    "C": 0
+   },
+   "phase": null,
+   "pr": null,
+   "head": null,
    "blocker": null
   }
  ]

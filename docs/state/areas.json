@@ -94,6 +94,12 @@
       "game/tests/fixtures/**",
       "game/tests/*_support.gd",
       "game/tests/*_voyage.gd"
+    ],
+    "career.ui": [
+      "game/src/presentation/career/**"
+    ],
+    "runs.ui": [
+      "game/src/presentation/runs/**"
     ]
   },
   "_notes": [

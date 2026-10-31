@@ -2,6 +2,7 @@
 
 Pat 2026-10-30 ~18:00: "only surface questions that need me, otherwise record all decision points and keep me posted so I can revert them." Each line: what, why, how to revert. Say "revert Dnn".
 
+- **D31 2026-10-31T17:50 Queue widened with independent work.** 135 refined to C26+C32 (C41 deferred: campaign_flow.gd is 127's); new 137 menu scroll/keys (C25) and 138 player-facing names (C47); new areas career.ui and runs.ui. Why: four of six queued items waited on 127. Revert: drop 137/138.
 - **D30 2026-10-31T16:40 PKG2 parked while Codex root is out.** New runner2 status `parked` keeps an item's file locks without holding a builder slot, so item 129 can start. Revert: set PKG2 back to active.
 - **D29 2026-10-31T15:13 Migration step 3: auto.py (v1) stopped, runner2.py live.** Two runner2 fixes the same hour: verdict read from a session's final reply when the notes lack the PHASE line; checks ignore superseded workflow runs. Revert: stop runner2, relaunch auto.py.
 - **D28 2026-10-31T16:07 Item 127 widened, not split.** Card Files now include the route-installation files the spec already gives 127 (main.gd, ocean_view.gd, simulation.gd, module_recovery, campaign_flow, truthful_commands, order_guard, save_checks, simulation/hand_pilot/). Mechanical test adaptations (old autopilot suites set to the dev state, one-line 127 comment, no check deleted or loosened) do not count toward the 400-line cap; source stays under it. Why: a split doubles review and CI rounds for one behaviour change. Revert: split into R1 gating+help and R2 legs/assist/RECALL.
