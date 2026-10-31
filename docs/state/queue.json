@@ -111,20 +111,20 @@
     "claude:sonnet"
    ],
    "status": "active",
-   "phase": "A",
+   "phase": "review",
    "branch": "item/136-shard-all-failures",
    "pr": 242,
-   "head": "23e0f991",
+   "head": "e748afa50d93e492cc5c45eaf1b2891e150e0f9e",
    "file": "docs/state/items/136-shard-all-failures.md",
    "attempts": {
-    "A": 1,
-    "B": 0,
+    "A": 2,
+    "B": 1,
     "C": 0
    },
    "blocker": "review CHANGES fix committed as WIP, not re-verified",
    "provider": "claude:sonnet",
    "started": "2026-10-31T19:12:33Z",
-   "updated": "2026-10-31T19:12:33Z"
+   "updated": "2026-10-31T19:21:15Z"
   },
   {
    "id": 128,
