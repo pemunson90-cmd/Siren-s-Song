@@ -42,7 +42,10 @@
     "debug.dev_state"
    ],
    "serial": [
-    "mission_hud.gd"
+    "mission_hud.gd",
+    "ocean_view.gd",
+    "simulation.gd",
+    "main.gd"
    ],
    "deps": [
     126
