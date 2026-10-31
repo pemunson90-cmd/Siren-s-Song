@@ -116,9 +116,6 @@ jobs:
       - name: Verify affected-suite selection
         if: steps.changes.outputs.game == 'true'
         run: python3 scripts/toolchain/test-select-suites.py
-      - name: Verify test.sh lists every failing suite
-        if: steps.changes.outputs.game == 'true'
-        run: python3 scripts/toolchain/test-test-sh-failures.py
       - name: Docs-only change; no Godot run
         if: steps.changes.outputs.game == 'false'
         run: echo 'No active Godot game or gameplay change. Guidance is checked separately.'

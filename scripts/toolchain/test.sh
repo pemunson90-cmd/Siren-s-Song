@@ -130,8 +130,7 @@ while IFS='|' read -r scenario summary backend; do
     rc=0
     timeout --kill-after=10s 480s "${runner[@]}" --script "res://tests/$scenario.gd" 2>&1 | tee "$log" || rc=$?
     # Wall seconds per suite; the nightly merges these into game/tests/suite-times.json.
-    printf '%s	%s
-' "$scenario" "$(( $(date +%s) - started ))" >> "$ARTIFACT_DIR/suite-times.tsv"
+    printf '%s\t%s\n' "$scenario" "$(( $(date +%s) - started ))" >> "$ARTIFACT_DIR/suite-times.tsv"
     # Keep running the remaining suites; every failure is listed once at the end.
     if [[ "$rc" -eq 124 || "$rc" -eq 137 ]]; then
         echo "Timed out: $scenario (exit $rc)" >&2
