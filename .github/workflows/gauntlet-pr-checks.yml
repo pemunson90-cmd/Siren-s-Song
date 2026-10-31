@@ -1,15 +1,36 @@
 name: Gauntlet PR checks
 
+# Draft pull requests run guidance only. Ready pull requests run core plus the
+# suites affected by the diff (scripts/toolchain/select-suites.py), falling back
+# to the full four-shard matrix when shared code or test infrastructure changes.
+# The merge queue, the nightly (nightly-integration.yml) and full=true dispatches
+# always run the full matrix.
 on:
   pull_request:
     branches: ['main', 'gauntlet/production', 'claude/integration']
+    types: [opened, synchronize, reopened, ready_for_review]
+  merge_group:
   workflow_dispatch:
+    inputs:
+      full:
+        description: 'Run all four runtime shards (false runs import and core only)'
+        type: boolean
+        default: true
+  workflow_call:
+    inputs:
+      full:
+        type: boolean
+        default: true
+      ref:
+        description: 'Ref to check out (empty for the triggering ref)'
+        type: string
+        default: ''
 
 permissions:
   contents: read
 
 concurrency:
-  group: gauntlet-pr-${{ github.event.pull_request.number || github.ref }}
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -19,6 +40,8 @@ jobs:
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ inputs.ref }}
       - name: Test guidance detector
         run: python3 scripts/toolchain/test-check-gauntlet-guidance.py
       - name: Audit current branch's governing instructions
@@ -26,6 +49,7 @@ jobs:
 
   game-core:
     name: game-core
+    if: github.event_name != 'pull_request' || !github.event.pull_request.draft
     runs-on: ubuntu-24.04
     # Preserve the existing job cap and per-suite limits.
     timeout-minutes: 90
@@ -36,11 +60,12 @@ jobs:
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
+          ref: ${{ inputs.ref }}
           fetch-depth: 0
       - name: Determine whether gameplay or tooling changed
         id: changes
         env:
-          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.merge_group.base_sha }}
         shell: bash
         run: |
           set -euo pipefail
@@ -96,14 +121,81 @@ jobs:
       - name: Verify complete CI shard assignment
         if: steps.changes.outputs.game == 'true'
         run: python3 scripts/toolchain/test-ci-shards.py
+      - name: Verify affected-suite selection
+        if: steps.changes.outputs.game == 'true'
+        run: python3 scripts/toolchain/test-select-suites.py
       - name: Docs-only change; no Godot run
         if: steps.changes.outputs.game == 'false'
         run: echo 'No active Godot game or gameplay change. Guidance is checked separately.'
 
+  game-affected:
+    name: game-affected
+    needs: game-core
+    if: github.event_name == 'pull_request' && needs.game-core.outputs.game == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    outputs:
+      full: ${{ steps.select.outputs.full }}
+    env:
+      TOOLCHAIN_CACHE: ${{ github.workspace }}/../sirens-song-toolchain
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+      - name: Select suites affected by this pull request
+        id: select
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/toolchain/select-suites.py --base "$BASE_SHA" --head HEAD | tee -a "$GITHUB_OUTPUT"
+      - name: Full matrix required; the four runtime shards run instead
+        if: steps.select.outputs.full == 'true'
+        env:
+          REASON: ${{ steps.select.outputs.reason }}
+        run: echo "Falling back to the full matrix ($REASON)."
+      - name: Resolve editor directory for download
+        if: steps.select.outputs.full == 'false' && steps.select.outputs.suites != ''
+        shell: bash
+        run: echo "EDITOR_DIR=$(realpath -m -s "$TOOLCHAIN_CACHE/bin")" >> "$GITHUB_ENV"
+      - name: Retrieve verified editor
+        if: steps.select.outputs.full == 'false' && steps.select.outputs.suites != ''
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: game-smoke-editor
+          path: ${{ env.EDITOR_DIR }}
+      - name: Import on this runner
+        if: steps.select.outputs.full == 'false' && steps.select.outputs.suites != ''
+        shell: bash
+        run: |
+          set -euo pipefail
+          chmod +x "$TOOLCHAIN_CACHE/bin/godot"
+          echo "$TOOLCHAIN_CACHE/bin" >> "$GITHUB_PATH"
+          export PATH="$TOOLCHAIN_CACHE/bin:$PATH"
+          mkdir -p artifacts
+          scripts/toolchain/headless.sh --editor --import --quit 2>&1 | tee artifacts/pr-import.log
+          if grep -nE 'SCRIPT ERROR:|(^|[[:space:]])ERROR:' artifacts/pr-import.log; then exit 1; fi
+      - name: Validate affected suites and canaries
+        if: steps.select.outputs.full == 'false' && steps.select.outputs.suites != ''
+        shell: bash
+        env:
+          SUITES: ${{ steps.select.outputs.suites }}
+        run: scripts/toolchain/test.sh --profile ci --suites "$SUITES"
+      - name: No affected runtime suites
+        if: steps.select.outputs.full == 'false' && steps.select.outputs.suites == ''
+        run: echo 'No runtime suite reaches a changed file and no canary is registered; core already ran.'
+
   game-runtime:
     name: game-runtime (${{ matrix.shard }}/4)
-    needs: game-core
-    if: needs.game-core.outputs.game == 'true'
+    needs: [game-core, game-affected]
+    # Pull requests run all shards only when game-affected falls back; the merge
+    # queue, schedules and full dispatches always run them.
+    if: >-
+      ${{ !cancelled() && needs.game-core.result == 'success' && needs.game-core.outputs.game == 'true' &&
+      ((github.event_name == 'pull_request' && needs.game-affected.outputs.full == 'true') ||
+      (github.event_name != 'pull_request' &&
+      (github.event_name == 'merge_group' || github.event_name == 'schedule' || inputs.full))) }}
     runs-on: ubuntu-24.04
     timeout-minutes: 90
     outputs:
@@ -119,9 +211,13 @@ jobs:
       TOOLCHAIN_CACHE: ${{ github.workspace }}/../sirens-song-toolchain
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ inputs.ref }}
       - name: Resolve editor directory for download
         shell: bash
-        run: echo "EDITOR_DIR=$(realpath -m -s "$TOOLCHAIN_CACHE/bin")" >> "$GITHUB_ENV"
+        run: |
+          echo "EDITOR_DIR=$(realpath -m -s "$TOOLCHAIN_CACHE/bin")" >> "$GITHUB_ENV"
+          echo "TIMES_FILE=$(realpath -m -s "$TOOLCHAIN_CACHE/artifacts/suite-times.tsv")" >> "$GITHUB_ENV"
       - name: Retrieve verified editor
         uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
@@ -143,18 +239,31 @@ jobs:
       - name: Record completed partition
         id: complete
         run: echo 'shard${{ matrix.shard }}=success' >> "$GITHUB_OUTPUT"
+      - name: Share per-suite wall times
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: suite-times-${{ matrix.shard }}
+          path: ${{ env.TIMES_FILE }}
+          if-no-files-found: ignore
+          retention-days: 7
 
   game-smoke:
     name: game-smoke
-    needs: [game-core, game-runtime]
+    needs: [game-core, game-affected, game-runtime]
     if: ${{ always() }}
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     steps:
-      - name: Require core and every runtime shard, or successful docs-only detection
+      - name: Require core plus affected suites or every runtime shard, or the skip each event allows
         env:
+          EVENT: ${{ github.event_name }}
+          DRAFT: ${{ github.event.pull_request.draft }}
+          FULL_MATRIX: ${{ github.event_name == 'merge_group' || github.event_name == 'schedule' || inputs.full == true }}
           CORE_RESULT: ${{ needs.game-core.result }}
           GAME_CHANGED: ${{ needs.game-core.outputs.game }}
+          AFFECTED_RESULT: ${{ needs.game-affected.result }}
+          AFFECTED_FULL: ${{ needs.game-affected.outputs.full }}
           RUNTIME_RESULT: ${{ needs.game-runtime.result }}
           SHARD1: ${{ needs.game-runtime.outputs.shard1 }}
           SHARD2: ${{ needs.game-runtime.outputs.shard2 }}
@@ -163,14 +272,34 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          echo "event=$EVENT draft=$DRAFT full=$FULL_MATRIX core=$CORE_RESULT game=$GAME_CHANGED" \
+            "affected=$AFFECTED_RESULT/$AFFECTED_FULL runtime=$RUNTIME_RESULT"
+          shards() {
+            [[ "$RUNTIME_RESULT" == success ]]
+            for result in "$SHARD1" "$SHARD2" "$SHARD3" "$SHARD4"; do
+              [[ "$result" == success ]]
+            done
+          }
+          if [[ "$EVENT" == pull_request && "$DRAFT" == true ]]; then
+            [[ "$CORE_RESULT" == skipped && "$AFFECTED_RESULT" == skipped && "$RUNTIME_RESULT" == skipped ]]
+            echo 'Draft pull request: game jobs run once it is marked ready for review.'
+            exit 0
+          fi
           [[ "$CORE_RESULT" == success ]]
           case "$GAME_CHANGED" in
             true)
-              [[ "$RUNTIME_RESULT" == success ]]
-              for result in "$SHARD1" "$SHARD2" "$SHARD3" "$SHARD4"; do
-                [[ "$result" == success ]]
-              done
+              if [[ "$EVENT" == pull_request ]]; then
+                [[ "$AFFECTED_RESULT" == success ]]
+                case "$AFFECTED_FULL" in
+                  true) shards ;;
+                  false) [[ "$RUNTIME_RESULT" == skipped ]] ;;
+                  *) echo 'Missing affected-selection result' >&2; exit 1 ;;
+                esac
+              else
+                [[ "$AFFECTED_RESULT" == skipped ]]
+                if [[ "$FULL_MATRIX" == true ]]; then shards; else [[ "$RUNTIME_RESULT" == skipped ]]; fi
+              fi
               ;;
-            false) [[ "$RUNTIME_RESULT" == skipped ]] ;;
+            false) [[ "$AFFECTED_RESULT" == skipped && "$RUNTIME_RESULT" == skipped ]] ;;
             *) echo 'Missing change-detection result' >&2; exit 1 ;;
           esac

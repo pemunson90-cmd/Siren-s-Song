@@ -13,6 +13,15 @@ Use `scripts/toolchain/test.sh --profile ci --suite NAME` for a targeted check.
 The default command retains local toolchain and density checks.
 CI runs import, core, then the CI profile excluding core.
 
+CI by event: draft pull requests run guidance only. Ready pull requests run core
+and `game-affected`: `scripts/toolchain/select-suites.py` picks the suites whose
+res:// references reach the changed files, plus `scripts/toolchain/canaries.txt`,
+and runs them with `test.sh --profile ci --suites a,b,c`. Shared code, test
+infrastructure or more than 60 suites fall back to the four runtime shards.
+The merge queue, nightly and `full=true` dispatches always run all four shards.
+`test.sh --shard N` balances shards by `game/tests/suite-times.json`
+(suite to seconds; the nightly uploads a fresh one as an artifact).
+
 The core suite must end `CHECKS N FAILURES 0` with a positive check count.
 Every other suite must emit its registered prefix and the same strict ending.
 A Godot resources-still-in-use line fails CI, as do script errors and leaks.

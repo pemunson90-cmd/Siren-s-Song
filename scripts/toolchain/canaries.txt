@@ -1,0 +1,5 @@
+# Canary suites: always run by the game-affected CI job on ready pull requests,
+# after the suites select-suites.py derives from the diff. One registered suite
+# name per line (game/tests/suites.txt); `#` starts a comment. Core (run_tests)
+# is skipped here because the game-core job already runs it.
+# Items 129-131 add the ruling-test suites.
