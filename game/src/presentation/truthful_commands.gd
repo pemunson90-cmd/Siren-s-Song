@@ -21,6 +21,10 @@ static func brief_stock(racks:Dictionary)->String:
   rows.append(Work.NAMES[unit]+": "+" / ".join(counts))
  return "\n".join(rows)
 
+static func launch_stock(host)->String:
+ var q=host.tool_racks.get("quietus",{})
+ return "NEXT DIVE / RETRY / %s / QUIETUS\nO₂ %d%% · DISRUPT %d · SURVEY %d"%[host.upgrade.to_upper(),host._loadout_stock(host.upgrade)[0],int(q.get("emp",0)),int(q.get("recon",0))]
+
 static func recovery_name(sim)->String:
  var names=[]
  for corridor in sim.extraction_corridors():
@@ -309,12 +313,17 @@ static func apply(hud)->void:
  hud.extra.glass_withdraw.tooltip_text="Quietus required" if sim.selected!=0 else "Needs MIDDLE" if q.band!=1 else "Finish changing depth" if not q.transition.is_empty() else "%dm / 65m recovery range"%roundi(q.pos.distance_to(sim.mission.extraction)) if q.pos.distance_to(sim.mission.extraction)>65 else "Settle below 2m/s" if q.vel.length()>=2 else ""
  hud.extra.glass_withdraw.disabled=not hud.extra.glass_withdraw.tooltip_text.is_empty()
  var context=sim.camera_context();var target=int(context.get("target",-1))
- if hud.page=="object" and Work.pinnable(hud.subject):target=int(hud.subject.index)
+ if hud.page=="object" and hud.subject.get("kind","")=="objective" and int(hud.subject.get("index",-1))>=0:target=int(hud.subject.index)
  var sites=sim.observable_sites()
- if target>=0 and target<sites.size() and preload("res://src/presentation/operation_instruments.gd").operation(sim,target).is_empty() and hud.host.order_buttons.camera.text not in ["WATCH\nORDERS","PLANT\nCONTROLS","WITNESS\nWINCH","GATE\nCONTROLS","RECIPIENT\nCONTROLS"]:
+ if target>=0 and target<sites.size() and preload("res://src/presentation/operation_instruments.gd").operation(sim,target).is_empty() and sites[target].get("site_id","")!="rendezvous" and hud.host.order_buttons.camera.text not in ["WATCH\nORDERS","PLANT\nCONTROLS","WITNESS\nWINCH","GATE\nCONTROLS","RECIPIENT\nCONTROLS"]:
   hud.host.order_buttons.camera.text=verb(sites[target])
  if target>=0 and target<sites.size() and sites[target].has("glass_effect"):
   for label in [hud.intent,hud.instrument_info,hud.host.detail_label]:label.text=label.text.replace("Camera exposure","Machinery work").replace("CAMERA exposure","Machinery work")
+ # A chosen transmission sector owns its refusal even when the generic camera
+ # currently resolves a different nearby receiver.
+ if target>=0 and target<sites.size() and sites[target].get("own_origin",false) and hud.host.order_buttons.camera.disabled:
+  var site=sites[target]
+  hud.host.order_buttons.camera.tooltip_text="Quietus required" if sim.selected!=0 else "Craft lost" if not u.alive else "Finish changing depth" if not u.transition.is_empty() else "Needs MIDDLE" if u.band!=1 else "Enter the charted transmission sector" if not site.get("origin_region",Rect2()).has_point(u.pos) else "Settle below 12m/s" if u.vel.length()>=12 else "Finish this craft's active work first"
  if hud.host.order_buttons.camera.disabled:
   if hud.host.order_buttons.camera.tooltip_text.is_empty():hud.host.order_buttons.camera.tooltip_text="Finish this craft's active work first" if camera_busy(sim) else str(context.get("text","Locate a site first"))
  var buttons=hud.extra.duplicate()
@@ -329,7 +338,7 @@ static func apply(hud)->void:
   if b.disabled and why.is_empty():why="Craft lost" if not u.alive else "Quietus required" if key=="all_stop" else "No local work available" if key.ends_with("route") else "Unavailable here"
   if key=="glass_withdraw":
    b.set_meta("truthful_reason",why);b.tooltip_text=why
-  else:reason_button(b,why,hud.text_scale>=1.5 and hud.host.advanced_orders)
+  else:reason_button(b,why,hud.text_scale>=1.5 and hud.host.advanced_orders and key!="choose_object")
  # ARRIVALS owns its sheet after all generic sampling/machinery status writes.
  if hud.page=="signals":hud.instrument_info.text=preload("res://src/presentation/expedition_view.gd").detail(sim,hud.subject.get("receiver",-1))
  # A grey tap owns the existing status line until a command changes the

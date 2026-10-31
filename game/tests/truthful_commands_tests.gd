@@ -95,6 +95,15 @@ func run():
  for child in g.panel_box.get_children():
   if child is Label:fitting_copy+=child.text+"\n"
  check(brief in fitting_copy,"opening fittings entry shows all per-craft counts including zero")
+ # The opening brief confirms actual Quietus stock without a text wall.
+ var stock_before=g.sim.snapshot().duplicate(true)
+ g._briefing(0);await frames()
+ var opening_copy=""
+ for child in g.panel_box.get_children():
+  if child is Label:opening_copy+=child.text+"\n"
+ check("QUIETUS\nO₂ 120% · DISRUPT 3 · SURVEY 0" in opening_copy,"opening brief confirms actual selected Quietus stock")
+ check(g.sim.snapshot()==stock_before,"reading launch stock preserves the active dive")
+ check(Work.action_verb({"site_id":"rendezvous","kind":"receiver"})=="DECODE","tender's receiver task keeps its authored decode verb")
  # Object-sheet ROUTE HERE must use the same work approach seam as the
  # dedicated Reach/Choir pages. No direct-to-centre fallback on those sheets.
  for subkind in ["glass_work","choir"]:

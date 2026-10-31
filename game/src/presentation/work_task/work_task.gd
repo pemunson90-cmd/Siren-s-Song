@@ -134,6 +134,7 @@ static func load_tag(sim)->String:
 
 # The shared work control names what this public site actually does.
 static func action_verb(o:Dictionary)->String:
+	if o.get("site_id","")=="rendezvous":return "DECODE"
 	if o.has("glass_effect"):return "WORK"
 	if o.get("kind","") in ["receiver","exchange"]:return "LISTEN" if o.kind=="receiver" else "DECODE"
 	if o.get("own_origin",false):return "TRANSMIT"

@@ -38,8 +38,8 @@ static func show_campaign(host) -> void:
 	if not preload("res://src/presentation/ops_home/ops_home_table.gd").enabled and not host._campaign_pristine():host._button(host.panel_box,"ERASE PROGRESS · NEW CAMPAIGN",host._confirm_new_campaign,"new_campaign")
 	if not host.recovered_evidence.is_empty(): host._button(host.panel_box,"REVIEW FIELD RECORDS",func(): host._evidence_gallery(0),"evidence")
 	host._menu_text("Field records remain reviewable after loss or abandonment. Only successful extraction advances the campaign.",14)
-	var stock=host._loadout_stock(host.upgrade)
-	host._menu_text("NEXT DIVE / RETRY / %s\nO2 %d%%\n%s"%[host.upgrade.to_upper(),stock[0],preload("res://src/presentation/truthful_commands.gd").brief_stock(host.tool_racks)],15)
+	var copy=preload("res://src/presentation/truthful_commands.gd")
+	host._menu_text(copy.launch_stock(host),15)
 	var rows=["COMPARE: O₂ / DISRUPT / SURVEY"]
 	for choice in ["endurance","disruption","survey"]:
 		var supplies=host._loadout_stock(choice)
@@ -102,16 +102,15 @@ static func briefing(host, index: int) -> void:
 	if not thermal_line.is_empty():host._menu_text(thermal_line,17)
 	preload("res://src/presentation/archive/voice_feed.gd").briefing(host,index)
 	if compact and not host._campaign_pristine() and not EconomyPanel.briefing_line(host).is_empty():host._menu_text(preload("res://src/presentation/launch_summary.gd").short(host),14)
-	var stock=host._loadout_stock(host.upgrade)
 	var fit_start=host.panel_box.get_child_count()
 	if not host._campaign_pristine() and not EconomyPanel.briefing_line(host).is_empty():host._menu_text(EconomyPanel.briefing_line(host),14)
 	# Audit 091 F10: later briefings compare costs and mounts; the opening briefing keeps fit details optional.
 	if index>0 and not compact and not host._campaign_pristine() and not EconomyPanel.briefing_line(host).is_empty():host._menu_text(preload("res://src/presentation/launch_summary.gd").text(host),14)
 	preload("res://src/presentation/crew/crew_view.gd").briefing(host,index)
-	# The opening goal/danger stays short; its existing FITTINGS entry owns stock detail.
-	var next_dive="NEXT DIVE / RETRY / %s\nO2 %d%%"%[host.upgrade.to_upper(),stock[0]]
-	if index>=3:next_dive+="\n"+preload("res://src/presentation/truthful_commands.gd").brief_stock(host.tool_racks)
-	host._menu_text(next_dive,17)
+	# The opening brief confirms Quietus stock; its FITTINGS entry owns the full per-craft list.
+	var copy=preload("res://src/presentation/truthful_commands.gd")
+	host._menu_text(copy.launch_stock(host),17)
+	if index>=3:host._menu_text(copy.brief_stock(host.tool_racks),14)
 	# Frames open after the first dive; recovered fittings appear once earned. A toggle folds them away.
 	if not compact:fit_start=host.panel_box.get_child_count()
 	# Keep the first briefing focused; fit details stay available in its existing optional fold.
