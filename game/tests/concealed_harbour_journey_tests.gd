@@ -40,6 +40,7 @@ func go(s,point:Vector2,quiet:bool=true)->bool:
  print("STUCK ",point," actual ",s.units[0].pos," ",s.message);return false
 func run_case(thread:String,placement:String,north:bool=true):
  var s=Sim.new();s.start(12,"endurance",{"tool_racks":{"quietus":{},"drone_a":{},"drone_b":{}},"context":{"thread":thread,"completed":[6,7,9,11] if thread=="deep" else [6,8,10,11],"facts":{},"references":{}}})
+ s.mission["dev"]=true # 127: authored pathfinder journey runs on the dev/test route path (Pat 2026-10-30).
  s.units[1].alive=false;s.units[2].alive=false
  distance=0;drag_reaction=false;tow_clip=false;reply_heard=false;reply_investigation=false
  var success=true

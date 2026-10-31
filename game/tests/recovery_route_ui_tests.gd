@@ -55,6 +55,8 @@ func run():
   g.store.path="user://recovery-route-ui-%d.save"%dimensions.x
   if dimensions.x==2520:g.fixture_safe_area=Rect2(136,0,2384,1080)
   root.add_child(g);await settle();g.set_process(false)
+  # 127 (Pat 2026-10-30): EXTRACT / recovery chooser autopilot is a dev/test shortcut.
+  g.set_meta("dev_profile",true)
   var label="cover" if dimensions.x==2520 else "inner"
   # A single mouth is an ordinary destination, never a hidden propulsion order.
   for quiet in [true,false]:

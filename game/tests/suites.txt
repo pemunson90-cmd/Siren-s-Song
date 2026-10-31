@@ -199,6 +199,9 @@ order_row_scenarios|ORDER ROW|160|151
 order_task_ui_scenarios|TASK UI|161|152
 work_task_recipient_tests|WORK TASK|752|852
 truthful_commands_tests|TRUTHFUL COMMANDS|763|866
+release_controls_tests|RELEASE CONTROLS|764|867
+crash_possible_tests|CRASH|765|868
+hand_pilot_journeys|HANDPILOT|766|869
 performance_measurements|PERFORMANCE|162|153
 nav_clearance_tests|NAV CLEARANCE|163|184
 nav_following_probe|NAV FOLLOW|164|185
