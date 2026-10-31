@@ -114,8 +114,8 @@ static func draw(view,sim=null)->void:
  for corridor in sim.extraction_corridors():
   var color=Color("72d9d3") if corridor.available else Color("718387")
   view.draw_arc(corridor.pos,64,0,TAU,48,color,2./scale)
-  view._label(corridor.pos+Vector2(-62,-78),corridor.name,color,maxi(4,roundi(view.feedback_font_size/scale)))
-  view._label(corridor.pos+Vector2(-62,91),"RECOVERY" if corridor.available else ("FIELD TASK" if sim.mission.get("expedition_revision",0)==2 else "INTERPRET CARRIER"),color,maxi(4,roundi(view.feedback_font_size/scale)))
+  view._label(corridor.pos+Vector2(-62,-78),corridor.name,color,maxi(4,roundi(view.feedback_font_size/scale)),{"kind":"objective","subkind":"corridor","name":corridor.name,"pos":corridor.pos,"route":corridor.route,"available":corridor.available})
+  view._label(corridor.pos+Vector2(-62,91),"RECOVERY" if corridor.available else ("FIELD TASK" if sim.mission.get("expedition_revision",0)==2 else "INTERPRET CARRIER"),color,maxi(4,roundi(view.feedback_font_size/scale)),{"kind":"objective","subkind":"corridor","name":corridor.name,"pos":corridor.pos,"route":corridor.route,"available":corridor.available})
 
 static func transmission_badge(view,site:Dictionary,touch:float)->Rect2:
  # Only this visible target owns input; the entire chosen-origin region is water.

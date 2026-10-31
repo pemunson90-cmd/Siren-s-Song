@@ -97,11 +97,17 @@ func source_contract():
   check(Status.present(sim,context)==context,"op%d off switch restores the original context"%id)
   Table.enabled=true
   check(sim.snapshot()==before and sim.camera_context().get("text","")==context and sim.message==message and Sim.valid_snapshot(sim.snapshot()),"op%d presentation leaves simulation bytes and save validation unchanged"%id)
+func choose_quietus(game):
+ var hud=game.mission_hud
+ if hud.page!="choose":return
+ var index=hud.target_choices.find_custom(func(c):return c.kind=="craft" and c.get("unit",-1)==0)
+ check(game.sim.selected==0 and index>=0,"public owner chooser retains Quietus before STATUS")
+ if index>=0:await tap(hud.target_buttons[index].get_global_rect().get_center())
 func table_ui():
  for id in EXPECTED:
   var game=await make_game(id,Vector2i(2184,1968))
   var before=game.sim.snapshot();var raw=game.sim.camera_context().get("text","");var message=game.sim.message
-  await tap(game.mission_hud.fleet.buttons[0].get_global_rect().get_center())
+  await tap(game.mission_hud.fleet.buttons[0].get_global_rect().get_center());await choose_quietus(game)
   await reveal(game,game.mission_hud.extra.inspect)
   await tap(game.mission_hud.extra.inspect.get_global_rect().get_center())
   check(game.mission_hud.page=="inspect" and game.detail_label.is_visible_in_tree() and game.detail_label.text==display_line(game.sim),"op%d real touch displays its exact operation status"%id)
@@ -115,7 +121,7 @@ func touch_case(shape:Vector2i,id:int):
  var game=await make_game(id,shape)
  var label="op%d %s"%[id,str(shape)]
  var before=game.sim.snapshot();var context=game.sim.camera_context().get("text","");var message=game.sim.message
- await tap(game.mission_hud.fleet.buttons[0].get_global_rect().get_center())
+ await tap(game.mission_hud.fleet.buttons[0].get_global_rect().get_center());await choose_quietus(game)
  check(game.advanced_orders and game.mission_hud.page=="craft",label+" actual Quietus touch opens its command ring")
  await ring_geometry(game,label+" craft")
  await picture("status-%d-%d-craft"%[shape.x,id])

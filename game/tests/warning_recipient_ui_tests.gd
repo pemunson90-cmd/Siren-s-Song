@@ -59,7 +59,14 @@ func capture(name:String):
 func open_craft(g):
  if g.advanced_orders:g.mission_hud.dismiss();await settle()
  await sync(g)
- await tap(g.ocean.global_position+g.ocean.screen_position(g.sim.units[g.sim.selected].pos))
+ var unit=g.sim.selected
+ await tap(g.mission_hud.fleet.buttons[unit].get_global_rect().get_center())
+ if not g.advanced_orders:await tap(g.mission_hud.fleet.buttons[unit].get_global_rect().get_center())
+ if g.mission_hud.page=="choose":
+  var hud=g.mission_hud
+  var index=hud.target_choices.find_custom(func(c):return c.kind=="craft" and c.get("unit",-1)==unit)
+  check(g.sim.selected==unit and index>=0,"public overlap chooser retains the actual recipient craft")
+  if index>=0:await tap(hud.target_buttons[index].get_global_rect().get_center())
 func rejected(g,button,kind:String,label:String):
  var before=g.sim.snapshot();var point=button.get_global_rect().get_center()
  await touch(point,true);await mouse(point,true)

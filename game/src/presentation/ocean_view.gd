@@ -54,6 +54,10 @@ var feedback_font_size:=14
 var instrument_top:=64.0
 var ui_blocked_rects:Array=[]
 var world_label_rects:Array=[]
+var label_targets:Array=[]
+var threat_bottom=0.
+var contact_top=0.
+var contacts_in_scroll=false
 var optical_suppressed:=false
 var command_dock_width:=0.
 var command_dock_left:=false
@@ -103,6 +107,55 @@ func objective_touch_rects(touch:float)->Array:
 	result.append_array(Recipient.touch_rects(self,sim,touch))
 	result.append_array(preload("res://src/presentation/industrial_view.gd").touch_rects(self,sim,touch))
 	return result
+# Gather visible owners before resolving a tap; drawing order never picks a winner.
+func contexts_at(point:Vector2,touch:float)->Array:
+	var result=[]
+	var candidates=[pick_context(point,touch),objective_context(point,touch),Wake.pick(self,sim,point,touch),Witness.pick(self,sim,point,touch)]
+	for presenter in [Shelf,Recipient,Rendezvous]:
+		for marker in presenter.markers(self,sim,touch):
+			if marker.rect.has_point(point):candidates.append(marker.subject)
+	for subject in Shelf.subject_rows(sim)+Concealed.subjects(sim):
+		if point.distance_to(screen_position(subject.pos))<=maxf(touch*.5,35*world_scale):candidates.append(subject)
+	var tender=Rendezvous.projection(sim)
+	for key in ["control","hull"]:
+		var data=tender[key]
+		if not data.is_empty() and point.distance_to(screen_position(data.pos))<=maxf(touch*.5,(28 if key=="control" else 44)*world_scale):
+			candidates.append({"kind":"objective","subkind":"berth_control" if key=="control" else "rendezvous_hull","name":"BERTH CONTROL" if key=="control" else "BERTHING HULL" if data.live else "LAST HULL FIX","pos":data.pos})
+	var recipient=Recipient.status(sim)
+	if not recipient.is_empty():
+		for key in ["gate","recipient"]:
+			if recipient[key].known and point.distance_to(screen_position(recipient[key].pos))<=maxf(touch*.32,25*world_scale):candidates.append(Recipient.subject(recipient[key],key))
+	if Expedition.active(sim):
+		for index in observable_sites().size():
+			var site=observable_sites()[index]
+			if site.get("own_origin",false) and Expedition.transmission_badge(self,site,touch).has_point(point):candidates.append({"kind":"objective","subkind":"transmission","index":index,"name":"TRANSMISSION SECTOR","pos":site.pos})
+		for corridor in sim.extraction_corridors():
+			if point.distance_to(screen_position(corridor.pos))<=maxf(touch*.5,64*world_scale):candidates.append({"kind":"objective","subkind":"corridor","name":corridor.name,"pos":corridor.pos,"route":corridor.route,"available":corridor.available})
+		if Expedition.entry(sim) and point.distance_to(screen_position(sim.mission.extraction))<=maxf(touch*.5,64*world_scale):candidates.append({"kind":"objective","subkind":"withdrawal","name":"INCOMPLETE WITHDRAWAL","pos":sim.mission.extraction})
+	for marker in salvage_markers():
+		if marker.rect.has_point(point):candidates.append({"kind":"salvage","item":marker.site.item,"name":marker.site.name.to_upper(),"pos":marker.site.pos})
+	for target in preload("res://src/presentation/industrial_view.gd").targets(sim):
+		if point.distance_to(screen_position(target.pos))<maxf(touch*.38,24.*world_scale):candidates.append(target)
+	for id in observable_sites().size():
+		var site=observable_sites()[id]
+		if sim.mission.id==8 or site.get("own_origin",false) or Rendezvous.replaces_site(sim,site) or Witness.replaces_site(sim,site) or Recipient.replaces_site(sim,site) or Wake.replaces_site(sim,site):continue
+		if point.distance_to(screen_position(site.pos))<=maxf(touch*.5,38*world_scale):candidates.append({"kind":"objective","subkind":"actuator" if site.get("site_id","")=="witness_sluice" else "","index":id,"name":site.name,"pos":site.pos})
+	for label in label_targets:
+		if label.rect.has_point(point):candidates.append(label.context)
+	if goal_marker.visible and not goal_marker.info.is_empty() and goal_marker.info.rect.has_point(point):
+		var goal=goal_marker.info.target
+		candidates.append(objective_context(screen_position(goal),touch))
+	for id in craft_at(point,touch):candidates.append({"kind":"craft","unit":id,"pos":sim.units[id].pos})
+	for context in candidates:
+		if context.is_empty() or context.kind=="fleet":continue
+		if context.get("subkind","").is_empty():context.erase("subkind")
+		var station=WarningChain.station_subject(sim,context)
+		if not station.is_empty():context=station
+		if result.any(func(c):return c.kind==context.kind and c.get("unit",-1)==context.get("unit",-1) and c.get("index",-1)==context.get("index",-1) and c.get("subkind","")==context.get("subkind","") and c.get("seat","")==context.get("seat","") and c.get("site","")==context.get("site","") and c.get("station","")==context.get("station","") and c.get("target_id","")==context.get("target_id","") and c.get("item","")==context.get("item","") and c.get("route","")==context.get("route","") and c.pos==context.pos):continue
+		result.append(context)
+	return result
+func information_at(point:Vector2)->bool:
+	return world_label_rects.any(func(r):return r.has_point(point)) or contact_readout_rects().any(func(r):return r.has_point(point)) or (goal_marker.visible and not goal_marker.info.is_empty() and goal_marker.info.rect.has_point(point))
 func pick_context(point:Vector2,touch:float) -> Dictionary:
 	_sync_camera();var choices=[]
 	var industrial=preload("res://src/presentation/industrial_view.gd").pick(self,sim,point,touch)
@@ -165,7 +218,7 @@ func objective_context(point:Vector2,touch:float)->Dictionary:
 	for id in observable_sites().size():
 		var site=observable_sites()[id]
 		if sim.mission.id==8:continue
-		if Rendezvous.replaces_site(sim,site) or Witness.replaces_site(sim,site) or Recipient.replaces_site(sim,site):continue
+		if Rendezvous.replaces_site(sim,site) or Witness.replaces_site(sim,site) or Recipient.replaces_site(sim,site) or Wake.replaces_site(sim,site):continue
 		if site.get("own_origin",false):continue
 		if point.distance_to(screen_position(site.pos))<=maxf(touch*.5,38*world_scale):return {"kind":"objective","subkind":"actuator","index":id,"name":site.name,"pos":site.pos} if site.get("site_id","")=="witness_sluice" else {"kind":"objective","index":id,"name":site.name,"pos":site.pos}
 	return Expedition.pick(self,sim,point,touch)
@@ -177,8 +230,14 @@ func chart_width()->float:
 	return size.x-minf(size.x*.52,optical_feed.preferred_width())-28.
 func chart_origin()->Vector2:
 	return Vector2(command_dock_width+28.,0.) if command_dock_left and command_dock_width>0. else Vector2.ZERO
+func stable_chart_rect()->Rect2:
+	# Projection always reserves the right optical lane. Transient command docks,
+	# camera availability and folded optics must never move the chart under a tap.
+	var lane=minf(size.x*.52,optical_feed.preferred_width()) if optical_feed!=null else size.x*.52
+	return Rect2(Vector2.ZERO,Vector2(maxf(1.,size.x-lane-28.),size.y))
 func _sync_camera() -> void:
-	chart_camera.configure(planning_size if planning_size.x>0 else size,world_size(),chart_origin())
+	var chart=stable_chart_rect()
+	chart_camera.configure(chart.size,world_size(),chart.position)
 	if chart_camera.mode=="follow" and sim!=null:chart_camera.follow(sim.units[sim.selected].pos)
 	world_scale=chart_camera.scale;world_offset=chart_camera.offset
 func focus_craft() -> void:
@@ -196,7 +255,7 @@ func _process(dt: float) -> void:
 		optical_feed.sim=sim; optical_feed.visible=not optical_suppressed and presenting_mission and sim!=null and sim.outcome.is_empty() and optical_feed.viewfinder_visible(sim)
 		# Reserve an optical dock beside the chart, above the reflowing status.
 		var width=minf(size.x*.52,optical_feed.preferred_width())
-		var top=instrument_top+4.
+		var top=maxf(instrument_top+4.,threat_bottom)
 		var height=minf(optical_feed.preferred_height(),maxf(1.,size.y-top-14.))
 		if optical_feed.compact:height=maxf(optical_feed.touch_height,optical_feed.receiver_font_size+14.)+8.
 		optical_feed.size=Vector2(width,height)
@@ -217,7 +276,8 @@ func contact_readout_entries() -> Array:
 	return contact_entries().filter(func(entry):return not warnings_in_hud or not (entry.urgent or (entry.fresh and ("REPORT" in entry.text or "STUNNED" in entry.text))))
 func contact_readout_rects() -> Array:
 	var result: Array=[]
-	var top=instrument_top+10
+	if contacts_in_scroll:return result
+	var top=maxf(instrument_top+10,contact_top)
 	for entry in contact_readout_entries():
 		var width=ThemeDB.fallback_font.get_string_size(entry.text,HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size).x+20
 		result.append(Rect2(12,top,minf(width,size.x-24),feedback_font_size+6))
@@ -276,7 +336,7 @@ func _depth_contours(extent: Vector2) -> Array:
 	_contour_extent=extent;_contour_points=lines
 	return lines
 func _draw() -> void:
-	world_label_rects.clear()
+	world_label_rects.clear();label_targets.clear()
 	if sim==null or ocean==null: return
 	_sync_camera()
 	draw_rect(Rect2(Vector2.ZERO,size),Color("050f17"))
@@ -359,7 +419,7 @@ func _draw() -> void:
 		draw_arc(o.pos,43,0,TAU,40,Color(c,0.35),1.4)
 		draw_line(o.pos+Vector2(-14,0),o.pos+Vector2(14,0),c,1)
 		draw_line(o.pos+Vector2(0,-14),o.pos+Vector2(0,14),c,1)
-		if not o.captured: _label(o.pos+Vector2(50,-5),"SLUICE CONTROL" if o.get("site_id","")=="witness_sluice" else o.name,c,17)
+		if not o.captured: _label(o.pos+Vector2(50,-5),"SLUICE CONTROL" if o.get("site_id","")=="witness_sluice" else o.name,c,17,{"kind":"objective","subkind":"actuator" if o.get("site_id","")=="witness_sluice" else "","index":observable_sites().find(o),"name":o.name,"pos":o.pos})
 	# Physical chart is retained. Unknown water, shadows, and contact memory remain separate.
 	var low=Vector2i((-world_offset/world_scale)/40.0).max(Vector2i.ZERO)
 	var high=Vector2i((size-world_offset)/world_scale/40.0)+Vector2i.ONE
@@ -490,7 +550,7 @@ func _draw() -> void:
 			draw_string(ThemeDB.fallback_font,chart_camera.to_screen(n.pos)+Vector2(12,-12),"%ds"%ceili(n.time),HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size,Color("e1b66e"))
 	var readout=contact_readout_rects()
 	var listed=contact_readout_entries()
-	for i in listed.size():
+	for i in readout.size():
 		var entry=listed[i];var box=readout[i]
 		draw_rect(box,Color(0.04,0.07,0.09,0.94))
 		draw_string(ThemeDB.fallback_font,box.position+Vector2(8,feedback_font_size),entry.text,HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size,Palette.chart_color("warning" if entry.urgent else "threat",Color("ffac8c") if entry.urgent else Color("ed8e79") if entry.fresh else Color("b09a94")))
@@ -772,10 +832,11 @@ func world_label_rect(p:Vector2,text:String,font_size:int)->Rect2:
 	return Rect2(chart_camera.to_screen(p)-Vector2(0,font.get_ascent(actual)*world_scale),font.get_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,-1,actual)*world_scale)
 func reserve_world_label(p:Vector2,text:String,font_size:int)->void:
 	world_label_rects.append(world_label_rect(p,text,font_size))
-func _label(p:Vector2,text:String,color:Color,font_size:int) -> void:
+func _label(p:Vector2,text:String,color:Color,font_size:int,context:Dictionary={}) -> void:
 	var placed=world_label_position(p,text,font_size)
 	if placed.is_finite():
 		reserve_world_label(placed,text,font_size)
+		if not context.is_empty():label_targets.append({"rect":world_label_rect(placed,text,font_size),"context":context})
 		if placed.distance_to(p)*world_scale>feedback_font_size*2:draw_line(p,placed,Color(color,.35),1./world_scale)
 		draw_string_outline(ThemeDB.fallback_font,placed,text,HORIZONTAL_ALIGNMENT_LEFT,-1,maxi(font_size,int(12./world_scale)),maxi(1,int(3./world_scale)),Color(.01,.03,.04,.95))
 		draw_string(ThemeDB.fallback_font,placed,text,HORIZONTAL_ALIGNMENT_LEFT,-1,maxi(font_size,int(12./world_scale)),color)

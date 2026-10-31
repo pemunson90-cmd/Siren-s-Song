@@ -70,7 +70,13 @@ func run():
   sim.units[0].pos=wreck+Vector2(0,40);sim.units[0].vel=Vector2.ZERO;sim.command("select",{"unit":0});game.ocean.focus_craft();game._refresh();await settle()
   var marker=game.ocean.salvage_markers()[0]
   check(marker.lines.has("REQUEST BUFFER") and marker.lines.has("DEEP CELLS"),"single visible wreck names both actual recoverable contents")
-  await tap(game.ocean.global_position+marker.rect.get_center());await tap(h.extra.salvage.get_global_rect().get_center());await advance(game,2.)
+  await tap(game.ocean.global_position+marker.rect.get_center())
+  # The wreck and its nearby fixed relay retain separate explicit owners.
+  if h.page=="choose":
+   var owner=h.target_choices.find_custom(func(c):return c.get("kind","")=="salvage" and c.get("item","")==sites[0].item and c.get("pos",Vector2.INF)==wreck)
+   check(owner>=0,"owner chooser retains the actual combined kit and buffer wreck")
+   if owner>=0:await tap(h.target_buttons[owner].get_global_rect().get_center())
+  await tap(h.extra.salvage.get_global_rect().get_center());await advance(game,2.)
   check(sim.module_recovery_status().jobs[0].get("elapsed",0.)>=1.9,"one touch starts the actual shared four-second kit and buffer winch")
   check("RAW DATA" in h.fleet.telemetry[0].text and "REQUEST" in h.fleet.telemetry[0].text,"combined winch identifies its needed packet as well as the recoverable kit during work")
   await craft(game,0);check(game.order_buttons.camera.disabled,"active winch blocks overlapping SAMPLE through public readiness")

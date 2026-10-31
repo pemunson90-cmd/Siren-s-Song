@@ -67,13 +67,16 @@ static func sync(hud)->void:
  var readable_font=ceili(Table.MIN_READABLE_DP*float(hud.host.ui_density_dpi())/Table.BASE_DPI/stretch_y)
  var font=maxi(maxi(Table.MIN_FONT_SIZE,readable_font),roundi(hud.touch_height*(Table.COMPACT_FONT_FACTOR if compact else Table.STANDARD_FONT_FACTOR)*hud.text_scale))
  button.add_theme_font_size_override("font_size",font)
- button.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+ button.autowrap_mode=TextServer.AUTOWRAP_OFF
  var glyph=button.get_theme_font("font")
  var lines=button.text.split("\n")
  var width=0.0
  for line in lines:width=maxf(width,glyph.get_string_size(line,HORIZONTAL_ALIGNMENT_LEFT,-1,font).x)
  var min_touch=Table.TOUCH_TARGET_DP*float(hud.host.ui_density_dpi())/Table.BASE_DPI*minf(float(hud.get_viewport_rect().size.x)/maxf(1,hud.get_window().size.x),float(hud.get_viewport_rect().size.y)/maxf(1,hud.get_window().size.y))
- var body=Vector2(ceil(width+Table.WIDTH_PADDING),ceil(maxf(min_touch,maxf(hud.touch_height,float(lines.size())*glyph.get_height(font)+Table.HEIGHT_PADDING))))
+ # Each authored line is measured at the actual font size. Keep those explicit
+ # breaks; automatic wrapping can retain an extra line after a text-scale change.
+ var padding=button.get_theme_stylebox("normal").get_minimum_size()
+ var body=Vector2(ceil(width+maxf(Table.WIDTH_PADDING,padding.x)+2.),ceil(maxf(min_touch,maxf(hud.touch_height,float(lines.size())*glyph.get_height(font)+maxf(Table.HEIGHT_PADDING,padding.y)))))
  button.custom_minimum_size=body
  button.size=body
  button.show()
@@ -85,7 +88,7 @@ static func own_help(hud)->bool:
 static func help_rects(hud)->Array:
  var area=Rect2(Vector2.ZERO,StatusView.content_bounds(hud,hud.size))
  var back=hud.close_button.size
- var top=maxf(hud.host.pause_button.get_rect().end.y+Table.HELP_PAUSE_GAP,hud.touch_height+Table.MARGIN)
+ var top=maxf(hud.threat_floor(),maxf(hud.host.pause_button.get_rect().end.y+Table.HELP_PAUSE_GAP,hud.touch_height+Table.MARGIN))
  var width=area.size.x-back.x-Table.MARGIN*Table.HELP_WIDTH_MARGIN_COUNT
  var height=area.end.y-top-Table.MARGIN
  if width<=0 or height<=0:return []
@@ -125,12 +128,13 @@ static func _craft_touch_rects(hud)->Array:
    bounds=bounds.expand(at)
   result.append(bounds)
  return result
-static func _obstacles(hud,button:Button)->Array:
+static func _obstacles(hud,button:Button,craft:bool=true)->Array:
  var result=[]
  var area=Rect2(Vector2.ZERO,StatusView.content_bounds(hud,hud.size))
  for other in hud.action_controls().values():
   if other!=button and other.is_visible_in_tree():result.append(Rect2(other.global_position-hud.global_position,other.size))
  if hud.alarm.visible:result.append(hud.alarm.get_rect())
+ result.append_array(hud.threat_rects())
  var warning=hud.host.lock_warning
  if warning!=null and warning.visible and warning.banner.has_area():result.append(Rect2(warning.global_position-hud.global_position+warning.banner.position,warning.banner.size))
  if hud.sheet.visible:result.append(hud.sheet.get_rect())
@@ -140,11 +144,14 @@ static func _obstacles(hud,button:Button)->Array:
  if hud.intent.visible and area.encloses(hud.intent.get_rect()):result.append(hud.intent.get_rect())
  if hud.fleet!=null and hud.fleet.is_visible_in_tree():
   for reading in hud.fleet.readouts:result.append(Rect2(hud.fleet.position+reading.rect.position,reading.rect.size))
- result.append_array(_craft_touch_rects(hud))
+ if craft:result.append_array(_craft_touch_rects(hud))
  return result
 static func fit(hud)->void:
  var button=hud.get_meta(CHIP) if hud.has_meta(CHIP) else null
- if not is_instance_valid(button) or not button.is_visible_in_tree():return
+ if not is_instance_valid(button) or hud.host.screen!="mission" or hud.page=="order_help" or not Pressure.view(hud.host.sim).active:return
+ # A provisional no-slot result may precede deferred dock placement. Retry
+ # that seat at the final geometry rather than making hidden state permanent.
+ button.show()
  var area=Rect2(Vector2.ZERO,StatusView.content_bounds(hud,hud.size))
  var body=button.size
  var obstacles=_obstacles(hud,button)
@@ -155,6 +162,11 @@ static func fit(hud)->void:
  var near_top=hud.touch_height+Table.MARGIN
  var middle=maxf(Table.MARGIN,(area.size.x-body.x)/2)
  var candidates=[Vector2(right,near_top),Vector2(Table.MARGIN,near_top),Vector2(right,Table.MARGIN),Vector2(middle,Table.MARGIN),Vector2(Table.MARGIN,Table.MARGIN),Vector2(right,bottom),Vector2(middle,bottom),Vector2(Table.MARGIN,bottom)]
+ # Try exact obstacle edges before the coarse scan: a full touch target can fit
+ # between the header and a craft even when the scan step skips that gap.
+ for obstacle in obstacles:
+  for y_edge in [obstacle.end.y+4.,obstacle.position.y-body.y-4.]:
+   for x_edge in [Table.MARGIN,right,obstacle.end.x+4.,obstacle.position.x-body.x-4.]:candidates.append(Vector2(x_edge,y_edge))
  var step=maxf(Table.SCAN_MIN_STEP,hud.touch_height*Table.SCAN_TOUCH_FACTOR)
  var y=near_top
  while y<=bottom:
@@ -168,7 +180,20 @@ static func fit(hud)->void:
   button.set_meta("hunt_meter_fitted",true)
   if covered_craft and old_position.distance_to(point)>.5:hud.host.call_deferred("_refresh")
   return
- button.position=Vector2(Table.MARGIN,near_top)
+ # With the Fleet dock open, craft actions live in its full-size scrolling
+ # rows and physical-body badges are inactive. Reserve Hunt before those
+ # inactive bodies when they are the only reason no seat remains. All active
+ # controls, dock, Pause/Back and received threats still exclude the seat.
+ if hud.order_dock.visible and not hud.fleet.visible:
+  var required=_obstacles(hud,button,false)
+  for point in candidates:
+   var rect=Rect2(point,body)
+   if area.encloses(rect) and not required.any(func(other):return rect.intersects(other)):
+    button.position=point
+    button.set_meta("hunt_meter_fitted",true)
+    return
+ # Never paint over a received threat when a crowded viewport has no slot.
+ button.hide()
  button.set_meta("hunt_meter_fitted",false)
 static func schedule_fit(hud)->void:
  if hud.get_meta(PENDING,false):return

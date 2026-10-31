@@ -55,6 +55,13 @@ func shape_quality(shape):
  else:check(draws>0,"headless preserves redraw requests")
  # Drag in clear chart water: real injected touch, no direct pan callback.
  var point=game.ocean.global_position+Vector2(game.ocean.size.x*.45,game.ocean.size.y*.55)
+ # Begin the fixed positive drag away from the west/world-fit clamp. This is
+ # ordinary touch navigation at the same fixture point; no dive state changes.
+ var navigation_before=game.sim.snapshot()
+ touch(0,point,true);await process_frame
+ var prepare=InputEventScreenDrag.new();prepare.index=0;prepare.position=point-Vector2(120,40);prepare.relative=Vector2(-120,-40);root.push_input(prepare,true);await process_frame
+ touch(0,prepare.position,false);await settle()
+ check(game.sim.snapshot()==navigation_before,"public pan preparation preserves the paused dive")
  var offset=game.ocean.world_offset;touch(0,point,true);await process_frame
  before=draw_count
  var drag=InputEventScreenDrag.new();drag.index=0;drag.position=point+Vector2(90,30);drag.relative=Vector2(90,30);root.push_input(drag,true)

@@ -323,6 +323,7 @@ status_text_ui_tests|STATUS TEXT UI|263|-|render
 status_text_table_ui_tests|STATUS TEXT UI|-|862|render
 status_text_cover_ui_tests|STATUS TEXT UI|-|859|render
 status_text_inner_ui_tests|STATUS TEXT UI|-|860|render
+stable_board_ui_tests|STABLE BOARD UI|764|867|render
 
 hunt_pressure_tests|HUNT PRESSURE|264|284
 hunt_cap_coverage_tests|HUNT CAP COVERAGE|747|847
@@ -358,3 +359,6 @@ expedition_session_tests|EXPEDITION SESSION|371|471
 career_tests|CAREER|380|480
 rider_tests|RIDER|312|413
 rider_ui_tests|RIDER UI|313|414|render
+stable_board_cover_mirror_ui_tests|STABLE BOARD UI|765|868|render
+stable_board_inner_normal_ui_tests|STABLE BOARD UI|766|869|render
+stable_board_inner_mirror_ui_tests|STABLE BOARD UI|767|870|render

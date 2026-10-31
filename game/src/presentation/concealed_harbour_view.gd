@@ -59,7 +59,7 @@ static func draw_world(view,sim)->void:
  # are drawn only from local sensing, never the simulation's private phase.
  for seat in s.seats:
   view.draw_arc(seat.pos,32,0,TAU,24,Color("527e7d"),1.5/scale)
-  view._label(seat.pos+Vector2(0,-48),seat.name,TEAL,13)
+  view._label(seat.pos+Vector2(0,-48),seat.name,TEAL,13,{"kind":"objective","subkind":"concealed","name":seat.name,"pos":seat.pos,"seat":seat.id})
  if s.thread=="deep":
   if s.connected:view.draw_polyline(PackedVector2Array([p,p+Vector2(60,-45),Vector2(2180,800)]),Color("a38d63"),1.5/scale)
   else:
@@ -81,7 +81,7 @@ static func draw_world(view,sim)->void:
    for x in range(2050,2240,24):view.draw_line(Vector2(x,944),Vector2(x+14,994),TEAL,2/scale)
  if s.phase=="towing":
   view.draw_polyline(PackedVector2Array([p]+sim.mission.concealed_harbour.trail+[sim.units[0].pos]),AMBER,1.5/scale)
- view._label(p+Vector2(0,46),"TOW · "+("LISTENING FLOAT" if s.thread=="deep" else "BUNKER SCREEN"),AMBER,14)
+ view._label(p+Vector2(0,46),"TOW · "+("LISTENING FLOAT" if s.thread=="deep" else "BUNKER SCREEN"),AMBER,14,subjects(sim)[0])
  # Received acknowledgement establishes the station response; close samples
  # additionally show its local open/closed machinery and occupied bays.
  var seen=s.station_seen

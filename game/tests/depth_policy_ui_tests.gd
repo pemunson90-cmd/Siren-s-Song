@@ -1,6 +1,12 @@
 extends "res://tests/depth_sonar_ui_tests.gd"
 # Source-known, accelerated opening journeys. Every consequential order enters
 # through real viewport input; simulation travel is stepped faster than wall time.
+# Every command may move into the scroll dock while threats own the top lane.
+# Reveal it through the same public touch scroll before the existing tap.
+func click(button):
+ var g=root.get_children().filter(func(c):return c is Control and c.get("sim")!=null)[0]
+ await reveal(g,button)
+ await super.click(button)
 func craft(g,id):
  await acknowledge_warning(g)
  g.mission_hud.dismiss();await settle();await click(g.advanced_button);await click(g.unit_buttons[id])
@@ -50,10 +56,29 @@ func preview_point(g,point):
    var drag=InputEventScreenDrag.new();drag.index=0;drag.position=start+delta;drag.relative=delta;root.push_input(drag,true);await process_frame
    await touch(start+delta,false);await settle()
  check(false,"physical planner view can expose intended water away from navigation controls")
+func reveal(game,button):
+ var hud=game.mission_hud
+ if not hud.order_dock.visible or button.get_parent()!=hud.order_dock_commands:return
+ var scroll=hud.order_dock_scroll
+ for attempt in 8:
+  var area=scroll.get_global_rect()
+  if area.encloses(button.get_global_rect()):return
+  var target=button.get_global_rect()
+  var delta=area.position.y-target.position.y if target.position.y<area.position.y else area.end.y-target.end.y
+  delta=signf(delta)*clampf(absf(delta),24.,area.size.y*.45)
+  var start=area.get_center();var finish=start+Vector2(0,delta)
+  var touch=InputEventScreenTouch.new();touch.index=0;touch.position=start;touch.pressed=true;root.push_input(touch,true);await process_frame
+  var previous=start
+  for n in 6:
+   var point=start.lerp(finish,float(n+1)/6.)
+   var drag=InputEventScreenDrag.new();drag.index=0;drag.position=point;drag.relative=point-previous;root.push_input(drag,true);previous=point;await process_frame
+  touch=InputEventScreenTouch.new();touch.index=0;touch.position=finish;touch.pressed=false;root.push_input(touch,true);await settle()
+ check(scroll.get_global_rect().encloses(button.get_global_rect()),"touch scrolling reveals "+str(button.get_meta("action","command")))
 func plot(g,id,point):
  # FIT can overlap intended water with a craft's touch handle. The existing
  # paused planner exposes that same public route geometry through ordinary input.
  await craft(g,id);await click(g.order_buttons.program)
+ check(g.route_editor.visible,"public ROUTE PROGRAM action opens the physical planner")
  await preview_point(g,point)
  var goals=g.sim.route_goals(id)
  check(not goals.is_empty() and goals[0].pos.distance_to(point)<2,"physical planner input retains public operator destination")
