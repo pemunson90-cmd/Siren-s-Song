@@ -1,4 +1,4 @@
-# STATE (updated 2026-11-01T00:52:13-04:00, by runner2.py)
+# STATE (updated 2026-11-01T01:17:31-04:00, by runner2.py)
 
 ## Base
 integration: d7c645d9   main: a2300840   production: 26e09906
@@ -15,7 +15,7 @@ nightly: not yet running (item 128)   controls mix: not yet measured (item 130)
 | 140 | Every dive end shows time, hull and oxyg | ui | claude:sonnet | C | item/140-dive-end-stats | 248 | ef97b454 | merging |
 | 141 | Legs warn when they pass through your ow | ui | claude:sonnet | C | item/141-own-craft-legs | 250 | ee36e6f9 | merging |
 | 144 | ALL STOP shows its restart cost up front | text | claude:sonnet | C | item/144-all-stop-cost | 253 | 35e50482 | merging |
-| 145 | Briefing and onboarding text matches the | text | claude:sonnet | A | item/145-briefing-truth | - | - | active |
+| 145 | Briefing and onboarding text matches the | text | claude:sonnet | B | item/145-briefing-truth | - | 26ab507f | active |
 
 ## Queued (order = priority; see queue.json)
 131 crash-possible, 134 route-flow, 143 dive-end-polish
