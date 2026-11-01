@@ -1,5 +1,4 @@
 extends SceneTree
-const RecoveryManifest=preload("res://src/presentation/recovery_manifest.gd")
 # Source-known fixtures exercise real touch + emulated-mouse dispatch.
 var checks=0
 var failures=0
@@ -43,11 +42,11 @@ func route_menu(game):
  if game.mission_hud.page=="fleet":await click(game.unit_buttons[game.sim.selected])
  await click(game.mission_hud.extra.route_menu)
 func home(game):
- await route_menu(game)
- # 133/143: the manifest only informs when Quietus is away; these tests are about the route order, so skip it.
- RecoveryManifest.confirmed=true
- await click(game.order_buttons.home)
- RecoveryManifest.confirmed=false
+ await route_menu(game);await click(game.order_buttons.home)
+ # 133: a craft outside recovery asks first; CONFIRM carries on as the press did before.
+ if game.screen=="recovery_manifest":
+  for b in game.menu.find_children("*","Button",true,false):
+   if b.get_meta("action","")=="manifest_confirm":await click(b)
 func capture(name:String):
  if not capture_dir.is_empty() and DisplayServer.get_name()!="headless":
   await RenderingServer.frame_post_draw;root.get_texture().get_image().save_png(capture_dir.path_join(name+".png"))

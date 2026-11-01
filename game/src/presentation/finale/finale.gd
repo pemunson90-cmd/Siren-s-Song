@@ -22,7 +22,7 @@ static func clear(host)->void:
 static func first_recovery(host,previous:Dictionary)->bool:
  if not Table.enabled or host.sim.outcome!="won" or host.sim.mission.id!=Table.LAST_ID or Table.LAST_ID in previous.get("completed",[]):return false
  var shown=show(host)
- if shown and host.screen=="photo_ending":stats(host)
+ if shown and host.get("screen")=="photo_ending":stats(host)
  return shown
 # 143: the photo ending screen is not a debrief/ending screen, so the shared stats hook skips it.
 static func stats(host)->void:

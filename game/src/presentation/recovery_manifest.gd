@@ -71,8 +71,15 @@ static func _hold(host)->void:
 
 static func _confirm(host)->void:
  var context=host.sim.departure_context()
- if not context.available:return _hold(host)
- # Quietus is at a mouth: the same validated departure the module sheet sends.
- host._order("depart",{"confirm":true,"corridor":context.corridor})
- if not host.sim.outcome.is_empty():host._debrief()
- else:host._enter_water()
+ if context.available:
+  # Quietus is at a mouth: the same validated departure the module sheet sends.
+  host._order("depart",{"confirm":true,"corridor":context.corridor})
+  if not host.sim.outcome.is_empty():host._debrief()
+  else:host._enter_water()
+  return
+ # Quietus is away: carry on with the original EXTRACT/WITHDRAW press (route order, dive keeps running).
+ host.sim.paused=host.get_meta("manifest_was_paused",false)
+ host._enter_water()
+ confirmed=true
+ host._recovery_route()
+ confirmed=false

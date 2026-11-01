@@ -1,5 +1,4 @@
 extends SceneTree
-const RecoveryManifest=preload("res://src/presentation/recovery_manifest.gd")
 var checks=0
 var failures=0
 func check(ok: bool,message: String):
@@ -31,11 +30,11 @@ func route_intent(ui) -> void:
  check(ui.sim.route_goals(1).size()==2,"ordinary chart tap still appends to the actual queued plan")
  # 127 (Pat 2026-10-30): EXTRACT autopilot is a dev/test shortcut; release play hides it.
  ui.set_meta("dev_profile",true)
- ui.mission_hud.open("route");await process_frame
- # 133/143: the manifest only informs when Quietus is away; this check is about queued routing, so skip it.
- RecoveryManifest.confirmed=true
- await click(ui.order_buttons.home.get_global_rect().get_center())
- RecoveryManifest.confirmed=false
+ ui.mission_hud.open("route");await process_frame;await click(ui.order_buttons.home.get_global_rect().get_center())
+ # 133: a craft outside recovery asks first; CONFIRM carries on as the press did before.
+ if ui.screen=="recovery_manifest":
+  for b in ui.menu.find_children("*","Button",true,false):
+   if b.get_meta("action","")=="manifest_confirm":await click(b.get_global_rect().get_center())
  ui.set_meta("dev_profile",false)
  check(ui.sim.queue_mode and ui.sim.selected==1 and ui.sim.route_goals(1)[-1].pos==ui.sim.mission.extraction and "DRONE A · MIDDLE · QUEUE" in ui.mission_hud.intent.text,"ordinary recovery routing honors the explicit queued intent")
 func run():
