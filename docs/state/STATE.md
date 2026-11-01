@@ -1,4 +1,4 @@
-# STATE (updated 2026-10-31T22:36:53-04:00, by runner2.py)
+# STATE (updated 2026-10-31T22:47:50-04:00, by runner2.py)
 
 ## Base
 integration: 75e561e7   main: a2300840   production: 26e09906
@@ -9,7 +9,8 @@ nightly: not yet running (item 128)   controls mix: not yet measured (item 130)
 | item | title | class | provider | phase | branch | PR | head | status |
 | 127 | Release controls, pilot by hand | sim | claude:opus | C | item/127-release-controls | 241 | eb919c8c | merging |
 | PKG2 | Stable board and clear threat (PR 239, r | ui | external | B | root/stable-board-pkg2 | 239 | 527e4478 | parked |
-| 138 | No internal ids on player screens | text | claude:sonnet | A | item/138-player-names | 245 | c0b9bf14 | active |
+| 137 | Menu panels scroll and take keys | ui | claude:sonnet | A | item/137-menu-scroll-keys | 246 | 667651f0 | active |
+| 138 | No internal ids on player screens | text | claude:sonnet | review | item/138-player-names | 245 | e96806c5 | active |
 
 ## Queued (order = priority; see queue.json)
 130 control-mix, 131 crash-possible, 133 recovery-manifest, 134 route-flow, 139 bare-contact
@@ -18,7 +19,7 @@ nightly: not yet running (item 128)   controls mix: not yet measured (item 130)
 126 claude/truthful-commands PR 238, 136 item/136-shard-all-failures PR 242, 128 item/128-ci-v2 PR 240, 129 item/129-protected-golden PR 243, 135 item/135-prep-results PR 244
 
 ## Blockers
-- 137 menu-scroll-keys: phase A attempt cap 3 reached
+- none
 
 ## Waiting on Pat
 - Q3 intent card and spec line 73; Q4 daily digest; Q5 model cap (docs/workflow-v2/QUESTIONS_FOR_PAT.md on claude/workflow-v2)
