@@ -399,6 +399,35 @@
    "updated": "2026-11-01T00:21:33Z",
    "provider": "claude:sonnet",
    "started": "2026-10-31T22:37:48Z"
+  },
+  {
+   "id": 139,
+   "slug": "bare-contact",
+   "title": "Bare Quietus meets the Sirens on ops 2, 16, 17, 20",
+   "cls": "sim",
+   "areas": [
+    "campaign.ops"
+   ],
+   "serial": [],
+   "deps": [
+    127
+   ],
+   "prov": [
+    "claude:opus",
+    "codex"
+   ],
+   "status": "queued",
+   "phase": null,
+   "branch": "item/139-bare-contact",
+   "pr": null,
+   "head": null,
+   "file": "docs/state/items/139-bare-contact.md",
+   "attempts": {
+    "A": 0,
+    "B": 0,
+    "C": 0
+   },
+   "blocker": null
   }
  ]
 }

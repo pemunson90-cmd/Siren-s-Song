@@ -2,6 +2,7 @@
 
 Pat 2026-10-30 ~18:00: "only surface questions that need me, otherwise record all decision points and keep me posted so I can revert them." Each line: what, why, how to revert. Say "revert Dnn".
 
+- **D35 2026-10-31T21:05 Item 127 passed with a carried finding; item 139 queued.** Bare hand-flown Quietus meets the Sirens on 5 of 9 ops (2, 16, 17, 20 stay quiet), under the 3/4 bar; 139 fixes it by op layout only, no protected rule. runner2 now renumbers colliding new suite ranks at merge. Revert: drop 139.
 - **D34 2026-10-31T20:22 Item 138 may edit tool_racks_view.gd (display names only).** Its fixed test found DRONE_A/DRONE_B on the expedition menu; no other branch touches the file; it runs the full CI matrix. Revert: drop the line, file a separate item.
 - **D33 2026-10-31T19:50 Failure causes fixed, not instances (Pat asked).** runner2: seven live-boundary bugs fixed with regression tests; new pre-review hand-in gate (RED BEFORE line proving the acceptance test fails on old code, check-suites, strict summary line); builder prompts require registry and canary entries and forbid writing backslash content through the shell. Cards written against live integration, model set by class. Revert: restore runner2.py.bak-s12 and prompts.bak-s12 in the queue folder.
 - **D32 2026-10-31 Pat yes: builder cap raised from two to three.** Why: with independent items queued, the cap was the limit. Revert: set max_builders back to 2.
