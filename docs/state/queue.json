@@ -568,6 +568,33 @@
     "C": 0
    },
    "blocker": null
+  },
+  {
+   "id": 144,
+   "slug": "all-stop-cost",
+   "title": "ALL STOP shows its restart cost up front",
+   "cls": "text",
+   "areas": [
+    "sim.allstop"
+   ],
+   "serial": [],
+   "deps": [],
+   "prov": [
+    "claude:sonnet",
+    "codex"
+   ],
+   "status": "queued",
+   "phase": null,
+   "branch": "item/144-all-stop-cost",
+   "pr": null,
+   "head": null,
+   "file": "docs/state/items/144-all-stop-cost.md",
+   "attempts": {
+    "A": 0,
+    "B": 0,
+    "C": 0
+   },
+   "blocker": null
   }
  ]
 }

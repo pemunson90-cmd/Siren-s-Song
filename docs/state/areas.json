@@ -111,6 +111,9 @@
     ],
     "arcs.ui": [
       "game/src/presentation/arcs/**"
+    ],
+    "sim.allstop": [
+      "game/src/simulation/all_stop/**"
     ]
   },
   "_notes": [
