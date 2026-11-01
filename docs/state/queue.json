@@ -472,6 +472,33 @@
    "updated": "2026-11-01T03:09:40Z",
    "provider": "claude:sonnet",
    "started": "2026-11-01T03:09:40Z"
+  },
+  {
+   "id": 141,
+   "slug": "own-craft-legs",
+   "title": "Legs warn when they pass through your own craft",
+   "cls": "ui",
+   "areas": [
+    "hud.legs"
+   ],
+   "serial": [],
+   "deps": [],
+   "prov": [
+    "claude:sonnet",
+    "codex"
+   ],
+   "status": "queued",
+   "phase": null,
+   "branch": "item/141-own-craft-legs",
+   "pr": null,
+   "head": null,
+   "file": "docs/state/items/141-own-craft-legs.md",
+   "attempts": {
+    "A": 0,
+    "B": 0,
+    "C": 0
+   },
+   "blocker": null
   }
  ]
 }

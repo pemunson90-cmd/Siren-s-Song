@@ -104,6 +104,10 @@
     "hud.recovery": [
       "game/src/presentation/recovery_manifest.gd",
       "game/src/presentation/module_recovery_view.gd"
+    ],
+    "hud.legs": [
+      "game/src/simulation/hand_pilot/**",
+      "game/src/presentation/release_controls.gd"
     ]
   },
   "_notes": [
