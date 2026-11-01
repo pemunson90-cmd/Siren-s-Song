@@ -1,4 +1,4 @@
-# STATE (updated 2026-11-01T16:38:50-05:00, by runner2.py)
+# STATE (updated 2026-11-01T16:38:58-05:00, by runner2.py)
 
 ## Base
 integration: 07a7e12b   main: a2300840   production: 26e09906
@@ -23,10 +23,6 @@ nightly: not yet running (item 128)   controls mix: not yet measured (item 130)
 
 ## Blockers
 - provider codex down: exit 1: ERROR: unexpected status 401 Unauthorized: Missing bearer or basic authentication in header, (probed 2026-11-01T16:35:06-05:00)
-
-## PAUSED
-PAUSED, RESUME REQUIRED: paused by orchestrator 2026-11-01T16:38:49-05:00; alive sessions finish, nothing launches
-Resume: python -I C:\Users\Archi\.cache\sirens-song-toolchain\artifacts\queue-s6\runner2.py resume
 
 ## Waiting on Pat
 - Q3 intent card and spec line 73; Q4 daily digest; Q5 model cap (docs/workflow-v2/QUESTIONS_FOR_PAT.md on claude/workflow-v2)
