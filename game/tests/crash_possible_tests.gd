@@ -141,6 +141,7 @@ func dev_path():
  for shape in s.rock_shapes:
   setup=aim(s,shape)
   if not setup.is_empty():break
+ check(not setup.is_empty(),"dev chart has a rock to route around")
  if setup.is_empty():return
  s.units[0].pos=setup.start
  if s.command("route",{"point":setup.goal}):check(s.units[0].route.size()>1,"dev route still solves around rock")

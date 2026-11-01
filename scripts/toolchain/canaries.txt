@@ -5,3 +5,4 @@
 # Items 129-131 add the ruling-test suites.
 protected_rules_tests
 control_mix_tests
+crash_possible_tests

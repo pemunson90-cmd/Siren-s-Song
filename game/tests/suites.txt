@@ -367,3 +367,7 @@ protected_rules_tests|PROTECTED RULES|1290|1290
 launch_guard_ui_tests|LAUNCH GUARD UI|1296|1296|render
 control_mix_tests|CONTROL MIX|1295|1295
 recovery_manifest_ui_tests|RECOVERY MANIFEST|1300|1300|render
+briefing_truth_tests|BRIEFING TRUTH|1301|1301
+own_craft_leg_warning_tests|OWN CRAFT LEG WARNING|1401|1401
+dive_end_stats_ui_tests|DIVE END STATS UI|1400|1400|render
+all_stop_text_tests|ALL STOP TEXT|-|1402
