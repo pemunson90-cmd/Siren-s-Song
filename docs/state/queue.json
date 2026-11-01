@@ -356,15 +356,15 @@
    "file": "docs/state/items/137-menu-scroll-keys.md",
    "attempts": {
     "A": 3,
-    "B": 2,
+    "B": 3,
     "C": 0
    },
-   "phase": "A",
+   "phase": "B",
    "pr": 246,
-   "head": "ec4776aeb80ced3a452501a6516713e48fe5add6",
+   "head": "74298ff328dd497bc7904deb3666b91e9fa75892",
    "blocker": null,
    "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-137",
-   "updated": "2026-11-01T01:14:35Z",
+   "updated": "2026-11-01T01:37:12Z",
    "provider": "claude:sonnet",
    "started": "2026-10-31T21:55:16Z"
   },
