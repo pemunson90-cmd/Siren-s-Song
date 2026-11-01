@@ -72,31 +72,32 @@
   {
    "id": "PKG2",
    "slug": "stable-board",
-   "title": "Stable board and clear threat (PR 239, root)",
+   "title": "Stable board and clear threat (PR 239, Claude takeover)",
    "cls": "ui",
    "areas": [
     "hud.layout"
    ],
    "serial": [
+    "main.gd",
     "mission_hud.gd",
     "ocean_view.gd"
    ],
    "deps": [],
    "prov": [
-    "codex"
+    "claude:opus"
    ],
-   "status": "parked",
-   "phase": "B",
+   "status": "active",
+   "phase": "A-wait",
    "branch": "root/stable-board-pkg2",
    "pr": 239,
-   "head": "527e4478eaf2fd1cd400c7e23da64974c12e4c95",
+   "head": "716c895a4a0827420d8b11f5e7be43be62676a03",
    "file": "docs/state/items/pkg2-stable-board.md",
    "attempts": {
     "A": 0,
     "B": 0,
     "C": 0
    },
-   "blocker": "Codex root out until about 2026-11-03; keeps its locks, frees the builder slot (D30)"
+   "blocker": null
   },
   {
    "id": 136,
