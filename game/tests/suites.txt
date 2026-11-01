@@ -202,6 +202,7 @@ truthful_commands_tests|TRUTHFUL COMMANDS|763|866
 release_controls_tests|RELEASE CONTROLS|1291|1291
 crash_possible_tests|CRASH|1292|1292
 hand_pilot_journeys|HANDPILOT|1293|1293
+bare_contact_tests|BARE CONTACT|1390|1390
 performance_measurements|PERFORMANCE|162|153
 nav_clearance_tests|NAV CLEARANCE|163|184
 nav_following_probe|NAV FOLLOW|164|185

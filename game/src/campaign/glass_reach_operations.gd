@@ -113,6 +113,8 @@ static func _drift(m,key):
   R.post(Vector2(1900,1150),1,170.),R.guard("buoy",Vector2(520,1100)),R.guard("relay",Vector2(1000,700)),
   R.guard("sweeper",Vector2(1950,2250),2,Patrols.circuit(16)),
   R.guard("patroller",Vector2(1550,2000),2,[Vector2(1550,2000),Vector2(1750,2000)])])
+ # 139: a MIDDLE post above the return water sees a bare Quietus crossing west.
+ R.add(m,[R.post(Vector2(1124,2093),1,170.)])
 
 # 17 / Switchback silt terraces. The spindle lies under a silt mound that only
 # DEEP reaches; SHALLOW is choked by banks. Two recovery mouths, west and north.
@@ -132,6 +134,8 @@ static func _archive(m,key):
  m.corridors=[corridor(Vector2(240,2180),"WEST REACH RECOVERY"),corridor(Vector2(1600,140),"NORTH REACH RECOVERY","shelf")] # TODO-S3
  R.add(m,[R.guard("buoy",Vector2(2560,1350),2),R.guard("relay",Vector2(2200,1830),2),R.guard("hunter",Vector2(1800,1350),2,[Vector2(1800,1350),Vector2(1800,800),Vector2(1200,850)]),
   R.guard("patroller",Vector2(2580,340),1,[Vector2(2580,340),Vector2(2640,340),Vector2(2640,280),Vector2(2580,280)]),R.guard("warden",Vector2(1250,330))])
+ # 139: a MIDDLE post above the long terrace run sees a bare Quietus pass.
+ R.add(m,[R.post(Vector2(1760,1285),1,170.)])
 
 # 18 / An anchorage behind a long reef. The service gate is the short sheltered
 # return; the east end is the long outside passage under a warden; DEEP has a
@@ -189,6 +193,8 @@ static func _grave(m,key):
  m.corridors=[corridor(Vector2(1200,3020),"SOUTH REACH RECOVERY"),corridor(Vector2(200,2950),"WEST REACH RECOVERY","shelf")] # TODO-S3
  R.add(m,[R.guard("interceptor",Vector2(1200,1040)),R.guard("interceptor",Vector2(1920,2300)),R.guard("interceptor",Vector2(330,2300)),
   R.guard("warden",Vector2(1200,2250)),R.guard("buoy",Vector2(950,1900)),R.guard("relay",Vector2(1650,2080))])
+ # 139: a MIDDLE post off the northern approach sees a bare Quietus enter the field.
+ R.add(m,[R.post(Vector2(1520,600),1,170.)])
 
 # 21 / A crater cache. MIDDLE enters by a watched north-east breach or by the
 # sealed west door (local machinery, loud); DEEP enters by a south-west tunnel
