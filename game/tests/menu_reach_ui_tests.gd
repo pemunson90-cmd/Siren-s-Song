@@ -291,6 +291,13 @@ func reach_case(shape):
 		front._credits_screen();await reach_panel(front.scroll,"credits "+tag)
 		load("res://src/presentation/frontend/challenges_frontend.gd").show(front);await reach_panel(front.scroll,"challenges "+tag)
 		front._mode_select();await reach_panel(front.scroll,"modes "+tag)
+		var catalog=load("res://src/campaign/challenges/challenge_catalog.gd")
+		for row in catalog.all():
+			if catalog.unlocked(row,[0]):
+				load("res://src/presentation/frontend/challenges_frontend.gd").details(front,row.id);await reach_panel(front.scroll,"challenge details "+tag);break
+		load("res://src/presentation/runs/modes_frontend.gd").expeditions(front);await reach_panel(front.scroll,"expeditions "+tag)
+		load("res://src/presentation/career/career_frontend.gd").show(front);await reach_panel(front.scroll,"career "+tag)
+		if front.profile_picker.available():front.profile_picker.show_picker();await reach_panel(front.scroll,"profiles "+tag)
 	front._set_value("text_scale",1.0)
 	await android_back()
 	if game.get_node_or_null("Frontend")!=null:await press(game.get_node("Frontend"),"frontend_continue")
