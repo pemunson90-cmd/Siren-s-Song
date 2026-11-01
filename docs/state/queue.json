@@ -457,11 +457,11 @@
     "claude:opus",
     "codex"
    ],
-   "status": "waiting_intent",
-   "phase": "intent",
+   "status": "merging",
+   "phase": "C",
    "branch": "item/139-bare-contact",
    "pr": 252,
-   "head": "07a407bbbd245fab857fb631b0b8af9109fe452d",
+   "head": "37db50730801bb767f6ac2f7297ae4f82996aa22",
    "file": "docs/state/items/139-bare-contact.md",
    "attempts": {
     "A": 1,
@@ -470,7 +470,7 @@
    },
    "blocker": null,
    "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-139",
-   "updated": "2026-11-01T04:38:18Z",
+   "updated": "2026-11-01T04:42:17Z",
    "provider": "claude:opus",
    "started": "2026-11-01T02:55:55Z"
   },
@@ -583,11 +583,11 @@
     "claude:sonnet",
     "codex"
    ],
-   "status": "active",
-   "phase": "review",
+   "status": "merging",
+   "phase": "C",
    "branch": "item/144-all-stop-cost",
    "pr": 253,
-   "head": "786159c0eb9008337661d42d218894c22abe06d3",
+   "head": "35e504829a164dfb7b6a31e99c02e215ae6de1ae",
    "file": "docs/state/items/144-all-stop-cost.md",
    "attempts": {
     "A": 1,
@@ -596,7 +596,7 @@
    },
    "blocker": null,
    "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-144",
-   "updated": "2026-11-01T04:38:28Z",
+   "updated": "2026-11-01T04:44:42Z",
    "provider": "claude:sonnet",
    "started": "2026-11-01T04:26:36Z"
   },
@@ -614,18 +614,22 @@
     "claude:sonnet",
     "codex"
    ],
-   "status": "queued",
-   "phase": null,
+   "status": "active",
+   "phase": "A",
    "branch": "item/145-briefing-truth",
    "pr": null,
    "head": null,
    "file": "docs/state/items/145-briefing-truth.md",
    "attempts": {
-    "A": 0,
+    "A": 1,
     "B": 0,
     "C": 0
    },
-   "blocker": null
+   "blocker": null,
+   "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-145",
+   "updated": "2026-11-01T04:44:44Z",
+   "provider": "claude:sonnet",
+   "started": "2026-11-01T04:44:44Z"
   }
  ]
 }

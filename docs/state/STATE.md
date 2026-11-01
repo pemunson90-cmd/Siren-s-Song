@@ -1,4 +1,4 @@
-# STATE (updated 2026-11-01T00:39:44-04:00, by runner2.py)
+# STATE (updated 2026-11-01T00:52:13-04:00, by runner2.py)
 
 ## Base
 integration: d7c645d9   main: a2300840   production: 26e09906
@@ -11,10 +11,11 @@ nightly: not yet running (item 128)   controls mix: not yet measured (item 130)
 | 130 | R5 control-mix telemetry (dev state only | sim | claude:opus | C | item/130-control-mix | 247 | 82db3d60 | merging |
 | 142 | Launching never replaces an active dive  | ui | claude:sonnet | C | item/142-launch-guard | 251 | 26894bf6 | merging |
 | 133 | Recovery manifest before the dive ends | ui | claude:sonnet | C | item/133-recovery-manifest | 249 | a021ba39 | merging |
-| 139 | Bare Quietus meets the Sirens on ops 2,  | sim | claude:opus | intent | item/139-bare-contact | 252 | 07a407bb | waiting_intent |
+| 139 | Bare Quietus meets the Sirens on ops 2,  | sim | claude:opus | C | item/139-bare-contact | 252 | 37db5073 | merging |
 | 140 | Every dive end shows time, hull and oxyg | ui | claude:sonnet | C | item/140-dive-end-stats | 248 | ef97b454 | merging |
 | 141 | Legs warn when they pass through your ow | ui | claude:sonnet | C | item/141-own-craft-legs | 250 | ee36e6f9 | merging |
-| 144 | ALL STOP shows its restart cost up front | text | claude:sonnet | review | item/144-all-stop-cost | 253 | 786159c0 | active |
+| 144 | ALL STOP shows its restart cost up front | text | claude:sonnet | C | item/144-all-stop-cost | 253 | 35e50482 | merging |
+| 145 | Briefing and onboarding text matches the | text | claude:sonnet | A | item/145-briefing-truth | - | - | active |
 
 ## Queued (order = priority; see queue.json)
 131 crash-possible, 134 route-flow, 143 dive-end-polish
