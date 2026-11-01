@@ -11,6 +11,7 @@ const Catalog=preload("res://src/campaign/operation_catalog.gd")
 var checks=0
 var failures=0
 var snake=RegEx.new()
+var word=RegEx.new()
 func check(ok,label):
 	checks+=1
 	if not ok:failures+=1;printerr("FAIL ",label)
@@ -26,8 +27,16 @@ func pattern_leaks(text:String)->bool:
 	return snake.search(text)!=null
 func listed_leaks(text:String)->bool:
 	var low=text.to_lower()
+	var words=word.search_all(text)
 	for id in codenames():
-		if id.contains("_") and low.contains(id):return true
+		if id.contains("_"):
+			if low.contains(id):return true
+		elif text.strip_edges()==id:return true # A label that is only the lowercase bare id; display names are capitalised.
+		elif id=="emp":
+			# Not an English word: the player-facing name is Disrupt.
+			for m in words:
+				if m.get_string().to_lower()==id:return true
+		# Other bare ids (decoy, recon, survey) are plain English inside prose.
 	return false
 func leaks(text:String)->bool:
 	return pattern_leaks(text) or listed_leaks(text)
@@ -51,7 +60,7 @@ func scan(node:Node,label:String)->int:
 			seen+=1;clean(child.text,label+" ["+child.get_class()+"]")
 		seen+=scan(child,label)
 	return seen
-func screen(state:Dictionary,seed_value:int,step:int,debrief:bool)->void:
+func screen(state:Dictionary,seed_value:int,step:int,debrief:bool,terminal:bool=false)->void:
 	var path="user://138-names.save"
 	var host=load("res://scenes/main.tscn").instantiate()
 	host.set_script(load("res://tests/density_main.gd"))
@@ -59,24 +68,34 @@ func screen(state:Dictionary,seed_value:int,step:int,debrief:bool)->void:
 	root.add_child(host);await frames()
 	var session=load("res://scenes/main.tscn").instantiate()
 	session.set_script(load("res://src/presentation/runs/expedition_session.gd"))
-	session.campaign_host=host;session.run_state=state.duplicate(true)
+	session.campaign_host=host;session.run_state=(State.launch(state) if debrief else state).duplicate(true)
 	session.process_mode=Node.PROCESS_MODE_ALWAYS;session.freeze_campaign();host.add_child(session);await frames()
 	var tag="seed %d step %d"%[seed_value,step]
 	var seen=scan(session.panel_box,tag+" screen "+str(session.screen))
 	if debrief:
 		session.sim.outcome="won";session._debrief();await frames()
 		seen+=scan(session.panel_box,tag+" result")
+	if terminal:
+		# Completed run: render the real result screen with the terminal summary lines.
+		session.run_state=completed(seed_value);session.recorded=true;session._result_menu();await frames()
+		check(session.run_state.status!="active" and session.screen=="expedition_result","terminal result reached: "+tag)
+		seen+=scan(session.panel_box,tag+" terminal summary")
+		check(scan(session.panel_box,tag+" terminal recount")>8,"terminal summary lines rendered: "+tag)
 	check(seen>0,tag+" rendered labels")
 	host.queue_free();await frames()
 func _initialize():call_deferred("run")
 func run():
 	snake.compile("[A-Za-z0-9]+_[A-Za-z0-9_]+")
+	word.compile("[A-Za-z0-9]+")
 	# Matcher self-checks. The regex alone must catch ids so table lookups cannot mask it.
 	check(pattern_leaks("unknown_id"),"regex catches unknown_id")
 	check(pattern_leaks("see SILT_SCREEN now"),"regex catches uppercase id")
 	check(not pattern_leaks("Silt Archive"),"regex passes plain words")
 	check(not pattern_leaks("EXPEDITION · SEED 4 / 3 OF 5"),"regex passes header text")
 	check(leaks("unknown_id") and not leaks("Silt Archive"),"leaks self-check")
+	check(listed_leaks("knock") and listed_leaks("recon") and listed_leaks("survey"),"list catches labels that are a bare id")
+	check(listed_leaks("fire the emp now") and listed_leaks("EMP burst"),"list catches emp")
+	check(not listed_leaks("Recon Drone") and not listed_leaks("Decoy") and not listed_leaks("a southern survey mouth"),"list passes display names and prose")
 	for op in 41:
 		if Catalog.definition(op).is_empty():continue
 		var m=Catalog.make(op,{})
@@ -98,7 +117,7 @@ func run():
 		var st=State.new_run(s+1)
 		var step=0
 		while st.status=="active":
-			await screen(st,s+1,step,true)
+			await screen(st,s+1,step,true,st.cursor==st.operations.size()-1)
 			if Offers.pending(st):st=Offers.choose(st,st.offers.pending[0])
 			st=Offers.prepare(State.settle(State.launch(st),won(st)))
 			step+=1
