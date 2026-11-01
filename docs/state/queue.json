@@ -351,20 +351,20 @@
     "claude:sonnet",
     "codex"
    ],
-   "status": "merging",
+   "status": "blocked",
    "branch": "item/137-menu-scroll-keys",
    "file": "docs/state/items/137-menu-scroll-keys.md",
    "attempts": {
     "A": 3,
     "B": 3,
-    "C": 0
+    "C": 1
    },
    "phase": "C",
    "pr": 246,
    "head": "667651f0c4271bda49ae485c67c8b6a7a04eef18",
-   "blocker": null,
+   "blocker": "phase A attempt cap 3 reached",
    "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-137",
-   "updated": "2026-11-01T01:52:30Z",
+   "updated": "2026-11-01T02:36:47Z",
    "provider": "claude:sonnet",
    "started": "2026-10-31T21:55:16Z"
   },
@@ -387,16 +387,16 @@
    "branch": "item/138-player-names",
    "file": "docs/state/items/138-player-names.md",
    "attempts": {
-    "A": 2,
+    "A": 3,
     "B": 2,
     "C": 0
    },
-   "phase": "B",
+   "phase": "A",
    "pr": 245,
    "head": "c0b9bf1436727c87536ac29ce32efeb627c58534",
    "blocker": null,
    "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-138",
-   "updated": "2026-11-01T02:25:31Z",
+   "updated": "2026-11-01T02:30:28Z",
    "provider": "claude:sonnet",
    "started": "2026-10-31T22:37:48Z"
   },
