@@ -4,7 +4,7 @@ Goal (player): Run summaries, expedition screens and records name operations, re
 Why now: Critic 123 C47 (run_summary_view.gd:8, run_records.gd:71, expedition_session.gd:76), verified medium; recheck which strings still leak before changing anything.
 Class: text
 Areas: economy, runs.ui
-Files: game/src/presentation/runs/**, game/src/campaign/runs/**, game/tests/player_names_tests.gd
+Files: game/src/presentation/runs/**, game/src/presentation/tool_racks_view.gd (display names only, D34), game/src/campaign/runs/**, game/tests/player_names_tests.gd
 Serial zones touched: none
 Depends on: none
 Protected rules touched: none
