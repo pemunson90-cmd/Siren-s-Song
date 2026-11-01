@@ -12,7 +12,7 @@ Keep evidence levels distinct: implementation, scripted verification, cold play 
 ## Execution and verification
 
 Use Godot4.6.3 / GDScript / Compatibility. Independent separate review precedes every new commit and merge; root verifies unchanged approved bytes or exact head/parents. Merge only reviewed current heads with their required hosted checks passed. Use focused local checks; batch broad regression at meaningful milestones. Do not loosen assertions or timeouts.
-No Android APK builds or physical-phone acceptance claims. Preserve existing profiles, saves, other workers' edits, recovery refs and the Git-tracked development signer under scripts/toolchain/signing/. No force push or branch deletion.
+APK builds are allowed when they help testing, signed only with the Git-tracked development key under scripts/toolchain/signing/ (never a regenerated key; no release signing; Pat 1 Nov). No physical-phone acceptance claims without device evidence. Preserve existing profiles, saves, other workers' edits, recovery refs and the Git-tracked development signer under scripts/toolchain/signing/. No force push or branch deletion.
 Run scripts/toolchain/gauntlet-boundary.py at required boundaries and apply changed guidance semantically; a structural pass is not proof of current ownership or game quality. Follow docs/GAUNTLET_ORCHESTRATION.md and docs/DESKTOP_HANDOFF.md for execution/recovery.
 Only Pat's stop or actual execution/usage exhaustion interrupts authorized work. On exhaustion checkpoint exact SHA, branches, owners, evidence and first resumption command as PAUSED — RESUME REQUIRED; do not claim invisible execution after a session ends.
 
