@@ -36,7 +36,7 @@ static func show_mode(host,is_run:bool,change:Callable)->void:
 static func controls(host,slots:Array,change:Callable,prefix:String,stock:Dictionary={},detailed:bool=false,stock_limited:bool=false)->void:
  if not Racks.enabled:return
  for slot in slots:
-  if prefix=="mode_rack":host._menu_text(slot.to_upper(),17)
+  if prefix=="mode_rack":host._menu_text(slot.replace("_"," ").to_upper(),17)
   for id in Tools.ids():
    if slot!="quietus" and id in Racks.QUIETUS_ONLY:continue
    if id in Tools.field_ids() and not Tools.is_enabled(id):continue
