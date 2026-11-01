@@ -235,20 +235,20 @@
     "claude:sonnet",
     "codex"
    ],
-   "status": "waiting_intent",
-   "phase": "intent",
+   "status": "active",
+   "phase": "A",
    "branch": "item/142-launch-guard",
    "pr": 251,
    "head": "16045d633b701482a44b91b0253aacdf4e36683d",
    "file": "docs/state/items/142-launch-guard.md",
    "attempts": {
-    "A": 2,
+    "A": 3,
     "B": 1,
     "C": 1
    },
    "blocker": null,
    "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-142",
-   "updated": "2026-11-01T07:43:45Z",
+   "updated": "2026-11-01T20:46:07Z",
    "provider": "claude:sonnet",
    "started": "2026-11-01T04:05:03Z"
   },
@@ -461,11 +461,11 @@
     "claude:opus",
     "codex"
    ],
-   "status": "waiting_intent",
-   "phase": "intent",
+   "status": "merging",
+   "phase": "C",
    "branch": "item/139-bare-contact",
    "pr": 252,
-   "head": "dfda23615db742fef7083c9f78c126ec237b159f",
+   "head": "25c42e726c9c93e061f3ab6909b585e780e288db",
    "file": "docs/state/items/139-bare-contact.md",
    "attempts": {
     "A": 2,
@@ -474,7 +474,7 @@
    },
    "blocker": null,
    "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-139",
-   "updated": "2026-11-01T10:00:28Z",
+   "updated": "2026-11-01T20:46:16Z",
    "provider": "claude:opus",
    "started": "2026-11-01T02:55:55Z"
   },
@@ -561,18 +561,18 @@
     "codex"
    ],
    "status": "active",
-   "phase": "B-wait",
+   "phase": "B",
    "branch": "item/143-dive-end-polish",
    "pr": 256,
    "head": "d9909629929e877f0ea77f0509ec71ee5764a10b",
    "file": "docs/state/items/143-dive-end-polish.md",
    "attempts": {
     "A": 2,
-    "B": 2,
+    "B": 3,
     "C": 0
    },
    "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-143",
-   "updated": "2026-11-01T08:50:59Z",
+   "updated": "2026-11-01T20:46:08Z",
    "provider": "claude:sonnet",
    "started": "2026-11-01T08:07:50Z"
   },

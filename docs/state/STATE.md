@@ -1,4 +1,4 @@
-# STATE (updated 2026-11-01T15:45:45-05:00, by runner2.py)
+# STATE (updated 2026-11-01T15:56:28-05:00, by runner2.py)
 
 ## Base
 integration: c3163afc   main: a2300840   production: 26e09906
@@ -8,9 +8,9 @@ nightly: not yet running (item 128)   controls mix: not yet measured (item 130)
 ## In flight
 | item | title | class | provider | phase | branch | PR | head | status |
 | PKG2 | Stable board and clear threat (PR 239, r | ui | external | B | root/stable-board-pkg2 | 239 | 527e4478 | parked |
-| 142 | Launching never replaces an active dive  | ui | claude:sonnet | intent | item/142-launch-guard | 251 | 16045d63 | waiting_intent |
-| 139 | Bare Quietus meets the Sirens on ops 2,  | sim | claude:opus | intent | item/139-bare-contact | 252 | dfda2361 | waiting_intent |
-| 143 | Honest END DIVE, stats on every recovery | ui | claude:sonnet | B-wait | item/143-dive-end-polish | 256 | d9909629 | active |
+| 142 | Launching never replaces an active dive  | ui | claude:sonnet | A | item/142-launch-guard | 251 | 16045d63 | active |
+| 139 | Bare Quietus meets the Sirens on ops 2,  | sim | claude:opus | C | item/139-bare-contact | 252 | 25c42e72 | merging |
+| 143 | Honest END DIVE, stats on every recovery | ui | claude:sonnet | B | item/143-dive-end-polish | 256 | d9909629 | active |
 
 ## Queued (order = priority; see queue.json)
 134 route-flow
