@@ -5,6 +5,8 @@ const SettingsStore=preload("res://src/persistence/settings_store.gd")
 const ReachTable=preload("res://src/presentation/frontend/menu_reach_table.gd")
 var checks=0
 var failures=0
+var panels=0
+var profile_panels=0
 func check(ok,label):
 	checks+=1
 	if not ok:failures+=1;printerr("FAIL ",label)
@@ -232,6 +234,8 @@ func wheel(point,up=false):
 		var e=InputEventMouseButton.new();e.position=point;e.global_position=point;e.button_index=MOUSE_BUTTON_WHEEL_UP if up else MOUSE_BUTTON_WHEEL_DOWN;e.pressed=down;root.push_input(e,true);await process_frame
 # One panel: the last control is reachable by wheel, touch drag and focus-next.
 func reach_panel(scroll,label):
+	panels+=1
+	if label.begins_with("profile"):profile_panels+=1
 	await settle()
 	var bar=scroll.get_v_scroll_bar()
 	var items=focusables(scroll)
@@ -272,10 +276,16 @@ func reach_case(shape):
 	var stem="user://menu-reach-keys-%d-%d"%[shape.x,shape.y]
 	var archive=stem+".save";var settings_path=stem+"-settings.json"
 	clean(archive);clean(settings_path);clean(archive+".challenges")
+	# Profile-backed store (no assigned path) so the profile picker is available.
+	var profiles=load("res://src/persistence/profiles/profile_store.gd").new()
+	check(profiles.open(),"reach case profiles open")
+	for n in 3:profiles.clear(n,true)
+	profiles.select(0)
 	var game=load("res://scenes/main.tscn").instantiate()
-	game.store.path=archive;game.settings_path=settings_path
+	game.settings_path=settings_path
 	game.capture_scenario="runtime-test"
 	root.add_child(game);await settle();game.set_process(false)
+	check(game.store.uses_profiles(),"reach case store is profile-backed")
 	game.completed=[0];game.unlocked=1
 	game._show_campaign();game.capture_scenario="";game._save_archive();game._boot_frontend();await settle()
 	var front=game.get_node_or_null("Frontend")
@@ -297,8 +307,25 @@ func reach_case(shape):
 				load("res://src/presentation/frontend/challenges_frontend.gd").details(front,row.id);await reach_panel(front.scroll,"challenge details "+tag);break
 		load("res://src/presentation/runs/modes_frontend.gd").expeditions(front);await reach_panel(front.scroll,"expeditions "+tag)
 		load("res://src/presentation/career/career_frontend.gd").show(front);await reach_panel(front.scroll,"career "+tag)
-		if front.profile_picker.available():front.profile_picker.show_picker();await reach_panel(front.scroll,"profiles "+tag)
+		var modes=load("res://src/presentation/runs/modes_frontend.gd")
+		modes.seed_screen(front,31);await reach_panel(front.scroll,"run_seed "+tag)
+		var RunState=load("res://src/campaign/runs/run_state.gd")
+		var lost=RunState.new_run(31)
+		lost=RunState.settle(RunState.launch(lost),{"op":RunState.current_operation(lost),"outcome":"lost","time":12.,"hull":90.,"tools":lost.stock.duplicate(),"story":{},"photo":.91})
+		var summary=load("res://src/campaign/runs/run_records.gd").summary(lost)
+		check(not summary.is_empty(),"reach case builds a finished run summary")
+		if not summary.is_empty():modes.record_detail(front,summary);await reach_panel(front.scroll,"run_record "+tag)
+		modes.confirm_end(front,RunState.new_run(31));await reach_panel(front.scroll,"run_end "+tag)
+		check(front.profile_picker.available(),"profile picker is available in the reach case")
+		var picker=front.profile_picker
+		picker.show_picker();await reach_panel(front.scroll,"profiles "+tag)
+		picker.show_slot(0);await reach_panel(front.scroll,"profile slot "+tag)
+		picker.show_rename();await reach_panel(front.scroll,"profile rename "+tag)
+		picker.show_slot(0);picker.show_copy();await reach_panel(front.scroll,"profile copy "+tag)
+		picker.show_slot(0);picker.show_import();await reach_panel(front.scroll,"profile import "+tag)
+		picker.show_slot(0);picker.confirm("Replace profile?",func():pass);await reach_panel(front.scroll,"profile confirm "+tag)
 	front._set_value("text_scale",1.0)
+	front._title_screen();await settle()
 	await android_back()
 	if game.get_node_or_null("Frontend")!=null:await press(game.get_node("Frontend"),"frontend_continue")
 	if await press(game,"settings"):
@@ -307,6 +334,9 @@ func reach_case(shape):
 			for page in ["audio","display","controls"]:
 				await press(game,"settings_page_"+page)
 				await reach_panel(game.scroll,"operations settings/%s %d%%"%[page,roundi(text_scale*100)])
+	# 6 profile panels x 2 text scales: fails if the profiles block is skipped.
+	check(profile_panels==12,"every profile panel was visited at both text scales: "+str(profile_panels))
+	for n in 3:profiles.clear(n,true)
 	game.queue_free();await settle();clean(archive);clean(settings_path);clean(archive+".challenges")
 func run():
 	for shape in [Vector2i(2520,1080),Vector2i(2184,1968),Vector2i(960,432)]:await shape_case(shape)
