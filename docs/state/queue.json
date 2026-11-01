@@ -458,19 +458,19 @@
     "codex"
    ],
    "status": "active",
-   "phase": "A",
+   "phase": "B",
    "branch": "item/140-dive-end-stats",
    "pr": null,
-   "head": null,
+   "head": "06617e8a",
    "file": "docs/state/items/140-dive-end-stats.md",
    "attempts": {
     "A": 1,
-    "B": 0,
+    "B": 1,
     "C": 0
    },
    "blocker": null,
    "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-140",
-   "updated": "2026-11-01T03:09:40Z",
+   "updated": "2026-11-01T03:39:46Z",
    "provider": "claude:sonnet",
    "started": "2026-11-01T03:09:40Z"
   },

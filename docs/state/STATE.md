@@ -1,4 +1,4 @@
-# STATE (updated 2026-10-31T23:22:40-04:00, by runner2.py)
+# STATE (updated 2026-10-31T23:39:53-04:00, by runner2.py)
 
 ## Base
 integration: e51b85d0   main: a2300840   production: 26e09906
@@ -13,7 +13,7 @@ nightly: not yet running (item 128)   controls mix: not yet measured (item 130)
 | 137 | Menu panels scroll and take keys | ui | claude:sonnet | C | item/137-menu-scroll-keys | 246 | a0729129 | merging |
 | 138 | No internal ids on player screens | text | claude:sonnet | C | item/138-player-names | 245 | e96806c5 | merging |
 | 139 | Bare Quietus meets the Sirens on ops 2,  | sim | claude:opus | A | item/139-bare-contact | - | - | active |
-| 140 | Every dive end shows time, hull and oxyg | ui | claude:sonnet | A | item/140-dive-end-stats | - | - | active |
+| 140 | Every dive end shows time, hull and oxyg | ui | claude:sonnet | B | item/140-dive-end-stats | - | 06617e8a | active |
 
 ## Queued (order = priority; see queue.json)
 131 crash-possible, 134 route-flow, 141 own-craft-legs
