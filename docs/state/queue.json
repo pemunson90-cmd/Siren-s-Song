@@ -303,8 +303,8 @@
     "claude:sonnet",
     "codex"
    ],
-   "status": "merging",
-   "phase": "C",
+   "status": "done",
+   "phase": null,
    "branch": "item/133-recovery-manifest",
    "pr": 249,
    "head": "3adffb6606022fd8024296895ce95b5f99fb0e21",
@@ -316,7 +316,7 @@
    },
    "blocker": null,
    "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-133",
-   "updated": "2026-11-01T05:31:57Z",
+   "updated": "2026-11-01T06:21:52Z",
    "provider": "claude:sonnet",
    "started": "2026-11-01T02:55:32Z"
   },

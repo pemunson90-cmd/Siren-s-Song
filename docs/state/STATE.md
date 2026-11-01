@@ -1,7 +1,7 @@
-# STATE (updated 2026-11-01T01:53:10-04:00, by runner2.py)
+# STATE (updated 2026-11-01T01:21:53-05:00, by runner2.py)
 
 ## Base
-integration: 4574f8c8   main: a2300840   production: 26e09906
+integration: ed8034ac   main: a2300840   production: 26e09906
 v1 frozen: branch archive/workflow-v1-2026-10-31 (543fd415); queue folder zip artifacts/workflow-v1-archive/ (MANIFEST.txt)
 nightly: not yet running (item 128)   controls mix: not yet measured (item 130)
 
@@ -10,7 +10,6 @@ nightly: not yet running (item 128)   controls mix: not yet measured (item 130)
 | PKG2 | Stable board and clear threat (PR 239, r | ui | external | B | root/stable-board-pkg2 | 239 | 527e4478 | parked |
 | 142 | Launching never replaces an active dive  | ui | claude:sonnet | C | item/142-launch-guard | 251 | d4bc835d | merging |
 | 131 | R4 crash possible with edge assist | sim | claude:opus | C | item/131-crash-possible | 255 | e40db3de | merging |
-| 133 | Recovery manifest before the dive ends | ui | claude:sonnet | C | item/133-recovery-manifest | 249 | 3adffb66 | merging |
 | 139 | Bare Quietus meets the Sirens on ops 2,  | sim | claude:opus | C | item/139-bare-contact | 252 | 37db5073 | merging |
 | 140 | Every dive end shows time, hull and oxyg | ui | claude:sonnet | C | item/140-dive-end-stats | 248 | ef97b454 | merging |
 | 141 | Legs warn when they pass through your ow | ui | claude:sonnet | C | item/141-own-craft-legs | 250 | ee36e6f9 | merging |
@@ -21,7 +20,7 @@ nightly: not yet running (item 128)   controls mix: not yet measured (item 130)
 134 route-flow, 143 dive-end-polish
 
 ## Done (branches kept)
-126 claude/truthful-commands PR 238, 127 item/127-release-controls PR 241, 136 item/136-shard-all-failures PR 242, 128 item/128-ci-v2 PR 240, 129 item/129-protected-golden PR 243, 130 item/130-control-mix PR 247, 135 item/135-prep-results PR 244, 137 item/137-menu-scroll-keys PR 246, 138 item/138-player-names PR 245
+126 claude/truthful-commands PR 238, 127 item/127-release-controls PR 241, 136 item/136-shard-all-failures PR 242, 128 item/128-ci-v2 PR 240, 129 item/129-protected-golden PR 243, 130 item/130-control-mix PR 247, 133 item/133-recovery-manifest PR 249, 135 item/135-prep-results PR 244, 137 item/137-menu-scroll-keys PR 246, 138 item/138-player-names PR 245
 
 ## Blockers
 - provider codex down: ERROR: You’ve hit your usage limit. Visit https://chatgpt.com/settings/usage to purchase more credit (probed 2026-11-01T01:45:28-04:00)
