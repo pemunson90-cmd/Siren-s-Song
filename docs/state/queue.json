@@ -564,8 +564,8 @@
     "claude:sonnet",
     "codex"
    ],
-   "status": "merging",
-   "phase": "C",
+   "status": "done",
+   "phase": null,
    "branch": "item/143-dive-end-polish",
    "pr": 256,
    "head": "0087f5eeae37b35bbff214c9b475918cf4c598c1",
@@ -576,7 +576,7 @@
     "C": 0
    },
    "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-143",
-   "updated": "2026-11-01T22:42:44Z",
+   "updated": "2026-11-01T23:33:43Z",
    "provider": "claude:sonnet",
    "started": "2026-11-01T08:07:50Z",
    "blocker": null
