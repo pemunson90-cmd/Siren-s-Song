@@ -591,8 +591,8 @@
     "claude:sonnet",
     "codex"
    ],
-   "status": "merging",
-   "phase": "C",
+   "status": "done",
+   "phase": null,
    "branch": "item/144-all-stop-cost",
    "pr": 253,
    "head": "3e4907b4c0404693ad5872855762de23047d7932",
@@ -604,7 +604,7 @@
    },
    "blocker": null,
    "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-144",
-   "updated": "2026-11-01T09:00:42Z",
+   "updated": "2026-11-01T09:47:56Z",
    "provider": "claude:sonnet",
    "started": "2026-11-01T04:26:36Z"
   },
