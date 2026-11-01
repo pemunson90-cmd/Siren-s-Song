@@ -199,7 +199,7 @@ static func confirm_departure(main)->void:
      return
     # Separate explicit station and route commands clear queued append intent,
     # preserving this craft's profile and propulsion rather than emergency drive.
-    main._order("select",{"unit":unit});main._order("route",{"point":mouth.pos}) # TRAVEL:module_return
+    main._order("select",{"unit":unit});main._order("route",{"point":mouth.pos,"travel":"module_return"}) # TRAVEL:module_return
     main._order("depart",{"confirm":false});main._enter_water()
    ,"return_module_%d"%unit)
   elif module.state=="salvage":

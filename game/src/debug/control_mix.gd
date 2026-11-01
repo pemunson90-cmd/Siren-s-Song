@@ -82,3 +82,15 @@ static func one_press_share(sim)->float:
  var t=totals(sim);var sum=0.0
  for k in KINDS:sum+=t[k]
  return t.one_press/sum if sum>0.0 else 0.0
+
+# One report row per op (R5: critic kits and the nightly read it). Printed at
+# every debrief, dev or not, so each critic log carries the number.
+static func report(sim)->Dictionary:
+ var t=totals(sim);var row={"title":str(sim.mission.get("title","")) if sim.mission is Dictionary else "","dev":on(sim),"one_press_share":snappedf(one_press_share(sim),.001)}
+ for k in KINDS:row[k]=snappedf(t[k],.1)
+ return row
+
+static func debrief(sim)->void:
+ if sim==null or sim.has_meta("control_mix_reported"):return
+ sim.set_meta("control_mix_reported",true)
+ print("SS_CONTROL_MIX ",JSON.stringify(report(sim)))

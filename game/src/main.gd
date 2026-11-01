@@ -298,7 +298,7 @@ func _recovery_route() -> void:
 		destinations.append({"pos":sim.mission.extraction,"name":"INCOMPLETE WITHDRAWAL","withdrawal":true})
 	# 127: one-press withdraw autopilot is a dev/test shortcut only.
 	if not ReleaseControls.allowed(self,"withdraw_home"):sim.message="Plot legs to the recovery mouth by hand";_refresh();return
-	if destinations.size()==1:_order("route",{"point":destinations[0].pos}) # TRAVEL:withdraw_home
+	if destinations.size()==1:_order("route",{"point":destinations[0].pos,"travel":"withdraw_home"}) # TRAVEL:withdraw_home
 	elif not destinations.is_empty():mission_hud.open_recovery(destinations)
 func _order(order: String,args: Dictionary={}) -> void:
 	if advanced_orders and order!="select":

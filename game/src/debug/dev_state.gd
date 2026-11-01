@@ -3,6 +3,7 @@ extends RefCounted
 # Revert: stop installing console; retain this validator and taint guards for existing saves.
 const Catalog=preload("res://src/campaign/operation_catalog.gd")
 const Equipment=preload("res://src/equipment/equipment_catalog.gd")
+const ControlMix=preload("res://src/debug/control_mix.gd")
 static func marked(host)->bool:
  if host.get_meta("dev_profile",false):return true
  if host.get_property_list().any(func(p):return p.name=="sim") and host.sim!=null and host.sim.mission!=null and host.sim.mission.get("dev",false):return true
@@ -72,6 +73,8 @@ static func preset(thread:String,channel:String,votes:String,sorley:bool)->Dicti
  return h
 
 static func block_debrief(host)->bool:
+ # 130 R5: every debrief logs the control mix for critic runs.
+ ControlMix.debrief(host.get("sim"))
  if not marked(host):return false
  if host.get("debug_console")!=null:host.debug_console.debrief()
  else:

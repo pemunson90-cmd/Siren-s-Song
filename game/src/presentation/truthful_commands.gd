@@ -120,10 +120,10 @@ static func route(hud,key:String)->void:
  if not preload("res://src/presentation/release_controls.gd").allowed(hud.host,key):return
  var target=route_target(hud,key)
  if target.is_empty():
-  if key=="route_here":hud.host._order("route",{"point":hud.subject.pos}) # TRAVEL:route_here
+  if key=="route_here":hud.host._order("route",{"point":hud.subject.pos,"travel":"route_here"}) # TRAVEL:route_here
   return
  var result=approach(hud.host.sim,target)
- if result.ready:hud.host._order("route",{"point":result.point}) # TRAVEL:route_here TRAVEL:glass_route TRAVEL:choir_route
+ if result.ready:hud.host._order("route",{"point":result.point,"travel":key}) # TRAVEL:route_here TRAVEL:glass_route TRAVEL:choir_route
  else:hud.host.sim.message=result.reason;hud.host._refresh()
 
 static func depth_reason(sim,direction:int)->String:
