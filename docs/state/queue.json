@@ -268,20 +268,20 @@
     "claude:opus",
     "codex"
    ],
-   "status": "active",
-   "phase": "A",
+   "status": "merging",
+   "phase": "C",
    "branch": "item/131-crash-possible",
-   "pr": null,
-   "head": null,
+   "pr": 255,
+   "head": "e40db3dec2965eb8dd7e3d35e8bac8f20565cef4",
    "file": "docs/state/items/131-crash-possible.md",
    "attempts": {
     "A": 1,
-    "B": 0,
+    "B": 1,
     "C": 0
    },
    "blocker": null,
    "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-131",
-   "updated": "2026-11-01T05:29:38Z",
+   "updated": "2026-11-01T05:51:04Z",
    "provider": "claude:opus",
    "started": "2026-11-01T05:29:38Z"
   },

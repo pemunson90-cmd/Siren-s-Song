@@ -1,4 +1,4 @@
-# STATE (updated 2026-11-01T01:40:52-04:00, by runner2.py)
+# STATE (updated 2026-11-01T01:53:10-04:00, by runner2.py)
 
 ## Base
 integration: 4574f8c8   main: a2300840   production: 26e09906
@@ -9,7 +9,7 @@ nightly: not yet running (item 128)   controls mix: not yet measured (item 130)
 | item | title | class | provider | phase | branch | PR | head | status |
 | PKG2 | Stable board and clear threat (PR 239, r | ui | external | B | root/stable-board-pkg2 | 239 | 527e4478 | parked |
 | 142 | Launching never replaces an active dive  | ui | claude:sonnet | C | item/142-launch-guard | 251 | d4bc835d | merging |
-| 131 | R4 crash possible with edge assist | sim | claude:opus | A | item/131-crash-possible | - | - | active |
+| 131 | R4 crash possible with edge assist | sim | claude:opus | C | item/131-crash-possible | 255 | e40db3de | merging |
 | 133 | Recovery manifest before the dive ends | ui | claude:sonnet | C | item/133-recovery-manifest | 249 | 3adffb66 | merging |
 | 139 | Bare Quietus meets the Sirens on ops 2,  | sim | claude:opus | C | item/139-bare-contact | 252 | 37db5073 | merging |
 | 140 | Every dive end shows time, hull and oxyg | ui | claude:sonnet | C | item/140-dive-end-stats | 248 | ef97b454 | merging |
@@ -24,7 +24,7 @@ nightly: not yet running (item 128)   controls mix: not yet measured (item 130)
 126 claude/truthful-commands PR 238, 127 item/127-release-controls PR 241, 136 item/136-shard-all-failures PR 242, 128 item/128-ci-v2 PR 240, 129 item/129-protected-golden PR 243, 130 item/130-control-mix PR 247, 135 item/135-prep-results PR 244, 137 item/137-menu-scroll-keys PR 246, 138 item/138-player-names PR 245
 
 ## Blockers
-- provider codex down: ERROR: You’ve hit your usage limit. Visit https://chatgpt.com/settings/usage to purchase more credit (probed 2026-11-01T01:19:15-04:00)
+- provider codex down: ERROR: You’ve hit your usage limit. Visit https://chatgpt.com/settings/usage to purchase more credit (probed 2026-11-01T01:45:28-04:00)
 
 ## Waiting on Pat
 - Q3 intent card and spec line 73; Q4 daily digest; Q5 model cap (docs/workflow-v2/QUESTIONS_FOR_PAT.md on claude/workflow-v2)
