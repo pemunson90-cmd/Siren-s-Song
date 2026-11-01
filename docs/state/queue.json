@@ -86,11 +86,11 @@
    "prov": [
     "claude:opus"
    ],
-   "status": "waiting_intent",
-   "phase": "intent",
+   "status": "merging",
+   "phase": "C",
    "branch": "root/stable-board-pkg2",
    "pr": 239,
-   "head": "45d96eddf192b2b80e73473799b10d182779df10",
+   "head": "2bb433f9f7cd6113f35503cc0c05ba9a30bcdde7",
    "file": "docs/state/items/pkg2-stable-board.md",
    "attempts": {
     "A": 1,
@@ -100,7 +100,7 @@
    "blocker": null,
    "provider": "claude:opus",
    "started": "2026-11-01T21:22:10Z",
-   "updated": "2026-11-01T22:21:10Z"
+   "updated": "2026-11-01T22:23:21Z"
   },
   {
    "id": 136,
@@ -563,11 +563,11 @@
     "claude:sonnet",
     "codex"
    ],
-   "status": "active",
+   "status": "blocked",
    "phase": "A",
    "branch": "item/143-dive-end-polish",
    "pr": 256,
-   "head": "d9909629929e877f0ea77f0509ec71ee5764a10b",
+   "head": "1b1069b212d5854083f062ca441a63124273910e",
    "file": "docs/state/items/143-dive-end-polish.md",
    "attempts": {
     "A": 3,
@@ -575,9 +575,10 @@
     "C": 0
    },
    "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-143",
-   "updated": "2026-11-01T21:39:17Z",
+   "updated": "2026-11-01T22:31:32Z",
    "provider": "claude:sonnet",
-   "started": "2026-11-01T08:07:50Z"
+   "started": "2026-11-01T08:07:50Z",
+   "blocker": "phase B attempt cap 3 reached"
   },
   {
    "id": 144,
