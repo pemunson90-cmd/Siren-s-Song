@@ -3,8 +3,16 @@ extends RefCounted
 # The shared table records whether successful orders run the legacy finish hooks.
 # Revert by inlining these cases and removing their table rows; no rule changes.
 const Tuning=preload("res://src/simulation/tuning.gd")
+const ControlMix=preload("res://src/debug/control_mix.gd")
 
+# 130: dev-only control-mix telemetry wraps every route order; no rule change.
 static func command(sim, order: String, args: Dictionary) -> bool:
+	ControlMix.before(sim,order)
+	var accepted=_command(sim,order,args)
+	if accepted:ControlMix.after(sim,order,args)
+	return accepted
+
+static func _command(sim, order: String, args: Dictionary) -> bool:
 	var u=sim.units[sim.selected]
 	match order:
 		"select":

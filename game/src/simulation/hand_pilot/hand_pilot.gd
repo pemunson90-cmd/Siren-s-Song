@@ -52,6 +52,14 @@ static func straight(sim,a:Vector2,b:Vector2)->Array:
  if rock_at(sim,b):return []
  return [{"pos":b,"stop":true}]
 
+# Name of another live craft of the fleet within hull clearance of the leg.
+static func own_craft_on_leg(sim,u:Dictionary,a:Vector2,b:Vector2)->String:
+ for other in sim.units:
+  if other==u or not other.alive or not sim.Depth.overlap(u,other):continue
+  var near:Vector2=Geometry2D.get_closest_point_to_segment(other.pos,a,b)
+  if near.distance_to(other.pos)<sim.COLLISION_HULL_CLEARANCE:return str(other.name)
+ return ""
+
 static func warnings(sim,unit_id:int)->Array:
  var result=[]
  if unit_id<0 or unit_id>=sim.units.size():return result
@@ -61,6 +69,8 @@ static func warnings(sim,unit_id:int)->Array:
  var origin:Vector2=u.pos
  for node in u.route:
   if crosses_rock(sim,origin,node.pos):result.append({"from":origin,"to":node.pos,"reason":ROCK_REASON})
+  var craft=own_craft_on_leg(sim,u,origin,node.pos)
+  if craft!="":result.append({"from":origin,"to":node.pos,"reason":"Passes "+craft})
   origin=node.pos
  sim._use_band(sim.units[sim.selected].band)
  return result
