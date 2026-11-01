@@ -192,8 +192,9 @@
    "title": "R5 control-mix telemetry (dev state only)",
    "cls": "sim",
    "areas": [
-    "sim.orders",
-    "debug.dev_state"
+    "debug.dev_state",
+    "hud.wording",
+    "sim.orders"
    ],
    "serial": [],
    "deps": [

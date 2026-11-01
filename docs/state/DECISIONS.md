@@ -2,6 +2,7 @@
 
 Pat 2026-10-30 ~18:00: "only surface questions that need me, otherwise record all decision points and keep me posted so I can revert them." Each line: what, why, how to revert. Say "revert Dnn".
 
+- **D37 2026-10-31T23:13 Item 130 scope.** May tag order kind in truthful_commands.gd so live one-press travel is counted; critic and nightly reporting deferred (critic kit is root package 0, nightly not built). Revert: split a reporting item now.
 - **D36 2026-10-31T21:30 Pat ruling: minimum tests, fastest path (RULINGS.md).** Local checks cut to import, core, touched/new suites, canaries, check-suites; full matrix only in CI shards; no reruns of green suites on the same head; PR ready at phase A done so CI overlaps evidence and review. Revert: restore prompts.bak-s12 and CHECKS_TEXT in runner2.py.
 - **D35 2026-10-31T21:05 Item 127 passed with a carried finding; item 139 queued.** Bare hand-flown Quietus meets the Sirens on 5 of 9 ops (2, 16, 17, 20 stay quiet), under the 3/4 bar; 139 fixes it by op layout only, no protected rule. runner2 now renumbers colliding new suite ranks at merge. Revert: drop 139.
 - **D34 2026-10-31T20:22 Item 138 may edit tool_racks_view.gd (display names only).** Its fixed test found DRONE_A/DRONE_B on the expedition menu; no other branch touches the file; it runs the full CI matrix. Revert: drop the line, file a separate item.

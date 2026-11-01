@@ -1,10 +1,10 @@
 # Item 130: R5 control-mix telemetry (dev state only)
 
-Goal (player): Indirect: the share of movement done by one-press travel is a number in every critic run and nightly.
+Goal (player): Indirect: the share of movement done by one-press travel is a correct number the game records for live orders (dev state only). Wiring it into critic and nightly reports waits until those exist (D37).
 Why now: RULING_TESTS.md R5; DIAGNOSIS cause 1.
 Class: sim
 Areas: sim.orders, debug.dev_state
-Files: game/src/simulation/orders/**, game/src/debug/**, game/tests/control_mix_tests.gd
+Files: game/src/simulation/orders/**, game/src/debug/**, game/src/presentation/truthful_commands.gd (order kind tag only, D37), game/tests/control_mix_tests.gd
 Serial zones touched: none
 Depends on: 127
 Protected rules touched: none
