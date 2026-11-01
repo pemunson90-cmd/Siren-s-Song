@@ -1,10 +1,10 @@
 # Item 143: Dive-end polish: honest END DIVE, stats on every recovery screen
 
-Goal (player): (1) In the recovery manifest, CONFIRM only reads END DIVE when it ends the dive; with the Quietus away from every recovery mouth the manifest says so and offers only HOLD (the reason in plain words, for example QUIETUS IS 400 m FROM RECOVERY). (2) The Confluence arc recovery card and the finale first-recovery screen show the same Dive time / Hull / Life support line as other dive ends.
+Goal (player): (1) In the recovery manifest, CONFIRM only reads END DIVE when it ends the dive; with the Quietus away from every recovery mouth the manifest says so (for example QUIETUS IS 400 m FROM RECOVERY) and offers HOLD plus a button that carries on the original EXTRACT/WITHDRAW press, labelled for what it does (for example CONTINUE / HEAD FOR RECOVERY), never END DIVE. (Corrected 1 Nov: "only HOLD" removed the way home; see PR 256 HOLD.) (2) The Confluence arc recovery card and the finale first-recovery screen show the same Dive time / Hull / Life support line as other dive ends.
 Why now: review notes on 133 (recovery_manifest.gd:54-64, CONFIRM END DIVE replays the old route press and the dive continues; Pat 30 Oct truthful-commands ruling) and on 140 (disclosed gap: arc_card.recovered and finale first recovery show no stats line).
 Class: ui
 Areas: hud.recovery, arcs.ui, campaign.endings
-Files: game/src/presentation/recovery_manifest.gd, game/src/presentation/arcs/arc_card.gd (recovered() stats line only), game/src/presentation/finale/finale.gd (first-recovery stats line only), game/tests/dive_end_polish_ui_tests.gd, game/tests/density_scenarios.gd (confirm-press fixture only)
+Files: game/src/presentation/recovery_manifest.gd, game/src/presentation/arcs/arc_card.gd (recovered() stats line only), game/src/presentation/finale/finale.gd (first-recovery stats line only), game/tests/dive_end_polish_ui_tests.gd, game/tests/density_scenarios.gd, game/tests/recovery_route_ui_tests.gd, game/tests/finale_tests.gd (press the manifest button by id only; no bypass flags)
 Serial zones touched: none
 Depends on: 133, 140
 Protected rules touched: none
