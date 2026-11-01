@@ -116,6 +116,8 @@ func run():
   await show_tab("drone_a");check(not fitting("drone_a").disabled,"clearing a fitting makes the other carrier available without stale stock")
   await change_fit("drone_a","drone_deep_cells",label+"-other-carrier")
   await tap(action("begin").get_global_rect().get_center())
+  # Item 142: a launch over a live dive asks first; answer ABANDON.
+  if game.screen=="launch_guard":await tap(action("launch_guard_abandon").get_global_rect().get_center())
   check(game.screen=="mission" and game.sim.equipment_feedback().fitted.drone_a=="drone_deep_cells" and game.sim.equipment_feedback().fitted.drone_b=="","ENTER WATER freezes the chosen fitting after scrolling and several changes")
   game._briefing(0);await settle();await dismiss_arc();check(game.scroll.scroll_vertical==0,"opening a different fresh briefing still resets to its beginning")
   await change_loadout(label)
