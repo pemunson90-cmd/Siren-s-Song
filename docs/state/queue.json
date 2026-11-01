@@ -449,7 +449,8 @@
    "title": "Every dive end shows time, hull and oxygen",
    "cls": "ui",
    "areas": [
-    "campaign.flow"
+    "campaign.flow",
+    "runs.ui"
    ],
    "serial": [],
    "deps": [],

@@ -4,7 +4,7 @@ Goal (player): Whether the dive was recovered, lost, or ended on an expedition, 
 Why now: Critic 123 C41 (verified high on the code path; campaign_flow.gd:206-250: the stats line sits only in the won branch; the expedition branch returns before it and the loss branch never prints it).
 Class: ui
 Areas: campaign.flow
-Files: game/src/presentation/flow/campaign_flow.gd (debrief only), game/tests/dive_end_stats_ui_tests.gd
+Files: game/src/presentation/flow/campaign_flow.gd (debrief only), game/src/presentation/runs/expedition_session.gd (results stats line only), game/tests/dive_end_stats_ui_tests.gd
 Serial zones touched: none
 Depends on: 127
 Protected rules touched: none
