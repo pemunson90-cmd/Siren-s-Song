@@ -34,13 +34,13 @@ const RESTART_NOISE := 1.0
 const COURSE_ORDERS := ["route", "emergency", "order_undo", "route_edit", "route_insert", "route_delete", "route_undo"]
 
 const TEXT := {
-	"engage": "ALL STOP · engines off · coasting to rest · no throttle noise · %.1f%% oxygen",
+	"engage": "ALL STOP · engines off · coasting to rest · no throttle noise · %.1f%% oxygen · %ds restart",
 	"restart": "Engines restarting · %ds to full thrust · %.1f%% oxygen",
 	"refused_oxygen": "Not enough air to shut the engines down",
 	"refused_craft": "Only Quietus can all stop",
 	"refused_depth": "Settle at depth before shutting the engines down",
 	"button": "ALL STOP",
-	"button_cost": "ALL STOP\n%.1f%% O2",
+	"button_cost": "ALL STOP\n%.1f%% O2 · %ds restart",
 	"button_restart": "ENGINES\nRESTART",
 	"button_spinup": "ENGINES\n%ds",
 }
