@@ -622,8 +622,8 @@
     "claude:sonnet",
     "codex"
    ],
-   "status": "merging",
-   "phase": "C",
+   "status": "done",
+   "phase": null,
    "branch": "item/145-briefing-truth",
    "pr": 254,
    "head": "bf99e502abd311c41babb26301dd8e8684d4b5ce",
@@ -635,7 +635,7 @@
    },
    "blocker": null,
    "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-145",
-   "updated": "2026-11-01T09:52:10Z",
+   "updated": "2026-11-01T10:41:36Z",
    "provider": "claude:sonnet",
    "started": "2026-11-01T04:44:44Z"
   }
