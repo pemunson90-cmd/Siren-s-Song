@@ -563,22 +563,22 @@
     "claude:sonnet",
     "codex"
    ],
-   "status": "blocked",
-   "phase": "A",
+   "status": "active",
+   "phase": "B-wait",
    "branch": "item/143-dive-end-polish",
    "pr": 256,
    "head": "1b1069b212d5854083f062ca441a63124273910e",
    "file": "docs/state/items/143-dive-end-polish.md",
    "attempts": {
     "A": 3,
-    "B": 3,
+    "B": 2,
     "C": 0
    },
    "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-143",
    "updated": "2026-11-01T22:31:32Z",
    "provider": "claude:sonnet",
    "started": "2026-11-01T08:07:50Z",
-   "blocker": "phase B attempt cap 3 reached"
+   "blocker": null
   },
   {
    "id": 144,
