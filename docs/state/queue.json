@@ -671,6 +671,33 @@
    "updated": "2026-11-01T21:22:11Z",
    "provider": "claude:sonnet",
    "started": "2026-11-01T21:15:32Z"
+  },
+  {
+   "id": 147,
+   "slug": "integration-apk",
+   "title": "Debug APK from any branch, signature checked",
+   "cls": "ui",
+   "areas": [
+    "tooling"
+   ],
+   "serial": [],
+   "deps": [],
+   "prov": [
+    "claude:sonnet",
+    "codex"
+   ],
+   "status": "queued",
+   "phase": null,
+   "branch": "item/147-integration-apk",
+   "pr": null,
+   "head": null,
+   "file": "docs/state/items/147-integration-apk.md",
+   "attempts": {
+    "A": 0,
+    "B": 0,
+    "C": 0
+   },
+   "blocker": null
   }
  ]
 }

@@ -32,9 +32,10 @@ Resume: python -I C:\Users\Archi\.cache\sirens-song-toolchain\artifacts\queue-s6
 
 ## Next (reconciled 1 Nov against reports/2026-11-01-sirens-song-full-project-overview.md and COLD_REVIEW_5)
 - Finish in flight: 139 merging; 142 and 143 phase B (cards widened 1 Nov); intent on each green exact head.
-- 146 docs-pointers (queued, runs now).
+- 146 docs-pointers (HOLD for the stale APK sentence).
+- 147 integration-apk: debug APK from any branch with a signer check; then one APK of integration after PKG2, 142, 143 land, for Pat to test on the Fold.
 - PKG2 stable board (CR5 ranks 1, 2, 5, 6: 150% reach, tap ownership, threat occlusion, chart re-fit). Highest player cost left. Pat 1 Nov: Claude takes it (claude:opus, merge integration into the branch).
 - Before critic 6: confirm the critic driver fix (package 0: explicit parse errors, temp-then-rename writes) is in the critic kit; nightly (128) and control-mix number (130) produce a first reading.
 - Critic 6, blind whole game on claude/integration after PKG2 lands: must reach END OF LINE and each ending family, Glass Reach 5-9, Iron Choir, one full Expedition, a Career stretch, Ironman. Watch list (not told to the critic): does contact on ops 2/16/17/20 (139) change a decision or cost anything (scripted course shows no cost); do photos read as their subjects and pay off later (F1/F15); does an unanswered launch still lose a dive.
 - From critic 6, plan in this order: photo payoff (value favours distance and tools over quality, plan item 7); late-op variety and the branching route graph (forks mostly change approaches inside ops, not which ops you get; Star Fox scope in the spec); fitting allocation (CR5 rank 10, partly done by 135/138); look and sound read-only comparison (package 6; building waits on Pat art calls; audio never assessed).
-- Not ours to start: APK and physical Fold acceptance (Pat asks); art/story changes (Pat rules).
+- Not ours to start: physical Fold acceptance (Pat plays the APK); art/story changes (Pat rules).
