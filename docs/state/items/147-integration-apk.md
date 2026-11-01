@@ -11,7 +11,8 @@ Protected rules touched: none
 
 ## Acceptance test (fails before, passes after)
 1. build.sh android fails unless the APK's signer certificate SHA-256 (apksigner --print-certs) equals the value in scripts/toolchain/signing/sirens-song-debug.certificate.sha256. Prove both ways locally with apksigner if available, or with a short shell check on a saved apksigner output: the pinned value passes, a changed value fails.
-2. native-smoke runs on workflow_dispatch from any branch (push trigger on gauntlet/production unchanged). Dispatch it once on this item's branch: the run uploads the .apk and .apk.sha256 and the signature check passes. Record the run id. The emulator smoke step may stay as it is; if it fails for emulator reasons only, say so with the log line, do not loosen it.
+2. A new job `debug-apk` in the same workflow runs on workflow_dispatch from any branch: checkout, Godot/Android setup and caches as native-smoke does, headless import with the same SCRIPT ERROR grep, then `scripts/toolchain/build.sh android` (with the check from 1), and uploads the .apk and .apk.sha256. It does not run the Android emulator smokes. native-smoke stays exactly as it is (still production push or dispatch on production only); do not edit or skip its tests. Dispatch debug-apk once on this item's branch: record the run id, signer SHA-256 line and APK sha256.
+(1 Nov: the first dispatch failed in scripts/toolchain/test-android-blackwater.py, a stale Android-only test last run 19 Oct; that repair is item 148, not this one.)
 
 ## Do not
 Generate, replace or move any keystore; touch scripts/toolchain/signing/; add release signing or secrets; change game code or tests.
