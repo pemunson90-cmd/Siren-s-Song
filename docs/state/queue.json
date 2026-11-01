@@ -87,17 +87,20 @@
     "claude:opus"
    ],
    "status": "active",
-   "phase": "A-wait",
+   "phase": "A",
    "branch": "root/stable-board-pkg2",
    "pr": 239,
    "head": "716c895a4a0827420d8b11f5e7be43be62676a03",
    "file": "docs/state/items/pkg2-stable-board.md",
    "attempts": {
-    "A": 0,
+    "A": 1,
     "B": 0,
     "C": 0
    },
-   "blocker": null
+   "blocker": null,
+   "provider": "claude:opus",
+   "started": "2026-11-01T21:22:10Z",
+   "updated": "2026-11-01T21:22:10Z"
   },
   {
    "id": 136,
@@ -652,8 +655,8 @@
     "claude:sonnet",
     "codex"
    ],
-   "status": "active",
-   "phase": "review",
+   "status": "waiting_intent",
+   "phase": "intent",
    "branch": "item/146-docs-pointers",
    "pr": 257,
    "head": "9fea177979681795441a9257c9839e6d798fb209",
@@ -665,7 +668,7 @@
    },
    "blocker": null,
    "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-146",
-   "updated": "2026-11-01T21:20:07Z",
+   "updated": "2026-11-01T21:22:11Z",
    "provider": "claude:sonnet",
    "started": "2026-11-01T21:15:32Z"
   }
