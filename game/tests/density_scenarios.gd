@@ -31,6 +31,10 @@ func route_intent(ui) -> void:
  # 127 (Pat 2026-10-30): EXTRACT autopilot is a dev/test shortcut; release play hides it.
  ui.set_meta("dev_profile",true)
  ui.mission_hud.open("route");await process_frame;await click(ui.order_buttons.home.get_global_rect().get_center())
+ # 133: a craft outside recovery asks first; CONFIRM carries on as the press did before.
+ if ui.screen=="recovery_manifest":
+  for b in ui.menu.find_children("*","Button",true,false):
+   if b.get_meta("action","")=="manifest_confirm":await click(b.get_global_rect().get_center())
  ui.set_meta("dev_profile",false)
  check(ui.sim.queue_mode and ui.sim.selected==1 and ui.sim.route_goals(1)[-1].pos==ui.sim.mission.extraction and "DRONE A · MIDDLE · QUEUE" in ui.mission_hud.intent.text,"ordinary recovery routing honors the explicit queued intent")
 func run():

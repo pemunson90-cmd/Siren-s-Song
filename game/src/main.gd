@@ -293,6 +293,7 @@ func _primary_action() -> void:
 		mission_hud.open("object",recipient);_refresh();return
 	_order("camera")
 func _recovery_route() -> void:
+	if preload("res://src/presentation/recovery_manifest.gd").intercept(self):return
 	var destinations=sim.extraction_corridors()
 	if preload("res://src/presentation/expedition_view.gd").entry(sim):
 		destinations.append({"pos":sim.mission.extraction,"name":"INCOMPLETE WITHDRAWAL","withdrawal":true})
