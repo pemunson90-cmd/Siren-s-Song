@@ -152,6 +152,7 @@ static func briefing(host, index: int) -> void:
 static func launch_now(host,index:int)->void:
 	EconomyPanel.begin(host,index)
 	if host.screen=="mission" and host.active_started:host._enter_water()
+	elif host.screen=="launch_guard":host._briefing(index) # a blocked launch returns to the briefing it came from
 
 # Item 142: a launch over a live dive asks first; KEEP leaves the dive and its briefing untouched.
 static func confirm_launch(host,index:int)->void:
