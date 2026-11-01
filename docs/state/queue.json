@@ -248,19 +248,20 @@
   {
    "id": 133,
    "slug": "recovery-manifest",
-   "title": "Recovery manifest (PLAN_DRAFT_1 package 3)",
-   "cls": "sim",
+   "title": "Recovery manifest before the dive ends",
+   "cls": "ui",
    "areas": [
-    "campaign.flow",
-    "hud.wording"
+    "hud.recovery"
    ],
-   "serial": [],
+   "serial": [
+    "main.gd"
+   ],
    "deps": [
     127
    ],
    "prov": [
-    "codex",
-    "claude:opus"
+    "claude:sonnet",
+    "codex"
    ],
    "status": "queued",
    "phase": null,

@@ -100,6 +100,10 @@
     ],
     "runs.ui": [
       "game/src/presentation/runs/**"
+    ],
+    "hud.recovery": [
+      "game/src/presentation/recovery_manifest.gd",
+      "game/src/presentation/module_recovery_view.gd"
     ]
   },
   "_notes": [
