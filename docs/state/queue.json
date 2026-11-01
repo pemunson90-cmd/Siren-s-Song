@@ -236,19 +236,19 @@
     "codex"
    ],
    "status": "active",
-   "phase": "A-wait",
+   "phase": "A",
    "branch": "item/142-launch-guard",
    "pr": 251,
    "head": "0aba086af250b4e726bc826682a42bd36c02c63f",
    "file": "docs/state/items/142-launch-guard.md",
    "attempts": {
-    "A": 1,
+    "A": 2,
     "B": 1,
     "C": 1
    },
    "blocker": null,
    "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-142",
-   "updated": "2026-11-01T07:15:18Z",
+   "updated": "2026-11-01T07:25:52Z",
    "provider": "claude:sonnet",
    "started": "2026-11-01T04:05:03Z"
   },
@@ -268,8 +268,8 @@
     "claude:opus",
     "codex"
    ],
-   "status": "merging",
-   "phase": "C",
+   "status": "done",
+   "phase": null,
    "branch": "item/131-crash-possible",
    "pr": 255,
    "head": "591959e3b4750b898556692cceb53297036c4124",
@@ -281,7 +281,7 @@
    },
    "blocker": null,
    "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-131",
-   "updated": "2026-11-01T06:26:08Z",
+   "updated": "2026-11-01T07:17:28Z",
    "provider": "claude:opus",
    "started": "2026-11-01T05:29:38Z"
   },
@@ -465,7 +465,7 @@
    "phase": "C",
    "branch": "item/139-bare-contact",
    "pr": 252,
-   "head": "37db50730801bb767f6ac2f7297ae4f82996aa22",
+   "head": "2e073ab5f4d885be09ff7c71016c51ca0d1e5553",
    "file": "docs/state/items/139-bare-contact.md",
    "attempts": {
     "A": 1,
@@ -474,7 +474,7 @@
    },
    "blocker": null,
    "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-139",
-   "updated": "2026-11-01T04:42:17Z",
+   "updated": "2026-11-01T07:17:33Z",
    "provider": "claude:opus",
    "started": "2026-11-01T02:55:55Z"
   },
@@ -497,7 +497,7 @@
    "phase": "C",
    "branch": "item/140-dive-end-stats",
    "pr": 248,
-   "head": "ef97b454c4115e55740b37093160532a7cd2c0f0",
+   "head": "2de2736fe3410f28d6156f7f4a9a8dca1f7e2576",
    "file": "docs/state/items/140-dive-end-stats.md",
    "attempts": {
     "A": 2,
@@ -506,7 +506,7 @@
    },
    "blocker": null,
    "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-140",
-   "updated": "2026-11-01T04:38:53Z",
+   "updated": "2026-11-01T07:19:41Z",
    "provider": "claude:sonnet",
    "started": "2026-11-01T03:09:40Z"
   },
