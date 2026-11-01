@@ -235,18 +235,17 @@
     "claude:sonnet",
     "codex"
    ],
-   "status": "blocked",
-   "phase": "B",
+   "status": "active",
+   "phase": "B-wait",
    "branch": "item/142-launch-guard",
    "pr": 251,
    "head": "4c98c3aeb172444d78411545745c5fc1cd9be498",
    "file": "docs/state/items/142-launch-guard.md",
    "attempts": {
     "A": 3,
-    "B": 3,
+    "B": 2,
     "C": 1
    },
-   "blocker": "phase B: card Files must be widened to include game/tests/campaign_ui_scenarios.gd (needed so runtime_tests answers the launch guard; revert would turn CI red)",
    "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-142",
    "updated": "2026-11-01T21:04:39Z",
    "provider": "claude:sonnet",

@@ -4,7 +4,7 @@ Goal (player): With a dive in progress, pressing the briefing launch control (BE
 Why now: progress-loss risk. Critic C2-027 (after a normal restore, DIVE PAUSED replaced the active dive with no warning) and Critic 123 C30 (retry abandoned an attempt with no summary). Cause: campaign_flow.gd:132-135, the begin button calls EconomyPanel.begin(host,index) with no active-dive check.
 Class: ui
 Areas: campaign.flow
-Files: game/src/presentation/flow/campaign_flow.gd (briefing begin button only), game/tests/launch_guard_ui_tests.gd
+Files: game/src/presentation/flow/campaign_flow.gd (briefing begin button only), game/tests/launch_guard_ui_tests.gd, launch-guard answers only in existing fixtures: game/tests/campaign_ui_scenarios.gd, game/tests/campaign_instruments_ui_tests.gd, game/tests/loadout_ui_tests.gd, game/tests/save2_ui_tests.gd, game/tests/briefing_scroll_fitting_ui_tests.gd
 Serial zones touched: none
 Depends on: none
 Protected rules touched: none
