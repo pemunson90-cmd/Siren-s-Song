@@ -1,4 +1,4 @@
-# STATE (updated 2026-11-01T16:05:10-05:00, by runner2.py)
+# STATE (updated 2026-11-01T16:08:30-05:00, by runner2.py)
 
 ## Base
 integration: 07a7e12b   main: a2300840   production: 26e09906
@@ -8,7 +8,7 @@ nightly: not yet running (item 128)   controls mix: not yet measured (item 130)
 ## In flight
 | item | title | class | provider | phase | branch | PR | head | status |
 | PKG2 | Stable board and clear threat (PR 239, r | ui | external | B | root/stable-board-pkg2 | 239 | 527e4478 | parked |
-| 142 | Launching never replaces an active dive  | ui | claude:sonnet | B-wait | item/142-launch-guard | 251 | 4c98c3ae | active |
+| 142 | Launching never replaces an active dive  | ui | claude:sonnet | B | item/142-launch-guard | 251 | 4c98c3ae | active |
 | 139 | Bare Quietus meets the Sirens on ops 2,  | sim | claude:opus | C | item/139-bare-contact | 252 | 2bff50e5 | merging |
 | 143 | Honest END DIVE, stats on every recovery | ui | claude:sonnet | B | item/143-dive-end-polish | 256 | d9909629 | active |
 
@@ -20,6 +20,10 @@ nightly: not yet running (item 128)   controls mix: not yet measured (item 130)
 
 ## Blockers
 - provider codex down: ERROR: You’ve hit your usage limit. Visit https://chatgpt.com/settings/usage to purchase more credit (probed 2026-11-01T03:25:08-05:00)
+
+## PAUSED
+PAUSED, RESUME REQUIRED: paused by orchestrator 2026-11-01T16:08:29-05:00; alive sessions finish, nothing launches
+Resume: python -I C:\Users\Archi\.cache\sirens-song-toolchain\artifacts\queue-s6\runner2.py resume
 
 ## Waiting on Pat
 - Q3 intent card and spec line 73; Q4 daily digest; Q5 model cap (docs/workflow-v2/QUESTIONS_FOR_PAT.md on claude/workflow-v2)
