@@ -54,6 +54,7 @@ func setup(main,arc:Dictionary,outro:bool)->void:
  var scale=main.ui_touch_height/48.0*preload("res://src/presentation/frontend/frontend_settings.gd").text_scale()
  var rows=["ARC %d / %s"%[arc.number,arc.name],"RECOVERED / DEPARTURE" if outro else "REGION ENTRY",arc.outro if outro else arc.intro]
  rows.append_array(Recap.lines(main.expedition))
+ if outro:rows.append(preload("res://src/presentation/flow/campaign_flow.gd").stats_line(main.sim))
  for i in rows.size():
   var label=Label.new();label.text=rows[i];label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;label.add_theme_font_size_override("font_size",roundi((28 if i==0 else 18)*scale));text.add_child(label)
  var next=main._button(box,"CONTINUE TO RECOVERY" if outro else "CONTINUE TO BRIEFING",dismiss,"arc_continue")
