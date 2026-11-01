@@ -43,6 +43,12 @@ func touch_press(node,id:String)->bool:
 	check(activations.count==1,"single screen touch activates once: "+id)
 	return true
 
+# Item 142: a launch over a live dive asks first; replay launches in these cases answer ABANDON.
+func launch(node)->bool:
+	if not await press(node,"begin"):return false
+	if node.screen=="launch_guard":return await press(node,"launch_guard_abandon")
+	return true
+
 func has_text(node,text:String)->bool:
 	return metadata_text(node).contains(text)
 
@@ -302,11 +308,11 @@ func fork_journey_case(shape:Vector2i)->void:
 			for entry in manager.list_entries("fork"):
 				if entry.status=="empty" and glass_fork_index<0:glass_fork_index=int(entry.index)
 			Save2Transaction.test_failures=["stage"]
-			if await press(game,"begin"):
+			if await launch(game):
 				var held=manager.inspect("pending",0)
 				check(game.screen=="briefing" and game.active_started==old_active and game.sim.mission.id==old_mission and game.sim.elapsed==old_elapsed,"blocked checkpoint publication leaves the old simulation paused in briefing")
 				check(held.status=="ready" and glass_fork_index>=0 and manager.inspect("fork",glass_fork_index).status=="empty","failed fork publication preserves the pending checkpoint and does not enter the old simulation")
-				if await press(game,"begin"):
+				if await launch(game):
 					check(game.screen=="mission" and game.active_started and game.sim.mission.id==18,"retry publishes the retained checkpoint and starts the intended replay mission")
 					check(manager.inspect("pending",0).status=="empty" and manager.inspect("fork",glass_fork_index).status=="ready","successful retry clears pending only after recording the fork")
 			for entry in manager.list_entries("fork"):

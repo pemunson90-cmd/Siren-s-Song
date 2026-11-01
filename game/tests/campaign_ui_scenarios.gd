@@ -18,6 +18,9 @@ static func run(t,game) -> void:
 		t.check(begin!=null,"campaign mission %d presents an ENTER WATER action"%(id+1))
 		if begin==null: return
 		await t.click(begin.get_global_rect().get_center())
+		if game.screen=="launch_guard":
+			for child in game.menu_footer.get_children():
+				if child is Button and child.get_meta("action","")=="launch_guard_abandon":await t.click(child.get_global_rect().get_center());break
 		t.check(game.screen=="mission" and game.mission_index==id,"campaign mission %d begins through actual pointer input"%(id+1))
 		var s=game.sim; s.units[1].alive=false; s.units[2].alive=false
 		if id==4:

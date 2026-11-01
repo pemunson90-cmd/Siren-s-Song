@@ -38,6 +38,10 @@ func menu_tap(game,button):
 # The fit surface lists one craft at a time; open the craft tab before reaching a row.
 func show_tab(game,slot:String,item:String):
  if menu_button(game,"fit_"+slot,item)==null:await menu_tap(game,menu_button(game,"fit_tab_"+slot))
+# Item 142: a launch over a live dive asks first; these suites relaunch repeatedly, so they answer ABANDON.
+func launch(game):
+ await menu_tap(game,menu_button(game,"begin"));await settle()
+ if game.screen=="launch_guard":await menu_tap(game,menu_button(game,"launch_guard_abandon"));await settle()
 func live_fitting(game):
  # Staged earned stock isolates presentation: actual fitting callbacks freeze
  # the launch, then actual craft/STATUS taps inspect its public snapshot.
@@ -47,7 +51,7 @@ func live_fitting(game):
   game.fitted_equipment={"quietus":"","drone_a":"","drone_b":""};game._briefing(0);await settle()
   await show_tab(game,slot,item.name);await menu_tap(game,menu_button(game,"fit_"+slot,item.name))
   check(game.fitted_equipment[slot]==id,"actual fitting row selects canonical "+item.name)
-  await menu_tap(game,menu_button(game,"begin"));await settle()
+  await launch(game)
   var sim=game.sim;sim.sirens=[]
   check(sim.equipment_feedback().fitted[slot]==id,"actual ENTER WATER freezes launched "+item.name)
   await tap(game.mission_hud.fleet.buttons[unit].get_global_rect().get_center())
@@ -68,7 +72,7 @@ func live_fitting(game):
  check("CADENCE CORRELATOR" in Equipment.status(sim),"existing correlator retains its named specialized status")
  sim.command("select",{"unit":1});check("FIELD SAMPLER" in Equipment.status(sim),"existing field sampler retains its named specialized status")
  sim.command("select",{"unit":2});check(Equipment.status(sim).is_empty(),"bare station still has no fitted-equipment status")
- game.fitted_equipment={"quietus":"","drone_a":"","drone_b":""};game._briefing(0);await settle();await menu_tap(game,menu_button(game,"begin"));await settle()
+ game.fitted_equipment={"quietus":"","drone_a":"","drone_b":""};game._briefing(0);await settle();await launch(game)
  check(Equipment.status(game.sim).is_empty(),"actual BARE launch clears the previous hardware identity")
 func run():
  for arg in OS.get_cmdline_user_args():

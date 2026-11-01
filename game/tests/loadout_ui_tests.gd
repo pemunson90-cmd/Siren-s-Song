@@ -82,6 +82,8 @@ func run():
 	var fresh=load("res://src/simulation/simulation.gd").new();fresh.start(0,"survey")
 	check("NEXT DIVE / RETRY" in copy() and "SURVEY" in copy() and stock(fresh) in copy(),"prelaunch briefing confirms the selected stock")
 	await click(button("begin"))
+	# Item 142: the live dive from the resume check above makes this launch ask first; answer ABANDON.
+	if game.screen=="launch_guard":await click(button("launch_guard_abandon"))
 	check(game.screen=="mission" and game.sim.oxygen==fresh.oxygen and game.sim.tools==fresh.tools,"genuine ENTER WATER starts selected survey equipment")
 	check(game.sim.units.filter(func(u):return u.alive).size()==3,"new dive retains Quietus and two drones")
 	for dimensions in [Vector2i(2520,1080),Vector2i(2184,1968)]:
