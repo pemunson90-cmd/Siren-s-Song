@@ -53,8 +53,8 @@
    "prov": [
     "claude:opus"
    ],
-   "status": "merging",
-   "phase": "C",
+   "status": "done",
+   "phase": null,
    "branch": "item/127-release-controls",
    "pr": 241,
    "head": "eb919c8cad5aab025fc938d1efcd7def32e0f39b",
@@ -67,7 +67,7 @@
    "blocker": null,
    "provider": "claude:opus",
    "started": "2026-10-31T19:12:32Z",
-   "updated": "2026-11-01T02:38:13Z"
+   "updated": "2026-11-01T02:52:41Z"
   },
   {
    "id": "PKG2",
@@ -203,18 +203,22 @@
     "claude:opus",
     "codex"
    ],
-   "status": "queued",
-   "phase": null,
+   "status": "active",
+   "phase": "A",
    "branch": "item/130-control-mix",
    "pr": null,
    "head": null,
    "file": "docs/state/items/130-control-mix.md",
    "attempts": {
-    "A": 0,
+    "A": 1,
     "B": 0,
     "C": 0
    },
-   "blocker": null
+   "blocker": null,
+   "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-130",
+   "updated": "2026-11-01T02:52:53Z",
+   "provider": "claude:opus",
+   "started": "2026-11-01T02:52:53Z"
   },
   {
    "id": 131,
@@ -263,18 +267,22 @@
     "claude:sonnet",
     "codex"
    ],
-   "status": "queued",
-   "phase": null,
+   "status": "active",
+   "phase": "A",
    "branch": "item/133-recovery-manifest",
    "pr": null,
    "head": null,
    "file": "docs/state/items/133-recovery-manifest.md",
    "attempts": {
-    "A": 0,
+    "A": 1,
     "B": 0,
     "C": 0
    },
-   "blocker": null
+   "blocker": null,
+   "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-133",
+   "updated": "2026-11-01T02:55:32Z",
+   "provider": "claude:sonnet",
+   "started": "2026-11-01T02:55:32Z"
   },
   {
    "id": 134,
@@ -352,7 +360,7 @@
     "claude:sonnet",
     "codex"
    ],
-   "status": "active",
+   "status": "merging",
    "branch": "item/137-menu-scroll-keys",
    "file": "docs/state/items/137-menu-scroll-keys.md",
    "attempts": {
@@ -360,12 +368,12 @@
     "B": 3,
     "C": 1
    },
-   "phase": "A",
+   "phase": "C",
    "pr": 246,
-   "head": "667651f0c4271bda49ae485c67c8b6a7a04eef18",
+   "head": "a0729129e037be0d4e9f7a393143d32026fcb459",
    "blocker": null,
    "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-137",
-   "updated": "2026-11-01T02:38:08Z",
+   "updated": "2026-11-01T02:53:21Z",
    "provider": "claude:sonnet",
    "started": "2026-10-31T21:55:16Z"
   },
@@ -384,7 +392,7 @@
     "claude:sonnet",
     "codex"
    ],
-   "status": "active",
+   "status": "merging",
    "branch": "item/138-player-names",
    "file": "docs/state/items/138-player-names.md",
    "attempts": {
@@ -392,12 +400,12 @@
     "B": 3,
     "C": 0
    },
-   "phase": "review",
+   "phase": "C",
    "pr": 245,
    "head": "e96806c563e0eb0d17b943f247c47b6566fcefeb",
    "blocker": null,
    "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-138",
-   "updated": "2026-11-01T02:45:47Z",
+   "updated": "2026-11-01T02:53:16Z",
    "provider": "claude:sonnet",
    "started": "2026-10-31T22:37:48Z"
   },
@@ -417,18 +425,22 @@
     "claude:opus",
     "codex"
    ],
-   "status": "queued",
-   "phase": null,
+   "status": "active",
+   "phase": "A",
    "branch": "item/139-bare-contact",
    "pr": null,
    "head": null,
    "file": "docs/state/items/139-bare-contact.md",
    "attempts": {
-    "A": 0,
+    "A": 1,
     "B": 0,
     "C": 0
    },
-   "blocker": null
+   "blocker": null,
+   "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-139",
+   "updated": "2026-11-01T02:55:55Z",
+   "provider": "claude:opus",
+   "started": "2026-11-01T02:55:55Z"
   },
   {
    "id": 140,
