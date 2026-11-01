@@ -36,6 +36,7 @@ const Thermal=preload("res://src/simulation/thermal_front.gd")
 const Acoustics = preload("res://src/simulation/acoustic_paths.gd")
 const TerrainChart=preload("res://src/simulation/terrain_chart.gd")
 const RouteProgram=preload("res://src/simulation/route_program.gd")
+const HandPilot=preload("res://src/simulation/hand_pilot/hand_pilot.gd")
 const ModuleRecovery=preload("res://src/simulation/module_recovery.gd")
 const Cache=preload("res://src/simulation/optional_cache.gd")
 const Missions = preload("res://src/campaign/missions.gd")
@@ -222,6 +223,9 @@ func _course_block(u:Dictionary,reason:String)->void:
 		u.chart_stop=reason;message="%s · %s · replot retained course"%[u.name,reason]
 func _course_prepare(u:Dictionary,speed:float,holding:bool)->Dictionary:
 	if terrain_chart==null:return {"speed":speed,"holding":holding,"earned":false,"ground_cap":-1.0}
+	# 127: release play keeps the chart for drawing and warnings only; no stop,
+	# speed cap or re-route from it. Physical contact and edge assist decide.
+	if HandPilot.release(self):return {"speed":speed,"holding":holding,"earned":false,"ground_cap":-1.0,"release":true}
 	if not holding and not u.route.is_empty() and u.get("chart_stop","") in ["","New terrain"]:
 		if not terrain_chart.segment_safe(u.pos,u.route[0].pos):
 			if _repair_current_leg(u,true):
@@ -530,7 +534,10 @@ func route_goals(unit_id:int=-1) -> Array:
 	return RouteProgram.goals(units[selected if unit_id<0 else unit_id])
 func _install_program(u:Dictionary,plan:Array,remember:bool=true,append:bool=false) -> bool:
 	if not RouteProgram.valid_goals(plan,world_size()): return false
-	var compiled=RouteProgram.compile(u.route.back().pos,[plan.back()],player_path,world_size()) if append else RouteProgram.compile(u.pos,plan,player_path,world_size())
+	# 127: release play installs the operator's straight legs; dev keeps the pathfinder.
+	var finder:Callable=player_path
+	if HandPilot.release(self):finder=func(a,b):return HandPilot.straight(self,a,b)
+	var compiled=RouteProgram.compile(u.route.back().pos,[plan.back()],finder,world_size()) if append else RouteProgram.compile(u.pos,plan,finder,world_size())
 	if not compiled.ok: return false
 	if append:
 		var prefix:Array=u.route.duplicate(true)
@@ -545,6 +552,7 @@ func _install_program(u:Dictionary,plan:Array,remember:bool=true,append:bool=fal
 		if history.size()>RouteProgram.MAX_UNDO: history.pop_front()
 		u.route_undo=history
 	else: u.erase("route_undo")
+	HandPilot.note_trail(self,u);HandPilot.clear_contact(u);u.erase("recall")
 	u.route_plan=plan.duplicate(true); u.route=compiled.route
 	if terrain_chart!=null and not append:u.erase("chart_stop")
 	return true
@@ -901,6 +909,8 @@ func _current_step(u:Dictionary,dt:float,desired_ground:Vector2,speed:float,flow
 	u["water_velocity"]=water
 	var ground:Vector2=water+flow
 	var next:Vector2=u.pos+ground*dt
+	if player_craft and HandPilot.release(self):
+		HandPilot.step(self,u,next,dt,flow,speed);return
 	if player_craft and not _course_ground_safe(u.pos,next):
 		_course_collision(u,false,maxf(u.vel.length(),ground.length()));u["water_velocity"]=u.vel-flow
 		return
@@ -938,7 +948,8 @@ func _move_in_band(u: Dictionary,dt: float,speed: float,holding: bool,report_col
 		if holding or u.route.is_empty():
 			if not u.has("current_station"):u["current_station"]=u.pos
 		else:u.erase("current_station")
-	if player_craft and not course.earned and not holding and not u.route.is_empty() and not _player_leg_safe(u.pos,u.route[0].pos):
+	var release:bool=player_craft and HandPilot.release(self)
+	if player_craft and not release and not course.earned and not holding and not u.route.is_empty() and not _player_leg_safe(u.pos,u.route[0].pos):
 		if _repair_current_leg(u):
 			if report_collision: message="%s · course adjusted around charted terrain"%u.name
 		else:
@@ -957,7 +968,8 @@ func _move_in_band(u: Dictionary,dt: float,speed: float,holding: bool,report_col
 					return
 				u.vel=u.vel.move_toward(Vector2.ZERO,100*dt)
 				var braking:Vector2=u.pos+u.vel*dt
-				if player_craft and not _course_ground_safe(u.pos,braking):_course_collision(u)
+				if release:HandPilot.step(self,u,braking,dt,Vector2.ZERO,thrust_capacity)
+				elif player_craft and not _course_ground_safe(u.pos,braking):_course_collision(u)
 				elif not blocked(braking,12): u.pos=braking
 				elif course.earned:_course_collision(u,true)
 				return
@@ -994,6 +1006,8 @@ func _move_in_band(u: Dictionary,dt: float,speed: float,holding: bool,report_col
 		return
 	u.vel=u.vel.move_toward(desired,AllStop.decel(u,42.0)*dt)
 	var next:Vector2=u.pos+u.vel*dt
+	if release:
+		HandPilot.step(self,u,next,dt,Vector2.ZERO,thrust_capacity);return
 	if player_craft and not _course_ground_safe(u.pos,next):
 		_course_collision(u);return
 	if not blocked(next,12): u.pos=next

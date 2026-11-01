@@ -6,13 +6,16 @@ func check(ok:bool,label:String):
  checks+=1
  if not ok:failures+=1;printerr("FAIL: ",label)
 func _initialize():
+ # 127 (Pat 2026-10-30): earned-chart brakes and chart stops are the dev/test autopilot path.
  var s=Sim.new();s.start(11,"disruption",{"context":{"thread":"deep","completed":[9]}})
+ s.mission["dev"]=true
  var goal=Vector2(1100,1000)
  check(s.command("route",{"point":goal}),"a hidden-rock endpoint accepts tentative course intent")
  for tick in 600:s._move(s.units[0],1.0/60,42,false,true,true)
  check(not s.units[0].route.is_empty() and not s.units[0].route_plan.is_empty(),"physical hidden geometry cannot silently erase tentative intent")
  check(s.terrain_chart.is_clear(s.units[0].pos),"unobserved route advances only inside its certified launch prefix")
  var flow=Sim.new();flow.start(11,"disruption",{"context":{"thread":"deep","completed":[9]}})
+ flow.mission["dev"]=true
  flow.mission.currents=[{"center":flow.units[0].pos,"radius":800.0,"velocity":Vector2(0,-24)}]
  flow.units[0]["water_velocity"]=Vector2.ZERO;flow.units[0].vel=Vector2(0,-24);flow.units[0].angle=-PI/2
  check(flow.command("route",{"point":flow.units[0].pos+Vector2(0,-500)}),"flow-assisted unknown course is accepted")

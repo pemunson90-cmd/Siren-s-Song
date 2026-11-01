@@ -104,6 +104,8 @@ func run():
   check(mouth.pos!=s.mission.extraction,"two-mouth fixture distinguishes selected overt exit from default extraction")
   s.departure.merge({"available":true,"pending":true,"confirmation_required":true,"corridor":mouth,"left":[{"item":"drone_sampler","name":"FIELD SAMPLER","state":"cargo","unit":2,"pos":s.units[2].pos,"reason":"Carrier outside this recovery mouth"}]},true)
   s.units[2].silent=true;s.units[2].drone_drive="quiet";s.queue_mode=true
+  # 127 (Pat 2026-10-30): carrier-to-mouth return is a dev/test shortcut; release play hides it.
+  game.set_meta("dev_profile",true);s.mission["dev"]=true
   game._confirm_module_departure();await settle()
   await capture(("cover" if dimensions.x==2520 else "inner")+"-departure-holder")
   var home=action(game,"return_module_2")

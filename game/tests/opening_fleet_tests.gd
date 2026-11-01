@@ -27,7 +27,7 @@ func _initialize():
  check(idle.noises.is_empty() and idle.message=="Decoy launched · 15s transmission","opening layout preserves historical decoy feedback")
  # Recreate the old spawn alignment deliberately: damage must remain real and
  # the message must identify the friendly hull instead of hiding its cause.
- var forced=Sim.new();forced.start(0);forced.sirens=[]
+ var forced=Sim.new();forced.start(0);forced.sirens=[];forced.mission["dev"]=true # 127: the pathfinder route is the dev/test path (Pat 2026-10-30).
  forced.units[2].pos=forced.units[0].pos+Vector2(140,0)
  forced.command("route",{"point":forced.units[0].pos+Vector2(320,0)});forced.paused=false
  var impacts=[]

@@ -194,6 +194,7 @@ func fleet_journey(id:int,p:Dictionary):
 func progress():return {"version":2,"route":"deep","routes":["deep"],"completed":[6,7,9,11,12,14,15,16,17,18,19],"facts":{"deep":"received carrier","confluence_route":"concealed","resolution":"concealed_recovery"},"notes":{},"references":{},"entitlements":[],"history":[],"selected_thread":"deep"}
 func journey(id:int,p:Dictionary,variant:String=""):
  var s=Sim.new();s.start(id,"endurance",{"context":Sim.Consequences.context(p),"tool_racks":Racks.empty()})
+ s.mission["dev"]=true # 127: authored waypoint journeys fly the dev/test pathfinder route (Pat 2026-10-30).
  # Explicit source-known staged access; actual physics/live threats/no profile edits.
  s.units[1].alive=false;s.units[2].alive=false;s.ordinary_bare=true
  for key in s.tools:s.tools[key]=0
@@ -291,7 +292,7 @@ func _initialize():
  check(bare_finale.outcome=="won" and bare_finale.mission.iron_choir.sites[1].done,"bare finale also finishes with no optional people/plant returns")
  var plant_cut=journey(29,progress(),"dismantle")
  check(plant_cut.mission.iron_choir.choice=="dismantle" and plant_cut.outcome=="won","29 splits into a distinct bare dismantle route")
- var opposite=Sim.new();opposite.start(24,"endurance",{"context":Sim.Consequences.context(p)});opposite.sirens=[]
+ var opposite=Sim.new();opposite.start(24,"endurance",{"context":Sim.Consequences.context(p)});opposite.sirens=[];opposite.mission["dev"]=true
  # Stage only the replay's local starting access; perform actual socket work/return.
  opposite.units[1].alive=false;opposite.units[2].alive=false;opposite.units[0].pos=Vector2(2500,1885);opposite.mission.iron_choir.load.pos=Vector2(2500,1850)
  check(opposite.command("choir_action",{"action":"attach"}) and work(opposite,"isolate"),"opposite replay performs actual physical ballast socket work")

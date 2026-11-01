@@ -1,5 +1,6 @@
 extends RefCounted
 const BriefRows029=preload("res://src/campaign/onboarding2/briefing_rows.gd")
+const ReleaseControls=preload("res://src/presentation/release_controls.gd")
 const EconomyPanel=preload("res://src/presentation/economy_panel.gd")
 const Economy=preload("res://src/campaign/economy.gd")
 const FitSurface=preload("res://src/presentation/fit_surface/fit_surface_view.gd")
@@ -74,8 +75,8 @@ static func cycle_loadout(host)->void:
 
 static func orders_text(host, briefing:Dictionary) -> String:
 	if briefing.get("blackwater_revision",0)==1:
-		return "ORDERS\nTap a craft for its command ring; FLEET chooses a station. Empty water plots its route; a craft that already has orders asks you to confirm. ROUTE → REPLACE / QUEUE changes append intent. PAUSE stays available. Settle and DECODE for two seconds. Quietus receives within156m; drones within214.5m. Cover blocks reception. An audible SONAR may prompt a local relay replay; a decoded packet explains its partner's handshake. Drone buffers TRANSFER locally to Quietus: both settled, within60m, clear link. Return with both packets aboard."
-	return "ORDERS\nTap a craft for its command ring; FLEET chooses a station. Tap empty water to plot a route; a craft that already has orders asks you to confirm. Craft → ROUTE → REPLACE / QUEUE changes append intent. PAUSE stays available. Drag / pinch inspects freely; FOCUS follows the craft and FIT shows the region. CAMERA works within 240m of a gold record marker. Return Quietus after all records are secured."
+		return "ORDERS\n"+ReleaseControls.CONTROLS_TEXT+"\nTap a craft for its command ring; FLEET chooses a station. Empty water plots its route; a craft that already has orders asks you to confirm. ROUTE → REPLACE / QUEUE changes append intent. PAUSE stays available. Settle and DECODE for two seconds. Quietus receives within156m; drones within214.5m. Cover blocks reception. An audible SONAR may prompt a local relay replay; a decoded packet explains its partner's handshake. Drone buffers TRANSFER locally to Quietus: both settled, within60m, clear link. Return with both packets aboard."
+	return "ORDERS\n"+ReleaseControls.CONTROLS_TEXT+"\nTap a craft for its command ring; FLEET chooses a station. Tap empty water to plot a route; a craft that already has orders asks you to confirm. Craft → ROUTE → REPLACE / QUEUE changes append intent. PAUSE stays available. Drag / pinch inspects freely; FOCUS follows the craft and FIT shows the region. CAMERA works within 240m of a gold record marker. Return Quietus after all records are secured."
 
 static func briefing(host, index: int) -> void:
 	if index>=6 and index not in host.ExpeditionCampaign.available(host.completed,host.expedition):return

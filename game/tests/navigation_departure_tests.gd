@@ -61,7 +61,10 @@ func _initialize():
    for n in 80:w.advance(0.1);open_trace.append([u.pos.x,u.pos.y,u.vel.x,u.vel.y,u.angle,u.route.size()])
  print("OPEN_WATER_TRACE_SHA256 ",JSON.stringify(open_trace).sha256_text())
  # Momentum too large for braking room must still stop rather than tunnel or retain an unsafe route.
- var unsafe=fresh_wall(1,78.0);unsafe.command("route",{"point":Vector2(530,180)});drive(unsafe)
+ # 127 (Pat 2026-10-30): the safety stop is the dev/test route path; release play crashes.
+ var crash=fresh_wall(1,78.0);crash.command("route",{"point":Vector2(530,180)});drive(crash)
+ check(crash.hull<100.0 and "Hull strike" in crash.message and not crash.blocked(crash.units[0].pos,12),"release play: unavoidable inertial contact is a costly hull strike outside rock")
+ var unsafe=fresh_wall(1,78.0);unsafe.mission["dev"]=true;unsafe.command("route",{"point":Vector2(530,180)});drive(unsafe)
  print("UNAVOIDABLE_STOP time=",unsafe.elapsed," pos=",unsafe.units[0].pos," vel=",unsafe.units[0].vel," message=",unsafe.message)
  check(unsafe.units[0].route.is_empty() and "unsafe terrain" in unsafe.message and unsafe.units[0].name in unsafe.message and not unsafe.blocked(unsafe.units[0].pos,12),"unavoidable inertial collision retains physical safety stop")
  var paused=fresh_wall(1);paused.command("route",{"point":Vector2(530,180)});paused.paused=true;var snap=paused.snapshot();paused.advance(10)
