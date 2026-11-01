@@ -67,10 +67,10 @@ static func build(config:Dictionary,_history:Dictionary={})->Dictionary:
   var enemy=m.sirens[0].duplicate(true)
   enemy.merge({"pos":descriptor.pos,"home":descriptor.pos,"goal":descriptor.pos,"route":[],"type":"sweeper","patrol_points":Patrols.circuit(config.source_id,sweeper_index),"band":descriptor.band},true)
   m.sirens.append(enemy);sweeper_index+=1
- # 139: tethered posts; Blackwater keeps one over the western deep approach.
+ # 139: tethered posts (same shape as encounters/roster.gd post); Blackwater keeps one over the western deep approach.
  for descriptor in profile.get("posts",[]):
   var post=m.sirens[0].duplicate(true)
-  post.merge({"pos":descriptor.pos,"home":descriptor.pos,"goal":descriptor.pos,"route":[],"type":"sentinel","patrol_points":[descriptor.pos],"band":descriptor.band,"tether":170.0},true)
+  post.merge({"pos":descriptor.pos,"home":descriptor.pos,"goal":descriptor.pos,"route":[],"type":"sentinel","patrol_points":[descriptor.pos,descriptor.pos+Vector2(70,0),descriptor.pos+Vector2(0,90)],"band":descriptor.band,"tether":170.0},true)
   m.sirens.append(post)
  m.brief=profile.brief;m["depth_hint"]=profile.hint
  if config.source_id==2:m.brief+=" A quiet drone can sample the northern REQUEST from farther off the watched lip; meet Quietus in the southern water to transfer. A recovered local transfer earns a service premium on the first return."
