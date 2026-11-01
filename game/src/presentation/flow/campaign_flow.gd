@@ -130,8 +130,8 @@ static func briefing(host, index: int) -> void:
 			fold.text=BriefRows029.FOLD_LABELS.hide
 			if not host.get_meta("onboard2_fit_open",false):host._fold_fit(fit_nodes,holder)
 	var begin=host._button(host.menu_footer,EconomyPanel.begin_text(host),func():
-		EconomyPanel.begin(host,index)
-		if host.screen=="mission" and host.active_started:host._enter_water()
+		if host.active_started and host.sim.outcome.is_empty():confirm_launch(host,index);return
+		launch_now(host,index)
 	,"begin")
 	begin.disabled=not EconomyPanel.can_begin(host)
 	if compact:
@@ -147,6 +147,22 @@ static func briefing(host, index: int) -> void:
 	host.menu_footer.show()
 	if compact:preload("res://src/campaign/onboarding2/briefing_layout.gd").attach(host)
 	preload("res://src/presentation/arcs/arc_card.gd").intro(host,index)
+	host.call_deferred("_layout")
+
+static func launch_now(host,index:int)->void:
+	EconomyPanel.begin(host,index)
+	if host.screen=="mission" and host.active_started:host._enter_water()
+
+# Item 142: a launch over a live dive asks first; KEEP leaves the dive and its briefing untouched.
+static func confirm_launch(host,index:int)->void:
+	var sim=host.sim
+	var seconds:int=int(sim.elapsed)
+	host.screen="launch_guard"; host._clear_menu()
+	host._menu_text("ABANDON THE CURRENT DIVE?",24)
+	host._menu_text("%02d %s is in progress · time %02d:%02d · hull %d%% · life support %d%%.\nLaunching replaces it."%[host.mission_index+1,sim.mission.title.to_upper(),seconds/60,seconds%60,roundi(sim.hull),roundi(sim.oxygen)],17)
+	host._button(host.menu_footer,"KEEP DIVE",func():host._briefing(index),"launch_guard_keep")
+	host._button(host.menu_footer,"ABANDON DIVE\nAND LAUNCH",func():launch_now(host,index),"launch_guard_abandon")
+	host.menu_footer.show()
 	host.call_deferred("_layout")
 
 static func fold_fit(host, nodes:Array,holder:Array) -> void:
