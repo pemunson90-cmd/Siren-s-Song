@@ -113,6 +113,7 @@ func _result_menu()->void:
 	_menu_text("EXPEDITION LOST" if run_state.status=="lost" else "EXPEDITION RECOVERED" if run_state.status=="won" else "OPERATION RECOVERED",30)
 	_menu_text("SEED %d · %d / %d RECOVERED"%[run_state.seed,run_state.cursor,run_state.operations.size()],20)
 	_menu_text(sim.message,17)
+	_menu_text(CampaignFlow.stats_line(sim),17)
 	if not run_state.results.is_empty():
 		var r:Dictionary=run_state.results.back().get("rider",{})
 		if not r.get("assignment",{}).is_empty():

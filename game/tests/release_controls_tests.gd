@@ -105,6 +105,11 @@ func run():
    g.sim.command("select",{"unit":0})
    var before=g.sim.route_goals().duplicate(true)
    g._recovery_route()
+   # 133: with a craft outside recovery the press asks first; CONFIRM carries on as before.
+   if g.screen=="recovery_manifest":
+    for b in g.menu.find_children("*","Button",true,false):
+     if b.get_meta("action","")=="manifest_confirm":b.pressed.emit()
+    await frames()
    if not dev:check(g.sim.route_goals()==before and g.sim.units[0].route.is_empty(),"release WITHDRAW autopilot installs nothing op%d"%op)
    else:check(not g.sim.units[0].route.is_empty() or hud.page=="recovery","dev WITHDRAW still routes or opens chooser op%d"%op)
    if hud.page=="recovery" and not hud.recovery_buttons.is_empty():
