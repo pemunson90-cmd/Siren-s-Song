@@ -465,7 +465,7 @@
    "phase": "C",
    "branch": "item/139-bare-contact",
    "pr": 252,
-   "head": "2e073ab5f4d885be09ff7c71016c51ca0d1e5553",
+   "head": "8efd34eba695d8a2ef0cb579f42a51eb4312c0ed",
    "file": "docs/state/items/139-bare-contact.md",
    "attempts": {
     "A": 1,
@@ -474,7 +474,7 @@
    },
    "blocker": null,
    "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-139",
-   "updated": "2026-11-01T07:17:33Z",
+   "updated": "2026-11-01T08:12:12Z",
    "provider": "claude:opus",
    "started": "2026-11-01T02:55:55Z"
   },
@@ -528,7 +528,7 @@
    "phase": "C",
    "branch": "item/141-own-craft-legs",
    "pr": 250,
-   "head": "ee36e6f9fecbc4f61fb6c5e02cb59e784779f8c0",
+   "head": "ec6f0daab5fdc304f0efbc489b9b689eb2abedb3",
    "file": "docs/state/items/141-own-craft-legs.md",
    "attempts": {
     "A": 1,
@@ -537,7 +537,7 @@
    },
    "blocker": null,
    "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-141",
-   "updated": "2026-11-01T04:39:29Z",
+   "updated": "2026-11-01T08:10:04Z",
    "provider": "claude:sonnet",
    "started": "2026-11-01T04:01:43Z"
   },

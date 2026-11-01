@@ -1,4 +1,4 @@
-# STATE (updated 2026-11-01T03:07:52-05:00, by runner2.py)
+# STATE (updated 2026-11-01T03:18:26-05:00, by runner2.py)
 
 ## Base
 integration: c4675566   main: a2300840   production: 26e09906
@@ -9,8 +9,8 @@ nightly: not yet running (item 128)   controls mix: not yet measured (item 130)
 | item | title | class | provider | phase | branch | PR | head | status |
 | PKG2 | Stable board and clear threat (PR 239, r | ui | external | B | root/stable-board-pkg2 | 239 | 527e4478 | parked |
 | 142 | Launching never replaces an active dive  | ui | claude:sonnet | intent | item/142-launch-guard | 251 | 16045d63 | waiting_intent |
-| 139 | Bare Quietus meets the Sirens on ops 2,  | sim | claude:opus | C | item/139-bare-contact | 252 | 2e073ab5 | merging |
-| 141 | Legs warn when they pass through your ow | ui | claude:sonnet | C | item/141-own-craft-legs | 250 | ee36e6f9 | merging |
+| 139 | Bare Quietus meets the Sirens on ops 2,  | sim | claude:opus | C | item/139-bare-contact | 252 | 8efd34eb | merging |
+| 141 | Legs warn when they pass through your ow | ui | claude:sonnet | C | item/141-own-craft-legs | 250 | ec6f0daa | merging |
 | 143 | Honest END DIVE, stats on every recovery | ui | claude:sonnet | A | item/143-dive-end-polish | - | - | active |
 | 144 | ALL STOP shows its restart cost up front | text | claude:sonnet | C | item/144-all-stop-cost | 253 | 35e50482 | merging |
 | 145 | Briefing and onboarding text matches the | text | claude:sonnet | C | item/145-briefing-truth | 254 | 26ab507f | merging |
