@@ -235,8 +235,8 @@
     "claude:sonnet",
     "codex"
    ],
-   "status": "merging",
-   "phase": "C",
+   "status": "active",
+   "phase": "A-wait",
    "branch": "item/142-launch-guard",
    "pr": 251,
    "head": "0aba086af250b4e726bc826682a42bd36c02c63f",
@@ -244,11 +244,11 @@
    "attempts": {
     "A": 1,
     "B": 1,
-    "C": 0
+    "C": 1
    },
    "blocker": null,
    "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-142",
-   "updated": "2026-11-01T06:26:03Z",
+   "updated": "2026-11-01T07:15:18Z",
    "provider": "claude:sonnet",
    "started": "2026-11-01T04:05:03Z"
   },
