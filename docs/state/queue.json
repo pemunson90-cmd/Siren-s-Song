@@ -563,19 +563,19 @@
     "claude:sonnet",
     "codex"
    ],
-   "status": "waiting_intent",
-   "phase": "intent",
+   "status": "active",
+   "phase": "A",
    "branch": "item/143-dive-end-polish",
    "pr": 256,
    "head": "d9909629929e877f0ea77f0509ec71ee5764a10b",
    "file": "docs/state/items/143-dive-end-polish.md",
    "attempts": {
-    "A": 2,
+    "A": 3,
     "B": 3,
     "C": 0
    },
    "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-143",
-   "updated": "2026-11-01T21:37:13Z",
+   "updated": "2026-11-01T21:39:17Z",
    "provider": "claude:sonnet",
    "started": "2026-11-01T08:07:50Z"
   },
@@ -686,20 +686,20 @@
     "claude:sonnet",
     "codex"
    ],
-   "status": "active",
-   "phase": "A",
+   "status": "merging",
+   "phase": "C",
    "branch": "item/147-integration-apk",
-   "pr": null,
-   "head": null,
+   "pr": 258,
+   "head": "80be0be5aabc933f163eb737fb7349afd506de67",
    "file": "docs/state/items/147-integration-apk.md",
    "attempts": {
     "A": 1,
-    "B": 0,
+    "B": 1,
     "C": 0
    },
    "blocker": null,
    "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-147",
-   "updated": "2026-11-01T21:35:08Z",
+   "updated": "2026-11-01T21:45:31Z",
    "provider": "claude:sonnet",
    "started": "2026-11-01T21:28:30Z"
   },

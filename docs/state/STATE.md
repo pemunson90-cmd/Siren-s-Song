@@ -1,4 +1,4 @@
-# STATE (updated 2026-11-01T16:38:58-05:00, by runner2.py)
+# STATE (updated 2026-11-01T16:49:38-05:00, by runner2.py)
 
 ## Base
 integration: 07a7e12b   main: a2300840   production: 26e09906
@@ -11,9 +11,9 @@ nightly: not yet running (item 128)   controls mix: not yet measured (item 130)
 | 142 | Launching never replaces an active dive  | ui | claude:sonnet | C | item/142-launch-guard | 251 | 033301ea | merging |
 | 134 | Route flow (package 4) | sim | external | - | item/134-route-flow | - | - | parked |
 | 139 | Bare Quietus meets the Sirens on ops 2,  | sim | claude:opus | C | item/139-bare-contact | 252 | 2bff50e5 | merging |
-| 143 | Honest END DIVE, stats on every recovery | ui | claude:sonnet | intent | item/143-dive-end-polish | 256 | d9909629 | waiting_intent |
+| 143 | Honest END DIVE, stats on every recovery | ui | claude:sonnet | A | item/143-dive-end-polish | 256 | d9909629 | active |
 | 146 | Entry docs point at the live state | text | claude:sonnet | C | item/146-docs-pointers | 257 | 114edb30 | merging |
-| 147 | Debug APK from any branch, signature che | ui | claude:sonnet | A | item/147-integration-apk | - | - | active |
+| 147 | Debug APK from any branch, signature che | ui | claude:sonnet | C | item/147-integration-apk | 258 | 80be0be5 | merging |
 
 ## Queued (order = priority; see queue.json)
 148 android-smokes
