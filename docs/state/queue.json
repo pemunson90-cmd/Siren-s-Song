@@ -560,18 +560,17 @@
     "claude:sonnet",
     "codex"
    ],
-   "status": "blocked",
-   "phase": "B",
+   "status": "active",
+   "phase": "B-wait",
    "branch": "item/143-dive-end-polish",
    "pr": 256,
    "head": "d9909629929e877f0ea77f0509ec71ee5764a10b",
    "file": "docs/state/items/143-dive-end-polish.md",
    "attempts": {
     "A": 2,
-    "B": 3,
+    "B": 2,
     "C": 0
    },
-   "blocker": "phase B: widen item 143 card to include game/tests/density_scenarios.gd (required test fixture fix; reverting makes density_scenarios fail 3/1114)",
    "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-143",
    "updated": "2026-11-01T08:50:59Z",
    "provider": "claude:sonnet",

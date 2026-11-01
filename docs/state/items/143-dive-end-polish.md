@@ -4,7 +4,7 @@ Goal (player): (1) In the recovery manifest, CONFIRM only reads END DIVE when it
 Why now: review notes on 133 (recovery_manifest.gd:54-64, CONFIRM END DIVE replays the old route press and the dive continues; Pat 30 Oct truthful-commands ruling) and on 140 (disclosed gap: arc_card.recovered and finale first recovery show no stats line).
 Class: ui
 Areas: hud.recovery, arcs.ui, campaign.endings
-Files: game/src/presentation/recovery_manifest.gd, game/src/presentation/arcs/arc_card.gd (recovered() stats line only), game/src/presentation/finale/finale.gd (first-recovery stats line only), game/tests/dive_end_polish_ui_tests.gd
+Files: game/src/presentation/recovery_manifest.gd, game/src/presentation/arcs/arc_card.gd (recovered() stats line only), game/src/presentation/finale/finale.gd (first-recovery stats line only), game/tests/dive_end_polish_ui_tests.gd, game/tests/density_scenarios.gd (confirm-press fixture only)
 Serial zones touched: none
 Depends on: 133, 140
 Protected rules touched: none
