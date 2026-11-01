@@ -27,7 +27,13 @@ Resume: python -I C:\Users\Archi\.cache\sirens-song-toolchain\artifacts\queue-s6
 
 ## Waiting on Pat
 - Q3 intent card and spec line 73; Q4 daily digest; Q5 model cap (docs/workflow-v2/QUESTIONS_FOR_PAT.md on claude/workflow-v2)
+- 1 Nov: may Claude take over PKG2 (PR 239) now instead of waiting for Codex root (~3 Nov)? Recommended yes.
 
-## Next
-- Resume 127 builder from its pushed branch (worktree Siren-s-Song-item-127); then draft PR, review, intent.
-- 136: verify the WIP fix under WSL (empty selection exits non-zero; printf escapes), re-review changed lines, merge on green.
+## Next (reconciled 1 Nov against reports/2026-11-01-sirens-song-full-project-overview.md and COLD_REVIEW_5)
+- Finish in flight: 139 merging; 142 and 143 phase B (cards widened 1 Nov); intent on each green exact head.
+- 146 docs-pointers (queued, runs now).
+- PKG2 stable board (CR5 ranks 1, 2, 5, 6: 150% reach, tap ownership, threat occlusion, chart re-fit). Highest player cost left. Parked for Codex root until ~3 Nov unless Pat says Claude takes it.
+- Before critic 6: confirm the critic driver fix (package 0: explicit parse errors, temp-then-rename writes) is in the critic kit; nightly (128) and control-mix number (130) produce a first reading.
+- Critic 6, blind whole game on claude/integration after PKG2 lands: must reach END OF LINE and each ending family, Glass Reach 5-9, Iron Choir, one full Expedition, a Career stretch, Ironman. Watch list (not told to the critic): does contact on ops 2/16/17/20 (139) change a decision or cost anything (scripted course shows no cost); do photos read as their subjects and pay off later (F1/F15); does an unanswered launch still lose a dive.
+- From critic 6, plan in this order: photo payoff (value favours distance and tools over quality, plan item 7); late-op variety and the branching route graph (forks mostly change approaches inside ops, not which ops you get; Star Fox scope in the spec); fitting allocation (CR5 rank 10, partly done by 135/138); look and sound read-only comparison (package 6; building waits on Pat art calls; audio never assessed).
+- Not ours to start: APK and physical Fold acceptance (Pat asks); art/story changes (Pat rules).

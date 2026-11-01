@@ -336,7 +336,7 @@
     "codex",
     "claude:opus"
    ],
-   "status": "queued",
+   "status": "parked",
    "phase": null,
    "branch": "item/134-route-flow",
    "pr": null,
@@ -347,7 +347,7 @@
     "B": 0,
     "C": 0
    },
-   "blocker": null
+   "blocker": "superseded by 127: release play has no chart stops (simulation.gd _course_prepare); CR5 rank 7 gone in release. Kept for record; reopen only if a critic finds route stops in release play."
   },
   {
    "id": 135,
@@ -636,6 +636,31 @@
    "updated": "2026-11-01T10:41:36Z",
    "provider": "claude:sonnet",
    "started": "2026-11-01T04:44:44Z"
+  },
+  {
+   "id": 146,
+   "slug": "docs-pointers",
+   "title": "Entry docs point at the live state",
+   "cls": "text",
+   "areas": [],
+   "serial": [],
+   "deps": [],
+   "prov": [
+    "claude:sonnet",
+    "codex"
+   ],
+   "status": "queued",
+   "phase": null,
+   "branch": "item/146-docs-pointers",
+   "pr": null,
+   "head": null,
+   "file": "docs/state/items/146-docs-pointers.md",
+   "attempts": {
+    "A": 0,
+    "B": 0,
+    "C": 0
+   },
+   "blocker": null
   }
  ]
 }
