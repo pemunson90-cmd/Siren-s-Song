@@ -16,7 +16,6 @@ const HandPilot=preload("res://src/simulation/hand_pilot/hand_pilot.gd")
 const Racks=preload("res://src/equipment/tool_racks.gd")
 const Economy=preload("res://src/campaign/economy.gd")
 const Campaign=preload("res://src/campaign/expedition_campaign.gd")
-const ControlMix=preload("res://src/debug/control_mix.gd")
 const CORE_OPS=[2,15,16,17,18,20,21,22,30]
 const RELEASE_ORDERS=["route","queue","depth","frame","camera","glass_action","choir_action","recall","recall_all","select","hold"]
 
@@ -104,11 +103,11 @@ func go(s,point:Vector2,limit:float=400.)->bool:
  var u=s.units[s.selected]
  if not s.outcome.is_empty():return s.outcome=="won" and s.units[0].pos.distance_to(point)<65
  if not s.hand:
-  if not s.command("route",{"point":point,"travel":"route_here"}):return false
+  if not s.command("route",{"point":point}):return false
   s.paused=false
   for n in roundi(limit*60):
    s.advance(Sim.STEP)
-   if u.has("chart_stop") and n%30==0:s.command("route",{"point":point,"travel":"route_here"})
+   if u.has("chart_stop") and n%30==0:s.command("route",{"point":point})
    if not s.outcome.is_empty() or (u.route.is_empty() and u.vel.length()<2):break
   s.paused=true
   return (s.outcome=="won" or u.pos.distance_to(point)<25) and u.alive
@@ -261,7 +260,7 @@ func fly(id:int,preset:String,hand:bool)->Dictionary:
  if id==2:recovered=recovered and s.mission.blackwater_delivery.aboard.has(0) and s.mission.blackwater_delivery.aboard.has(1)
  var drones=s.mission.get("module_recovery",{}).get("result",{}).get("recovered_drones",[]).size()
  if drones==0 and s.outcome=="won":drones=[1,2].filter(func(i):return s.units[i].alive and s.units[i].band==1 and (s.units[i].pos.distance_to(s.units[0].pos)<HandPilot.RECALL_REACH or HandPilot.recalled(s,i))).size()
- var row={"id":id,"title":s.mission.title,"preset":preset,"controls":"hand" if hand else "dev","recovered":recovered,"time":snappedf(s.elapsed,.1),"hunt_peak":snappedf(s.hunt_peak,.1),"locks":s.warnings,"hull":snappedf(s.hull,.1),"oxygen":snappedf(s.oxygen,.1),"legs":s.legs,"collisions":s.collisions,"stuck_holds":s.stuck_holds,"drones_recovered":drones,"silent":s.silent_throughout,"bare":bare and empty,"release_only":s.release_only,"routes_match":s.routes_match,"measured_reads":s.measured_reads,"public_reads":s.public_reads,"one_press_share":snappedf(ControlMix.one_press_share(s),.001),"message":s.message}
+ var row={"id":id,"title":s.mission.title,"preset":preset,"controls":"hand" if hand else "dev","recovered":recovered,"time":snappedf(s.elapsed,.1),"hunt_peak":snappedf(s.hunt_peak,.1),"locks":s.warnings,"hull":snappedf(s.hull,.1),"oxygen":snappedf(s.oxygen,.1),"legs":s.legs,"collisions":s.collisions,"stuck_holds":s.stuck_holds,"drones_recovered":drones,"silent":s.silent_throughout,"bare":bare and empty,"release_only":s.release_only,"routes_match":s.routes_match,"measured_reads":s.measured_reads,"public_reads":s.public_reads,"message":s.message}
  print("HANDPILOT ",JSON.stringify(row))
  if hand:
   var tag="op%d %s"%[id,preset]

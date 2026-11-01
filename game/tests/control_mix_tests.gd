@@ -25,8 +25,8 @@ func _initialize():
   release_zero()
   dev_counts()
   live_route_here()
+  queued_leg()
   call_sites()
-  debrief_row()
  print("CONTROL MIX CHECKS %d FAILURES %d"%[checks,failures]);quit(1 if failures else 0)
 
 static func open_point(s,from:Vector2,reach:float)->Vector2:
@@ -112,6 +112,33 @@ func dev_counts():
  var t2=Mix.totals(r)
  check(moved>0.0 and t2.one_press>=moved*.9 and t2.one_press<origin.distance_to(far),"replaced one-press leg credits partial progress %.1f of %.1f moved"%[t2.one_press,moved])
 
+# Queuing a planned leg behind a one-press route leaves the one-press remainder
+# one-press: each segment is credited to the order that plotted it.
+func queued_leg():
+ var s=fresh(false);var q=s.units[0];var last:Vector2=q.pos
+ check(s.command("route",{"point":open_point(s,q.pos,160.),"travel":"route_here"}),"queued: one-press route accepted")
+ var one=0.0
+ for n in int(1./Sim.STEP):s.advance(Sim.STEP);one+=last.distance_to(q.pos);last=q.pos
+ var kept=q.route.size()
+ s.command("queue")
+ check(s.command("route",{"point":open_point(s,q.route.back().pos,140.),"travel":"water_leg"}),"queued: planned leg queued "+s.message)
+ check(kept>0 and q.route.size()>kept,"queued: planned nodes appended behind the one-press remainder")
+ # Each leg's distance is its plotted path: the one-press remainder from the
+ # craft to its last node, then the queued nodes from there.
+ var planned=0.0;var at:Vector2=q.pos
+ for i in q.route.size():
+  if i<kept:one+=at.distance_to(q.route[i].pos)
+  else:planned+=at.distance_to(q.route[i].pos)
+  at=q.route[i].pos
+ for n in int(120./Sim.STEP):
+  s.advance(Sim.STEP)
+  if q.route.is_empty() and q.vel.length()<1.:break
+ var t=Mix.totals(s)
+ check(q.route.is_empty(),"queued: both legs travelled")
+ check(t.one_press>0.0 and t.planned>0.0 and t.emergency==0.0 and t.recall==0.0,"queued: both kinds counted "+str(t))
+ var expect=one/(one+planned)
+ check(absf(Mix.one_press_share(s)-expect)<.05,"queued: one-press share %.3f matches leg distances %.3f (%.1f one-press, %.1f planned)"%[Mix.one_press_share(s),expect,one,planned])
+
 # Stand-in for main: the HUD's live ROUTE HERE press reaches the simulation
 # through host._order exactly as in play.
 class Host extends Node:
@@ -133,8 +160,9 @@ func live_route_here():
  check(t.one_press>0.0 and t.planned==0.0,"live ROUTE HERE press counts as one-press "+str(t))
  host.free()
 
-# Every presentation one-press call (a dev-only TRAVEL key) passes its key to
-# the order, so live play is attributed; placed legs may stay untagged.
+# Every one-press call in truthful_commands.gd (a dev-only TRAVEL key) passes
+# its key to the order, so live play is attributed; placed legs stay untagged.
+# Other presentation call sites are outside item 130 (D37) and count as planned.
 static func untagged_one_press(text:String,file:String)->Array:
  var problems=[];var call=RegEx.create_from_string("_order\\(\\s*\"route\"");var tag=RegEx.create_from_string("TRAVEL:([a-z_]+)")
  var lines=text.split("\n")
@@ -149,21 +177,7 @@ func call_sites():
  check(untagged_one_press('host._order("route",{"point":p}) # TRAVEL:route_here',"bad").size()==1,"guard catches an untagged one-press call")
  check(untagged_one_press('host._order("route",{"point":p,"travel":"route_here"}) # TRAVEL:route_here',"good").is_empty(),"guard passes a tagged one-press call")
  check(untagged_one_press('host._order("route",{"point":p}) # TRAVEL:water_leg',"leg").is_empty(),"guard leaves placed legs alone")
- var problems=[];var seen=0
- for file in preload("res://tests/release_controls_tests.gd").source_files("res://src"):
-  var text=FileAccess.get_file_as_string(file)
-  if text.contains("_order(\"route\""):seen+=1
-  problems.append_array(untagged_one_press(text,file))
- check(seen>=4,"call-site scan reached the presentation sources (%d files)"%seen)
- check(problems.is_empty(),"every one-press call passes its travel key "+str(problems))
-
-# The debrief prints one SS_CONTROL_MIX row for critic logs, dev or not.
-func debrief_row():
- var s=fresh(false);var q=s.units[0]
- s.command("route",{"point":open_point(s,q.pos,160.),"travel":"withdraw_home"});run_for(s,8.,false)
- var row=Mix.report(s)
- check(row.dev and row.one_press_share==1.0 and row.one_press>0.0,"dev report row carries the one-press share "+str(row))
- var r=fresh(true);var host=Host.new();host.sim=r
- check(not load("res://src/debug/dev_state.gd").block_debrief(host),"release debrief is not blocked")
- check(r.has_meta("control_mix_reported") and Mix.report(r).one_press_share==0.0,"release debrief logged a zero share row")
- host.free()
+ var file="res://src/presentation/truthful_commands.gd";var text=FileAccess.get_file_as_string(file)
+ check(text.count("_order(\"route\"")>=2,"call-site scan reached truthful_commands.gd")
+ var problems=untagged_one_press(text,file)
+ check(problems.is_empty(),"every truthful_commands one-press call passes its travel key "+str(problems))

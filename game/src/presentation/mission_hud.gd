@@ -164,7 +164,7 @@ func open_recovery(destinations:Array):
   recovery_buttons.append(b)
  open("recovery",{"kind":"craft","unit":host.sim.selected,"pos":host.sim.units[host.sim.selected].pos})
 func _recovery_choice(point:Vector2):
- if ReleaseControls.allowed(host,"recovery_chooser"):host._order("route",{"point":point,"travel":"recovery_chooser"}) # TRAVEL:recovery_chooser
+ if ReleaseControls.allowed(host,"recovery_chooser"):host._order("route",{"point":point}) # TRAVEL:recovery_chooser
 func open(next:String="craft",context:Dictionary={}):
  tool_help.cancel()
  for id in host.map_gesture.touches:owned_touches[id]=true

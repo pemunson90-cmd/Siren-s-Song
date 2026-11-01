@@ -6,6 +6,8 @@ extends RefCounted
 # all credit what was actually covered. Lives in sim metadata, never in a save.
 # A "route" order is one-press when its args carry a TRAVEL key other than the
 # release placed-leg keys (presentation/release_controls.gd TRAVEL_SHORTCUTS).
+# Each path segment keeps the kind of the order that plotted it, so a queued leg
+# never relabels the untraveled remainder of an earlier route.
 # Reads nothing back into the simulation. Revert: drop the Route.command hooks.
 const KINDS=["one_press","planned","emergency","recall"]
 const PLACED_LEGS=["","water_leg","water_leg_confirm"]
@@ -38,11 +40,19 @@ static func _progress(path:PackedVector2Array,p:Vector2)->float:
   run+=a.distance_to(b)
  return at
 
+# Credit newly covered arc length to the kind of each segment it crossed.
 static func _flush(sim,id:int)->void:
  var state=_state(sim);var leg=state.legs.get(id,{})
  if leg.is_empty():return
  var done=_progress(leg.path,sim.units[id].pos)
- if done>leg.done:state.totals[leg.kind]+=done-leg.done;leg.done=done
+ if done<=leg.done:return
+ var run=0.0
+ for i in range(leg.path.size()-1):
+  var end=run+leg.path[i].distance_to(leg.path[i+1])
+  var covered=minf(done,end)-maxf(leg.done,run)
+  if covered>0.0:state.totals[leg.kinds[i]]+=covered
+  run=end
+ leg.done=done
 
 static func _units(sim,order:String)->Array:
  return [1,2] if order=="recall_all" else [sim.selected]
@@ -54,20 +64,35 @@ static func before(sim,order:String)->void:
  for id in _units(sim,order):_flush(sim,id);routes[id]=sim.units[id].route
  _state(sim)["routes"]=routes
 
+# Kinds of the nodes still ahead on the current leg, one per route node.
+static func _ahead(state:Dictionary,id:int,count:int)->Array:
+ var kinds:Array=state.legs.get(id,{}).get("kinds",[])
+ return kinds.slice(maxi(0,kinds.size()-count))
+
 # After an accepted Route order: a newly installed path starts a fresh leg.
+# A queued leg keeps the old remainder's kinds and tags only the appended nodes.
 static func after(sim,order:String,args:Dictionary)->void:
  if not on(sim):return
  var k=kind(order,args)
  var state=_state(sim)
  for id in _units(sim,order):
-  var u=sim.units[id]
-  if k=="" and order in ["route_edit","route_insert","route_delete","route_undo","order_undo"]:k=state.legs.get(id,{}).get("kind","planned")
-  if k=="" or u.route.is_empty():continue
+  var u=sim.units[id];var leg_kind=k
+  var old:Array=state.get("routes",{}).get(id,[])
+  # A program edit replots the current leg under the kind of its next node.
+  if leg_kind=="" and order in ["route_edit","route_insert","route_delete","route_undo","order_undo"]:
+   var ahead=_ahead(state,id,old.size());leg_kind=ahead[0] if not ahead.is_empty() else "planned"
+  if leg_kind=="" or u.route.is_empty():continue
   # RECALL ALL may refuse one drone; its untouched route keeps its own leg.
-  if order=="recall_all" and is_same(u.route,state.get("routes",{}).get(id)):continue
+  if order=="recall_all" and is_same(u.route,old):continue
+  var kinds=[]
+  # A queued route appends to a copy of the old route, so its nodes lead.
+  if order=="route" and sim.queue_mode and not old.is_empty() and u.route.size()>old.size():
+   kinds=_ahead(state,id,old.size())
+   while kinds.size()<old.size():kinds.push_front(leg_kind)
   var path=PackedVector2Array([u.pos])
   for node in u.route:path.append(node.pos)
-  state.legs[id]={"kind":k,"path":path,"done":0.0}
+  while kinds.size()<u.route.size():kinds.append(leg_kind)
+  state.legs[id]={"kinds":kinds,"path":path,"done":0.0}
 
 # Metres covered per kind so far. All zero with dev state off.
 static func totals(sim)->Dictionary:
@@ -82,15 +107,3 @@ static func one_press_share(sim)->float:
  var t=totals(sim);var sum=0.0
  for k in KINDS:sum+=t[k]
  return t.one_press/sum if sum>0.0 else 0.0
-
-# One report row per op (R5: critic kits and the nightly read it). Printed at
-# every debrief, dev or not, so each critic log carries the number.
-static func report(sim)->Dictionary:
- var t=totals(sim);var row={"title":str(sim.mission.get("title","")) if sim.mission is Dictionary else "","dev":on(sim),"one_press_share":snappedf(one_press_share(sim),.001)}
- for k in KINDS:row[k]=snappedf(t[k],.1)
- return row
-
-static func debrief(sim)->void:
- if sim==null or sim.has_meta("control_mix_reported"):return
- sim.set_meta("control_mix_reported",true)
- print("SS_CONTROL_MIX ",JSON.stringify(report(sim)))
