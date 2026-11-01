@@ -199,13 +199,6 @@ order_row_scenarios|ORDER ROW|160|151
 order_task_ui_scenarios|TASK UI|161|152
 work_task_recipient_tests|WORK TASK|752|852
 truthful_commands_tests|TRUTHFUL COMMANDS|763|866
-<<<<<<< HEAD
-=======
-release_controls_tests|RELEASE CONTROLS|1291|1291
-crash_possible_tests|CRASH|1292|1292
-hand_pilot_journeys|HANDPILOT|1293|1293
-bare_contact_tests|BARE CONTACT|1390|1390
->>>>>>> origin/item/139-bare-contact
 performance_measurements|PERFORMANCE|162|153
 nav_clearance_tests|NAV CLEARANCE|163|184
 nav_following_probe|NAV FOLLOW|164|185
@@ -365,7 +358,6 @@ expedition_session_tests|EXPEDITION SESSION|371|471
 career_tests|CAREER|380|480
 rider_tests|RIDER|312|413
 rider_ui_tests|RIDER UI|313|414|render
-<<<<<<< HEAD
 player_names_tests|PLAYER NAMES|1294|1294
 release_controls_tests|RELEASE CONTROLS|1291|1291
 crash_possible_tests|CRASH|1292|1292
@@ -376,11 +368,5 @@ protected_rules_tests|PROTECTED RULES|1290|1290
 all_stop_text_tests|ALL STOP TEXT|-|1402
 own_craft_leg_warning_tests|OWN CRAFT LEG WARNING|1401|1401
 dive_end_stats_ui_tests|DIVE END STATS UI|1400|1400|render
-=======
-prep_decision_first_ui_tests|PREP DECISION FIRST UI|764|867|render
-protected_rules_tests|PROTECTED RULES|1290|1290
-player_names_tests|PLAYER NAMES|1294|1294
->>>>>>> origin/item/139-bare-contact
 recovery_manifest_ui_tests|RECOVERY MANIFEST|1300|1300|render
 control_mix_tests|CONTROL MIX|1295|1295
-dive_end_stats_ui_tests|DIVE END STATS UI|1400|1400|render
