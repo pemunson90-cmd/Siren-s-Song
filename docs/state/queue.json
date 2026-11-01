@@ -243,7 +243,7 @@
    "phase": "C",
    "branch": "item/142-launch-guard",
    "pr": 251,
-   "head": "033301eaafa4f474d813fd6a42c20f5f1fbfce0f",
+   "head": "d3f2f24f2cdc278f5aa32c47c52355f82b0ee98e",
    "file": "docs/state/items/142-launch-guard.md",
    "attempts": {
     "A": 3,
@@ -251,7 +251,7 @@
     "C": 1
    },
    "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-142",
-   "updated": "2026-11-01T21:15:28Z",
+   "updated": "2026-11-01T21:58:01Z",
    "provider": "claude:sonnet",
    "started": "2026-11-01T04:05:03Z"
   },
@@ -464,8 +464,8 @@
     "claude:opus",
     "codex"
    ],
-   "status": "merging",
-   "phase": "C",
+   "status": "done",
+   "phase": null,
    "branch": "item/139-bare-contact",
    "pr": 252,
    "head": "2bff50e5a85f616982a90c0000dcb7375fbe2e43",
@@ -477,7 +477,7 @@
    },
    "blocker": null,
    "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-139",
-   "updated": "2026-11-01T21:04:43Z",
+   "updated": "2026-11-01T21:53:48Z",
    "provider": "claude:opus",
    "started": "2026-11-01T02:55:55Z"
   },
@@ -655,11 +655,11 @@
     "claude:sonnet",
     "codex"
    ],
-   "status": "merging",
-   "phase": "C",
+   "status": "done",
+   "phase": null,
    "branch": "item/146-docs-pointers",
    "pr": 257,
-   "head": "114edb303ac875781a1982c46be9ac1a303b67fd",
+   "head": "dae483574dbafe60161c3f980aa98009e3c7205e",
    "file": "docs/state/items/146-docs-pointers.md",
    "attempts": {
     "A": 2,
@@ -668,7 +668,7 @@
    },
    "blocker": null,
    "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-146",
-   "updated": "2026-11-01T21:32:39Z",
+   "updated": "2026-11-01T21:58:04Z",
    "provider": "claude:sonnet",
    "started": "2026-11-01T21:15:32Z"
   },
@@ -690,7 +690,7 @@
    "phase": "C",
    "branch": "item/147-integration-apk",
    "pr": 258,
-   "head": "80be0be5aabc933f163eb737fb7349afd506de67",
+   "head": "5fe2b12f11988dd22720ef06db7e8a21163a5627",
    "file": "docs/state/items/147-integration-apk.md",
    "attempts": {
     "A": 1,
@@ -699,7 +699,7 @@
    },
    "blocker": null,
    "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-147",
-   "updated": "2026-11-01T21:45:31Z",
+   "updated": "2026-11-01T22:00:11Z",
    "provider": "claude:sonnet",
    "started": "2026-11-01T21:28:30Z"
   },
