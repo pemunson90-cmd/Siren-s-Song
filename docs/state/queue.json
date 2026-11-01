@@ -235,20 +235,20 @@
     "claude:sonnet",
     "codex"
    ],
-   "status": "active",
-   "phase": "A",
+   "status": "blocked",
+   "phase": "B",
    "branch": "item/142-launch-guard",
    "pr": 251,
-   "head": "16045d633b701482a44b91b0253aacdf4e36683d",
+   "head": "4c98c3aeb172444d78411545745c5fc1cd9be498",
    "file": "docs/state/items/142-launch-guard.md",
    "attempts": {
     "A": 3,
-    "B": 1,
+    "B": 3,
     "C": 1
    },
-   "blocker": null,
+   "blocker": "phase B: card Files must be widened to include game/tests/campaign_ui_scenarios.gd (needed so runtime_tests answers the launch guard; revert would turn CI red)",
    "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-142",
-   "updated": "2026-11-01T20:46:07Z",
+   "updated": "2026-11-01T21:04:39Z",
    "provider": "claude:sonnet",
    "started": "2026-11-01T04:05:03Z"
   },
@@ -465,7 +465,7 @@
    "phase": "C",
    "branch": "item/139-bare-contact",
    "pr": 252,
-   "head": "25c42e726c9c93e061f3ab6909b585e780e288db",
+   "head": "2bff50e5a85f616982a90c0000dcb7375fbe2e43",
    "file": "docs/state/items/139-bare-contact.md",
    "attempts": {
     "A": 2,
@@ -474,7 +474,7 @@
    },
    "blocker": null,
    "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-139",
-   "updated": "2026-11-01T20:46:16Z",
+   "updated": "2026-11-01T21:04:43Z",
    "provider": "claude:opus",
    "started": "2026-11-01T02:55:55Z"
   },
