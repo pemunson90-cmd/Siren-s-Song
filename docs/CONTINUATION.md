@@ -1,14 +1,14 @@
 # Siren's Song continuation
 
-Operational entry and next actions: [RESUME.md](RESUME.md).
+Operational entry: [RESUME.md](RESUME.md).
 Development integration: `claude/integration`.
-Frozen promotion baseline: `gauntlet/production`; protected accepted baseline: `main`.
+Protected accepted baseline: `main`; frozen promotion baseline: `gauntlet/production`.
 Pat authorizes promotion; feature PRs target integration.
-Codex ownership/claims/completion: `docs/codex/BOARD.md` on `codex/handoffs`.
+Live queue, ownership and next action: `docs/state/STATE.md` and `docs/state/queue.json` on `codex/handoffs`.
+Pat's rulings: `docs/state/RULINGS.md` on `codex/handoffs`.
+Critic evidence stays outside the repo.
 Windows execution and recovery: [DESKTOP_HANDOFF.md](DESKTOP_HANDOFF.md).
-Pat resumed locally on Windows and continued on25October2026 Eastern. Follow the running claim and its Completion notes.
-The earlier cloud stop is lifted; preserve other workers' scope and claims.
-Read USER_DIRECTIVES and the task brief before implementation.
+Read USER_DIRECTIVES and the task brief before implementation; preserve other workers' scope and claims.
 This pointer carries no separate milestone, PR inventory or next-task assignment.
 
-Verified module seams and safe reverts: [MODULES.md](MODULES.md). Earlier cloud/art pauses are historical; current next work and limits stay in RESUME and the live board.
+Verified module seams and safe reverts: [MODULES.md](MODULES.md).

@@ -371,3 +371,5 @@ recovery_manifest_ui_tests|RECOVERY MANIFEST|1300|1300|render
 control_mix_tests|CONTROL MIX|1295|1295
 dive_end_polish_ui_tests|DIVE END POLISH UI|1403|1403|render
 all_stop_text_tests|ALL STOP TEXT|-|1402
+bare_contact_tests|BARE CONTACT|1390|1390
+launch_guard_ui_tests|LAUNCH GUARD UI|1296|1296|render
