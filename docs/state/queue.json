@@ -655,20 +655,20 @@
     "claude:sonnet",
     "codex"
    ],
-   "status": "waiting_intent",
-   "phase": "intent",
+   "status": "merging",
+   "phase": "C",
    "branch": "item/146-docs-pointers",
    "pr": 257,
-   "head": "9fea177979681795441a9257c9839e6d798fb209",
+   "head": "114edb303ac875781a1982c46be9ac1a303b67fd",
    "file": "docs/state/items/146-docs-pointers.md",
    "attempts": {
-    "A": 1,
-    "B": 1,
+    "A": 2,
+    "B": 2,
     "C": 0
    },
    "blocker": null,
    "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-146",
-   "updated": "2026-11-01T21:22:11Z",
+   "updated": "2026-11-01T21:32:39Z",
    "provider": "claude:sonnet",
    "started": "2026-11-01T21:15:32Z"
   },
@@ -686,18 +686,22 @@
     "claude:sonnet",
     "codex"
    ],
-   "status": "queued",
-   "phase": null,
+   "status": "blocked",
+   "phase": "A",
    "branch": "item/147-integration-apk",
    "pr": null,
    "head": null,
    "file": "docs/state/items/147-integration-apk.md",
    "attempts": {
-    "A": 0,
+    "A": 1,
     "B": 0,
     "C": 0
    },
-   "blocker": null
+   "blocker": "phase A: dispatch run 41352249311 failed in pre-existing Blackwater test before the APK build; acceptance part 2 not met",
+   "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-147",
+   "updated": "2026-11-01T21:32:39Z",
+   "provider": "claude:sonnet",
+   "started": "2026-11-01T21:28:30Z"
   }
  ]
 }
