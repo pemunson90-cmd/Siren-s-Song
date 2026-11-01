@@ -239,7 +239,7 @@
    "phase": "C",
    "branch": "item/142-launch-guard",
    "pr": 251,
-   "head": "26894bf690a9ac6c22afe94325ec7d0f0a217996",
+   "head": "d4bc835d5e05d7ab65449adabf7220ae7d694313",
    "file": "docs/state/items/142-launch-guard.md",
    "attempts": {
     "A": 1,
@@ -248,7 +248,7 @@
    },
    "blocker": null,
    "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-142",
-   "updated": "2026-11-01T04:38:43Z",
+   "updated": "2026-11-01T05:34:21Z",
    "provider": "claude:sonnet",
    "started": "2026-11-01T04:05:03Z"
   },
@@ -303,11 +303,11 @@
     "claude:sonnet",
     "codex"
    ],
-   "status": "waiting_intent",
-   "phase": "intent",
+   "status": "merging",
+   "phase": "C",
    "branch": "item/133-recovery-manifest",
    "pr": 249,
-   "head": "841af5a105d6c4676d297605000157b1304529e9",
+   "head": "3adffb6606022fd8024296895ce95b5f99fb0e21",
    "file": "docs/state/items/133-recovery-manifest.md",
    "attempts": {
     "A": 2,
@@ -316,7 +316,7 @@
    },
    "blocker": null,
    "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-133",
-   "updated": "2026-11-01T05:29:19Z",
+   "updated": "2026-11-01T05:31:57Z",
    "provider": "claude:sonnet",
    "started": "2026-11-01T02:55:32Z"
   },

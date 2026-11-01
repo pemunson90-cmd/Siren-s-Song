@@ -1,4 +1,4 @@
-# STATE (updated 2026-11-01T01:29:40-04:00, by runner2.py)
+# STATE (updated 2026-11-01T01:40:52-04:00, by runner2.py)
 
 ## Base
 integration: 4574f8c8   main: a2300840   production: 26e09906
@@ -8,9 +8,9 @@ nightly: not yet running (item 128)   controls mix: not yet measured (item 130)
 ## In flight
 | item | title | class | provider | phase | branch | PR | head | status |
 | PKG2 | Stable board and clear threat (PR 239, r | ui | external | B | root/stable-board-pkg2 | 239 | 527e4478 | parked |
-| 142 | Launching never replaces an active dive  | ui | claude:sonnet | C | item/142-launch-guard | 251 | 26894bf6 | merging |
+| 142 | Launching never replaces an active dive  | ui | claude:sonnet | C | item/142-launch-guard | 251 | d4bc835d | merging |
 | 131 | R4 crash possible with edge assist | sim | claude:opus | A | item/131-crash-possible | - | - | active |
-| 133 | Recovery manifest before the dive ends | ui | claude:sonnet | intent | item/133-recovery-manifest | 249 | 841af5a1 | waiting_intent |
+| 133 | Recovery manifest before the dive ends | ui | claude:sonnet | C | item/133-recovery-manifest | 249 | 3adffb66 | merging |
 | 139 | Bare Quietus meets the Sirens on ops 2,  | sim | claude:opus | C | item/139-bare-contact | 252 | 37db5073 | merging |
 | 140 | Every dive end shows time, hull and oxyg | ui | claude:sonnet | C | item/140-dive-end-stats | 248 | ef97b454 | merging |
 | 141 | Legs warn when they pass through your ow | ui | claude:sonnet | C | item/141-own-craft-legs | 250 | ee36e6f9 | merging |
