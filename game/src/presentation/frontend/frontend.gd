@@ -93,8 +93,16 @@ func _process(delta: float) -> void:
 # (follow_focus re-pins on every relayout, which fights the host's repeated layouts.)
 func _watch_focus() -> void:
 	if is_inside_tree() and not get_viewport().gui_focus_changed.is_connected(_focus_moved): get_viewport().gui_focus_changed.connect(_focus_moved)
+var pointer_frame := -10
+# Pointer presses focus a button too; only keyboard and controller focus should move the scroll.
+func _input(event: InputEvent) -> void:
+	if event is InputEventMouseButton or event is InputEventScreenTouch: pointer_frame = Engine.get_process_frames()
 func _focus_moved(control: Control) -> void:
-	if is_instance_valid(scroll) and scroll.is_ancestor_of(control): scroll.ensure_control_visible.call_deferred(control)
+	if Engine.get_process_frames() - pointer_frame <= 1: return
+	if is_instance_valid(scroll) and is_instance_valid(control) and scroll.is_ancestor_of(control): _reveal.call_deferred(control)
+func _reveal(control: Control) -> void:
+	if not is_instance_valid(self) or not is_inside_tree() or not is_instance_valid(scroll) or not scroll.is_inside_tree(): return
+	if is_instance_valid(control) and control.is_inside_tree() and not control.is_queued_for_deletion() and scroll.is_ancestor_of(control): scroll.ensure_control_visible(control)
 func touch_height() -> float:
 	var h = host.get("ui_touch_height") if host != null else 48.0
 	return maxf(48.0, float(h))
