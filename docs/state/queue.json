@@ -383,7 +383,7 @@
     "claude:sonnet",
     "codex"
    ],
-   "status": "active",
+   "status": "blocked",
    "branch": "item/138-player-names",
    "file": "docs/state/items/138-player-names.md",
    "attempts": {
@@ -394,9 +394,9 @@
    "phase": "A",
    "pr": 245,
    "head": "07ca055f2268033193a8f9c1a857aa3e3b7e275b",
-   "blocker": null,
+   "blocker": "phase A: tool_racks_view.gd (serial zone, outside item Files) renders DRONE_A/DRONE_B on the expedition menu; fix needs that file",
    "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-138",
-   "updated": "2026-10-31T23:45:16Z",
+   "updated": "2026-11-01T00:20:25Z",
    "provider": "claude:sonnet",
    "started": "2026-10-31T22:37:48Z"
   }
