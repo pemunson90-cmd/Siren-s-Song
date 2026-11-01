@@ -1,4 +1,4 @@
-# STATE (updated 2026-11-01T02:25:57-05:00, by runner2.py)
+# STATE (updated 2026-11-01T02:43:48-05:00, by runner2.py)
 
 ## Base
 integration: 51ee65c4   main: a2300840   production: 26e09906
@@ -8,7 +8,7 @@ nightly: not yet running (item 128)   controls mix: not yet measured (item 130)
 ## In flight
 | item | title | class | provider | phase | branch | PR | head | status |
 | PKG2 | Stable board and clear threat (PR 239, r | ui | external | B | root/stable-board-pkg2 | 239 | 527e4478 | parked |
-| 142 | Launching never replaces an active dive  | ui | claude:sonnet | A | item/142-launch-guard | 251 | 0aba086a | active |
+| 142 | Launching never replaces an active dive  | ui | claude:sonnet | intent | item/142-launch-guard | 251 | 16045d63 | waiting_intent |
 | 139 | Bare Quietus meets the Sirens on ops 2,  | sim | claude:opus | C | item/139-bare-contact | 252 | 2e073ab5 | merging |
 | 140 | Every dive end shows time, hull and oxyg | ui | claude:sonnet | C | item/140-dive-end-stats | 248 | 2de2736f | merging |
 | 141 | Legs warn when they pass through your ow | ui | claude:sonnet | C | item/141-own-craft-legs | 250 | ee36e6f9 | merging |
