@@ -53,7 +53,9 @@ static func show(host,rows:Array)->void:
  host._button(host.menu_footer,"HOLD\nKEEP DIVING",func():_hold(host),"manifest_hold")
  var reason=away_reason(host.sim)
  if reason.is_empty():host._button(host.menu_footer,"CONFIRM\nEND DIVE",func():_confirm(host),"manifest_confirm")
- else:host._menu_text(reason,17)
+ else:
+  host._menu_text(reason,17)
+  host._button(host.menu_footer,"CONTINUE\nHEAD FOR RECOVERY",func():_confirm(host),"manifest_confirm")
  host.menu_footer.show()
 
 # 143: END DIVE only when the departure order can end the dive; otherwise say why not.
