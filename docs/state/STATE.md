@@ -1,4 +1,4 @@
-# STATE (updated 2026-11-01T16:08:30-05:00, by runner2.py)
+# STATE (updated 2026-11-01T16:09:30-05:00, by runner2.py)
 
 ## Base
 integration: 07a7e12b   main: a2300840   production: 26e09906
@@ -8,22 +8,19 @@ nightly: not yet running (item 128)   controls mix: not yet measured (item 130)
 ## In flight
 | item | title | class | provider | phase | branch | PR | head | status |
 | PKG2 | Stable board and clear threat (PR 239, r | ui | external | B | root/stable-board-pkg2 | 239 | 527e4478 | parked |
-| 142 | Launching never replaces an active dive  | ui | claude:sonnet | B | item/142-launch-guard | 251 | 4c98c3ae | active |
+| 142 | Launching never replaces an active dive  | ui | claude:sonnet | review-wait | item/142-launch-guard | 251 | 4c98c3ae | active |
+| 134 | Route flow (package 4) | sim | external | - | item/134-route-flow | - | - | parked |
 | 139 | Bare Quietus meets the Sirens on ops 2,  | sim | claude:opus | C | item/139-bare-contact | 252 | 2bff50e5 | merging |
 | 143 | Honest END DIVE, stats on every recovery | ui | claude:sonnet | B | item/143-dive-end-polish | 256 | d9909629 | active |
 
 ## Queued (order = priority; see queue.json)
-134 route-flow
+146 docs-pointers
 
 ## Done (branches kept)
 126 claude/truthful-commands PR 238, 127 item/127-release-controls PR 241, 136 item/136-shard-all-failures PR 242, 128 item/128-ci-v2 PR 240, 129 item/129-protected-golden PR 243, 130 item/130-control-mix PR 247, 131 item/131-crash-possible PR 255, 133 item/133-recovery-manifest PR 249, 135 item/135-prep-results PR 244, 137 item/137-menu-scroll-keys PR 246, 138 item/138-player-names PR 245, 140 item/140-dive-end-stats PR 248, 141 item/141-own-craft-legs PR 250, 144 item/144-all-stop-cost PR 253, 145 item/145-briefing-truth PR 254
 
 ## Blockers
-- provider codex down: ERROR: You’ve hit your usage limit. Visit https://chatgpt.com/settings/usage to purchase more credit (probed 2026-11-01T03:25:08-05:00)
-
-## PAUSED
-PAUSED, RESUME REQUIRED: paused by orchestrator 2026-11-01T16:08:29-05:00; alive sessions finish, nothing launches
-Resume: python -I C:\Users\Archi\.cache\sirens-song-toolchain\artifacts\queue-s6\runner2.py resume
+- provider codex down: exit 1: ERROR: unexpected status 401 Unauthorized: Missing bearer or basic authentication in header, (probed 2026-11-01T16:09:16-05:00)
 
 ## Waiting on Pat
 - Q3 intent card and spec line 73; Q4 daily digest; Q5 model cap (docs/workflow-v2/QUESTIONS_FOR_PAT.md on claude/workflow-v2)
