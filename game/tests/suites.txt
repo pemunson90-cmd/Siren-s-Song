@@ -363,6 +363,7 @@ player_names_tests|PLAYER NAMES|1294|1294
 release_controls_tests|RELEASE CONTROLS|1291|1291
 crash_possible_tests|CRASH|1292|1292
 hand_pilot_journeys|HANDPILOT|1293|1293
+bare_contact_tests|BARE CONTACT|1390|1390
 prep_decision_first_ui_tests|PREP DECISION FIRST UI|764|867|render
 stable_board_cover_mirror_ui_tests|STABLE BOARD UI|766|869|render
 stable_board_inner_normal_ui_tests|STABLE BOARD UI|767|870|render
