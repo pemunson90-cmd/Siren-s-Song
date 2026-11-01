@@ -358,4 +358,9 @@ expedition_session_tests|EXPEDITION SESSION|371|471
 career_tests|CAREER|380|480
 rider_tests|RIDER|312|413
 rider_ui_tests|RIDER UI|313|414|render
-player_names_tests|PLAYER NAMES|764|867
+player_names_tests|PLAYER NAMES|1294|1294
+release_controls_tests|RELEASE CONTROLS|1291|1291
+crash_possible_tests|CRASH|1292|1292
+hand_pilot_journeys|HANDPILOT|1293|1293
+prep_decision_first_ui_tests|PREP DECISION FIRST UI|764|867|render
+protected_rules_tests|PROTECTED RULES|1290|1290

@@ -9,7 +9,8 @@ func check(ok:bool,label:String)->void:
  if not ok:failures+=1;printerr("FAIL: ",label)
 func fixture(wall:bool=true):
  # Source-known wall fixture replaces the authored encounter in every band.
- var s=Sim.new();s.start(0);s.sirens=[]
+ # 127: earned-course repair and chart brakes are the dev/test autopilot path (Pat 2026-10-30).
+ var s=Sim.new();s.start(0);s.sirens=[];s.mission["dev"]=true
  s.mission.erase("depth_geometry");s.mission.rocks=[];s.mission.structures=[Rect2(800,380,80,240)] if wall else []
  s.mission.world_size=Vector2(1600,960);s.mission.region_revision=1;s.mission.start=Vector2(240,500);s.mission.earned_terrain=true;s.mission.launch_seed=Rect2(80,80,640,800)
  # Route commands switch through the band lookup, which must own this new chart.

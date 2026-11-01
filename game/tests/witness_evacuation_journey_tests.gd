@@ -1,4 +1,5 @@
 extends SceneTree
+# 127 (Pat 2026-10-30): scripted journeys here fly the dev/test pathfinder route; hand_pilot_journeys covers release play.
 # Source-known technical voyages from actual launch water. Guards, movement,
 # tools and custody transitions run unchanged; no terminal flag is injected.
 # Solo cases start without helper bodies; the rescue case loses its loaded A
@@ -61,7 +62,7 @@ func solve_local(s)->bool:
  for n in 130:tick(s)
  return s.concealed_status().receipt
 func setup():
- var s=Sim.new();s.start(12,"endurance");s.units[1].alive=false;s.units[2].alive=false
+ var s=Sim.new();s.start(12,"endurance");s.mission["dev"]=true;s.units[1].alive=false;s.units[2].alive=false
  last_defense=-10;distance=0;reacted=false;return s
 func run_solo(service:bool):
  var s=setup();var reached=true
@@ -88,7 +89,7 @@ func run_solo(service:bool):
  else:check(not s.noises.any(func(n):return n.label=="SERVICE SLUICE MOTOR"),"quiet voyage never borrows a hidden gate opening or motor")
  print("WITNESS JOURNEY ","solo-sluice" if service else "solo-detour"," outcome=",s.outcome," time=",s.elapsed," loaded_return=",s.elapsed-loaded_at," loaded_metres=",distance-start_distance," hull=",s.hull," oxygen=",s.oxygen," EMP=",s.tools.emp," torpedoes=",s.tools.knock," guard_reacted=",reacted)
 func run_rescue():
- var s=Sim.new();s.start(12,"endurance",{"fitted":{"quietus":"","drone_a":"drone_deep_cells","drone_b":""}});s.units[2].alive=false
+ var s=Sim.new();s.start(12,"endurance",{"fitted":{"quietus":"","drone_a":"drone_deep_cells","drone_b":""}});s.mission["dev"]=true;s.units[2].alive=false
  last_defense=-10;distance=0;reacted=false;var reached=true
  for point in APPROACH:
   if not go(s,1,point,true,false):reached=false;break

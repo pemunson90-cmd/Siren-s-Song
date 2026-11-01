@@ -1,4 +1,5 @@
 extends SceneTree
+# 127 (Pat 2026-10-30): scripted journeys here fly the dev/test pathfinder route; hand_pilot_journeys covers release play.
 # Own-position fixtures isolate local work and history. Real guard voyages are separate.
 const Sim=preload("res://src/simulation/simulation.gd")
 const Harbour=preload("res://src/simulation/concealed_harbour.gd")
@@ -16,7 +17,7 @@ func step(s,time:float):
  for n in ceili(time*60):s.advance(1./60.)
  s.paused=true
 func fresh(thread:String="deep",facts:Dictionary={}):
- var s=Sim.new();s.start(12,"endurance",{"context":{"thread":thread,"facts":facts,"completed":[6,7,9,11] if thread=="deep" else [6,8,10,11],"references":{}}});s.sirens=[];return s
+ var s=Sim.new();s.start(12,"endurance",{"context":{"thread":thread,"facts":facts,"completed":[6,7,9,11] if thread=="deep" else [6,8,10,11],"references":{}}});s.mission["dev"]=true;s.sirens=[];return s
 func board(s):
  s.units[0].pos=Vector2(1840,800);s.units[0].vel=Vector2.ZERO;step(s,.02)
  check(s.command("salvage",{"item":"witness_capsule"}),"actual local occupied-pod winch begins")
@@ -127,7 +128,7 @@ func move_body(s,id:int,point:Vector2)->bool:
 func baffle_pod_recovery():
  # Relocated ordinary sentinel is a controlled custody-loss fixture, NOT a
  # claimed natural authored guard policy. The beam and drone route are real.
- var s=Sim.new();s.start(12,"endurance",{"context":{"thread":"shelf","facts":{},"completed":[6,8,10,11],"references":{}},"fitted":{"quietus":"","drone_a":"drone_deep_cells","drone_b":""}})
+ var s=Sim.new();s.start(12,"endurance",{"context":{"thread":"shelf","facts":{},"completed":[6,8,10,11],"references":{}},"fitted":{"quietus":"","drone_a":"drone_deep_cells","drone_b":""}});s.mission["dev"]=true
  var guard=s.sirens[1].duplicate(true);s.sirens=[]
  s.units[1].pos=Vector2(1840,800);s.units[1].vel=Vector2.ZERO;s.command("select",{"unit":1});step(s,.02)
  check(s.command("salvage",{"item":"witness_capsule"}),"enclosure regression begins real occupied-drone winch")

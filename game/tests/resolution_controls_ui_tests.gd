@@ -129,7 +129,11 @@ func run():
   check(load("res://src/presentation/receiver_scene.gd").applies(13,site),"own transmitter never renders a false Foundry optical scene")
   g._start_mission(12);g.ocean.fit_chart();g._layout();await settle();site=g.sim.observable_sites()[0]
   context=g.ocean.pick_context(g.ocean.screen_position(site.pos),g.ui_touch_height);h.open("object",context);await settle()
-  check(g.order_buttons.camera.text.get_slice("\n",0)=="ACTUATE" and not g.order_buttons.camera.tooltip_text.is_empty() and g.order_buttons.camera.disabled and h.extra.route_here.visible,"physical actuator exposes local ACTUATE and ordinary approach route")
+  check(g.order_buttons.camera.text.get_slice("\n",0)=="ACTUATE" and not g.order_buttons.camera.tooltip_text.is_empty() and g.order_buttons.camera.disabled and not h.extra.route_here.visible,"physical actuator exposes local ACTUATE without a release approach shortcut")
+  # 127 (Pat 2026-10-30): the approach route is a dev/test shortcut; release play hides it.
+  g.set_meta("dev_profile",true);h.open("object",context);await settle()
+  check(h.extra.route_here.visible,"dev state keeps the ordinary approach route on the actuator page")
+  g.set_meta("dev_profile",false);h.open("object",context);await settle()
   h.open("inspect");await settle();check("optional" in h.instrument_info.text.to_lower() and "reception unknown" in h.instrument_info.text and "ACTUATE" in h.instrument_info.text,"actuator status discloses voluntary machinery cost without remote hearing knowledge")
   h.dismiss();g._start_mission(0);g._layout();await settle();check(not g.order_buttons.camera.disabled and g.order_buttons.camera.text=="PHOTO","tutorial photo action is restored after operation contexts")
   g.queue_free();await settle()

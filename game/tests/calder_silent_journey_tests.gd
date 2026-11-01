@@ -1,4 +1,5 @@
 extends SceneTree
+# 127 (Pat 2026-10-30): scripted journeys here fly the dev/test pathfinder route; hand_pilot_journeys covers release play.
 # Counterexample to pressure obtained by choosing cruise: same useful core routes,
 # no finite tools or drone orders, Quietus SILENT throughout. Received reports can
 # expire during one pursuit; transitions count reports, not distinct encounters.
@@ -64,7 +65,7 @@ func radio_return(s)->bool:
 func run():
  var pressure=0
  for id in [30,31,32,33,34,35,36]:
-  var s=SilentRun.new();s.start(id)
+  var s=SilentRun.new();s.start(id);s.mission["dev"]=true
   var reserve=s.oxygen
   for key in s.tools:s.tools[key]=0
   check(s.mission.launch_equipment.values().all(func(item):return str(item).is_empty() or str(item)=="standard"),"bare loadout "+str(id))

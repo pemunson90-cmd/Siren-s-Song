@@ -52,6 +52,7 @@ const save_checks = [
 	["features", Network, "valid", "snapshot"],
 	["features", Industry, "valid", "snapshot"],
 	["features", ContactReports, "valid", "snapshot"],
+	["features", preload("res://src/simulation/hand_pilot/hand_pilot.gd"), "valid", "snapshot"],
 	["photo", Photo, "valid", "mission"],
 	["world", WorldRegion, "valid", "snapshot"],
 	["world", Sorley, "valid", "snapshot"],

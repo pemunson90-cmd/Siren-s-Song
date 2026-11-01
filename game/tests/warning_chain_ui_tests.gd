@@ -131,7 +131,8 @@ func run():
   check(not h.extra.chain_service.disabled,"fitted field sampler receives its own actual local panel readiness")
   await click(h.extra.chain_service);await click(h.extra.chain_send)
   check(sim.warning_chain_context().result.get("proof","")=="local_receipt","fitted sampler performs explicit select and send while Quietus stays free")
-  await at(game,0,Vector2(180,1000));sim.paused=false;sim.advance(1./60.);sim.paused=true;game._process(0);await settle()
+  # 127 (Pat 2026-10-30): the carrier-to-mouth return action is a dev/test shortcut; release play hides it.
+  await at(game,0,Vector2(180,1000));game.set_meta("dev_profile",true);sim.paused=false;sim.advance(1./60.);sim.paused=true;game._process(0);await settle()
   check(game.screen=="departure" and game.panel_box.find_children("*","Button",true,false).any(func(b):return b.get_meta("action","")=="return_module_1"),"commissioned plant preserves the actual outstanding fitted-module return decision")
   await capture(label+"-commissioned-module-decision")
   game.queue_free();await settle()

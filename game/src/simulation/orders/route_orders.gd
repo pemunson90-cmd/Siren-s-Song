@@ -57,6 +57,13 @@ static func command(sim, order: String, args: Dictionary) -> bool:
 			if u.has("route_plan") and not u.route_plan.is_empty():
 				_set_leg_mode(u,"silent" if mode=="quiet" else "cruise")
 			sim.message="%s · %s · visual profile unchanged"%[u.name,"QUIET42" if mode=="quiet" else "TRANSIT96"]
+		# 127: drone RECALL and Quietus RECALL ALL plot straight legs back; no free safety.
+		"recall":
+			if sim.selected==0:sim.message="Select a drone to recall · Quietus uses RECALL ALL";return false
+			if not sim.HandPilot.recall(sim,sim.selected):return false
+		"recall_all":
+			if sim.selected!=0:sim.message="RECALL ALL is a Quietus order";return false
+			if not sim.HandPilot.recall_all(sim):return false
 		"all_stop":return sim.AllStop.command(sim)
 		_:return false
 	return true

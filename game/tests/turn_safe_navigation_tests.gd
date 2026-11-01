@@ -9,7 +9,8 @@ func check(ok:bool,label:String):
 func displaced():
  # Compact physics fixture derived from the unmodified earned Well28.5 save.
  # Actual full archive/threat replay stays external; this isolates course following.
- var s=Sim.new();s.start(4);s.sirens=[]
+ # 127: course repair is the dev/test pathfinder path (Pat 2026-10-30).
+ var s=Sim.new();s.start(4);s.sirens=[];s.mission["dev"]=true
  var u=s.units[0];u.pos=Vector2(1345.6011,627.011);u.angle=-3.28410774866213;u.vel=Vector2(-41.5742,5.96539)
  s.command("route",{"point":Vector2(140,800)})
  # Restore the accepted pre-turn leg; replotted routes already avoid this obstacle.
@@ -73,7 +74,7 @@ func _initialize():
  var retained=old.route.duplicate(true);legacy.paused=false;legacy.advance(1.0/60)
  check(old.route.size()>retained.size() and old.route.slice(old.route.size()-retained.size())==retained and not old.has("route_plan") and not old.has("route_undo"),"legacy repair preserves every original PASS/STOP corner without inventing program or history")
  # Near-wall entry braking is a pathfinder safety stop, not an operator STOP.
- var wall=Sim.new();wall.start(0);wall.sirens=[];wall.mission.rocks=[];wall.mission.structures=[Rect2(300,300,200,200)];wall._build_navigation()
+ var wall=Sim.new();wall.start(0);wall.sirens=[];wall.mission["dev"]=true;wall.mission.rocks=[];wall.mission.structures=[Rect2(300,300,200,200)];wall._build_navigation()
  var own=wall.units[0];own.pos=Vector2(514,350);own.angle=-PI/2;wall.command("route",{"point":Vector2(470,200)});wall.command("route_edit",{"index":0,"stop":false})
  own.route=[{"pos":Vector2(470,200),"stop":false,"goal":true,"mode":"inherit"}];wall.paused=false;wall.advance(1.0/60)
  check(own.route.size()>1 and own.route[0].stop and not own.route.back().stop and wall.route_goals()[0].stop==false,"repair preserves near-wall recovery safety STOP separately from operator PASS")

@@ -10,7 +10,9 @@ func _initialize():
  var probe=Sim.new()
  if not probe.has_method("public_chart"):check(false,"existing Confluence has earned terrain authority")
  else:
+  # 127 (Pat 2026-10-30): earned-chart brakes and chart stops are the dev/test autopilot path.
   var sim=Sim.new();sim.start(11,"disruption",{"context":{"thread":"deep","completed":[9]}})
+  sim.mission["dev"]=true
   check(sim.mission.get("earned_terrain",false) and sim.mission.id==11,"existing campaign node enables functional terrain discovery")
   var original=sim.public_chart();var before=sim.snapshot()
   check(not original.clear_cells.is_empty() and original.surface_segments.is_empty(),"briefed clear launch basin alone starts surveyed")

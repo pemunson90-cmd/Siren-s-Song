@@ -1,4 +1,5 @@
 extends SceneTree
+# 127 (Pat 2026-10-30): scripted journeys here fly the dev/test pathfinder route; hand_pilot_journeys covers release play.
 # Isolated navigation fixture: unchanged operation terrain and bare Quietus, no threats/drones.
 const Sim=preload("res://src/simulation/simulation.gd")
 const Measure=preload("res://tests/nav_clearance_measure.gd")
@@ -8,7 +9,7 @@ func _initialize():
  var cases=[{ "op":0,"point":Vector2(1300,510) },{ "op":1,"point":Vector2(900,1730) },{ "op":3,"point":Vector2(1110,770) },{ "op":4,"point":Vector2(800,390) },{ "op":4,"point":Vector2(1300,510) },{ "op":5,"point":Vector2(320,80) },{ "op":3,"point":Vector2(1420,880),"origin":Vector2(889.6,800) }]
  for scenario in cases:
   for frame in [1./60.,1./16.,.25]:
-   var s=Sim.new();s.start(scenario.op,"endurance");s.sirens=[]
+   var s=Sim.new();s.start(scenario.op,"endurance");s.mission["dev"]=true;s.sirens=[]
    for id in [1,2]:s.units[id].alive=false
    s.units[0].pos=scenario.get("origin",s.units[0].pos)
    var origin=s.units[0].pos

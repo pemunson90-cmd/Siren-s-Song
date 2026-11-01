@@ -24,9 +24,6 @@ static func show(host)->void:
 		host._menu_text(host.sim.rider_status(),17)
 		return
 	host._button(host.panel_box,"RETURN TO MODES",host._return,"career_return")
-	host._button(host.panel_box,"SUPPLIES / RESEARCH",host._show_economy,"career_supplies")
-	host._button(host.panel_box,"FLEET / FITTINGS",host._show_fittings,"career_fittings")
-	host._menu_text("%d RECOVERED · %d LOST\n%s"%[host.career_state.recovered,host.career_state.lost,host.career_state.report],17)
 	host._menu_text("RECOVERY: standing +%d and contract pay plus salvage. LOSS: standing %d and no contract pay. Recovery jobs remain open at every standing. Pay and tuning are provisional."%[Table.SUCCESS,Table.LOSS],16)
 	for faction in Table.FACTIONS:
 		host._menu_text("%s · STANDING %d"%[Table.FACTIONS[faction],host.career_state.standing[faction]],22)
@@ -38,6 +35,9 @@ static func show(host)->void:
 			var button=host._button(host.panel_box,"%s\n%s · PAY %s"%[title.to_upper(),"OPEN" if available else "LOCKED · NEED STANDING %d"%c.get("standing",Table.MIN_STANDING),Economy.fmt(c.reward)],host._select_contract.bind(id),"career_contract_"+id)
 			button.disabled=not available or host.save_failed
 			host._menu_text(Riders.description(State.rider_offer(host.career_state,id)),16)
+	host._button(host.panel_box,"SUPPLIES / RESEARCH",host._show_economy,"career_supplies")
+	host._button(host.panel_box,"FLEET / FITTINGS",host._show_fittings,"career_fittings")
+	host._menu_text("%d RECOVERED · %d LOST\n%s"%[host.career_state.recovered,host.career_state.lost,host.career_state.report],17)
 static func confirm_abandon(host)->void:
 	heading(host,"ABANDON THIS CONTRACT?","career_abandon")
 	host._menu_text("This records a loss, reduces the client's standing and forfeits contract pay. Your regional career continues.",17)

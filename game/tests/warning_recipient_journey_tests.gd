@@ -24,6 +24,7 @@ func defend(s,last:float)->float:
  return last
 func voyage(course:String,proof:String,tools:bool,wait_seconds:float=0.,expect_win:bool=true):
  var s=Sim.new();s.start(13,"endurance",{"context":{"thread":"shelf","facts":{"warning_chain":proof}},"fleet":{"quietus":true,"drone_a":false,"drone_b":false}})
+ s.mission["dev"]=true # 127: authored pathfinder journey runs on the dev/test route path (Pat 2026-10-30).
  # Optional bodies are left at launch; no special fitting or tool is required.
  if s.units[0].silent:s.command("silent")
  var path=[Vector2(900,1960),Vector2(940,1020),Vector2(940,600),Vector2(1540,440),Vector2(1740,440)]
