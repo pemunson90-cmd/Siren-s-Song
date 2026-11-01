@@ -133,8 +133,9 @@ static func _archive(m,key):
  m.glass_reach.artifact=W.cargo("silt_spindle",Vector2(2860,1350),2);m.glass_reach.work_pos=m.glass_reach.artifact.pos
  m.corridors=[corridor(Vector2(240,2180),"WEST REACH RECOVERY"),corridor(Vector2(1600,140),"NORTH REACH RECOVERY","shelf")] # TODO-S3
  R.add(m,[R.guard("buoy",Vector2(2560,1350),2),R.guard("relay",Vector2(2200,1830),2),R.guard("hunter",Vector2(1800,1350),2,[Vector2(1800,1350),Vector2(1800,800),Vector2(1200,850)]),
-  R.guard("patroller",Vector2(2580,340),1,[Vector2(2580,340),Vector2(2640,340),Vector2(2640,280),Vector2(2580,280)]),R.guard("warden",Vector2(1250,330))])
- # 139: a MIDDLE post above the long terrace run sees a bare Quietus pass.
+  R.guard("patroller",Vector2(2620,340),1,[Vector2(2620,340),Vector2(2680,340),Vector2(2680,280),Vector2(2620,280)]),R.guard("warden",Vector2(1250,330))])
+ # 139: a MIDDLE post above the long terrace run sees a bare Quietus pass. The north
+ # patrol sits 40m further east so drones crossing at x=2470 do not hinge on its circuit phase.
  R.add(m,[R.post(Vector2(1760,1285),1,170.)])
 
 # 18 / An anchorage behind a long reef. The service gate is the short sheltered
