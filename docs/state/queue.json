@@ -53,11 +53,11 @@
    "prov": [
     "claude:opus"
    ],
-   "status": "active",
-   "phase": "A",
+   "status": "merging",
+   "phase": "C",
    "branch": "item/127-release-controls",
    "pr": 241,
-   "head": "f54d75d90ba192ef8a25a4cea5b58a9c7f7cc462",
+   "head": "eb919c8cad5aab025fc938d1efcd7def32e0f39b",
    "file": "docs/state/items/127-release-controls.md",
    "attempts": {
     "A": 3,
@@ -67,7 +67,7 @@
    "blocker": null,
    "provider": "claude:opus",
    "started": "2026-10-31T19:12:32Z",
-   "updated": "2026-11-01T01:50:07Z"
+   "updated": "2026-11-01T02:08:47Z"
   },
   {
    "id": "PKG2",
