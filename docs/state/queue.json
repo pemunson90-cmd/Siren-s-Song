@@ -204,8 +204,8 @@
     "claude:opus",
     "codex"
    ],
-   "status": "merging",
-   "phase": "C",
+   "status": "done",
+   "phase": null,
    "branch": "item/130-control-mix",
    "pr": 247,
    "head": "82db3d6019021b102d94c16dcc2b341bd81d4895",
@@ -217,7 +217,7 @@
    },
    "blocker": null,
    "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-130",
-   "updated": "2026-11-01T04:38:33Z",
+   "updated": "2026-11-01T05:29:26Z",
    "provider": "claude:opus",
    "started": "2026-11-01T02:52:53Z"
   },
@@ -268,18 +268,22 @@
     "claude:opus",
     "codex"
    ],
-   "status": "queued",
-   "phase": null,
+   "status": "active",
+   "phase": "A",
    "branch": "item/131-crash-possible",
    "pr": null,
    "head": null,
    "file": "docs/state/items/131-crash-possible.md",
    "attempts": {
-    "A": 0,
+    "A": 1,
     "B": 0,
     "C": 0
    },
-   "blocker": null
+   "blocker": null,
+   "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-131",
+   "updated": "2026-11-01T05:29:38Z",
+   "provider": "claude:opus",
+   "started": "2026-11-01T05:29:38Z"
   },
   {
    "id": 133,
@@ -299,20 +303,20 @@
     "claude:sonnet",
     "codex"
    ],
-   "status": "merging",
-   "phase": "C",
+   "status": "waiting_intent",
+   "phase": "intent",
    "branch": "item/133-recovery-manifest",
    "pr": 249,
-   "head": "a021ba399855bba9c328e68b8a71aa3d811cb542",
+   "head": "841af5a105d6c4676d297605000157b1304529e9",
    "file": "docs/state/items/133-recovery-manifest.md",
    "attempts": {
-    "A": 1,
+    "A": 2,
     "B": 1,
-    "C": 0
+    "C": 1
    },
    "blocker": null,
    "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-133",
-   "updated": "2026-11-01T04:38:48Z",
+   "updated": "2026-11-01T05:29:19Z",
    "provider": "claude:sonnet",
    "started": "2026-11-01T02:55:32Z"
   },
@@ -614,10 +618,10 @@
     "claude:sonnet",
     "codex"
    ],
-   "status": "active",
-   "phase": "B",
+   "status": "merging",
+   "phase": "C",
    "branch": "item/145-briefing-truth",
-   "pr": null,
+   "pr": 254,
    "head": "26ab507fae0b70c101d0a4d861a498064bf09b9a",
    "file": "docs/state/items/145-briefing-truth.md",
    "attempts": {
@@ -627,7 +631,7 @@
    },
    "blocker": null,
    "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-145",
-   "updated": "2026-11-01T05:17:24Z",
+   "updated": "2026-11-01T05:24:27Z",
    "provider": "claude:sonnet",
    "started": "2026-11-01T04:44:44Z"
   }
