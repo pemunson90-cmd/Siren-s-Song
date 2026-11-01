@@ -1,4 +1,4 @@
-# STATE (updated 2026-11-01T05:41:37-05:00, by runner2.py)
+# STATE (updated 2026-11-01T15:45:29-05:00, by runner2.py)
 
 ## Base
 integration: c3163afc   main: a2300840   production: 26e09906
@@ -20,6 +20,10 @@ nightly: not yet running (item 128)   controls mix: not yet measured (item 130)
 ## Blockers
 - 143 dive-end-polish: phase B: widen item 143 card to include game/tests/density_scenarios.gd (required test fixture fix; reverting makes density_scenarios fail 3/1114)
 - provider codex down: ERROR: You’ve hit your usage limit. Visit https://chatgpt.com/settings/usage to purchase more credit (probed 2026-11-01T03:25:08-05:00)
+
+## PAUSED
+PAUSED, RESUME REQUIRED: paused by orchestrator 2026-11-01T15:45:29-05:00; alive sessions finish, nothing launches
+Resume: python -I C:\Users\Archi\.cache\sirens-song-toolchain\artifacts\queue-s6\runner2.py resume
 
 ## Waiting on Pat
 - Q3 intent card and spec line 73; Q4 daily digest; Q5 model cap (docs/workflow-v2/QUESTIONS_FOR_PAT.md on claude/workflow-v2)
