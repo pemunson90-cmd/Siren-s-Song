@@ -239,8 +239,8 @@
     "claude:sonnet",
     "codex"
    ],
-   "status": "merging",
-   "phase": "C",
+   "status": "done",
+   "phase": null,
    "branch": "item/142-launch-guard",
    "pr": 251,
    "head": "4b2cd830598e6d84e1f66f3fde259317d272477e",
@@ -251,9 +251,10 @@
     "C": 1
    },
    "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-142",
-   "updated": "2026-11-01T22:02:19Z",
+   "updated": "2026-11-01T22:40:37Z",
    "provider": "claude:sonnet",
-   "started": "2026-11-01T04:05:03Z"
+   "started": "2026-11-01T04:05:03Z",
+   "blocker": null
   },
   {
    "id": 131,
@@ -563,19 +564,19 @@
     "claude:sonnet",
     "codex"
    ],
-   "status": "active",
-   "phase": "B-wait",
+   "status": "merging",
+   "phase": "C",
    "branch": "item/143-dive-end-polish",
    "pr": 256,
    "head": "1b1069b212d5854083f062ca441a63124273910e",
    "file": "docs/state/items/143-dive-end-polish.md",
    "attempts": {
     "A": 3,
-    "B": 2,
+    "B": 3,
     "C": 0
    },
    "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-143",
-   "updated": "2026-11-01T22:31:32Z",
+   "updated": "2026-11-01T22:40:33Z",
    "provider": "claude:sonnet",
    "started": "2026-11-01T08:07:50Z",
    "blocker": null
