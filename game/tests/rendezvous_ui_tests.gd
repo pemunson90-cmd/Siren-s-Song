@@ -122,6 +122,8 @@ func run():
   before=sim.snapshot();game._refresh();await settle();check(sim.snapshot()==before,"refreshing stale hull cannot reveal or advance private vessel state")
   await capture(label+"-stale-fix")
   marker=View.markers(game.ocean,sim,game.ui_touch_height).filter(func(m):return m.subject.subkind=="rendezvous_hull")[0]
+  # 127 (Pat 2026-10-30): the last-fix approach route is a dev/test shortcut; release play hides it.
+  game.set_meta("dev_profile",true);sim.mission["dev"]=true
   await tap(game.ocean.global_position+marker.rect.get_center())
   check("LAST FIX" in h.extra.route_here.text and game.order_buttons.camera.disabled,"stale vessel context offers an explicit last-fix approach and cannot remotely decode")
   await tap(h.extra.route_here.get_global_rect().get_center())

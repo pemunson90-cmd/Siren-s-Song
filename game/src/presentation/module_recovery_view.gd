@@ -187,7 +187,8 @@ static func confirm_departure(main)->void:
    ,"recovery_hold_%d"%id)
  var holders=[]
  for module in context.left:
-  if module.state!="salvage" and module.unit>0 and main.sim.units[module.unit].alive and module.unit not in holders:
+  # 127: sending a carrier to the mouth is a dev/test travel shortcut only.
+  if module.state!="salvage" and module.unit>0 and main.sim.units[module.unit].alive and module.unit not in holders and preload("res://src/presentation/release_controls.gd").allowed(main,"module_return"):
    holders.append(module.unit)
    var unit=module.unit;var mouth=context.corridor.duplicate(true)
    main._button(main.panel_box,main.sim.units[unit].name+" → "+mouth.name.to_upper(),func():
@@ -198,7 +199,7 @@ static func confirm_departure(main)->void:
      return
     # Separate explicit station and route commands clear queued append intent,
     # preserving this craft's profile and propulsion rather than emergency drive.
-    main._order("select",{"unit":unit});main._order("route",{"point":mouth.pos})
+    main._order("select",{"unit":unit});main._order("route",{"point":mouth.pos}) # TRAVEL:module_return
     main._order("depart",{"confirm":false});main._enter_water()
    ,"return_module_%d"%unit)
   elif module.state=="salvage":

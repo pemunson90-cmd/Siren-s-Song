@@ -15,6 +15,7 @@ const Recipient=preload("res://src/presentation/warning_recipient_view.gd")
 const Concealed=preload("res://src/presentation/concealed_harbour_view.gd")
 const Witness=preload("res://src/presentation/witness_evacuation_view.gd")
 const EarnedChart=preload("res://src/presentation/earned_chart_view.gd")
+const ReleaseControls=preload("res://src/presentation/release_controls.gd")
 const Expedition=preload("res://src/presentation/expedition_view.gd")
 const Confluence=preload("res://src/presentation/confluence_world.gd")
 const WarningChain=preload("res://src/presentation/warning_chain_view.gd")
@@ -411,6 +412,7 @@ func _draw() -> void:
 				if dest.stop:
 					draw_arc(dest.pos,10,0,TAU,24,Palette.chart_color("route",CYAN),Palette.stroke(2)); draw_circle(dest.pos,3,Palette.chart_color("route",CYAN))
 				last=dest.pos
+			ReleaseControls.draw_legs(self,sim,i,world_scale)
 		_craft(u,i)
 	if sim.mission.has("glass_reach") and sim.mission.glass_reach.artifact.is_empty():
 		var at=sim.mission.glass_reach.work_pos
@@ -479,6 +481,7 @@ func _draw() -> void:
 	_draw_pressure_overlay()
 	_draw_local_current()
 	FeatureViews.draw_screen(self)
+	ReleaseControls.draw_reason(self,sim)
 	# Short screen-sized tags preserve observed identity without long world labels.
 	for entry in observed:
 		var anchor=chart_camera.to_screen(entry.pos)+Vector2(12,-18)

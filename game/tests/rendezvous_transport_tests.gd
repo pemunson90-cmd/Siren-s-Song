@@ -67,6 +67,7 @@ func guard_choice()->void:
 func solo_refuge()->void:
  # Isolate gear-independent voyage/route/receiver/extraction composition.
  var solo=fresh();solo.units[1].alive=false;solo.units[2].alive=false
+ solo.mission["dev"]=true # 127: long interception/recovery routes are the dev/test pathfinder path (Pat 2026-10-30).
  solo.tools={"emp":0,"knock":0,"decoy":0,"recon":0};solo.units[0].pos=Vector2(650,1120);solo.units[0].silent=true
  advance(solo,.8)
  check(solo.command("camera"),"solo receives the local service account before releasing the tender");advance(solo,4.1)

@@ -49,7 +49,9 @@ func expedition_fixture()->Dictionary:
 	return {"version":2,"route":"deep","routes":["deep"],"facts":{"deep":"Recovered branch account","confluence_route":"concealed","glass_choice":"salvage","choir_choice":"bypass","choir_people":"landed","choir_plant":"reconnect"},"completed":completed,"notes":{},"references":{},"entitlements":[],"history":[],"selected_thread":"deep"}
 func fixture_last_recovery(game)->bool:
 	game._start_mission(34)
+	game.sim.mission["dev"]=true # 127: the scripted operation 34 journey flies the dev/test pathfinder route (Pat 2026-10-30).
 	var won=Journey.run_core(game.sim,34)
+	game.sim.mission.erase("dev")
 	check(game.sim.mission.objectives[2].captured,"fixture completes the actual operation 34 drill-feed disconnect")
 	check(game.sim.mission.objectives[0].captured,"fixture exposes the actual operation 34 core photograph")
 	check(game.sim.outcome=="won" and game.sim.mission.recovered,"fixture physically recovers operation 34 film")

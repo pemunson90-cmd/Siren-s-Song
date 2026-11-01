@@ -18,7 +18,8 @@ static func run(t,game) -> void:
  # command before injecting its pointer tap, just as a player scrolls to it.
  await reveal(t,game,game.mission_hud.extra.route_menu)
  await t.click(game.mission_hud.extra.route_menu.get_global_rect().get_center())
- t.check(game.order_buttons.waypoint_mode.is_visible_in_tree() and game.order_buttons.home.is_visible_in_tree(),"route submenu exposes point mode and emergency recovery")
+ # 127 (Pat 2026-10-30): one-press EXTRACT autopilot is dev-only; release play offers RECALL.
+ t.check(game.order_buttons.waypoint_mode.is_visible_in_tree() and game.mission_hud.extra.recall.is_visible_in_tree() and not game.order_buttons.home.is_visible_in_tree(),"route submenu exposes point mode and recall, not one-press recovery")
  await reveal(t,game,game.order_buttons.waypoint_mode)
  await t.click(game.order_buttons.waypoint_mode.get_global_rect().get_center())
  t.check(not game.sim.pass_through and not game.advanced_orders,"actual STOP/PASS selection returns to water")

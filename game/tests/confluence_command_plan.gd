@@ -1,4 +1,5 @@
 extends RefCounted
+const HandLegs=preload("res://tests/hand_legs.gd") # 127: journeys place their own straight legs.
 # Source-known technical completion routes. Commands use only public-chart
 # navigation and fresh observed locks; this is not evidence of blind player quality.
 const Sim=preload("res://src/simulation/simulation.gd")
@@ -15,7 +16,7 @@ static func tick(s,seconds:float=.1)->void:
    break
 static func travel(s,unit:int,point:Vector2)->bool:
  s.command("select",{"unit":unit})
- if not s.command("route",{"point":point}):print("REJECT ",point," ",s.message);return false
+ if not HandLegs.route(s,point):print("REJECT ",point," ",s.message);return false
  s.paused=false
  for n in 1800:
   tick(s)
@@ -23,7 +24,7 @@ static func travel(s,unit:int,point:Vector2)->bool:
   if not s.units[unit].alive:return false
   if s.units[unit].pos.distance_to(point)<22 and s.units[unit].vel.length()<2:return true
   if s.units[unit].has("chart_stop"):
-   s.command("select",{"unit":unit});s.command("route",{"point":point})
+   s.command("select",{"unit":unit});HandLegs.route(s,point)
  print("STUCK unit=",unit," goal=",point," at=",s.units[unit].pos," message=",s.message)
  return false
 static func circuit(s,unit:int,points:Array)->bool:
@@ -76,9 +77,9 @@ static func play_parallel():
    if goals.has(unit) and s.units[unit].pos.distance_to(goals[unit])<22 and s.units[unit].vel.length()<2:goals.erase(unit)
    if not goals.has(unit) and not itineraries[unit].is_empty():
     var point=itineraries[unit].pop_front();goals[unit]=point
-    s.command("select",{"unit":unit});s.command("route",{"point":point})
+    s.command("select",{"unit":unit});HandLegs.route(s,point)
    elif goals.has(unit) and s.units[unit].has("chart_stop"):
-    s.command("select",{"unit":unit});s.command("route",{"point":goals[unit]})
+    s.command("select",{"unit":unit});HandLegs.route(s,goals[unit])
    if not goals.has(unit) and itineraries[unit].is_empty() and not working.has(unit):
     var site_id="confluence_repeater" if unit==0 else "confluence_packet"
     var sites=s.mission.objectives.filter(func(site):return site.get("site_id","")==site_id)
@@ -89,7 +90,7 @@ static func play_parallel():
   if working.get(0,false) and s.mission.physical_gates[0].opened and not returned:
    returned=true;itineraries[0]=[Vector2(2860,2540),Vector2(2720,3130),Vector2(2780,3900),s.mission.corridors[1].pos]
   if s.all_records() and returned and not goals.has(0) and itineraries[0].is_empty():
-   s.command("select",{"unit":0});s.command("route",{"point":s.mission.corridors[1].pos})
+   s.command("select",{"unit":0});HandLegs.route(s,s.mission.corridors[1].pos)
    if s.departure_context().get("confirmation_required",false):s.command("depart",{"confirm":true})
   if not s.outcome.is_empty():break
  return s

@@ -2,6 +2,7 @@ extends Control
 const UiMetrics=preload("res://src/presentation/flow/ui_metrics.gd")
 const PhotoReview=preload("res://src/presentation/flow/photo_review.gd")
 const CampaignFlow=preload("res://src/presentation/flow/campaign_flow.gd")
+const ReleaseControls=preload("res://src/presentation/release_controls.gd")
 const Recon=preload("res://src/simulation/recon_consequences.gd")
 const Endings=preload("res://src/campaign/endings.gd")
 const CraftUpgrades=preload("res://src/equipment/craft_upgrades.gd")
@@ -295,7 +296,9 @@ func _recovery_route() -> void:
 	var destinations=sim.extraction_corridors()
 	if preload("res://src/presentation/expedition_view.gd").entry(sim):
 		destinations.append({"pos":sim.mission.extraction,"name":"INCOMPLETE WITHDRAWAL","withdrawal":true})
-	if destinations.size()==1:_order("route",{"point":destinations[0].pos})
+	# 127: one-press withdraw autopilot is a dev/test shortcut only.
+	if not ReleaseControls.allowed(self,"withdraw_home"):sim.message="Plot legs to the recovery mouth by hand";_refresh();return
+	if destinations.size()==1:_order("route",{"point":destinations[0].pos}) # TRAVEL:withdraw_home
 	elif not destinations.is_empty():mission_hud.open_recovery(destinations)
 func _order(order: String,args: Dictionary={}) -> void:
 	if advanced_orders and order!="select":

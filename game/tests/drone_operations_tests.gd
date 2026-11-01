@@ -1,4 +1,5 @@
 extends SceneTree
+# 127 (Pat 2026-10-30): scripted journeys here fly the dev/test pathfinder route; hand_pilot_journeys covers release play.
 const Sim=preload('res://src/simulation/simulation.gd')
 var checks=0
 var failures=0
@@ -6,7 +7,7 @@ func check(ok:bool,label:String):
  checks+=1
  if not ok:failures+=1;printerr('FAIL: ',label)
 func fresh():
- var s=Sim.new();s.start(0);return s
+ var s=Sim.new();s.start(0);s.mission["dev"]=true;return s
 func advance(s,seconds:float):
  s.paused=false
  for i in roundi(seconds*60):s.advance(1./60)
@@ -69,7 +70,7 @@ func _initialize():
  for profile in [true,false]:
   s=fresh();s.units[1].pos=Vector2(420,130);s.units[1].silent=profile;advance(s,1./60);visual_targets.append(s.sirens[0].target)
  check(visual_targets==[-1,1],'low/open drone profile preserves the actual180/290 visual acquisition distinction')
- s=fresh();s.start(4)
+ s=fresh();s.start(4);s.mission["dev"]=true
  for id in [1,2]:
   s.command('select',{'unit':id});s.command('route',{'point':[Vector2(760,200),Vector2(1370,450)][id-1]});s.command('contact_hold')
  s.paused=false

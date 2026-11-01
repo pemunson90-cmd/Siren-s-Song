@@ -22,6 +22,7 @@ func run():
  for shape in [Vector2i(2520,1080),Vector2i(2184,1968)]:
   root.size=shape;await settle()
   var game=load("res://scenes/main.tscn").instantiate();game.set_script(load("res://tests/density_main.gd"));game.capture_scenario="runtime-test"
+  game.set_meta("dev_profile",true) # 127: the touch-compiled pathfinder course is the dev/test route path (Pat 2026-10-30).
   if shape.x==2520:game.fixture_safe_area=Rect2(136,0,2384,1080)
   root.add_child(game);await settle();game.set_process(false);game._start_mission(3)
   var s=game.sim;s.units[0].pos=Vector2(889.6,800);s.units[0].vel=Vector2.ZERO

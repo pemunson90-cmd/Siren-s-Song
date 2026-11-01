@@ -74,8 +74,8 @@ func _initialize():
  var bad_drone=drone_before.duplicate(true);bad_drone.units[1].route_plan[0].mode="warp"
  for node in bad_drone.units[1].route:node.mode="warp"
  check(not Sim.valid_snapshot(bad_drone),"malformed explicit drone propulsion programs are rejected")
- var terrain=fresh();terrain.mission.structures=[Rect2(300,600,160,220)];terrain._build_navigation();terrain.command("route",{"point":Vector2(560,800)})
- check(terrain.route_goals().size()==1 and terrain.units[0].route.size()>1,"one operator destination can compile through multiple avoidance corners")
+ var terrain=fresh();terrain.mission["dev"]=true;terrain.mission.structures=[Rect2(300,600,160,220)];terrain._build_navigation();terrain.command("route",{"point":Vector2(560,800)})
+ check(terrain.route_goals().size()==1 and terrain.units[0].route.size()>1,"one operator destination can compile through multiple avoidance corners") # 127: the pathfinder route is the dev/test path (Pat 2026-10-30).
  terrain.command("route_edit",{"index":0,"mode":"cruise"});terrain.paused=false;var safe=true
  for n in 1800:terrain.advance(1.0/60);safe=safe and not terrain.blocked(terrain.units[0].pos,12)
  check(safe and terrain.units[0].pos.distance_to(Vector2(560,800))<20,"programmed terrain path preserves physical collision clearance")

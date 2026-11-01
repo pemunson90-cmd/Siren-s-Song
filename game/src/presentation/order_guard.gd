@@ -51,7 +51,7 @@ func tap_water(world: Vector2) -> void:
 		pending = {"unit": sim.selected, "point": world}; undo = {}
 		sim.message = "Marker set · GO replaces %s's orders, or tap elsewhere to move it" % sim.units[sim.selected].name
 		host._refresh(); return
-	host._order("route", {"point": world})
+	host._order("route", {"point": world}) # TRAVEL:water_leg
 func confirm(append: bool) -> void:
 	if pending.is_empty(): return
 	var sim = host.sim; var point: Vector2 = pending.point; var unit: int = pending.unit
@@ -59,7 +59,7 @@ func confirm(append: bool) -> void:
 	if sim.selected != unit: host._order("select", {"unit": unit})
 	var before: bool = sim.queue_mode
 	sim.queue_mode = append and not sim.units[unit].route.is_empty()
-	host._order("route", {"point": point})
+	host._order("route", {"point": point}) # TRAVEL:water_leg_confirm
 	sim.queue_mode = before
 	host._refresh()
 func cancel() -> void:

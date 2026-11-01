@@ -24,6 +24,7 @@ func wall_fixture(s)->void:
  s._build_navigation();s._configure_terrain();s._configure_depth_charts()
  s.selected=0;s.units[0].pos=Vector2(240,500);s.units[0].vel=Vector2.ZERO;s.units[0].angle=0;s.units[0].route=[];s.units[0].erase("route_plan");s.units[0].hold=""
  s.units[1].alive=false;s.units[2].alive=false
+ s.mission["dev"]=true # 127: earned-course chart stops are the dev/test autopilot path (Pat 2026-10-30).
 func measure_wall(s)->void:
  s.terrain_chart.observe([{"pos":Vector2(600,500),"radius":330.0}],{})
  s.known=s.terrain_chart.clear_cells.duplicate();s.mission.terrain_chart=s.terrain_chart.snapshot()

@@ -33,6 +33,8 @@ const TABLE = {
 	"silent": [Route, true],
 	"drone_drive": [Route, true],
 	"all_stop": [Route, false],
+	"recall": [Route, true],
+	"recall_all": [Route, true],
 	"frame": [Photo, false],
 	"camera": [Photo, true],
 	"choir_action": [Features, false],
