@@ -222,6 +222,33 @@
    "started": "2026-11-01T02:52:53Z"
   },
   {
+   "id": 142,
+   "slug": "launch-guard",
+   "title": "Launching never replaces an active dive without asking",
+   "cls": "ui",
+   "areas": [
+    "campaign.flow"
+   ],
+   "serial": [],
+   "deps": [],
+   "prov": [
+    "claude:sonnet",
+    "codex"
+   ],
+   "status": "queued",
+   "phase": null,
+   "branch": "item/142-launch-guard",
+   "pr": null,
+   "head": null,
+   "file": "docs/state/items/142-launch-guard.md",
+   "attempts": {
+    "A": 0,
+    "B": 0,
+    "C": 0
+   },
+   "blocker": null
+  },
+  {
    "id": 131,
    "slug": "crash-possible",
    "title": "R4 crash possible with edge assist",
