@@ -51,8 +51,21 @@ static func show(host,rows:Array)->void:
  for line in lines(rows):host._menu_text(line,17)
  host._menu_text("OUT means the craft is lost with its cargo when the dive ends. IN craft are recovered.",16)
  host._button(host.menu_footer,"HOLD\nKEEP DIVING",func():_hold(host),"manifest_hold")
- host._button(host.menu_footer,"CONFIRM\nEND DIVE",func():_confirm(host),"manifest_confirm")
+ var reason=away_reason(host.sim)
+ if reason.is_empty():host._button(host.menu_footer,"CONFIRM\nEND DIVE",func():_confirm(host),"manifest_confirm")
+ else:
+  host._menu_text(reason,17)
+  host._button(host.menu_footer,"CONTINUE\nHEAD FOR RECOVERY",func():_confirm(host),"manifest_confirm")
  host.menu_footer.show()
+
+# 143: END DIVE only when the departure order can end the dive; otherwise say why not.
+static func away_reason(sim)->String:
+ if sim.departure_context().available:return ""
+ var mouth=nearest(sim,sim.units[0].pos)
+ if mouth.is_empty():return "QUIETUS IS NOT AT A RECOVERY MOUTH"
+ var distance=sim.units[0].pos.distance_to(mouth.pos)
+ if distance>=REACH:return "QUIETUS IS %d m FROM RECOVERY"%roundi(distance)
+ return "QUIETUS IS NOT READY AT THE RECOVERY MOUTH"
 
 static func _hold(host)->void:
  host.sim.paused=host.get_meta("manifest_was_paused",false)
@@ -66,6 +79,7 @@ static func _confirm(host)->void:
   if not host.sim.outcome.is_empty():host._debrief()
   else:host._enter_water()
   return
+ # Quietus is away: carry on with the original EXTRACT/WITHDRAW press (route order, dive keeps running).
  host.sim.paused=host.get_meta("manifest_was_paused",false)
  host._enter_water()
  confirmed=true

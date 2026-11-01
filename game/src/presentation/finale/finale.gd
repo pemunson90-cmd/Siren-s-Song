@@ -21,7 +21,15 @@ static func clear(host)->void:
  host.end_of_line_seen=false;host.set_meta(Table.SHOW_META,false)
 static func first_recovery(host,previous:Dictionary)->bool:
  if not Table.enabled or host.sim.outcome!="won" or host.sim.mission.id!=Table.LAST_ID or Table.LAST_ID in previous.get("completed",[]):return false
- return show(host)
+ var shown=show(host)
+ if shown and host.get("screen")=="photo_ending":stats(host)
+ return shown
+# 143: the photo ending screen is not a debrief/ending screen, so the shared stats hook skips it.
+static func stats(host)->void:
+ var label=host._menu_text(preload("res://src/presentation/flow/campaign_flow.gd").stats_line(host.sim),17)
+ for child in host.panel_box.get_children():
+  if child is Button:
+   host.panel_box.move_child(label,child.get_index());return
 static func show(host)->bool:
  if not Table.enabled or not eligible(host):return false
  host.set_meta(Table.SHOW_META,true);host._show_ending();return true
