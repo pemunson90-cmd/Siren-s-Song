@@ -626,7 +626,7 @@
    "phase": "C",
    "branch": "item/145-briefing-truth",
    "pr": 254,
-   "head": "5a732b4f566198d29f8c06ec2ad07f64f492b9f4",
+   "head": "bf99e502abd311c41babb26301dd8e8684d4b5ce",
    "file": "docs/state/items/145-briefing-truth.md",
    "attempts": {
     "A": 1,
@@ -635,7 +635,7 @@
    },
    "blocker": null,
    "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-145",
-   "updated": "2026-11-01T09:00:47Z",
+   "updated": "2026-11-01T09:52:10Z",
    "provider": "claude:sonnet",
    "started": "2026-11-01T04:44:44Z"
   }
