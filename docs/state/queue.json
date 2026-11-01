@@ -429,6 +429,33 @@
     "C": 0
    },
    "blocker": null
+  },
+  {
+   "id": 140,
+   "slug": "dive-end-stats",
+   "title": "Every dive end shows time, hull and oxygen",
+   "cls": "ui",
+   "areas": [
+    "campaign.flow"
+   ],
+   "serial": [],
+   "deps": [],
+   "prov": [
+    "claude:sonnet",
+    "codex"
+   ],
+   "status": "queued",
+   "phase": null,
+   "branch": "item/140-dive-end-stats",
+   "pr": null,
+   "head": null,
+   "file": "docs/state/items/140-dive-end-stats.md",
+   "attempts": {
+    "A": 0,
+    "B": 0,
+    "C": 0
+   },
+   "blocker": null
   }
  ]
 }
