@@ -17,6 +17,7 @@ func start(index:int,upgrade:String="endurance",launch:Dictionary={})->void:
   if index==19:racks.quietus["hull_patch"]=1
  config["tool_racks"]=racks
  super.start(index,upgrade,config)
+ mission["dev"]=true # 127: authored pathfinder journeys run on the dev/test route path (Pat 2026-10-30).
  initial_tools=tools.duplicate(true)
 func advance(dt:float)->void:
  silent_throughout=silent_throughout and units[0].silent

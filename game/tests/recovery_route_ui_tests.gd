@@ -51,6 +51,10 @@ func route_menu(game):
  await click(game.mission_hud.extra.route_menu)
 func home(game):
  await route_menu(game);await click(game.order_buttons.home)
+ # 133: a craft outside recovery asks first; CONFIRM carries on as the press did before.
+ if game.screen=="recovery_manifest":
+  for b in game.menu.find_children("*","Button",true,false):
+   if b.get_meta("action","")=="manifest_confirm":await click(b)
 func capture(name:String):
  if not capture_dir.is_empty() and DisplayServer.get_name()!="headless":
   await RenderingServer.frame_post_draw;root.get_texture().get_image().save_png(capture_dir.path_join(name+".png"))
@@ -63,6 +67,8 @@ func run():
   g.store.path="user://recovery-route-ui-%d.save"%dimensions.x
   if dimensions.x==2520:g.fixture_safe_area=Rect2(136,0,2384,1080)
   root.add_child(g);await settle();g.set_process(false)
+  # 127 (Pat 2026-10-30): EXTRACT / recovery chooser autopilot is a dev/test shortcut.
+  g.set_meta("dev_profile",true)
   var label="cover" if dimensions.x==2520 else "inner"
   # A single mouth is an ordinary destination, never a hidden propulsion order.
   for quiet in [true,false]:

@@ -1,7 +1,8 @@
 extends RefCounted
+const HandLegs=preload("res://tests/hand_legs.gd") # 127: journeys place their own straight legs.
 const Simulation=preload("res://src/simulation/simulation.gd")
 static func move(s, point: Vector2) -> bool:
-	if not s.command("route",{"point":point}): return false
+	if not HandLegs.route(s,point): return false
 	s.paused=false
 	for n in 2600:
 		s.advance(0.1)

@@ -1,4 +1,5 @@
 extends RefCounted
+const HandLegs=preload("res://tests/hand_legs.gd") # 127: journeys place their own straight legs.
 const Simulation=preload("res://src/simulation/simulation.gd")
 static func advance(s,seconds: float,protect: bool=true,abandon: int=-1) -> void:
 	for n in int(round(seconds*10)):
@@ -10,7 +11,7 @@ static func advance(s,seconds: float,protect: bool=true,abandon: int=-1) -> void
 				s.command("select",{"unit":id}); s.command("emp"); break
 static func travel(s,id: int,destination: Vector2,protect: bool=true,abandon: int=-1) -> bool:
 	s.command("select",{"unit":id})
-	if not s.command("route",{"point":destination}): return false
+	if not HandLegs.route(s,destination): return false
 	s.paused=false
 	for n in 1800:
 		advance(s,0.1,protect,abandon)
@@ -22,7 +23,7 @@ static func play(coordinated: bool,stage: String="complete",protect: bool=true,a
 	var s=Simulation.new() if existing==null else existing
 	if existing==null: s.start(5,"disruption")
 	if stage=="initial": return s
-	if coordinated: s.command("route",{"point":Vector2(690,780)})
+	if coordinated: HandLegs.route(s,Vector2(690,780))
 	var first=1 if coordinated else 0
 	if not travel(s,first,Vector2(1010,240),protect,abandon): return s
 	s.command("select",{"unit":first})
@@ -31,7 +32,7 @@ static func play(coordinated: bool,stage: String="complete",protect: bool=true,a
 	if stage=="crown": s.command("select",{"unit":first}); s.paused=true; return s
 	advance(s,3.5,protect,abandon)
 	if coordinated:
-		s.command("select",{"unit":first}); s.command("route",{"point":Vector2(690,780)})
+		s.command("select",{"unit":first}); HandLegs.route(s,Vector2(690,780))
 	if not coordinated: s.command("select",{"unit":0}); s.command("decoy")
 	var second=2 if coordinated else 0
 	if not travel(s,second,Vector2(1190,780),protect,abandon): return s

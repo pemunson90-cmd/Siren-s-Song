@@ -108,6 +108,8 @@ func run():
  check(Work.action_verb({"kind":"exchange"})=="DECODE","Blackwater exchange keeps the handoff's DECODE verb")
  # Object-sheet ROUTE HERE must use the same work approach seam as the
  # dedicated Reach/Choir pages. No direct-to-centre fallback on those sheets.
+ # 127 (Pat 2026-10-30): ROUTE HERE is a dev/test shortcut; exercise it in dev state.
+ g.set_meta("dev_profile",true)
  for subkind in ["glass_work","choir"]:
   g._start_mission(15 if subkind=="glass_work" else 22);g._enter_water();g.sim.paused=true
   g.sim.units[0].pos=Vector2(440,440);g.sim.units[0].route=[]
@@ -121,6 +123,7 @@ func run():
   g.mission_hud.subject.pos=Vector2(500,440)
   var local=Copy.approach(g.sim,Copy.route_target(g.mission_hud,"route_here"))
   check(local.ready and local.point.distance_to(g.mission_hud.subject.pos)<=60.,"ROUTE HERE finds measured local water for "+subkind)
+ g.set_meta("dev_profile",false)
  g._start_mission(15);g._enter_water();g.sim.paused=true
  g.sim.mission.objectives[0]={"name":"KNOWN MACHINE","pos":Vector2(600,500),"captured":false,"glass_effect":{},"duration":8.}
  for subkind in ["","actuator"]:

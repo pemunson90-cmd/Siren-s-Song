@@ -1,5 +1,6 @@
 extends RefCounted
 const BriefRows029=preload("res://src/campaign/onboarding2/briefing_rows.gd")
+const ReleaseControls=preload("res://src/presentation/release_controls.gd")
 const EconomyPanel=preload("res://src/presentation/economy_panel.gd")
 const Economy=preload("res://src/campaign/economy.gd")
 const FitSurface=preload("res://src/presentation/fit_surface/fit_surface_view.gd")
@@ -74,8 +75,8 @@ static func cycle_loadout(host)->void:
 
 static func orders_text(host, briefing:Dictionary) -> String:
 	if briefing.get("blackwater_revision",0)==1:
-		return "ORDERS\nTap a craft for its command ring; FLEET chooses a station. Empty water plots its route; a craft that already has orders asks you to confirm. ROUTE → REPLACE / QUEUE changes append intent. PAUSE stays available. Settle and DECODE for two seconds. Quietus receives within156m; drones within214.5m. Cover blocks reception. An audible SONAR may prompt a local relay replay; a decoded packet explains its partner's handshake. Drone buffers TRANSFER locally to Quietus: both settled, within60m, clear link. Return with both packets aboard."
-	return "ORDERS\nTap a craft for its command ring; FLEET chooses a station. Tap empty water to plot a route; a craft that already has orders asks you to confirm. Craft → ROUTE → REPLACE / QUEUE changes append intent. PAUSE stays available. Drag / pinch inspects freely; FOCUS follows the craft and FIT shows the region. CAMERA works within 240m of a gold record marker. Return Quietus after all records are secured."
+		return "ORDERS\n"+ReleaseControls.CONTROLS_TEXT+"\nTap a craft for its command ring; FLEET chooses a station. Empty water plots its route; a craft that already has orders asks you to confirm. ROUTE → REPLACE / QUEUE changes append intent. PAUSE stays available. Settle and DECODE for two seconds. Quietus receives within156m; drones within214.5m. Cover blocks reception. An audible SONAR may prompt a local relay replay; a decoded packet explains its partner's handshake. Drone buffers TRANSFER locally to Quietus: both settled, within60m, clear link. Return with both packets aboard."
+	return "ORDERS\n"+ReleaseControls.CONTROLS_TEXT+"\nTap a craft for its command ring; FLEET chooses a station. Tap empty water to plot a route; a craft that already has orders asks you to confirm. Craft → ROUTE → REPLACE / QUEUE changes append intent. PAUSE stays available. Drag / pinch inspects freely; FOCUS follows the craft and FIT shows the region. CAMERA works within 240m of a gold record marker. Return Quietus after all records are secured."
 
 static func briefing(host, index: int) -> void:
 	if index>=6 and index not in host.ExpeditionCampaign.available(host.completed,host.expedition):return
@@ -202,6 +203,23 @@ static func choose_equipment(host, slot:String,item:String,index:int)->void:
 		if is_instance_valid(heading) and heading.get_parent()==host.panel_box:host.scroll.scroll_vertical=reading_position
 	).call_deferred()
 
+# One end-of-dive line for every debrief path (recovered, lost, expedition).
+static func stats_line(sim)->String:
+	var oxygen=sim.get("oxygen")
+	var elapsed=int(sim.elapsed)
+	return "Dive time %02d:%02d  /  Hull %d%%  /  Life support %d%%"%[elapsed/60,elapsed%60,int(sim.hull),int(oxygen) if oxygen!=null else 0]
+
+# The expedition debrief owns its own text; give it the same single line, in place when it already has one.
+static func expedition_stats(host)->void:
+	if host.screen not in ["debrief","ending"]:return
+	var line=stats_line(host.sim)
+	var first_button=null
+	for child in host.panel_box.get_children():
+		if child is Label and child.text.begins_with("Dive time"):child.text=line;return
+		if child is Button and first_button==null:first_button=child
+	var label=host._menu_text(line,17)
+	if first_button!=null and label.get_parent()==host.panel_box:host.panel_box.move_child(label,first_button.get_index())
+
 static func debrief(host) -> void:
 	preload("res://src/persistence/save_states/save2_controller.gd").terminal(host)
 	host.screen="debrief"; host._clear_menu()
@@ -218,6 +236,7 @@ static func debrief(host) -> void:
 		host._retain_evidence()
 		host.photo_intel=host.PhotoIntel.recover(host.photo_intel,host.sim.mission)
 	if host.ExpeditionOperations.debrief(host):
+		expedition_stats(host)
 		preload("res://src/presentation/arcs/arc_card.gd").recovered(host,first_recovery)
 		return
 	if host.sim.outcome=="won":
@@ -232,7 +251,7 @@ static func debrief(host) -> void:
 		host.BlackwaterDelivery.debrief(host)
 		host.ModuleRecovery.debrief(host)
 		host._show_photo_grade(host.sim.mission.objectives)
-		host._menu_text("Dive time %02d:%02d  /  Hull %d%%  /  Life support %d%%"%[int(host.sim.elapsed)/60,int(host.sim.elapsed)%60,int(host.sim.hull),int(host.sim.oxygen)],17)
+		host._menu_text(stats_line(host.sim),17)
 		preload("res://src/presentation/damage_log/damage_log.gd").debrief(host)
 		if host.mission_index==5:
 			host._menu_text("YOUR FIELD RECORD · ACROSS DIVES",14)
@@ -244,7 +263,7 @@ static func debrief(host) -> void:
 			if 6 in host.ExpeditionCampaign.available(host.completed,host.expedition):host._button(host.panel_box,"BEYOND THE WARNING / THE DIVERGENCE",func():host._briefing(6),"expedition6")
 		else: host._button(host.panel_box,"NEXT DIVE",func(): host._briefing(host.mission_index+1),"next_dive")
 	else:
-		host._menu_text("SIGNAL LOST",32); host._menu_text(host.sim.message,22); host._menu_text(preload("res://src/presentation/loss_summary.gd").line(host.sim),17); preload("res://src/presentation/death_cause/cause_log.gd").debrief(host); preload("res://src/presentation/damage_log/damage_log.gd").debrief(host); host._menu_text("Field records remain reviewable after loss or abandonment. Only successful extraction advances the campaign.",17)
+		host._menu_text("SIGNAL LOST",32); host._menu_text(host.sim.message,22); host._menu_text(preload("res://src/presentation/loss_summary.gd").line(host.sim),17); host._menu_text(stats_line(host.sim),17); preload("res://src/presentation/death_cause/cause_log.gd").debrief(host); preload("res://src/presentation/damage_log/damage_log.gd").debrief(host); host._menu_text("Field records remain reviewable after loss or abandonment. Only successful extraction advances the campaign.",17)
 		host.BlackwaterDelivery.debrief(host)
 		host.ModuleRecovery.debrief(host)
 	host._button(host.panel_box,"RETRY DIVE",func(): host._briefing(host.mission_index),"retry")

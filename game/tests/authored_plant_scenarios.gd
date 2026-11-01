@@ -1,10 +1,11 @@
 extends RefCounted
+const HandLegs=preload("res://tests/hand_legs.gd") # 127: journeys place their own straight legs.
 const Catalog=preload("res://src/campaign/operation_catalog.gd")
 const Sim=preload("res://src/simulation/simulation.gd")
 const Campaign=preload("res://src/campaign/expedition_campaign.gd")
 const Store=preload("res://src/persistence/save_store.gd")
 static func travel(sim,point:Vector2)->bool:
- if not sim.command("route",{"point":point}):return false
+ if not HandLegs.route(sim,point):return false
  sim.paused=false
  for n in 12000:
   sim.advance(Sim.STEP)

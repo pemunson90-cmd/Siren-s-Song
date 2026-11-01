@@ -48,7 +48,7 @@ static func command(sim) -> bool:
 		return false
 	sim.oxygen -= Table.ENTRY_OXYGEN
 	u["all_stop"] = {"mode": "stopped", "t": 0.0}
-	sim.message = Table.TEXT.engage % Table.ENTRY_OXYGEN
+	sim.message = Table.TEXT.engage % [Table.ENTRY_OXYGEN, ceili(Table.RESTART_SECONDS)]
 	return true
 # Orders the engines back: a timed restart at limited thrust.
 static func release(sim, u: Dictionary) -> bool:
@@ -94,7 +94,7 @@ static func label(sim) -> String:
 		return Table.TEXT.button_restart
 	if restarting(u):
 		return Table.TEXT.button_spinup % ceili(float(u.all_stop.t))
-	return Table.TEXT.button_cost % Table.ENTRY_OXYGEN
+	return Table.TEXT.button_cost % [Table.ENTRY_OXYGEN, ceili(Table.RESTART_SECONDS)]
 static func valid(u: Dictionary) -> bool:
 	if not u.has("all_stop"):
 		return true

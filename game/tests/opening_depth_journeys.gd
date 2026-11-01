@@ -10,7 +10,8 @@ func tick(s,seconds):
  for n in roundi(seconds*60):s.advance(1./60)
  s.paused=true
 func split():
- var s=Sim.new();s.start(1)
+ # 127: this scripted fleet journey drives the dev/test pathfinder route (Pat 2026-10-30).
+ var s=Sim.new();s.start(1);s.mission["dev"]=true
  for id in [1,2]:
   s.command("select",{"unit":id});check(s.command("route",{"point":s.mission.objectives[id-1].pos+Vector2(0,180)}),"Split independent relay route")
  s.command("select",{"unit":0});check(s.command("depth",{"band":2}),"Split baseline Quietus dives for underpass");tick(s,4.1)

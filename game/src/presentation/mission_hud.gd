@@ -20,6 +20,7 @@ const StatusView=preload("res://src/presentation/status_text/status_view.gd")
 const AllStop=preload("res://src/simulation/all_stop/all_stop.gd")
 const Truthful=preload("res://src/presentation/truthful_commands.gd")
 const WorkTask=preload("res://src/presentation/work_task/work_task.gd")
+const ReleaseControls=preload("res://src/presentation/release_controls.gd")
 # A tap opens an object-owned projection. A separate tap chooses an action.
 var host
 var blocker:Control
@@ -133,6 +134,7 @@ func setup(owner):
  Cache.setup(self)
  for entry in [["tools_menu","TOOLS"],["route_menu","ROUTE"],["guard_menu","GUARD"],["inspect","STATUS"],["route_here","ROUTE HERE"],["arrivals","ARRIVALS"],["view_menu","VIEW"],["salvage","RECOVER\n4s AUDIBLE"],["rendezvous_release","RELEASE BERTH\n950m / 6s"]]:
   var key=entry[0];extra[key]=host._button(self,entry[1],func():_extra(key),key)
+ extra.recall=host._button(self,"RECALL",func():ReleaseControls.activate_recall(self),"recall")
  extra.all_stop=host._button(self,"ALL STOP",func():host._order("all_stop");open("route"),"all_stop")
  extra.shelf_warn=host._button(self,"LOCAL WARNING\n100m / QUIETUS",func():host._order("shelf_warn",{"site":subject.get("site","")}),"shelf_warn")
  extra.shelf_alarm=host._button(self,"SOUND ALARM\n1200m / ONCE",func():host._order("shelf_alarm"),"shelf_alarm")
@@ -185,11 +187,13 @@ func open_recovery(destinations:Array):
  for destination in destinations:
   var point:Vector2=destination.pos
   var readiness="FIELD NOTES ONLY" if destination.get("withdrawal",false) else "RECOVERY AVAILABLE" if destination.get("available",false) else "APPROACH · NOT READY"
-  var b=host._button(recovery_box,destination.name+"\n"+readiness,func():host._order("route",{"point":point}),"recovery_%d"%recovery_buttons.size())
+  var b=host._button(recovery_box,destination.name+"\n"+readiness,func():_recovery_choice(point),"recovery_%d"%recovery_buttons.size())
   # Only popup_gesture may commit a choice; emulated GUI releases can follow a cancelled touch.
   b.mouse_filter=Control.MOUSE_FILTER_IGNORE
   recovery_buttons.append(b)
  open("recovery",{"kind":"craft","unit":host.sim.selected,"pos":host.sim.units[host.sim.selected].pos})
+func _recovery_choice(point:Vector2):
+ if ReleaseControls.allowed(host,"recovery_chooser"):host._order("route",{"point":point}) # TRAVEL:recovery_chooser
 func open(next:String="craft",context:Dictionary={}):
  if next!="choose":target_choices.clear()
  order_dock_scroll.scroll_vertical=0
@@ -245,7 +249,7 @@ func _extra(key:String):
   host._order("glass_action",args);return
  if key=="depth_menu":open("acoustics");return
  if key in ["depth_up","depth_down"]:
-  host._order("depth",{"band":host.sim.units[host.sim.selected].band+(-1 if key=="depth_up" else 1)});open("acoustics");return
+  host._order("depth",{"band":host.sim.units[host.sim.selected].band+(-1 if key=="depth_up" else 1)});open(page if page in ["glass","choir"] else "acoustics");return
  if key in ["sonar_sector","sonar_power"]:
   var state=host.sim.sonar
   host._order("sonar_mode",{"sector":("forward" if state.sector=="all" else "all") if key=="sonar_sector" else state.sector,"power":("high" if state.power=="low" else "low") if key=="sonar_power" else state.power});open("acoustics");return
@@ -359,6 +363,8 @@ func _outside(event):
  if event is InputEventMouseButton and event.button_index in [MOUSE_BUTTON_WHEEL_UP,MOUSE_BUTTON_WHEEL_DOWN]:dismiss();accept_event();return
  if (event is InputEventScreenTouch and event.pressed) or (event is InputEventMouseButton and event.pressed):dismiss();accept_event()
 func command_controls() -> Array:
+ return ReleaseControls.filter(self,_page_controls())
+func _page_controls() -> Array:
  match page:
   "cache":return Cache.controls(self)
   "choose":return target_buttons if not target_choices.is_empty() else choose_units.map(func(id):return extra["choose_unit_%d"%id])+[extra.choose_object]
@@ -583,6 +589,7 @@ func refresh():
  host.title_label.visible=page not in ["signals","recovery","order_help"];host.detail_label.visible=page not in ["signals","recovery","order_help"]
  host.order_buttons.home.text="WITHDRAW" if Expedition.entry(sim) else "EXTRACT"
  extra.route_here.text="PLOT ROUTE" if subject.has("subkind") else "ROUTE HERE"
+ ReleaseControls.refresh(self)
  extra.arrivals.text="ARRIVALS\n%d"%Expedition.measurements(sim).size()
  extra.arrivals.disabled=Expedition.measurements(sim).is_empty()
  var sites=host.ocean.observable_sites();var records=sites.filter(func(o):return o.captured).size()

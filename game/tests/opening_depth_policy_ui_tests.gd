@@ -123,6 +123,7 @@ func run():
   for id in range(1,6):
    if only>=0 and id!=only:continue
    var g=load("res://scenes/main.tscn").instantiate();g.set_script(load("res://tests/density_main.gd"));g.store.path="user://opening-policy-%d-%d.save"%[shape.x,id]
+   g.set_meta("dev_profile",true) # 127: this patient touch play drives the dev/test route path (Pat 2026-10-30).
    if shape.x==2520:g.fixture_safe_area=Rect2(136,0,2384,1080)
    root.add_child(g);await settle();g.set_process(false)
    # These routes deliberately launch bare; compare actual stock before/after.

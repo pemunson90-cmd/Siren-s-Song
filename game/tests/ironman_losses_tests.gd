@@ -1,4 +1,5 @@
 extends SceneTree
+# 127 (Pat 2026-10-30): scripted journeys here fly the dev/test pathfinder route; hand_pilot_journeys covers release play.
 const Economy=preload("res://src/campaign/economy.gd")
 const Losses=preload("res://src/campaign/ironman_losses.gd")
 const Catalog=preload("res://src/equipment/equipment_catalog.gd")
@@ -88,7 +89,7 @@ func persistence():
  var migrated=Losses.migrated(old)
  check(Economy.valid(migrated) and Losses.state(migrated)==Losses.fresh(),"old Ironman save migration grants no retrospective losses")
  var e=Economy.new_state("standard",true);Economy.settle(e,facts())
- var s=Sim.new();s.start(0,"endurance",{"tool_racks":Racks.empty()});Economy.apply_launch(e,s)
+ var s=Sim.new();s.start(0,"endurance",{"tool_racks":Racks.empty()});s.mission["dev"]=true;Economy.apply_launch(e,s)
  var data={"version":2,"unlocked":0,"completed":[],"settings":{},"upgrade":"endurance","economy":e,"active":s.snapshot()}
  var store=Store.new();store.path="user://ironman_107.save"
  check(store.valid(data) and store.save(data),"profile writes permanent losses alongside an active missing-bay dive")
@@ -115,7 +116,7 @@ func voyages():
  for preset in ["accessible","standard"]:
   var e=Economy.new_state(preset,true);Economy.settle(e,facts())
   e.stock={"scrap":0,"cells":0,"alloy":0}
-  var s=Silent.SilentRun.new();s.start(30,"endurance",{"tool_racks":Racks.empty()});Economy.apply_launch(e,s)
+  var s=Silent.SilentRun.new();s.start(30,"endurance",{"tool_racks":Racks.empty()});s.mission["dev"]=true;Economy.apply_launch(e,s)
   check(Course.run_core(s,30) and s.outcome=="won" and s.mission.recovered,"bare missing-bay SILENT physical recovery "+preset)
   check(s.stayed_silent and s.ordinary_only and s.selected==0 and s.tools.values().all(func(n):return n==0),"no finite tools, modules or drones used "+preset)
   check(not s.units[1].alive and not s.units[2].alive and Sim.valid_snapshot(s.snapshot()),"empty bays remain absent and current-save valid "+preset)

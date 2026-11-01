@@ -1,4 +1,5 @@
 extends SceneTree
+# 127 (Pat 2026-10-30): scripted journeys here fly the dev/test pathfinder route; hand_pilot_journeys covers release play.
 # Source-known bare routes. Ordinary movement, depth, camera and extraction;
 # no position assignments, enemy removal, free film or pre-captured records.
 const Sim=preload("res://src/simulation/simulation.gd")
@@ -34,7 +35,7 @@ func photo(s)->bool:
 func _initialize():call_deferred("run")
 func run():
  for id in [30,31]:
-  var s=Sim.new();s.start(id)
+  var s=Sim.new();s.start(id);s.mission["dev"]=true
   check(s.mission.get("launch_equipment",{}).values().all(func(item):return str(item).is_empty() or str(item)=="standard"),"bare initial loadout "+str(id))
   var reached=false
   if id==30:reached=dive(s,2) and go(s,Vector2(800,500)) and dive(s,1) and go(s,Vector2(1180,300))
