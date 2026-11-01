@@ -367,3 +367,4 @@ protected_rules_tests|PROTECTED RULES|1290|1290
 player_names_tests|PLAYER NAMES|1294|1294
 recovery_manifest_ui_tests|RECOVERY MANIFEST|1300|1300|render
 control_mix_tests|CONTROL MIX|1295|1295
+dive_end_stats_ui_tests|DIVE END STATS UI|1400|1400|render
