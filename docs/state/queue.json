@@ -642,7 +642,9 @@
    "slug": "docs-pointers",
    "title": "Entry docs point at the live state",
    "cls": "text",
-   "areas": [],
+   "areas": [
+    "docs.entry"
+   ],
    "serial": [],
    "deps": [],
    "prov": [

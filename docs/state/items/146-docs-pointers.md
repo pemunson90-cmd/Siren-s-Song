@@ -3,7 +3,7 @@
 Goal (player): Indirect: a fresh session or critic brief reads the current base, queue and rulings instead of 25 to 30 Oct status, so no work is redone or misdirected.
 Why now: RESUME.md, CONTINUATION.md and WORKBENCH.md on claude/integration still name codex/BOARD.md as the queue, a 30 Oct reconciled base (2ef78adf) and root123 as the active audit. D14 moved all status to docs/state/ on codex/handoffs; the 1 Nov overview reconciliation found them stale.
 Class: text
-Areas: none
+Areas: docs.entry
 Files: docs/RESUME.md, docs/CONTINUATION.md, docs/WORKBENCH.md
 Serial zones touched: none
 Depends on: none
