@@ -53,11 +53,11 @@
    "prov": [
     "claude:opus"
    ],
-   "status": "active",
-   "phase": "review",
+   "status": "merging",
+   "phase": "C",
    "branch": "item/127-release-controls",
    "pr": 241,
-   "head": "1eefda5e60f07c62d4694358bb86e4dace980d41",
+   "head": "f54d75d90ba192ef8a25a4cea5b58a9c7f7cc462",
    "file": "docs/state/items/127-release-controls.md",
    "attempts": {
     "A": 2,
@@ -67,7 +67,7 @@
    "blocker": null,
    "provider": "claude:opus",
    "started": "2026-10-31T19:12:32Z",
-   "updated": "2026-11-01T00:51:22Z"
+   "updated": "2026-11-01T01:01:18Z"
   },
   {
    "id": "PKG2",
@@ -355,16 +355,16 @@
    "branch": "item/137-menu-scroll-keys",
    "file": "docs/state/items/137-menu-scroll-keys.md",
    "attempts": {
-    "A": 2,
+    "A": 3,
     "B": 1,
     "C": 0
    },
-   "phase": "review",
+   "phase": "A",
    "pr": 246,
    "head": "7325453ba9527711653327a74be98fadbb9da2ae",
    "blocker": null,
    "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-137",
-   "updated": "2026-11-01T00:51:30Z",
+   "updated": "2026-11-01T00:55:50Z",
    "provider": "claude:sonnet",
    "started": "2026-10-31T21:55:16Z"
   },

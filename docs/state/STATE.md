@@ -1,4 +1,4 @@
-# STATE (updated 2026-10-31T20:53:45-04:00, by runner2.py)
+# STATE (updated 2026-10-31T21:04:30-04:00, by runner2.py)
 
 ## Base
 integration: 75e561e7   main: a2300840   production: 26e09906
@@ -7,13 +7,13 @@ nightly: not yet running (item 128)   controls mix: not yet measured (item 130)
 
 ## In flight
 | item | title | class | provider | phase | branch | PR | head | status |
-| 127 | Release controls, pilot by hand | sim | claude:opus | review | item/127-release-controls | 241 | 1eefda5e | active |
+| 127 | Release controls, pilot by hand | sim | claude:opus | C | item/127-release-controls | 241 | f54d75d9 | merging |
 | PKG2 | Stable board and clear threat (PR 239, r | ui | external | B | root/stable-board-pkg2 | 239 | 527e4478 | parked |
-| 137 | Menu panels scroll and take keys | ui | claude:sonnet | review | item/137-menu-scroll-keys | 246 | 7325453b | active |
+| 137 | Menu panels scroll and take keys | ui | claude:sonnet | A | item/137-menu-scroll-keys | 246 | 7325453b | active |
 | 138 | No internal ids on player screens | text | claude:sonnet | A | item/138-player-names | 245 | 07ca055f | active |
 
 ## Queued (order = priority; see queue.json)
-130 control-mix, 131 crash-possible, 133 recovery-manifest, 134 route-flow
+130 control-mix, 131 crash-possible, 133 recovery-manifest, 134 route-flow, 139 bare-contact
 
 ## Done (branches kept)
 126 claude/truthful-commands PR 238, 136 item/136-shard-all-failures PR 242, 128 item/128-ci-v2 PR 240, 129 item/129-protected-golden PR 243, 135 item/135-prep-results PR 244
