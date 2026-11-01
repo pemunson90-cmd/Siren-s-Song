@@ -114,6 +114,10 @@
     ],
     "sim.allstop": [
       "game/src/simulation/all_stop/**"
+    ],
+    "campaign.text": [
+      "game/src/campaign/onboarding_text.gd",
+      "game/src/campaign/shelf_signal_operation.gd"
     ]
   },
   "_notes": [

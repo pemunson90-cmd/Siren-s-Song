@@ -599,6 +599,33 @@
    "updated": "2026-11-01T04:38:28Z",
    "provider": "claude:sonnet",
    "started": "2026-11-01T04:26:36Z"
+  },
+  {
+   "id": 145,
+   "slug": "briefing-truth",
+   "title": "Briefing and onboarding text matches the game",
+   "cls": "text",
+   "areas": [
+    "campaign.text"
+   ],
+   "serial": [],
+   "deps": [],
+   "prov": [
+    "claude:sonnet",
+    "codex"
+   ],
+   "status": "queued",
+   "phase": null,
+   "branch": "item/145-briefing-truth",
+   "pr": null,
+   "head": null,
+   "file": "docs/state/items/145-briefing-truth.md",
+   "attempts": {
+    "A": 0,
+    "B": 0,
+    "C": 0
+   },
+   "blocker": null
   }
  ]
 }
