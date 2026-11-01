@@ -90,7 +90,7 @@
    "phase": "C",
    "branch": "root/stable-board-pkg2",
    "pr": 239,
-   "head": "cc78880f8fe6e278b30fdf7e4d13cc8400f2e468",
+   "head": "6a073aa353d4c079968876343797fd8b9c628cc8",
    "file": "docs/state/items/pkg2-stable-board.md",
    "attempts": {
     "A": 1,
@@ -100,7 +100,7 @@
    "blocker": null,
    "provider": "claude:opus",
    "started": "2026-11-01T21:22:10Z",
-   "updated": "2026-11-01T22:44:49Z"
+   "updated": "2026-11-01T23:37:55Z"
   },
   {
    "id": 136,
@@ -692,7 +692,7 @@
    "phase": "C",
    "branch": "item/147-integration-apk",
    "pr": 258,
-   "head": "5fe2b12f11988dd22720ef06db7e8a21163a5627",
+   "head": "63b03a7517f6857cf4aa4317e23cb5d6da7a5319",
    "file": "docs/state/items/147-integration-apk.md",
    "attempts": {
     "A": 1,
@@ -701,7 +701,7 @@
    },
    "blocker": null,
    "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-147",
-   "updated": "2026-11-01T22:00:11Z",
+   "updated": "2026-11-01T23:35:51Z",
    "provider": "claude:sonnet",
    "started": "2026-11-01T21:28:30Z"
   },
