@@ -204,19 +204,19 @@
     "codex"
    ],
    "status": "active",
-   "phase": "A",
+   "phase": "review",
    "branch": "item/130-control-mix",
-   "pr": null,
-   "head": null,
+   "pr": 247,
+   "head": "bc424bca8746c23538affacdda83f00749bae1dd",
    "file": "docs/state/items/130-control-mix.md",
    "attempts": {
     "A": 1,
-    "B": 0,
+    "B": 1,
     "C": 0
    },
    "blocker": null,
    "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-130",
-   "updated": "2026-11-01T02:52:53Z",
+   "updated": "2026-11-01T03:09:22Z",
    "provider": "claude:opus",
    "started": "2026-11-01T02:52:53Z"
   },
@@ -456,18 +456,22 @@
     "claude:sonnet",
     "codex"
    ],
-   "status": "queued",
-   "phase": null,
+   "status": "active",
+   "phase": "A",
    "branch": "item/140-dive-end-stats",
    "pr": null,
    "head": null,
    "file": "docs/state/items/140-dive-end-stats.md",
    "attempts": {
-    "A": 0,
+    "A": 1,
     "B": 0,
     "C": 0
    },
-   "blocker": null
+   "blocker": null,
+   "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-140",
+   "updated": "2026-11-01T03:09:40Z",
+   "provider": "claude:sonnet",
+   "started": "2026-11-01T03:09:40Z"
   }
  ]
 }
