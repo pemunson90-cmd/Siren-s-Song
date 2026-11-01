@@ -369,3 +369,4 @@ own_craft_leg_warning_tests|OWN CRAFT LEG WARNING|1401|1401
 dive_end_stats_ui_tests|DIVE END STATS UI|1400|1400|render
 recovery_manifest_ui_tests|RECOVERY MANIFEST|1300|1300|render
 control_mix_tests|CONTROL MIX|1295|1295
+all_stop_text_tests|ALL STOP TEXT|-|1402
