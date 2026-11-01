@@ -15,7 +15,7 @@ const GOALS := {
 }
 const HINTS := {
 	"move": {"text": "Tap QUIETUS or a drone, then tap open water to plan a route. Nothing moves until you press RESUME.", "ops": [0]},
-	"pause": {"text": "PAUSE is always at top left. Time stops, and you can plan, inspect and change orders as long as you like.", "ops": [0]},
+	"pause": {"text": "PAUSE is the top corner button: top left, or top right with the mirrored HUD. Time stops, and you can plan, inspect and change orders as long as you like.", "ops": [0]},
 	"drone": {"text": "Send a drone ahead to look. Drones are expendable. Quietus is not.", "ops": [0]},
 	"sweep": {"text": "A Siren heard noise and is walking to that spot. The cue gives its bearing and seconds. Time is paused. Slow down or go SILENT, and keep rock between you and it.", "ops": [0, 1, 2, 3]},
 	"warning": {"text": "A Siren has noticed you, so time is paused. Its warning shows the bearing and seconds left. Break line of sight, slow down or go SILENT, then press RESUME.", "ops": [0, 1, 2, 3]},
