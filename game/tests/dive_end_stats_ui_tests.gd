@@ -24,6 +24,30 @@ func case(game,id:int,outcome:String,tag:String):
  var found=stat_lines(game)
  check(found.size()==1,tag+": exactly one stats line (found %d)"%found.size())
  if found.size()==1:check(found[0]=="Dive time 02:05  /  Hull 63%  /  Life support 41%",tag+": line carries the sim values: "+found[0])
+func session_case():
+ var path="user://dive-end-stats.save"
+ for file in [path,path+".runs"]:
+  for suffix in ["",".bak",".tmp"]:DirAccess.remove_absolute(file+suffix)
+ var host=load("res://scenes/main.tscn").instantiate()
+ host.capture_scenario="runtime-test";host.store.path=path;root.add_child(host);await settle()
+ host.economy=preload("res://src/campaign/economy.gd").new_state("standard",true)
+ host._show_campaign();host._save_archive()
+ var front=load("res://src/presentation/frontend/frontend.gd").new()
+ host.add_child(front);front.setup(host,true);front._mode_select();await settle()
+ preload("res://src/campaign/runs/run_archive.gd").persist(host,preload("res://src/campaign/runs/run_state.gd").new_run(12345))
+ preload("res://src/presentation/runs/modes_frontend.gd").start(front);await settle()
+ var session=host.get_node_or_null("ExpeditionSession")
+ check(session!=null,"expedition session opens")
+ if session!=null:
+  session._begin();await settle()
+  var s=session.sim
+  s.outcome="won";s.elapsed=125.;s.hull=63.;s.oxygen=41.
+  session._debrief();await settle()
+  var found=stat_lines(session)
+  check(found.size()==1,"expedition run result: exactly one stats line (found %d)"%found.size())
+  if found.size()==1:check(found[0]=="Dive time 02:05  /  Hull 63%  /  Life support 41%","expedition run result carries the sim values: "+found[0])
+ host.queue_free();await settle()
+
 func run():
  root.size=Vector2i(2520,1080);await settle()
  var game=load("res://scenes/main.tscn").instantiate();game.set_script(load("res://tests/fit_label_main.gd"));game.fixture_dpi=420.;game.capture_scenario="dive-end-stats-ui"
@@ -35,4 +59,5 @@ func run():
  await case(game,9,"won","expedition won")
  await case(game,9,"lost","expedition lost")
  game.queue_free();await settle()
+ await session_case()
  print("DIVE END STATS UI CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)

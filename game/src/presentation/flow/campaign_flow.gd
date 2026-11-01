@@ -211,7 +211,7 @@ static func stats_line(sim)->String:
 
 # The expedition debrief owns its own text; give it the same single line, in place when it already has one.
 static func expedition_stats(host)->void:
-	if host.screen!="debrief":return
+	if host.screen not in ["debrief","ending"]:return
 	var line=stats_line(host.sim)
 	var first_button=null
 	for child in host.panel_box.get_children():
