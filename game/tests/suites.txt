@@ -365,3 +365,5 @@ rider_ui_tests|RIDER UI|313|414|render
 prep_decision_first_ui_tests|PREP DECISION FIRST UI|764|867|render
 protected_rules_tests|PROTECTED RULES|1290|1290
 player_names_tests|PLAYER NAMES|1294|1294
+recovery_manifest_ui_tests|RECOVERY MANIFEST|1300|1300|render
+control_mix_tests|CONTROL MIX|1295|1295
