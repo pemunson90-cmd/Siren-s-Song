@@ -239,7 +239,7 @@
    "phase": "C",
    "branch": "item/142-launch-guard",
    "pr": 251,
-   "head": "d4bc835d5e05d7ab65449adabf7220ae7d694313",
+   "head": "0aba086af250b4e726bc826682a42bd36c02c63f",
    "file": "docs/state/items/142-launch-guard.md",
    "attempts": {
     "A": 1,
@@ -248,7 +248,7 @@
    },
    "blocker": null,
    "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-142",
-   "updated": "2026-11-01T05:34:21Z",
+   "updated": "2026-11-01T06:26:03Z",
    "provider": "claude:sonnet",
    "started": "2026-11-01T04:05:03Z"
   },
@@ -272,7 +272,7 @@
    "phase": "C",
    "branch": "item/131-crash-possible",
    "pr": 255,
-   "head": "e40db3dec2965eb8dd7e3d35e8bac8f20565cef4",
+   "head": "591959e3b4750b898556692cceb53297036c4124",
    "file": "docs/state/items/131-crash-possible.md",
    "attempts": {
     "A": 1,
@@ -281,7 +281,7 @@
    },
    "blocker": null,
    "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-131",
-   "updated": "2026-11-01T05:51:04Z",
+   "updated": "2026-11-01T06:26:08Z",
    "provider": "claude:opus",
    "started": "2026-11-01T05:29:38Z"
   },
