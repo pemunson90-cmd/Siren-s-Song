@@ -205,19 +205,19 @@
     "codex"
    ],
    "status": "active",
-   "phase": "review",
+   "phase": "A",
    "branch": "item/130-control-mix",
    "pr": 247,
    "head": "691028b4575accd5b71a41f9a873586c300a4bd7",
    "file": "docs/state/items/130-control-mix.md",
    "attempts": {
-    "A": 2,
+    "A": 3,
     "B": 2,
     "C": 0
    },
    "blocker": null,
    "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-130",
-   "updated": "2026-11-01T03:59:12Z",
+   "updated": "2026-11-01T04:06:41Z",
    "provider": "claude:opus",
    "started": "2026-11-01T02:52:53Z"
   },
@@ -235,18 +235,22 @@
     "claude:sonnet",
     "codex"
    ],
-   "status": "queued",
-   "phase": null,
+   "status": "active",
+   "phase": "A",
    "branch": "item/142-launch-guard",
    "pr": null,
    "head": null,
    "file": "docs/state/items/142-launch-guard.md",
    "attempts": {
-    "A": 0,
+    "A": 1,
     "B": 0,
     "C": 0
    },
-   "blocker": null
+   "blocker": null,
+   "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-142",
+   "updated": "2026-11-01T04:05:03Z",
+   "provider": "claude:sonnet",
+   "started": "2026-11-01T04:05:03Z"
   },
   {
    "id": 131,
@@ -295,11 +299,11 @@
     "claude:sonnet",
     "codex"
    ],
-   "status": "active",
-   "phase": "B",
+   "status": "merging",
+   "phase": "C",
    "branch": "item/133-recovery-manifest",
-   "pr": null,
-   "head": "b9a16df01770185ec3abe06fb2ff07a59b5eeff2",
+   "pr": 249,
+   "head": "a4b4a4ae9219218e4ac7641dffba6e9208c018bb",
    "file": "docs/state/items/133-recovery-manifest.md",
    "attempts": {
     "A": 1,
@@ -308,7 +312,7 @@
    },
    "blocker": null,
    "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-133",
-   "updated": "2026-11-01T04:01:24Z",
+   "updated": "2026-11-01T04:11:23Z",
    "provider": "claude:sonnet",
    "started": "2026-11-01T02:55:32Z"
   },
@@ -485,11 +489,11 @@
     "claude:sonnet",
     "codex"
    ],
-   "status": "active",
-   "phase": "review",
+   "status": "merging",
+   "phase": "C",
    "branch": "item/140-dive-end-stats",
    "pr": 248,
-   "head": "e0ab8e9cefcc8d54c919fd29f08d61950fb383ae",
+   "head": "a7a159ced8a70f1e5203591c0224fc1aa5f1ea07",
    "file": "docs/state/items/140-dive-end-stats.md",
    "attempts": {
     "A": 2,
@@ -498,7 +502,7 @@
    },
    "blocker": null,
    "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-140",
-   "updated": "2026-11-01T04:01:27Z",
+   "updated": "2026-11-01T04:11:28Z",
    "provider": "claude:sonnet",
    "started": "2026-11-01T03:09:40Z"
   },
@@ -517,19 +521,19 @@
     "codex"
    ],
    "status": "active",
-   "phase": "A",
+   "phase": "review",
    "branch": "item/141-own-craft-legs",
-   "pr": null,
-   "head": null,
+   "pr": 250,
+   "head": "b2a42d894f8334a4033027879b44353afa70b2df",
    "file": "docs/state/items/141-own-craft-legs.md",
    "attempts": {
     "A": 1,
-    "B": 0,
+    "B": 1,
     "C": 0
    },
    "blocker": null,
    "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-141",
-   "updated": "2026-11-01T04:01:43Z",
+   "updated": "2026-11-01T04:13:43Z",
    "provider": "claude:sonnet",
    "started": "2026-11-01T04:01:43Z"
   },

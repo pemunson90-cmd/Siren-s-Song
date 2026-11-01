@@ -1,4 +1,4 @@
-# STATE (updated 2026-11-01T00:01:57-04:00, by runner2.py)
+# STATE (updated 2026-11-01T00:13:47-04:00, by runner2.py)
 
 ## Base
 integration: d4ea547b   main: a2300840   production: 26e09906
@@ -8,21 +8,22 @@ nightly: not yet running (item 128)   controls mix: not yet measured (item 130)
 ## In flight
 | item | title | class | provider | phase | branch | PR | head | status |
 | PKG2 | Stable board and clear threat (PR 239, r | ui | external | B | root/stable-board-pkg2 | 239 | 527e4478 | parked |
-| 130 | R5 control-mix telemetry (dev state only | sim | claude:opus | review | item/130-control-mix | 247 | 691028b4 | active |
-| 133 | Recovery manifest before the dive ends | ui | claude:sonnet | B | item/133-recovery-manifest | - | b9a16df0 | active |
+| 130 | R5 control-mix telemetry (dev state only | sim | claude:opus | A | item/130-control-mix | 247 | 691028b4 | active |
+| 142 | Launching never replaces an active dive  | ui | claude:sonnet | A | item/142-launch-guard | - | - | active |
+| 133 | Recovery manifest before the dive ends | ui | claude:sonnet | C | item/133-recovery-manifest | 249 | a4b4a4ae | merging |
 | 138 | No internal ids on player screens | text | claude:sonnet | C | item/138-player-names | 245 | e6ddad5b | merging |
 | 139 | Bare Quietus meets the Sirens on ops 2,  | sim | claude:opus | A | item/139-bare-contact | - | - | active |
-| 140 | Every dive end shows time, hull and oxyg | ui | claude:sonnet | review | item/140-dive-end-stats | 248 | e0ab8e9c | active |
-| 141 | Legs warn when they pass through your ow | ui | claude:sonnet | A | item/141-own-craft-legs | - | - | active |
+| 140 | Every dive end shows time, hull and oxyg | ui | claude:sonnet | C | item/140-dive-end-stats | 248 | a7a159ce | merging |
+| 141 | Legs warn when they pass through your ow | ui | claude:sonnet | review | item/141-own-craft-legs | 250 | b2a42d89 | active |
 
 ## Queued (order = priority; see queue.json)
-131 crash-possible, 134 route-flow
+131 crash-possible, 134 route-flow, 143 dive-end-polish
 
 ## Done (branches kept)
 126 claude/truthful-commands PR 238, 127 item/127-release-controls PR 241, 136 item/136-shard-all-failures PR 242, 128 item/128-ci-v2 PR 240, 129 item/129-protected-golden PR 243, 135 item/135-prep-results PR 244, 137 item/137-menu-scroll-keys PR 246
 
 ## Blockers
-- none
+- provider codex down: usage limit (probed 2026-11-01T00:07:01-04:00)
 
 ## Waiting on Pat
 - Q3 intent card and spec line 73; Q4 daily digest; Q5 model cap (docs/workflow-v2/QUESTIONS_FOR_PAT.md on claude/workflow-v2)
