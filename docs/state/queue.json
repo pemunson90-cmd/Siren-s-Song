@@ -205,19 +205,19 @@
     "codex"
    ],
    "status": "active",
-   "phase": "review",
+   "phase": "A",
    "branch": "item/130-control-mix",
    "pr": 247,
    "head": "bc424bca8746c23538affacdda83f00749bae1dd",
    "file": "docs/state/items/130-control-mix.md",
    "attempts": {
-    "A": 1,
+    "A": 2,
     "B": 1,
     "C": 0
    },
    "blocker": null,
    "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-130",
-   "updated": "2026-11-01T03:09:22Z",
+   "updated": "2026-11-01T03:11:46Z",
    "provider": "claude:opus",
    "started": "2026-11-01T02:52:53Z"
   },
