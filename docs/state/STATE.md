@@ -1,4 +1,4 @@
-# STATE (updated 2026-11-01T17:41:39-05:00, by runner2.py)
+# STATE (updated 2026-11-01T17:52:57-05:00, by runner2.py)
 
 ## Base
 integration: 1a0819c0   main: a2300840   production: 26e09906
@@ -7,9 +7,9 @@ nightly: not yet running (item 128)   controls mix: not yet measured (item 130)
 
 ## In flight
 | item | title | class | provider | phase | branch | PR | head | status |
-| PKG2 | Stable board and clear threat (PR 239, C | ui | claude:opus | C | root/stable-board-pkg2 | 239 | 2bb433f9 | merging |
+| PKG2 | Stable board and clear threat (PR 239, C | ui | claude:opus | C | root/stable-board-pkg2 | 239 | cc78880f | merging |
 | 134 | Route flow (package 4) | sim | external | - | item/134-route-flow | - | - | parked |
-| 143 | Honest END DIVE, stats on every recovery | ui | claude:sonnet | C | item/143-dive-end-polish | 256 | 1b1069b2 | merging |
+| 143 | Honest END DIVE, stats on every recovery | ui | claude:sonnet | C | item/143-dive-end-polish | 256 | 0087f5ee | merging |
 | 147 | Debug APK from any branch, signature che | ui | claude:sonnet | C | item/147-integration-apk | 258 | 5fe2b12f | merging |
 
 ## Queued (order = priority; see queue.json)
