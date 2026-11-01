@@ -10,6 +10,7 @@ Why now: <one line: the critic finding, metric or ruling that ranks it>
 Class: text | ui | sim | protected
 Areas: <ownership areas from docs/state/areas.json, e.g. hud.wording, sim.orders>
 Files: <globs the builder may edit; tests and docs for those files are implied>
+  (If the item adds a step to an existing flow, such as a confirm or a new screen, also list the existing test fixtures that drive that flow: grep game/tests for the control. Items 142 and 143 each burned their phase B cap on this.)
 Serial zones touched: none | main.gd | mission_hud.gd | ocean_view.gd | simulation.gd
 Depends on: <item numbers that must be merged first, or none>
 Protected rules touched: none | <ruling line verbatim with date>
