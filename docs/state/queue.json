@@ -532,6 +532,38 @@
    "updated": "2026-11-01T04:01:43Z",
    "provider": "claude:sonnet",
    "started": "2026-11-01T04:01:43Z"
+  },
+  {
+   "id": 143,
+   "slug": "dive-end-polish",
+   "title": "Honest END DIVE, stats on every recovery screen",
+   "cls": "ui",
+   "areas": [
+    "hud.recovery",
+    "arcs.ui",
+    "campaign.endings"
+   ],
+   "serial": [],
+   "deps": [
+    133,
+    140
+   ],
+   "prov": [
+    "claude:sonnet",
+    "codex"
+   ],
+   "status": "queued",
+   "phase": null,
+   "branch": "item/143-dive-end-polish",
+   "pr": null,
+   "head": null,
+   "file": "docs/state/items/143-dive-end-polish.md",
+   "attempts": {
+    "A": 0,
+    "B": 0,
+    "C": 0
+   },
+   "blocker": null
   }
  ]
 }

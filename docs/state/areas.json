@@ -108,6 +108,9 @@
     "hud.legs": [
       "game/src/simulation/hand_pilot/**",
       "game/src/presentation/release_controls.gd"
+    ],
+    "arcs.ui": [
+      "game/src/presentation/arcs/**"
     ]
   },
   "_notes": [
