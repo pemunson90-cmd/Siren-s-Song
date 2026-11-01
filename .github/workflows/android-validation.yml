@@ -14,7 +14,67 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  debug-apk:
+    if: ${{ github.event_name == 'workflow_dispatch' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    defaults:
+      run:
+        shell: bash
+    env:
+      ARTIFACT_DIR: ${{ github.workspace }}/artifacts
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Resolve external toolchain cache path
+        run: echo "TOOLCHAIN_CACHE=$(realpath -m "$GITHUB_WORKSPACE/../sirens-song-toolchain")" >> "$GITHUB_ENV"
+      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Set up Android SDK explicitly
+        uses: android-actions/setup-android@9fc6c4e9069bf8d3d10b2204b1fb8f6ef7065407 # v3
+        with:
+          packages: 'platform-tools build-tools;36.0.0'
+          log-accepted-android-sdk-licenses: false
+      - name: Restore official Godot downloads
+        id: godot-cache
+        uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
+          path: ${{ env.TOOLCHAIN_CACHE }}/downloads
+          key: godot-4.6.3-official-sha512-v1
+      - name: Install pinned native toolchain
+        run: |
+          scripts/toolchain/install-godot.sh
+          echo "$TOOLCHAIN_CACHE/bin" >> "$GITHUB_PATH"
+      - name: Cache verified Godot downloads
+        if: ${{ success() && steps.godot-cache.outputs.cache-hit != 'true' }}
+        uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
+          path: ${{ env.TOOLCHAIN_CACHE }}/downloads
+          key: godot-4.6.3-official-sha512-v1
+      - name: Prepare development signing identity
+        run: scripts/toolchain/configure.sh
+      - name: Headless import
+        run: |
+          mkdir -p "$ARTIFACT_DIR"
+          scripts/toolchain/headless.sh 2>&1 | tee "$ARTIFACT_DIR/import.log"
+          if grep -E 'SCRIPT ERROR:|ERROR:' "$ARTIFACT_DIR/import.log"; then exit 1; fi
+      - name: Build signed debug APK and check signer
+        run: scripts/toolchain/build.sh android 2>&1 | tee "$ARTIFACT_DIR/build.log"
+      - name: Upload installable APK
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: sirens-song-debug-apk
+          path: |
+            artifacts/*.apk
+            artifacts/*.apk.sha256
+            artifacts/apk-signature.txt
+            artifacts/build.log
+          if-no-files-found: error
+          retention-days: 14
+
   native-smoke:
+    if: ${{ github.ref == 'refs/heads/gauntlet/production' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch') }}
     runs-on: ubuntu-24.04
     timeout-minutes: 35
     defaults:
