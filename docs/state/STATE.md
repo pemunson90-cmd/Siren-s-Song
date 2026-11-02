@@ -1,7 +1,7 @@
-# STATE (updated 2026-11-01T19:45:51-05:00, by runner2.py)
+# STATE (updated 2026-11-01T20:22:30-05:00, by runner2.py)
 
 ## Base
-integration: 06068466   main: a2300840   production: 26e09906
+integration: 9b4e352f   main: a2300840   production: 26e09906
 v1 frozen: branch archive/workflow-v1-2026-10-31 (543fd415); queue folder zip artifacts/workflow-v1-archive/ (MANIFEST.txt)
 nightly: not yet running (item 128)   controls mix: not yet measured (item 130)
 
@@ -9,13 +9,12 @@ nightly: not yet running (item 128)   controls mix: not yet measured (item 130)
 | item | title | class | provider | phase | branch | PR | head | status |
 | PKG2 | Stable board and clear threat (PR 239, C | ui | claude:opus | C | root/stable-board-pkg2 | 239 | 66841c21 | merging |
 | 134 | Route flow (package 4) | sim | external | - | item/134-route-flow | - | - | parked |
-| 148 | Android smoke tests match today's game | ui | claude:sonnet | C | item/148-android-smokes | 259 | 8b7815bb | merging |
 
 ## Queued (order = priority; see queue.json)
 none
 
 ## Done (branches kept)
-126 claude/truthful-commands PR 238, 127 item/127-release-controls PR 241, 136 item/136-shard-all-failures PR 242, 128 item/128-ci-v2 PR 240, 129 item/129-protected-golden PR 243, 130 item/130-control-mix PR 247, 142 item/142-launch-guard PR 251, 131 item/131-crash-possible PR 255, 133 item/133-recovery-manifest PR 249, 135 item/135-prep-results PR 244, 137 item/137-menu-scroll-keys PR 246, 138 item/138-player-names PR 245, 139 item/139-bare-contact PR 252, 140 item/140-dive-end-stats PR 248, 141 item/141-own-craft-legs PR 250, 143 item/143-dive-end-polish PR 256, 144 item/144-all-stop-cost PR 253, 145 item/145-briefing-truth PR 254, 146 item/146-docs-pointers PR 257, 147 item/147-integration-apk PR 258
+126 claude/truthful-commands PR 238, 127 item/127-release-controls PR 241, 136 item/136-shard-all-failures PR 242, 128 item/128-ci-v2 PR 240, 129 item/129-protected-golden PR 243, 130 item/130-control-mix PR 247, 142 item/142-launch-guard PR 251, 131 item/131-crash-possible PR 255, 133 item/133-recovery-manifest PR 249, 135 item/135-prep-results PR 244, 137 item/137-menu-scroll-keys PR 246, 138 item/138-player-names PR 245, 139 item/139-bare-contact PR 252, 140 item/140-dive-end-stats PR 248, 141 item/141-own-craft-legs PR 250, 143 item/143-dive-end-polish PR 256, 144 item/144-all-stop-cost PR 253, 145 item/145-briefing-truth PR 254, 146 item/146-docs-pointers PR 257, 147 item/147-integration-apk PR 258, 148 item/148-android-smokes PR 259
 
 ## Blockers
 - provider codex down: exit 1: ERROR: unexpected status 401 Unauthorized: Missing bearer or basic authentication in header, (probed 2026-11-01T19:35:27-05:00)
