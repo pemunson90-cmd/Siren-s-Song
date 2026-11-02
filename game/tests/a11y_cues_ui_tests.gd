@@ -53,6 +53,13 @@ func shape_case(shape):
  # Onboarding paused this originally running audio fixture. Resume through the
  # real control so paused fleet telemetry does not consume its free chart space.
  if s.paused:await tap(game.pause_button.get_global_rect().get_center());game._refresh();await settle()
+ # A hint withheld while it would cover a threat stays pending and returns in
+ # the resumed clear view. Acknowledge it through the same real control.
+ for n in 8:
+  if not game.mission_hud.hints.panel.visible:break
+  await press(game,"hint_dismiss");game._refresh();await settle()
+  if s.paused:await tap(game.pause_button.get_global_rect().get_center());game._refresh();await settle()
+ check(not game.mission_hud.hints.panel.visible,"resumed caption fixture acknowledges returning tutorial hints")
  var baseline=s.snapshot();var view=game.audio_captions
  print("A11Y GEOMETRY ",shape," visible=",view.visible," high=",view.get_meta("placement_height",0)," text=",view.text," rect=",view.get_global_rect()," host=",game.size," occupied=",view.occupied)
  check(view.visible and "HEARD" in view.text,"muted critical receiver captions are drawn beside live camera and lock")
