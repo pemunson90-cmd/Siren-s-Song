@@ -2,6 +2,7 @@
 
 Pat 2026-10-30 ~18:00: "only surface questions that need me, otherwise record all decision points and keep me posted so I can revert them." Each line: what, why, how to revert. Say "revert Dnn".
 
+- **D32 2026-11-01 A red required check on a merge candidate goes to CI repair even if integration moved; only green must contain the current tip.** Why: runner2 resynced red heads whenever another PR merged, so PKG2 lost two full runs repeating the same a11y_cues failure. Revert: runner2.py.bak-s13c (queue folder).
 - **D31 2026-11-01 Orchestrator HOLD gives the item one fresh round: runner2 resets attempts A and B and review launches when it relaunches phase A after a HOLD (still at most one HOLD per item).** Why: items 142 and 143 hit attempt caps right after doing the asked rework, three manual re-arms in one afternoon. Revert: runner2.py.bak-s13a (queue folder).
 - **D37 2026-10-31T23:13 Item 130 scope.** May tag order kind in truthful_commands.gd so live one-press travel is counted; critic and nightly reporting deferred (critic kit is root package 0, nightly not built). Revert: split a reporting item now.
 - **D36 2026-10-31T21:30 Pat ruling: minimum tests, fastest path (RULINGS.md).** Local checks cut to import, core, touched/new suites, canaries, check-suites; full matrix only in CI shards; no reruns of green suites on the same head; PR ready at phase A done so CI overlaps evidence and review. Revert: restore prompts.bak-s12 and CHECKS_TEXT in runner2.py.
