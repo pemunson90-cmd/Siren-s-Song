@@ -86,8 +86,8 @@
    "prov": [
     "claude:opus"
    ],
-   "status": "merging",
-   "phase": "C",
+   "status": "done",
+   "phase": null,
    "branch": "root/stable-board-pkg2",
    "pr": 239,
    "head": "f98397571d94fea6b06a5137c9b2463e4d93ac0e",
@@ -100,7 +100,7 @@
    "blocker": null,
    "provider": "claude:opus",
    "started": "2026-11-01T21:22:10Z",
-   "updated": "2026-11-02T01:57:12Z"
+   "updated": "2026-11-02T02:43:47Z"
   },
   {
    "id": 136,
