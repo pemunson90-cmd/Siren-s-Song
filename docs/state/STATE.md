@@ -1,4 +1,4 @@
-# STATE (updated 2026-11-01T20:35:01-05:00, by runner2.py)
+# STATE (updated 2026-11-01T20:46:33-05:00, by runner2.py)
 
 ## Base
 integration: 9b4e352f   main: a2300840   production: 26e09906
@@ -7,7 +7,7 @@ nightly: not yet running (item 128)   controls mix: not yet measured (item 130)
 
 ## In flight
 | item | title | class | provider | phase | branch | PR | head | status |
-| PKG2 | Stable board and clear threat (PR 239, C | ui | claude:opus | intent | root/stable-board-pkg2 | 239 | 9340a66f | waiting_intent |
+| PKG2 | Stable board and clear threat (PR 239, C | ui | claude:opus | A | root/stable-board-pkg2 | 239 | 9340a66f | active |
 | 134 | Route flow (package 4) | sim | external | - | item/134-route-flow | - | - | parked |
 
 ## Queued (order = priority; see queue.json)
