@@ -27,8 +27,14 @@ const Simulation=preload("res://src/simulation/simulation.gd")
 const Store=preload("res://src/persistence/save_store.gd")
 func _initialize():
  var store=Store.new();store.path="ARCHIVE";var data=store.load_game();var s=Simulation.new();s.restore(data.active)
- s.command("select",{"unit":1});s.command("route",{"point":Vector2(760,390)});s.paused=false
- for n in 1500:
+ s.command("select",{"unit":1})
+ # Route legs are straight lines that rocks block, so go round the first rock on its left.
+ for point in [Vector2(300,330),Vector2(760,330)]:
+  s.command("route",{"point":point});s.paused=false
+  for n in 1500:
+   s.advance(1.0/60)
+   if s.units[1].route.is_empty():break
+ for n in 600:
   s.advance(1.0/60)
   if s.camera_context().ready:break
  s.paused=true;s.command("emp");s.command("camera");s.paused=false
@@ -40,7 +46,7 @@ func _initialize():
  data.evidence={o.optical:{"name":o.name,"caption":o.evidence,"optical":o.optical}}
  if not store.save(data):quit(1);return
  print("ORDINARY_REQUEST_EARNED");quit()
-'''.replace('ARCHIVE',str(archive)))
+'''.replace('ARCHIVE',archive.as_posix()))
    r=subprocess.run(command[:-3]+['--script',str(script)],capture_output=True,text=True)
    self.assertEqual(r.returncode,0,r.stderr);self.assertIn('ORDINARY_REQUEST_EARNED',r.stdout)
    r=subprocess.run(command+['--verify-earned='+str(archive)],capture_output=True,text=True)
