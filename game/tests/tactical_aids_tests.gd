@@ -171,7 +171,12 @@ func run():
     var world=g.sim.units[g.sim.selected].pos;var pixel=g.ocean.screen_position(world)
     check(g.ocean.map_position(pixel).distance_to(world)<.01,"mirrored chart pick matches rendered world")
     # Start a free view away from zoom/world clamps before testing anchor math.
-    var anchor=chart.get_center();g.ocean.fit_chart();g.ocean.zoom_at(1.5,anchor)
+    # The mirrored command lane is transient; camera projection stays in the
+    # permanent chart. FIT its center before establishing the SAME zoom anchor.
+    g.ocean.fit_chart()
+    var anchor=g.ocean.stable_chart_rect().get_center();g.ocean.zoom_at(1.5,anchor)
+    check(Rect2(Vector2.ZERO,g.ocean.world_size()).has_point(g.ocean.map_position(anchor)),"mirrored gesture setup starts inside the world")
+    print("MIRRORED SETUP ",dimensions," transient=",chart," stable=",g.ocean.stable_chart_rect()," anchor=",anchor," world=",g.ocean.map_position(anchor))
     var before_zoom=g.ocean.map_position(anchor)
     g.ocean.zoom_at(1.1,anchor)
     check(g.ocean.map_position(anchor).distance_to(before_zoom)<.01,"mirrored chart zoom retains its anchor")

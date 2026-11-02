@@ -44,7 +44,7 @@ static func place_notice(hud)->void:
  var panel=hud.hints.panel
  var bounds=preload("res://src/presentation/status_text/status_view.gd").content_bounds(hud,hud.size)
  var area=Rect2(Vector2.ZERO,bounds)
- var occupied=[]
+ var occupied=hud.threat_rects()
  for button in hud.command_controls()+[hud.close_button,hud.host.pause_button]:
   if button.is_visible_in_tree():occupied.append(Rect2(button.global_position-hud.global_position,button.size))
  if hud.alarm.visible:occupied.append(hud.alarm.get_rect())

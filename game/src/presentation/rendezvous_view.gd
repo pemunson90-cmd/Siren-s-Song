@@ -104,7 +104,7 @@ static func draw(view,sim=null)->void:
   view.draw_circle(pos,24,Color("102a32"));view.draw_arc(pos,24,0,TAU,24,color,2/scale)
   view.draw_line(pos+Vector2(-13,-8),pos+Vector2(13,8),color,3/scale)
   view.draw_line(pos+Vector2(-13,8),pos+Vector2(13,-8),color,3/scale)
-  view._label(pos+Vector2(42,-12),"BERTH RELEASED" if known.control.used else "BERTH CONTROL",color,font)
+  view._label(pos+Vector2(42,-12),"BERTH RELEASED" if known.control.used else "BERTH CONTROL",color,font,{"kind":"objective","subkind":"berth_control","name":"BERTH CONTROL","pos":pos})
  if not known.hull.is_empty():
   var hull=known.hull;var points=PackedVector2Array()
   for p in [Vector2(48,0),Vector2(27,-24),Vector2(-36,-24),Vector2(-48,-10),Vector2(-48,10),Vector2(-36,24),Vector2(27,24),Vector2(48,0)]:points.append(hull.pos+p.rotated(hull.angle))

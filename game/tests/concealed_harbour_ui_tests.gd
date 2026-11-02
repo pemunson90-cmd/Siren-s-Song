@@ -56,6 +56,13 @@ func select_craft(g,unit:int,open:bool=false):
  if g.advanced_orders:g.mission_hud.dismiss();await settle()
  await tap(g.mission_hud.fleet.buttons[unit].get_global_rect().get_center())
  if open and not g.advanced_orders:await tap(g.mission_hud.fleet.buttons[unit].get_global_rect().get_center())
+ # A craft badge overlapping local work opens the owner chooser first.
+ # Select that craft explicitly before the existing witness/action taps.
+ if g.mission_hud.page=="choose":
+  var hud=g.mission_hud
+  var index=hud.target_choices.find_custom(func(c):return c.get("kind","")=="craft" and c.get("unit",-1)==unit)
+  check(index>=0,"owner chooser retains requested craft")
+  if index>=0:await tap(hud.target_buttons[index].get_global_rect().get_center())
  if not open and g.advanced_orders:g.mission_hud.dismiss();await settle()
 func rejected(g,button,kind:String):
  var before=g.sim.snapshot();var point=button.get_global_rect().get_center()

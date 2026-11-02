@@ -60,8 +60,11 @@ func run():
   for n in 156:g.sim.advance(1./60)
   g.sim.paused=true;g._refresh()
   check(g.sim.sonar.history.any(func(row):return row.kind=="echo"),"history display receives an actual delayed reflection")
-  h.open("acoustics");await settle();await click(h.extra.sonar_history)
+  h.open("acoustics");await settle()
+  check(not h.hints.panel.visible or h.command_controls().all(func(b):return not b.get_global_rect().intersects(h.hints.panel.get_global_rect())),"received tutorial leaves every acoustic command visible and tappable")
+  await click(h.extra.sonar_history)
   check(h.page=="inspect" and h.sonar_waterfall.visible and h.instrument_info.text.contains("BEARING"),"received evidence history owns a readable waterfall")
+  check(not h.hints.panel.visible or not h.sheet.get_global_rect().intersects(h.hints.panel.get_global_rect()),"received history sheet stays clear of the tutorial card")
   await capture(str(dimensions.x)+"-sonar-history")
   # Source-known custody fixture tests the visible radial, not its hidden info sheet.
   g._start_mission(41);await settle();g.sim.sirens=[]

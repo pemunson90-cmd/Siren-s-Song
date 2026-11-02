@@ -40,7 +40,7 @@ static func schedule_fit(hud)->void:
   var current=reference.get_ref()
   if current==null:return
   current.remove_meta(PENDING)
-  fit(current);current.queue_redraw()
+  fit(current);current._clear_hint_overlap();current.queue_redraw()
  ).call_deferred()
 static func captions(hud,lines:Array)->Array:
  if Table.enabled and hud.page=="fleet" and hud.has_meta(HINT) and hud.extra.arrivals.is_visible_in_tree():
@@ -67,6 +67,7 @@ static func _free_back(hud,area:Rect2,rects:Array)->Rect2:
   if not area.encloses(rect) or rects.any(func(r):return r.intersects(rect)):continue
   if hud.host.pause_button.is_visible_in_tree() and rect.intersects(Rect2(hud.host.pause_button.global_position-hud.global_position,hud.host.pause_button.size)):continue
   if hud.alarm.visible and rect.intersects(hud.alarm.get_rect()):continue
+  if hud.threat_rects().any(func(block):return block.intersects(rect)):continue
   return rect
  return Rect2()
 static func fit(hud)->void:
@@ -82,11 +83,14 @@ static func fit(hud)->void:
   fit_grid(hud,visible);return
  var r:float=hud.ring_radius
  var original=_rects(buttons,hud.center,Vector2.ONE*r)
+ var reserved=hud.threat_rects()
+ if original.any(func(rect):return reserved.any(func(block):return block.intersects(rect))) or reserved.any(func(block):return block.intersects(hud.close_button.get_rect())):
+  fit_grid(hud,visible);return
  var needs=_intersects(original) or original.any(func(rect):return not visible.encloses(rect)) or not visible.encloses(hud.close_button.get_rect())
  if not needs:
   if hud.has_meta(AXES):hud.remove_meta(AXES)
   return
- var m=Layout.MARGIN;var top=hud.touch_height+Layout.HEADER_OFFSET
+ var m=Layout.MARGIN;var top=maxf(hud.touch_height+Layout.HEADER_OFFSET,hud.threat_floor())
  var area=Rect2(Vector2(m,top),Vector2(visible.size.x-m*2,maxf(1,visible.size.y-top-m)))
  var body=Vector2.ZERO
  for b in buttons:body=Vector2(maxf(body.x,b.size.x),maxf(body.y,b.size.y))
@@ -110,13 +114,19 @@ static func fit(hud)->void:
 # A large-text command dock reserves chart width and scrolls its full-size actions.
 static func fit_grid(hud,_visible:Rect2)->void:
  # Vertical reading order stays canonical when the dock changes hands.
+ if hud.order_dock_header.get_parent()!=hud.order_dock_commands:hud.order_dock_header.reparent(hud.order_dock_commands,false)
+ hud.order_dock_commands.move_child(hud.order_dock_header,0)
+ hud.order_dock_commands.move_child(hud.order_dock_context,1)
  hud.ring_buttons=hud.command_controls()
  for b in hud.ring_buttons:
   if b.get_parent()!=hud.order_dock_commands:b.reparent(hud.order_dock_commands,false)
-  hud.order_dock_commands.move_child(b,hud.ring_buttons.find(b)+1)
+  hud.order_dock_commands.move_child(b,hud.ring_buttons.find(b)+2)
   b.mouse_filter=Control.MOUSE_FILTER_STOP;b.size_flags_horizontal=Control.SIZE_EXPAND_FILL
   b.custom_minimum_size.x=0
- if hud.close_button.get_parent()!=hud.order_dock_scroll.get_parent():hud.close_button.reparent(hud.order_dock_scroll.get_parent(),false)
+ # Back has its own header target, so even tall composed command labels get
+ # the complete dock viewport instead of sharing its height with navigation.
+ if hud.close_button.get_parent()!=hud:hud.close_button.reparent(hud,false)
+ hud.close_button.position=Vector2(12 if hud.host.pause_button.position.x>hud.size.x/2 else hud.size.x-hud.close_button.size.x-12,12)
  hud.close_button.mouse_filter=Control.MOUSE_FILTER_STOP
  if hud.has_meta(AXES):hud.remove_meta(AXES)
  hud.set_meta(GRID,true);fit_dock(hud)
@@ -133,20 +143,31 @@ static func fit_dock(hud)->void:
  hud.order_dock_context.visible=not hud.order_dock_context.text.is_empty()
  hud.order_dock_context.add_theme_font_size_override("font_size",font)
  hud.order_dock_header.text=caption;hud.order_dock_header.add_theme_font_size_override("font_size",font)
- var top=maxf(hud.host.pause_button.get_rect().end.y,hud.alarm.get_rect().end.y if hud.alarm.visible else 0.)+12.
- if hud.has_meta("hunt_meter_button"):
-  var meter=hud.get_meta("hunt_meter_button")
-  if meter.visible:top=maxf(top,hud.touch_height+24.+meter.size.y)
+ var top=hud.threat_floor()
  var width=minf(hud.size.x*.52,hud.host.ocean.optical_feed.preferred_width())
  hud.host.ocean.command_dock_width=width
  var mirrored=preload("res://src/presentation/frontend/frontend_settings.gd").current.get("mirrored_hud",false)
  hud.host.ocean.command_dock_left=mirrored
  hud.order_dock.position=Vector2(12 if mirrored else hud.size.x-width-12,top)
  hud.order_dock.size=Vector2(width,maxf(1.,hud.size.y-top-12.))
+ # Spend decorative panel padding before clipping a full-size action on a
+ # short viewport. Font and touch minima stay intact; the same dock scrolls.
+ hud.order_dock.remove_theme_stylebox_override("panel")
+ var panel=hud.order_dock.get_theme_stylebox("panel")
+ var row=0.
+ for button in hud.ring_buttons:row=maxf(row,button.get_combined_minimum_size().y)
+ if hud.order_dock.size.y-panel.get_minimum_size().y<row:
+  # Leave drag alignment room around a full row, using the outer bottom
+  # decoration too when necessary. Never extend past the safe viewport.
+  hud.order_dock.size.y=maxf(hud.order_dock.size.y,minf(hud.size.y-top,row+26.))
+  var compact_panel=panel.duplicate()
+  var padding=maxf(0.,floorf((hud.order_dock.size.y-row-26.)/2.))
+  compact_panel.content_margin_top=padding;compact_panel.content_margin_bottom=padding
+  hud.order_dock.add_theme_stylebox_override("panel",compact_panel)
  hud.order_dock.show();hud.order_dock.move_to_front()
 static func fit_sheet(hud)->void:
  if not Table.enabled or not Layout.enabled or not hud.host.advanced_orders or not hud.sheet.visible:return
- var area=_area(hud);var m=Layout.MARGIN;var top=hud.touch_height+Layout.HEADER_OFFSET
+ var area=_area(hud);var m=Layout.MARGIN;var top=maxf(hud.touch_height+Layout.HEADER_OFFSET,hud.threat_floor())
  var back:Vector2=hud.close_button.size
  var maximum=maxf(1,area.size.y-top-m-back.y-m)
  var height=minf(hud.sheet.size.y,maximum)

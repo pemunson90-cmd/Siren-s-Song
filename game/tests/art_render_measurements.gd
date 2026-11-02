@@ -74,6 +74,35 @@ func lamp_checks(view,s):
   check(feed.art_lamp_aim==float(feed._frame.aim) and feed.art_lamp_fov==float(feed._frame.fov) and feed.art_lamp_range==float(feed._frame.range) and feed.art_lamp_strength==float(Photo.optics(s,0).lamp),"cached "+mode+" cone uses actual own optics and frame")
  check(s.restore(saved),"lamp test restores original full simulation")
  feed._vm_age=1.;view._process(0.);feed.queue_redraw();await draw_frame(view);await draw_frame(view)
+func stable_camera_checks(view,s,dimensions):
+ var original=view.chart_camera.snapshot()
+ for mode in ["follow","overview"]:
+  if mode=="follow":view.focus_craft()
+  else:view.fit_chart()
+  # Reuse the unchanged native visibility/pixel/optics assertions in each
+  # deliberate framing mode, at the same photographic vantage as scene 2.
+  await lamp_checks(view,s)
+  root.get_texture().get_image().save_png(folder.path_join("%dx%d-scene2-%s.png"%[dimensions.x,dimensions.y,mode]))
+  var transform=[view.world_offset,view.world_scale]
+  var intent=view.chart_camera.snapshot()
+  for suppressed in [true,false]:
+   view.optical_suppressed=suppressed;view._process(0.)
+   await draw_frame(view)
+   check(view.world_offset==transform[0] and view.world_scale==transform[1] and view.chart_camera.snapshot()==intent,"optical visibility preserves "+mode+" chart transform")
+  for compact in [true,false]:
+   view.optical_feed.compact=compact;view._process(0.)
+   await draw_frame(view)
+   check(view.world_offset==transform[0] and view.world_scale==transform[1],"optical fold preserves "+mode+" chart transform")
+ var chart=view.stable_chart_rect()
+ var anchor=chart.get_center()
+ var point=view.map_position(anchor)
+ view.zoom_at(1.5,anchor)
+ check(view.chart_camera.mode=="free" and view.screen_position(point).distance_to(anchor)<.01,"FREE zoom keeps deliberate chart anchor")
+ var free=view.chart_camera.snapshot()
+ view.optical_suppressed=true;view._process(0.)
+ check(view.chart_camera.snapshot()==free and view.screen_position(point).distance_to(anchor)<.01,"hidden optics preserve FREE anchor")
+ view.optical_suppressed=false;view.chart_camera.restore(original);view._process(0.)
+ await draw_frame(view)
 func run():
  if DisplayServer.get_name()=="headless":printerr("Native renderer required");quit(1);return
  for arg in OS.get_cmdline_user_args():
@@ -121,7 +150,9 @@ func run():
      s.mission["launch_seed"]=Rect2(s.units[0].pos-Vector2(80,80),Vector2(160,160))
      s._configure_terrain();s._configure_depth_charts()
     view._process(0.);view.optical_feed.time=0.;view.optical_feed._vm_age=1.
-    if table!=null and scene==2:await lamp_checks(view,s)
+    if table!=null and scene==2:
+     await lamp_checks(view,s)
+     await stable_camera_checks(view,s,dimensions)
    var state=digest(s)
    check(Sim.valid_snapshot(s.snapshot()),"staged complete snapshot is structurally valid")
    var command_reference=Sim.new();check(command_reference.restore(s.snapshot()),"command reference restores complete fixture")

@@ -18,6 +18,37 @@ static func open_view(t,game)->void:
 static func close_view(t,game)->void:
 	await press(t,game.mission_hud.close_button)
 	await press(t,game.mission_hud.close_button)
+static func water_point(t,game,world:Vector2)->Vector2:
+	# A world route fixture may sit beneath a full-size projected craft badge.
+	# Refresh after direct camera changes, then use real chart navigation to
+	# expose that SAME world point. Never alter the route or its touch contract.
+	game._refresh()
+	for frame in 4:await t.process_frame
+	var snapshot=game.sim.snapshot()
+	for attempt in 4:
+		var p=game.ocean.global_position+game.ocean.screen_position(world)
+		if not game.mission_hud.blocks(p) and game.ocean.get_global_rect().has_point(p) and game.ocean.contexts_at(p-game.ocean.global_position,game.ui_touch_height).is_empty() and not game.ocean.information_at(p-game.ocean.global_position):
+			t.check(game.sim.snapshot()==snapshot,"public chart navigation exposes the same route target without changing simulation")
+			return p
+		var area=game.ocean.stable_chart_rect()
+		var origin=Vector2.ZERO;var found=false
+		for y in [.5,.4,.6,.3,.7]:
+			for x in [.5,.4,.6,.3,.7]:
+				var candidate=game.ocean.global_position+area.position+area.size*Vector2(x,y)
+				if [-72.,-24.,0.,24.,72.].all(func(dx):return not game.mission_hud.blocks(candidate+Vector2(dx,0))):
+					origin=candidate;found=true;break
+			if found:break
+		if not found:break
+		await touch(t,0,origin-Vector2(24,0),true);await touch(t,1,origin+Vector2(24,0),true)
+		await drag(t,1,origin+Vector2(72,0),Vector2(48,0))
+		await touch(t,0,origin-Vector2(24,0),false);await touch(t,1,origin+Vector2(72,0),false)
+		p=game.ocean.global_position+game.ocean.screen_position(world)
+		var seat=game.ocean.global_position+area.position+area.size*[Vector2(.75,.8),Vector2(.3,.7),Vector2(.7,.4),Vector2(.4,.6)][attempt]
+		var delta=seat-p
+		await touch(t,0,origin,true);await drag(t,0,origin+delta,delta);await touch(t,0,origin+delta,false)
+		for frame in 4:await t.process_frame
+	t.check(false,"public chart navigation can expose the unchanged world route target")
+	return game.ocean.global_position+game.ocean.screen_position(world)
 static func run(t,game) -> void:
 	t.check(game.ocean.has_method("zoom_at"),"chart has presentation-only anchored zoom")
 	if not game.ocean.has_method("zoom_at"): return
@@ -37,12 +68,14 @@ static func run(t,game) -> void:
 	t.check(ocean.chart_camera.mode=="follow","actual VIEW FOCUS restores selected-craft follow")
 	await close_view(t,game)
 	ocean.fit_chart(); game.sim.command("queue")
-	var destination=Vector2(480,850); var p=ocean.global_position+ocean.screen_position(destination)
+	var destination=Vector2(480,850); var p=await water_point(t,game,destination)
 	await touch(t,0,p,true); await touch(t,0,p,false)
 	# Android may emit a mouse event for the same real finger. Never append it twice.
 	var mouse=InputEventMouseButton.new(); mouse.device=InputEvent.DEVICE_ID_EMULATION; mouse.position=p; mouse.button_index=MOUSE_BUTTON_LEFT; mouse.pressed=true
 	t.root.push_input(mouse,true); mouse=mouse.duplicate(); mouse.pressed=false; t.root.push_input(mouse,true); await t.process_frame
 	t.check(game.sim.units[0].route.size()==1 and game.sim.units[0].route[-1].pos.distance_to(destination)<1,"one real touch plus emulated mouse appends exactly one waypoint")
+	# Restore FIT through its public control before the following fixed pan/pinch case.
+	await open_view(t,game);await press(t,game.zoom_buttons[2]);await close_view(t,game)
 	var orders=game.sim.units[0].route.duplicate(true)
 	ocean.zoom_at(2.0,ocean.size/2); var origin=ocean.global_position+ocean.size/2; var old_offset=ocean.world_offset
 	await touch(t,0,origin,true); await drag(t,0,origin+Vector2(70,15),Vector2(70,15)); await touch(t,0,origin+Vector2(70,15),false)
@@ -71,7 +104,7 @@ static func run(t,game) -> void:
 	# projected controls as Main normally does before testing a water touch.
 	game._refresh()
 	for frame in 4:await t.process_frame
-	p=ocean.global_position+ocean.screen_position(destination)
+	p=await water_point(t,game,destination)
 	await touch(t,0,p,true); await touch(t,0,p,false)
 	if not game.mission_hud.guard.pending.is_empty(): game.mission_hud.guard.confirm(false)
 	t.check(game.sim.units[0].route[-1].pos.distance_to(destination)<1,"cutout-inset root maps global touch release to the same world destination")

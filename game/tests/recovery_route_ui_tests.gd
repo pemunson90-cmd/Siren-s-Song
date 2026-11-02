@@ -39,6 +39,14 @@ func begin(game,index:int,unit:int=0):
  s.command("select",{"unit":unit});game.ocean.focus_craft();game._refresh();await settle()
 func route_menu(game):
  await tap(game.ocean.global_position+game.ocean.screen_position(game.sim.units[game.sim.selected].pos))
+ # The selected hull can overlap the visible withdrawal marker. Choose its
+ # orders explicitly before tapping ROUTE; never tap that hidden command.
+ if game.mission_hud.page=="choose":
+  var hud=game.mission_hud;var before=game.sim.snapshot()
+  var index=hud.target_choices.find_custom(func(c):return c.kind=="craft" and c.unit==game.sim.selected)
+  check(index>=0,"recovery overlap retains selected craft orders")
+  if index>=0:await click(hud.target_buttons[index])
+  check(game.sim.snapshot()==before and hud.page=="craft","explicit recovery owner choice preserves all physical state")
  if game.mission_hud.page=="fleet":await click(game.unit_buttons[game.sim.selected])
  await click(game.mission_hud.extra.route_menu)
 func home(game):

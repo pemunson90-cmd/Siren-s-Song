@@ -136,4 +136,8 @@ static func draw_world(view,sim)->void:
   if pulse.label not in ["BACKUP GENERATOR START","SERVICE SHUTTER","SERVICE WARNING","NORTH MAST WARNING"]:continue
   var remaining=float(pulse.time);var duration=2. if pulse.label=="SERVICE SHUTTER" else 6.
   view.draw_arc(pulse.pos,34+(1-clampf(remaining/duration,0,1))*90,0,TAU,48,Color(.9,.68,.36,.6),1.5/scale)
- for label in world_labels(sim):view._label(label.pos,label.text,label.color,label.font)
+ for label in world_labels(sim):
+  var target={}
+  for station in info.stations:
+   if station.id==label.id:target={"kind":"plant","station":station.id,"name":station.name,"pos":station.pos}
+  view._label(label.pos,label.text,label.color,label.font,target)

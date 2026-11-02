@@ -2,9 +2,14 @@ extends Label
 # Passive text placed in free chart space. Existing warnings retain ownership
 # and are excluded from placement; captions never intercept Android gestures.
 const Settings=preload("res://src/presentation/frontend/frontend_settings.gd")
-const Layout=preload("res://src/presentation/accessibility/cue_table.gd").LAYOUT
+const Table=preload("res://src/presentation/accessibility/cue_table.gd")
+const Layout=Table.LAYOUT
 var occupied:Array=[]
 var last_font=0
+static func critical(caption:String)->bool:
+ for line in caption.split("\n"):
+  if line.begins_with("HEARD:") or line.begins_with(Table.TEXT.siren_report) or line.begins_with(Table.TEXT.lock):return true
+ return false
 func _init()->void:
  mouse_filter=Control.MOUSE_FILTER_IGNORE
  autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
@@ -18,6 +23,10 @@ func refresh(host)->void:
  if host.advanced_orders and host.mission_hud.page=="order_help" and host.mission_hud.help_text.begins_with("RECENT AUDIO LOG"):return
  var fs=maxi(Layout.font_min,roundi(host.ui_touch_height*Layout.font_touch*Settings.text_scale()))
  add_theme_font_size_override("font_size",fs)
+ # A muted critical cue (Siren report, lock, received signal) outranks a
+ # tutorial hint: the hint yields unacknowledged and returns once the caption expires.
+ var hints=host.mission_hud.hints
+ if critical(caption) and hints.panel.visible and hints.current not in ["warning","sweep"]:hints.panel.hide()
  occupied=host.mission_hud.occupied_rects()
  for control in [host.title_label,host.detail_label,host.mission_hud.guard.panel,host.mission_hud.hints.panel,host.ocean.optical_feed]:
   if control.is_visible_in_tree():occupied.append(control.get_global_rect())

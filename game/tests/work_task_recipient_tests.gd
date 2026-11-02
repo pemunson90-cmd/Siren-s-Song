@@ -18,6 +18,18 @@ func tap_at(p:Vector2):
  await frames()
 func tap(button):await tap_at(button.get_global_rect().get_center())
 func world_tap(g,pos:Vector2):await tap_at(g.ocean.screen_position(pos)+g.ocean.global_position)
+# Match visible owners by identity; never tap a hidden pre-chooser control.
+func choice_button(g,kind:String,id:int):
+ var hud=g.mission_hud
+ var index=hud.target_choices.find_custom(func(c):return c.kind==kind and int(c.get("unit" if kind=="craft" else "index",-1))==id)
+ return hud.target_buttons[index] if index>=0 else null
+func craft_choices(g):
+ return g.mission_hud.target_choices.filter(func(c):return c.kind=="craft").map(func(c):return c.unit)
+func choose_object(g,index:int):
+ if g.mission_hud.page!="choose":return
+ var button=choice_button(g,"objective",index)
+ check(button!=null and button.is_visible_in_tree(),"owner chooser retains the exact requested work object")
+ if button!=null:await tap(button)
 func shot(name:String):
  if captures.is_empty() or DisplayServer.get_name()=="headless":return
  await RenderingServer.frame_post_draw;root.get_texture().get_image().save_png(captures.path_join(name+".png"))
@@ -51,7 +63,7 @@ func run():
   # F3: the disconnect's own projection, not REACH WORK, owns its CAMERA work.
   settle(g,0,disc_pos+Vector2(-150,40));settle(g,1,disc_pos+Vector2(0,30),1,disc_pos);settle(g,2,disc_pos+Vector2(-150,160))
   g._order("select",{"unit":1});g.ocean.focus_craft();g._refresh();await frames()
-  await world_tap(g,disc_pos)
+  await world_tap(g,disc_pos);await choose_object(g,disc)
   check(g.advanced_orders and g.mission_hud.page=="object" and int(g.mission_hud.subject.get("index",-1))==disc and g.mission_hud.subject.get("subkind","")!="glass_work","tapping the disconnect opens the disconnect's own work projection "+tag)
   check(g.order_buttons.camera in g.mission_hud.ring_buttons and not g.mission_hud.extra.glass_work in g.mission_hud.ring_buttons,"disconnect projection offers its CAMERA work instead of REACH WORK "+tag)
   check(g.mission_hud.task.get("index",-1)==disc and g.mission_hud.task.get("owner",-1)==1,"opening the object names it as DRONE A's chosen task "+tag)
@@ -63,18 +75,23 @@ func run():
   # F5 (1371): object under A while Q is selected asks which one is meant.
   g.mission_hud.dismiss();g._order("select",{"unit":0});g.ocean.focus_craft();g._refresh();await frames()
   await world_tap(g,disc_pos)
-  check(g.advanced_orders and g.mission_hud.page=="choose" and 1 in g.mission_hud.choose_units,"object occupied by a different craft shows a visible craft/object choice "+tag)
-  check(g.mission_hud.extra.choose_unit_1 in g.mission_hud.ring_buttons and g.mission_hud.extra.choose_object in g.mission_hud.ring_buttons and "BY Q" in g.mission_hud.extra.choose_object.text,"choice names DRONE A and the object order recipient "+tag)
+  check(g.advanced_orders and g.mission_hud.page=="choose" and 1 in craft_choices(g),"object occupied by a different craft shows a visible craft/object choice "+tag)
+  var craft_button=choice_button(g,"craft",1);var object_button=choice_button(g,"objective",disc)
+  # Match the public title expression and caption transform consumed by _draw().
+  var choice_title=g.mission_hud.subject.get("name","SITE") if g.mission_hud.subject.get("kind","") in ["objective","salvage","plant","habitat"] else g.sim.units[g.sim.selected].name
+  var choice_captions=g.mission_hud.StatusView.captions(g.mission_hud,[choice_title,"CHOOSE","CRAFT OR OBJECT?"])
+  check(craft_button!=null and object_button!=null and craft_button in g.mission_hud.ring_buttons and object_button in g.mission_hud.ring_buttons and "DRONE A" in craft_button.text and object_button.text==g.sim.mission.objectives[disc].name and g.sim.selected==0 and g.sim.units[g.sim.selected].name=="QUIETUS" and choice_captions[0]=="QUIETUS" and not g.mission_hud.caption_rects.is_empty(),"choice names DRONE A and the object order recipient "+tag)
   await shot("work-choose-"+tag)
   var q_route=g.sim.units[0].route.duplicate()
-  if g.mission_hud.extra.choose_unit_1.is_visible_in_tree():
-   await tap(g.mission_hud.extra.choose_unit_1)
+  if craft_button!=null and craft_button.is_visible_in_tree():
+   await tap(craft_button)
    check(g.sim.selected==1 and g.mission_hud.page=="craft","choosing DRONE A selects the craft under the object "+tag)
   check(g.sim.units[0].route==q_route,"the choice never retasks Quietus "+tag)
   g.mission_hud.dismiss();g._order("select",{"unit":0});g.ocean.focus_craft();g._refresh();await frames()
   await world_tap(g,disc_pos)
-  if g.mission_hud.page=="choose" and g.mission_hud.extra.choose_object.is_visible_in_tree():
-   await tap(g.mission_hud.extra.choose_object)
+  object_button=choice_button(g,"objective",disc)
+  if g.mission_hud.page=="choose" and object_button!=null and object_button.is_visible_in_tree():
+   await tap(object_button)
    check(g.mission_hud.page=="object" and int(g.mission_hud.subject.get("index",-1))==disc and g.sim.selected==0,"choosing the object keeps Quietus as the named recipient "+tag)
   # F3 (1377): A near the optional bypass, chosen task is the disconnect.
   g.mission_hud.dismiss();g._order("select",{"unit":1});g._refresh()
@@ -94,7 +111,7 @@ func run():
   check("LAST · DRONE A · REFUSED" in g.mission_hud.intent.text,"selection does not erase the refusal reason "+tag)
   # The object's own CAMERA works the object once its craft is there.
   g._order("select",{"unit":1});settle(g,1,disc_pos+Vector2(0,30),1,disc_pos);g.ocean.focus_craft();g._refresh();await frames()
-  await world_tap(g,disc_pos)
+  await world_tap(g,disc_pos);await choose_object(g,disc)
   check(g.mission_hud.page=="object" and not g.order_buttons.camera.disabled and int(g.sim.camera_context().get("target",-1))==disc,"disconnect projection CAMERA is ready at the disconnect "+tag)
   if g.mission_hud.page=="object" and g.order_buttons.camera.is_visible_in_tree() and not g.order_buttons.camera.disabled:
    await tap(g.order_buttons.camera)
@@ -147,6 +164,6 @@ func run():
   settle(g,0,ordinary+Vector2(-150,100));settle(g,1,ordinary);settle(g,2,ordinary+Vector2(-200,180))
   g._order("select",{"unit":0});g.ocean.focus_craft();g._refresh();await frames()
   await world_tap(g,ordinary)
-  check(g.mission_hud.page=="choose" and 1 in g.mission_hud.choose_units,"ordinary objective overlap offers craft or object choice "+tag)
+  check(g.mission_hud.page=="choose" and 1 in craft_choices(g),"ordinary objective overlap offers craft or object choice "+tag)
   g.queue_free();await frames()
  print("WORK TASK CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)

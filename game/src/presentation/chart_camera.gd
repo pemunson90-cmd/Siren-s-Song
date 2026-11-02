@@ -17,7 +17,9 @@ func configure(dimensions:Vector2,bounds:Vector2=WORLD,origin:Vector2=Vector2.ZE
 func fit_scale() -> float:return minf(view_size.x/world_size.x,view_size.y/world_size.y)
 func _update() -> void:
  if mode=="overview":desired_center=world_size/2;zoom=1.
- if mode=="follow":zoom=maxf(view_size.y/600.,view_size.x/1000.)/fit_scale()
+ # Retain tactical follow magnification, capped so a tall viewport's narrow
+ # chart still shows at least 600m across, including the local body and cone.
+ if mode=="follow":zoom=minf(maxf(view_size.y/600.,view_size.x/1000.),view_size.x/600.)/fit_scale()
  scale=fit_scale()*zoom
  var half=view_size/(2*scale)
  _center=Vector2(world_size.x/2 if half.x>=world_size.x/2 else clampf(desired_center.x,half.x,world_size.x-half.x),world_size.y/2 if half.y>=world_size.y/2 else clampf(desired_center.y,half.y,world_size.y-half.y))

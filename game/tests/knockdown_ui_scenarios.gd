@@ -13,6 +13,33 @@ func click(point: Vector2) -> void:
  for down in [true,false]:
   var e=InputEventMouseButton.new();e.position=point;e.global_position=point;e.button_index=MOUSE_BUTTON_LEFT;e.pressed=down;root.push_input(e,true);await process_frame
  await wait_frames()
+# Use public touch scrolling and the named contact's visible FIRE target.
+func reveal(game,button):
+ var hud=game.mission_hud
+ if not hud.order_dock.visible or button.get_parent()!=hud.order_dock_commands:return
+ var scroll=hud.order_dock_scroll
+ for attempt in 8:
+  var area=scroll.get_global_rect()
+  if area.encloses(button.get_global_rect()):return
+  var target=button.get_global_rect()
+  var delta=area.position.y-target.position.y if target.position.y<area.position.y else area.end.y-target.end.y
+  delta=signf(delta)*clampf(absf(delta),24.,area.size.y*.45)
+  var start=area.get_center();var finish=start+Vector2(0,delta)
+  var touch=InputEventScreenTouch.new();touch.index=0;touch.position=start;touch.pressed=true;root.push_input(touch,true);await process_frame
+  var previous=start
+  for n in 6:
+   var point=start.lerp(finish,float(n+1)/6.)
+   var drag=InputEventScreenDrag.new();drag.index=0;drag.position=point;drag.relative=point-previous;root.push_input(drag,true);previous=point;await process_frame
+  touch=InputEventScreenTouch.new();touch.index=0;touch.position=finish;touch.pressed=false;root.push_input(touch,true);await wait_frames()
+ check(scroll.get_global_rect().encloses(button.get_global_rect()),"touch scrolling reveals "+str(button.get_meta("action","command")))
+func action(ui,button):
+ await reveal(ui,button)
+ await click(button.get_global_rect().get_center())
+func contact(ui,key:int):
+ var aims=ui.ocean.knock_aim_targets()
+ var index=aims.find_custom(func(a):return a.key==key)
+ check(index>=0,"fresh contact retains its explicit public FIRE target")
+ if index>=0:await click(ui.ocean.global_position+aims[index].rect.get_center())
 func setup(ui) -> void:
  # Equip the launcher stock these actual aim/fire/cancel inputs exercise.
  ui.tool_racks=preload("res://src/equipment/tool_racks.gd").empty();ui.tool_racks.quietus.knock=2
@@ -47,17 +74,17 @@ func run() -> void:
   await click(ui.ocean.screen_position(Vector2(300,800))+ui.ocean.global_position)
   check(ui.knock_armed and ui.sim.tools.knock==2 and ui.sim.units[0].route==route,"invalid target tap neither spends a torpedo nor plots a route")
   var actual=ui.sim.sirens[0].pos;ui.sim.sirens[0].pos=Vector2(1500,900)
-  await click(ui.ocean.screen_position(ui.sim.contacts[0].pos)+ui.ocean.global_position)
+  await contact(ui,0)
   check(ui.knock_armed and ui.sim.tools.knock==2 and ui.sim.projectiles.is_empty(),"stale live-position rejection keeps explicit targeting and never spends or plots")
   ui.sim.sirens[0].pos=actual;ui.sim._observe()
   ui.mission_hud.open("fleet");await wait_frames();await click(ui.unit_buttons[1].get_global_rect().get_center())
   check(not ui.knock_armed and ui.sim.selected==1 and ui.order_buttons.knock.disabled,"unit switch clears targeting and cannot silently launch from drone")
-  ui.mission_hud.open("fleet");await wait_frames();await click(ui.unit_buttons[0].get_global_rect().get_center());ui.mission_hud.open("tools");await wait_frames();await click(ui.order_buttons.knock.get_global_rect().get_center())
-  await click(ui.ocean.screen_position(ui.sim.contacts[0].pos)+ui.ocean.global_position)
+  ui.mission_hud.open("fleet");await wait_frames();await click(ui.unit_buttons[0].get_global_rect().get_center());ui.mission_hud.open("tools");await wait_frames();await action(ui,ui.order_buttons.knock)
+  await contact(ui,0)
   check(not ui.knock_armed and ui.sim.tools.knock==1 and ui.sim.projectiles.size()==1 and ui.sim.units[0].route==route,"fresh contact tap launches physical torpedo and never creates a route")
   if not capture_dir.is_empty():
    await RenderingServer.frame_post_draw;root.get_texture().get_image().save_png(capture_dir+"/"+profile.name+"-launched.png")
-  ui.mission_hud.open("tools");await wait_frames();await click(ui.order_buttons.knock.get_global_rect().get_center());await click(ui.mission_hud.close_button.get_global_rect().get_center())
+  ui.mission_hud.open("tools");await wait_frames();await action(ui,ui.order_buttons.knock);await click(ui.mission_hud.close_button.get_global_rect().get_center())
   check(not ui.knock_armed and ui.sim.tools.knock==1,"explicit cancel does not spend")
   ui.mission_hud.open("craft");await wait_frames();check(ui.order_buttons.camera.is_visible_in_tree(),"craft CAMERA remains available")
   ui.queue_free();await process_frame;await create_timer(0.5).timeout

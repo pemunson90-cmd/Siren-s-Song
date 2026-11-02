@@ -31,6 +31,7 @@ func setup(owner) -> void:
 	panel.add_theme_stylebox_override("panel", chip)
 	undo_button.add_theme_stylebox_override("normal", chip)
 	panel.hide(); undo_button.hide()
+	panel.minimum_size_changed.connect(func():call_deferred("_fit_panel"))
 func _button(parent: Node, text: String, action: Callable, id: String) -> Button:
 	var b := Button.new(); b.text = text; b.focus_mode = Control.FOCUS_NONE; b.autowrap_mode = TextServer.AUTOWRAP_WORD
 	b.pressed.connect(action, CONNECT_DEFERRED); b.set_meta("action", id); b.set_meta("ui_action", id); parent.add_child(b); return b
@@ -86,7 +87,7 @@ func refresh(bounds: Vector2, h: float, font: int, floor_y: float) -> void:
 	if not pending.is_empty() and (pending.unit != sim.selected or not sim.units[pending.unit].alive or host.advanced_orders): pending = {}
 	panel.visible = not pending.is_empty() and not host.advanced_orders
 	undo_button.visible = pending.is_empty() and not undo.is_empty() and not host.advanced_orders
-	var width := minf(bounds.x - 24, 720.0)
+	var width := bounds.x - 24 if host.mission_hud.text_scale >= 1.5 else minf(bounds.x - 24, 720.0)
 	if panel.visible:
 		var stops := stops_count()
 		prompt.text = "%s already has orders%s. New route to the marker?" % [sim.units[sim.selected].name, " (%d stop%s)" % [stops, "" if stops == 1 else "s"] if stops > 0 else ""]
@@ -99,13 +100,20 @@ func refresh(bounds: Vector2, h: float, font: int, floor_y: float) -> void:
 				for word in b.text.split(" ", false): widest = maxf(widest, b.get_theme_font("font").get_string_size(word, HORIZONTAL_ALIGNMENT_LEFT, -1, font).x)
 				b.custom_minimum_size = Vector2(maxf(h * 1.55, widest + b.get_theme_stylebox("normal").get_minimum_size().x + 2), h)
 		panel.custom_minimum_size = Vector2(width, 0); panel.reset_size()
-		panel.position = Vector2((bounds.x - panel.size.x) / 2, maxf(h * 2, floor_y - panel.size.y - 10))
+		panel.position = Vector2((bounds.x - panel.size.x) / 2, maxf(host.mission_hud.threat_floor(), maxf(h * 2, floor_y - panel.size.y - 10)))
 	if undo_button.visible:
 		undo_button.text = "UNDO  ·  %s order" % undo.name
 		undo_button.add_theme_font_size_override("font_size", font)
 		undo_button.custom_minimum_size = Vector2(h * 3.2, h); undo_button.reset_size()
-		undo_button.position = Vector2((bounds.x - undo_button.size.x) / 2, maxf(h * 2, floor_y - undo_button.size.y - 10))
+		undo_button.position = Vector2((bounds.x - undo_button.size.x) / 2, maxf(host.mission_hud.threat_floor(), maxf(h * 2, floor_y - undo_button.size.y - 10)))
 	queue_redraw()
+# Wrapped containers settle their minimum height after the width is assigned.
+func _fit_panel() -> void:
+	if not panel.visible or host == null: return
+	panel.reset_size()
+	var hud = host.mission_hud
+	var floor_y: float = hud.intent.position.y if hud.intent.visible else host.size.y
+	panel.position = Vector2((host.ocean.chart_width() - panel.size.x) / 2, maxf(hud.threat_floor(), maxf(host.ui_touch_height * 2, floor_y - panel.size.y - 10)))
 func _draw() -> void:
 	if pending.is_empty() or host == null or not panel.visible: return
 	var unit = host.sim.units[pending.unit]

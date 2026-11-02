@@ -56,11 +56,18 @@ func stock_reference(game):
   game._refresh();await settle()
   check(sim.snapshot()==before and row(fleet,0).reserves[1]==warning and fleet.telemetry[0].visible,"binary restore retains the same reserve scale and numeric critical state")
   for suffix in ["",".bak",".tmp"]:DirAccess.remove_absolute(store.path+suffix)
-# Occupied objectives now require an explicit recipient choice before selection.
+# Resolve the public owner chooser before exercising the original command.
+func craft_choices(hud)->Array:
+ if not hud.target_choices.is_empty():return hud.target_choices.filter(func(c):return c.kind=="craft").map(func(c):return c.unit)
+ return hud.choose_units
 func choose_craft_if_needed(game,id:int,selected_before:int):
  if game.mission_hud.page!="choose":return
- check(game.sim.selected==selected_before and id in game.mission_hud.choose_units,"object conflict preserves recipient until explicit craft choice")
- await tap(game.mission_hud.extra["choose_unit_"+str(id)].get_global_rect().get_center())
+ var hud=game.mission_hud
+ check(game.sim.selected==selected_before and id in craft_choices(hud),"object conflict preserves recipient until explicit craft choice")
+ if not hud.target_choices.is_empty():
+  var index=hud.target_choices.find_custom(func(c):return c.kind=="craft" and c.unit==id)
+  if index>=0:await tap(hud.target_buttons[index].get_global_rect().get_center())
+ else:await tap(hud.extra["choose_unit_"+str(id)].get_global_rect().get_center())
 func controls_friction(game,name:String):
  var s=game.sim;var hud=game.mission_hud;var ocean=game.ocean;var fleet=hud.fleet
  hud.dismiss();s.command("select",{"unit":0})
@@ -103,6 +110,10 @@ func controls_friction(game,name:String):
  await capture(name+"-fit-isolated")
  hud.dismiss();await settle()
  for id in 3:
+  # Each handle is compared with the deliberate FIT view. An earlier edge
+  # handle may enter FOLLOW, whose center legitimately follows selection.
+  await tap(game.advanced_button.get_global_rect().get_center());await tap(hud.extra.view_menu.get_global_rect().get_center())
+  await tap(game.zoom_buttons[2].get_global_rect().get_center());hud.dismiss();await settle()
   var target=fleet.buttons[id]
   if not target.is_visible_in_tree():continue
   var offscreen=row(fleet,id).get("offscreen",false)
@@ -148,6 +159,10 @@ func run():
   check(not game.advanced_orders and not goals.is_empty() and goals[0].pos.distance_to(water)<1,"water beneath former detached handle plots the intended course")
   hud.dismiss();s.restore(saved);ocean.fit_chart();game._refresh();await settle()
   await tap(ocean.global_position+ocean.screen_position(s.mission.objectives[0].pos))
+  if hud.page=="choose":
+   var index=hud.target_choices.find_custom(func(c):return c.kind=="plant" and c.get("station","")=="inlet")
+   check(index>=0,"station overlap retains the actual local plant owner")
+   if index>=0:await tap(hud.target_buttons[index].get_global_rect().get_center())
   check(game.advanced_orders and hud.page=="plant","station marker beside a body opens actual local plant controls")
   await tap(hud.extra.chain_connect.get_global_rect().get_center())
   check(s.warning_chain_context().power.unit==0 and row(fleet,0).get("cues",[]).has("PWR") and row(fleet,0).progress.unit<0,"actual shore connection gets a persistent power cue without fake work progress")
@@ -180,7 +195,7 @@ func run():
   s.units[1].pos=s.units[0].pos;s.units[2].pos=s.units[0].pos;ocean.fit_chart();game._refresh();await settle()
   check(row(fleet,s.selected).get("cluster",[]).size()==3 and row(fleet,s.selected).get("identity","")=="A +2","coincident craft show the selected identity and the other-body count")
   await tap(ocean.global_position+ocean.screen_position(s.units[0].pos))
-  check(game.advanced_orders and (hud.page=="fleet" or (hud.page=="choose" and hud.choose_units.size()==3)),"true craft overlap requests explicit craft choice")
+  check(game.advanced_orders and (hud.page=="fleet" or (hud.page=="choose" and craft_choices(hud).size()==3)),"true craft overlap requests explicit craft choice")
   check(tactical(s).units[0].pos==s.units[0].pos,"overlap does not issue a route")
   if hud.page=="choose":await choose_craft_if_needed(game,2,s.selected)
   else:await tap(game.unit_buttons[2].get_global_rect().get_center())

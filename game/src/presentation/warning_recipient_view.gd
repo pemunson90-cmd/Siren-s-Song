@@ -101,11 +101,11 @@ static func draw_world(view,sim)->void:
   var point:Vector2=info.gate.pos
   view.draw_circle(point,18,Color("132e36"));view.draw_arc(point,18,0,TAU,24,TEAL if info.gate.opened else AMBER,2/scale)
   view.draw_line(point+Vector2(-10,-8),point+Vector2(10,8),TEAL if info.gate.opened else AMBER,2/scale)
-  view._label(point+Vector2(-215,-35),"SERVICE OPEN" if info.gate.opened else "SERVICE GATE",TEAL if info.gate.opened else AMBER,font)
+  view._label(point+Vector2(-215,-35),"SERVICE OPEN" if info.gate.opened else "SERVICE GATE",TEAL if info.gate.opened else AMBER,font,subject(info.gate,"gate"))
  var vessel=info.recipient
  if vessel.known:
   _hull(view,vessel.pos,vessel.angle,scale,not vessel.live,vessel.alive)
-  view._label(vessel.pos+Vector2(-60,70),("RECIPIENT · %d%%"%roundi(vessel.hull)) if vessel.live else "LAST RECIPIENT FIX · %ds"%floori(vessel.age),TEAL if vessel.alive else Color("df896c"),font)
+  view._label(vessel.pos+Vector2(-60,70),("RECIPIENT · %d%%"%roundi(vessel.hull)) if vessel.live else "LAST RECIPIENT FIX · %ds"%floori(vessel.age),TEAL if vessel.alive else Color("df896c"),font,subject(vessel,"recipient"))
  view.draw_set_transform(Vector2.ZERO,0,Vector2.ONE)
  for marker in markers(view,sim,view.instrument_height):
   var box:Rect2=marker.rect;var fs=view.feedback_font_size

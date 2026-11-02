@@ -113,9 +113,11 @@ func _place(bounds:Vector2,h:float,floor_y:float)->void:
  var top=minf(h+8,bounds.y-panel.size.y-4)
  var bottom=maxf(top,minf(floor_y,bounds.y)-panel.size.y-10)
  var craft:Vector2=host.ocean.screen_position(host.sim.units[host.sim.selected].pos)
- var best=Vector2(12,top);var best_score=INF
+ var best=Vector2(12,host.mission_hud.threat_floor());var best_score=INF
+ var reserved=host.mission_hud.threat_rects()+[host.pause_button.get_rect()]
  for point in [Vector2(12,top),Vector2(bounds.x-panel.size.x-12,top),Vector2(12,bottom),Vector2(bounds.x-panel.size.x-12,bottom)]:
   var rect=Rect2(point,panel.size);var score=0.0
+  if reserved.any(func(r):return r.intersects(rect)):continue
   if rect.has_point(craft):score+=10000.
   score+=maxf(0.,h-craft.distance_to(craft.clamp(rect.position,rect.end)))
   for face in fresh:
