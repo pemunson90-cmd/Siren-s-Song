@@ -140,7 +140,7 @@ static func draw_world(view,sim)->void:
    view.draw_line(base,base+Vector2(direction*24,(-20+40*float(row.closing))),color,4.)
   view.draw_line(p,Vector2(box.end.x if direction<0 else box.position.x,p.y),Color("728f80"),3.)
   view.draw_arc(p,32,-PI*.5,PI*.5,24,Color("e0bf83"),width)
-  view._label(p+Vector2(-170,-165),("SECTION SEALED" if row.closing>=1 else "OCCUPIED SECTION")+(" · LAST OBSERVATION" if not row.live else ""),color,font)
+  view._label(p+Vector2(-170,-165),("SECTION SEALED" if row.closing>=1 else "OCCUPIED SECTION")+(" · LAST OBSERVATION" if not row.live else ""),color,font,{"kind":"habitat","site":row.id,"name":row.name,"pos":row.pos})
  view.draw_set_transform(Vector2.ZERO,0,Vector2.ONE)
  for marker in markers(view,sim,view.instrument_height):
   var box:Rect2=marker.rect;var color=Color("d9c28e");var label=marker.subject.name

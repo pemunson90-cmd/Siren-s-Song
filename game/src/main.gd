@@ -219,7 +219,12 @@ func _measured_mission_rows() -> Vector3:
 	return heights
 func _reflow_mission() -> void:
 	mission_reflow_pending=false
-	if screen=="mission" and not _measured_mission_rows().is_equal_approx(mission_row_heights): _layout(false)
+	if screen=="mission" and not _measured_mission_rows().is_equal_approx(mission_row_heights):
+		if mission_hud!=null and mission_hud.order_dock.visible:
+			# The dock's VBox owns row minima. Re-running radial sizing here would
+			# alternate narrow and wide wrapping and starve deferred input frames.
+			mission_row_heights=_measured_mission_rows();mission_hud.StatusView.schedule_fit(mission_hud)
+		else:_layout(false)
 func _layout(cancel_gesture:bool=true) -> void:
 	if not is_inside_tree():return
 	if ocean==null:return
@@ -428,6 +433,7 @@ func _input(event:InputEvent) -> void:
 	if debug_console!=null and debug_console.panel.visible:return
 	if screen!="mission":return
 	if ocean.optical_feed.route_input(event):get_viewport().set_input_as_handled();return
+	if mission_hud.contact_touch.feed(mission_hud.contact_scroll,event):get_viewport().set_input_as_handled();return
 	if mission_hud.owns_pointer(event):get_viewport().set_input_as_handled();return
 	if mission_hud.fleet.handle_input(event):get_viewport().set_input_as_handled();return
 	if advanced_orders:
@@ -475,16 +481,11 @@ func _map_event(event: InputEvent,local_event: bool=false) -> bool:
 			if decoy_armed and knock_press.get("decoy",false) and knock_press.get("unit",-1)==sim.selected:
 				_order("decoy",{"point":ocean.map_position(action.tap-ocean.global_position)})
 			knock_press.clear(); return true
-		var context=ocean.pick_context(action.tap-ocean.global_position,ui_touch_height)
-		# 119: an object under a different craft offers a visible recipient choice.
-		if not context.is_empty() and context.kind not in ["craft","fleet"]:
-			var under=ocean.craft_at(action.tap-ocean.global_position,ui_touch_height)
-			if under.any(func(id):return id!=sim.selected):
-				mission_hud.choose_units=under;mission_hud.choose_next="inspect" if context.get("subkind","")=="concealed" else "habitat" if context.kind=="habitat" else "object" if context.kind=="objective" else "salvage" if context.kind=="salvage" else "craft"
-				mission_hud.open("choose",context);return true
-		if not context.is_empty():
-			if context.kind=="craft" and context.unit!=sim.selected:_order("select",{"unit":context.unit})
-			mission_hud.open("inspect" if context.get("subkind","")=="concealed" else "habitat" if context.kind=="habitat" else "object" if context.kind=="objective" else "salvage" if context.kind=="salvage" else "fleet" if context.kind=="fleet" else "craft",context);return true
+		var targets=ocean.contexts_at(action.tap-ocean.global_position,ui_touch_height)
+		if not targets.is_empty():
+			mission_hud.open_targets(targets);return true
+		# Drawn information owns its tap even when it has no command target.
+		if ocean.information_at(action.tap-ocean.global_position):return true
 		var world=ocean.map_position(action.tap-ocean.global_position)
 		if Rect2(Vector2.ZERO,ocean.world_size()).has_point(world): mission_hud.guard.tap_water(world)
 	if action.has("ended") or action.has("tap"):knock_press.clear()

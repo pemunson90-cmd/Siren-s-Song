@@ -60,15 +60,14 @@ func handle_input(event)->bool:
  if action.get("navigation",false):host._view_changed()
  if action.has("pan") or action.has("zoom"):host._refresh()
  if action.has("tap") and pressed_unit>=0 and buttons[pressed_unit].get_global_rect().has_point(point):
-  var local=point-host.ocean.global_position;var site=host.ocean.objective_context(local,host.ui_touch_height)
-  var site_closer=not readouts.any(func(r):return r.unit==pressed_unit and r.offscreen) and site.get("kind","") in ["objective","salvage"] and pressed_units.all(func(id):return local.distance_to(host.ocean.screen_position(site.pos))<local.distance_to(host.ocean.screen_position(host.sim.units[id].pos)))
-  var occupied_site=not readouts.any(func(r):return r.unit==pressed_unit and r.offscreen) and site.get("kind","") in ["objective","salvage"] and pressed_units.any(func(id):return id!=host.sim.selected)
-  if occupied_site:
-   host.mission_hud.choose_units=pressed_units.duplicate();host.mission_hud.choose_next="salvage" if site.kind=="salvage" else "object"
-   host.mission_hud.open("choose",site)
-  elif site_closer:host.mission_hud.open("salvage" if site.kind=="salvage" else "object",site)
-  elif pressed_units.size()>1:host.mission_hud.open("fleet",{"kind":"fleet","pos":host.ocean.map_position(point-host.ocean.global_position)})
-  else:_activate(pressed_unit)
+  var offscreen=readouts.any(func(r):return r.unit==pressed_unit and r.offscreen)
+  if offscreen:_activate(pressed_unit)
+  else:
+   var targets=host.ocean.contexts_at(point-host.ocean.global_position,host.ui_touch_height)
+   # A projected badge still owns its craft; include real overlapping jobs.
+   for id in pressed_units:
+    if not targets.any(func(c):return c.kind=="craft" and c.unit==id):targets.append({"kind":"craft","unit":id,"pos":host.sim.units[id].pos})
+   host.mission_hud.open_targets(targets)
  if not gesture.active():pressed_unit=-1
  return true
 func _activate(id:int):
@@ -130,7 +129,9 @@ func _layout_commands():
   var turned=Vector2(absf(cos(heading))*body.x+absf(sin(heading))*body.y,absf(sin(heading))*body.x+absf(cos(heading))*body.y).max(body)
   protected[i]=Rect2(at-turned,turned*2)
  protected.append(host.pause_button.get_rect())
- var safe=Rect2(Vector2(12,h+24),Vector2(maxf(1,host.size.x-24),maxf(1,host.size.y-h-36)))
+ protected.append_array(hud.threat_rects())
+ var top=maxf(h+24,hud.threat_floor())
+ var safe=Rect2(Vector2(12,top),Vector2(maxf(1,host.size.x-24),maxf(1,host.size.y-top-12)))
  var center=Ring.command_center(hud.anchor,safe,half,protected)
  var delta=center-hud.center;hud.center=center
  for button in hud.ring_buttons+[hud.close_button]:button.position+=delta
@@ -146,7 +147,7 @@ func refresh(blocked:Array):
  var site_targets=ocean.objective_touch_rects(h)
  var occupied=blocked.duplicate();occupied.append_array(site_targets)
  var positions=sim.units.map(func(u):return ocean.screen_position(u.pos))
- var viewport=Rect2(ocean.chart_origin(),Vector2(ocean.chart_width(),size.y))
+ var viewport=ocean.stable_chart_rect()
  # Bodies clipped by the viewport or covered by actual controls get an edge
  # handle. Fully exposed craft keep their target exactly on the physical body.
  var on_screen=positions.map(func(at):
@@ -163,6 +164,11 @@ func refresh(blocked:Array):
   # Keep actual body/site coincidence under the nearest-owner input rule.
   # Only the oversized badge brushing a nearby site needs another position.
   var projected=not offscreen and site_targets.any(func(r):return r.intersects(box) and not r.has_point(at))
+  # A narrow chart can put distinct physical hulls closer than a full touch
+  # target. Project their badges too, retaining the real hull hit geometry.
+  if not offscreen:
+   for peer in 3:
+    if peer!=id and sim.units[peer].alive and on_screen[peer] and box.intersects(Rect2(positions[peer]-Vector2.ONE*h/2,Vector2.ONE*h)):projected=true
   if projected:
    var center=Ring.command_center(at,safe,Vector2.ONE*h/2,occupied)
    box=Rect2(center-Vector2.ONE*h/2,Vector2.ONE*h)
@@ -213,8 +219,18 @@ func refresh(blocked:Array):
    for offset in [Vector2(-extent.x-10,0),Vector2(0,h+10),Vector2(0,-extent.y-10),Vector2(-extent.x-10,h+10)]:
     candidates.append(Rect2((box.position+offset).clamp(safe.position,safe.end-extent),extent))
    var found=false
+   var water=Rect2(ocean.world_offset,ocean.world_size()*ocean.world_scale)
    for candidate in candidates:
-    if not occupied.any(func(r):return r.intersects(candidate.grow(3))):detail_box=candidate;found=true;break
+    if water.has_point(candidate.get_center()) and not occupied.any(func(r):return r.intersects(candidate.grow(3))):detail_box=candidate;found=true;break
+   if not found and show_detail:
+    # Projected handles can exhaust the nearby label seats. Search the same
+    # safe chart edges before hiding exact selected reserves during planning.
+    # Read-only telemetry forwards taps to water. Its anchor must not land in
+    # FIT's letterbox, whose inverse projection is outside the operation.
+    var label_safe=safe.intersection(Rect2(water.position-extent/2,water.size+extent))
+    var center=Ring.command_center(desired+extent/2,label_safe,extent/2,occupied)
+    var candidate=Rect2(center-extent/2,extent)
+    if safe.encloses(candidate) and water.has_point(candidate.get_center()) and not occupied.any(func(r):return r.intersects(candidate.grow(3))):detail_box=candidate;found=true
    reading.visible=found or critical;reading.position=detail_box.position;reading.size=extent
    if reading.visible:occupied.append(detail_box.grow(5))
   var bounds=box.merge(cue_rect) if cue_rect.has_area() else box
