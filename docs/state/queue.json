@@ -86,21 +86,21 @@
    "prov": [
     "claude:opus"
    ],
-   "status": "merging",
-   "phase": "C",
+   "status": "active",
+   "phase": "A",
    "branch": "root/stable-board-pkg2",
    "pr": 239,
    "head": "66841c216c555c299d1e97d83fca7a3452b911b6",
    "file": "docs/state/items/pkg2-stable-board.md",
    "attempts": {
-    "A": 1,
+    "A": 2,
     "B": 1,
-    "C": 0
+    "C": 1
    },
    "blocker": null,
    "provider": "claude:opus",
    "started": "2026-11-01T21:22:10Z",
-   "updated": "2026-11-02T00:29:03Z"
+   "updated": "2026-11-02T01:24:11Z"
   },
   {
    "id": 136,
