@@ -721,8 +721,8 @@
     "claude:sonnet",
     "codex"
    ],
-   "status": "active",
-   "phase": "review",
+   "status": "merging",
+   "phase": "C",
    "branch": "item/148-android-smokes",
    "pr": 259,
    "head": "8b7815bbe7fac35df8f32f3f9e473a60e5898e21",
@@ -734,7 +734,7 @@
    },
    "blocker": null,
    "worktree": "C:\\Users\\Archi\\Documents\\Claude Cowork Homebase C\\repos\\Siren-s-Song-item-148",
-   "updated": "2026-11-02T00:35:36Z",
+   "updated": "2026-11-02T00:39:45Z",
    "provider": "claude:sonnet",
    "started": "2026-11-02T00:24:53Z"
   }

@@ -1,4 +1,4 @@
-# STATE (updated 2026-11-01T19:35:37-05:00, by runner2.py)
+# STATE (updated 2026-11-01T19:45:51-05:00, by runner2.py)
 
 ## Base
 integration: 06068466   main: a2300840   production: 26e09906
@@ -9,7 +9,7 @@ nightly: not yet running (item 128)   controls mix: not yet measured (item 130)
 | item | title | class | provider | phase | branch | PR | head | status |
 | PKG2 | Stable board and clear threat (PR 239, C | ui | claude:opus | C | root/stable-board-pkg2 | 239 | 66841c21 | merging |
 | 134 | Route flow (package 4) | sim | external | - | item/134-route-flow | - | - | parked |
-| 148 | Android smoke tests match today's game | ui | claude:sonnet | review | item/148-android-smokes | 259 | 8b7815bb | active |
+| 148 | Android smoke tests match today's game | ui | claude:sonnet | C | item/148-android-smokes | 259 | 8b7815bb | merging |
 
 ## Queued (order = priority; see queue.json)
 none
