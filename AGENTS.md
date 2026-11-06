@@ -4,6 +4,8 @@
 
 **Before coding**, identify the actual most recent owner-accepted/installed usable baseline and the current authoritative development/integration branch; verify commit ancestry and inspect existing successful implementations, including playable prototypes, simulators and branches that the new work replaces. Neither `main` nor the newest-looking version number alone establishes the full feature set. For replacements or substantial refactors, account for each relevant existing capability and preserve behavior or explicitly approved improvements; check meaningful parity/regressions against the old working path. Recheck on the final integration head. If preservation and the requested change conflict, retain the old working functionality and seek Pat's explicit ruling on that **specific** loss; continue independent non-destructive work. Do not substitute extra paperwork or indiscriminate test campaigns for actual continuity checks. Apply updated guidance at the next safe work boundary without disrupting active writers.
 
+**Old Siren's Song material and archive:** the June 2026 build reports and their comparison against this repo are listed in [ARCHAEOLOGY_LOOKUP.md](ARCHAEOLOGY_LOOKUP.md) (branch `archive/archaeology-siren-20261106`). Do not read the archive for routine work. Archived material is not active until Pat promotes it.
+
 Milestone = a complete playable game. Each cycle: a fresh critic plays it with no build notes, the audit ranks its biggest weakness, the next version fixes it, repeat. The user's playtest gates nothing. The loop ends only when the user ends it or usage runs out, in which case write PAUSED, RESUME REQUIRED with the exact next command.
 
 # Siren's Song — Gauntlet operating instructions
