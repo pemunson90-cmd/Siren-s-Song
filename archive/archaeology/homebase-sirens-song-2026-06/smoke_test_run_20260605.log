@@ -1,0 +1,49 @@
+[2026-06-05T14:41:41.736Z] smoke_test.js starting
+[2026-06-05T14:41:41.737Z] html: /sessions/zen-dazzling-wozniak/mnt/sirens-song/code/sirens_song.html
+[2026-06-05T14:41:41.737Z] html bytes: 135266
+[2026-06-05T14:41:41.737Z] tool: jsdom + 2d-context stub (browser binaries blocked by allowlist)
+[2026-06-05T14:41:41.738Z] === Desktop boot (1280x800) ===
+[2026-06-05T14:41:45.744Z] ---
+[2026-06-05T14:41:45.744Z] === Mobile boot (375x812, touch) ===
+[2026-06-05T14:41:49.518Z] 
+[2026-06-05T14:41:49.518Z] ================================================================
+[2026-06-05T14:41:49.519Z] SMOKE TEST RESULTS — code/sirens_song.html
+[2026-06-05T14:41:49.519Z] ================================================================
+[2026-06-05T14:41:49.519Z] Tool: jsdom (puppeteer + playwright both blocked: storage.googleapis.com / cdn.playwright.dev not in allowlist)
+[2026-06-05T14:41:49.519Z] 
+[2026-06-05T14:41:49.519Z] Test 1 (desktop boot): PASS
+[2026-06-05T14:41:49.519Z] Test 2 (3s runtime):   PASS
+[2026-06-05T14:41:49.519Z] Test 3 (mobile boot):  PASS
+[2026-06-05T14:41:49.519Z] Test 4 (input, desktop+mobile): desktop=PASS mobile=PASS
+[2026-06-05T14:41:49.519Z] 
+[2026-06-05T14:41:49.519Z] Console errors during desktop run: none
+[2026-06-05T14:41:49.519Z] Console errors during mobile run: none
+[2026-06-05T14:41:49.519Z] Uncaught exceptions desktop: none
+[2026-06-05T14:41:49.519Z] Uncaught exceptions mobile: none
+[2026-06-05T14:41:49.519Z] 
+[2026-06-05T14:41:49.519Z] Desktop notes:
+[2026-06-05T14:41:49.519Z]   - canvas 960x640
+[2026-06-05T14:41:49.519Z]   - __sim populated (73 keys, state=present)
+[2026-06-05T14:41:49.519Z]   - rAF fired 9 times in 150ms
+[2026-06-05T14:41:49.519Z]   - drove __sim.update 180 frames (3s game time)
+[2026-06-05T14:41:49.519Z]   - rAF total after 3s: 222
+[2026-06-05T14:41:49.519Z]   - dispatched keydown/keyup KeyW
+[2026-06-05T14:41:49.519Z]   - end state: timeSec=6.82s sub@(480,320) hull=3
+[2026-06-05T14:41:49.519Z] Mobile notes:
+[2026-06-05T14:41:49.519Z]   - canvas 960x640
+[2026-06-05T14:41:49.519Z]   - __sim populated (73 keys, state=present)
+[2026-06-05T14:41:49.519Z]   - rAF fired 9 times in 150ms
+[2026-06-05T14:41:49.519Z]   - drove __sim.update 180 frames (3s game time)
+[2026-06-05T14:41:49.519Z]   - rAF total after 3s: 221
+[2026-06-05T14:41:49.519Z]   - dispatched touchstart/move/end on #joystick
+[2026-06-05T14:41:49.519Z]   - touchOverlay element present
+[2026-06-05T14:41:49.519Z]   - canvas getBoundingClientRect width=0 (viewport 375)
+[2026-06-05T14:41:49.519Z]   - end state: timeSec=6.73s sub@(480,320) hull=3
+[2026-06-05T14:41:49.519Z] 
+[2026-06-05T14:41:49.519Z] Coverage caveat: jsdom does NOT rasterize the canvas. Pixel output,
+[2026-06-05T14:41:49.519Z] font-metric-driven layout, and GPU compositing are NOT verified.
+[2026-06-05T14:41:49.519Z] What IS verified: HTML parse, script execution, DOM presence,
+[2026-06-05T14:41:49.520Z] __sim population, rAF cadence, update() loop stability, and
+[2026-06-05T14:41:49.520Z] synthetic input dispatch — all without exceptions or console errors.
+[2026-06-05T14:41:49.520Z] 
+[2026-06-05T14:41:49.520Z] VERDICT: SAFE TO PLAYTEST (no crash class detected)

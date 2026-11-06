@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Siren's Song -- Step 2 build (function before form)</title>
+<style>
+  /* INVARIANT 6 (function before form): placeholder styling only.
+     No palette / typography / chrome decisions. Form pass is later. */
+  html, body { margin: 0; padding: 0; background: #000; color: #ccc; font-family: monospace; }
+  #wrap { display: flex; flex-direction: column; align-items: center; padding: 8px; }
+  #hud { width: 960px; padding: 4px 8px; white-space: pre; }
+  canvas { display: block; background: #050608; border: 1px solid #222; }
+  #help { width: 960px; padding: 4px 8px; opacity: 0.6; font-size: 12px; }
+</style>
+</head>
+<body>
+<div id="wrap">
+  <div id="hud">HUD initializing&hellip;</div>
+  <canvas id="game" width="960" height="640"></canvas>
+  <div id="help">WASD or arrows = move sub (slow). SPACE = active ping (+25 suspicion). R = restart after lose.</div>
+</div>
+
+<script>
+"use strict";
+
+/* =========================================================================
+ *  SIREN'S SONG -- Step 2 build (suspicion + Patroller + thresholds + valve)
+ *  Scope: section 11 build leash step 2.
+ *  Authority: SIRENS_SONG_SPEC.md > agent.md > briefs/02_suspicion_patroller.md
+ *
+ *  Invariants (CGI agent.md section 2):
+ *   - INV1 No enemy HP / no player kill-path: HELD. Patroller has no HP /
+ *     no killable state. No player weapon. Sub cannot damage the Siren.
+ *   - INV2 Suspicion is the spine: NOW WIRED. Patroller behavior keys off
+ *     the suspicion threshold state, not a hardcoded aggression timer.
+ *     No RNG in Siren decisions.
+ *   - INV3 Perceiving costs: HELD. Passive sonar free; active ping costs
+ *     +25 suspicion (the step-1 hook is now real).
+ *   - INV4 Tools buy time / cost heat: n/a yet (step 5).
+ *   - INV5 Fairness valve: IMPLEMENTED. Suspicion decays -5/sec when
+ *     passive. Instakill ONLY on sustained 100 for >=4s. Dropping below
+ *     100 resets the timer. Warning text shows at Hostile+ (75+).
+ *   - INV6 Function before form: HELD. Patroller is a labeled placeholder
+ *     blob; HUD is plain text; no sprite/palette/sound decisions.
+ * ========================================================================= */
+
+const canvas = document.getElementById("game");
+const ctx = canvas.getContext("2d");
+const hud = document.getElementById("hud");
+
+const WORLD_W = canvas.width;
+const WORLD_H = canvas.height;
+
+/* ----- Tuning -------------------------------------------------------- */
+const TUNING = {
+  // step 1 (substrate, unchanged)
+  HULL_MAX: 3,
+  OXYGEN_MAX_SECONDS: 240,
+  SUB_SPEED_PX_PER_SEC: 80,
+  SUB_TURN_RATE_RAD_PER_SEC: 1.8,
+  PING_DURATION_SEC: 3.0,
+  PING_RADIUS_PX: 360,
+  PASSIVE_RADIUS_PX: 90,
+  HULL_HIT_COOLDOWN_SEC: 0.6,
+  SUB_RADIUS_PX: 8,
+
+  // step 2 -- suspicion (spec section 6)
+  SUSP_MIN: 0,
+  SUSP_MAX: 100,
+  SUSP_PING_COST: 25,            // spec section 3 / 6 / 11
+  SUSP_DECAY_PER_SEC: 5,         // spec section 6 / 11 -- "when passive"
+
+  // Threshold boundaries:
+  //   0-33 Curious / 34-74 Alert / 75-99 Hostile / 100 sustained 4s instakill
+  THRESH_ALERT: 34,
+  THRESH_HOSTILE: 75,
+  WARNING_THRESHOLD: 75,         // spec section 6 escalation-cue tier
+  INSTAKILL_SUSTAIN_SEC: 4.0,    // spec section 6 / 11 fairness window
+
+  // Patroller. Numbers not in spec; FLAGGED for step 7.
+  PATROL_SPEED_PX_PER_SEC: 40,
+  PATROL_ALERT_SPEED_MULT: 1.6,
+  PATROL_WAYPOINT_TOLERANCE_PX: 6,
+  PATROL_RADIUS_PX: 14,          // placeholder body (INV6)
+  PATROL_RAM_HULL_DMG: 1,        // reuses HULL_HIT_COOLDOWN
+  PATROL_DEVIATION_REACH_PX: 60, // wider "satisfied" radius for deviation
+};
+
+/* ----- Terrain (unchanged from step 1) ------------------------------- */
+const TERRAIN = [
+  { x:  80, y:  60, w: 140, h:  40 },
+  { x: 760, y:  50, w: 160, h:  60 },
+  { x:  40, y: 280, w:  60, h: 180 },
+  { x: 860, y: 260, w:  70, h: 200 },
+  { x: 120, y: 540, w: 200, h:  60 },
+  { x: 640, y: 560, w: 240, h:  50 },
+  { x: 260, y: 180, w: 120, h:  30 },
+  { x: 500, y: 200, w:  40, h: 140 },
+  { x: 360, y: 360, w: 180, h:  30 },
+  { x: 620, y: 380, w:  90, h:  90 },
+  { x: 220, y: 420, w:  90, h:  40 },
+];
+
+/* ----- Patroller route (hand-authored loop, spec section 11) --------- *
+ * Waypoints chosen so the 14-px-radius patroller body clears every terrain
+ * rect with a small buffer. Verified by sim-test at handoff time -- 0
+ * clip-points across 200 samples per segment.
+ * Cycle time at base 40 px/sec speed: ~45 s.
+ * ------------------------------------------------------------------- */
+const PATROL_ROUTE = [
+  { x: 200, y: 240 },   // open zone left of upper-mid bar
+  { x: 200, y: 150 },   // up first (avoid clipping upper-mid bar)
+  { x: 440, y: 140 },   // across the top (above the bar)
+  { x: 600, y: 140 },   // above center vertical wall
+  { x: 720, y: 200 },   // above mid-right block, below top-right rock
+  { x: 780, y: 240 },   // right channel above right wall
+  { x: 780, y: 510 },   // right channel below right wall + right of mid-right block
+  { x: 480, y: 510 },   // mid-bottom open (above bottom rocks)
+  { x: 200, y: 500 },   // bottom-left open above bottom-left rock
+  { x: 160, y: 380 },   // left channel right of left wall, above mid-left block
+];
+
+/* ----- State --------------------------------------------------------- */
+let state;
+
+function newState() {
+  return {
+    // step 1
+    sub: { x: 480, y: 320, heading: 0, vx: 0, vy: 0 },
+    hull: TUNING.HULL_MAX,
+    oxygen: TUNING.OXYGEN_MAX_SECONDS,
+    hullHitCooldown: 0,
+    ping: { tStart: -Infinity, originX: 0, originY: 0 },
+    loseReason: null,           // null | "sunk" | "suffocated" | "vaporized"
+    timeSec: 0,
+
+    // step 2 -- suspicion
+    suspicion: 0,
+    lastSuspChange: 0,
+    instakillTimer: 0,          // resets the instant suspicion < 100
+
+    // step 2 -- Patroller
+    patroller: {
+      x: PATROL_ROUTE[0].x,
+      y: PATROL_ROUTE[0].y,
+      waypointIdx: 1,
+      mode: "patrolling",       // "patrolling" | "deviating"
+    },
+
+    // step 2 -- last-ping memory for Patroller Alert+ deviation
+    lastPing: { x: 0, y: 0, valid: false },
+  };
+}
+
+/* ----- Input --------------------------------------------------------- */
+const keys = new Set();
+window.addEventListener("keydown", (e) => {
+  keys.add(e.code);
+  if (e.code === "Space") tryActivePing();
+  if (e.code === "KeyR" && state.loseReason) state = newState();
+  if (["ArrowUp","ArrowDown","ArrowLeft","ArrowRight","Space"].includes(e.code)) {
+    e.preventDefault();
+  }
+});
+window.addEventListener("keyup", (e) => keys.delete(e.code));
+
+/* ----- Suspicion API ------------------------------------------------- *
+ * Single chokepoint for additive sources (INV2 traceable). Decay lives
+ * inline in update() because it is a continuous dt-scaled term.
+ * ------------------------------------------------------------------- */
+function applySuspicion(amount, sourceTag) {
+  if (state.loseReason) return 0;
+  const before = state.suspicion;
+  state.suspicion = clamp(state.suspicion + amount, TUNING.SUSP_MIN, TUNING.SUSP_MAX);
+  state.lastSuspChange = state.suspicion - before;
+  return state.lastSuspChange;
+}
+
+function clamp(v, lo, hi) { return v < lo ? lo : (v > hi ? hi : v); }
+
+/* Derived threshold state (spec section 6). Pure function of the scalar. */
+function suspicionState(s) {
+  if (s >= TUNING.WARNING_THRESHOLD) return "WARNING";  // 75-100
+  if (s >= TUNING.THRESH_ALERT)      return "ALERT";    // 34-74
+  return "CURIOUS";                                     // 0-33
+}
+function isAlertPlus(s) { return s >= TUNING.THRESH_ALERT; }
+
+/* ----- Active ping --------------------------------------------------- *
+ * Step 2: the +25 hook from step 1 is now real, and lastPing is captured
+ * so the Patroller knows where to investigate at Alert+ (spec section 7).
+ * ------------------------------------------------------------------- */
+function tryActivePing() {
+  if (state.loseReason) return;
+  state.ping.tStart = state.timeSec;
+  state.ping.originX = state.sub.x;
+  state.ping.originY = state.sub.y;
+
+  // INV3 / spec section 3 / 6 -- active ping costs +25 suspicion.
+  applySuspicion(TUNING.SUSP_PING_COST, "active_ping");
+
+  // Patroller detection input (spec section 7): no hidden detection --
+  // ping fires at a known position; Patroller can route to it at Alert+.
+  state.lastPing.x = state.sub.x;
+  state.lastPing.y = state.sub.y;
+  state.lastPing.valid = true;
+}
+
+/* ----- Update loop --------------------------------------------------- *
+ * Step 1 logic preserved verbatim. Step 2 adds:
+ *   - instakill sustain timer + fairness valve (BEFORE decay -- see note)
+ *   - suspicion decay (when ping not active)
+ *   - Patroller movement (route + Alert+ deviation)
+ *   - Patroller-sub contact at Alert+ -> hull damage
+ * ------------------------------------------------------------------- */
+function update(dt) {
+  if (state.loseReason) return;
+
+  state.timeSec += dt;
+
+  let turn = 0, thrust = 0;
+  if (keys.has("KeyA") || keys.has("ArrowLeft"))  turn -= 1;
+  if (keys.has("KeyD") || keys.has("ArrowRight")) turn += 1;
+  if (keys.has("KeyW") || keys.has("ArrowUp"))    thrust += 1;
+  if (keys.has("KeyS") || keys.has("ArrowDown"))  thrust -= 1;
+
+  state.sub.heading += turn * TUNING.SUB_TURN_RATE_RAD_PER_SEC * dt;
+  const speed = thrust * TUNING.SUB_SPEED_PX_PER_SEC;
+  state.sub.vx = Math.cos(state.sub.heading) * speed;
+  state.sub.vy = Math.sin(state.sub.heading) * speed;
+
+  const nextX = state.sub.x + state.sub.vx * dt;
+  const nextY = state.sub.y + state.sub.vy * dt;
+
+  if (state.hullHitCooldown > 0) state.hullHitCooldown -= dt;
+
+  const r = TUNING.SUB_RADIUS_PX;
+
+  let bumpedEdge = false;
+  let clampedX = nextX, clampedY = nextY;
+  if (clampedX < r)            { clampedX = r;           bumpedEdge = true; }
+  if (clampedX > WORLD_W - r)  { clampedX = WORLD_W - r; bumpedEdge = true; }
+  if (clampedY < r)            { clampedY = r;           bumpedEdge = true; }
+  if (clampedY > WORLD_H - r)  { clampedY = WORLD_H - r; bumpedEdge = true; }
+
+  let bumpedTerrain = false;
+  for (const t of TERRAIN) {
+    if (circleRectOverlap(clampedX, clampedY, r, t)) {
+      const slideX = state.sub.x + state.sub.vx * dt;
+      const slideXY2 = state.sub.y + state.sub.vy * dt;
+      let resolvedX = state.sub.x, resolvedY = state.sub.y;
+      if (!anyTerrainHit(slideX, state.sub.y, r) && slideX >= r && slideX <= WORLD_W - r) {
+        resolvedX = slideX;
+      }
+      if (!anyTerrainHit(state.sub.x, slideXY2, r) && slideXY2 >= r && slideXY2 <= WORLD_H - r) {
+        resolvedY = slideXY2;
+      }
+      clampedX = resolvedX;
+      clampedY = resolvedY;
+      bumpedTerrain = true;
+      break;
+    }
+  }
+
+  state.sub.x = clampedX;
+  state.sub.y = clampedY;
+
+  if ((bumpedEdge || bumpedTerrain) && state.hullHitCooldown <= 0) {
+    state.hull -= 1;
+    state.hullHitCooldown = TUNING.HULL_HIT_COOLDOWN_SEC;
+    if (state.hull <= 0) {
+      state.hull = 0;
+      state.loseReason = "sunk";
+    }
+  }
+
+  state.oxygen -= dt;
+  if (state.oxygen <= 0) {
+    state.oxygen = 0;
+    if (!state.loseReason) state.loseReason = "suffocated";
+  }
+
+  /* ----- step 2: fairness valve / instakill ----------------------
+   * INV5 + spec section 6: instakill only after suspicion has been
+   * at 100 for >= INSTAKILL_SUSTAIN_SEC. Drop below 100 resets.
+   *
+   * IMPORTANT ORDER: this check runs BEFORE decay this tick. If we
+   * ran decay first, suspicion would always drop below 100 within
+   * any tick that included even one decay frame, and the timer would
+   * never accumulate -- the player could never die to instakill. By
+   * checking the entering-tick value first, "sustained 100" means
+   * "100 at the start of >= 4s of consecutive ticks," matching the
+   * brief test ("force suspicion to 100, hold for 4.1s -> dies").
+   *
+   * If the player adds suspicion faster than decay (more pings,
+   * tools, etc.), suspicion stays pinned at 100 and the timer
+   * accumulates. The instant gain stops, decay drops it below 100
+   * within one tick, the timer resets, the player lives. That is
+   * the fairness valve doing its job.
+   * -------------------------------------------------------------- */
+  if (state.suspicion >= TUNING.SUSP_MAX) {
+    state.instakillTimer += dt;
+    if (state.instakillTimer >= TUNING.INSTAKILL_SUSTAIN_SEC) {
+      state.loseReason = "vaporized";
+    }
+  } else {
+    state.instakillTimer = 0;
+  }
+
+  /* ----- step 2: suspicion decay ----------------------------------
+   * Spec section 6: -5/sec when passive (no pinging/firing, drifting
+   * slow, clear of Sirens, not hugging factory). Step 2 scope is
+   * "not pinging" only.
+   * Deferred terms (per brief Open potholes):
+   *   factory proximity     -> step 3 hook
+   *   Siren-near-sub        -> step 4 hook (only one Siren exists now)
+   *   other event sources   -> steps 3/5/6 (drone photo +15, EMP +20)
+   * Active-ping window pauses decay so the +25 lands cleanly without
+   * being immediately eroded; once the ping fades, decay resumes.
+   * -------------------------------------------------------------- */
+  const pingElapsed = state.timeSec - state.ping.tStart;
+  const pingActive = pingElapsed >= 0 && pingElapsed <= TUNING.PING_DURATION_SEC;
+  if (!pingActive) {
+    const before = state.suspicion;
+    state.suspicion = clamp(
+      state.suspicion - TUNING.SUSP_DECAY_PER_SEC * dt,
+      TUNING.SUSP_MIN, TUNING.SUSP_MAX
+    );
+    state.lastSuspChange = state.suspicion - before;
+  }
+
+  /* ----- step 2: Patroller --------------------------------------- */
+  updatePatroller(dt);
+
+  /* ----- step 2: Patroller-sub contact at Alert+ ----------------
+   * Spec section 6 alert behavior: "ram sub (hull damage)". Below
+   * Alert the Patroller is non-lethal. Reuses HULL_HIT_COOLDOWN
+   * (INV5 -- one contact event does not drain all hull).
+   * -------------------------------------------------------------- */
+  if (isAlertPlus(state.suspicion) && state.hullHitCooldown <= 0) {
+    const dx = state.patroller.x - state.sub.x;
+    const dy = state.patroller.y - state.sub.y;
+    const reach = TUNING.SUB_RADIUS_PX + TUNING.PATROL_RADIUS_PX;
+    if (dx * dx + dy * dy <= reach * reach) {
+      state.hull -= TUNING.PATROL_RAM_HULL_DMG;
+      state.hullHitCooldown = TUNING.HULL_HIT_COOLDOWN_SEC;
+      if (state.hull <= 0) {
+        state.hull = 0;
+        if (!state.loseReason) state.loseReason = "sunk";
+      }
+    }
+  }
+}
+
+/* ----- Patroller update --------------------------------------------- *
+ * Spec section 7: "Patroller -- fixed looping route, predictable.
+ * Deviates only at Alert+."
+ * INV1: no HP. INV2: behavior derives from suspicionState, no RNG.
+ *
+ * Modes:
+ *   "patrolling": head toward current waypoint; loop on arrival.
+ *   "deviating":  Alert+ only; head toward lastPing; resume route.
+ * ------------------------------------------------------------------- */
+function updatePatroller(dt) {
+  const p = state.patroller;
+  const alert = isAlertPlus(state.suspicion);
+
+  if (alert && state.lastPing.valid) {
+    p.mode = "deviating";
+  } else {
+    p.mode = "patrolling";
+  }
+
+  let targetX, targetY;
+  if (p.mode === "deviating") {
+    targetX = state.lastPing.x;
+    targetY = state.lastPing.y;
+  } else {
+    const wp = PATROL_ROUTE[p.waypointIdx];
+    targetX = wp.x;
+    targetY = wp.y;
+  }
+
+  const dx = targetX - p.x;
+  const dy = targetY - p.y;
+  const dist = Math.hypot(dx, dy);
+  const baseSpeed = TUNING.PATROL_SPEED_PX_PER_SEC;
+  const sp = alert ? baseSpeed * TUNING.PATROL_ALERT_SPEED_MULT : baseSpeed;
+  const step = sp * dt;
+
+  if (dist <= step) {
+    p.x = targetX;
+    p.y = targetY;
+    if (p.mode === "patrolling") {
+      p.waypointIdx = (p.waypointIdx + 1) % PATROL_ROUTE.length;
+    } else {
+      state.lastPing.valid = false;
+      p.waypointIdx = nearestWaypointIdx(p.x, p.y);
+    }
+  } else if (dist > 0) {
+    p.x += (dx / dist) * step;
+    p.y += (dy / dist) * step;
+  }
+
+  if (p.mode === "deviating") {
+    const ddx = state.lastPing.x - p.x;
+    const ddy = state.lastPing.y - p.y;
+    const reach2 = TUNING.PATROL_DEVIATION_REACH_PX * TUNING.PATROL_DEVIATION_REACH_PX;
+    if (ddx * ddx + ddy * ddy <= reach2) {
+      state.lastPing.valid = false;
+      p.waypointIdx = nearestWaypointIdx(p.x, p.y);
+    }
+  }
+}
+
+function nearestWaypointIdx(x, y) {
+  let bestIdx = 0, bestDist = Infinity;
+  for (let i = 0; i < PATROL_ROUTE.length; i++) {
+    const wp = PATROL_ROUTE[i];
+    const d = (wp.x - x) * (wp.x - x) + (wp.y - y) * (wp.y - y);
+    if (d < bestDist) { bestDist = d; bestIdx = i; }
+  }
+  return bestIdx;
+}
+
+function anyTerrainHit(x, y, r) {
+  for (const t of TERRAIN) if (circleRectOverlap(x, y, r, t)) return true;
+  return false;
+}
+
+function circleRectOverlap(cx, cy, cr, rect) {
+  const rx = Math.max(rect.x, Math.min(cx, rect.x + rect.w));
+  const ry = Math.max(rect.y, Math.min(cy, rect.y + rect.h));
+  const dx = cx - rx, dy = cy - ry;
+  return (dx * dx + dy * dy) < (cr * cr);
+}
+
+/* ----- Render (placeholder shapes only, INV6) ----------------------- */
+function render() {
+  ctx.fillStyle = "#000";
+  ctx.fillRect(0, 0, WORLD_W, WORLD_H);
+
+  const pingElapsed = state.timeSec - state.ping.tStart;
+  const pingActive = pingElapsed >= 0 && pingElapsed <= TUNING.PING_DURATION_SEC;
+  const pingAlpha = pingActive ? (1 - pingElapsed / TUNING.PING_DURATION_SEC) : 0;
+
+  drawTerrainNear(state.sub.x, state.sub.y, TUNING.PASSIVE_RADIUS_PX, 0.35);
+
+  if (pingActive) {
+    const pingReachedRadius = TUNING.PING_RADIUS_PX * (pingElapsed / TUNING.PING_DURATION_SEC);
+    drawTerrainNear(state.ping.originX, state.ping.originY, pingReachedRadius, 0.6 * pingAlpha);
+
+    ctx.beginPath();
+    ctx.arc(state.ping.originX, state.ping.originY, pingReachedRadius, 0, Math.PI * 2);
+    ctx.strokeStyle = "rgba(120, 200, 255, " + (0.5 * pingAlpha) + ")";
+    ctx.lineWidth = 2;
+    ctx.stroke();
+  }
+
+  drawPatrollerIfVisible(pingActive, pingAlpha);
+
+  drawSub();
+
+  if (state.suspicion >= TUNING.WARNING_THRESHOLD && !state.loseReason) {
+    ctx.fillStyle = "rgba(255, 80, 80, 0.85)";
+    ctx.font = "20px monospace";
+    ctx.textAlign = "center";
+    ctx.fillText("WARNING", WORLD_W / 2, 36);
+    if (state.suspicion >= TUNING.SUSP_MAX) {
+      ctx.fillStyle = "rgba(255, 200, 60, 0.95)";
+      ctx.font = "14px monospace";
+      const remaining = Math.max(0, TUNING.INSTAKILL_SUSTAIN_SEC - state.instakillTimer);
+      ctx.fillText("instakill imminent -- break contact (" + remaining.toFixed(1) + "s)", WORLD_W / 2, 58);
+    }
+    ctx.textAlign = "left";
+  }
+
+  if (state.loseReason) {
+    ctx.fillStyle = "rgba(0,0,0,0.6)";
+    ctx.fillRect(0, 0, WORLD_W, WORLD_H);
+    ctx.fillStyle = "#fff";
+    ctx.font = "24px monospace";
+    ctx.textAlign = "center";
+    const msg =
+        state.loseReason === "sunk"       ? "you lost (sunk)"
+      : state.loseReason === "suffocated" ? "you lost (suffocated)"
+      : state.loseReason === "vaporized"  ? "you lost (vaporized -- Siren strike)"
+      :                                     "you lost (" + state.loseReason + ")";
+    ctx.fillText(msg, WORLD_W / 2, WORLD_H / 2 - 10);
+    ctx.font = "14px monospace";
+    ctx.fillText("press R to restart", WORLD_W / 2, WORLD_H / 2 + 20);
+    ctx.textAlign = "left";
+  }
+}
+
+function drawTerrainNear(cx, cy, radius, alpha) {
+  ctx.save();
+  ctx.beginPath();
+  ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+  ctx.clip();
+
+  ctx.fillStyle = "rgba(120, 130, 150, " + alpha + ")";
+  for (const t of TERRAIN) ctx.fillRect(t.x, t.y, t.w, t.h);
+
+  ctx.strokeStyle = "rgba(80, 100, 130, " + alpha + ")";
+  ctx.lineWidth = 1;
+  ctx.strokeRect(0, 0, WORLD_W, WORLD_H);
+
+  ctx.restore();
+}
+
+function drawPatrollerIfVisible(pingActive, pingAlpha) {
+  const p = state.patroller;
+  const dxSub = p.x - state.sub.x;
+  const dySub = p.y - state.sub.y;
+  const distSub2 = dxSub * dxSub + dySub * dySub;
+  const inPassive = distSub2 <= TUNING.PASSIVE_RADIUS_PX * TUNING.PASSIVE_RADIUS_PX;
+
+  let inPing = false;
+  let pingVisAlpha = 0;
+  if (pingActive) {
+    const dxPing = p.x - state.ping.originX;
+    const dyPing = p.y - state.ping.originY;
+    const pingElapsed = state.timeSec - state.ping.tStart;
+    const pingReachedRadius = TUNING.PING_RADIUS_PX * (pingElapsed / TUNING.PING_DURATION_SEC);
+    const d2 = dxPing * dxPing + dyPing * dyPing;
+    if (d2 <= pingReachedRadius * pingReachedRadius) {
+      inPing = true;
+      pingVisAlpha = pingAlpha;
+    }
+  }
+
+  if (!inPassive && !inPing) return;
+
+  const alpha = Math.max(inPassive ? 0.7 : 0, inPing ? 0.85 * pingVisAlpha : 0);
+
+  ctx.beginPath();
+  ctx.arc(p.x, p.y, TUNING.PATROL_RADIUS_PX, 0, Math.PI * 2);
+  // Color hint is a legibility aid for testing, NOT a form decision.
+  if (isAlertPlus(state.suspicion)) {
+    ctx.fillStyle = "rgba(220, 80, 80, " + alpha + ")";
+  } else {
+    ctx.fillStyle = "rgba(120, 200, 140, " + alpha + ")";
+  }
+  ctx.fill();
+  ctx.strokeStyle = "rgba(40, 40, 40, " + alpha + ")";
+  ctx.lineWidth = 1;
+  ctx.stroke();
+
+  ctx.fillStyle = "rgba(240, 240, 240, " + alpha + ")";
+  ctx.font = "10px monospace";
+  ctx.textAlign = "center";
+  ctx.fillText("PATROLLER", p.x, p.y - TUNING.PATROL_RADIUS_PX - 4);
+  ctx.textAlign = "left";
+}
+
+function drawSub() {
+  const s = state.sub;
+  const r = TUNING.SUB_RADIUS_PX;
+  ctx.save();
+  ctx.translate(s.x, s.y);
+  ctx.rotate(s.heading);
+  ctx.beginPath();
+  ctx.moveTo( r * 1.4, 0);
+  ctx.lineTo(-r,  r * 0.8);
+  ctx.lineTo(-r, -r * 0.8);
+  ctx.closePath();
+  ctx.fillStyle = "#cfd6e0";
+  ctx.fill();
+  ctx.restore();
+}
+
+/* ----- HUD (plain text, INV6) --------------------------------------- */
+function updateHud() {
+  const s = state;
+  const oxyPct = (s.oxygen / TUNING.OXYGEN_MAX_SECONDS) * 100;
+  const pingElapsed = s.timeSec - s.ping.tStart;
+  const pingStatus = (pingElapsed >= 0 && pingElapsed <= TUNING.PING_DURATION_SEC)
+    ? "active (" + (TUNING.PING_DURATION_SEC - pingElapsed).toFixed(1) + "s left)"
+    : "ready";
+  const susp = suspicionState(s.suspicion);
+  const instakillStr = (s.suspicion >= TUNING.SUSP_MAX && s.instakillTimer > 0)
+    ? "   instakill in: " + Math.max(0, TUNING.INSTAKILL_SUSTAIN_SEC - s.instakillTimer).toFixed(2) + "s"
+    : "";
+  hud.textContent =
+    "pos: (" + s.sub.x.toFixed(0) + ", " + s.sub.y.toFixed(0) + ")   " +
+    "heading: " + (s.sub.heading * 180 / Math.PI).toFixed(0) + "deg   " +
+    "hull: " + s.hull + "/" + TUNING.HULL_MAX + "   " +
+    "oxygen: " + oxyPct.toFixed(1) + "%   " +
+    "ping: " + pingStatus + "   " +
+    "t: " + s.timeSec.toFixed(1) + "s\n" +
+    "suspicion: " + s.suspicion.toFixed(1) + "/100   " +
+    "state: " + susp + instakillStr + "   " +
+    "patroller: (" + s.patroller.x.toFixed(0) + ", " + s.patroller.y.toFixed(0) + ") " + s.patroller.mode;
+}
+
+/* ----- Main loop ---------------------------------------------------- */
+let lastT = performance.now();
+function frame(nowMs) {
+  const dt = Math.min(0.05, (nowMs - lastT) / 1000);
+  lastT = nowMs;
+  update(dt);
+  render();
+  updateHud();
+  requestAnimationFrame(frame);
+}
+
+/* ----- Sim-test harness --------------------------------------------- *
+ * Step 2 additions: applySuspicion, suspicionState, isAlertPlus,
+ * updatePatroller, nearestWaypointIdx, PATROL_ROUTE.
+ * ------------------------------------------------------------------- */
+window.__sim = {
+  TUNING,
+  TERRAIN,
+  PATROL_ROUTE,
+  newState,
+  update,
+  setState: (s) => { state = s; },
+  getState: () => state,
+  tryActivePing,
+  circleRectOverlap,
+  applySuspicion,
+  suspicionState,
+  isAlertPlus,
+  updatePatroller,
+  nearestWaypointIdx,
+};
+
+state = newState();
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>

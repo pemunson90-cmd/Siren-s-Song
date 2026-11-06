@@ -1,0 +1,7 @@
+file	lines_read	total_lines	bytes	coverage	chunks
+Inbox_from_Claude.ai/Siren's Song claude web/sirens_song_prototype_v7.html	1-607	607	47365	full	1-220;221-420;421-607
+code/sirens_song.html.bak.step2-pre-step3	1-633	633	23523	full	1-330;331-633
+code/sirens_song.html.bak.pre-step1-fixpass-20260604	1-1119	1119	41825	full	1-260;261-520;521-780;781-1119
+code/sirens_song.html.bak.pre-step4-20260604	1-1408	1408	55234	full	1-300;301-560;561-830;831-1110;1111-1408
+code/sirens_song.html.bak.pre-step5-20260604	1-1928	1928	79522	full	1-130;131-400;401-660;661-930;931-1200;1201-1470;1471-1730;1731-1928
+code/sirens_song.html.bak.pre-step6-20260604	1-2321	2321	97702	full	1-260;261-520;521-780;781-1040;1041-1300;1301-1560;1561-1830;1831-2090;2091-2321

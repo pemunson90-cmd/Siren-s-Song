@@ -1,0 +1,1408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Siren's Song -- Step 3 build + Step 1 fix-pass (LOS occlusion + sub inertia)</title>
+<style>
+  /* INVARIANT 6 (function before form): placeholder styling only.
+     No palette / typography / chrome decisions. Form pass is later. */
+  html, body { margin: 0; padding: 0; background: #000; color: #ccc; font-family: monospace; }
+  #wrap { display: flex; flex-direction: column; align-items: center; padding: 8px; }
+  #hud { width: 960px; padding: 4px 8px; white-space: pre; }
+  canvas { display: block; background: #050608; border: 1px solid #222; cursor: crosshair; }
+  #help { width: 960px; padding: 4px 8px; opacity: 0.6; font-size: 12px; }
+</style>
+</head>
+<body>
+<div id="wrap">
+  <div id="hud">HUD initializing&hellip;</div>
+  <canvas id="game" width="960" height="640"></canvas>
+  <div id="help">WASD/arrows = move sub (inertial -- has weight). SPACE = active ping (+25 susp). LEFT-CLICK = deploy drone (consumes 1 supply). RIGHT-CLICK = move nearest drone. F = photo with selected drone (+15 susp). G = photo with sub fallback cam (proximity drives cost). TAB = cycle selected drone. R = restart after lose/win.</div>
+</div>
+
+<script>
+"use strict";
+
+/* =========================================================================
+ *  SIREN'S SONG -- Step 3 build (drones + sub cam + factory + photo
+ *  objectives + factory proximity suspicion + extraction + win/lose)
+ *  + Step 1 FIX-PASS 2026-06-04: LOS terrain occlusion for BOTH passive
+ *  and active sonar + drone-cam; submarine inertia (linear + angular
+ *  acceleration with drag). See briefs/01_sub_sonar_terrain.md "Pat-
+ *  source diagnostic notes (2026-06-03)" and
+ *  handoffs/01_FIXPASS_HANDOFF_20260604.md.
+ *  Scope: section 11 build leash step 3.
+ *  Authority: SIRENS_SONG_SPEC.md > agent.md > briefs/03_drones_camera_objectives.md
+ *
+ *  Invariants (CGI agent.md section 2):
+ *   - INV1 No enemy HP / no player kill-path: HELD. Photos don't damage
+ *     anything. Drones cannot harm the Patroller. No new kill paths.
+ *   - INV2 Suspicion is the spine: EXTENDED. Drone-photo +15 and
+ *     factory-proximity +1..+3/sec both wired through applySuspicion or
+ *     the continuous-decay block. No scripted aggression added.
+ *   - INV3 Perceiving costs: HELD AND EXTENDED. Drone deploy/move free
+ *     (per spec section 3 table); drone PHOTO costs +15. Sub-cam photo
+ *     no flat cost; the proximity to factory drives the cost (spec
+ *     section 6). Passive sonar remains the only consistently free
+ *     reveal.
+ *   - INV4 Tools buy time / cost heat: n/a yet (step 5). Drones are
+ *     perception platforms in step 3 (Scout + Photograph functions
+ *     only; Decoy is step 4).
+ *   - INV5 Fairness valve: PRESERVED. Step 2's instakill-sustain logic
+ *     unchanged. Factory proximity only adds gain; never bypasses the
+ *     warning window. Decay/valve relationship intact.
+ *   - INV6 Function before form: HELD. Factory = labeled rectangle;
+ *     objectives = labeled markers; drones = small circles with id;
+ *     extraction = labeled corner rect. No palette/sound/sprite.
+ *
+ *  Step scope per brief 03:
+ *    DO:    factory + 3 required objectives + bonus Siren-close-up
+ *           objective; drones (deploy / move / cam / photograph);
+ *           sub fallback cam; factory proximity suspicion +1..+3/s;
+ *           extraction point; win = required photos + extraction;
+ *           drone destruction (terrain or Alert+ Patroller contact);
+ *           HUD adds drone supply / photos / extraction status.
+ *    DON'T: Sentinel, Hunter, curiosity/decoy (step 4); tools (step 5);
+ *           recon (step 6); Siren-near-sub scaling term (defer to
+ *           step 4 when multiple Sirens exist).
+ * ========================================================================= */
+
+const canvas = document.getElementById("game");
+const ctx = canvas.getContext("2d");
+const hud = document.getElementById("hud");
+
+const WORLD_W = canvas.width;
+const WORLD_H = canvas.height;
+
+/* ----- Tuning -------------------------------------------------------- */
+const TUNING = {
+  // step 1 (substrate)
+  HULL_MAX: 3,
+  OXYGEN_MAX_SECONDS: 240,
+  // SUB_SPEED_PX_PER_SEC stays as the TERMINAL max linear speed cap.
+  // (Step 1 fix-pass 2026-06-04 re-meaning: previously this was the
+  // direct velocity when thrust was held; now it is the speed the sub
+  // asymptotes to under continuous thrust, with acceleration to get
+  // there and drag to bleed off.)
+  SUB_SPEED_PX_PER_SEC: 80,
+  // SUB_TURN_RATE_RAD_PER_SEC stays as the TERMINAL max angular speed cap.
+  SUB_TURN_RATE_RAD_PER_SEC: 1.8,
+  PING_DURATION_SEC: 3.0,
+  PING_RADIUS_PX: 360,
+  PASSIVE_RADIUS_PX: 90,
+  HULL_HIT_COOLDOWN_SEC: 0.6,
+  SUB_RADIUS_PX: 8,
+
+  // step 1 FIX-PASS 2026-06-04 -- submarine inertia (spec section 2:
+  // "fragile slow vessel," not arcade). Spec gives no defaults so all
+  // FLAG step 7 for tuning. Picked for "submarine feel":
+  //   - reach ~95% of max speed in ~1.5s from rest (forward thrust)
+  //   - coast ~3s before stopping when thrust released
+  //   - reach max turn rate in ~0.7s, coast turn briefly after release
+  //   - reverse is weaker than forward (subs aren't built to back up)
+  SUB_LINEAR_ACCEL_PX_PER_SEC2: 60,    // FLAG step 7 -- forward thrust accel
+  SUB_REVERSE_ACCEL_MULT:       0.5,   // FLAG step 7 -- reverse is half as strong
+  SUB_LINEAR_DRAG_PER_SEC:      0.45,  // FLAG step 7 -- exponential decay rate when
+                                       // no thrust (velocity *= (1 - drag*dt)
+                                       // each tick; ~0.45/s => coast ~3s)
+  SUB_TURN_ACCEL_RAD_PER_SEC2:  2.6,   // FLAG step 7 -- angular accel on turn input
+  SUB_TURN_DRAG_PER_SEC:        2.0,   // FLAG step 7 -- angular decay when no turn
+                                       // input (turn rate halves in ~0.35s --
+                                       // rudder centers, sub does not free-spin)
+
+  // step 1 FIX-PASS 2026-06-04 -- LOS occlusion (spec section 3 perception
+  // table: "near-blind ... rough nearby blips" -- a passive ring that
+  // sees through rock is wrong by spec; Pat 2026-06-03 ratified that
+  // both passive AND active reveal must be terrain-occluded). The LOS
+  // helpers raycast against TERRAIN + FACTORY rectangles. Entities
+  // (Patroller, drones, factory body, objectives) only render in a
+  // reveal window if LOS from the reveal origin is clear. Terrain
+  // rectangles themselves are the occluders -- they always render
+  // (you see the near face of a rock you bump into).
+  // No tunable constants; LOS is geometric.
+
+
+  // step 2 -- suspicion (spec section 6)
+  SUSP_MIN: 0,
+  SUSP_MAX: 100,
+  SUSP_PING_COST: 25,
+  SUSP_DECAY_PER_SEC: 5,
+  THRESH_ALERT: 34,
+  THRESH_HOSTILE: 75,
+  WARNING_THRESHOLD: 75,
+  INSTAKILL_SUSTAIN_SEC: 4.0,
+
+  // step 2 -- Patroller
+  PATROL_SPEED_PX_PER_SEC: 40,
+  PATROL_ALERT_SPEED_MULT: 1.6,
+  PATROL_WAYPOINT_TOLERANCE_PX: 6,
+  PATROL_RADIUS_PX: 14,
+  PATROL_RAM_HULL_DMG: 1,
+  PATROL_DEVIATION_REACH_PX: 60,
+
+  // step 3 -- drones (spec sections 3, 4, 6; brief tuning table)
+  DRONE_SUPPLY_INITIAL: 5,              // spec section 4 default
+  DRONE_PHOTO_COST: 15,                 // spec section 3 / 6 / 11
+  DRONE_SPEED_PX_PER_SEC: 110,          // slightly faster than sub (80).
+                                        // FLAG step 7 -- "your call" per brief.
+  DRONE_VISION_RADIUS_PX: 120,          // local drone-cam reveal.
+                                        // FLAG step 7 -- "your call" per brief.
+  DRONE_RADIUS_PX: 5,                   // placeholder body (INV6)
+  DRONE_PHOTO_RANGE_PX: 90,             // drone -> objective shutter range.
+                                        // FLAG step 7. Larger than sub-cam to
+                                        // make the drone the smart play (per
+                                        // spec section 8).
+  DRONE_ARRIVAL_TOLERANCE_PX: 4,        // drone "reached target" radius
+  DRONE_SIREN_BONUS_RANGE_PX: 100,      // drone-to-Patroller for bonus photo.
+                                        // FLAG step 7. Loose enough to be
+                                        // achievable; close enough to feel
+                                        // like "close-range" per spec section 8.
+
+  // step 3 -- sub fallback camera (spec section 2 / 8)
+  SUBCAM_PHOTO_RANGE_PX: 70,            // sub must close to point-blank for
+                                        // any objective -- silhouette is the
+                                        // exception (range below).
+                                        // FLAG step 7 -- "your call" per brief.
+  SUBCAM_SILHOUETTE_RANGE_PX: 320,      // silhouette comfortably sub-cammable
+                                        // from distance (spec section 8).
+                                        // FLAG step 7.
+
+  // step 3 -- factory proximity (spec section 6)
+  // "+1 to +3/sec, scales with closeness"
+  FACTORY_PROX_NEAR_PX: 140,            // <= NEAR -> +3/s
+  FACTORY_PROX_MID_PX:  260,            // <= MID  -> +2/s; <= FAR -> +1/s
+  FACTORY_PROX_FAR_PX:  420,
+  FACTORY_PROX_NEAR_RATE: 3,
+  FACTORY_PROX_MID_RATE:  2,
+  FACTORY_PROX_FAR_RATE:  1,
+
+  // step 3 -- extraction
+  EXTRACTION_RADIUS_PX: 30,             // sub must reach this much of the
+                                        // extraction marker for the win to fire
+};
+
+/* ----- Terrain (unchanged from step 1; step 2 verified patroller route
+ * clears these with the 14px patroller body). ------------------------- */
+const TERRAIN = [
+  { x:  80, y:  60, w: 140, h:  40 },
+  { x: 760, y:  50, w: 160, h:  60 },
+  { x:  40, y: 280, w:  60, h: 180 },
+  { x: 860, y: 260, w:  70, h: 200 },
+  { x: 120, y: 540, w: 200, h:  60 },
+  { x: 640, y: 560, w: 240, h:  50 },
+  { x: 260, y: 180, w: 120, h:  30 },
+  { x: 500, y: 200, w:  40, h: 140 },
+  { x: 360, y: 360, w: 180, h:  30 },
+  { x: 620, y: 380, w:  90, h:  90 },
+  { x: 220, y: 420, w:  90, h:  40 },
+];
+
+/* ----- Patroller route (unchanged from step 2) ----------------------- */
+const PATROL_ROUTE = [
+  { x: 200, y: 240 },
+  { x: 200, y: 150 },
+  { x: 440, y: 140 },
+  { x: 600, y: 140 },
+  { x: 720, y: 200 },
+  { x: 780, y: 240 },
+  { x: 780, y: 510 },
+  { x: 480, y: 510 },
+  { x: 200, y: 500 },
+  { x: 160, y: 380 },
+];
+
+/* ----- Factory + objectives + extraction (hand-authored, no proc-gen)
+ *
+ * The factory sits on the right side of the play area, away from the
+ * extraction point at the bottom-left. The sub starts mid-screen at
+ * (480, 320). To run a full mission the player must traverse from
+ * mid -> factory (escalating suspicion via factory proximity) -> back
+ * across the play area to extraction. This matches spec section 8
+ * "objectives spread across the site so suspicion escalates across a
+ * route, and the return leg is the gauntlet."
+ *
+ * The factory itself is a placeholder rectangle (INV6). The three
+ * required objective markers are placed: silhouette = outer field
+ * (works from a wide arc), bays = upper-right inside the factory hull,
+ * power core = lower-right interior (deeper exposure).
+ * ------------------------------------------------------------------- */
+const FACTORY = { x: 730, y: 240, w: 180, h: 200, cx: 820, cy: 340 };
+
+const OBJECTIVES = [
+  // id, name, x, y, required (true|false)
+  // The silhouette point is anchored at the factory center -- it represents
+  // "frame the whole structure" so the player can sub-cam it from distance.
+  { id: "silhouette",   name: "factory silhouette", x: 820, y: 340, required: true,  captured: false },
+  // Construction bays: top-edge of the factory hull (sub must approach near
+  // factory top to drone-cam this, or close to point-blank with sub-cam).
+  { id: "bays",         name: "construction bays",  x: 800, y: 260, required: true,  captured: false },
+  // Power core: deep interior (lower portion of the factory).
+  { id: "power_core",   name: "power core",         x: 855, y: 410, required: true,  captured: false },
+];
+const BONUS_OBJECTIVE = {
+  id: "siren_closeup", name: "Siren close-up (bonus)", captured: false,
+};
+
+const EXTRACTION = { x: 70, y: 70, r: TUNING_PLACEHOLDER_UNUSED() };
+
+// Patch the unused placeholder above -- the EXTRACTION radius is read from
+// TUNING.EXTRACTION_RADIUS_PX. (This indirection avoids a forward-reference
+// when TUNING is built; the placeholder call returns undefined and we
+// overwrite below.)
+function TUNING_PLACEHOLDER_UNUSED() { return undefined; }
+EXTRACTION.r = TUNING.EXTRACTION_RADIUS_PX;
+
+/* ----- State --------------------------------------------------------- */
+let state;
+
+function newState() {
+  return {
+    // step 1 (sub).
+    // Step 1 fix-pass 2026-06-04: added angularVel for turn-rate inertia.
+    // vx/vy are now persistent (carry across ticks; thrust accelerates,
+    // drag decays). Previously they were derived per-tick from input.
+    sub: { x: 480, y: 320, heading: 0, vx: 0, vy: 0, angularVel: 0 },
+    hull: TUNING.HULL_MAX,
+    oxygen: TUNING.OXYGEN_MAX_SECONDS,
+    hullHitCooldown: 0,
+    ping: { tStart: -Infinity, originX: 0, originY: 0 },
+    loseReason: null,           // null | "sunk" | "suffocated" | "vaporized"
+    winState: false,            // step 3 -- extracted with all required photos
+    timeSec: 0,
+
+    // step 2 -- suspicion
+    suspicion: 0,
+    lastSuspChange: 0,
+    instakillTimer: 0,
+
+    // step 2 -- Patroller
+    patroller: {
+      x: PATROL_ROUTE[0].x,
+      y: PATROL_ROUTE[0].y,
+      waypointIdx: 1,
+      mode: "patrolling",
+    },
+    lastPing: { x: 0, y: 0, valid: false },
+
+    // step 3 -- drones
+    droneSupply: TUNING.DRONE_SUPPLY_INITIAL,
+    drones: [],                 // {id, x, y, targetX, targetY, alive}
+    nextDroneId: 1,
+    selectedDroneId: null,      // for F-photo and TAB-cycle
+
+    // step 3 -- objectives (deep-copy default state per run)
+    objectives: OBJECTIVES.map(o => ({ ...o })),
+    bonus: { ...BONUS_OBJECTIVE },
+  };
+}
+
+/* ----- Input --------------------------------------------------------- */
+const keys = new Set();
+window.addEventListener("keydown", (e) => {
+  keys.add(e.code);
+  if (e.code === "Space") tryActivePing();
+  if (e.code === "KeyR" && (state.loseReason || state.winState)) state = newState();
+  if (e.code === "Tab") { cycleSelectedDrone(); e.preventDefault(); }
+  if (e.code === "KeyF") tryDronePhoto();
+  if (e.code === "KeyG") trySubCamPhoto();
+  if (["ArrowUp","ArrowDown","ArrowLeft","ArrowRight","Space"].includes(e.code)) {
+    e.preventDefault();
+  }
+});
+window.addEventListener("keyup", (e) => keys.delete(e.code));
+
+/* Mouse: left-click = deploy drone; right-click = redirect nearest drone. */
+canvas.addEventListener("contextmenu", (e) => e.preventDefault());
+canvas.addEventListener("mousedown", (e) => {
+  if (state.loseReason || state.winState) return;
+  const rect = canvas.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
+  if (e.button === 0) {
+    deployDrone(x, y);
+  } else if (e.button === 2) {
+    redirectNearestDrone(x, y);
+  }
+});
+
+/* ----- Suspicion API (step 2 chokepoint, unchanged) ------------------ */
+function applySuspicion(amount, sourceTag) {
+  if (state.loseReason || state.winState) return 0;
+  const before = state.suspicion;
+  state.suspicion = clamp(state.suspicion + amount, TUNING.SUSP_MIN, TUNING.SUSP_MAX);
+  state.lastSuspChange = state.suspicion - before;
+  return state.lastSuspChange;
+}
+
+function clamp(v, lo, hi) { return v < lo ? lo : (v > hi ? hi : v); }
+
+function suspicionState(s) {
+  if (s >= TUNING.WARNING_THRESHOLD) return "WARNING";
+  if (s >= TUNING.THRESH_ALERT)      return "ALERT";
+  return "CURIOUS";
+}
+function isAlertPlus(s) { return s >= TUNING.THRESH_ALERT; }
+
+/* ----- step 3 -- factory proximity suspicion gain rate (per second)
+ * Spec section 6: "factory proximity +1 to +3/sec (scales with closeness)."
+ * We treat the nearest edge of the factory rectangle as the distance
+ * reference (so the player is "near" when the sub is hugging the wall,
+ * not when the center of the factory is 0 px away -- the factory is large).
+ * Returns a number in [0, 3] per second.
+ * ------------------------------------------------------------------- */
+function factoryProximityGainPerSec(subX, subY) {
+  const d = distancePointToRect(subX, subY, FACTORY);
+  if (d <= TUNING.FACTORY_PROX_NEAR_PX) return TUNING.FACTORY_PROX_NEAR_RATE;
+  if (d <= TUNING.FACTORY_PROX_MID_PX)  return TUNING.FACTORY_PROX_MID_RATE;
+  if (d <= TUNING.FACTORY_PROX_FAR_PX)  return TUNING.FACTORY_PROX_FAR_RATE;
+  return 0;
+}
+
+function distancePointToRect(px, py, r) {
+  const rx = Math.max(r.x, Math.min(px, r.x + r.w));
+  const ry = Math.max(r.y, Math.min(py, r.y + r.h));
+  const dx = px - rx, dy = py - ry;
+  return Math.hypot(dx, dy);
+}
+
+/* ----- Active ping (step 2; unchanged) ------------------------------- */
+function tryActivePing() {
+  if (state.loseReason || state.winState) return;
+  state.ping.tStart = state.timeSec;
+  state.ping.originX = state.sub.x;
+  state.ping.originY = state.sub.y;
+  applySuspicion(TUNING.SUSP_PING_COST, "active_ping");
+  state.lastPing.x = state.sub.x;
+  state.lastPing.y = state.sub.y;
+  state.lastPing.valid = true;
+}
+
+/* ----- step 3 -- Drone operations ---------------------------------- */
+function deployDrone(x, y) {
+  if (state.droneSupply <= 0) return null;
+  // Refuse to deploy on terrain or out of bounds -- the brief calls
+  // drone destruction "your call." Deploying directly into terrain
+  // would destroy the drone instantly, which feels punitive for a
+  // misclick. Deny the deploy instead and keep the supply.
+  if (x < 0 || y < 0 || x > WORLD_W || y > WORLD_H) return null;
+  if (anyTerrainHit(x, y, TUNING.DRONE_RADIUS_PX)) return null;
+
+  // Spawn from the sub (torpedo tube launch per spec section 4) but
+  // target the click destination. The drone walks there over time.
+  const drone = {
+    id: state.nextDroneId++,
+    x: state.sub.x,
+    y: state.sub.y,
+    targetX: x,
+    targetY: y,
+    alive: true,
+  };
+  state.drones.push(drone);
+  state.droneSupply -= 1;
+  state.selectedDroneId = drone.id;
+  return drone;
+}
+
+function redirectNearestDrone(x, y) {
+  // Move the nearest alive drone to (x, y).
+  let best = null, bestDist = Infinity;
+  for (const d of state.drones) {
+    if (!d.alive) continue;
+    const dd = (d.x - x) * (d.x - x) + (d.y - y) * (d.y - y);
+    if (dd < bestDist) { bestDist = dd; best = d; }
+  }
+  if (!best) return null;
+  best.targetX = x;
+  best.targetY = y;
+  state.selectedDroneId = best.id;
+  return best;
+}
+
+function cycleSelectedDrone() {
+  const alive = state.drones.filter(d => d.alive);
+  if (alive.length === 0) { state.selectedDroneId = null; return; }
+  const idx = alive.findIndex(d => d.id === state.selectedDroneId);
+  const next = alive[(idx + 1) % alive.length];
+  state.selectedDroneId = next.id;
+}
+
+function getSelectedDrone() {
+  if (state.selectedDroneId == null) return null;
+  return state.drones.find(d => d.id === state.selectedDroneId && d.alive) || null;
+}
+
+/* ----- step 3 -- Photo logic --------------------------------------- *
+ * Two photographers exist: the selected drone (F) or the sub's
+ * fallback cam (G). Each runs its range check against each objective.
+ *
+ * Drone photo: cheap range, costs +15 (spec section 3/6/11).
+ * Sub-cam photo: tight range for most objectives; wide for silhouette
+ *   (spec section 8: "silhouette is comfortably sub-cammable from
+ *   distance"). No flat cost; the proximity to factory drives gain.
+ *
+ * Bonus objective (Siren close-up): drone within DRONE_SIREN_BONUS_RANGE
+ * of the Patroller; sub-cam version is not awarded -- the spec calls
+ * the bonus a "Siren at close range" objective and the drone is the
+ * photogenic platform. Pothole logged: when Sentinel/Hunter exist in
+ * step 4, this should match against any Siren, not just the Patroller.
+ * ------------------------------------------------------------------- */
+function tryDronePhoto() {
+  if (state.loseReason || state.winState) return null;
+  const d = getSelectedDrone();
+  if (!d) return null;
+
+  let captured = null;
+  // Required objectives first.
+  for (const o of state.objectives) {
+    if (o.captured) continue;
+    const dist = Math.hypot(d.x - o.x, d.y - o.y);
+    if (dist <= TUNING.DRONE_PHOTO_RANGE_PX) {
+      o.captured = true;
+      captured = o;
+      break;
+    }
+  }
+  // Bonus -- Siren close-up. The drone must be near the Patroller.
+  if (!captured && !state.bonus.captured) {
+    const p = state.patroller;
+    const dist = Math.hypot(d.x - p.x, d.y - p.y);
+    if (dist <= TUNING.DRONE_SIREN_BONUS_RANGE_PX) {
+      state.bonus.captured = true;
+      captured = state.bonus;
+    }
+  }
+  if (captured) {
+    applySuspicion(TUNING.DRONE_PHOTO_COST, "drone_photo");
+    return captured;
+  }
+  return null;
+}
+
+function trySubCamPhoto() {
+  if (state.loseReason || state.winState) return null;
+  const s = state.sub;
+
+  for (const o of state.objectives) {
+    if (o.captured) continue;
+    const dist = Math.hypot(s.x - o.x, s.y - o.y);
+    const range = (o.id === "silhouette")
+      ? TUNING.SUBCAM_SILHOUETTE_RANGE_PX
+      : TUNING.SUBCAM_PHOTO_RANGE_PX;
+    if (dist <= range) {
+      o.captured = true;
+      // Spec section 6: sub-cam carries no flat photo cost. The
+      // proximity terms already running each tick are the cost.
+      return o;
+    }
+  }
+  return null;
+}
+
+/* ----- Update loop ------------------------------------------------- */
+function update(dt) {
+  if (state.loseReason || state.winState) return;
+
+  state.timeSec += dt;
+
+  /* ----- sub movement (step 1, FIX-PASS 2026-06-04 -- inertia) -----
+   * Diagnostic 2 from Pat 2026-06-03: "the submarine needs to feel
+   * like a submarine." Replaced direct-velocity WASD with:
+   *   - Linear acceleration on thrust (forward stronger than reverse)
+   *   - Linear drag (velocity decays when no thrust)
+   *   - Speed cap at SUB_SPEED_PX_PER_SEC (terminal velocity)
+   *   - Angular acceleration on turn input
+   *   - Angular drag (turn rate decays when no turn input -- rudder
+   *     centers, sub does not free-spin)
+   *   - Turn rate cap at SUB_TURN_RATE_RAD_PER_SEC
+   * Velocity is now persistent on state.sub.{vx,vy,angularVel} across
+   * ticks. Existing `__sim` surface preserved (sub is still an entity
+   * with x/y/heading; vx/vy still exposed for harness inspection).
+   * ---------------------------------------------------------------- */
+  let turn = 0, thrust = 0;
+  if (keys.has("KeyA") || keys.has("ArrowLeft"))  turn -= 1;
+  if (keys.has("KeyD") || keys.has("ArrowRight")) turn += 1;
+  if (keys.has("KeyW") || keys.has("ArrowUp"))    thrust += 1;
+  if (keys.has("KeyS") || keys.has("ArrowDown"))  thrust -= 1;
+
+  applyInertia(dt, thrust, turn);
+
+  const nextX = state.sub.x + state.sub.vx * dt;
+  const nextY = state.sub.y + state.sub.vy * dt;
+
+  if (state.hullHitCooldown > 0) state.hullHitCooldown -= dt;
+
+  const r = TUNING.SUB_RADIUS_PX;
+
+  let bumpedEdge = false;
+  let clampedX = nextX, clampedY = nextY;
+  if (clampedX < r)            { clampedX = r;           bumpedEdge = true; }
+  if (clampedX > WORLD_W - r)  { clampedX = WORLD_W - r; bumpedEdge = true; }
+  if (clampedY < r)            { clampedY = r;           bumpedEdge = true; }
+  if (clampedY > WORLD_H - r)  { clampedY = WORLD_H - r; bumpedEdge = true; }
+
+  let bumpedTerrain = false;
+  for (const t of TERRAIN) {
+    if (circleRectOverlap(clampedX, clampedY, r, t)) {
+      const slideX = state.sub.x + state.sub.vx * dt;
+      const slideXY2 = state.sub.y + state.sub.vy * dt;
+      let resolvedX = state.sub.x, resolvedY = state.sub.y;
+      if (!anyTerrainHit(slideX, state.sub.y, r) && slideX >= r && slideX <= WORLD_W - r) {
+        resolvedX = slideX;
+      }
+      if (!anyTerrainHit(state.sub.x, slideXY2, r) && slideXY2 >= r && slideXY2 <= WORLD_H - r) {
+        resolvedY = slideXY2;
+      }
+      clampedX = resolvedX;
+      clampedY = resolvedY;
+      bumpedTerrain = true;
+      break;
+    }
+  }
+
+  // step 3 -- factory wall counts as terrain for the sub (a hull bump
+  // against the factory is a hull bump). Cheap re-use of the existing
+  // hit/cooldown system.
+  if (circleRectOverlap(clampedX, clampedY, r, FACTORY)) {
+    const slideX = state.sub.x + state.sub.vx * dt;
+    const slideXY2 = state.sub.y + state.sub.vy * dt;
+    let resolvedX = state.sub.x, resolvedY = state.sub.y;
+    if (!circleRectOverlap(slideX, state.sub.y, r, FACTORY) && slideX >= r && slideX <= WORLD_W - r) {
+      resolvedX = slideX;
+    }
+    if (!circleRectOverlap(state.sub.x, slideXY2, r, FACTORY) && slideXY2 >= r && slideXY2 <= WORLD_H - r) {
+      resolvedY = slideXY2;
+    }
+    clampedX = resolvedX;
+    clampedY = resolvedY;
+    bumpedTerrain = true;
+  }
+
+  state.sub.x = clampedX;
+  state.sub.y = clampedY;
+
+  // Step 1 fix-pass 2026-06-04: on collision, zero the velocity components
+  // that drove the sub into the obstacle. Without this the inertial
+  // velocity persists across the bump and the sub keeps "pressing"
+  // into the wall every tick, draining hull every cooldown interval.
+  if (bumpedEdge) {
+    if (clampedX === r || clampedX === WORLD_W - r) state.sub.vx = 0;
+    if (clampedY === r || clampedY === WORLD_H - r) state.sub.vy = 0;
+  }
+  if (bumpedTerrain) {
+    // Cheap heuristic: zero both linear components. Terrain rectangles are
+    // interior shapes so the player was pushed back along whichever axis
+    // was unblocked; preserving the other axis can re-clip the next tick.
+    // Zeroing both is safer and matches "sub bumps rock and stops" feel.
+    state.sub.vx = 0;
+    state.sub.vy = 0;
+  }
+
+  if ((bumpedEdge || bumpedTerrain) && state.hullHitCooldown <= 0) {
+    state.hull -= 1;
+    state.hullHitCooldown = TUNING.HULL_HIT_COOLDOWN_SEC;
+    if (state.hull <= 0) {
+      state.hull = 0;
+      state.loseReason = "sunk";
+    }
+  }
+
+  /* ----- oxygen (step 1) ----- */
+  state.oxygen -= dt;
+  if (state.oxygen <= 0) {
+    state.oxygen = 0;
+    if (!state.loseReason) state.loseReason = "suffocated";
+  }
+
+  /* ----- step 2 fairness valve (BEFORE decay -- see step 2 comment) ----- */
+  if (state.suspicion >= TUNING.SUSP_MAX) {
+    state.instakillTimer += dt;
+    if (state.instakillTimer >= TUNING.INSTAKILL_SUSTAIN_SEC) {
+      state.loseReason = "vaporized";
+    }
+  } else {
+    state.instakillTimer = 0;
+  }
+
+  /* ----- step 2 suspicion decay, EXTENDED by step 3 factory proximity ---
+   * Step 2 logic preserved: decay -5/sec when ping is NOT active.
+   * Step 3 adds: factory proximity gain +1..+3/sec ALWAYS (independent
+   * of ping state). Net rate near the factory while not pinging:
+   *   far     -> -5 + 1 = -4/s  (still decays, just slower)
+   *   mid     -> -5 + 2 = -3/s
+   *   near    -> -5 + 3 = -2/s
+   *   outside -> -5/s (pure decay)
+   * Inside the ping window, decay is paused (step 2 choice) but
+   * factory proximity STILL adds gain -- "factory hugging during a
+   * ping" is the worst combination, which feels right.
+   *
+   * Siren-near-sub +scaling/sec is the OTHER continuous term in spec
+   * section 6 -- deferred to step 4 (only one Siren currently exists;
+   * the brief explicitly defers).
+   * -------------------------------------------------------------- */
+  const pingElapsed = state.timeSec - state.ping.tStart;
+  const pingActive = pingElapsed >= 0 && pingElapsed <= TUNING.PING_DURATION_SEC;
+
+  const factoryGain = factoryProximityGainPerSec(state.sub.x, state.sub.y);
+
+  let netRate = 0;
+  if (!pingActive) netRate -= TUNING.SUSP_DECAY_PER_SEC;
+  netRate += factoryGain;
+
+  if (netRate !== 0) {
+    const before = state.suspicion;
+    state.suspicion = clamp(
+      state.suspicion + netRate * dt,
+      TUNING.SUSP_MIN, TUNING.SUSP_MAX
+    );
+    state.lastSuspChange = state.suspicion - before;
+  }
+
+  /* ----- step 2 Patroller (unchanged) ----- */
+  updatePatroller(dt);
+
+  /* ----- step 2 Patroller-sub contact at Alert+ (unchanged) ----- */
+  if (isAlertPlus(state.suspicion) && state.hullHitCooldown <= 0) {
+    const dx = state.patroller.x - state.sub.x;
+    const dy = state.patroller.y - state.sub.y;
+    const reach = TUNING.SUB_RADIUS_PX + TUNING.PATROL_RADIUS_PX;
+    if (dx * dx + dy * dy <= reach * reach) {
+      state.hull -= TUNING.PATROL_RAM_HULL_DMG;
+      state.hullHitCooldown = TUNING.HULL_HIT_COOLDOWN_SEC;
+      if (state.hull <= 0) {
+        state.hull = 0;
+        if (!state.loseReason) state.loseReason = "sunk";
+      }
+    }
+  }
+
+  /* ----- step 3 -- drones move; check destruction --------------- *
+   * Drone destruction conditions:
+   *   1. Drone moves into terrain or out of bounds while traveling
+   *      (terrain check before moving; if blocked, the drone is dead --
+   *      a deployed drone that runs into a rock is gone, per the spec
+   *      "destroyed drones are gone").
+   *   2. Patroller at Alert+ touches a drone. (At Curious, the
+   *      Patroller does NOT destroy drones in this step; that
+   *      behavior surfaces in step 4 with the curiosity/decoy
+   *      framework.)
+   * ------------------------------------------------------------- */
+  for (const d of state.drones) {
+    if (!d.alive) continue;
+
+    const tdx = d.targetX - d.x;
+    const tdy = d.targetY - d.y;
+    const dist = Math.hypot(tdx, tdy);
+    if (dist > TUNING.DRONE_ARRIVAL_TOLERANCE_PX) {
+      const step = TUNING.DRONE_SPEED_PX_PER_SEC * dt;
+      let nx, ny;
+      if (dist <= step) { nx = d.targetX; ny = d.targetY; }
+      else { nx = d.x + (tdx / dist) * step; ny = d.y + (tdy / dist) * step; }
+
+      // Out-of-bounds = destroyed (shouldn't happen since deploy/redirect
+      // both clamp via the canvas, but defensive).
+      if (nx < 0 || ny < 0 || nx > WORLD_W || ny > WORLD_H) {
+        d.alive = false;
+        continue;
+      }
+      // Terrain hit OR factory hit = destroyed.
+      if (anyTerrainHit(nx, ny, TUNING.DRONE_RADIUS_PX) ||
+          circleRectOverlap(nx, ny, TUNING.DRONE_RADIUS_PX, FACTORY)) {
+        d.alive = false;
+        continue;
+      }
+      d.x = nx;
+      d.y = ny;
+    }
+
+    // Patroller contact at Alert+ kills the drone.
+    if (isAlertPlus(state.suspicion)) {
+      const pdx = d.x - state.patroller.x;
+      const pdy = d.y - state.patroller.y;
+      const pr2 = (TUNING.PATROL_RADIUS_PX + TUNING.DRONE_RADIUS_PX);
+      if (pdx * pdx + pdy * pdy <= pr2 * pr2) {
+        d.alive = false;
+      }
+    }
+  }
+
+  // Garbage collect dead drone selection so cycleSelectedDrone works.
+  if (state.selectedDroneId != null) {
+    const sel = state.drones.find(d => d.id === state.selectedDroneId);
+    if (!sel || !sel.alive) {
+      const alive = state.drones.filter(d => d.alive);
+      state.selectedDroneId = alive.length ? alive[0].id : null;
+    }
+  }
+
+  /* ----- step 3 -- win condition ------------------------------- *
+   * Spec section 8: win = all required photos captured AND sub
+   * reaches extraction. Bonus is not required (per spec).
+   * ------------------------------------------------------------- */
+  const allRequired = state.objectives.every(o => o.captured);
+  if (allRequired) {
+    const dxe = state.sub.x - EXTRACTION.x;
+    const dye = state.sub.y - EXTRACTION.y;
+    if (dxe * dxe + dye * dye <= EXTRACTION.r * EXTRACTION.r) {
+      state.winState = true;
+    }
+  }
+}
+
+/* ----- Patroller update (step 2, unchanged) ------------------------ */
+function updatePatroller(dt) {
+  const p = state.patroller;
+  const alert = isAlertPlus(state.suspicion);
+
+  if (alert && state.lastPing.valid) {
+    p.mode = "deviating";
+  } else {
+    p.mode = "patrolling";
+  }
+
+  let targetX, targetY;
+  if (p.mode === "deviating") {
+    targetX = state.lastPing.x;
+    targetY = state.lastPing.y;
+  } else {
+    const wp = PATROL_ROUTE[p.waypointIdx];
+    targetX = wp.x;
+    targetY = wp.y;
+  }
+
+  const dx = targetX - p.x;
+  const dy = targetY - p.y;
+  const dist = Math.hypot(dx, dy);
+  const baseSpeed = TUNING.PATROL_SPEED_PX_PER_SEC;
+  const sp = alert ? baseSpeed * TUNING.PATROL_ALERT_SPEED_MULT : baseSpeed;
+  const step = sp * dt;
+
+  if (dist <= step) {
+    p.x = targetX;
+    p.y = targetY;
+    if (p.mode === "patrolling") {
+      p.waypointIdx = (p.waypointIdx + 1) % PATROL_ROUTE.length;
+    } else {
+      state.lastPing.valid = false;
+      p.waypointIdx = nearestWaypointIdx(p.x, p.y);
+    }
+  } else if (dist > 0) {
+    p.x += (dx / dist) * step;
+    p.y += (dy / dist) * step;
+  }
+
+  if (p.mode === "deviating") {
+    const ddx = state.lastPing.x - p.x;
+    const ddy = state.lastPing.y - p.y;
+    const reach2 = TUNING.PATROL_DEVIATION_REACH_PX * TUNING.PATROL_DEVIATION_REACH_PX;
+    if (ddx * ddx + ddy * ddy <= reach2) {
+      state.lastPing.valid = false;
+      p.waypointIdx = nearestWaypointIdx(p.x, p.y);
+    }
+  }
+}
+
+function nearestWaypointIdx(x, y) {
+  let bestIdx = 0, bestDist = Infinity;
+  for (let i = 0; i < PATROL_ROUTE.length; i++) {
+    const wp = PATROL_ROUTE[i];
+    const d = (wp.x - x) * (wp.x - x) + (wp.y - y) * (wp.y - y);
+    if (d < bestDist) { bestDist = d; bestIdx = i; }
+  }
+  return bestIdx;
+}
+
+function anyTerrainHit(x, y, r) {
+  for (const t of TERRAIN) if (circleRectOverlap(x, y, r, t)) return true;
+  return false;
+}
+
+function circleRectOverlap(cx, cy, cr, rect) {
+  const rx = Math.max(rect.x, Math.min(cx, rect.x + rect.w));
+  const ry = Math.max(rect.y, Math.min(cy, rect.y + rect.h));
+  const dx = cx - rx, dy = cy - ry;
+  return (dx * dx + dy * dy) < (cr * cr);
+}
+
+/* ----- Step 1 FIX-PASS 2026-06-04: submarine inertia helpers -------- *
+ *
+ * applyInertia(dt, thrust, turn)
+ *   thrust in [-1, 0, +1] from W/S input (forward positive)
+ *   turn   in [-1, 0, +1] from A/D input (right positive)
+ *
+ * Forward thrust adds acceleration along the current heading. Reverse
+ * is the same shape but multiplied by SUB_REVERSE_ACCEL_MULT (subs
+ * are not built to back up briskly). When no thrust, linear drag
+ * bleeds the velocity vector exponentially: v *= (1 - drag*dt) per
+ * tick. Speed is clamped to SUB_SPEED_PX_PER_SEC.
+ *
+ * Turn input adds angular acceleration. Drag pulls angularVel toward
+ * zero when no turn input (rudder centers). Angular velocity is
+ * clamped to +/- SUB_TURN_RATE_RAD_PER_SEC. Heading integrates from
+ * angularVel.
+ *
+ * Exposed via __sim.applyInertia for headless sim tests.
+ * ------------------------------------------------------------------- */
+function applyInertia(dt, thrust, turn) {
+  const s = state.sub;
+
+  // --- linear ---
+  if (thrust !== 0) {
+    const accelMag = (thrust > 0)
+      ? TUNING.SUB_LINEAR_ACCEL_PX_PER_SEC2
+      : TUNING.SUB_LINEAR_ACCEL_PX_PER_SEC2 * TUNING.SUB_REVERSE_ACCEL_MULT;
+    const ax = Math.cos(s.heading) * accelMag * thrust;
+    const ay = Math.sin(s.heading) * accelMag * thrust;
+    s.vx += ax * dt;
+    s.vy += ay * dt;
+  } else {
+    // Exponential drag toward zero velocity. Clamp factor to [0,1] so
+    // a huge dt cannot flip velocity sign.
+    const k = Math.max(0, 1 - TUNING.SUB_LINEAR_DRAG_PER_SEC * dt);
+    s.vx *= k;
+    s.vy *= k;
+  }
+  // Speed cap.
+  const speed = Math.hypot(s.vx, s.vy);
+  const maxSpeed = TUNING.SUB_SPEED_PX_PER_SEC;
+  if (speed > maxSpeed) {
+    const scale = maxSpeed / speed;
+    s.vx *= scale;
+    s.vy *= scale;
+  }
+
+  // --- angular ---
+  if (turn !== 0) {
+    s.angularVel += turn * TUNING.SUB_TURN_ACCEL_RAD_PER_SEC2 * dt;
+  } else {
+    const kt = Math.max(0, 1 - TUNING.SUB_TURN_DRAG_PER_SEC * dt);
+    s.angularVel *= kt;
+  }
+  // Turn rate cap.
+  const maxTurn = TUNING.SUB_TURN_RATE_RAD_PER_SEC;
+  if (s.angularVel >  maxTurn) s.angularVel =  maxTurn;
+  if (s.angularVel < -maxTurn) s.angularVel = -maxTurn;
+  s.heading += s.angularVel * dt;
+}
+
+/* ----- Step 1 FIX-PASS 2026-06-04: line-of-sight raycast helpers --- *
+ *
+ * segmentRectIntersect(x1,y1,x2,y2,rect) -> boolean
+ *   True iff line segment (x1,y1)-(x2,y2) crosses or touches the
+ *   rectangle's interior. Uses Liang-Barsky parametric clipping --
+ *   robust, no floating-point degeneracies on axis-aligned segments.
+ *
+ * isLineOfSightClear(x1,y1,x2,y2) -> boolean
+ *   True iff the segment is unblocked by any TERRAIN rect OR the
+ *   FACTORY rect. Used for passive sonar / active ping / drone-cam
+ *   visibility tests against entities (Patroller, drones, factory,
+ *   objectives).
+ *
+ * raycastTerrainHit(x1,y1,x2,y2) -> { rect, t } | null
+ *   Returns the first occluder along the segment plus the parametric
+ *   t in [0,1]. Currently unused by render, exposed via __sim for
+ *   downstream sim tests and step-4 use.
+ *
+ * Rationale (Pat 2026-06-03 diagnostic 1): passive sonar through rock
+ * is wrong. Spec section 3 calls passive sonar "near-blind ... rough
+ * nearby blips" -- not "X-ray vision in a 90 px circle." Both passive
+ * AND active reveal must be terrain-occluded. Pat's parallel
+ * implementation occludes both and it "feels great."
+ * ------------------------------------------------------------------- */
+function segmentRectIntersect(x1, y1, x2, y2, rect) {
+  // Liang-Barsky line clipping against an AABB.
+  const xmin = rect.x, ymin = rect.y;
+  const xmax = rect.x + rect.w, ymax = rect.y + rect.h;
+  const dx = x2 - x1, dy = y2 - y1;
+  let p, q, r;
+  let u1 = 0, u2 = 1;
+  for (let edge = 0; edge < 4; edge++) {
+    if (edge === 0) { p = -dx; q = x1 - xmin; }
+    else if (edge === 1) { p =  dx; q = xmax - x1; }
+    else if (edge === 2) { p = -dy; q = y1 - ymin; }
+    else                 { p =  dy; q = ymax - y1; }
+
+    if (p === 0) {
+      if (q < 0) return false;     // parallel and outside slab
+      // parallel and inside: no constraint from this edge
+    } else {
+      r = q / p;
+      if (p < 0) {
+        if (r > u2) return false;
+        if (r > u1) u1 = r;
+      } else {
+        if (r < u1) return false;
+        if (r < u2) u2 = r;
+      }
+    }
+  }
+  return u1 <= u2 && u2 >= 0 && u1 <= 1;
+}
+
+function isLineOfSightClear(x1, y1, x2, y2) {
+  for (const t of TERRAIN) {
+    if (segmentRectIntersect(x1, y1, x2, y2, t)) return false;
+  }
+  if (segmentRectIntersect(x1, y1, x2, y2, FACTORY)) return false;
+  return true;
+}
+
+function raycastTerrainHit(x1, y1, x2, y2) {
+  // Returns first occluder along the segment (smallest entry param) or null.
+  let best = null;
+  let bestT = Infinity;
+  const candidates = TERRAIN.concat([FACTORY]);
+  for (const rect of candidates) {
+    const t = _segmentRectEntryParam(x1, y1, x2, y2, rect);
+    if (t !== null && t < bestT) { bestT = t; best = rect; }
+  }
+  return best ? { rect: best, t: bestT } : null;
+}
+
+function _segmentRectEntryParam(x1, y1, x2, y2, rect) {
+  // Same Liang-Barsky machinery but returns the entry parameter (u1)
+  // if the segment crosses the rect, otherwise null.
+  const xmin = rect.x, ymin = rect.y;
+  const xmax = rect.x + rect.w, ymax = rect.y + rect.h;
+  const dx = x2 - x1, dy = y2 - y1;
+  let p, q, r;
+  let u1 = 0, u2 = 1;
+  for (let edge = 0; edge < 4; edge++) {
+    if (edge === 0) { p = -dx; q = x1 - xmin; }
+    else if (edge === 1) { p =  dx; q = xmax - x1; }
+    else if (edge === 2) { p = -dy; q = y1 - ymin; }
+    else                 { p =  dy; q = ymax - y1; }
+    if (p === 0) {
+      if (q < 0) return null;
+    } else {
+      r = q / p;
+      if (p < 0) { if (r > u2) return null; if (r > u1) u1 = r; }
+      else       { if (r < u1) return null; if (r < u2) u2 = r; }
+    }
+  }
+  if (u1 > u2) return null;
+  return Math.max(0, u1);
+}
+
+/* losClearIgnoring -- like isLineOfSightClear but skips a specific rect.
+ * Used when testing visibility of an entity AGAINST the world while
+ * not letting the entity's own bounding rect occlude itself. Example:
+ * testing FACTORY visibility from the passive radius center -- the LOS
+ * ray to the factory's nearest point may graze the factory's own edge
+ * (the ray ENDS there), which should not count as occlusion by the
+ * factory itself.
+ * ------------------------------------------------------------------- */
+function losClearIgnoring(x1, y1, x2, y2, skipRect) {
+  for (const t of TERRAIN) {
+    if (t === skipRect) continue;
+    if (segmentRectIntersect(x1, y1, x2, y2, t)) return false;
+  }
+  if (FACTORY !== skipRect && segmentRectIntersect(x1, y1, x2, y2, FACTORY)) return false;
+  return true;
+}
+
+/* ----- Render (placeholder shapes only, INV6) ---------------------- */
+function render() {
+  ctx.fillStyle = "#000";
+  ctx.fillRect(0, 0, WORLD_W, WORLD_H);
+
+  const pingElapsed = state.timeSec - state.ping.tStart;
+  const pingActive = pingElapsed >= 0 && pingElapsed <= TUNING.PING_DURATION_SEC;
+  const pingAlpha = pingActive ? (1 - pingElapsed / TUNING.PING_DURATION_SEC) : 0;
+
+  // Passive reveal (sub).
+  drawWorldNear(state.sub.x, state.sub.y, TUNING.PASSIVE_RADIUS_PX, 0.35);
+
+  // Drone-cam reveals (free per spec section 3 to deploy/move).
+  for (const d of state.drones) {
+    if (!d.alive) continue;
+    drawWorldNear(d.x, d.y, TUNING.DRONE_VISION_RADIUS_PX, 0.40);
+  }
+
+  // Active ping reveal (transient, fades).
+  if (pingActive) {
+    const pingReachedRadius = TUNING.PING_RADIUS_PX * (pingElapsed / TUNING.PING_DURATION_SEC);
+    drawWorldNear(state.ping.originX, state.ping.originY, pingReachedRadius, 0.6 * pingAlpha);
+
+    ctx.beginPath();
+    ctx.arc(state.ping.originX, state.ping.originY, pingReachedRadius, 0, Math.PI * 2);
+    ctx.strokeStyle = "rgba(120, 200, 255, " + (0.5 * pingAlpha) + ")";
+    ctx.lineWidth = 2;
+    ctx.stroke();
+  }
+
+  // Extraction point: always visible (a beacon -- diegetic exception to
+  // the "darkness everywhere" model; the sub knows where home is).
+  drawExtraction();
+
+  // Patroller (visible within passive sonar or active ping reveal, OR
+  // within any drone-cam vision -- drones are eyes).
+  drawPatrollerIfVisible(pingActive, pingAlpha);
+
+  // Drones themselves drawn always (you can always see your own deployed
+  // drones; they have telemetry).
+  for (const d of state.drones) {
+    if (!d.alive) continue;
+    drawDrone(d);
+  }
+
+  drawSub();
+
+  // Warning text (step 2, unchanged).
+  if (state.suspicion >= TUNING.WARNING_THRESHOLD && !state.loseReason && !state.winState) {
+    ctx.fillStyle = "rgba(255, 80, 80, 0.85)";
+    ctx.font = "20px monospace";
+    ctx.textAlign = "center";
+    ctx.fillText("WARNING", WORLD_W / 2, 36);
+    if (state.suspicion >= TUNING.SUSP_MAX) {
+      ctx.fillStyle = "rgba(255, 200, 60, 0.95)";
+      ctx.font = "14px monospace";
+      const remaining = Math.max(0, TUNING.INSTAKILL_SUSTAIN_SEC - state.instakillTimer);
+      ctx.fillText("instakill imminent -- break contact (" + remaining.toFixed(1) + "s)", WORLD_W / 2, 58);
+    }
+    ctx.textAlign = "left";
+  }
+
+  // Lose overlay.
+  if (state.loseReason) {
+    ctx.fillStyle = "rgba(0,0,0,0.6)";
+    ctx.fillRect(0, 0, WORLD_W, WORLD_H);
+    ctx.fillStyle = "#fff";
+    ctx.font = "24px monospace";
+    ctx.textAlign = "center";
+    const msg =
+        state.loseReason === "sunk"       ? "you lost (sunk)"
+      : state.loseReason === "suffocated" ? "you lost (suffocated)"
+      : state.loseReason === "vaporized"  ? "you lost (vaporized -- Siren strike)"
+      :                                     "you lost (" + state.loseReason + ")";
+    ctx.fillText(msg, WORLD_W / 2, WORLD_H / 2 - 10);
+    ctx.font = "14px monospace";
+    ctx.fillText("press R to restart", WORLD_W / 2, WORLD_H / 2 + 20);
+    ctx.textAlign = "left";
+  }
+
+  // Win overlay (step 3).
+  if (state.winState) {
+    ctx.fillStyle = "rgba(0,0,0,0.55)";
+    ctx.fillRect(0, 0, WORLD_W, WORLD_H);
+    ctx.fillStyle = "#fff";
+    ctx.font = "24px monospace";
+    ctx.textAlign = "center";
+    ctx.fillText("EXTRACTED -- RUN COMPLETE", WORLD_W / 2, WORLD_H / 2 - 10);
+    ctx.font = "14px monospace";
+    const bonusStr = state.bonus.captured ? " (bonus: Siren close-up captured)" : "";
+    ctx.fillText("photos " + state.objectives.filter(o => o.captured).length + "/3 required" + bonusStr, WORLD_W / 2, WORLD_H / 2 + 14);
+    ctx.fillText("press R to restart", WORLD_W / 2, WORLD_H / 2 + 38);
+    ctx.textAlign = "left";
+  }
+}
+
+/* drawWorldNear -- draws terrain + factory + objectives within a clip
+ * radius around (cx, cy). This is the unified "things in this reveal
+ * window" pass; passive sonar, ping, and drone-cam all funnel through it.
+ *
+ * Step 1 FIX-PASS 2026-06-04 (Pat 2026-06-03 diagnostic 1):
+ *   LOS occlusion is now applied. Terrain rectangles are themselves
+ *   the occluders -- they always render inside the reveal disc (you
+ *   see the near face of a rock you are next to). The FACTORY rect
+ *   renders only if its nearest point has LOS from (cx, cy); a factory
+ *   hidden behind a rock should not silhouette through. The objective
+ *   markers (interior to the factory) only render when LOS from
+ *   (cx, cy) to the marker is clear. This means the silhouette, bays,
+ *   and power-core markers are no longer visible through walls from
+ *   passive radius -- the player has to actually see the approach.
+ * ------------------------------------------------------------------- */
+function drawWorldNear(cx, cy, radius, alpha) {
+  ctx.save();
+  ctx.beginPath();
+  ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+  ctx.clip();
+
+  // Terrain rectangles -- always rendered (they ARE the occluders;
+  // the near face of a wall is visible to anyone next to it).
+  ctx.fillStyle = "rgba(120, 130, 150, " + alpha + ")";
+  for (const t of TERRAIN) ctx.fillRect(t.x, t.y, t.w, t.h);
+
+  // Factory body: LOS-gated. Test against the nearest point on the
+  // factory rect from the reveal center. Skip the factory rect itself
+  // in the LOS check (a ray that ends on the factory edge would
+  // otherwise self-occlude).
+  const fNearX = Math.max(FACTORY.x, Math.min(cx, FACTORY.x + FACTORY.w));
+  const fNearY = Math.max(FACTORY.y, Math.min(cy, FACTORY.y + FACTORY.h));
+  const factoryVisible = losClearIgnoring(cx, cy, fNearX, fNearY, FACTORY);
+  if (factoryVisible) {
+    ctx.fillStyle = "rgba(160, 110, 110, " + (alpha * 1.0) + ")";
+    ctx.fillRect(FACTORY.x, FACTORY.y, FACTORY.w, FACTORY.h);
+    ctx.strokeStyle = "rgba(220, 160, 160, " + alpha + ")";
+    ctx.lineWidth = 1;
+    ctx.strokeRect(FACTORY.x, FACTORY.y, FACTORY.w, FACTORY.h);
+    ctx.fillStyle = "rgba(240, 220, 220, " + alpha + ")";
+    ctx.font = "11px monospace";
+    ctx.textAlign = "center";
+    ctx.fillText("FACTORY", FACTORY.cx, FACTORY.y - 4);
+    ctx.textAlign = "left";
+  }
+
+  // Objective markers (rendered with captured/uncaptured states).
+  // LOS-gated -- an objective behind a wall or factory is invisible
+  // until the reveal origin can see it directly.
+  ctx.font = "10px monospace";
+  ctx.textAlign = "center";
+  for (const o of state.objectives) {
+    if (!isLineOfSightClear(cx, cy, o.x, o.y)) continue;
+    const marker = o.captured ? "rgba(140, 220, 140, " + alpha + ")"
+                              : "rgba(255, 230, 120, " + alpha + ")";
+    ctx.fillStyle = marker;
+    ctx.fillRect(o.x - 5, o.y - 5, 10, 10);
+    ctx.fillStyle = "rgba(240, 240, 240, " + alpha + ")";
+    ctx.fillText((o.captured ? "[X] " : "[ ] ") + o.name, o.x, o.y - 8);
+  }
+  ctx.textAlign = "left";
+
+  // World-edge stroke (so you can see the play-area boundary).
+  ctx.strokeStyle = "rgba(80, 100, 130, " + alpha + ")";
+  ctx.lineWidth = 1;
+  ctx.strokeRect(0, 0, WORLD_W, WORLD_H);
+
+  ctx.restore();
+}
+
+function drawExtraction() {
+  // Beacon -- always visible. INV6: plain marker, label.
+  ctx.beginPath();
+  ctx.arc(EXTRACTION.x, EXTRACTION.y, EXTRACTION.r, 0, Math.PI * 2);
+  ctx.strokeStyle = "rgba(80, 220, 160, 0.7)";
+  ctx.lineWidth = 2;
+  ctx.stroke();
+  ctx.fillStyle = "rgba(80, 220, 160, 0.15)";
+  ctx.fill();
+  ctx.fillStyle = "rgba(160, 240, 200, 0.95)";
+  ctx.font = "11px monospace";
+  ctx.textAlign = "center";
+  ctx.fillText("EXTRACTION", EXTRACTION.x, EXTRACTION.y - EXTRACTION.r - 4);
+  ctx.textAlign = "left";
+}
+
+function drawPatrollerIfVisible(pingActive, pingAlpha) {
+  const p = state.patroller;
+  const dxSub = p.x - state.sub.x;
+  const dySub = p.y - state.sub.y;
+  const distSub2 = dxSub * dxSub + dySub * dySub;
+  // Step 1 FIX-PASS 2026-06-04: each detection mode now requires LOS
+  // clear from the reveal origin to the Patroller. Passive ring through
+  // rock no longer silhouettes the Patroller (Pat 2026-06-03 diag 1).
+  const inPassive = (distSub2 <= TUNING.PASSIVE_RADIUS_PX * TUNING.PASSIVE_RADIUS_PX)
+                 && isLineOfSightClear(state.sub.x, state.sub.y, p.x, p.y);
+
+  let inPing = false;
+  let pingVisAlpha = 0;
+  if (pingActive) {
+    const dxPing = p.x - state.ping.originX;
+    const dyPing = p.y - state.ping.originY;
+    const pingElapsed = state.timeSec - state.ping.tStart;
+    const pingReachedRadius = TUNING.PING_RADIUS_PX * (pingElapsed / TUNING.PING_DURATION_SEC);
+    const d2 = dxPing * dxPing + dyPing * dyPing;
+    if (d2 <= pingReachedRadius * pingReachedRadius
+        && isLineOfSightClear(state.ping.originX, state.ping.originY, p.x, p.y)) {
+      inPing = true;
+      pingVisAlpha = pingAlpha;
+    }
+  }
+
+  // step 3 -- drone-cam reveals the Patroller too (also LOS-gated).
+  let inDrone = false;
+  for (const d of state.drones) {
+    if (!d.alive) continue;
+    const ddx = p.x - d.x;
+    const ddy = p.y - d.y;
+    if (ddx * ddx + ddy * ddy <= TUNING.DRONE_VISION_RADIUS_PX * TUNING.DRONE_VISION_RADIUS_PX
+        && isLineOfSightClear(d.x, d.y, p.x, p.y)) {
+      inDrone = true;
+      break;
+    }
+  }
+
+  if (!inPassive && !inPing && !inDrone) return;
+
+  const alpha = Math.max(
+    inPassive ? 0.7 : 0,
+    inPing ? 0.85 * pingVisAlpha : 0,
+    inDrone ? 0.75 : 0
+  );
+
+  ctx.beginPath();
+  ctx.arc(p.x, p.y, TUNING.PATROL_RADIUS_PX, 0, Math.PI * 2);
+  if (isAlertPlus(state.suspicion)) {
+    ctx.fillStyle = "rgba(220, 80, 80, " + alpha + ")";
+  } else {
+    ctx.fillStyle = "rgba(120, 200, 140, " + alpha + ")";
+  }
+  ctx.fill();
+  ctx.strokeStyle = "rgba(40, 40, 40, " + alpha + ")";
+  ctx.lineWidth = 1;
+  ctx.stroke();
+
+  ctx.fillStyle = "rgba(240, 240, 240, " + alpha + ")";
+  ctx.font = "10px monospace";
+  ctx.textAlign = "center";
+  ctx.fillText("PATROLLER", p.x, p.y - TUNING.PATROL_RADIUS_PX - 4);
+  ctx.textAlign = "left";
+}
+
+function drawDrone(d) {
+  // Vision ring (a faint hint of the drone-cam reveal radius).
+  ctx.beginPath();
+  ctx.arc(d.x, d.y, TUNING.DRONE_VISION_RADIUS_PX, 0, Math.PI * 2);
+  ctx.strokeStyle = "rgba(160, 200, 240, 0.10)";
+  ctx.lineWidth = 1;
+  ctx.stroke();
+
+  // Drone body.
+  const selected = (d.id === state.selectedDroneId);
+  ctx.beginPath();
+  ctx.arc(d.x, d.y, TUNING.DRONE_RADIUS_PX, 0, Math.PI * 2);
+  ctx.fillStyle = selected ? "rgba(255, 255, 120, 0.95)" : "rgba(200, 220, 255, 0.85)";
+  ctx.fill();
+  ctx.strokeStyle = "rgba(40, 60, 100, 0.9)";
+  ctx.lineWidth = 1;
+  ctx.stroke();
+
+  // Drone id (small).
+  ctx.fillStyle = "rgba(240, 240, 240, 0.9)";
+  ctx.font = "9px monospace";
+  ctx.textAlign = "center";
+  ctx.fillText("d" + d.id + (selected ? "*" : ""), d.x, d.y - TUNING.DRONE_RADIUS_PX - 3);
+  ctx.textAlign = "left";
+
+  // Target line (faint).
+  if (Math.hypot(d.targetX - d.x, d.targetY - d.y) > TUNING.DRONE_ARRIVAL_TOLERANCE_PX) {
+    ctx.beginPath();
+    ctx.moveTo(d.x, d.y);
+    ctx.lineTo(d.targetX, d.targetY);
+    ctx.strokeStyle = "rgba(180, 200, 240, 0.18)";
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  }
+}
+
+function drawSub() {
+  const s = state.sub;
+  const r = TUNING.SUB_RADIUS_PX;
+  ctx.save();
+  ctx.translate(s.x, s.y);
+  ctx.rotate(s.heading);
+  ctx.beginPath();
+  ctx.moveTo( r * 1.4, 0);
+  ctx.lineTo(-r,  r * 0.8);
+  ctx.lineTo(-r, -r * 0.8);
+  ctx.closePath();
+  ctx.fillStyle = "#cfd6e0";
+  ctx.fill();
+  ctx.restore();
+}
+
+/* ----- HUD (plain text, INV6) -------------------------------------- */
+function updateHud() {
+  const s = state;
+  const oxyPct = (s.oxygen / TUNING.OXYGEN_MAX_SECONDS) * 100;
+  const pingElapsed = s.timeSec - s.ping.tStart;
+  const pingStatus = (pingElapsed >= 0 && pingElapsed <= TUNING.PING_DURATION_SEC)
+    ? "active (" + (TUNING.PING_DURATION_SEC - pingElapsed).toFixed(1) + "s left)"
+    : "ready";
+  const susp = suspicionState(s.suspicion);
+  const instakillStr = (s.suspicion >= TUNING.SUSP_MAX && s.instakillTimer > 0)
+    ? "   instakill in: " + Math.max(0, TUNING.INSTAKILL_SUSTAIN_SEC - s.instakillTimer).toFixed(2) + "s"
+    : "";
+
+  const reqDone = s.objectives.filter(o => o.captured).length;
+  const reqTotal = s.objectives.length;
+  const bonusStr = s.bonus.captured ? "yes" : "no";
+  const allReq = reqDone === reqTotal;
+  const distExtract = Math.hypot(s.sub.x - EXTRACTION.x, s.sub.y - EXTRACTION.y);
+  const extractStatus = s.winState ? "EXTRACTED"
+    : allReq ? ("ready -- head to EXTRACTION (" + distExtract.toFixed(0) + " px)")
+    : ("need " + (reqTotal - reqDone) + " more required photo(s)");
+  const aliveDrones = s.drones.filter(d => d.alive).length;
+  const factoryGain = factoryProximityGainPerSec(s.sub.x, s.sub.y);
+  const factoryStr = factoryGain > 0 ? ("+" + factoryGain + "/s") : "0";
+
+  hud.textContent =
+    "pos: (" + s.sub.x.toFixed(0) + ", " + s.sub.y.toFixed(0) + ")   " +
+    "hull: " + s.hull + "/" + TUNING.HULL_MAX + "   " +
+    "oxygen: " + oxyPct.toFixed(1) + "%   " +
+    "ping: " + pingStatus + "   " +
+    "t: " + s.timeSec.toFixed(1) + "s\n" +
+    "suspicion: " + s.suspicion.toFixed(1) + "/100   " +
+    "state: " + susp + instakillStr + "   " +
+    "factory_prox: " + factoryStr + "   " +
+    "patroller: " + s.patroller.mode + "\n" +
+    "drones: " + aliveDrones + " alive / " + s.droneSupply + " supply   " +
+    "selected: " + (s.selectedDroneId != null ? ("d" + s.selectedDroneId) : "(none)") + "   " +
+    "photos: " + reqDone + "/" + reqTotal + " req, bonus: " + bonusStr + "   " +
+    "extraction: " + extractStatus;
+}
+
+/* ----- Main loop --------------------------------------------------- */
+let lastT = performance.now();
+function frame(nowMs) {
+  const dt = Math.min(0.05, (nowMs - lastT) / 1000);
+  lastT = nowMs;
+  update(dt);
+  render();
+  updateHud();
+  requestAnimationFrame(frame);
+}
+
+/* ----- Sim-test harness -------------------------------------------- *
+ * Step 3 additions: FACTORY, OBJECTIVES, BONUS_OBJECTIVE, EXTRACTION,
+ * factoryProximityGainPerSec, distancePointToRect, deployDrone,
+ * redirectNearestDrone, cycleSelectedDrone, getSelectedDrone,
+ * tryDronePhoto, trySubCamPhoto.
+ *
+ * Step 1 FIX-PASS 2026-06-04 additions (strict superset, no removals):
+ *   applyInertia(dt, thrust, turn) -- runs the inertia step directly
+ *     for headless tests (sub-stop-from-full-speed, sub-turn-from-rest)
+ *   segmentRectIntersect(x1,y1,x2,y2,rect) -- raw raycast primitive
+ *   isLineOfSightClear(x1,y1,x2,y2) -- terrain+factory LOS predicate
+ *   raycastTerrainHit(x1,y1,x2,y2) -- first occluder along segment
+ *
+ * Step 1+2+3 surface preserved verbatim.
+ * ------------------------------------------------------------------- */
+window.__sim = {
+  TUNING,
+  TERRAIN,
+  PATROL_ROUTE,
+  FACTORY,
+  OBJECTIVES,
+  BONUS_OBJECTIVE,
+  EXTRACTION,
+  newState,
+  update,
+  setState: (s) => { state = s; },
+  getState: () => state,
+  tryActivePing,
+  circleRectOverlap,
+  applySuspicion,
+  suspicionState,
+  isAlertPlus,
+  updatePatroller,
+  nearestWaypointIdx,
+  factoryProximityGainPerSec,
+  distancePointToRect,
+  deployDrone,
+  redirectNearestDrone,
+  cycleSelectedDrone,
+  getSelectedDrone,
+  tryDronePhoto,
+  trySubCamPhoto,
+  // Step 1 fix-pass 2026-06-04 additions:
+  applyInertia,
+  segmentRectIntersect,
+  isLineOfSightClear,
+  raycastTerrainHit,
+};
+
+state = newState();
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>

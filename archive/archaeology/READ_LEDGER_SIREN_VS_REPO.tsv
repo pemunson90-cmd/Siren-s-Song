@@ -1,0 +1,1016 @@
+path	lines_read	lines_total	bytes	status	category	note
+.github/workflows/gauntlet-pr-checks.yml	90	90	3617	full	read	literal read in numbered chunks via sed, contiguous
+AGENTS.md	53	53	10207	full	read	literal read in numbered chunks via sed, contiguous
+README.md	13	13	2394	full	read	literal read in numbered chunks via sed, contiguous
+design/SIRENS_SONG_DESIGN_BIBLE_GAUNTLET_V1.md	121	121	16389	full	read	literal read in numbered chunks via sed, contiguous
+docs/AGENT_BRIEF.md	21	21	5517	full	read	literal read in numbered chunks via sed, contiguous
+docs/CODEX_ENVIRONMENT.md	67	67	3763	full	read	literal read in numbered chunks via sed, contiguous
+docs/CONTINUATION.md	12	12	761	full	read	literal read in numbered chunks via sed, contiguous
+docs/CONVENTIONS.md	24	24	1683	full	read	literal read in numbered chunks via sed, contiguous
+docs/CRITIC_BRIEF.md	13	13	2230	full	read	literal read in numbered chunks via sed, contiguous
+docs/CURRENT_GAME_SPEC.md	138	138	40536	full	read	literal read in numbered chunks via sed, contiguous
+docs/DESKTOP_HANDOFF.md	183	183	10955	full	read	literal read in numbered chunks via sed, contiguous
+docs/DIRECTIVE_PASS0_2026-10-19.md	41	41	2750	full	read	literal read in numbered chunks via sed, contiguous
+docs/FUTURE_OPTIONS.md	14	14	1890	full	read	literal read in numbered chunks via sed, contiguous
+docs/GAUNTLET_ORCHESTRATION.md	76	76	12122	full	read	literal read in numbered chunks via sed, contiguous
+docs/LANES.md	33	33	3387	full	read	literal read in numbered chunks via sed, contiguous
+docs/PASS0_CAMPAIGN_PLAN.md	44	44	3069	full	read	literal read in numbered chunks via sed, contiguous
+docs/PAUSE_CHECKPOINT_2026-10-21.md	100	100	18403	full	read	literal read in numbered chunks via sed, contiguous
+docs/PHOTO_RECON.md	52	52	13900	full	read	literal read in numbered chunks via sed, contiguous
+docs/PLAYTEST_ANDROID.md	26	26	2880	full	read	literal read in numbered chunks via sed, contiguous
+docs/QUESTIONS_FOR_PAT.md	3	3	156	full	read	literal read in numbered chunks via sed, contiguous
+docs/RELEASE_RECONCILIATION_PLAN.md	66	66	6324	full	read	literal read in numbered chunks via sed, contiguous
+docs/REPOSITORY_MAP.md	40	40	3773	full	read	literal read in numbered chunks via sed, contiguous
+docs/RESUME.md	110	110	6226	full	read	literal read in numbered chunks via sed, contiguous
+docs/SESSION_LEDGER_2026-10-21.md	50	50	11780	full	read	literal read in numbered chunks via sed, contiguous
+docs/SESSION_LEDGER_2026-10-22.md	33	33	7319	full	read	literal read in numbered chunks via sed, contiguous
+docs/SOURCE_AUTHORITY.md	52	52	6630	full	read	literal read in numbered chunks via sed, contiguous
+docs/START_HERE.md	20	20	3173	full	read	literal read in numbered chunks via sed, contiguous
+docs/STORY_BIBLE_DRAFT.md	58	58	8160	full	read	literal read in numbered chunks via sed, contiguous
+docs/TESTING.md	35	35	2035	full	read	literal read in numbered chunks via sed, contiguous
+docs/USER_DIRECTIVES.md	113	113	22760	full	read	literal read in numbered chunks via sed, contiguous
+docs/V7_TO_GODOT_PARITY.md	31	31	10722	full	read	literal read in numbered chunks via sed, contiguous
+docs/WORKBENCH.md	13	13	762	full	read	literal read in numbered chunks via sed, contiguous
+docs/architecture/GAUNTLET.md	63	63	12313	full	read	literal read in numbered chunks via sed, contiguous
+docs/decisions/0001-godot-android-production.md	11	11	1932	full	read	literal read in numbered chunks via sed, contiguous
+docs/decisions/README.md	5	5	491	full	read	literal read in numbered chunks via sed, contiguous
+docs/design/STEALTH_AI_ROADMAP.md	192	192	24969	full	read	literal read in numbered chunks via sed, contiguous
+docs/directives/2026-10-20-audit-reaffirmation.md	28	28	2806	full	read	literal read in numbered chunks via sed, contiguous
+docs/directives/2026-10-20-order-correction.md	1	1	271	full	read	literal read in numbered chunks via sed, contiguous
+game/export_presets.cfg	48	48	955	full	read	literal read in numbered chunks via sed, contiguous
+game/project.godot	20	20	777	full	read	literal read in numbered chunks via sed, contiguous
+game/src/audio/photo_audio/photo_audio.gd	94	94	4911	full	read	literal read in numbered chunks via sed, contiguous
+game/src/audio/photo_audio/photo_cue_table.gd	20	20	1272	full	read	literal read in numbered chunks via sed, contiguous
+game/src/audio/photo_audio/photo_wave.gd	25	25	1302	full	read	literal read in numbered chunks via sed, contiguous
+game/src/audio/received_cues.gd	20	20	1036	full	read	literal read in numbered chunks via sed, contiguous
+game/src/audio/soundscape.gd	179	179	9898	full	read	literal read in numbered chunks via sed, contiguous
+game/src/campaign/endurance_budgets.gd	8	8	613	full	read	literal read in numbered chunks via sed, contiguous
+game/src/equipment/craft_upgrades.gd	43	43	2920	full	read	literal read in numbered chunks via sed, contiguous
+game/src/input/map_gesture.gd	34	34	1454	full	read	literal read in numbered chunks via sed, contiguous
+game/src/main.gd	950	950	63195	full	read	literal read in numbered chunks via sed, contiguous
+game/src/persistence/save_checks.gd	73	73	3812	full	read	literal read in numbered chunks via sed, contiguous
+game/src/persistence/save_store.gd	74	74	5390	full	read	literal read in numbered chunks via sed, contiguous
+game/src/persistence/settings_store.gd	49	49	2205	full	read	literal read in numbered chunks via sed, contiguous
+game/src/presentation/acoustic_feedback.gd	24	24	1543	full	read	literal read in numbered chunks via sed, contiguous
+game/src/presentation/contact_feedback.gd	26	26	1918	full	read	literal read in numbered chunks via sed, contiguous
+game/src/presentation/first_siren_cue/cue_archive.gd	22	22	985	full	read	literal read in numbered chunks via sed, contiguous
+game/src/presentation/first_siren_cue/cue_table.gd	10	10	596	full	read	literal read in numbered chunks via sed, contiguous
+game/src/presentation/first_siren_cue/first_siren_cue.gd	63	63	3812	full	read	literal read in numbered chunks via sed, contiguous
+game/src/presentation/first_siren_cue/notice_tracker.gd	39	39	1802	full	read	literal read in numbered chunks via sed, contiguous
+game/src/presentation/fleet_instruments.gd	258	258	18747	full	read	literal read in numbered chunks via sed, contiguous
+game/src/presentation/fleet_ring.gd	56	56	3718	full	read	literal read in numbered chunks via sed, contiguous
+game/src/presentation/flow/campaign_flow.gd	217	217	15790	full	read	literal read in numbered chunks via sed, contiguous
+game/src/presentation/layout_metrics.gd	13	13	922	full	read	literal read in numbered chunks via sed, contiguous
+game/src/presentation/lock_warning.gd	64	64	3404	full	read	literal read in numbered chunks via sed, contiguous
+game/src/presentation/loss_summary.gd	18	18	1252	full	read	literal read in numbered chunks via sed, contiguous
+game/src/presentation/mission_hud.gd	657	657	50993	full	read	literal read in numbered chunks via sed, contiguous
+game/src/presentation/ocean_view.gd	691	691	41458	full	read	literal read in numbered chunks via sed, contiguous
+game/src/simulation/acoustic_network.gd	86	86	5428	full	read	literal read in numbered chunks via sed, contiguous
+game/src/simulation/acoustic_paths.gd	85	85	4343	full	read	literal read in numbered chunks via sed, contiguous
+game/src/simulation/advanced_sonar.gd	177	177	14633	full	read	literal read in numbered chunks via sed, contiguous
+game/src/simulation/all_stop/all_stop.gd	106	106	4921	full	read	literal read in numbered chunks via sed, contiguous
+game/src/simulation/all_stop/all_stop_table.gd	46	46	2453	full	read	literal read in numbered chunks via sed, contiguous
+game/src/simulation/contact_reports.gd	67	67	4228	full	read	literal read in numbered chunks via sed, contiguous
+game/src/simulation/current_field.gd	9	9	479	full	read	literal read in numbered chunks via sed, contiguous
+game/src/simulation/depth_bands.gd	169	169	11415	full	read	literal read in numbered chunks via sed, contiguous
+game/src/simulation/enemy_types.gd	5	5	316	full	read	literal read in numbered chunks via sed, contiguous
+game/src/simulation/observed_stun.gd	22	22	1204	full	read	literal read in numbered chunks via sed, contiguous
+game/src/simulation/operation_endurance.gd	16	16	992	full	read	literal read in numbered chunks via sed, contiguous
+game/src/simulation/orders/feature_orders.gd	40	40	2559	full	read	literal read in numbered chunks via sed, contiguous
+game/src/simulation/orders/order_table.gd	51	51	1847	full	read	literal read in numbered chunks via sed, contiguous
+game/src/simulation/orders/photo_orders.gd	29	29	2325	full	read	literal read in numbered chunks via sed, contiguous
+game/src/simulation/orders/route_orders.gd	69	69	4504	full	read	literal read in numbered chunks via sed, contiguous
+game/src/simulation/orders/sensor_orders.gd	26	26	1800	full	read	literal read in numbered chunks via sed, contiguous
+game/src/simulation/orders/weapon_orders.gd	32	32	2474	full	read	literal read in numbered chunks via sed, contiguous
+game/src/simulation/recon_consequences.gd	60	60	3551	full	read	literal read in numbered chunks via sed, contiguous
+game/src/simulation/signal_field.gd	90	90	7088	full	read	literal read in numbered chunks via sed, contiguous
+game/src/simulation/simulation.gd	1457	1457	95403	full	read	literal read in numbered chunks via sed, contiguous
+game/src/simulation/sweeper_senses.gd	59	59	3587	full	read	literal read in numbered chunks via sed, contiguous
+game/src/simulation/thermal_front.gd	51	51	3111	full	read	literal read in numbered chunks via sed, contiguous
+game/src/simulation/tuning.gd	26	26	770	full	read	literal read in numbered chunks via sed, contiguous
+game/tests/all_stop_tests.gd	109	109	7228	full	read	literal read in numbered chunks via sed, contiguous
+game/tests/campaign_debrief_view_tests.gd	53	53	3101	full	read	literal read in numbered chunks via sed, contiguous
+game/tests/collision_boundaries_tests.gd	59	59	3654	full	read	literal read in numbered chunks via sed, contiguous
+game/tests/combat_rules_tests.gd	64	64	4350	full	read	literal read in numbered chunks via sed, contiguous
+game/tests/first_siren_cue_tests.gd	68	68	4219	full	read	literal read in numbered chunks via sed, contiguous
+game/tests/fleet_instruments_ui_tests.gd	106	106	9174	full	read	literal read in numbered chunks via sed, contiguous
+game/tests/fleet_ring_ui_tests.gd	206	206	16599	full	read	literal read in numbered chunks via sed, contiguous
+game/tests/lock_warning_tests.gd	68	68	4261	full	read	literal read in numbered chunks via sed, contiguous
+game/tests/patient_play.gd	22	22	1479	full	read	literal read in numbered chunks via sed, contiguous
+game/tests/playfield_hud_tests.gd	141	141	11040	full	read	literal read in numbered chunks via sed, contiguous
+game/tests/run_tests.gd	41	41	1888	full	read	literal read in numbered chunks via sed, contiguous
+game/tests/siren_warning_pause_tests.gd	76	76	4743	full	read	literal read in numbered chunks via sed, contiguous
+game/tests/suites.txt	217	217	10579	full	read	literal read in numbered chunks via sed, contiguous
+reference/original-prototype/MANIFEST.md	123	123	15264	full	read	literal read in numbered chunks via sed, contiguous
+reference/original-prototype/SIRENS_SONG_dev_notes.md	107	107	7860	full	read	literal read in numbered chunks via sed, contiguous
+reference/original-prototype/SIRENS_SONG_functional_spec.md	334	334	17281	full	read	literal read in numbered chunks via sed, contiguous
+reference/original-prototype/SIRENS_SONG_pressure_design.md	135	135	8971	full	read	literal read in numbered chunks via sed, contiguous
+scripts/toolchain/check-gauntlet-guidance.py	133	133	6214	full	read	literal read in numbered chunks via sed, contiguous
+scripts/toolchain/test.sh	91	91	4208	full	read	literal read in numbered chunks via sed, contiguous
+.github/native-milestone.txt	6	6	636	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+.github/workflows/android-validation.yml	188	188	8450	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+.gitignore	30	30	494	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+docs/repository/BRANCH_LEDGER_20261024.md	536	536	46670	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+docs/repository/branches-2026-10-22.tsv	166	166	16529	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+docs/superpowers/plans/2026-10-23-early-module-reward.md	34	34	4569	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+docs/superpowers/plans/2026-10-23-first-siren-cue.md	44	44	6243	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+docs/superpowers/plans/2026-10-23-route-map.md	22	22	2362	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+docs/superpowers/plans/2026-10-24-arch2.md	33	33	2232	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/assets/ATTRIBUTION.md	25	25	4202	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/assets/audio/ATTRIBUTION.md	70	70	4329	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/assets/audio/CC-BY-3.0.txt	99	99	18675	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/assets/audio/CC0-1.0.txt	41	41	7002	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/assets/audio/alert.wav	0		39734	skipped-by-category	binary-asset	binary art/audio/archive, not readable as text
+game/assets/audio/alert.wav.import	0		485	skipped-by-category	generated-import	Godot import metadata, not game logic
+game/assets/audio/ambience.wav	0		555704	skipped-by-category	binary-asset	binary art/audio/archive, not readable as text
+game/assets/audio/ambience.wav.import	0		498	skipped-by-category	generated-import	Godot import metadata, not game logic
+game/assets/audio/attribution.tres	7	7	30248	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/assets/audio/beam.wav	0		102088	skipped-by-category	binary-asset	binary art/audio/archive, not readable as text
+game/assets/audio/beam.wav.import	0		482	skipped-by-category	generated-import	Godot import metadata, not game logic
+game/assets/audio/berth_release.wav	0		88244	skipped-by-category	binary-asset	binary art/audio/archive, not readable as text
+game/assets/audio/berth_release.wav.import	0		509	skipped-by-category	generated-import	Godot import metadata, not game logic
+game/assets/audio/camera.wav	0		7730	skipped-by-category	binary-asset	binary art/audio/archive, not readable as text
+game/assets/audio/camera.wav.import	0		488	skipped-by-category	generated-import	Godot import metadata, not game logic
+game/assets/audio/carrier_received.wav	0		48554	skipped-by-category	binary-asset	binary art/audio/archive, not readable as text
+game/assets/audio/carrier_received.wav.import	0		518	skipped-by-category	generated-import	Godot import metadata, not game logic
+game/assets/audio/creak.wav	0		112102	skipped-by-category	binary-asset	binary art/audio/archive, not readable as text
+game/assets/audio/creak.wav.import	0		484	skipped-by-category	generated-import	Godot import metadata, not game logic
+game/assets/audio/decoy.wav	0		66194	skipped-by-category	binary-asset	binary art/audio/archive, not readable as text
+game/assets/audio/decoy.wav.import	0		485	skipped-by-category	generated-import	Godot import metadata, not game logic
+game/assets/audio/emp.wav	0		35552	skipped-by-category	binary-asset	binary art/audio/archive, not readable as text
+game/assets/audio/emp.wav.import	0		479	skipped-by-category	generated-import	Godot import metadata, not game logic
+game/assets/audio/engine.wav	0		202904	skipped-by-category	binary-asset	binary art/audio/archive, not readable as text
+game/assets/audio/engine.wav.import	0		492	skipped-by-category	generated-import	Godot import metadata, not game logic
+game/assets/audio/extraction.wav	0		88244	skipped-by-category	binary-asset	binary art/audio/archive, not readable as text
+game/assets/audio/extraction.wav.import	0		499	skipped-by-category	generated-import	Godot import metadata, not game logic
+game/assets/audio/factory.wav	0		211724	skipped-by-category	binary-asset	binary art/audio/archive, not readable as text
+game/assets/audio/factory.wav.import	0		491	skipped-by-category	generated-import	Godot import metadata, not game logic
+game/assets/audio/heartbeat.wav	0		19888	skipped-by-category	binary-asset	binary art/audio/archive, not readable as text
+game/assets/audio/heartbeat.wav.import	0		497	skipped-by-category	generated-import	Godot import metadata, not game logic
+game/assets/audio/knock.wav	0		84792	skipped-by-category	binary-asset	binary art/audio/archive, not readable as text
+game/assets/audio/knock.wav.import	0		485	skipped-by-category	generated-import	Godot import metadata, not game logic
+game/assets/audio/loss.wav	0		76404	skipped-by-category	binary-asset	binary art/audio/archive, not readable as text
+game/assets/audio/loss.wav.import	0		481	skipped-by-category	generated-import	Godot import metadata, not game logic
+game/assets/audio/manifest.json	170	170	5605	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/assets/audio/ping.wav	0		16288	skipped-by-category	binary-asset	binary art/audio/archive, not readable as text
+game/assets/audio/ping.wav.import	0		482	skipped-by-category	generated-import	Godot import metadata, not game logic
+game/assets/audio/plant_switch.wav	0		8964	skipped-by-category	binary-asset	binary art/audio/archive, not readable as text
+game/assets/audio/plant_switch.wav.import	0		506	skipped-by-category	generated-import	Godot import metadata, not game logic
+game/assets/audio/recon.wav	0		39734	skipped-by-category	binary-asset	binary art/audio/archive, not readable as text
+game/assets/audio/recon.wav.import	0		485	skipped-by-category	generated-import	Godot import metadata, not game logic
+game/assets/audio/record.wav	0		66194	skipped-by-category	binary-asset	binary art/audio/archive, not readable as text
+game/assets/audio/record.wav.import	0		487	skipped-by-category	generated-import	Godot import metadata, not game logic
+game/assets/audio/return_received.wav	0		66194	skipped-by-category	binary-asset	binary art/audio/archive, not readable as text
+game/assets/audio/return_received.wav.import	0		515	skipped-by-category	generated-import	Godot import metadata, not game logic
+game/assets/audio/salvage.wav	0		79424	skipped-by-category	binary-asset	binary art/audio/archive, not readable as text
+game/assets/audio/salvage.wav.import	0		490	skipped-by-category	generated-import	Godot import metadata, not game logic
+game/assets/audio/snare.wav	0		32994	skipped-by-category	binary-asset	binary art/audio/archive, not readable as text
+game/assets/audio/snare.wav.import	0		484	skipped-by-category	generated-import	Godot import metadata, not game logic
+game/assets/audio/sweep_received.wav	0		40532	skipped-by-category	binary-asset	binary art/audio/archive, not readable as text
+game/assets/audio/sweep_received.wav.import	0		511	skipped-by-category	generated-import	Godot import metadata, not game logic
+game/assets/audio/tension.wav	0		423404	skipped-by-category	binary-asset	binary art/audio/archive, not readable as text
+game/assets/audio/tension.wav.import	0		494	skipped-by-category	generated-import	Godot import metadata, not game logic
+game/assets/craft/quietus.png	0		918762	skipped-by-category	binary-asset	binary art/audio/archive, not readable as text
+game/assets/craft/quietus.png.import	0		937	skipped-by-category	generated-import	Godot import metadata, not game logic
+game/assets/craft/siren_ray.png	0		916405	skipped-by-category	binary-asset	binary art/audio/archive, not readable as text
+game/assets/craft/siren_ray.png.import	0		944	skipped-by-category	generated-import	Godot import metadata, not game logic
+game/assets/evidence/blackwater_reply.png	0		134746	skipped-by-category	binary-asset	binary art/audio/archive, not readable as text
+game/assets/evidence/blackwater_reply.png.import	0		968	skipped-by-category	generated-import	Godot import metadata, not game logic
+game/assets/evidence/blackwater_request.png	0		129335	skipped-by-category	binary-asset	binary art/audio/archive, not readable as text
+game/assets/evidence/blackwater_request.png.import	0		974	skipped-by-category	generated-import	Godot import metadata, not game logic
+game/assets/evidence/finale_departure.png	0		2227346	skipped-by-category	binary-asset	binary art/audio/archive, not readable as text
+game/assets/evidence/finale_departure.png.import	0		968	skipped-by-category	generated-import	Godot import metadata, not game logic
+game/assets/evidence/finale_transmitter.png	0		2530233	skipped-by-category	binary-asset	binary art/audio/archive, not readable as text
+game/assets/evidence/finale_transmitter.png.import	0		974	skipped-by-category	generated-import	Godot import metadata, not game logic
+game/assets/evidence/finale_warning.png	0		78750	skipped-by-category	binary-asset	binary art/audio/archive, not readable as text
+game/assets/evidence/finale_warning.png.import	0		962	skipped-by-category	generated-import	Godot import metadata, not game logic
+game/assets/evidence/finale_warning.svg	0		2493	skipped-by-category	binary-asset	binary art/audio/archive, not readable as text
+game/assets/evidence/finale_warning.svg.import	0		1059	skipped-by-category	generated-import	Godot import metadata, not game logic
+game/assets/evidence/foundry_cradle.png	0		2705031	skipped-by-category	binary-asset	binary art/audio/archive, not readable as text
+game/assets/evidence/foundry_cradle.png.import	0		962	skipped-by-category	generated-import	Godot import metadata, not game logic
+game/assets/evidence/foundry_furnace.png	0		3135572	skipped-by-category	binary-asset	binary art/audio/archive, not readable as text
+game/assets/evidence/foundry_furnace.png.import	0		965	skipped-by-category	generated-import	Godot import metadata, not game logic
+game/assets/materials/basalt.png	0		3940245	skipped-by-category	binary-asset	binary art/audio/archive, not readable as text
+game/assets/materials/basalt.png.import	0		938	skipped-by-category	generated-import	Godot import metadata, not game logic
+game/assets/structures/foundry.png	0		2681854	skipped-by-category	binary-asset	binary art/audio/archive, not readable as text
+game/assets/structures/foundry.png.import	0		943	skipped-by-category	generated-import	Godot import metadata, not game logic
+game/scenes/main.tscn	10	10	283	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/audio/received_cues.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/audio/soundscape.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/campaign/archive_recap.gd	15	15	1303	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/campaign/archive_recap.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/campaign/campaign_consequences.gd	154	154	12712	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/campaign/campaign_consequences.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/campaign/challenges/challenge_archive.gd	19	19	1091	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/campaign/challenges/challenge_catalog.gd	56	56	4229	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/campaign/challenges/challenge_records.gd	53	53	3502	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/campaign/challenges/challenge_rules.gd	35	35	2345	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/campaign/challenges/challenge_run.gd	57	57	2636	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/campaign/confluence_region.gd	39	39	6628	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/campaign/confluence_region.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/campaign/divergence_missions.gd	50	50	6469	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/campaign/divergence_missions.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/campaign/early_reward/early_reward.gd	25	25	1595	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/campaign/early_reward/reward_table.gd	4	4	266	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/campaign/encounters/choir_rules.gd	70	70	4473	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/campaign/encounters/choir_rules.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/campaign/encounters/iron_layouts.gd	63	63	4553	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/campaign/encounters/iron_layouts.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/campaign/encounters/roster.gd	16	16	1250	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/campaign/encounters/roster.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/campaign/encounters/terrain.gd	36	36	2193	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/campaign/encounters/terrain.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/campaign/encounters/work_sites.gd	28	28	2183	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/campaign/encounters/work_sites.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/campaign/endings.gd	42	42	4653	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/campaign/endings.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/campaign/endurance_budgets.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/campaign/expedition_campaign.gd	70	70	5279	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/campaign/expedition_campaign.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/campaign/fleet_inventory.gd	54	54	3294	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/campaign/fleet_inventory.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/campaign/glass_reach_operations.gd	201	201	18932	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/campaign/glass_reach_operations.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/campaign/glass_research.gd	41	41	2890	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/campaign/glass_research.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/campaign/iron_choir_operations.gd	55	55	6433	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/campaign/iron_choir_operations.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/campaign/missions.gd	9	9	430	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/campaign/missions.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/campaign/onboarding_text.gd	41	41	4177	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/campaign/onboarding_text.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/campaign/onward_missions.gd	49	49	7302	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/campaign/onward_missions.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/campaign/opening_depth_operations.gd	68	68	5926	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/campaign/opening_depth_operations.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/campaign/operation_catalog.gd	128	128	11949	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/campaign/operation_catalog.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/campaign/photo_intel.gd	97	97	7651	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/campaign/photo_intel.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/campaign/photo_ops.gd	147	147	15972	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/campaign/photo_ops.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/campaign/plant_operation.gd	35	35	2659	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/campaign/plant_operation.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/campaign/resolution_missions.gd	106	106	12853	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/campaign/resolution_missions.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/campaign/route_map/route_graph.gd	30	30	2219	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/campaign/route_map/route_graph_table.gd	17	17	1464	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/campaign/shelf_signal_operation.gd	17	17	1588	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/campaign/shelf_signal_operation.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/campaign/split_channel_region.gd	32	32	2848	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/campaign/split_channel_region.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/campaign/tutorial_missions.gd	125	125	13814	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/campaign/tutorial_missions.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/diagnostics/metrics_transport.gd	14	14	771	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/diagnostics/metrics_transport.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/equipment/cadence_correlator.gd	92	92	6399	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/equipment/cadence_correlator.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/equipment/chassis.gd	11	11	1409	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/equipment/chassis.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/equipment/craft_upgrades.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/equipment/equipment_catalog.gd	169	169	12687	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/equipment/equipment_catalog.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/equipment/field_sampler.gd	7	7	519	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/equipment/field_sampler.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/equipment/hulls.gd	14	14	1567	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/equipment/hulls.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/input/map_gesture.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/main.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/persistence/save_store.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/persistence/settings_store.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/photo_depth/band_hint.gd	27	27	1645	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/photo_depth/band_photo.gd	148	148	7794	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/photo_depth/band_table.gd	49	49	2782	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/photo_grade/grade_on_secure.gd	16	16	980	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/photo_rules/known_lane.gd	57	57	2821	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/photo_rules/loop_clock.gd	98	98	4793	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/photo_rules/photo_rules.gd	35	35	2133	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/photo_rules/post_clock.gd	42	42	2202	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/photo_rules/rule_data.gd	42	42	2651	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/photo_rules/rule_overlay.gd	38	38	1758	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/photo_rules/rule_table.gd	77	77	3974	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/photo_rules/window_check.gd	78	78	3550	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/presentation/acoustic_feedback.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/presentation/blackwater_courier_view.gd	21	21	1402	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/presentation/blackwater_courier_view.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/presentation/blackwater_delivery_view.gd	62	62	3349	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/presentation/blackwater_delivery_view.gd.uid	0		19	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/presentation/camera_feed.gd	234	234	15652	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/presentation/camera_feed.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/presentation/chart_camera.gd	42	42	2293	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/presentation/chart_camera.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/presentation/concealed_harbour_view.gd	103	103	7089	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/presentation/concealed_harbour_view.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/presentation/confluence_resolution.gd	168	168	10678	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/presentation/confluence_resolution.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/presentation/confluence_world.gd	154	154	8904	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/presentation/confluence_world.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/presentation/contact_feedback.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/presentation/earned_chart_view.gd	39	39	2205	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/presentation/earned_chart_view.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/presentation/equipment_context.gd	112	112	9044	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/presentation/equipment_context.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/presentation/evidence_catalog.gd	10	10	531	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/presentation/evidence_catalog.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/presentation/expedition_operations.gd	73	73	7310	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/presentation/expedition_operations.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/presentation/expedition_view.gd	101	101	8119	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/presentation/expedition_view.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/presentation/fittings_menu.gd	16	16	1052	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/presentation/fleet_instruments.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/presentation/fleet_ring.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/presentation/frontend/challenge_session.gd	105	105	5855	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/presentation/frontend/challenges_frontend.gd	52	52	3300	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/presentation/frontend/credits_text.gd	14	14	657	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/presentation/frontend/credits_text.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/presentation/frontend/frontend.gd	168	168	9927	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/presentation/frontend/frontend.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/presentation/frontend/frontend_settings.gd	48	48	2576	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/presentation/frontend/frontend_settings.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/presentation/goal_bearing/goal_bearing.gd	41	41	2672	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/presentation/industrial_view.gd	40	40	2815	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/presentation/industrial_view.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/presentation/layout_metrics.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/presentation/lock_warning.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/presentation/mission_hud.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/presentation/module_recovery_view.gd	174	174	11931	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/presentation/module_recovery_view.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/presentation/ocean_view.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/presentation/onboarding_hints.gd	95	95	6238	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/presentation/onboarding_hints.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/presentation/operation_instruments.gd	55	55	3550	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/presentation/operation_instruments.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/presentation/order_guard.gd	116	116	7410	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/presentation/order_guard.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/presentation/photo_pricing/photo_pricing_hints.gd	30	30	1818	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/presentation/photo_pricing/photo_pricing_overlay.gd	54	54	3144	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/presentation/photo_scene.gd	381	381	25840	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/presentation/photo_scene.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/presentation/photo_view.gd	48	48	3532	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/presentation/photo_view.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/presentation/radial_layout/center_layout.gd	14	14	1011	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/presentation/receiver_scene.gd	43	43	3145	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/presentation/receiver_scene.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/presentation/rendezvous_view.gd	111	111	8225	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/presentation/rendezvous_view.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/presentation/resolution_world.gd	101	101	5574	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/presentation/resolution_world.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/presentation/route_clearance/hull_band.gd	18	18	1032	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/presentation/route_map/route_map_view.gd	118	118	8452	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/presentation/route_program_panel.gd	128	128	9546	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/presentation/route_program_panel.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/presentation/route_program_preview.gd	144	144	9395	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/presentation/route_program_preview.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/presentation/shelf_habitat_view.gd	136	136	9501	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/presentation/shelf_habitat_view.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/presentation/sonar_history.gd	43	43	2981	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/presentation/sonar_history.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/presentation/tool_help/tool_help.gd	32	32	1199	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/presentation/torpedo_aim.gd	19	19	1261	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/presentation/torpedo_aim.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/presentation/wake_crossing_view.gd	39	39	3250	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/presentation/wake_crossing_view.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/presentation/warning_chain_view.gd	126	126	9068	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/presentation/warning_chain_view.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/presentation/warning_recipient_view.gd	127	127	9097	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/presentation/warning_recipient_view.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/presentation/witness_evacuation_view.gd	118	118	7371	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/presentation/witness_evacuation_view.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/simulation/acoustic_network.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/simulation/acoustic_paths.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/simulation/advanced_sonar.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/simulation/blackwater_courier.gd	45	45	2829	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/simulation/blackwater_courier.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/simulation/blackwater_delivery.gd	184	184	13716	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/simulation/blackwater_delivery.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/simulation/concealed_harbour.gd	173	173	15641	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/simulation/concealed_harbour.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/simulation/contact_reports.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/simulation/current_field.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/simulation/depth_bands.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/simulation/drone_operations.gd	24	24	1036	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/simulation/drone_operations.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/simulation/foundry_departure.gd	51	51	3157	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/simulation/foundry_departure.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/simulation/glass_reach_work.gd	154	154	12447	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/simulation/glass_reach_work.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/simulation/industrial_jobs.gd	221	221	18695	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/simulation/industrial_jobs.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/simulation/industrial_threats.gd	127	127	7988	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/simulation/industrial_threats.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/simulation/job_release.gd	20	20	1159	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/simulation/module_recovery.gd	157	157	11140	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/simulation/module_recovery.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/simulation/opening_fleet/launch_layout.gd	8	8	492	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/simulation/operation_endurance.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/simulation/photo_capture.gd	443	443	27997	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/simulation/photo_capture.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/simulation/photo_context.gd	30	30	2119	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/simulation/photo_findings.gd	168	168	9227	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/simulation/photo_findings.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/simulation/photo_pricing/photo_pricing.gd	218	218	12746	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/simulation/photo_pricing/photo_pricing_briefing.gd	17	17	1079	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/simulation/photo_pricing/photo_pricing_data.gd	16	16	751	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/simulation/photo_pricing/photo_pricing_table.gd	100	100	5438	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/simulation/polygon_containment.gd	23	23	1170	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/simulation/polygon_containment.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/simulation/recon_consequences.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/simulation/rendezvous_transport.gd	113	113	8840	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/simulation/rendezvous_transport.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/simulation/resolution_operations.gd	116	116	9679	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/simulation/resolution_operations.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/simulation/route_program.gd	63	63	3533	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/simulation/route_program.gd.uid	0		19	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/simulation/shelf_habitat.gd	124	124	10164	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/simulation/shelf_habitat.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/simulation/signal_field.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/simulation/simulation.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/simulation/sonar_sweeper.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/simulation/terrain_chart.gd	256	256	14272	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/simulation/terrain_chart.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/simulation/thermal_front.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/simulation/wake_crossing.gd	45	45	3488	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/simulation/wake_crossing.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/simulation/warning_chain.gd	125	125	10391	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/simulation/warning_chain.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/simulation/warning_recipient.gd	135	135	11634	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/simulation/warning_recipient.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/simulation/witness_evacuation.gd	165	165	13893	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/simulation/witness_evacuation.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/src/simulation/world_region.gd	58	58	3524	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/src/simulation/world_region.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/acoustic_footprint_tests.gd	20	20	1411	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/acoustic_footprint_tests.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/acoustic_hearing_tests.gd	47	47	3643	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/acoustic_hearing_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/acoustic_path_affected_tests.gd	11	11	439	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/acoustic_path_affected_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/acoustic_path_tests.gd	34	34	2680	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/acoustic_path_tests.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/acoustic_path_ui_tests.gd	13	13	581	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/acoustic_path_ui_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/acoustic_scenarios.gd	35	35	2823	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/acoustic_scenarios.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/acoustic_ui_scenarios.gd	18	18	1633	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/acoustic_ui_scenarios.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/all_stop_ui_tests.gd	42	42	2869	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/archive_recap_fixtures.gd	12	12	865	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/archive_recap_fixtures.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/archive_recap_tests.gd	34	34	2737	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/archive_recap_tests.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/archive_recap_ui_tests.gd	34	34	2624	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/archive_recap_ui_tests.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/attention_scenarios.gd	29	29	2199	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/attention_scenarios.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/audio_scenarios.gd	54	54	4295	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/audio_scenarios.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/audit_artifact_cargo_tests.gd	54	54	3521	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/audit_findings_provenance_tests.gd	53	53	3811	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/audit_photo_integrity_tests.gd	65	65	4359	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/audit_photo_ui_tests.gd	35	35	1887	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/authored_plant_scenarios.gd	49	49	4655	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/authored_plant_scenarios.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/beam_emission_tests.gd	41	41	2550	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/beam_emission_tests.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/blackwater_courier_tests.gd	85	85	7006	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/blackwater_courier_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/blackwater_delivery_runtime_ui_tests.gd	107	107	10653	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/blackwater_delivery_runtime_ui_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/blackwater_delivery_tests.gd	184	184	17411	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/blackwater_delivery_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/blackwater_delivery_ui_tests.gd	121	121	12360	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/blackwater_delivery_ui_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/blackwater_scenarios.gd	73	73	7478	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/blackwater_scenarios.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/blackwater_tests.gd	9	9	299	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/blackwater_tests.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/blackwater_ui_scenarios.gd	32	32	2661	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/blackwater_ui_scenarios.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/blackwater_ui_tests.gd	14	14	673	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/blackwater_ui_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/briefing_scroll_fitting_ui_tests.gd	101	101	7558	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/briefing_scroll_fitting_ui_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/cadence_correlator_tests.gd	73	73	5741	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/cadence_correlator_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/campaign_capture_progress_tests.gd	35	35	2471	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/campaign_capture_progress_tests.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/campaign_consequence_tests.gd	41	41	3832	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/campaign_consequence_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/campaign_debrief_view_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/campaign_endings_tests.gd	68	68	5283	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/campaign_endings_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/campaign_equipment_save_tests.gd	35	35	2710	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/campaign_equipment_save_tests.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/campaign_instruments_tests.gd	92	92	7815	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/campaign_instruments_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/campaign_instruments_ui_tests.gd	97	97	8257	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/campaign_instruments_ui_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/campaign_main_dispatch_tests.gd	44	44	3396	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/campaign_main_dispatch_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/campaign_photo_rows_tests.gd	115	115	8363	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/campaign_scenarios.gd	44	44	2538	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/campaign_scenarios.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/campaign_ui_scenarios.gd	34	34	1987	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/campaign_ui_scenarios.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/capture_acoustic.gd	48	48	2917	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/capture_acoustic.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/capture_acoustic_context.gd	31	31	2126	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/capture_acoustic_context.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/capture_audio.gd	18	18	974	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/capture_audio.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/capture_audio_loops.gd	19	19	990	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/capture_audio_loops.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/capture_blackwater.gd	56	56	3208	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/capture_blackwater.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/capture_blackwater_motion.gd	73	73	4347	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/capture_blackwater_motion.gd.uid	0		19	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/capture_campaign.gd	23	23	1304	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/capture_campaign.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/capture_density.gd	38	38	2732	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/capture_density.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/capture_density_interaction.gd	36	36	2654	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/capture_density_interaction.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/capture_feedback_tests.gd	23	23	1441	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/capture_feedback_tests.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/capture_finale.gd	17	17	1164	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/capture_finale.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/capture_foundry.gd	16	16	1219	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/capture_foundry.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/capture_observed_contact_lock.gd	16	16	1108	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/capture_observed_contact_lock.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/capture_photo.gd	56	56	2303	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/capture_photo.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/capture_return.gd	11	11	699	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/capture_return.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/capture_siren_roles.gd	22	22	1417	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/capture_siren_roles.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/capture_touch.gd	16	16	924	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/capture_touch.gd.uid	0		19	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/capture_touch_movie.gd	31	31	1817	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/capture_touch_movie.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/challenges_journey_tests.gd	28	28	1680	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/challenges_tests.gd	112	112	7048	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/challenges_ui_tests.gd	139	139	9686	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/cold_review_archive_tests.gd	83	83	5848	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/cold_review_ui_tests.gd	122	122	10588	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/collision_boundaries_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/combat_rules_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/concealed_fixture.gd	15	15	1104	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/concealed_fixture.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/concealed_harbour_journey_tests.gd	96	96	6418	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/concealed_harbour_journey_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/concealed_harbour_tests.gd	170	170	15144	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/concealed_harbour_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/concealed_harbour_ui_tests.gd	137	137	10313	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/concealed_harbour_ui_tests.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/confluence_command_plan.gd	95	95	5820	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/confluence_command_plan.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/confluence_completion_tests.gd	10	10	663	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/confluence_completion_tests.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/confluence_operation_tests.gd	71	71	5921	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/confluence_operation_tests.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/confluence_parallel_tests.gd	13	13	848	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/confluence_parallel_tests.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/confluence_presentation_tests.gd	53	53	4514	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/confluence_presentation_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/confluence_resolution_ui_tests.gd	51	51	3976	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/confluence_resolution_ui_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/contact_reports_tests.gd	93	93	8007	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/contact_reports_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/contact_reports_ui_tests.gd	39	39	2593	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/contact_reports_ui_tests.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/core_scenarios.gd	44	44	3763	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/core_scenarios.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/craft_upgrade_sim_tests.gd	41	41	3381	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/craft_upgrade_sim_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/craft_upgrades_tests.gd	31	31	2580	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/craft_upgrades_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/current_chart_seam_tests.gd	35	35	2668	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/current_chart_seam_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/current_motion_tests.gd	63	63	5113	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/current_motion_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/current_propulsion_tests.gd	18	18	947	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/current_propulsion_tests.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/decoy_aim_ui_tests.gd	52	52	4310	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/decoy_aim_ui_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/decoy_deployment_tests.gd	28	28	2354	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/decoy_deployment_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/density_main.gd	22	22	1066	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/density_main.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/density_menu_scenarios.gd	57	57	3797	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/density_menu_scenarios.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/density_scenarios.gd	79	79	6699	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/density_scenarios.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/density_scroll_scenarios.gd	102	102	7064	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/density_scroll_scenarios.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/depth_policy_journeys.gd	58	58	4145	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/depth_policy_journeys.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/depth_policy_ui_tests.gd	108	108	6630	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/depth_policy_ui_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/depth_repair_scenarios.gd	103	103	7760	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/depth_repair_scenarios.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/depth_sonar_scenarios.gd	122	122	11552	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/depth_sonar_scenarios.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/depth_sonar_tests.gd	9	9	300	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/depth_sonar_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/depth_sonar_ui_tests.gd	67	67	4799	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/depth_sonar_ui_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/divergence_save_tests.gd	33	33	2780	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/divergence_save_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/divergence_tests.gd	36	36	3098	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/divergence_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/drone_drive_tests.gd	58	58	5379	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/drone_drive_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/drone_drive_ui_tests.gd	76	76	5920	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/drone_drive_ui_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/drone_operations_tests.gd	82	82	7352	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/drone_operations_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/drone_operations_ui_tests.gd	36	36	3486	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/drone_operations_ui_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/early_reward_tests.gd	41	41	2625	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/early_reward_ui_tests.gd	49	49	4121	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/earned_course_continuity_tests.gd	99	99	9911	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/earned_course_continuity_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/earned_equipment_tests.gd	29	29	2444	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/earned_equipment_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/expanded_region_journeys.gd	28	28	1648	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/expanded_region_journeys.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/expanded_region_tests.gd	41	41	3201	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/expanded_region_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/expedition_instruments_ui_tests.gd	120	120	10401	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/expedition_instruments_ui_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/expedition_menu_tests.gd	40	40	3021	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/expedition_menu_tests.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/extraction_survival_tests.gd	52	52	4225	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/extraction_survival_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/field_sampler_tests.gd	22	22	1730	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/field_sampler_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/finale_command_plan.gd	53	53	2654	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/finale_command_plan.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/finale_scenarios.gd	42	42	3874	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/finale_scenarios.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/finale_ui_scenarios.gd	20	20	1386	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/finale_ui_scenarios.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/first_siren_cue_ui_tests.gd	75	75	5902	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/fit_label_main.gd	6	6	315	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/fit_label_main.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/fit_label_scenarios.gd	50	50	4029	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/fit_label_scenarios.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/fix2_camera_ui_tests.gd	60	60	3763	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/fix2_feedback_ui_tests.gd	27	27	2122	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/fix2_frontend_ui_tests.gd	39	39	2434	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/fix2_menu_ui_tests.gd	32	32	1986	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/fix2_optional_recovery_tests.gd	16	16	1510	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/fix2_photo_routing_tests.gd	40	40	2262	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/fix2_save_tests.gd	43	43	2728	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/fix2_save_ui_tests.gd	32	32	1882	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/fix2_state_tests.gd	35	35	2107	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/fix2_study_ui_tests.gd	24	24	1679	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/fixtures/accepted-blackwater.archive	0		9993	skipped-by-category	binary-asset	binary art/audio/archive, not readable as text
+game/tests/fixtures/accepted-finale.archive	0		9057	skipped-by-category	binary-asset	binary art/audio/archive, not readable as text
+game/tests/fixtures/blackwater_first_extract.gd	711	711	18264	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/fixtures/blackwater_first_extract.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/fixtures/split_channel_legacy.bin	17	17	7248	full-scripted-read-binary	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: binary-misfiled-as-text, nul=4387, emdash=0
+game/tests/fixtures/split_channel_legacy.gd	11	11	561	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/fixtures/split_channel_legacy.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/fleet_instruments_ui_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/fleet_ring_ui_tests.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/foundry_command_plan.gd	47	47	2710	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/foundry_command_plan.gd.uid	0		19	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/foundry_departure_tests.gd	56	56	5117	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/foundry_departure_tests.gd.uid	0		19	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/foundry_scenarios.gd	29	29	2665	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/foundry_scenarios.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/frontend_scenarios.gd	79	79	6196	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/frontend_scenarios.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/frontend_stub_host.gd	19	19	813	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/frontend_stub_host.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/glass_network_tests.gd	48	48	3481	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/glass_network_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/glass_reach_journeys.gd	87	87	7454	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/glass_reach_journeys.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/glass_reach_tests.gd	23	23	1441	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/glass_reach_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/glass_reach_ui_tests.gd	70	70	6206	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/glass_reach_ui_tests.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/glass_research_tests.gd	33	33	2925	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/glass_research_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/glass_work_tests.gd	86	86	6583	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/glass_work_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/grade_on_secure_tests.gd	27	27	1346	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/independent_capture_tests.gd	69	69	4281	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/independent_capture_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/independent_capture_ui_tests.gd	48	48	2895	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/independent_capture_ui_tests.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/industrial_jobs_tests.gd	117	117	9713	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/industrial_jobs_tests.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/industrial_threats_tests.gd	71	71	5893	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/industrial_threats_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/interface_scenarios.gd	11	11	991	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/interface_scenarios.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/iron_choir_journeys.gd	147	147	12738	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/iron_choir_journeys.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/iron_choir_tests.gd	26	26	1670	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/iron_choir_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/iron_choir_ui_tests.gd	57	57	5770	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/iron_choir_ui_tests.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/iron_research_tests.gd	39	39	3439	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/iron_research_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/knockdown_scenarios.gd	128	128	11637	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/knockdown_scenarios.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/knockdown_ui_scenarios.gd	61	61	5400	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/knockdown_ui_scenarios.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/known_water_observation_tests.gd	30	30	1469	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/listening_well_command_plan.gd	34	34	1624	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/listening_well_command_plan.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/loadout_frames_tests.gd	160	160	13952	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/loadout_frames_tests.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/loadout_ui_tests.gd	75	75	5720	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/loadout_ui_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/lock_warning_scenarios.gd	23	23	1199	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/lock_warning_scenarios.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/lock_warning_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/lock_warning_ui_tests.gd	33	33	2164	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/lock_warning_ui_tests.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/metrics_transport_tests.gd	58	58	4286	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/metrics_transport_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/module_inventory_main_tests.gd	56	56	5619	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/module_inventory_main_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/module_recovery_runtime_ui_tests.gd	67	67	5548	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/module_recovery_runtime_ui_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/module_recovery_tests.gd	132	132	15567	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/module_recovery_tests.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/module_recovery_ui_tests.gd	119	119	10584	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/module_recovery_ui_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/nav_clearance_measure.gd	22	22	1196	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/nav_clearance_probe.gd	41	41	2034	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/nav_clearance_tests.gd	30	30	1937	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/nav_clearance_ui_tests.gd	51	51	3378	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/nav_following_probe.gd	32	32	2056	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/navigation_departure_tests.gd	83	83	6540	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/navigation_departure_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/observed_contact_scenarios.gd	37	37	3425	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/observed_contact_scenarios.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/observed_contact_ui_scenarios.gd	36	36	3149	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/observed_contact_ui_scenarios.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/onboarding_tests.gd	123	123	8393	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/onward_mission_tests.gd	25	25	1382	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/onward_mission_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/opening_depth_journeys.gd	128	128	9897	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/opening_depth_journeys.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/opening_depth_policy_ui_tests.gd	126	126	8339	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/opening_depth_policy_ui_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/opening_depth_scenarios.gd	134	134	10691	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/opening_depth_scenarios.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/opening_depth_tests.gd	9	9	304	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/opening_depth_tests.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/opening_depth_ui_tests.gd	31	31	2536	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/opening_depth_ui_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/opening_fleet_tests.gd	41	41	2521	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/operation_catalog_scenarios.gd	107	107	8629	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/operation_catalog_scenarios.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/operation_catalog_tests.gd	11	11	381	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/operation_catalog_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/operation_emission_feedback_tests.gd	70	70	6595	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/operation_emission_feedback_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/operation_endurance_tests.gd	34	34	2392	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/operation_endurance_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/order_row_main.gd	3	3	114	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/order_row_main.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/order_row_scenarios.gd	84	84	7856	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/order_row_scenarios.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/order_task_ui_scenarios.gd	14	14	783	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/order_task_ui_scenarios.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/ordinary_beam_industrial_tests.gd	56	56	4604	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/ordinary_beam_industrial_tests.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/patrol_scenarios.gd	62	62	4999	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/patrol_scenarios.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/performance_measurements.gd	51	51	3045	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/persistence_scenarios.gd	19	19	1556	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/persistence_scenarios.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/photo_audio_tests.gd	80	80	5490	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/photo_capture_tests.gd	169	169	13026	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/photo_capture_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/photo_capture_ui_tests.gd	46	46	2898	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/photo_capture_ui_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/photo_depth_tests.gd	155	155	10765	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/photo_discovery_tests.gd	110	110	7922	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/photo_discovery_tests.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/photo_pricing_tests.gd	189	189	14111	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/photo_pricing_ui_tests.gd	60	60	3434	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/photo_rules_tests.gd	169	169	11899	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/photo_rules_ui_tests.gd	53	53	3508	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/photo_study_save_tests.gd	58	58	3748	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/photo_study_save_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/planner_chart_render_tests.gd	44	44	3085	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/planner_chart_render_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/planner_metrics_tests.gd	48	48	3523	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/planner_metrics_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/planner_navigation_ui_tests.gd	67	67	5829	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/planner_navigation_ui_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/planner_space_ui_tests.gd	85	85	6518	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/planner_space_ui_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/playfield_hud_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/polygon_bound_tests.gd	28	28	2228	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/polygon_bound_tests.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/post_tutorial_roster_tests.gd	45	45	3554	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/post_tutorial_roster_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/probe_foundry.gd	7	7	529	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/probe_foundry.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/probe_native_roles.gd	41	41	2636	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/probe_native_roles.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/radial_hud_tests.gd	97	97	8361	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/radial_hud_tests.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/received_audio_retry_tests.gd	39	39	2503	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/received_audio_retry_tests.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/recon_consequences_tests.gd	44	44	3223	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/recon_consequences_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/recon_grade_main_tests.gd	29	29	1844	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/recon_grade_main_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/recovery_route_ui_tests.gd	145	145	11401	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/recovery_route_ui_tests.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/rendezvous_transport_tests.gd	142	142	14164	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/rendezvous_transport_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/rendezvous_ui_tests.gd	121	121	11044	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/rendezvous_ui_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/resolution_content_tests.gd	61	61	5728	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/resolution_content_tests.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/resolution_controls_ui_tests.gd	66	66	6220	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/resolution_controls_ui_tests.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/resolution_geometry_tests.gd	38	38	2504	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/resolution_geometry_tests.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/resolution_hook_tests.gd	49	49	4197	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/resolution_hook_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/resolution_instruments_tests.gd	43	43	3645	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/resolution_instruments_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/resolution_operations_tests.gd	51	51	4611	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/resolution_operations_tests.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/resume_metrics_main.gd	4	4	203	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/resume_metrics_main.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/route_map_tests.gd	56	56	4346	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/route_map_ui_tests.gd	78	78	7348	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/route_program_tests.gd	86	86	8716	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/route_program_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/route_program_ui_tests.gd	72	72	6155	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/route_program_ui_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/route_telemetry_touch_tests.gd	109	109	10807	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/route_telemetry_touch_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/rules_sonar_cost_tests.gd	51	51	2943	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/rules_sonar_cost_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/rules_witness_menu_tests.gd	67	67	3622	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/rules_witness_menu_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/run_tests.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/runtime_tests.gd	121	121	8976	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/runtime_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/save_feedback_scenarios.gd	75	75	5437	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/save_feedback_scenarios.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/shelf_habitat_journey_tests.gd	64	64	3965	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/shelf_habitat_journey_tests.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/shelf_habitat_tests.gd	66	66	5326	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/shelf_habitat_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/shelf_habitat_ui_tests.gd	99	99	8042	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/shelf_habitat_ui_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/siren_role_scenarios.gd	82	82	6328	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/siren_role_scenarios.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/sonar_zero_bearing_tests.gd	138	138	6631	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/sonar_zero_bearing_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/split_channel_command_plan.gd	33	33	1994	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/split_channel_command_plan.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/split_channel_scenarios.gd	23	23	1801	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/split_channel_scenarios.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/sweeper_scenarios.gd	111	111	9111	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/sweeper_scenarios.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/sweeper_tests.gd	9	9	292	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/sweeper_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/t_pressure_probes.gd	33	33	1696	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/t_pressure_probes.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/t_pressure_tuning_tests.gd	131	131	5338	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/t_pressure_tuning_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/tactics_composition_tests.gd	45	45	3724	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/tactics_composition_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/targeting_feedback_tests.gd	36	36	2904	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/targeting_feedback_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/terminal_tick_tests.gd	47	47	3750	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/terminal_tick_tests.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/thermal_lee_tests.gd	46	46	4556	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/thermal_lee_tests.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/thermal_transmission_tests.gd	35	35	3495	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/thermal_transmission_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/thermal_ui_tests.gd	31	31	2168	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/thermal_ui_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/torpedo_aim_ui_tests.gd	92	92	7619	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/torpedo_aim_ui_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/touch_navigation_scenarios.gd	103	103	8587	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/touch_navigation_scenarios.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/turn_safe_navigation_tests.gd	80	80	8213	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/turn_safe_navigation_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/v7_earned_region_tests.gd	31	31	2107	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/v7_earned_region_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/v7_earned_view_tests.gd	28	28	1642	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/v7_earned_view_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/v7_terrain_chart_tests.gd	38	38	2908	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/v7_terrain_chart_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/view_controls_menu_tests.gd	52	52	4444	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/view_controls_menu_tests.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/wake_crossing_journey_tests.gd	74	74	4921	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/wake_crossing_journey_tests.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/wake_crossing_tests.gd	90	90	7573	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/wake_crossing_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/wake_crossing_ui_tests.gd	76	76	6083	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/wake_crossing_ui_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/warning_chain_audio_tests.gd	41	41	3608	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/warning_chain_audio_tests.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/warning_chain_journey_tests.gd	69	69	4704	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/warning_chain_journey_tests.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/warning_chain_tests.gd	106	106	12356	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/warning_chain_tests.gd.uid	0		19	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/warning_chain_ui_tests.gd	138	138	13743	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/warning_chain_ui_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/warning_chain_world_ui_tests.gd	53	53	4462	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/warning_chain_world_ui_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/warning_recipient_journey_tests.gd	80	80	5646	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/warning_recipient_journey_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/warning_recipient_tests.gd	172	172	15831	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/warning_recipient_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/warning_recipient_ui_tests.gd	193	193	17133	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/warning_recipient_ui_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/waypoint_scenarios.gd	24	24	1619	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/waypoint_scenarios.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/well_camera_feed_render_tests.gd	81	81	5360	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/well_camera_feed_render_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/well_signature_save_shape_tests.gd	26	26	1541	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/well_signature_save_shape_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/witness_evacuation_journey_tests.gd	126	126	9182	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/witness_evacuation_journey_tests.gd.uid	0		20	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/witness_evacuation_tests.gd	130	130	13271	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/witness_evacuation_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/witness_evacuation_ui_tests.gd	222	222	18747	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/witness_evacuation_ui_tests.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/x2_pressure_probes.gd	226	226	11772	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+game/tests/x2_pressure_probes.gd.uid	0		21	skipped-by-category	generated-uid	Godot generated UID sidecar
+game/tests/x2_pressure_report.py	67	67	5610	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+reference/SIRENS_SONG_ORIGINAL_PROTOTYPE_HANDOFF.zip	0		53264	skipped-by-category	binary-asset	binary art/audio/archive, not readable as text
+reference/original-prototype/history/DEEP_CONTACT_original_spec.md	49	49	2251	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=6
+reference/original-prototype/history/sirens_song_prototype.html	580	580	45301	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=17
+reference/original-prototype/sirens_song_prototype_v7.html	607	607	47972	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=21
+references/package/MANIFEST.json	168	168	9439	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+references/package/SIRENS_SONG_CONCEPT_SELECTION_LEDGER.md	75	75	6211	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=4
+references/package/START_HERE.md	63	63	8140	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=1
+references/package/sources/02-SIRENS_SONG_DESIGN_BIBLE_GAUNTLET_V1-1-.md	121	121	16389	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=1
+references/package/sources/03-SIRENS_SONG_VISUAL_EXPLORATION_PLAN_V3_HANDOFF-1-.md	93	93	11287	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=7
+references/visual/README.md	1	1	142	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+references/visual/SIRENS_SONG_VISUAL_EXPLORATION_PLAN_V3_HANDOFF.md	95	95	11820	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=7
+scripts/toolchain/android-blackwater-smoke.sh	113	113	8111	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+scripts/toolchain/android-blackwater.py	43	43	3353	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+scripts/toolchain/android-capture-smoke.sh	49	49	2927	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+scripts/toolchain/android-capture.py	49	49	4167	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+scripts/toolchain/android-menu-smoke.sh	129	129	7674	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+scripts/toolchain/android-menu.py	93	93	7941	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+scripts/toolchain/android-planner-smoke.sh	88	88	5599	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+scripts/toolchain/android-planner.py	110	110	8939	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+scripts/toolchain/android-radial.py	59	59	2589	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+scripts/toolchain/android-role-smoke.sh	89	89	5593	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+scripts/toolchain/android-role.py	34	34	2443	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+scripts/toolchain/android-smoke.sh	447	447	24113	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+scripts/toolchain/android-system-dialog.py	22	22	1051	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+scripts/toolchain/android-target.py	28	28	1572	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+scripts/toolchain/android-ui-metrics.py	200	200	11963	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+scripts/toolchain/android-view.py	36	36	1781	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+scripts/toolchain/android_metric_records.py	42	42	2252	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+scripts/toolchain/audit-local-density.py	38	38	3361	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+scripts/toolchain/build.sh	20	20	922	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+scripts/toolchain/capture.sh	40	40	1834	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+scripts/toolchain/check-docs-publication.sh	26	26	1323	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+scripts/toolchain/check-nonblank-frame.gd	16	16	760	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+scripts/toolchain/common.sh	23	23	1061	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+scripts/toolchain/configure.sh	47	47	2422	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+scripts/toolchain/density-checks.sh	22	22	1072	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+scripts/toolchain/display.sh	25	25	841	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+scripts/toolchain/fixtures/native-cover-resume-black.png	0		13037	skipped-by-category	binary-asset	binary art/audio/archive, not readable as text
+scripts/toolchain/fixtures/truncated-native-ui-metrics.log	0		1097	skipped-by-category	generated-log	generated checksum or log
+scripts/toolchain/gauntlet-boundary.py	142	142	10201	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+scripts/toolchain/headless.sh	8	8	209	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+scripts/toolchain/install-gauntlet-hooks.py	27	27	2024	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+scripts/toolchain/install-godot.sh	52	52	2536	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+scripts/toolchain/native-blackwater-fixture.gd	33	33	2600	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+scripts/toolchain/native-role-fixture.gd	20	20	1385	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+scripts/toolchain/signing/README.md	9	9	1402	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+scripts/toolchain/signing/sirens-song-debug.certificate.sha256	0		66	skipped-by-category	generated-log	generated checksum or log
+scripts/toolchain/signing/sirens-song-debug.keystore	16	16	2666	full-scripted-read-binary	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: binary-misfiled-as-text, nul=30, emdash=0
+scripts/toolchain/test-android-blackwater.py	164	164	11557	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+scripts/toolchain/test-android-capture.py	92	92	8050	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+scripts/toolchain/test-android-menu.py	243	243	20572	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+scripts/toolchain/test-android-metric-records.py	40	40	2749	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+scripts/toolchain/test-android-planner.py	99	99	8502	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+scripts/toolchain/test-android-radial.py	34	34	3228	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+scripts/toolchain/test-android-resume.py	71	71	5875	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+scripts/toolchain/test-android-role.py	22	22	2200	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+scripts/toolchain/test-android-ui-metrics.py	272	272	17155	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+scripts/toolchain/test-android-view.py	68	68	3345	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+scripts/toolchain/test-capture-state.gd	46	46	1841	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+scripts/toolchain/test-check-gauntlet-guidance.py	87	87	3618	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+scripts/toolchain/test-configure-signing.py	111	111	5881	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+scripts/toolchain/test-decoy-role-contract.sh	24	24	1497	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+scripts/toolchain/test-gauntlet-boundary.py	129	129	13438	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+scripts/toolchain/test-native-role-archive.sh	42	42	1839	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0
+scripts/toolchain/test-resume-state.gd	18	18	1358	full-scripted-read	text-unread	text file not read in this pass; see section 7 of MINING_FULL_SIREN_VS_REPO.md | cloud/mount scripted literal read: utf8-text, nul=0, emdash=0

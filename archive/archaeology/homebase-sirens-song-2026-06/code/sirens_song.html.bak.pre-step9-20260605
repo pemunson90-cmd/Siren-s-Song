@@ -1,0 +1,3196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<!-- Step 8 (mobile layer 2026-06-04): viewport meta + user-scalable=no
+     so the canvas-fit math isn't fighting browser pinch-zoom. -->
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+<title>Siren's Song -- Step 4 build (Sentinel + Hunter + curiosity/decoy) + Step 3 + Step 1 fix-pass + Step 7 tuning + Step 8 mobile layer</title>
+<style>
+  /* INVARIANT 6 (function before form): placeholder styling only.
+     No palette / typography / chrome decisions. Form pass is later.
+     Step 8 additions are FUNCTIONAL ONLY: aspect-preserving canvas
+     scale, touch-overlay positioning, portrait-warning visibility.
+     No fonts, no colors beyond grayscale, no animations, no styled
+     UI chrome. Buttons are labeled rectangles. */
+  html, body { margin: 0; padding: 0; background: #000; color: #ccc; font-family: monospace; }
+  #wrap { display: flex; flex-direction: column; align-items: center; padding: 8px; }
+  #hud { width: 960px; padding: 4px 8px; white-space: pre; }
+  canvas { display: block; background: #050608; border: 1px solid #222; cursor: crosshair; }
+  #help { width: 960px; padding: 4px 8px; opacity: 0.6; font-size: 12px; }
+
+  /* ---------- Step 8: mobile / touch layer ----------------------- */
+  /* INV6 still binds: placeholder only. The touch overlay is HTML
+     elements absolutely-positioned over the canvas so we don't touch
+     the existing draw code or coord-pipeline. The canvas's width and
+     height ATTRIBUTES stay 960 x 640 so internal game-world coords
+     don't shift; only the CSS-displayed size scales. */
+  .touch-mode #wrap { padding: 0; width: 100vw; height: 100vh; }
+  .touch-mode #hud, .touch-mode #help { display: none; }
+  /* canvasFrame wraps the canvas so the touch overlay can absolute-
+     position relative to the canvas's displayed rectangle. The
+     aspect-ratio 3/2 preserves the 960:640 ratio; min(100vw, calc...)
+     ensures letterbox behavior when viewport ratio differs from 3:2. */
+  #canvasFrame {
+    position: relative;
+    display: block;
+    line-height: 0;
+  }
+  .touch-mode #canvasFrame {
+    width: min(100vw, calc(100vh * 3 / 2));
+    height: min(100vh, calc(100vw * 2 / 3));
+    margin: 0 auto;
+  }
+  .touch-mode canvas {
+    width: 100%;
+    height: 100%;
+    cursor: none;            /* crosshair is irrelevant on touch */
+    touch-action: none;      /* suppress browser scroll/zoom on canvas */
+    border: none;
+  }
+  /* Touch overlay: hidden by default; shown only when touch is
+     detected (boot-time check sets body.touch-mode). */
+  #touchOverlay { display: none; }
+  .touch-mode #touchOverlay {
+    display: block;
+    position: absolute;
+    inset: 0;
+    pointer-events: none;    /* children re-enable as needed */
+  }
+  /* Virtual joystick (bottom-left thumb zone). Placeholder shapes
+     (rectangle + inner circle) only. */
+  #joystick {
+    position: absolute;
+    left: 2%;
+    bottom: 4%;
+    width: 22vmin;
+    height: 22vmin;
+    max-width: 180px;
+    max-height: 180px;
+    min-width: 96px;
+    min-height: 96px;
+    border: 1px solid #888;
+    border-radius: 50%;
+    background: rgba(40,40,40,0.35);
+    pointer-events: auto;
+    touch-action: none;
+  }
+  #joystickThumb {
+    position: absolute;
+    left: 50%; top: 50%;
+    width: 40%; height: 40%;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    background: rgba(120,120,120,0.55);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+  /* Action button tray (right side). Plain labeled rectangles. */
+  #actionTray {
+    position: absolute;
+    right: 1%;
+    top: 4%;
+    bottom: 4%;
+    width: 22vmin;
+    max-width: 160px;
+    min-width: 84px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-auto-rows: minmax(0, 1fr);
+    gap: 2px;
+    pointer-events: auto;
+  }
+  .tbtn {
+    border: 1px solid #888;
+    background: rgba(40,40,40,0.45);
+    color: #ddd;
+    font-family: monospace;
+    font-size: 11px;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: none;
+    pointer-events: auto;
+  }
+  .tbtn.armed { background: rgba(180,180,40,0.55); }
+  .tbtn[disabled] { opacity: 0.4; }
+  /* Ping is the most-used action; give it the full first row. */
+  #btnPing { grid-column: 1 / span 2; }
+  /* Restart is overlay-rendered only when lose/win is active. */
+  #btnRestart { grid-column: 1 / span 2; display: none; }
+  .touch-mode.gameover #btnRestart { display: block; }
+  /* Portrait warning overlay (cosmetic placeholder text per INV6). */
+  #portraitWarning {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.92);
+    color: #ccc;
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-family: monospace;
+    font-size: 18px;
+    padding: 20px;
+  }
+  .touch-mode.portrait #portraitWarning { display: flex; }
+</style>
+</head>
+<body>
+<div id="wrap">
+  <div id="hud">HUD initializing&hellip;</div>
+  <div id="canvasFrame">
+    <canvas id="game" width="960" height="640"></canvas>
+    <!-- Step 8: touch overlay (display:none unless body.touch-mode). -->
+    <div id="touchOverlay">
+      <div id="joystick"><div id="joystickThumb"></div></div>
+      <div id="actionTray">
+        <button class="tbtn" id="btnPing" type="button">PING</button>
+        <button class="tbtn" id="btnDeploy" type="button">DEPLOY</button>
+        <button class="tbtn" id="btnRedirect" type="button">REDIR</button>
+        <button class="tbtn" id="btnJam" type="button">JAM</button>
+        <button class="tbtn" id="btnEMP" type="button">EMP</button>
+        <button class="tbtn" id="btnKD" type="button">KD</button>
+        <button class="tbtn" id="btnRecon" type="button">RECON</button>
+        <button class="tbtn" id="btnPhotoF" type="button">PHOTO-F</button>
+        <button class="tbtn" id="btnPhotoG" type="button">PHOTO-G</button>
+        <button class="tbtn" id="btnDecoy" type="button">DECOY-B</button>
+        <button class="tbtn" id="btnCycle" type="button">CYCLE</button>
+        <button class="tbtn" id="btnHelp" type="button">?</button>
+        <button class="tbtn" id="btnRestart" type="button">RESTART</button>
+      </div>
+    </div>
+  </div>
+  <div id="help">WASD/arrows = move sub (inertial). SPACE = ping (+25). LEFT-CLICK = deploy drone. RIGHT-CLICK = move nearest. F = drone photo (+15). G = sub-cam photo. B = toggle decoy mode on selected drone. TAB = cycle drone. R = restart.</div>
+</div>
+<!-- Step 8: portrait warning overlay (cosmetic placeholder text). -->
+<div id="portraitWarning">Please rotate to landscape.</div>
+
+<script>
+"use strict";
+
+/* =========================================================================
+ *  SIREN'S SONG -- Step 4 build (Sentinel + Hunter Siren types +
+ *  curiosity/decoy behavior + Siren-near-sub scaling suspicion) on top
+ *  of Step 3 (drones + sub cam + factory + photo objectives + factory
+ *  proximity suspicion + extraction + win/lose) + Step 1 FIX-PASS
+ *  2026-06-04 (LOS terrain occlusion for ALL reveal modes; submarine
+ *  inertia). See briefs/04_sentinel_hunter_curiosity.md.
+ *  Scope: section 11 build leash step 4.
+ *  Authority: SIRENS_SONG_SPEC.md > agent.md > briefs/04_sentinel_hunter_curiosity.md
+ *
+ *  Invariants (CGI agent.md section 2):
+ *   - INV1 No enemy HP / no player kill-path: HELD. Photos don't damage
+ *     anything. Drones cannot harm the Patroller. No new kill paths.
+ *   - INV2 Suspicion is the spine: EXTENDED. Drone-photo +15 and
+ *     factory-proximity +1..+3/sec both wired through applySuspicion or
+ *     the continuous-decay block. No scripted aggression added.
+ *   - INV3 Perceiving costs: HELD AND EXTENDED. Drone deploy/move free
+ *     (per spec section 3 table); drone PHOTO costs +15. Sub-cam photo
+ *     no flat cost; the proximity to factory drives the cost (spec
+ *     section 6). Passive sonar remains the only consistently free
+ *     reveal.
+ *   - INV4 Tools buy time / cost heat: n/a yet (step 5). Drones are
+ *     perception platforms in step 3 (Scout + Photograph functions
+ *     only; Decoy is step 4).
+ *   - INV5 Fairness valve: PRESERVED. Step 2's instakill-sustain logic
+ *     unchanged. Factory proximity only adds gain; never bypasses the
+ *     warning window. Decay/valve relationship intact.
+ *   - INV6 Function before form: HELD. Sentinel + Hunter = labeled
+ *     placeholder circles with type-distinguishing color hint. Decoy
+ *     mode = additional ring around drone (placeholder, NOT a form pass).
+ *     Factory = labeled rectangle; objectives = labeled markers; drones
+ *     = small circles with id; extraction = labeled corner rect. No
+ *     palette/sound/sprite; color hints are testing legibility aids.
+ *
+ *  Step 4 additions (per brief 04):
+ *   - Sentinel: orbits the power-core objective at small radius; large
+ *     detection radius; suspicion contributes via proximity; rams at
+ *     Alert+ (same as Patroller).
+ *   - Hunter: dormant below Alert (no movement); at Alert+ pursues
+ *     last-known sub/ping at speed; rams at Alert+; LOS-gated visibility.
+ *   - Curiosity (cross-cutting all 3 Sirens): in Curious state, any
+ *     Siren moves slowly to investigate the nearest valid decoy or the
+ *     last ping origin (whichever is closer + visible). Non-lethal
+ *     speed; does NOT damage drones at Curious.
+ *   - Decoy drones (per Pat 2026-06-03 ruling): BOTH passive (any
+ *     parked drone draws Curious Sirens) AND active (toggle "B" on a
+ *     drone for stronger draw via larger effective radius). Documented
+ *     in code comments; both routes implemented.
+ *   - Siren-near-sub suspicion (+scaling/sec, spec section 6): summed
+ *     over all Sirens within their per-type proximity range, distance-
+ *     scaled. Folded into the same netRate block as factory proximity.
+ *
+ *  Step scope per brief 04:
+ *    DO:    Sentinel + Hunter; curiosity behavior for all 3 Siren types;
+ *           decoy mode on drones (passive + active); Siren-near-sub
+ *           suspicion contribution; LOS-gated visibility for new Sirens.
+ *    DON'T: Disruption tools (step 5); recon (step 6); final tuning
+ *           pass (step 7); new objectives or new win/lose conditions.
+ * ========================================================================= */
+
+const canvas = document.getElementById("game");
+const ctx = canvas.getContext("2d");
+const hud = document.getElementById("hud");
+
+const WORLD_W = canvas.width;
+const WORLD_H = canvas.height;
+
+/* ----- Tuning -------------------------------------------------------- */
+const TUNING = {
+  // step 1 (substrate)
+  HULL_MAX: 3,
+  // step 7 tuning 2026-06-04: 240s -> 210s. Spec section 11: "enough for one
+  // unhurried full run." Step-7 sim shows a careful clean run completes in
+  // ~90-120s; 210s preserves margin for an unhurried run while tightening
+  // the camping squeeze (dithering scenario suffocates more decisively).
+  // Playtest dial-in candidate.
+  OXYGEN_MAX_SECONDS: 210,
+  // SUB_SPEED_PX_PER_SEC stays as the TERMINAL max linear speed cap.
+  // (Step 1 fix-pass 2026-06-04 re-meaning: previously this was the
+  // direct velocity when thrust was held; now it is the speed the sub
+  // asymptotes to under continuous thrust, with acceleration to get
+  // there and drag to bleed off.)
+  SUB_SPEED_PX_PER_SEC: 80,
+  // SUB_TURN_RATE_RAD_PER_SEC stays as the TERMINAL max angular speed cap.
+  SUB_TURN_RATE_RAD_PER_SEC: 1.8,
+  PING_DURATION_SEC: 3.0,
+  PING_RADIUS_PX: 360,
+  PASSIVE_RADIUS_PX: 90,
+  HULL_HIT_COOLDOWN_SEC: 0.6,
+  SUB_RADIUS_PX: 8,
+
+  // step 1 FIX-PASS 2026-06-04 -- submarine inertia (spec section 2:
+  // "fragile slow vessel," not arcade). Spec gives no defaults so all
+  // FLAG step 7 for tuning. Picked for "submarine feel":
+  //   - reach ~95% of max speed in ~1.5s from rest (forward thrust)
+  //   - coast ~3s before stopping when thrust released
+  //   - reach max turn rate in ~0.7s, coast turn briefly after release
+  //   - reverse is weaker than forward (subs aren't built to back up)
+  SUB_LINEAR_ACCEL_PX_PER_SEC2: 60,    // FLAG step 7 -- forward thrust accel
+  SUB_REVERSE_ACCEL_MULT:       0.5,   // FLAG step 7 -- reverse is half as strong
+  SUB_LINEAR_DRAG_PER_SEC:      0.45,  // FLAG step 7 -- exponential decay rate when
+                                       // no thrust (velocity *= (1 - drag*dt)
+                                       // each tick; ~0.45/s => coast ~3s)
+  SUB_TURN_ACCEL_RAD_PER_SEC2:  2.6,   // FLAG step 7 -- angular accel on turn input
+  SUB_TURN_DRAG_PER_SEC:        2.0,   // FLAG step 7 -- angular decay when no turn
+                                       // input (turn rate halves in ~0.35s --
+                                       // rudder centers, sub does not free-spin)
+
+  // step 1 FIX-PASS 2026-06-04 -- LOS occlusion (spec section 3 perception
+  // table: "near-blind ... rough nearby blips" -- a passive ring that
+  // sees through rock is wrong by spec; Pat 2026-06-03 ratified that
+  // both passive AND active reveal must be terrain-occluded). The LOS
+  // helpers raycast against TERRAIN + FACTORY rectangles. Entities
+  // (Patroller, drones, factory body, objectives) only render in a
+  // reveal window if LOS from the reveal origin is clear. Terrain
+  // rectangles themselves are the occluders -- they always render
+  // (you see the near face of a rock you bump into).
+  // No tunable constants; LOS is geometric.
+
+
+  // step 2 -- suspicion (spec section 6)
+  SUSP_MIN: 0,
+  SUSP_MAX: 100,
+  SUSP_PING_COST: 25,
+  SUSP_DECAY_PER_SEC: 5,
+  THRESH_ALERT: 34,
+  THRESH_HOSTILE: 75,
+  WARNING_THRESHOLD: 75,
+  INSTAKILL_SUSTAIN_SEC: 4.0,
+
+  // step 2 -- Patroller
+  PATROL_SPEED_PX_PER_SEC: 40,
+  PATROL_ALERT_SPEED_MULT: 1.6,
+  PATROL_WAYPOINT_TOLERANCE_PX: 6,
+  PATROL_RADIUS_PX: 14,
+  PATROL_RAM_HULL_DMG: 1,
+  PATROL_DEVIATION_REACH_PX: 60,
+
+  // step 3 -- drones (spec sections 3, 4, 6; brief tuning table)
+  DRONE_SUPPLY_INITIAL: 5,              // spec section 4 default
+  DRONE_PHOTO_COST: 15,                 // spec section 3 / 6 / 11
+  DRONE_SPEED_PX_PER_SEC: 110,          // slightly faster than sub (80).
+                                        // FLAG step 7 -- "your call" per brief.
+  DRONE_VISION_RADIUS_PX: 120,          // local drone-cam reveal.
+                                        // FLAG step 7 -- "your call" per brief.
+  DRONE_RADIUS_PX: 5,                   // placeholder body (INV6)
+  DRONE_PHOTO_RANGE_PX: 90,             // drone -> objective shutter range.
+                                        // FLAG step 7. Larger than sub-cam to
+                                        // make the drone the smart play (per
+                                        // spec section 8).
+  DRONE_ARRIVAL_TOLERANCE_PX: 4,        // drone "reached target" radius
+  DRONE_SIREN_BONUS_RANGE_PX: 100,      // drone-to-Patroller for bonus photo.
+                                        // FLAG step 7. Loose enough to be
+                                        // achievable; close enough to feel
+                                        // like "close-range" per spec section 8.
+
+  // step 3 -- sub fallback camera (spec section 2 / 8)
+  SUBCAM_PHOTO_RANGE_PX: 70,            // sub must close to point-blank for
+                                        // any objective -- silhouette is the
+                                        // exception (range below).
+                                        // FLAG step 7 -- "your call" per brief.
+  SUBCAM_SILHOUETTE_RANGE_PX: 320,      // silhouette comfortably sub-cammable
+                                        // from distance (spec section 8).
+                                        // FLAG step 7.
+
+  // step 3 -- factory proximity (spec section 6)
+  // "+1 to +3/sec, scales with closeness"
+  FACTORY_PROX_NEAR_PX: 140,            // <= NEAR -> +3/s
+  FACTORY_PROX_MID_PX:  260,            // <= MID  -> +2/s; <= FAR -> +1/s
+  FACTORY_PROX_FAR_PX:  420,
+  FACTORY_PROX_NEAR_RATE: 3,
+  FACTORY_PROX_MID_RATE:  2,
+  FACTORY_PROX_FAR_RATE:  1,
+
+  // step 3 -- extraction
+  EXTRACTION_RADIUS_PX: 30,             // sub must reach this much of the
+                                        // extraction marker for the win to fire
+
+  // ===================================================================
+  // step 4 -- Sentinel + Hunter + curiosity + decoy + Siren-near-sub
+  // ===================================================================
+
+  // -- Sentinel (spec section 7) --
+  // Guards the power-core objective. Picked the power-core (deep interior,
+  // hardest required objective) so the player must time / sneak / disrupt
+  // to bypass. Small orbit so it's not literally stationary but stays
+  // visually anchored to the objective. Large detection radius forces
+  // tool use at Alert+.
+  SENTINEL_ORBIT_CENTER_X: 855,         // matches power_core position
+  SENTINEL_ORBIT_CENTER_Y: 410,
+  SENTINEL_ORBIT_RADIUS_PX: 40,         // FLAG step 7 -- small orbit, not stationary
+  SENTINEL_ORBIT_SPEED_RAD_PER_SEC: 0.45, // FLAG step 7 -- one orbit in ~14s
+  SENTINEL_DETECT_RADIUS_PX: 220,       // FLAG step 7 -- "large" per spec section 7
+  SENTINEL_RADIUS_PX: 16,               // placeholder body, slightly larger than Patroller
+  SENTINEL_RAM_HULL_DMG: 1,             // same as Patroller per brief
+  SENTINEL_PROXIMITY_RANGE_PX: 240,     // Siren-near-sub term applies inside this
+  SENTINEL_PROXIMITY_MAX_RATE: 2.0,     // FLAG step 7 -- max +/s contribution at touch
+  SENTINEL_CURIOUS_SPEED_PX_PER_SEC: 24, // FLAG step 7 -- slow, non-lethal investigate
+  SENTINEL_ALERT_SPEED_PX_PER_SEC: 55,  // FLAG step 7 -- pursuit/ram speed at Alert+
+  SENTINEL_RETURN_TOLERANCE_PX: 30,     // resume orbit when within this of orbit ring
+
+  // -- Hunter (spec section 7) --
+  // Dormant below Alert (no movement). At Alert+ activates and actively
+  // pursues last-known contact at speed visibly faster than Patroller.
+  // The threat your own noise summons.
+  HUNTER_DORMANT_X: 200,                // hand-authored dormant position (top-left area)
+  HUNTER_DORMANT_Y: 60,
+  HUNTER_RADIUS_PX: 12,                 // placeholder body
+  // step 7 tuning 2026-06-04: 90 -> 75 px/s. Spec section 7 calls Hunter
+  // "fast" and "the threat your own noise summons" -- still faster than
+  // Patroller at Alert+ (40 * 1.6 = 64). At 90 px/s the Hunter would close
+  // ~360 px in ~4s, beating the 4s instakill sustain window in the
+  // aggression scenario (sub hull-sinks before suspicion-vaporizes).
+  // 75 px/s preserves "faster than Patroller" while giving the aggression
+  // scenario time to play out as the spec intends: aggression -> vaporize,
+  // not aggression -> hull-sink. INV5 fairness leans on this margin.
+  HUNTER_PURSUE_SPEED_PX_PER_SEC: 75,   // step 7 tuned
+  HUNTER_RAM_HULL_DMG: 1,               // same as Patroller per brief
+  HUNTER_PROXIMITY_RANGE_PX: 200,
+  HUNTER_PROXIMITY_MAX_RATE: 2.0,       // FLAG step 7
+  HUNTER_CURIOUS_SPEED_PX_PER_SEC: 22,  // FLAG step 7 -- still moves at Curious to
+                                        // investigate decoys (curiosity is cross-cutting)
+  HUNTER_RETURN_ACTIVE: true,           // Hunter returns toward dormant position when
+                                        // suspicion drops below Alert and no decoy of
+                                        // interest in range (so the world re-settles)
+
+  // -- Curiosity (cross-cutting, all 3 Siren types in Curious state) --
+  // Spec section 7: "any Siren in Curious state will move to investigate
+  // a decoy drone or a recent ping. Slow; non-lethal approach."
+  CURIOSITY_REACH_PX: 35,               // "satisfied" radius for arriving at decoy/ping
+  CURIOSITY_PING_RANGE_PX: 360,         // a Siren considers a recent ping if within this
+  CURIOSITY_PASSIVE_DECOY_RANGE_PX: 180, // a parked drone draws Curious Sirens within this
+  CURIOSITY_ACTIVE_DECOY_RANGE_PX: 320,  // a decoy-mode drone draws at larger range
+  CURIOSITY_PATROLLER_SPEED_PX_PER_SEC: 28, // FLAG step 7 -- Patroller curiosity speed
+                                            // (slightly slower than route base 40)
+
+  // -- Decoy mode (drones) --
+  // Per Pat 2026-06-03 ruling, BOTH passive (parked drone) AND active
+  // (explicit decoy toggle) count. Active boosts draw range and weight.
+  DECOY_ACTIVE_WEIGHT: 2.0,             // multiplier on attraction strength for
+                                        // active decoys (vs. passive)
+  DECOY_TOGGLE_KEY_HINT: "B",           // for HUD help (UI doc only)
+
+  // ===================================================================
+  // step 5 -- disruption tools (jam / EMP / knockdown) -- spec section 5
+  // ===================================================================
+  // No tool kills a Siren. No HP. Tools buy TIME. Each fire spikes the
+  // player's own suspicion (INV4 -- spec section 6: "EMP/knockdown fire
+  // +20 suspicion, jamming +5").
+  //
+  // Charge defaults per spec section 5 + brief 05 + spec section 11.
+  // Suspicion costs per spec section 6.
+  // Durations per spec section 5 ("~5s" EMP, "~12s" KD); jam window
+  // not specified in spec -- picked 4.0s per brief 05 ("~3-5s, document").
+  // Jam effect strength not specified -- picked 0.50 (halves Siren
+  // proximity-contribution AND clears active lastPing locks for the
+  // window) per brief 05 ("pick a numeric expression... document").
+
+  JAM_CHARGES_INITIAL: 3,                // spec section 11
+  EMP_CHARGES_INITIAL: 3,                // spec section 11
+  KNOCKDOWN_CHARGES_INITIAL: 2,          // spec section 11
+
+  JAM_SUSP_COST: 5,                      // spec section 6 / brief 05
+  EMP_SUSP_COST: 20,                     // spec section 6 / brief 05
+  KNOCKDOWN_SUSP_COST: 20,               // spec section 6 / brief 05
+
+  JAM_WINDOW_SEC: 4.0,                   // FLAG step 7 -- pick per brief 05;
+                                         // "~3-5s window"; chose mid-range.
+                                         // Long enough to break a lock, short
+                                         // enough to keep tension (INV4).
+  EMP_DURATION_SEC: 5.0,                 // spec section 5 "~5s"
+  KNOCKDOWN_DURATION_SEC: 12.0,          // spec section 5 "~12s"
+
+  JAM_EFFECT_PROX_MULT: 0.5,             // FLAG step 7 -- per brief 05 design call.
+                                         // During jam window, each Siren's
+                                         // proximity suspicion contribution is
+                                         // multiplied by this factor (0.5 = halved).
+                                         // Also clears state.lastPing.valid at
+                                         // jam fire time to "break a lock."
+
+  // Targeting -- click-to-target acquisition for EMP/KD. The fire keys
+  // (2 = EMP, 3 = KD) ARM the tool; the next valid click selects the
+  // nearest Siren in LOS within TARGET_RADIUS_PX of the click and fires.
+  // Press the same key again, or press ESC, to cancel the armed state.
+  // Picked click-targeting (brief 05 option a/b) for both EMP and KD --
+  // consistent ergonomics across both Siren-targeted tools.
+  TARGET_PICK_RADIUS_PX: 90,             // FLAG step 7 -- "click within this of
+                                         // a Siren to lock it"; if multiple
+                                         // candidates, nearest-to-click wins.
+                                         // Requires LOS to the Siren from the
+                                         // sub at click time (you can't fire
+                                         // through rock).
+  // Projectile visualization (placeholder per INV6 -- a moving line)
+  PROJECTILE_SPEED_PX_PER_SEC: 360,      // FLAG step 7 -- fast tracer, just
+                                         // for "a torpedo went there" feedback.
+  PROJECTILE_RADIUS_PX: 3,               // for hit-check tolerance and render.
+
+  /* ===== Step 6: Recon plane call-in (spec section 3 + 6 + 11) ========
+   * The 4th reveal mode. Player presses `4` to arm, then left-clicks to
+   * designate the sector center. A recon plane flyover reveals a large
+   * disc of the world (terrain + factory + objectives + Sirens) for a
+   * duration LONGER than active ping, with a radius LARGER than active
+   * ping. Charge-finite (default 2). Costs +8 suspicion at call-in.
+   *
+   * Design decisions (brief 06 -- "your call, document"):
+   *
+   *   - Radius: RECON_REVEAL_RADIUS_PX = 400. Active ping's maximum
+   *     reached radius is TUNING.PING_RADIUS_PX = 360. 400 > 360 so
+   *     recon is "visibly larger" per the brief, with room to spare
+   *     while still fitting comfortably inside the 1000x640 play area.
+   *
+   *   - Duration: RECON_DURATION_SEC = 8.0. Active ping is 3.0s. Brief
+   *     suggests ~6-10s; mid-range chosen. 8s is long enough that the
+   *     player can actually route through the revealed sector (sub
+   *     speed ~110 px/s -> ~880 px traversal over 8s, more than enough
+   *     to cross the reveal disc), short enough that scouting still
+   *     feels finite (INV3 -- nothing free).
+   *
+   *   - LOS gating: NONE. Spec section 3 calls this a "Recon plane
+   *     call-in" -- the plane is above the seafloor. The reveal model
+   *     for recon is intentionally distinct from passive/ping/drone-cam
+   *     (all LOS-gated by step-1 fix-pass): recon punches through
+   *     terrain because the camera is from above. This makes recon the
+   *     "I need to see what's in that rock corridor" tool. Documented
+   *     in handoff per design call.
+   *
+   *   - Fade: linear from 1.0 alpha at fire time to 0.0 at expiry, like
+   *     the active ping pattern. Mechanically the reveal IS or ISN'T
+   *     active (binary -- a Siren is either rendered or not); the
+   *     fade is render-only flavor (INV6 placeholder).
+   *
+   *   - Sector shape: a disc (circle). Simpler than a rect or a wedge
+   *     and consistent with the passive/ping/drone reveal model. Brief
+   *     allows implementation choice.
+   *
+   *   - Multiple active reveals: supported. If the player fires both
+   *     charges in quick succession at two different sectors, both are
+   *     active in parallel; each fades independently. State is
+   *     state.reconReveals[] (array of {x,y,r,tStart,tEnd}).
+   *
+   *   - Targeting: click-to-designate. Press `4` to arm, click to
+   *     fire. Press `4` again or `Esc` to cancel. Consistent with
+   *     step-5's EMP/KD arm-then-click ergonomics.
+   *
+   *   - INV3 (perceiving costs): recon is a perception mode, costs +8
+   *     suspicion at call-in (spec section 6 chokepoint via
+   *     applySuspicion), is finite (2 charges) and transient (8s fade).
+   *     Passive sonar remains the only constantly free reveal. INV3
+   *     load-bearing per brief 06.
+   *
+   *   - INV4 (tools buy time, cost heat): same -- charge-finite + +8
+   *     cost. Recon is technically a perception tool, not a disruption
+   *     tool, but the same architecture applies.
+   * ------------------------------------------------------------------- */
+  RECON_CHARGES_INITIAL: 2,              // spec section 11
+  RECON_SUSP_COST: 8,                    // spec sections 3, 6, 11
+  RECON_DURATION_SEC: 8.0,               // FLAG step 7 -- "~6-10s, pick"
+                                         // per brief 06. Mid-range chosen;
+                                         // longer than ping's 3s as required.
+  // step 7 tuning 2026-06-04: 400 -> 460. Brief 06 said "visibly larger
+  // than ping (360)." 40px headroom was tight; bumped to 100px (460 px).
+  // Still fits comfortably inside the 1000x640 play area. The visible
+  // distinction (recon disc ~28% larger area than ping disc) makes recon's
+  // role-as-flyover-survey legible.
+  RECON_REVEAL_RADIUS_PX: 460,           // step 7 tuned
+};
+
+/* ----- Terrain (unchanged from step 1; step 2 verified patroller route
+ * clears these with the 14px patroller body). ------------------------- */
+const TERRAIN = [
+  { x:  80, y:  60, w: 140, h:  40 },
+  { x: 760, y:  50, w: 160, h:  60 },
+  { x:  40, y: 280, w:  60, h: 180 },
+  { x: 860, y: 260, w:  70, h: 200 },
+  { x: 120, y: 540, w: 200, h:  60 },
+  { x: 640, y: 560, w: 240, h:  50 },
+  { x: 260, y: 180, w: 120, h:  30 },
+  { x: 500, y: 200, w:  40, h: 140 },
+  { x: 360, y: 360, w: 180, h:  30 },
+  { x: 620, y: 380, w:  90, h:  90 },
+  { x: 220, y: 420, w:  90, h:  40 },
+];
+
+/* ----- Patroller route (unchanged from step 2) ----------------------- */
+const PATROL_ROUTE = [
+  { x: 200, y: 240 },
+  { x: 200, y: 150 },
+  { x: 440, y: 140 },
+  { x: 600, y: 140 },
+  { x: 720, y: 200 },
+  { x: 780, y: 240 },
+  { x: 780, y: 510 },
+  { x: 480, y: 510 },
+  { x: 200, y: 500 },
+  { x: 160, y: 380 },
+];
+
+/* ----- Factory + objectives + extraction (hand-authored, no proc-gen)
+ *
+ * The factory sits on the right side of the play area, away from the
+ * extraction point at the bottom-left. The sub starts mid-screen at
+ * (480, 320). To run a full mission the player must traverse from
+ * mid -> factory (escalating suspicion via factory proximity) -> back
+ * across the play area to extraction. This matches spec section 8
+ * "objectives spread across the site so suspicion escalates across a
+ * route, and the return leg is the gauntlet."
+ *
+ * The factory itself is a placeholder rectangle (INV6). The three
+ * required objective markers are placed: silhouette = outer field
+ * (works from a wide arc), bays = upper-right inside the factory hull,
+ * power core = lower-right interior (deeper exposure).
+ * ------------------------------------------------------------------- */
+const FACTORY = { x: 730, y: 240, w: 180, h: 200, cx: 820, cy: 340 };
+
+const OBJECTIVES = [
+  // id, name, x, y, required (true|false)
+  // The silhouette point is anchored at the factory center -- it represents
+  // "frame the whole structure" so the player can sub-cam it from distance.
+  { id: "silhouette",   name: "factory silhouette", x: 820, y: 340, required: true,  captured: false },
+  // Construction bays: top-edge of the factory hull (sub must approach near
+  // factory top to drone-cam this, or close to point-blank with sub-cam).
+  { id: "bays",         name: "construction bays",  x: 800, y: 260, required: true,  captured: false },
+  // Power core: deep interior (lower portion of the factory).
+  { id: "power_core",   name: "power core",         x: 855, y: 410, required: true,  captured: false },
+];
+const BONUS_OBJECTIVE = {
+  id: "siren_closeup", name: "Siren close-up (bonus)", captured: false,
+};
+
+const EXTRACTION = { x: 70, y: 70, r: TUNING_PLACEHOLDER_UNUSED() };
+
+// Patch the unused placeholder above -- the EXTRACTION radius is read from
+// TUNING.EXTRACTION_RADIUS_PX. (This indirection avoids a forward-reference
+// when TUNING is built; the placeholder call returns undefined and we
+// overwrite below.)
+function TUNING_PLACEHOLDER_UNUSED() { return undefined; }
+EXTRACTION.r = TUNING.EXTRACTION_RADIUS_PX;
+
+/* ----- State --------------------------------------------------------- */
+let state;
+
+function newState() {
+  return {
+    // step 1 (sub).
+    // Step 1 fix-pass 2026-06-04: added angularVel for turn-rate inertia.
+    // vx/vy are now persistent (carry across ticks; thrust accelerates,
+    // drag decays). Previously they were derived per-tick from input.
+    sub: { x: 480, y: 320, heading: 0, vx: 0, vy: 0, angularVel: 0 },
+    hull: TUNING.HULL_MAX,
+    oxygen: TUNING.OXYGEN_MAX_SECONDS,
+    hullHitCooldown: 0,
+    ping: { tStart: -Infinity, originX: 0, originY: 0 },
+    loseReason: null,           // null | "sunk" | "suffocated" | "vaporized"
+    winState: false,            // step 3 -- extracted with all required photos
+    timeSec: 0,
+
+    // step 2 -- suspicion
+    suspicion: 0,
+    lastSuspChange: 0,
+    instakillTimer: 0,
+
+    // step 2 -- Patroller (step 5: added type field for stun-map keying)
+    patroller: {
+      type: "patroller",
+      x: PATROL_ROUTE[0].x,
+      y: PATROL_ROUTE[0].y,
+      waypointIdx: 1,
+      mode: "patrolling",
+    },
+    // step 4 -- Sentinel: orbits the power-core objective
+    sentinel: {
+      type: "sentinel",
+      x: TUNING.SENTINEL_ORBIT_CENTER_X + TUNING.SENTINEL_ORBIT_RADIUS_PX,
+      y: TUNING.SENTINEL_ORBIT_CENTER_Y,
+      orbitAngle: 0,
+      mode: "orbiting",  // orbiting | investigating | pursuing
+    },
+    // step 4 -- Hunter: dormant until Alert+; then pursues last-known contact
+    hunter: {
+      type: "hunter",
+      x: TUNING.HUNTER_DORMANT_X,
+      y: TUNING.HUNTER_DORMANT_Y,
+      mode: "dormant",  // dormant | investigating | pursuing | returning
+    },
+    lastPing: { x: 0, y: 0, valid: false },
+
+    // step 3 -- drones
+    droneSupply: TUNING.DRONE_SUPPLY_INITIAL,
+    drones: [],                 // {id, x, y, targetX, targetY, alive}
+    nextDroneId: 1,
+    selectedDroneId: null,      // for F-photo and TAB-cycle
+
+    // step 3 -- objectives (deep-copy default state per run)
+    objectives: OBJECTIVES.map(o => ({ ...o })),
+    bonus: { ...BONUS_OBJECTIVE },
+
+    // step 5 -- disruption tools
+    jamCharges: TUNING.JAM_CHARGES_INITIAL,
+    empCharges: TUNING.EMP_CHARGES_INITIAL,
+    kdCharges:  TUNING.KNOCKDOWN_CHARGES_INITIAL,
+    // jamActiveUntil: time (sec) at which the jam window EXPIRES. If
+    // state.timeSec < jamActiveUntil, jam is active. Default -Infinity
+    // so the first jam fire is the only thing that turns it on.
+    jamActiveUntil: -Infinity,
+    // Per-Siren stun deadline maps. Key = siren.type ("patroller" |
+    // "sentinel" | "hunter"). Value = state.timeSec at which the
+    // effect EXPIRES. If the current time is less, the Siren is
+    // stunned (EMP) or immobilized (KD). Stored in the state to
+    // survive ticks and to be deterministic for sim tests.
+    // INV1 enforcement: these maps NEVER decrement a Siren HP, only
+    // gate its movement. Repeated EMP/KD on the same Siren simply
+    // refreshes the deadline -- the Siren still exists, still
+    // re-activates when the window expires.
+    empStunUntil: {},   // { patroller?:t, sentinel?:t, hunter?:t }
+    kdImmobUntil: {},   // { patroller?:t, sentinel?:t, hunter?:t }
+    // Targeting (arm/fire state for EMP and KD)
+    // Step 6: armedTool also takes "recon" for the recon-plane call-in.
+    armedTool: null,    // null | "emp" | "knockdown" | "recon"
+    // Projectile visualization (placeholder per INV6 -- moving line).
+    // Each entry: { kind:"emp"|"knockdown", x,y, tx,ty, targetType, alive:true }
+    projectiles: [],
+
+    // step 6 -- recon plane call-in
+    //
+    // reconCharges: finite charges (default 2). INV4 -- tools buy time
+    //   and cost heat; recon is finite + costs +8 suspicion per call.
+    //
+    // reconReveals: array of active recon reveal sectors. Each entry is
+    //   { x, y, r, tStart, tEnd } with tEnd = tStart + RECON_DURATION_SEC.
+    //   Sectors are filtered out of this array when state.timeSec >= tEnd.
+    //   Multiple sectors can be active concurrently (player can fire both
+    //   charges in quick succession at different points).
+    //
+    // INV1 unrelated (recon is perception, not combat -- no Siren state
+    // touched). INV3 load-bearing (recon costs heat and is transient).
+    reconCharges: TUNING.RECON_CHARGES_INITIAL,
+    reconReveals: [],
+  };
+}
+
+/* ----- Input --------------------------------------------------------- */
+const keys = new Set();
+window.addEventListener("keydown", (e) => {
+  keys.add(e.code);
+  if (e.code === "Space") tryActivePing();
+  if (e.code === "KeyR" && (state.loseReason || state.winState)) state = newState();
+  if (e.code === "Tab") { cycleSelectedDrone(); e.preventDefault(); }
+  if (e.code === "KeyF") tryDronePhoto();
+  if (e.code === "KeyG") trySubCamPhoto();
+  if (e.code === "KeyB") toggleDecoyOnSelected();  // step 4 -- decoy mode
+  // step 5 -- disruption tools
+  if (e.code === "Digit1") fireJam();
+  if (e.code === "Digit2") {
+    // arm EMP, or cancel if already armed for EMP
+    state.armedTool = (state.armedTool === "emp") ? null : "emp";
+  }
+  if (e.code === "Digit3") {
+    state.armedTool = (state.armedTool === "knockdown") ? null : "knockdown";
+  }
+  // step 6 -- recon plane call-in. Press 4 to arm; click to fire; press
+  // 4 again or Esc to cancel. Consistent with step-5's arm-then-click
+  // ergonomics for EMP/KD.
+  if (e.code === "Digit4") {
+    state.armedTool = (state.armedTool === "recon") ? null : "recon";
+  }
+  if (e.code === "Escape") state.armedTool = null;
+  if (["ArrowUp","ArrowDown","ArrowLeft","ArrowRight","Space"].includes(e.code)) {
+    e.preventDefault();
+  }
+});
+window.addEventListener("keyup", (e) => keys.delete(e.code));
+
+/* Mouse: left-click = deploy drone; right-click = redirect nearest drone. */
+canvas.addEventListener("contextmenu", (e) => e.preventDefault());
+canvas.addEventListener("mousedown", (e) => {
+  if (state.loseReason || state.winState) return;
+  const rect = canvas.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
+  if (e.button === 0) {
+    // step 5: if a tool is armed, the click FIRES the tool instead of
+    // deploying a drone. The tool path consumes the click; the player
+    // must re-arm to fire again. Cancellable via key re-press or Esc.
+    if (state.armedTool === "emp") {
+      fireEMP(x, y);
+      state.armedTool = null;
+    } else if (state.armedTool === "knockdown") {
+      fireKnockdown(x, y);
+      state.armedTool = null;
+    } else if (state.armedTool === "recon") {
+      // step 6: click designates the recon sector center.
+      fireRecon(x, y);
+      state.armedTool = null;
+    } else {
+      deployDrone(x, y);
+    }
+  } else if (e.button === 2) {
+    redirectNearestDrone(x, y);
+  }
+});
+
+/* ============================================================================
+ *  Step 8 (mobile / touch input layer) -- 2026-06-04
+ *  ----------------------------------------------------------------------
+ *  This is a UI LAYER. It does NOT modify game logic, tuning, AI, suspicion
+ *  math, win/lose conditions, or any pre-Step-8 function. It hooks touch
+ *  events into the SAME state surfaces that the desktop keyboard/mouse
+ *  handlers populate:
+ *    - Joystick touchmove writes KeyW/KeyA/KeyS/KeyD entries into the
+ *      existing `keys` Set (synthesized; the sub-drive update() consumes
+ *      `keys` exactly as before).
+ *    - Action button taps call existing game functions directly
+ *      (tryActivePing, deployDrone, etc.) or toggle state.armedTool with
+ *      the same semantics as the desktop "press 2 to arm EMP" pattern.
+ *    - Canvas touchstart performs a coord transform (CSS px -> game world)
+ *      using getBoundingClientRect, then dispatches to the same fire-/
+ *      deploy-/redirect-functions the desktop mousedown handler calls.
+ *  Desktop path is byte-equivalent: every keydown/keyup/mousedown/
+ *  contextmenu handler from prior steps still fires; this block only
+ *  ADDS event listeners, never removes or wraps.
+ *  Invariants: INV1-INV5 unaffected (no Siren state, no suspicion math,
+ *  no tuning constants touched). INV6 preserved (buttons are labeled
+ *  rectangles; no fonts/palette/audio/sprites added).
+ * ============================================================================ */
+
+/* Boot-time touch detection. Stored as a const so __sim can read it. */
+const IS_TOUCH_DEVICE = (typeof window !== "undefined") &&
+  (("ontouchstart" in window) || (navigator && navigator.maxTouchPoints > 0));
+
+/* Touch-overlay state. Lives outside game state so it cannot affect
+ * deterministic sims that snapshot state via setState/getState. */
+const touchInput = {
+  enabled: !!IS_TOUCH_DEVICE,
+  joystick: {
+    active: false,
+    centerX: 0, centerY: 0,
+    vx: 0, vy: 0,         // normalized joystick vector (-1..1)
+    magnitude: 0,         // 0..1
+    syntheticKeys: [],    // last set of synthesized key codes
+    deadzone: 0.22,       // below this magnitude we synthesize no keys
+    touchId: null,
+  },
+  overlayVisible: !!IS_TOUCH_DEVICE,
+};
+
+/* Action button definitions. Maps button DOM id -> handler. */
+const TOUCH_ACTIONS = {
+  btnPing:    () => { tryActivePing(); },
+  btnDeploy:  () => { state.armedTool = (state.armedTool === "deploy") ? null : "deploy"; refreshTouchArmedUI(); },
+  btnRedirect:() => { state.armedTool = (state.armedTool === "redirect") ? null : "redirect"; refreshTouchArmedUI(); },
+  btnJam:     () => { fireJam(); },
+  btnEMP:     () => { state.armedTool = (state.armedTool === "emp") ? null : "emp"; refreshTouchArmedUI(); },
+  btnKD:      () => { state.armedTool = (state.armedTool === "knockdown") ? null : "knockdown"; refreshTouchArmedUI(); },
+  btnRecon:   () => { state.armedTool = (state.armedTool === "recon") ? null : "recon"; refreshTouchArmedUI(); },
+  btnPhotoF:  () => { tryDronePhoto(); },
+  btnPhotoG:  () => { trySubCamPhoto(); },
+  btnDecoy:   () => { toggleDecoyOnSelected(); },
+  btnCycle:   () => { cycleSelectedDrone(); },
+  btnHelp:    () => { touchInput.helpVisible = !touchInput.helpVisible; refreshHelpOverlay(); },
+  btnRestart: () => { if (state.loseReason || state.winState) { state = newState(); refreshTouchArmedUI(); } },
+};
+
+/* Helper: convert joystick (vx, vy) vector into KeyW/A/S/D synthesized
+ * keys. vy is canvas-down-positive (so up-on-stick is negative vy). The
+ * deadzone keeps neutral-thumb jitter from sending false keys. */
+function joystickVectorToKeys(vx, vy, magnitude) {
+  const keys = [];
+  if (magnitude < touchInput.joystick.deadzone) return keys;
+  // Use axis components individually. Threshold ~0.35 of magnitude on
+  // each axis admits diagonals (UP-RIGHT writes both KeyW and KeyD).
+  const axisThresh = 0.35;
+  if (vy < -axisThresh) keys.push("KeyW");
+  if (vy >  axisThresh) keys.push("KeyS");
+  if (vx < -axisThresh) keys.push("KeyA");
+  if (vx >  axisThresh) keys.push("KeyD");
+  return keys;
+}
+
+/* Write joystick-synthesized keys into the SAME `keys` Set the keyboard
+ * handler populates. Reconciles: remove previously synthesized keys that
+ * are no longer active; add newly active ones. The keyboard handler can
+ * coexist (both add/remove via different code paths). */
+function applyJoystickKeys(newKeys) {
+  const prev = touchInput.joystick.syntheticKeys;
+  for (const k of prev) {
+    if (!newKeys.includes(k)) keys.delete(k);
+  }
+  for (const k of newKeys) {
+    if (!prev.includes(k)) keys.add(k);
+  }
+  touchInput.joystick.syntheticKeys = newKeys.slice();
+}
+
+/* Read the joystick element's bounding rect each frame; CSS-displayed
+ * size can change with resize / orientation. Cheap call. */
+function getJoystickRect() {
+  const el = (typeof document !== "undefined") && document.getElementById("joystick");
+  if (!el) return null;
+  return el.getBoundingClientRect();
+}
+
+/* Update joystick thumb position from current (vx, vy). DOM-side cosmetic
+ * only. */
+function updateJoystickThumb() {
+  const thumb = (typeof document !== "undefined") && document.getElementById("joystickThumb");
+  if (!thumb) return;
+  const { vx, vy, magnitude } = touchInput.joystick;
+  const cap = Math.min(1, magnitude);
+  // Translate thumb up to ~40% of joystick radius along the vector.
+  const offsetPct = cap * 30; // percent of joystick radius
+  thumb.style.left = (50 + vx * offsetPct) + "%";
+  thumb.style.top  = (50 + vy * offsetPct) + "%";
+}
+
+/* Joystick touch handlers. Operate on the joystick element only. */
+function joystickStart(touchClientX, touchClientY, touchId) {
+  const rect = getJoystickRect();
+  if (!rect) return;
+  touchInput.joystick.active = true;
+  touchInput.joystick.centerX = rect.left + rect.width / 2;
+  touchInput.joystick.centerY = rect.top  + rect.height / 2;
+  touchInput.joystick.touchId = (touchId !== undefined ? touchId : null);
+  joystickMove(touchClientX, touchClientY, touchId);
+}
+function joystickMove(touchClientX, touchClientY, touchId) {
+  if (!touchInput.joystick.active) return;
+  if (touchId !== undefined && touchInput.joystick.touchId !== null &&
+      touchInput.joystick.touchId !== touchId) return;
+  const rect = getJoystickRect();
+  if (!rect) return;
+  const radius = Math.max(1, Math.min(rect.width, rect.height) / 2);
+  const dx = touchClientX - touchInput.joystick.centerX;
+  const dy = touchClientY - touchInput.joystick.centerY;
+  let nx = dx / radius;
+  let ny = dy / radius;
+  let mag = Math.hypot(nx, ny);
+  if (mag > 1) { nx /= mag; ny /= mag; mag = 1; }
+  touchInput.joystick.vx = nx;
+  touchInput.joystick.vy = ny;
+  touchInput.joystick.magnitude = mag;
+  applyJoystickKeys(joystickVectorToKeys(nx, ny, mag));
+  updateJoystickThumb();
+}
+function joystickEnd(touchId) {
+  if (touchId !== undefined && touchInput.joystick.touchId !== null &&
+      touchInput.joystick.touchId !== touchId) return;
+  touchInput.joystick.active = false;
+  touchInput.joystick.vx = 0;
+  touchInput.joystick.vy = 0;
+  touchInput.joystick.magnitude = 0;
+  touchInput.joystick.touchId = null;
+  applyJoystickKeys([]);   // clear all synthesized keys
+  updateJoystickThumb();
+}
+
+/* Coord transform: CSS-pixel touch coord on the canvas element -> game
+ * coord (0..960, 0..640). The canvas's width/height ATTRIBUTES remain
+ * 960x640; only the CSS-displayed rect scales. */
+function touchCssToGameCoord(clientX, clientY) {
+  if (typeof document === "undefined") return { x: 0, y: 0 };
+  const c = document.getElementById("game");
+  if (!c) return { x: 0, y: 0 };
+  const rect = c.getBoundingClientRect();
+  const gx = (clientX - rect.left) * (c.width  / rect.width);
+  const gy = (clientY - rect.top)  * (c.height / rect.height);
+  return { x: gx, y: gy };
+}
+
+/* Canvas map-tap handler. Dispatches the same way the desktop mousedown
+ * does for left-button: armedTool path or deployDrone fallback. There is
+ * no native right-click on touch; we expose "redirect" via the dedicated
+ * REDIR button (which sets armedTool === "redirect"). */
+function canvasTapAt(clientX, clientY) {
+  if (state.loseReason || state.winState) return;
+  const { x, y } = touchCssToGameCoord(clientX, clientY);
+  if (state.armedTool === "emp") {
+    fireEMP(x, y);
+    state.armedTool = null;
+  } else if (state.armedTool === "knockdown") {
+    fireKnockdown(x, y);
+    state.armedTool = null;
+  } else if (state.armedTool === "recon") {
+    fireRecon(x, y);
+    state.armedTool = null;
+  } else if (state.armedTool === "redirect") {
+    redirectNearestDrone(x, y);
+    state.armedTool = null;
+  } else if (state.armedTool === "deploy") {
+    deployDrone(x, y);
+    state.armedTool = null;
+  } else {
+    // No tool armed; default is deploy (same as desktop left-click).
+    deployDrone(x, y);
+  }
+  refreshTouchArmedUI();
+}
+
+/* Refresh button visuals to show which tool is currently armed. */
+function refreshTouchArmedUI() {
+  if (typeof document === "undefined") return;
+  const armed = state.armedTool;
+  const armMap = {
+    "emp": "btnEMP",
+    "knockdown": "btnKD",
+    "recon": "btnRecon",
+    "deploy": "btnDeploy",
+    "redirect": "btnRedirect",
+  };
+  for (const id of Object.values(armMap)) {
+    const el = document.getElementById(id);
+    if (el) el.classList.remove("armed");
+  }
+  if (armed && armMap[armed]) {
+    const el = document.getElementById(armMap[armed]);
+    if (el) el.classList.add("armed");
+  }
+  // Gameover class toggles RESTART button visibility.
+  const body = document.body;
+  if (body) {
+    if (state.loseReason || state.winState) body.classList.add("gameover");
+    else body.classList.remove("gameover");
+  }
+}
+
+function refreshHelpOverlay() { /* placeholder hook; INV6 -- no chrome */ }
+
+/* Orientation check. Sets body.portrait class when viewport is taller
+ * than wide. Cosmetic only -- the game still runs, just shows the
+ * rotate-to-landscape overlay. */
+function updateOrientationClass() {
+  if (typeof document === "undefined" || typeof window === "undefined") return;
+  const body = document.body;
+  if (!body) return;
+  const portrait = (window.innerHeight > window.innerWidth);
+  if (portrait) body.classList.add("portrait");
+  else body.classList.remove("portrait");
+}
+
+/* Wire all touch handlers. Done unconditionally so __sim can drive them
+ * in headless tests; on a desktop with no touch device, no touchstart/
+ * touchmove/touchend events fire so the listeners are dormant. */
+(function wireTouchHandlers() {
+  if (typeof document === "undefined") return;
+
+  // Body class to enable the overlay CSS.
+  if (IS_TOUCH_DEVICE && document.body) {
+    document.body.classList.add("touch-mode");
+  }
+  updateOrientationClass();
+  if (typeof window !== "undefined" && window.addEventListener) {
+    window.addEventListener("resize", updateOrientationClass);
+    window.addEventListener("orientationchange", updateOrientationClass);
+  }
+
+  const js = document.getElementById("joystick");
+  if (js && js.addEventListener) {
+    js.addEventListener("touchstart", (e) => {
+      e.preventDefault();
+      const t = e.changedTouches[0];
+      if (!t) return;
+      joystickStart(t.clientX, t.clientY, t.identifier);
+    }, { passive: false });
+    js.addEventListener("touchmove", (e) => {
+      e.preventDefault();
+      for (let i = 0; i < e.changedTouches.length; i++) {
+        const t = e.changedTouches[i];
+        if (touchInput.joystick.touchId === null || t.identifier === touchInput.joystick.touchId) {
+          joystickMove(t.clientX, t.clientY, t.identifier);
+          break;
+        }
+      }
+    }, { passive: false });
+    const jsEnd = (e) => {
+      e.preventDefault();
+      for (let i = 0; i < e.changedTouches.length; i++) {
+        const t = e.changedTouches[i];
+        if (touchInput.joystick.touchId === null || t.identifier === touchInput.joystick.touchId) {
+          joystickEnd(t.identifier);
+          break;
+        }
+      }
+    };
+    js.addEventListener("touchend",    jsEnd, { passive: false });
+    js.addEventListener("touchcancel", jsEnd, { passive: false });
+  }
+
+  // Action button handlers. Use touchstart (with click fallback for
+  // testing in browser devtools without a touch device). Each handler
+  // also calls preventDefault to avoid double-firing as click.
+  for (const id of Object.keys(TOUCH_ACTIONS)) {
+    const el = document.getElementById(id);
+    if (!el) continue;
+    const fn = TOUCH_ACTIONS[id];
+    el.addEventListener("touchstart", (e) => { e.preventDefault(); fn(); }, { passive: false });
+    el.addEventListener("click",      (e) => { e.preventDefault(); fn(); });
+  }
+
+  // Canvas map-tap handler. Distinguishes joystick-area touches (they
+  // already go to the joystick element first) from map-area touches.
+  // We use touchstart on the canvas with stopPropagation off so existing
+  // mousedown handlers (desktop) keep working when no touch fires.
+  const c = document.getElementById("game");
+  if (c && c.addEventListener) {
+    c.addEventListener("touchstart", (e) => {
+      // Only consume single-tap map taps; multi-touch is reserved for
+      // joystick gestures that already routed to the joystick element.
+      if (!e.changedTouches || e.changedTouches.length === 0) return;
+      e.preventDefault();
+      const t = e.changedTouches[0];
+      canvasTapAt(t.clientX, t.clientY);
+    }, { passive: false });
+  }
+})();
+
+/* ----- Suspicion API (step 2 chokepoint, unchanged) ------------------ */
+function applySuspicion(amount, sourceTag) {
+  if (state.loseReason || state.winState) return 0;
+  const before = state.suspicion;
+  state.suspicion = clamp(state.suspicion + amount, TUNING.SUSP_MIN, TUNING.SUSP_MAX);
+  state.lastSuspChange = state.suspicion - before;
+  return state.lastSuspChange;
+}
+
+function clamp(v, lo, hi) { return v < lo ? lo : (v > hi ? hi : v); }
+
+/* suspicionState -- step 7 legibility fix 2026-06-04.
+ *
+ * Spec section 6 names FOUR states by suspicion band:
+ *   0-33  Curious
+ *   34-74 Alert
+ *   75-99 Hostile  (warning-valve cue ALSO fires in this band)
+ *   100 sustained 4s -> vaporize (instakill, terminal -- not a state band)
+ *
+ * Prior to step 7 this function returned only 3 labels (CURIOUS / ALERT /
+ * WARNING), conflating the Hostile state name with the warning-valve cue.
+ * Step 7 separates them: the state readout shows the actual Siren-behavior
+ * band (HOSTILE), and the WARNING banner (rendered in render() when
+ * suspicion >= WARNING_THRESHOLD) is the player-facing valve cue.
+ *
+ * Spec section 11 emphasizes "Siren detection legibility -- the player
+ * must always be able to reason about why a Siren noticed them." Naming
+ * the actual state band (HOSTILE) instead of the alert cue (WARNING)
+ * supports that legibility: HOSTILE = "Sirens are hunting"; WARNING =
+ * "you have ~4s to break contact before vaporize."
+ * ------------------------------------------------------------------ */
+function suspicionState(s) {
+  if (s >= TUNING.THRESH_HOSTILE)    return "HOSTILE";
+  if (s >= TUNING.THRESH_ALERT)      return "ALERT";
+  return "CURIOUS";
+}
+function isAlertPlus(s) { return s >= TUNING.THRESH_ALERT; }
+
+/* ----- step 3 -- factory proximity suspicion gain rate (per second)
+ * Spec section 6: "factory proximity +1 to +3/sec (scales with closeness)."
+ * We treat the nearest edge of the factory rectangle as the distance
+ * reference (so the player is "near" when the sub is hugging the wall,
+ * not when the center of the factory is 0 px away -- the factory is large).
+ * Returns a number in [0, 3] per second.
+ * ------------------------------------------------------------------- */
+function factoryProximityGainPerSec(subX, subY) {
+  const d = distancePointToRect(subX, subY, FACTORY);
+  if (d <= TUNING.FACTORY_PROX_NEAR_PX) return TUNING.FACTORY_PROX_NEAR_RATE;
+  if (d <= TUNING.FACTORY_PROX_MID_PX)  return TUNING.FACTORY_PROX_MID_RATE;
+  if (d <= TUNING.FACTORY_PROX_FAR_PX)  return TUNING.FACTORY_PROX_FAR_RATE;
+  return 0;
+}
+
+function distancePointToRect(px, py, r) {
+  const rx = Math.max(r.x, Math.min(px, r.x + r.w));
+  const ry = Math.max(r.y, Math.min(py, r.y + r.h));
+  const dx = px - rx, dy = py - ry;
+  return Math.hypot(dx, dy);
+}
+
+/* ----- Active ping (step 2; unchanged) ------------------------------- */
+function tryActivePing() {
+  if (state.loseReason || state.winState) return;
+  state.ping.tStart = state.timeSec;
+  state.ping.originX = state.sub.x;
+  state.ping.originY = state.sub.y;
+  applySuspicion(TUNING.SUSP_PING_COST, "active_ping");
+  state.lastPing.x = state.sub.x;
+  state.lastPing.y = state.sub.y;
+  state.lastPing.valid = true;
+}
+
+/* ----- step 3 -- Drone operations ---------------------------------- */
+function deployDrone(x, y) {
+  if (state.droneSupply <= 0) return null;
+  // Refuse to deploy on terrain or out of bounds -- the brief calls
+  // drone destruction "your call." Deploying directly into terrain
+  // would destroy the drone instantly, which feels punitive for a
+  // misclick. Deny the deploy instead and keep the supply.
+  if (x < 0 || y < 0 || x > WORLD_W || y > WORLD_H) return null;
+  if (anyTerrainHit(x, y, TUNING.DRONE_RADIUS_PX)) return null;
+
+  // Spawn from the sub (torpedo tube launch per spec section 4) but
+  // target the click destination. The drone walks there over time.
+  const drone = {
+    id: state.nextDroneId++,
+    x: state.sub.x,
+    y: state.sub.y,
+    targetX: x,
+    targetY: y,
+    alive: true,
+    decoyMode: false,  // step 4: toggled via B key. Passive (parked) draws
+                       // Curious Sirens at PASSIVE_DECOY_RANGE; active (true)
+                       // draws at ACTIVE_DECOY_RANGE with DECOY_ACTIVE_WEIGHT.
+  };
+  state.drones.push(drone);
+  state.droneSupply -= 1;
+  state.selectedDroneId = drone.id;
+  return drone;
+}
+
+function redirectNearestDrone(x, y) {
+  // Move the nearest alive drone to (x, y).
+  let best = null, bestDist = Infinity;
+  for (const d of state.drones) {
+    if (!d.alive) continue;
+    const dd = (d.x - x) * (d.x - x) + (d.y - y) * (d.y - y);
+    if (dd < bestDist) { bestDist = dd; best = d; }
+  }
+  if (!best) return null;
+  best.targetX = x;
+  best.targetY = y;
+  state.selectedDroneId = best.id;
+  return best;
+}
+
+function cycleSelectedDrone() {
+  const alive = state.drones.filter(d => d.alive);
+  if (alive.length === 0) { state.selectedDroneId = null; return; }
+  const idx = alive.findIndex(d => d.id === state.selectedDroneId);
+  const next = alive[(idx + 1) % alive.length];
+  state.selectedDroneId = next.id;
+}
+
+function getSelectedDrone() {
+  if (state.selectedDroneId == null) return null;
+  return state.drones.find(d => d.id === state.selectedDroneId && d.alive) || null;
+}
+
+/* ===================================================================
+ * Step 4 -- Decoy + Siren common helpers
+ * =================================================================== */
+
+/* toggleDecoyOnSelected -- flip decoy mode on the currently selected
+ * drone. Per Pat 2026-06-03 ruling: parked drones ALREADY act as bait
+ * passively (any deployed drone within CURIOSITY_PASSIVE_DECOY_RANGE_PX
+ * draws Curious Sirens). Active mode (this toggle) increases the draw
+ * range and weight. Both routes are implemented; both are spec-legal.
+ * The toggle gives the player intentional control without changing
+ * the spec's "drones bait by being there" base behavior.
+ * ------------------------------------------------------------------ */
+function toggleDecoyOnSelected() {
+  const d = getSelectedDrone();
+  if (!d) return null;
+  d.decoyMode = !d.decoyMode;
+  return d;
+}
+
+/* allSirens -- single iterator over Patroller + Sentinel + Hunter.
+ * Order doesn't matter (no priority encoded). Used by bonus photo,
+ * suspicion proximity term, and any future Siren-iterating logic.
+ * ------------------------------------------------------------------ */
+function allSirens() {
+  return [state.patroller, state.sentinel, state.hunter];
+}
+
+/* sirenProximityGainPerSec -- step 4 implementation of spec section 6
+ * "Siren-near-sub +scaling/sec (closer = faster)". Sums each Siren's
+ * contribution. Per-Siren contribution is linear from MAX_RATE (touch)
+ * to 0 (at proximity range edge); a far Siren contributes 0.
+ *
+ * Patroller, Sentinel, Hunter each have their own PROXIMITY_RANGE_PX
+ * and PROXIMITY_MAX_RATE so different types can be tuned independently
+ * (Sentinel "you stepped into my zone" should plausibly outweigh
+ * Patroller "I'm walking near you"). FLAG step 7 for tuning.
+ * ------------------------------------------------------------------ */
+function sirenProximityGainPerSec(subX, subY) {
+  let total = 0;
+  // Patroller term -- new for step 4 (was deferred since only 1 Siren existed).
+  total += sirenProxTerm(subX, subY, state.patroller,
+                         TUNING.PATROL_RADIUS_PX + 180,  // proximity range
+                         1.5);                            // max rate
+  total += sirenProxTerm(subX, subY, state.sentinel,
+                         TUNING.SENTINEL_PROXIMITY_RANGE_PX,
+                         TUNING.SENTINEL_PROXIMITY_MAX_RATE);
+  total += sirenProxTerm(subX, subY, state.hunter,
+                         TUNING.HUNTER_PROXIMITY_RANGE_PX,
+                         TUNING.HUNTER_PROXIMITY_MAX_RATE);
+  return total;
+}
+
+function sirenProxTerm(sx, sy, siren, range, maxRate) {
+  // step 5: stunned/immobilized Sirens emit no detection (spec section 5
+  // EMP "halts movement + detection"; KD is the longer version). Contribute 0.
+  if (isSirenStunned(siren)) return 0;
+  // step 5: jam window halves each Siren's proximity contribution
+  // (JAM_EFFECT_PROX_MULT applied uniformly).
+  const jamMult = isJamActive() ? TUNING.JAM_EFFECT_PROX_MULT : 1.0;
+  // Original math below, scaled by jamMult.
+  const dx = siren.x - sx, dy = siren.y - sy;
+  const d = Math.hypot(dx, dy);
+  if (d >= range) return 0;
+  // Linear ramp: at touch (d=0) -> maxRate; at edge (d=range) -> 0.
+  // step 5: jamMult halves the contribution while jam is active.
+  return jamMult * maxRate * (1 - d / range);
+}
+
+/* findCuriosityTarget -- for a given Siren in Curious state, return the
+ * point it should investigate (decoy position or recent ping), or null
+ * if nothing attractive is in scoring range. Active-mode decoys win
+ * over passive at equal distance via DECOY_ACTIVE_WEIGHT.
+ *
+ * Scoring is "effective distance" = real distance / weight. Lower wins.
+ * A passive parked drone within PASSIVE_DECOY_RANGE has weight 1.0;
+ * an active-mode drone within ACTIVE_DECOY_RANGE has weight
+ * DECOY_ACTIVE_WEIGHT. The last ping origin (if recent and within
+ * CURIOSITY_PING_RANGE) competes too, with weight 1.0.
+ *
+ * LOS is not required for curiosity targets -- sirens supernaturally
+ * sense pings/decoys per spec section 7 ("detection inputs ... no
+ * hidden detection: if a Siren found you, a rule you can name did
+ * it"). The rules ARE the proximity / decoy / ping criteria.
+ * ------------------------------------------------------------------ */
+function findCuriosityTarget(siren) {
+  let bestPt = null;
+  let bestScore = Infinity;
+
+  for (const d of state.drones) {
+    if (!d.alive) continue;
+    const dist = Math.hypot(d.x - siren.x, d.y - siren.y);
+    const range = d.decoyMode
+      ? TUNING.CURIOSITY_ACTIVE_DECOY_RANGE_PX
+      : TUNING.CURIOSITY_PASSIVE_DECOY_RANGE_PX;
+    if (dist > range) continue;
+    const weight = d.decoyMode ? TUNING.DECOY_ACTIVE_WEIGHT : 1.0;
+    const score = dist / weight;
+    if (score < bestScore) {
+      bestScore = score;
+      bestPt = { x: d.x, y: d.y, kind: d.decoyMode ? "active-decoy" : "passive-decoy" };
+    }
+  }
+
+  // Last ping is a curiosity attractor too (spec section 7).
+  if (state.lastPing.valid) {
+    const dist = Math.hypot(state.lastPing.x - siren.x, state.lastPing.y - siren.y);
+    if (dist <= TUNING.CURIOSITY_PING_RANGE_PX) {
+      const score = dist;  // weight 1.0
+      if (score < bestScore) {
+        bestScore = score;
+        bestPt = { x: state.lastPing.x, y: state.lastPing.y, kind: "ping" };
+      }
+    }
+  }
+
+  return bestPt;
+}
+
+/* moveToward -- generic move a Siren toward (tx, ty) at given speed,
+ * capped by remaining distance. Sirens do NOT respect terrain (spec
+ * section 7 is silent; preserves the step-2 design decision; flagged
+ * for step 7 if pathfinding desired).
+ * ------------------------------------------------------------------ */
+function moveToward(siren, tx, ty, speed, dt) {
+  const dx = tx - siren.x, dy = ty - siren.y;
+  const dist = Math.hypot(dx, dy);
+  const step = speed * dt;
+  if (dist <= step || dist === 0) {
+    siren.x = tx;
+    siren.y = ty;
+    return true;  // reached
+  }
+  siren.x += (dx / dist) * step;
+  siren.y += (dy / dist) * step;
+  return false;
+}
+
+/* ===================================================================
+ * step 4 -- Sentinel update
+ * Behavior:
+ *   - Curious: if a decoy/ping target exists, move slowly to investigate
+ *     (curiosity is cross-cutting per spec section 7). Otherwise orbit
+ *     the power-core anchor.
+ *   - Alert+: if sub inside SENTINEL_DETECT_RADIUS, ram at Alert speed;
+ *     else if lastPing within detect radius, pursue lastPing; else orbit.
+ * Always returns toward orbit ring when no other target.
+ *
+ * Detection inputs are consistent with Patroller (spec section 7
+ * "consistent across all types"): proximity (sub inside detection
+ * radius), active pings (lastPing), drone activity (curiosity), weapon
+ * fire (step 5).
+ * =================================================================== */
+
+/* ===================================================================
+ * Step 5 -- disruption tools (jam / EMP / knockdown) -- spec section 5
+ * ===================================================================
+ *
+ * Three tools. None kill. All cost the player suspicion (INV4):
+ *
+ *   jam (+5):   sub-centric. Reduces Siren proximity contribution by
+ *               JAM_EFFECT_PROX_MULT for JAM_WINDOW_SEC, AND clears
+ *               lastPing.valid at fire time to "break a lock."
+ *               No target needed. Bound to 1 key.
+ *
+ *   EMP (+20):  click-target a Siren. The targeted Siren is "stunned"
+ *               (halts movement + detection) for EMP_DURATION_SEC.
+ *               Hooked via isSirenStunned() at the top of each Siren
+ *               update function. Bound to 2 key (ARM) + click (FIRE).
+ *
+ *   KD  (+20):  click-target a Siren. The targeted Siren is "immobilized"
+ *               for KNOCKDOWN_DURATION_SEC -- same stun mechanism but
+ *               longer window, fewer charges. Bound to 3 key + click.
+ *
+ * Charge counters: jamCharges / empCharges / kdCharges in state.
+ * A fire with 0 charges is a no-op (no suspicion charge, no effect).
+ *
+ * INV1 enforcement (load-bearing here):
+ *   - Sirens have no hp field. The stun maps store DEADLINES, not damage.
+ *   - Repeated tool fire on the same Siren only refreshes the deadline.
+ *   - When the window expires, the Siren resumes its prior state.
+ *   - No code path can remove a Siren from state.{patroller,sentinel,hunter}.
+ *
+ * INV2 enforcement:
+ *   - All effects derive from state.timeSec, state.suspicion, deterministic
+ *     deadline math. No Math.random in any step-5 code (grep-verified).
+ *
+ * INV4 enforcement:
+ *   - applySuspicion is the chokepoint. Every fire path calls it.
+ *   - Charge counters are finite and decrement on use.
+ *   - Charging the tool (arming) is FREE; firing it costs.
+ *
+ * INV5 interaction:
+ *   - Jam DROPS the active-lock contribution AND halves proximity terms;
+ *     a player at suspicion 80 with one Siren ramming can fire jam and
+ *     drop below WARNING in the spec's intended window (sim test verifies).
+ *   - EMP/KD let the player buy stillness, then jam to drop heat, then
+ *     re-route. The +20 cost is the "draws heat" tension.
+ * =================================================================== */
+
+// Returns true if `siren` is currently EMP-stunned OR KD-immobilized.
+// Both states halt movement + detection (same gate: early-return at the
+// top of each update function). Stun is keyed by siren.type so siren
+// instances stay simple objects.
+function isSirenStunned(siren) {
+  const t = state.timeSec;
+  const empT = state.empStunUntil[siren.type] || -Infinity;
+  const kdT  = state.kdImmobUntil[siren.type] || -Infinity;
+  return t < empT || t < kdT;
+}
+
+// Returns true if jam is currently active (window not yet expired).
+function isJamActive() {
+  return state.timeSec < state.jamActiveUntil;
+}
+
+// Jam effect multiplier on Siren proximity contribution. Returns 1 when
+// jam is inactive, JAM_EFFECT_PROX_MULT when active.
+function jamProxMultiplier() {
+  return isJamActive() ? TUNING.JAM_EFFECT_PROX_MULT : 1.0;
+}
+
+/* Acquire a target Siren given a click at (cx, cy). Picks the nearest
+ * Siren whose body is within TARGET_PICK_RADIUS_PX of the click AND
+ * for which the sub has line-of-sight (you can't fire through rock).
+ * Returns the siren reference or null.
+ *
+ * INV5: LOS gating means the player needs a perception path to fire,
+ *       which costs (active ping / drone) -- another implicit cost.
+ */
+function acquireTargetSiren(cx, cy) {
+  const subX = state.sub.x, subY = state.sub.y;
+  let best = null, bestDist = Infinity;
+  for (const sir of allSirens()) {
+    const dx = sir.x - cx, dy = sir.y - cy;
+    const d2 = dx * dx + dy * dy;
+    if (d2 > TUNING.TARGET_PICK_RADIUS_PX * TUNING.TARGET_PICK_RADIUS_PX) continue;
+    if (!isLineOfSightClear(subX, subY, sir.x, sir.y)) continue;
+    if (d2 < bestDist) { bestDist = d2; best = sir; }
+  }
+  return best;
+}
+
+/* fireJam -- sub-centric. No target. */
+function fireJam() {
+  if (state.loseReason || state.winState) return false;
+  if (state.jamCharges <= 0) return false;
+  state.jamCharges -= 1;
+  state.jamActiveUntil = state.timeSec + TUNING.JAM_WINDOW_SEC;
+  // Spec section 5: "scrambles Siren localization for a window." The
+  // sharpest interpretation is "breaks an active lastPing lock." Combined
+  // with the proximity multiplier for the window, this makes jam the
+  // genuine "lower the heat / break a lock" tool from the brief.
+  state.lastPing.valid = false;
+  applySuspicion(TUNING.JAM_SUSP_COST, "jam_fire");
+  return true;
+}
+
+/* fireEMP / fireKnockdown -- target-acquired Siren disruption.
+ * Returns the targeted siren on success, null on failure (no charges,
+ * no target, target out of range/LOS).
+ * Both increment a projectile entry for visual feedback.
+ */
+function fireEMP(targetX, targetY) {
+  if (state.loseReason || state.winState) return null;
+  if (state.empCharges <= 0) return null;
+  const target = acquireTargetSiren(targetX, targetY);
+  if (!target) return null;
+  state.empCharges -= 1;
+  // Stun deadline keyed by Siren type. Refreshing the deadline on an
+  // already-stunned Siren is fine (and INV1-safe: the Siren still
+  // exists and re-activates).
+  state.empStunUntil[target.type] = state.timeSec + TUNING.EMP_DURATION_SEC;
+  state.projectiles.push({
+    kind: "emp",
+    x: state.sub.x, y: state.sub.y,
+    tx: target.x, ty: target.y,
+    targetType: target.type,
+    alive: true,
+  });
+  applySuspicion(TUNING.EMP_SUSP_COST, "emp_fire");
+  return target;
+}
+
+function fireKnockdown(targetX, targetY) {
+  if (state.loseReason || state.winState) return null;
+  if (state.kdCharges <= 0) return null;
+  const target = acquireTargetSiren(targetX, targetY);
+  if (!target) return null;
+  state.kdCharges -= 1;
+  state.kdImmobUntil[target.type] = state.timeSec + TUNING.KNOCKDOWN_DURATION_SEC;
+  state.projectiles.push({
+    kind: "knockdown",
+    x: state.sub.x, y: state.sub.y,
+    tx: target.x, ty: target.y,
+    targetType: target.type,
+    alive: true,
+  });
+  applySuspicion(TUNING.KNOCKDOWN_SUSP_COST, "knockdown_fire");
+  return target;
+}
+
+/* fireRecon -- step 6 recon plane call-in.
+ *
+ * Designate a sector at (cx, cy). Consumes one of the finite recon
+ * charges (default 2 per spec section 11), applies +8 suspicion to
+ * the chokepoint (spec sections 3, 6), and pushes a reveal entry
+ * onto state.reconReveals. The reveal is active for
+ * RECON_DURATION_SEC (8.0s default) with radius
+ * RECON_REVEAL_RADIUS_PX (400 px default).
+ *
+ * Returns the new reveal object on success, or null on failure
+ * (no charges, in lose/win state). No LOS check at fire time --
+ * recon is a flyover, the plane is above the seafloor (see TUNING
+ * block doc-comment for the LOS design call).
+ *
+ * INV3 (perceiving costs): the +8 cost lands via the
+ *   applySuspicion chokepoint, same path as ping (+25), drone photo
+ *   (+15), EMP/KD (+20), jam (+5).
+ *
+ * INV4 (tools buy time, cost heat): finite charges (decrement on
+ *   success only -- failed fires consume no cost), finite duration.
+ *
+ * INV1 unrelated: recon does NOT touch any Siren state. Sirens
+ *   become visible but no HP/damage/kill machinery is invoked.
+ */
+function fireRecon(cx, cy) {
+  if (state.loseReason || state.winState) return null;
+  if (state.reconCharges <= 0) return null;
+  state.reconCharges -= 1;
+  const reveal = {
+    x: cx,
+    y: cy,
+    r: TUNING.RECON_REVEAL_RADIUS_PX,
+    tStart: state.timeSec,
+    tEnd: state.timeSec + TUNING.RECON_DURATION_SEC,
+  };
+  state.reconReveals.push(reveal);
+  applySuspicion(TUNING.RECON_SUSP_COST, "recon_call");
+  return reveal;
+}
+
+/* Tick recon reveals -- expire any whose tEnd has passed. Called
+ * once per update(dt) tick. INV3: the reveal IS transient; this
+ * function enforces the fade-to-darkness contract.
+ */
+function updateReconReveals() {
+  if (state.reconReveals.length === 0) return;
+  const t = state.timeSec;
+  // Filter in place; cheap (list is 0-2 entries max).
+  state.reconReveals = state.reconReveals.filter(r => t < r.tEnd);
+}
+
+/* Is point (px, py) currently inside ANY active recon reveal? Used
+ * by the Siren-visibility helpers (drawSirenIfVisible and
+ * countVisibleSirens) and by the renderer (drawWorldNear pass).
+ * Returns true if at least one reveal sector contains the point;
+ * false otherwise.
+ *
+ * Recon reveals are NOT LOS-gated (see TUNING block doc-comment).
+ */
+function isInReconReveal(px, py) {
+  for (const r of state.reconReveals) {
+    if (state.timeSec >= r.tEnd) continue;
+    const dx = px - r.x, dy = py - r.y;
+    if (dx * dx + dy * dy <= r.r * r.r) return true;
+  }
+  return false;
+}
+
+/* Returns max-alpha (0..1) among all reveals containing (px, py).
+ * Reveal alpha fades linearly from 1.0 at tStart to 0.0 at tEnd
+ * (render-only flavor per INV6 placeholder; mechanically the
+ * reveal is binary -- isInReconReveal is the spine).
+ */
+function reconRevealAlphaAt(px, py) {
+  let best = 0;
+  const t = state.timeSec;
+  for (const r of state.reconReveals) {
+    if (t >= r.tEnd) continue;
+    const dx = px - r.x, dy = py - r.y;
+    if (dx * dx + dy * dy > r.r * r.r) continue;
+    const lifeFrac = (r.tEnd - t) / (r.tEnd - r.tStart); // 1.0 -> 0.0
+    if (lifeFrac > best) best = lifeFrac;
+  }
+  return best;
+}
+
+/* Update projectile positions. Pure visual; the disruption effect
+ * landed at fire time. The projectile travels to the target point
+ * and then dies (no physics, no collision -- it's a tracer line).
+ * Kept short and cheap; INV6 placeholder.
+ */
+function updateProjectiles(dt) {
+  for (const p of state.projectiles) {
+    if (!p.alive) continue;
+    const dx = p.tx - p.x, dy = p.ty - p.y;
+    const dist = Math.hypot(dx, dy);
+    const step = TUNING.PROJECTILE_SPEED_PX_PER_SEC * dt;
+    if (dist <= step) {
+      p.x = p.tx; p.y = p.ty;
+      p.alive = false;
+    } else {
+      p.x += (dx / dist) * step;
+      p.y += (dy / dist) * step;
+    }
+  }
+  // Garbage collect dead projectiles (cheap; list is usually 0-3 entries).
+  state.projectiles = state.projectiles.filter(p => p.alive);
+}
+
+function updateSentinel(dt) {
+  const s = state.sentinel;
+  // step 5: stun gate. EMP/KD halt movement+detection for their window.
+  // INV1: no HP decrement. The Siren just doesn't move; resumes when
+  // the deadline passes.
+  if (isSirenStunned(s)) {
+    s.mode = (state.timeSec < (state.kdImmobUntil[s.type]||-Infinity)) ? "immobilized" : "stunned";
+    return;
+  }
+  const alert = isAlertPlus(state.suspicion);
+  const sub = state.sub;
+  const dxSub = sub.x - s.x, dySub = sub.y - s.y;
+  const distSub = Math.hypot(dxSub, dySub);
+
+  if (alert) {
+    // Detection check: sub inside SENTINEL_DETECT_RADIUS?
+    if (distSub <= TUNING.SENTINEL_DETECT_RADIUS_PX) {
+      // Pursue sub directly.
+      s.mode = "pursuing";
+      moveToward(s, sub.x, sub.y, TUNING.SENTINEL_ALERT_SPEED_PX_PER_SEC, dt);
+      return;
+    }
+    // Else check lastPing
+    if (state.lastPing.valid) {
+      const dpx = state.lastPing.x - s.x, dpy = state.lastPing.y - s.y;
+      const dPing = Math.hypot(dpx, dpy);
+      if (dPing <= TUNING.SENTINEL_DETECT_RADIUS_PX) {
+        s.mode = "pursuing";
+        moveToward(s, state.lastPing.x, state.lastPing.y,
+                   TUNING.SENTINEL_ALERT_SPEED_PX_PER_SEC, dt);
+        return;
+      }
+    }
+    // Sub/ping out of detection -- resume orbit
+  } else {
+    // Curious: investigate decoys/pings if present
+    const target = findCuriosityTarget(s);
+    if (target) {
+      s.mode = "investigating";
+      moveToward(s, target.x, target.y,
+                 TUNING.SENTINEL_CURIOUS_SPEED_PX_PER_SEC, dt);
+      return;
+    }
+  }
+
+  // Return-to-orbit behavior (default).
+  // First, walk back to the orbit ring if we drifted off it.
+  const cx = TUNING.SENTINEL_ORBIT_CENTER_X;
+  const cy = TUNING.SENTINEL_ORBIT_CENTER_Y;
+  const r = TUNING.SENTINEL_ORBIT_RADIUS_PX;
+  const dxC = s.x - cx, dyC = s.y - cy;
+  const distFromCenter = Math.hypot(dxC, dyC);
+  if (Math.abs(distFromCenter - r) > TUNING.SENTINEL_RETURN_TOLERANCE_PX) {
+    // Aim for the nearest point on the ring.
+    const angle = Math.atan2(dyC, dxC);
+    const ringX = cx + Math.cos(angle) * r;
+    const ringY = cy + Math.sin(angle) * r;
+    s.mode = "returning";
+    moveToward(s, ringX, ringY,
+               alert ? TUNING.SENTINEL_ALERT_SPEED_PX_PER_SEC
+                     : TUNING.SENTINEL_CURIOUS_SPEED_PX_PER_SEC, dt);
+    // Update orbitAngle to match wherever we landed
+    const ndx = s.x - cx, ndy = s.y - cy;
+    s.orbitAngle = Math.atan2(ndy, ndx);
+    return;
+  }
+
+  // Orbit: advance the angle.
+  s.mode = "orbiting";
+  s.orbitAngle += TUNING.SENTINEL_ORBIT_SPEED_RAD_PER_SEC * dt;
+  s.x = cx + Math.cos(s.orbitAngle) * r;
+  s.y = cy + Math.sin(s.orbitAngle) * r;
+}
+
+/* ===================================================================
+ * step 4 -- Hunter update
+ * Behavior:
+ *   - Curious: dormant by default. If a decoy/ping target is present,
+ *     investigate (curiosity is cross-cutting per spec section 7).
+ *     Otherwise return to dormant position.
+ *   - Alert+: pursue last-known contact (sub or lastPing) at high speed.
+ * Hunter is "the threat your own noise summons" -- spec section 7.
+ * =================================================================== */
+function updateHunter(dt) {
+  const h = state.hunter;
+  // step 5: stun gate (see updateSentinel for INV1 rationale).
+  if (isSirenStunned(h)) {
+    h.mode = (state.timeSec < (state.kdImmobUntil[h.type]||-Infinity)) ? "immobilized" : "stunned";
+    return;
+  }
+  const alert = isAlertPlus(state.suspicion);
+
+  if (alert) {
+    // Pursue: prefer sub if known via lastPing; else any lastPing; else
+    // chase sub directly (sub is a "last-known contact" by virtue of
+    // being percievable at all under Alert+ -- per spec section 7
+    // "Hunter actively pursues last-known contact").
+    let tx, ty;
+    if (state.lastPing.valid) {
+      tx = state.lastPing.x;
+      ty = state.lastPing.y;
+    } else {
+      // No fresh ping -- pursue sub current position (Alert+ implies
+      // detection per spec).
+      tx = state.sub.x;
+      ty = state.sub.y;
+    }
+    h.mode = "pursuing";
+    const reached = moveToward(h, tx, ty, TUNING.HUNTER_PURSUE_SPEED_PX_PER_SEC, dt);
+    if (reached && state.lastPing.valid) {
+      // Arrived at ping origin; clear it so the deviation can resolve
+      // (matches Patroller-deviation pattern).
+      state.lastPing.valid = false;
+    }
+    return;
+  }
+
+  // Curious: investigate decoys/pings; if none, return to dormant.
+  const target = findCuriosityTarget(h);
+  if (target) {
+    h.mode = "investigating";
+    moveToward(h, target.x, target.y, TUNING.HUNTER_CURIOUS_SPEED_PX_PER_SEC, dt);
+    return;
+  }
+
+  if (TUNING.HUNTER_RETURN_ACTIVE) {
+    const dxD = TUNING.HUNTER_DORMANT_X - h.x;
+    const dyD = TUNING.HUNTER_DORMANT_Y - h.y;
+    if (Math.hypot(dxD, dyD) > 2) {
+      h.mode = "returning";
+      moveToward(h, TUNING.HUNTER_DORMANT_X, TUNING.HUNTER_DORMANT_Y,
+                 TUNING.HUNTER_CURIOUS_SPEED_PX_PER_SEC, dt);
+      return;
+    }
+  }
+  h.mode = "dormant";
+}
+
+/* ===================================================================
+ * step 4 -- Patroller curiosity extension
+ * The existing step-2 updatePatroller handles patrolling + deviating
+ * (Alert+ deviation). At Curious, the original behavior is to follow
+ * the route. Brief 04 adds: at Curious, the Patroller will ALSO
+ * investigate decoys/pings when they're closer than the next waypoint
+ * (curiosity is cross-cutting per spec section 7).
+ *
+ * Implementation: we leave updatePatroller untouched for back-compat
+ * (existing tests assert on it), and run a wrapper that checks for
+ * curiosity attractors BEFORE delegating to updatePatroller. If a
+ * curiosity target is present AND the patroller is at Curious, we
+ * move toward the target instead.
+ * =================================================================== */
+function updatePatrollerWithCuriosity(dt) {
+  // step 5: stun gate on the Patroller too. We early-return BEFORE
+  // delegating to updatePatroller so the stunned Patroller does not
+  // advance its route. The mode field shows immobilized/stunned for HUD.
+  if (isSirenStunned(state.patroller)) {
+    state.patroller.mode = (state.timeSec < (state.kdImmobUntil[state.patroller.type]||-Infinity))
+      ? "immobilized" : "stunned";
+    return;
+  }
+  const alert = isAlertPlus(state.suspicion);
+  if (!alert) {
+    const target = findCuriosityTarget(state.patroller);
+    if (target) {
+      state.patroller.mode = "investigating";
+      moveToward(state.patroller, target.x, target.y,
+                 TUNING.CURIOSITY_PATROLLER_SPEED_PX_PER_SEC, dt);
+      // If we reached the target, fall back to nearest waypoint resume.
+      const dxR = state.patroller.x - target.x;
+      const dyR = state.patroller.y - target.y;
+      if (Math.hypot(dxR, dyR) <= TUNING.CURIOSITY_REACH_PX) {
+        state.patroller.waypointIdx = nearestWaypointIdx(state.patroller.x, state.patroller.y);
+      }
+      return;
+    }
+  }
+  // Default: delegate to step-2 logic (patrolling / Alert+ deviating).
+  updatePatroller(dt);
+}
+
+/* ----- step 3 -- Photo logic --------------------------------------- *
+ * Two photographers exist: the selected drone (F) or the sub's
+ * fallback cam (G). Each runs its range check against each objective.
+ *
+ * Drone photo: cheap range, costs +15 (spec section 3/6/11).
+ * Sub-cam photo: tight range for most objectives; wide for silhouette
+ *   (spec section 8: "silhouette is comfortably sub-cammable from
+ *   distance"). No flat cost; the proximity to factory drives gain.
+ *
+ * Bonus objective (Siren close-up): drone within DRONE_SIREN_BONUS_RANGE
+ * of the Patroller; sub-cam version is not awarded -- the spec calls
+ * the bonus a "Siren at close range" objective and the drone is the
+ * photogenic platform. Pothole logged: when Sentinel/Hunter exist in
+ * step 4, this should match against any Siren, not just the Patroller.
+ * ------------------------------------------------------------------- */
+function tryDronePhoto() {
+  if (state.loseReason || state.winState) return null;
+  const d = getSelectedDrone();
+  if (!d) return null;
+
+  let captured = null;
+  // Required objectives first.
+  for (const o of state.objectives) {
+    if (o.captured) continue;
+    const dist = Math.hypot(d.x - o.x, d.y - o.y);
+    if (dist <= TUNING.DRONE_PHOTO_RANGE_PX) {
+      o.captured = true;
+      captured = o;
+      break;
+    }
+  }
+  // Bonus -- Siren close-up. The drone must be near ANY Siren.
+  // Step 4: was Patroller-only in step 3; now iterates the full Siren list.
+  if (!captured && !state.bonus.captured) {
+    for (const sir of allSirens()) {
+      const dist = Math.hypot(d.x - sir.x, d.y - sir.y);
+      if (dist <= TUNING.DRONE_SIREN_BONUS_RANGE_PX) {
+        state.bonus.captured = true;
+        captured = state.bonus;
+        break;
+      }
+    }
+  }
+  if (captured) {
+    applySuspicion(TUNING.DRONE_PHOTO_COST, "drone_photo");
+    return captured;
+  }
+  return null;
+}
+
+function trySubCamPhoto() {
+  if (state.loseReason || state.winState) return null;
+  const s = state.sub;
+
+  for (const o of state.objectives) {
+    if (o.captured) continue;
+    const dist = Math.hypot(s.x - o.x, s.y - o.y);
+    const range = (o.id === "silhouette")
+      ? TUNING.SUBCAM_SILHOUETTE_RANGE_PX
+      : TUNING.SUBCAM_PHOTO_RANGE_PX;
+    if (dist <= range) {
+      o.captured = true;
+      // Spec section 6: sub-cam carries no flat photo cost. The
+      // proximity terms already running each tick are the cost.
+      return o;
+    }
+  }
+  return null;
+}
+
+/* ----- Update loop ------------------------------------------------- */
+function update(dt) {
+  if (state.loseReason || state.winState) return;
+
+  state.timeSec += dt;
+
+  /* ----- sub movement (step 1, FIX-PASS 2026-06-04 -- inertia) -----
+   * Diagnostic 2 from Pat 2026-06-03: "the submarine needs to feel
+   * like a submarine." Replaced direct-velocity WASD with:
+   *   - Linear acceleration on thrust (forward stronger than reverse)
+   *   - Linear drag (velocity decays when no thrust)
+   *   - Speed cap at SUB_SPEED_PX_PER_SEC (terminal velocity)
+   *   - Angular acceleration on turn input
+   *   - Angular drag (turn rate decays when no turn input -- rudder
+   *     centers, sub does not free-spin)
+   *   - Turn rate cap at SUB_TURN_RATE_RAD_PER_SEC
+   * Velocity is now persistent on state.sub.{vx,vy,angularVel} across
+   * ticks. Existing `__sim` surface preserved (sub is still an entity
+   * with x/y/heading; vx/vy still exposed for harness inspection).
+   * ---------------------------------------------------------------- */
+  let turn = 0, thrust = 0;
+  if (keys.has("KeyA") || keys.has("ArrowLeft"))  turn -= 1;
+  if (keys.has("KeyD") || keys.has("ArrowRight")) turn += 1;
+  if (keys.has("KeyW") || keys.has("ArrowUp"))    thrust += 1;
+  if (keys.has("KeyS") || keys.has("ArrowDown"))  thrust -= 1;
+
+  applyInertia(dt, thrust, turn);
+
+  const nextX = state.sub.x + state.sub.vx * dt;
+  const nextY = state.sub.y + state.sub.vy * dt;
+
+  if (state.hullHitCooldown > 0) state.hullHitCooldown -= dt;
+
+  const r = TUNING.SUB_RADIUS_PX;
+
+  let bumpedEdge = false;
+  let clampedX = nextX, clampedY = nextY;
+  if (clampedX < r)            { clampedX = r;           bumpedEdge = true; }
+  if (clampedX > WORLD_W - r)  { clampedX = WORLD_W - r; bumpedEdge = true; }
+  if (clampedY < r)            { clampedY = r;           bumpedEdge = true; }
+  if (clampedY > WORLD_H - r)  { clampedY = WORLD_H - r; bumpedEdge = true; }
+
+  let bumpedTerrain = false;
+  for (const t of TERRAIN) {
+    if (circleRectOverlap(clampedX, clampedY, r, t)) {
+      const slideX = state.sub.x + state.sub.vx * dt;
+      const slideXY2 = state.sub.y + state.sub.vy * dt;
+      let resolvedX = state.sub.x, resolvedY = state.sub.y;
+      if (!anyTerrainHit(slideX, state.sub.y, r) && slideX >= r && slideX <= WORLD_W - r) {
+        resolvedX = slideX;
+      }
+      if (!anyTerrainHit(state.sub.x, slideXY2, r) && slideXY2 >= r && slideXY2 <= WORLD_H - r) {
+        resolvedY = slideXY2;
+      }
+      clampedX = resolvedX;
+      clampedY = resolvedY;
+      bumpedTerrain = true;
+      break;
+    }
+  }
+
+  // step 3 -- factory wall counts as terrain for the sub (a hull bump
+  // against the factory is a hull bump). Cheap re-use of the existing
+  // hit/cooldown system.
+  if (circleRectOverlap(clampedX, clampedY, r, FACTORY)) {
+    const slideX = state.sub.x + state.sub.vx * dt;
+    const slideXY2 = state.sub.y + state.sub.vy * dt;
+    let resolvedX = state.sub.x, resolvedY = state.sub.y;
+    if (!circleRectOverlap(slideX, state.sub.y, r, FACTORY) && slideX >= r && slideX <= WORLD_W - r) {
+      resolvedX = slideX;
+    }
+    if (!circleRectOverlap(state.sub.x, slideXY2, r, FACTORY) && slideXY2 >= r && slideXY2 <= WORLD_H - r) {
+      resolvedY = slideXY2;
+    }
+    clampedX = resolvedX;
+    clampedY = resolvedY;
+    bumpedTerrain = true;
+  }
+
+  state.sub.x = clampedX;
+  state.sub.y = clampedY;
+
+  // Step 1 fix-pass 2026-06-04: on collision, zero the velocity components
+  // that drove the sub into the obstacle. Without this the inertial
+  // velocity persists across the bump and the sub keeps "pressing"
+  // into the wall every tick, draining hull every cooldown interval.
+  if (bumpedEdge) {
+    if (clampedX === r || clampedX === WORLD_W - r) state.sub.vx = 0;
+    if (clampedY === r || clampedY === WORLD_H - r) state.sub.vy = 0;
+  }
+  if (bumpedTerrain) {
+    // Cheap heuristic: zero both linear components. Terrain rectangles are
+    // interior shapes so the player was pushed back along whichever axis
+    // was unblocked; preserving the other axis can re-clip the next tick.
+    // Zeroing both is safer and matches "sub bumps rock and stops" feel.
+    state.sub.vx = 0;
+    state.sub.vy = 0;
+  }
+
+  if ((bumpedEdge || bumpedTerrain) && state.hullHitCooldown <= 0) {
+    state.hull -= 1;
+    state.hullHitCooldown = TUNING.HULL_HIT_COOLDOWN_SEC;
+    if (state.hull <= 0) {
+      state.hull = 0;
+      state.loseReason = "sunk";
+    }
+  }
+
+  /* ----- oxygen (step 1) ----- */
+  state.oxygen -= dt;
+  if (state.oxygen <= 0) {
+    state.oxygen = 0;
+    if (!state.loseReason) state.loseReason = "suffocated";
+  }
+
+  /* ----- step 2 fairness valve (BEFORE decay -- see step 2 comment) ----- */
+  if (state.suspicion >= TUNING.SUSP_MAX) {
+    state.instakillTimer += dt;
+    if (state.instakillTimer >= TUNING.INSTAKILL_SUSTAIN_SEC) {
+      state.loseReason = "vaporized";
+    }
+  } else {
+    state.instakillTimer = 0;
+  }
+
+  /* ----- step 2 suspicion decay, EXTENDED by step 3 factory proximity ---
+   * Step 2 logic preserved: decay -5/sec when ping is NOT active.
+   * Step 3 adds: factory proximity gain +1..+3/sec ALWAYS (independent
+   * of ping state). Net rate near the factory while not pinging:
+   *   far     -> -5 + 1 = -4/s  (still decays, just slower)
+   *   mid     -> -5 + 2 = -3/s
+   *   near    -> -5 + 3 = -2/s
+   *   outside -> -5/s (pure decay)
+   * Inside the ping window, decay is paused (step 2 choice) but
+   * factory proximity STILL adds gain -- "factory hugging during a
+   * ping" is the worst combination, which feels right.
+   *
+   * Siren-near-sub +scaling/sec is the OTHER continuous term in spec
+   * section 6 -- deferred to step 4 (only one Siren currently exists;
+   * the brief explicitly defers).
+   * -------------------------------------------------------------- */
+  const pingElapsed = state.timeSec - state.ping.tStart;
+  const pingActive = pingElapsed >= 0 && pingElapsed <= TUNING.PING_DURATION_SEC;
+
+  const factoryGain = factoryProximityGainPerSec(state.sub.x, state.sub.y);
+  // step 4: Siren-near-sub +scaling/sec (spec section 6). Sums across
+  // all 3 Siren types using per-type proximity range + max rate.
+  const sirenGain = sirenProximityGainPerSec(state.sub.x, state.sub.y);
+
+  let netRate = 0;
+  if (!pingActive) netRate -= TUNING.SUSP_DECAY_PER_SEC;
+  netRate += factoryGain;
+  netRate += sirenGain;
+
+  if (netRate !== 0) {
+    const before = state.suspicion;
+    state.suspicion = clamp(
+      state.suspicion + netRate * dt,
+      TUNING.SUSP_MIN, TUNING.SUSP_MAX
+    );
+    state.lastSuspChange = state.suspicion - before;
+  }
+
+  /* ----- step 2 Patroller (extended with curiosity per step 4) ----- */
+  updatePatrollerWithCuriosity(dt);
+  /* ----- step 4 Sentinel + Hunter updates ----- */
+  updateSentinel(dt);
+  updateHunter(dt);
+
+  /* ----- step 5 -- projectile visuals (placeholder INV6) ----- */
+  updateProjectiles(dt);
+
+  /* ----- step 6 -- expire recon reveals past their tEnd. INV3: reveals
+   * are transient by contract; this is the seam that enforces it. */
+  updateReconReveals();
+
+  /* ----- Siren-sub contact at Alert+ (Patroller, Sentinel, Hunter) -----
+   * All three Siren types ram the sub at Alert+ per spec section 6
+   * ("Alert: Sirens converge on last-known contact ... ram sub")
+   * and section 7 (Sentinel "forces tool use" by being in your zone;
+   * Hunter "actively pursues"). Reach is sub radius + per-type body
+   * radius. Single 0.6s hull cooldown is shared so multiple Sirens
+   * stacking on the sub at once don't multi-drain (INV5 fairness).
+   * --------------------------------------------------------------- */
+  if (isAlertPlus(state.suspicion) && state.hullHitCooldown <= 0) {
+    for (const ramCheck of [
+      { siren: state.patroller, r: TUNING.PATROL_RADIUS_PX,   dmg: TUNING.PATROL_RAM_HULL_DMG },
+      { siren: state.sentinel,  r: TUNING.SENTINEL_RADIUS_PX, dmg: TUNING.SENTINEL_RAM_HULL_DMG },
+      { siren: state.hunter,    r: TUNING.HUNTER_RADIUS_PX,   dmg: TUNING.HUNTER_RAM_HULL_DMG },
+    ]) {
+      // step 5: stunned/immobilized Sirens cannot ram (halts movement)
+      if (isSirenStunned(ramCheck.siren)) continue;
+      const dx = ramCheck.siren.x - state.sub.x;
+      const dy = ramCheck.siren.y - state.sub.y;
+      const reach = TUNING.SUB_RADIUS_PX + ramCheck.r;
+      if (dx * dx + dy * dy <= reach * reach) {
+        state.hull -= ramCheck.dmg;
+        state.hullHitCooldown = TUNING.HULL_HIT_COOLDOWN_SEC;
+        if (state.hull <= 0) {
+          state.hull = 0;
+          if (!state.loseReason) state.loseReason = "sunk";
+        }
+        break;  // one ram event per cooldown
+      }
+    }
+  }
+
+  /* ----- step 3 -- drones move; check destruction --------------- *
+   * Drone destruction conditions:
+   *   1. Drone moves into terrain or out of bounds while traveling
+   *      (terrain check before moving; if blocked, the drone is dead --
+   *      a deployed drone that runs into a rock is gone, per the spec
+   *      "destroyed drones are gone").
+   *   2. Patroller at Alert+ touches a drone. (At Curious, the
+   *      Patroller does NOT destroy drones in this step; that
+   *      behavior surfaces in step 4 with the curiosity/decoy
+   *      framework.)
+   * ------------------------------------------------------------- */
+  for (const d of state.drones) {
+    if (!d.alive) continue;
+
+    const tdx = d.targetX - d.x;
+    const tdy = d.targetY - d.y;
+    const dist = Math.hypot(tdx, tdy);
+    if (dist > TUNING.DRONE_ARRIVAL_TOLERANCE_PX) {
+      const step = TUNING.DRONE_SPEED_PX_PER_SEC * dt;
+      let nx, ny;
+      if (dist <= step) { nx = d.targetX; ny = d.targetY; }
+      else { nx = d.x + (tdx / dist) * step; ny = d.y + (tdy / dist) * step; }
+
+      // Out-of-bounds = destroyed (shouldn't happen since deploy/redirect
+      // both clamp via the canvas, but defensive).
+      if (nx < 0 || ny < 0 || nx > WORLD_W || ny > WORLD_H) {
+        d.alive = false;
+        continue;
+      }
+      // Terrain hit OR factory hit = destroyed.
+      if (anyTerrainHit(nx, ny, TUNING.DRONE_RADIUS_PX) ||
+          circleRectOverlap(nx, ny, TUNING.DRONE_RADIUS_PX, FACTORY)) {
+        d.alive = false;
+        continue;
+      }
+      d.x = nx;
+      d.y = ny;
+    }
+
+    // Siren contact at Alert+ kills the drone (Patroller, Sentinel,
+    // Hunter all behave identically here -- spec section 6 "destroy
+    // drones" at Alert). At Curious, all Sirens leave drones alone --
+    // the curiosity behavior is "approach to investigate," not destroy
+    // (spec section 7 "approachable, baitable, photogenic"). This
+    // preserves the spec's exploit verb: park a drone to bait a
+    // Curious Siren and photograph it.
+    if (isAlertPlus(state.suspicion)) {
+      for (const sirCheck of [
+        { siren: state.patroller, r: TUNING.PATROL_RADIUS_PX },
+        { siren: state.sentinel,  r: TUNING.SENTINEL_RADIUS_PX },
+        { siren: state.hunter,    r: TUNING.HUNTER_RADIUS_PX },
+      ]) {
+        // step 5: stunned Sirens don't kill drones either (inert).
+        if (isSirenStunned(sirCheck.siren)) continue;
+        const pdx = d.x - sirCheck.siren.x;
+        const pdy = d.y - sirCheck.siren.y;
+        const pr2 = (sirCheck.r + TUNING.DRONE_RADIUS_PX);
+        if (pdx * pdx + pdy * pdy <= pr2 * pr2) {
+          d.alive = false;
+          break;
+        }
+      }
+    }
+  }
+
+  // Garbage collect dead drone selection so cycleSelectedDrone works.
+  if (state.selectedDroneId != null) {
+    const sel = state.drones.find(d => d.id === state.selectedDroneId);
+    if (!sel || !sel.alive) {
+      const alive = state.drones.filter(d => d.alive);
+      state.selectedDroneId = alive.length ? alive[0].id : null;
+    }
+  }
+
+  /* ----- step 3 -- win condition ------------------------------- *
+   * Spec section 8: win = all required photos captured AND sub
+   * reaches extraction. Bonus is not required (per spec).
+   * ------------------------------------------------------------- */
+  const allRequired = state.objectives.every(o => o.captured);
+  if (allRequired) {
+    const dxe = state.sub.x - EXTRACTION.x;
+    const dye = state.sub.y - EXTRACTION.y;
+    if (dxe * dxe + dye * dye <= EXTRACTION.r * EXTRACTION.r) {
+      state.winState = true;
+    }
+  }
+}
+
+/* ----- Patroller update (step 2, unchanged except step-5 stun gate) - */
+function updatePatroller(dt) {
+  const p = state.patroller;
+  // step 5: stun gate. Same rationale as updateSentinel/Hunter.
+  if (isSirenStunned(p)) {
+    p.mode = (state.timeSec < (state.kdImmobUntil[p.type]||-Infinity)) ? "immobilized" : "stunned";
+    return;
+  }
+  const alert = isAlertPlus(state.suspicion);
+
+  if (alert && state.lastPing.valid) {
+    p.mode = "deviating";
+  } else {
+    p.mode = "patrolling";
+  }
+
+  let targetX, targetY;
+  if (p.mode === "deviating") {
+    targetX = state.lastPing.x;
+    targetY = state.lastPing.y;
+  } else {
+    const wp = PATROL_ROUTE[p.waypointIdx];
+    targetX = wp.x;
+    targetY = wp.y;
+  }
+
+  const dx = targetX - p.x;
+  const dy = targetY - p.y;
+  const dist = Math.hypot(dx, dy);
+  const baseSpeed = TUNING.PATROL_SPEED_PX_PER_SEC;
+  const sp = alert ? baseSpeed * TUNING.PATROL_ALERT_SPEED_MULT : baseSpeed;
+  const step = sp * dt;
+
+  if (dist <= step) {
+    p.x = targetX;
+    p.y = targetY;
+    if (p.mode === "patrolling") {
+      p.waypointIdx = (p.waypointIdx + 1) % PATROL_ROUTE.length;
+    } else {
+      state.lastPing.valid = false;
+      p.waypointIdx = nearestWaypointIdx(p.x, p.y);
+    }
+  } else if (dist > 0) {
+    p.x += (dx / dist) * step;
+    p.y += (dy / dist) * step;
+  }
+
+  if (p.mode === "deviating") {
+    const ddx = state.lastPing.x - p.x;
+    const ddy = state.lastPing.y - p.y;
+    const reach2 = TUNING.PATROL_DEVIATION_REACH_PX * TUNING.PATROL_DEVIATION_REACH_PX;
+    if (ddx * ddx + ddy * ddy <= reach2) {
+      state.lastPing.valid = false;
+      p.waypointIdx = nearestWaypointIdx(p.x, p.y);
+    }
+  }
+}
+
+function nearestWaypointIdx(x, y) {
+  let bestIdx = 0, bestDist = Infinity;
+  for (let i = 0; i < PATROL_ROUTE.length; i++) {
+    const wp = PATROL_ROUTE[i];
+    const d = (wp.x - x) * (wp.x - x) + (wp.y - y) * (wp.y - y);
+    if (d < bestDist) { bestDist = d; bestIdx = i; }
+  }
+  return bestIdx;
+}
+
+function anyTerrainHit(x, y, r) {
+  for (const t of TERRAIN) if (circleRectOverlap(x, y, r, t)) return true;
+  return false;
+}
+
+function circleRectOverlap(cx, cy, cr, rect) {
+  const rx = Math.max(rect.x, Math.min(cx, rect.x + rect.w));
+  const ry = Math.max(rect.y, Math.min(cy, rect.y + rect.h));
+  const dx = cx - rx, dy = cy - ry;
+  return (dx * dx + dy * dy) < (cr * cr);
+}
+
+/* ----- Step 1 FIX-PASS 2026-06-04: submarine inertia helpers -------- *
+ *
+ * applyInertia(dt, thrust, turn)
+ *   thrust in [-1, 0, +1] from W/S input (forward positive)
+ *   turn   in [-1, 0, +1] from A/D input (right positive)
+ *
+ * Forward thrust adds acceleration along the current heading. Reverse
+ * is the same shape but multiplied by SUB_REVERSE_ACCEL_MULT (subs
+ * are not built to back up briskly). When no thrust, linear drag
+ * bleeds the velocity vector exponentially: v *= (1 - drag*dt) per
+ * tick. Speed is clamped to SUB_SPEED_PX_PER_SEC.
+ *
+ * Turn input adds angular acceleration. Drag pulls angularVel toward
+ * zero when no turn input (rudder centers). Angular velocity is
+ * clamped to +/- SUB_TURN_RATE_RAD_PER_SEC. Heading integrates from
+ * angularVel.
+ *
+ * Exposed via __sim.applyInertia for headless sim tests.
+ * ------------------------------------------------------------------- */
+function applyInertia(dt, thrust, turn) {
+  const s = state.sub;
+
+  // --- linear ---
+  if (thrust !== 0) {
+    const accelMag = (thrust > 0)
+      ? TUNING.SUB_LINEAR_ACCEL_PX_PER_SEC2
+      : TUNING.SUB_LINEAR_ACCEL_PX_PER_SEC2 * TUNING.SUB_REVERSE_ACCEL_MULT;
+    const ax = Math.cos(s.heading) * accelMag * thrust;
+    const ay = Math.sin(s.heading) * accelMag * thrust;
+    s.vx += ax * dt;
+    s.vy += ay * dt;
+  } else {
+    // Exponential drag toward zero velocity. Clamp factor to [0,1] so
+    // a huge dt cannot flip velocity sign.
+    const k = Math.max(0, 1 - TUNING.SUB_LINEAR_DRAG_PER_SEC * dt);
+    s.vx *= k;
+    s.vy *= k;
+  }
+  // Speed cap.
+  const speed = Math.hypot(s.vx, s.vy);
+  const maxSpeed = TUNING.SUB_SPEED_PX_PER_SEC;
+  if (speed > maxSpeed) {
+    const scale = maxSpeed / speed;
+    s.vx *= scale;
+    s.vy *= scale;
+  }
+
+  // --- angular ---
+  if (turn !== 0) {
+    s.angularVel += turn * TUNING.SUB_TURN_ACCEL_RAD_PER_SEC2 * dt;
+  } else {
+    const kt = Math.max(0, 1 - TUNING.SUB_TURN_DRAG_PER_SEC * dt);
+    s.angularVel *= kt;
+  }
+  // Turn rate cap.
+  const maxTurn = TUNING.SUB_TURN_RATE_RAD_PER_SEC;
+  if (s.angularVel >  maxTurn) s.angularVel =  maxTurn;
+  if (s.angularVel < -maxTurn) s.angularVel = -maxTurn;
+  s.heading += s.angularVel * dt;
+}
+
+/* ----- Step 1 FIX-PASS 2026-06-04: line-of-sight raycast helpers --- *
+ *
+ * segmentRectIntersect(x1,y1,x2,y2,rect) -> boolean
+ *   True iff line segment (x1,y1)-(x2,y2) crosses or touches the
+ *   rectangle's interior. Uses Liang-Barsky parametric clipping --
+ *   robust, no floating-point degeneracies on axis-aligned segments.
+ *
+ * isLineOfSightClear(x1,y1,x2,y2) -> boolean
+ *   True iff the segment is unblocked by any TERRAIN rect OR the
+ *   FACTORY rect. Used for passive sonar / active ping / drone-cam
+ *   visibility tests against entities (Patroller, drones, factory,
+ *   objectives).
+ *
+ * raycastTerrainHit(x1,y1,x2,y2) -> { rect, t } | null
+ *   Returns the first occluder along the segment plus the parametric
+ *   t in [0,1]. Currently unused by render, exposed via __sim for
+ *   downstream sim tests and step-4 use.
+ *
+ * Rationale (Pat 2026-06-03 diagnostic 1): passive sonar through rock
+ * is wrong. Spec section 3 calls passive sonar "near-blind ... rough
+ * nearby blips" -- not "X-ray vision in a 90 px circle." Both passive
+ * AND active reveal must be terrain-occluded. Pat's parallel
+ * implementation occludes both and it "feels great."
+ * ------------------------------------------------------------------- */
+function segmentRectIntersect(x1, y1, x2, y2, rect) {
+  // Liang-Barsky line clipping against an AABB.
+  const xmin = rect.x, ymin = rect.y;
+  const xmax = rect.x + rect.w, ymax = rect.y + rect.h;
+  const dx = x2 - x1, dy = y2 - y1;
+  let p, q, r;
+  let u1 = 0, u2 = 1;
+  for (let edge = 0; edge < 4; edge++) {
+    if (edge === 0) { p = -dx; q = x1 - xmin; }
+    else if (edge === 1) { p =  dx; q = xmax - x1; }
+    else if (edge === 2) { p = -dy; q = y1 - ymin; }
+    else                 { p =  dy; q = ymax - y1; }
+
+    if (p === 0) {
+      if (q < 0) return false;     // parallel and outside slab
+      // parallel and inside: no constraint from this edge
+    } else {
+      r = q / p;
+      if (p < 0) {
+        if (r > u2) return false;
+        if (r > u1) u1 = r;
+      } else {
+        if (r < u1) return false;
+        if (r < u2) u2 = r;
+      }
+    }
+  }
+  return u1 <= u2 && u2 >= 0 && u1 <= 1;
+}
+
+function isLineOfSightClear(x1, y1, x2, y2) {
+  for (const t of TERRAIN) {
+    if (segmentRectIntersect(x1, y1, x2, y2, t)) return false;
+  }
+  if (segmentRectIntersect(x1, y1, x2, y2, FACTORY)) return false;
+  return true;
+}
+
+function raycastTerrainHit(x1, y1, x2, y2) {
+  // Returns first occluder along the segment (smallest entry param) or null.
+  let best = null;
+  let bestT = Infinity;
+  const candidates = TERRAIN.concat([FACTORY]);
+  for (const rect of candidates) {
+    const t = _segmentRectEntryParam(x1, y1, x2, y2, rect);
+    if (t !== null && t < bestT) { bestT = t; best = rect; }
+  }
+  return best ? { rect: best, t: bestT } : null;
+}
+
+function _segmentRectEntryParam(x1, y1, x2, y2, rect) {
+  // Same Liang-Barsky machinery but returns the entry parameter (u1)
+  // if the segment crosses the rect, otherwise null.
+  const xmin = rect.x, ymin = rect.y;
+  const xmax = rect.x + rect.w, ymax = rect.y + rect.h;
+  const dx = x2 - x1, dy = y2 - y1;
+  let p, q, r;
+  let u1 = 0, u2 = 1;
+  for (let edge = 0; edge < 4; edge++) {
+    if (edge === 0) { p = -dx; q = x1 - xmin; }
+    else if (edge === 1) { p =  dx; q = xmax - x1; }
+    else if (edge === 2) { p = -dy; q = y1 - ymin; }
+    else                 { p =  dy; q = ymax - y1; }
+    if (p === 0) {
+      if (q < 0) return null;
+    } else {
+      r = q / p;
+      if (p < 0) { if (r > u2) return null; if (r > u1) u1 = r; }
+      else       { if (r < u1) return null; if (r < u2) u2 = r; }
+    }
+  }
+  if (u1 > u2) return null;
+  return Math.max(0, u1);
+}
+
+/* losClearIgnoring -- like isLineOfSightClear but skips a specific rect.
+ * Used when testing visibility of an entity AGAINST the world while
+ * not letting the entity's own bounding rect occlude itself. Example:
+ * testing FACTORY visibility from the passive radius center -- the LOS
+ * ray to the factory's nearest point may graze the factory's own edge
+ * (the ray ENDS there), which should not count as occlusion by the
+ * factory itself.
+ * ------------------------------------------------------------------- */
+function losClearIgnoring(x1, y1, x2, y2, skipRect) {
+  for (const t of TERRAIN) {
+    if (t === skipRect) continue;
+    if (segmentRectIntersect(x1, y1, x2, y2, t)) return false;
+  }
+  if (FACTORY !== skipRect && segmentRectIntersect(x1, y1, x2, y2, FACTORY)) return false;
+  return true;
+}
+
+/* ----- Render (placeholder shapes only, INV6) ---------------------- */
+function render() {
+  ctx.fillStyle = "#000";
+  ctx.fillRect(0, 0, WORLD_W, WORLD_H);
+
+  const pingElapsed = state.timeSec - state.ping.tStart;
+  const pingActive = pingElapsed >= 0 && pingElapsed <= TUNING.PING_DURATION_SEC;
+  const pingAlpha = pingActive ? (1 - pingElapsed / TUNING.PING_DURATION_SEC) : 0;
+
+  // Passive reveal (sub).
+  drawWorldNear(state.sub.x, state.sub.y, TUNING.PASSIVE_RADIUS_PX, 0.35);
+
+  // Drone-cam reveals (free per spec section 3 to deploy/move).
+  for (const d of state.drones) {
+    if (!d.alive) continue;
+    drawWorldNear(d.x, d.y, TUNING.DRONE_VISION_RADIUS_PX, 0.40);
+  }
+
+  // Active ping reveal (transient, fades).
+  if (pingActive) {
+    const pingReachedRadius = TUNING.PING_RADIUS_PX * (pingElapsed / TUNING.PING_DURATION_SEC);
+    drawWorldNear(state.ping.originX, state.ping.originY, pingReachedRadius, 0.6 * pingAlpha);
+
+    ctx.beginPath();
+    ctx.arc(state.ping.originX, state.ping.originY, pingReachedRadius, 0, Math.PI * 2);
+    ctx.strokeStyle = "rgba(120, 200, 255, " + (0.5 * pingAlpha) + ")";
+    ctx.lineWidth = 2;
+    ctx.stroke();
+  }
+
+  // Step 6 -- recon plane reveals (large transient sectors). INV6
+  // placeholder: a tinted disc + a dashed boundary + a "RECON Ns"
+  // label. Multiple reveals can be active concurrently. Note:
+  // drawWorldReconNear() does NOT LOS-gate terrain/factory/objectives
+  // (recon is a flyover from above) -- see TUNING block design call.
+  for (const rr of state.reconReveals) {
+    if (state.timeSec >= rr.tEnd) continue;
+    const life = (rr.tEnd - state.timeSec) / (rr.tEnd - rr.tStart); // 1.0 -> 0.0
+    drawWorldReconNear(rr.x, rr.y, rr.r, 0.50 * life);
+    // Boundary ring + countdown label.
+    ctx.beginPath();
+    ctx.arc(rr.x, rr.y, rr.r, 0, Math.PI * 2);
+    ctx.strokeStyle = "rgba(180, 240, 200, " + (0.45 * life) + ")";
+    ctx.setLineDash([6, 4]);
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = "rgba(180, 240, 200, " + (0.85 * life) + ")";
+    ctx.font = "11px monospace";
+    ctx.textAlign = "center";
+    const remaining = rr.tEnd - state.timeSec;
+    ctx.fillText("RECON " + remaining.toFixed(1) + "s", rr.x, rr.y - rr.r - 6);
+    ctx.textAlign = "left";
+  }
+
+  // Extraction point: always visible (a beacon -- diegetic exception to
+  // the "darkness everywhere" model; the sub knows where home is).
+  drawExtraction();
+
+  // Patroller / Sentinel / Hunter (visible within passive sonar, active
+  // ping, OR drone-cam vision -- drones are eyes). LOS-gated per step
+  // 1 fix-pass (Pat 2026-06-03 diagnostic 1).
+  drawSirenIfVisible(state.patroller, "PATROLLER", TUNING.PATROL_RADIUS_PX, pingActive, pingAlpha);
+  drawSirenIfVisible(state.sentinel,  "SENTINEL",  TUNING.SENTINEL_RADIUS_PX, pingActive, pingAlpha);
+  drawSirenIfVisible(state.hunter,    "HUNTER",    TUNING.HUNTER_RADIUS_PX, pingActive, pingAlpha);
+
+  // Drones themselves drawn always (you can always see your own deployed
+  // drones; they have telemetry).
+  for (const d of state.drones) {
+    if (!d.alive) continue;
+    drawDrone(d);
+  }
+
+  drawSub();
+
+  // step 5: jam aura around sub (placeholder INV6 -- a faint pulsing ring).
+  if (isJamActive()) {
+    const remaining = state.jamActiveUntil - state.timeSec;
+    const frac = Math.max(0, Math.min(1, remaining / TUNING.JAM_WINDOW_SEC));
+    ctx.beginPath();
+    ctx.arc(state.sub.x, state.sub.y, 28 + (1 - frac) * 12, 0, Math.PI * 2);
+    ctx.strokeStyle = "rgba(120, 220, 255, " + (0.30 + frac * 0.30) + ")";
+    ctx.setLineDash([3, 3]);
+    ctx.lineWidth = 1;
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = "rgba(120, 220, 255, 0.85)";
+    ctx.font = "9px monospace";
+    ctx.textAlign = "center";
+    ctx.fillText("JAM " + remaining.toFixed(1) + "s", state.sub.x, state.sub.y - 18);
+    ctx.textAlign = "left";
+  }
+
+  // step 5: stun/immobilized rings around affected Sirens (placeholder
+  // INV6 -- a dashed ring with a label). Only draw if the Siren is
+  // currently in a reveal window (we render the Siren itself in
+  // drawSirenIfVisible; this overlays a status ring).
+  for (const sir of allSirens()) {
+    if (!isSirenStunned(sir)) continue;
+    const empT = state.empStunUntil[sir.type] || -Infinity;
+    const kdT  = state.kdImmobUntil[sir.type] || -Infinity;
+    const isKd = state.timeSec < kdT;
+    const remaining = isKd ? (kdT - state.timeSec) : (empT - state.timeSec);
+    const r = (sir.type === "sentinel" ? TUNING.SENTINEL_RADIUS_PX
+              : sir.type === "hunter"  ? TUNING.HUNTER_RADIUS_PX
+              : TUNING.PATROL_RADIUS_PX) + 6;
+    ctx.beginPath();
+    ctx.arc(sir.x, sir.y, r, 0, Math.PI * 2);
+    ctx.strokeStyle = isKd ? "rgba(255, 140, 60, 0.85)" : "rgba(120, 220, 255, 0.85)";
+    ctx.setLineDash([2, 3]);
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = isKd ? "rgba(255, 140, 60, 0.95)" : "rgba(120, 220, 255, 0.95)";
+    ctx.font = "9px monospace";
+    ctx.textAlign = "center";
+    ctx.fillText((isKd ? "KD " : "EMP ") + remaining.toFixed(1) + "s", sir.x, sir.y + r + 9);
+    ctx.textAlign = "left";
+  }
+
+  // step 5: projectile tracers (placeholder INV6 -- a small dot + line).
+  for (const p of state.projectiles) {
+    if (!p.alive) continue;
+    ctx.strokeStyle = p.kind === "emp" ? "rgba(120, 220, 255, 0.7)" : "rgba(255, 140, 60, 0.7)";
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(state.sub.x, state.sub.y);
+    ctx.lineTo(p.x, p.y);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, TUNING.PROJECTILE_RADIUS_PX, 0, Math.PI * 2);
+    ctx.fillStyle = p.kind === "emp" ? "rgba(120, 220, 255, 0.95)" : "rgba(255, 140, 60, 0.95)";
+    ctx.fill();
+  }
+
+  // Warning text (step 2, unchanged).
+  if (state.suspicion >= TUNING.WARNING_THRESHOLD && !state.loseReason && !state.winState) {
+    ctx.fillStyle = "rgba(255, 80, 80, 0.85)";
+    ctx.font = "20px monospace";
+    ctx.textAlign = "center";
+    ctx.fillText("WARNING", WORLD_W / 2, 36);
+    if (state.suspicion >= TUNING.SUSP_MAX) {
+      ctx.fillStyle = "rgba(255, 200, 60, 0.95)";
+      ctx.font = "14px monospace";
+      const remaining = Math.max(0, TUNING.INSTAKILL_SUSTAIN_SEC - state.instakillTimer);
+      ctx.fillText("instakill imminent -- break contact (" + remaining.toFixed(1) + "s)", WORLD_W / 2, 58);
+    }
+    ctx.textAlign = "left";
+  }
+
+  // Lose overlay.
+  if (state.loseReason) {
+    ctx.fillStyle = "rgba(0,0,0,0.6)";
+    ctx.fillRect(0, 0, WORLD_W, WORLD_H);
+    ctx.fillStyle = "#fff";
+    ctx.font = "24px monospace";
+    ctx.textAlign = "center";
+    const msg =
+        state.loseReason === "sunk"       ? "you lost (sunk)"
+      : state.loseReason === "suffocated" ? "you lost (suffocated)"
+      : state.loseReason === "vaporized"  ? "you lost (vaporized -- Siren strike)"
+      :                                     "you lost (" + state.loseReason + ")";
+    ctx.fillText(msg, WORLD_W / 2, WORLD_H / 2 - 10);
+    ctx.font = "14px monospace";
+    ctx.fillText("press R to restart", WORLD_W / 2, WORLD_H / 2 + 20);
+    ctx.textAlign = "left";
+  }
+
+  // Win overlay (step 3).
+  if (state.winState) {
+    ctx.fillStyle = "rgba(0,0,0,0.55)";
+    ctx.fillRect(0, 0, WORLD_W, WORLD_H);
+    ctx.fillStyle = "#fff";
+    ctx.font = "24px monospace";
+    ctx.textAlign = "center";
+    ctx.fillText("EXTRACTED -- RUN COMPLETE", WORLD_W / 2, WORLD_H / 2 - 10);
+    ctx.font = "14px monospace";
+    const bonusStr = state.bonus.captured ? " (bonus: Siren close-up captured)" : "";
+    ctx.fillText("photos " + state.objectives.filter(o => o.captured).length + "/3 required" + bonusStr, WORLD_W / 2, WORLD_H / 2 + 14);
+    ctx.fillText("press R to restart", WORLD_W / 2, WORLD_H / 2 + 38);
+    ctx.textAlign = "left";
+  }
+}
+
+/* drawWorldNear -- draws terrain + factory + objectives within a clip
+ * radius around (cx, cy). This is the unified "things in this reveal
+ * window" pass; passive sonar, ping, and drone-cam all funnel through it.
+ *
+ * Step 1 FIX-PASS 2026-06-04 (Pat 2026-06-03 diagnostic 1):
+ *   LOS occlusion is now applied. Terrain rectangles are themselves
+ *   the occluders -- they always render inside the reveal disc (you
+ *   see the near face of a rock you are next to). The FACTORY rect
+ *   renders only if its nearest point has LOS from (cx, cy); a factory
+ *   hidden behind a rock should not silhouette through. The objective
+ *   markers (interior to the factory) only render when LOS from
+ *   (cx, cy) to the marker is clear. This means the silhouette, bays,
+ *   and power-core markers are no longer visible through walls from
+ *   passive radius -- the player has to actually see the approach.
+ * ------------------------------------------------------------------- */
+function drawWorldNear(cx, cy, radius, alpha) {
+  ctx.save();
+  ctx.beginPath();
+  ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+  ctx.clip();
+
+  // Terrain rectangles -- always rendered (they ARE the occluders;
+  // the near face of a wall is visible to anyone next to it).
+  ctx.fillStyle = "rgba(120, 130, 150, " + alpha + ")";
+  for (const t of TERRAIN) ctx.fillRect(t.x, t.y, t.w, t.h);
+
+  // Factory body: LOS-gated. Test against the nearest point on the
+  // factory rect from the reveal center. Skip the factory rect itself
+  // in the LOS check (a ray that ends on the factory edge would
+  // otherwise self-occlude).
+  const fNearX = Math.max(FACTORY.x, Math.min(cx, FACTORY.x + FACTORY.w));
+  const fNearY = Math.max(FACTORY.y, Math.min(cy, FACTORY.y + FACTORY.h));
+  const factoryVisible = losClearIgnoring(cx, cy, fNearX, fNearY, FACTORY);
+  if (factoryVisible) {
+    ctx.fillStyle = "rgba(160, 110, 110, " + (alpha * 1.0) + ")";
+    ctx.fillRect(FACTORY.x, FACTORY.y, FACTORY.w, FACTORY.h);
+    ctx.strokeStyle = "rgba(220, 160, 160, " + alpha + ")";
+    ctx.lineWidth = 1;
+    ctx.strokeRect(FACTORY.x, FACTORY.y, FACTORY.w, FACTORY.h);
+    ctx.fillStyle = "rgba(240, 220, 220, " + alpha + ")";
+    ctx.font = "11px monospace";
+    ctx.textAlign = "center";
+    ctx.fillText("FACTORY", FACTORY.cx, FACTORY.y - 4);
+    ctx.textAlign = "left";
+  }
+
+  // Objective markers (rendered with captured/uncaptured states).
+  // LOS-gated -- an objective behind a wall or factory is invisible
+  // until the reveal origin can see it directly.
+  ctx.font = "10px monospace";
+  ctx.textAlign = "center";
+  for (const o of state.objectives) {
+    if (!isLineOfSightClear(cx, cy, o.x, o.y)) continue;
+    const marker = o.captured ? "rgba(140, 220, 140, " + alpha + ")"
+                              : "rgba(255, 230, 120, " + alpha + ")";
+    ctx.fillStyle = marker;
+    ctx.fillRect(o.x - 5, o.y - 5, 10, 10);
+    ctx.fillStyle = "rgba(240, 240, 240, " + alpha + ")";
+    ctx.fillText((o.captured ? "[X] " : "[ ] ") + o.name, o.x, o.y - 8);
+  }
+  ctx.textAlign = "left";
+
+  // World-edge stroke (so you can see the play-area boundary).
+  ctx.strokeStyle = "rgba(80, 100, 130, " + alpha + ")";
+  ctx.lineWidth = 1;
+  ctx.strokeRect(0, 0, WORLD_W, WORLD_H);
+
+  ctx.restore();
+}
+
+/* drawWorldReconNear -- step 6 -- recon-flavor of drawWorldNear.
+ *
+ * Differences from drawWorldNear:
+ *   - No LOS gating. Recon is a flyover from above; the plane sees
+ *     terrain, factory, and objectives regardless of whether the
+ *     sub or any drone could see them. This makes recon meaningfully
+ *     distinct from the other three reveal modes (passive/ping/drone
+ *     are all LOS-gated by the step-1 fix-pass).
+ *   - Slight greenish tint on terrain/factory to legibly distinguish
+ *     a recon-revealed sector from a sonar/drone-revealed one
+ *     (INV6 placeholder; legibility aid for testing).
+ * ------------------------------------------------------------------- */
+function drawWorldReconNear(cx, cy, radius, alpha) {
+  ctx.save();
+  ctx.beginPath();
+  ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+  ctx.clip();
+
+  // Terrain (recon sees through; no LOS gate).
+  ctx.fillStyle = "rgba(130, 150, 140, " + alpha + ")";
+  for (const t of TERRAIN) ctx.fillRect(t.x, t.y, t.w, t.h);
+
+  // Factory body (recon sees through; no LOS gate).
+  ctx.fillStyle = "rgba(180, 140, 120, " + (alpha * 1.0) + ")";
+  ctx.fillRect(FACTORY.x, FACTORY.y, FACTORY.w, FACTORY.h);
+  ctx.strokeStyle = "rgba(220, 180, 170, " + alpha + ")";
+  ctx.lineWidth = 1;
+  ctx.strokeRect(FACTORY.x, FACTORY.y, FACTORY.w, FACTORY.h);
+  ctx.fillStyle = "rgba(240, 230, 220, " + alpha + ")";
+  ctx.font = "11px monospace";
+  ctx.textAlign = "center";
+  ctx.fillText("FACTORY", FACTORY.cx, FACTORY.y - 4);
+  ctx.textAlign = "left";
+
+  // Objective markers (recon sees through; no LOS gate).
+  ctx.font = "10px monospace";
+  ctx.textAlign = "center";
+  for (const o of state.objectives) {
+    const marker = o.captured ? "rgba(140, 220, 140, " + alpha + ")"
+                              : "rgba(255, 230, 120, " + alpha + ")";
+    ctx.fillStyle = marker;
+    ctx.fillRect(o.x - 5, o.y - 5, 10, 10);
+    ctx.fillStyle = "rgba(240, 240, 240, " + alpha + ")";
+    ctx.fillText((o.captured ? "[X] " : "[ ] ") + o.name, o.x, o.y - 8);
+  }
+  ctx.textAlign = "left";
+
+  // World-edge stroke.
+  ctx.strokeStyle = "rgba(80, 130, 100, " + alpha + ")";
+  ctx.lineWidth = 1;
+  ctx.strokeRect(0, 0, WORLD_W, WORLD_H);
+
+  ctx.restore();
+}
+
+function drawExtraction() {
+  // Beacon -- always visible. INV6: plain marker, label.
+  ctx.beginPath();
+  ctx.arc(EXTRACTION.x, EXTRACTION.y, EXTRACTION.r, 0, Math.PI * 2);
+  ctx.strokeStyle = "rgba(80, 220, 160, 0.7)";
+  ctx.lineWidth = 2;
+  ctx.stroke();
+  ctx.fillStyle = "rgba(80, 220, 160, 0.15)";
+  ctx.fill();
+  ctx.fillStyle = "rgba(160, 240, 200, 0.95)";
+  ctx.font = "11px monospace";
+  ctx.textAlign = "center";
+  ctx.fillText("EXTRACTION", EXTRACTION.x, EXTRACTION.y - EXTRACTION.r - 4);
+  ctx.textAlign = "left";
+}
+
+function drawSirenIfVisible(siren, label, bodyRadius, pingActive, pingAlpha) {
+  const dxSub = siren.x - state.sub.x;
+  const dySub = siren.y - state.sub.y;
+  const distSub2 = dxSub * dxSub + dySub * dySub;
+  // Step 1 FIX-PASS 2026-06-04: each detection mode requires LOS clear
+  // from the reveal origin to the Siren. Passive ring through rock no
+  // longer silhouettes any Siren (Pat 2026-06-03 diag 1).
+  const inPassive = (distSub2 <= TUNING.PASSIVE_RADIUS_PX * TUNING.PASSIVE_RADIUS_PX)
+                 && isLineOfSightClear(state.sub.x, state.sub.y, siren.x, siren.y);
+
+  let inPing = false;
+  let pingVisAlpha = 0;
+  if (pingActive) {
+    const dxPing = siren.x - state.ping.originX;
+    const dyPing = siren.y - state.ping.originY;
+    const pingElapsed = state.timeSec - state.ping.tStart;
+    const pingReachedRadius = TUNING.PING_RADIUS_PX * (pingElapsed / TUNING.PING_DURATION_SEC);
+    const d2 = dxPing * dxPing + dyPing * dyPing;
+    if (d2 <= pingReachedRadius * pingReachedRadius
+        && isLineOfSightClear(state.ping.originX, state.ping.originY, siren.x, siren.y)) {
+      inPing = true;
+      pingVisAlpha = pingAlpha;
+    }
+  }
+
+  // Drone-cam reveals all Sirens too (also LOS-gated).
+  let inDrone = false;
+  for (const d of state.drones) {
+    if (!d.alive) continue;
+    const ddx = siren.x - d.x;
+    const ddy = siren.y - d.y;
+    if (ddx * ddx + ddy * ddy <= TUNING.DRONE_VISION_RADIUS_PX * TUNING.DRONE_VISION_RADIUS_PX
+        && isLineOfSightClear(d.x, d.y, siren.x, siren.y)) {
+      inDrone = true;
+      break;
+    }
+  }
+
+  // Step 6 -- recon plane reveals also expose Sirens within the
+  // sector. NO LOS gate (recon is a flyover; plane sees through
+  // terrain). INV3: this reveal cost +8 at fire time and is
+  // transient (fades when sector expires).
+  let inRecon = false;
+  let reconVisAlpha = 0;
+  if (isInReconReveal(siren.x, siren.y)) {
+    inRecon = true;
+    reconVisAlpha = reconRevealAlphaAt(siren.x, siren.y);
+  }
+
+  if (!inPassive && !inPing && !inDrone && !inRecon) return;
+
+  const alpha = Math.max(
+    inPassive ? 0.7 : 0,
+    inPing ? 0.85 * pingVisAlpha : 0,
+    inDrone ? 0.75 : 0,
+    inRecon ? 0.8 * reconVisAlpha : 0
+  );
+
+  ctx.beginPath();
+  ctx.arc(siren.x, siren.y, bodyRadius, 0, Math.PI * 2);
+  // Per-type color hint at Curious (testing legibility aid, NOT a form
+  // decision per INV6). At Alert+ all Sirens flip to red.
+  if (isAlertPlus(state.suspicion)) {
+    ctx.fillStyle = "rgba(220, 80, 80, " + alpha + ")";
+  } else if (siren.type === "sentinel") {
+    ctx.fillStyle = "rgba(140, 160, 240, " + alpha + ")";  // bluish guard
+  } else if (siren.type === "hunter") {
+    ctx.fillStyle = "rgba(220, 180, 80, " + alpha + ")";   // yellow-orange threat
+  } else {
+    ctx.fillStyle = "rgba(120, 200, 140, " + alpha + ")";  // greenish patrol
+  }
+  ctx.fill();
+  ctx.strokeStyle = "rgba(40, 40, 40, " + alpha + ")";
+  ctx.lineWidth = 1;
+  ctx.stroke();
+
+  ctx.fillStyle = "rgba(240, 240, 240, " + alpha + ")";
+  ctx.font = "10px monospace";
+  ctx.textAlign = "center";
+  const modeStr = siren.mode ? ("(" + siren.mode + ")") : "";
+  ctx.fillText(label + " " + modeStr, siren.x, siren.y - bodyRadius - 4);
+  ctx.textAlign = "left";
+}
+
+// Back-compat alias for any external/test reference to drawPatrollerIfVisible.
+function drawPatrollerIfVisible(pingActive, pingAlpha) {
+  drawSirenIfVisible(state.patroller, "PATROLLER", TUNING.PATROL_RADIUS_PX, pingActive, pingAlpha);
+}
+
+function drawDrone(d) {
+  // Vision ring (a faint hint of the drone-cam reveal radius).
+  ctx.beginPath();
+  ctx.arc(d.x, d.y, TUNING.DRONE_VISION_RADIUS_PX, 0, Math.PI * 2);
+  ctx.strokeStyle = "rgba(160, 200, 240, 0.10)";
+  ctx.lineWidth = 1;
+  ctx.stroke();
+
+  // Drone body.
+  const selected = (d.id === state.selectedDroneId);
+  ctx.beginPath();
+  ctx.arc(d.x, d.y, TUNING.DRONE_RADIUS_PX, 0, Math.PI * 2);
+  ctx.fillStyle = selected ? "rgba(255, 255, 120, 0.95)" : "rgba(200, 220, 255, 0.85)";
+  ctx.fill();
+  ctx.strokeStyle = "rgba(40, 60, 100, 0.9)";
+  ctx.lineWidth = 1;
+  ctx.stroke();
+
+  // Drone id (small).
+  ctx.fillStyle = "rgba(240, 240, 240, 0.9)";
+  ctx.font = "9px monospace";
+  ctx.textAlign = "center";
+  ctx.fillText("d" + d.id + (selected ? "*" : ""), d.x, d.y - TUNING.DRONE_RADIUS_PX - 3);
+  ctx.textAlign = "left";
+
+  // Target line (faint).
+  if (Math.hypot(d.targetX - d.x, d.targetY - d.y) > TUNING.DRONE_ARRIVAL_TOLERANCE_PX) {
+    ctx.beginPath();
+    ctx.moveTo(d.x, d.y);
+    ctx.lineTo(d.targetX, d.targetY);
+    ctx.strokeStyle = "rgba(180, 200, 240, 0.18)";
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  }
+
+  // Decoy mode indicator (step 4 -- placeholder ring at the active
+  // decoy range so the player can see the draw envelope). INV6: a
+  // labeled ring, not a sprite or palette piece.
+  if (d.decoyMode) {
+    ctx.beginPath();
+    ctx.arc(d.x, d.y, TUNING.CURIOSITY_ACTIVE_DECOY_RANGE_PX, 0, Math.PI * 2);
+    ctx.strokeStyle = "rgba(255, 200, 100, 0.20)";
+    ctx.setLineDash([4, 4]);
+    ctx.lineWidth = 1;
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = "rgba(255, 200, 100, 0.95)";
+    ctx.font = "8px monospace";
+    ctx.textAlign = "center";
+    ctx.fillText("DECOY", d.x, d.y + TUNING.DRONE_RADIUS_PX + 9);
+    ctx.textAlign = "left";
+  }
+}
+
+function drawSub() {
+  const s = state.sub;
+  const r = TUNING.SUB_RADIUS_PX;
+  ctx.save();
+  ctx.translate(s.x, s.y);
+  ctx.rotate(s.heading);
+  ctx.beginPath();
+  ctx.moveTo( r * 1.4, 0);
+  ctx.lineTo(-r,  r * 0.8);
+  ctx.lineTo(-r, -r * 0.8);
+  ctx.closePath();
+  ctx.fillStyle = "#cfd6e0";
+  ctx.fill();
+  ctx.restore();
+}
+
+/* ----- HUD (plain text, INV6) -------------------------------------- */
+function updateHud() {
+  const s = state;
+  const oxyPct = (s.oxygen / TUNING.OXYGEN_MAX_SECONDS) * 100;
+  const pingElapsed = s.timeSec - s.ping.tStart;
+  const pingStatus = (pingElapsed >= 0 && pingElapsed <= TUNING.PING_DURATION_SEC)
+    ? "active (" + (TUNING.PING_DURATION_SEC - pingElapsed).toFixed(1) + "s left)"
+    : "ready";
+  const susp = suspicionState(s.suspicion);
+  const instakillStr = (s.suspicion >= TUNING.SUSP_MAX && s.instakillTimer > 0)
+    ? "   instakill in: " + Math.max(0, TUNING.INSTAKILL_SUSTAIN_SEC - s.instakillTimer).toFixed(2) + "s"
+    : "";
+
+  const reqDone = s.objectives.filter(o => o.captured).length;
+  const reqTotal = s.objectives.length;
+  const bonusStr = s.bonus.captured ? "yes" : "no";
+  const allReq = reqDone === reqTotal;
+  const distExtract = Math.hypot(s.sub.x - EXTRACTION.x, s.sub.y - EXTRACTION.y);
+  const extractStatus = s.winState ? "EXTRACTED"
+    : allReq ? ("ready -- head to EXTRACTION (" + distExtract.toFixed(0) + " px)")
+    : ("need " + (reqTotal - reqDone) + " more required photo(s)");
+  const aliveDrones = s.drones.filter(d => d.alive).length;
+  const factoryGain = factoryProximityGainPerSec(s.sub.x, s.sub.y);
+  const factoryStr = factoryGain > 0 ? ("+" + factoryGain + "/s") : "0";
+
+  // Step 4 -- count visible Sirens (Sirens currently inside any reveal
+  // window -- passive radius LOS-clear, ping LOS-clear, or any drone-cam
+  // LOS-clear). Useful for testing; replaces vague "is anything near?".
+  const sirensVisible = countVisibleSirens();
+  const sirenGain = sirenProximityGainPerSec(s.sub.x, s.sub.y);
+  const sirenGainStr = sirenGain > 0.001 ? ("+" + sirenGain.toFixed(2) + "/s") : "0";
+  // Step 4 -- selected drone decoy mode for HUD.
+  const sel = getSelectedDrone();
+  const decoyStr = sel ? (sel.decoyMode ? "DECOY ON" : "decoy off") : "(no drone)";
+
+  hud.textContent =
+    "pos: (" + s.sub.x.toFixed(0) + ", " + s.sub.y.toFixed(0) + ")   " +
+    "hull: " + s.hull + "/" + TUNING.HULL_MAX + "   " +
+    "oxygen: " + oxyPct.toFixed(1) + "%   " +
+    "ping: " + pingStatus + "   " +
+    "t: " + s.timeSec.toFixed(1) + "s\n" +
+    "suspicion: " + s.suspicion.toFixed(1) + "/100   " +
+    "state: " + susp + instakillStr + "   " +
+    "factory_prox: " + factoryStr + "   " +
+    "siren_prox: " + sirenGainStr + "\n" +
+    "drones: " + aliveDrones + " alive / " + s.droneSupply + " supply   " +
+    "selected: " + (s.selectedDroneId != null ? ("d" + s.selectedDroneId) : "(none)") + " [" + decoyStr + "]   " +
+    "photos: " + reqDone + "/" + reqTotal + " req, bonus: " + bonusStr + "\n" +
+    "patroller: " + s.patroller.mode + "   sentinel: " + s.sentinel.mode + "   hunter: " + s.hunter.mode + "   " +
+    "sirens_visible: " + sirensVisible + "   extraction: " + extractStatus + "\n" +
+    // step 5+6 HUD line -- charges + armed state + jam window remaining
+    "jam[1]: " + s.jamCharges + "   emp[2]: " + s.empCharges + "   kd[3]: " + s.kdCharges + "   " +
+    // step 6 -- recon charges + active reveal count
+    "recon[4]: " + s.reconCharges + "   " +
+    "recon_active: " + s.reconReveals.length + "   " +
+    (s.armedTool ? ("ARMED: " + s.armedTool.toUpperCase() + " -- click target") : "armed: none") + "   " +
+    (isJamActive() ? ("JAM ACTIVE (" + (s.jamActiveUntil - s.timeSec).toFixed(1) + "s)") : "jam: idle");
+}
+
+// Step 4 -- helper used by HUD; counts Sirens whose body is LOS-clear from
+// the sub OR any alive drone OR the active ping origin (matches the visual
+// reveal model in drawSirenIfVisible).
+function countVisibleSirens() {
+  let n = 0;
+  for (const sir of allSirens()) {
+    const dxs = sir.x - state.sub.x, dys = sir.y - state.sub.y;
+    if (dxs * dxs + dys * dys <= TUNING.PASSIVE_RADIUS_PX * TUNING.PASSIVE_RADIUS_PX
+        && isLineOfSightClear(state.sub.x, state.sub.y, sir.x, sir.y)) { n++; continue; }
+    let seen = false;
+    for (const d of state.drones) {
+      if (!d.alive) continue;
+      const ddx = sir.x - d.x, ddy = sir.y - d.y;
+      if (ddx * ddx + ddy * ddy <= TUNING.DRONE_VISION_RADIUS_PX * TUNING.DRONE_VISION_RADIUS_PX
+          && isLineOfSightClear(d.x, d.y, sir.x, sir.y)) { seen = true; break; }
+    }
+    if (seen) { n++; continue; }
+    const pingElapsed2 = state.timeSec - state.ping.tStart;
+    if (pingElapsed2 >= 0 && pingElapsed2 <= TUNING.PING_DURATION_SEC) {
+      const pingReachedRadius = TUNING.PING_RADIUS_PX * (pingElapsed2 / TUNING.PING_DURATION_SEC);
+      const dpx = sir.x - state.ping.originX, dpy = sir.y - state.ping.originY;
+      if (dpx * dpx + dpy * dpy <= pingReachedRadius * pingReachedRadius
+          && isLineOfSightClear(state.ping.originX, state.ping.originY, sir.x, sir.y)) { n++; continue; }
+    }
+    // step 6: recon-revealed Sirens count. No LOS gate (flyover).
+    if (isInReconReveal(sir.x, sir.y)) { n++; }
+  }
+  return n;
+}
+
+/* ----- Main loop --------------------------------------------------- */
+let lastT = performance.now();
+function frame(nowMs) {
+  const dt = Math.min(0.05, (nowMs - lastT) / 1000);
+  lastT = nowMs;
+  update(dt);
+  render();
+  updateHud();
+  requestAnimationFrame(frame);
+}
+
+/* ----- Sim-test harness -------------------------------------------- *
+ * Step 3 additions: FACTORY, OBJECTIVES, BONUS_OBJECTIVE, EXTRACTION,
+ * factoryProximityGainPerSec, distancePointToRect, deployDrone,
+ * redirectNearestDrone, cycleSelectedDrone, getSelectedDrone,
+ * tryDronePhoto, trySubCamPhoto.
+ *
+ * Step 1 FIX-PASS 2026-06-04 additions (strict superset, no removals):
+ *   applyInertia(dt, thrust, turn) -- runs the inertia step directly
+ *     for headless tests (sub-stop-from-full-speed, sub-turn-from-rest)
+ *   segmentRectIntersect(x1,y1,x2,y2,rect) -- raw raycast primitive
+ *   isLineOfSightClear(x1,y1,x2,y2) -- terrain+factory LOS predicate
+ *   raycastTerrainHit(x1,y1,x2,y2) -- first occluder along segment
+ *
+ * Step 1+2+3 surface preserved verbatim.
+ * ------------------------------------------------------------------- */
+window.__sim = {
+  TUNING,
+  TERRAIN,
+  PATROL_ROUTE,
+  FACTORY,
+  OBJECTIVES,
+  BONUS_OBJECTIVE,
+  EXTRACTION,
+  newState,
+  update,
+  setState: (s) => { state = s; },
+  getState: () => state,
+  tryActivePing,
+  circleRectOverlap,
+  applySuspicion,
+  suspicionState,
+  isAlertPlus,
+  updatePatroller,
+  nearestWaypointIdx,
+  factoryProximityGainPerSec,
+  distancePointToRect,
+  deployDrone,
+  redirectNearestDrone,
+  cycleSelectedDrone,
+  getSelectedDrone,
+  tryDronePhoto,
+  trySubCamPhoto,
+  // Step 1 fix-pass 2026-06-04 additions:
+  applyInertia,
+  segmentRectIntersect,
+  isLineOfSightClear,
+  raycastTerrainHit,
+  // Step 4 additions (Sentinel/Hunter/curiosity/decoy/siren-proximity):
+  allSirens,
+  sirenProximityGainPerSec,
+  sirenProxTerm,
+  findCuriosityTarget,
+  moveToward,
+  toggleDecoyOnSelected,
+  updateSentinel,
+  updateHunter,
+  updatePatrollerWithCuriosity,
+  countVisibleSirens,
+  // Accessors for the new Sirens (convenience for tests):
+  getSentinel: () => state.sentinel,
+  getHunter:   () => state.hunter,
+  getPatroller: () => state.patroller,
+  // Step 5 additions (disruption tools jam/EMP/knockdown):
+  fireJam,
+  fireEMP,
+  fireKnockdown,
+  acquireTargetSiren,
+  isSirenStunned,
+  isJamActive,
+  jamProxMultiplier,
+  updateProjectiles,
+  // Convenience accessors for tests:
+  getCharges: () => ({
+    jam: state.jamCharges,
+    emp: state.empCharges,
+    kd:  state.kdCharges,
+    recon: state.reconCharges,    // step 6
+  }),
+  getStunMaps: () => ({ emp: state.empStunUntil, kd: state.kdImmobUntil }),
+  getArmedTool: () => state.armedTool,
+  setArmedTool: (t) => { state.armedTool = t; },
+  getJamActiveUntil: () => state.jamActiveUntil,
+  getProjectiles: () => state.projectiles,
+  // Step 6 additions (recon plane call-in):
+  fireRecon,
+  updateReconReveals,
+  isInReconReveal,
+  reconRevealAlphaAt,
+  getReconReveals: () => state.reconReveals,
+  // ------------------------------------------------------------------
+  // Step 8 additions (mobile / touch input layer). All additive; none
+  // of the pre-Step-8 62 entries are removed or modified. These exist
+  // so the auditor can verify the touch layer without a physical
+  // device.
+  // ------------------------------------------------------------------
+  IS_TOUCH_DEVICE,                  // boot-time detection result
+  getTouchInputState: () => touchInput,
+  getJoystickState: () => ({
+    active: touchInput.joystick.active,
+    vx: touchInput.joystick.vx,
+    vy: touchInput.joystick.vy,
+    magnitude: touchInput.joystick.magnitude,
+    syntheticKeys: touchInput.joystick.syntheticKeys.slice(),
+  }),
+  // Drive the joystick programmatically. angleRad uses standard math
+  // convention: 0 = +x (right), pi/2 = +y (which is canvas DOWN, so
+  // joystick DOWN); thus UP-RIGHT (key W+D) is angle = -pi/4 in this
+  // convention. To match the brief's "UP-RIGHT (angle ~pi/4)" reading
+  // we accept either convention: callers pass angleRad and magnitude
+  // (-1..1 implicitly via clamp); we compute vy as -sin(angleRad) so
+  // angleRad = pi/4 means UP-RIGHT in player-intuitive terms.
+  setJoystickVector: (angleRad, magnitude) => {
+    const m = Math.max(0, Math.min(1, magnitude));
+    // Player-intuitive: angle 0=right, pi/2=UP, -pi/2=DOWN.
+    const vx =  Math.cos(angleRad) * m;
+    const vy = -Math.sin(angleRad) * m;
+    touchInput.joystick.active = (m > 0);
+    touchInput.joystick.vx = vx;
+    touchInput.joystick.vy = vy;
+    touchInput.joystick.magnitude = m;
+    applyJoystickKeys(joystickVectorToKeys(vx, vy, m));
+    return { vx, vy, magnitude: m, keys: touchInput.joystick.syntheticKeys.slice() };
+  },
+  // Programmatically simulate the touch dispatch path. type is one of
+  // "joystickStart"/"joystickMove"/"joystickEnd"/"buttonTap"/"canvasTap".
+  // touches is an array of { clientX, clientY, identifier } objects;
+  // for buttonTap, pass { id } where id is the button DOM id.
+  simulateTouchEvent: (type, payload) => {
+    payload = payload || {};
+    if (type === "joystickStart") {
+      const t = (payload.touches && payload.touches[0]) || payload;
+      joystickStart(t.clientX, t.clientY, t.identifier);
+      return touchInput.joystick.syntheticKeys.slice();
+    }
+    if (type === "joystickMove") {
+      const t = (payload.touches && payload.touches[0]) || payload;
+      joystickMove(t.clientX, t.clientY, t.identifier);
+      return touchInput.joystick.syntheticKeys.slice();
+    }
+    if (type === "joystickEnd") {
+      joystickEnd(payload.identifier);
+      return touchInput.joystick.syntheticKeys.slice();
+    }
+    if (type === "buttonTap") {
+      const fn = TOUCH_ACTIONS[payload.id];
+      if (typeof fn === "function") fn();
+      return state.armedTool;
+    }
+    if (type === "canvasTap") {
+      canvasTapAt(payload.clientX, payload.clientY);
+      return { armedTool: state.armedTool };
+    }
+    return null;
+  },
+  // Direct coord transform exposure (useful for the auditor's
+  // coord-correctness sims).
+  touchCssToGameCoord,
+  isTouchOverlayVisible: () => {
+    if (typeof document === "undefined" || !document.body) return false;
+    return document.body.classList.contains("touch-mode");
+  },
+  setTouchModeForTesting: (on) => {
+    if (typeof document === "undefined" || !document.body) return;
+    if (on) document.body.classList.add("touch-mode");
+    else document.body.classList.remove("touch-mode");
+    touchInput.overlayVisible = !!on;
+  },
+  // Action-button map (so tests can enumerate / iterate).
+  TOUCH_ACTIONS,
+  // Joystick vector-to-key helper (so tests can verify the mapping in
+  // isolation).
+  joystickVectorToKeys,
+  // Read-back of the live `keys` Set (for joystick-key sim
+  // assertions). Returned as Array so tests can deep-compare.
+  getKeysSet: () => Array.from(keys),
+};
+
+state = newState();
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>

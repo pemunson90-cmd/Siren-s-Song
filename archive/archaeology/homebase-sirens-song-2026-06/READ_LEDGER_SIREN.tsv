@@ -1,0 +1,70 @@
+path	bytes	method	status	notes
+../README.md (one level above archive folder: Siren-s-Song/README.md)	663	cat	full	staging README; archive branch plan
+MINING_REPORT.md	6827	cat	full	prior sampled mining report; admits briefs/audits 01-08/handoffs/smoke/html not read
+agent.md	13145	cat	full	step-agent operating doc; six invariants
+claude_index.md	11725	cat	full	routing index; stale sizes
+code/_test_propagation.txt	63	cat	full	DELETE ME session-test artifact
+package.json	56	cat	full	playwright dep
+package-lock.json	1595	head-60-of-file	full	lockfile is under 60 lines of content shown; whole lock printed
+SIRENS_SONG_SPEC.md	15288	cat	full	spec v0.2 + wrapper + decision log
+SIRENS_SONG_SPEC_STEP9_PATCH.md	5061	cat	full	step9 sidecar patch; claims 151KB/3659 lines vs actual 147438/3462
+audits/01_AUDIT_STEP_01.md	10191	cat	full	GREENLIGHT
+audits/02_AUDIT_STEP_02.md	14375	cat	full	GREENLIGHT
+audits/03_AUDIT_STEP_03.md	19211	cat	full	GREENLIGHT combined step3+fixpass; LOS-occludes-objective seam; spawn inside factory MID tier
+audits/04_AUDIT_STEP_04.md	15938	cat+tail-reread	full	GREENLIGHT
+audits/05_AUDIT_STEP_05.md	10772	cat	full	GREENLIGHT
+audits/06_AUDIT_STEP_06.md	11106	cat	full	GREENLIGHT; recon not LOS-gated
+audits/07_AUDIT_STEP_07.md	12342	cat	full	GREENLIGHT; stationary-sub hull-sinks 8.4s max susp 87.7
+SHA256SUMS.txt	6742	cat + sha256sum -c	full	66 hashed entries all verify OK; 68 files on disk = 66 hashed + MINING_REPORT.md + SHA256SUMS.txt; pre-step9 and pre-step9-refire share a hash
+audits/08_AUDIT_STEP_08.md	21490	cat	full	GREENLIGHT; desktop path byte-equivalent; Pat hard constraint touch OR kb+mouse
+audits/09_AUDIT_STEP_09.md	22582	cat	full	RED truncated build; rollback; hardened gates
+audits/09_AUDIT_STEP_09_REFIRE.md	25321	cat	full	YELLOW; Flag A AU.beat unwired; Flag B noise->investigate deferred; misdescribes stationary case as oxygen
+briefs/01_sub_sonar_terrain.md	8396	cat	full	includes Pat diagnostics 2026-06-03 LOS + submarine feel
+briefs/02_suspicion_patroller.md	6747	cat	full	
+briefs/03_drones_camera_objectives.md	7327	cat	full	
+briefs/04_sentinel_hunter_curiosity.md	7736	cat	full	Pat ruling decoys both passive and active
+briefs/05_disruption_tools.md	6621	cat	full	
+briefs/06_recon_call_in.md	4428	cat	full	
+briefs/07_tuning_pass.md	7282	cat	full	mandatory aggression scenario sims
+briefs/08_mobile_controls.md	14653	cat	full	Pat architecture decisions: single file, landscape, desktop byte-equivalent
+briefs/09_v03_pullin_patch.md	10576	cat	full	four pulls; hard constraints
+briefs/AUDITOR_BRIEF.md	18967	cat	full	says 8 new __sim entries for step 9; refire audit says 7
+ORCHESTRATOR_COMPLETE_STEP8.md	10055	cat	full	13-button tray; Pat hard constraint quote; 62->73 __sim
+ORCHESTRATOR_COMPLETE.md	20854	cat	full	steps1-7 close; 19 for-Pat items; token-death event
+smoke_test_run_20260605.log	3185	cat	full	ran on 135266-byte Step 8 build with 73 keys, NOT step 9; sub did not move under KeyW in jsdom
+ORCHESTRATOR_LOG.md	13209	cat	full	event log; gives true per-step byte sizes; step 9 false 151KB claim
+PROJECT_CONTEXT.md	36897	cat-2-chunks	full	35-item ratification queue; Pat verbatim quotes; says pulls NOT ratified (conflicts brief 09); distribution stack
+SESSION_NOTES_20260605.md	24361	cat	full	timeline; Pat corrections; says inbox arrival 21:39 UTC; pulls not yet ratified in this file
+handoffs/01_HANDOFF_FROM_STEP1.md	11387	cat	full	step1 baseline tunables oxygen 240 etc; 11 terrain rects 960x640
+handoffs/02_HANDOFF_FROM_STEP2.md	18377	cat	full	write-tool truncation noted; valve reset at <100 ruling
+handoffs/01_FIXPASS_HANDOFF_20260604.md	25381	cat	full	inertia tunables 60/0.5/0.45/2.6/2.0; LOS helpers
+handoffs/03_HANDOFF_FROM_STEP3.md	20326	cat	full	factory 730,240,180x200; objectives; extraction 70,70; tunables
+handoffs/04_HANDOFF_FROM_STEP4.md	28375	cat	full	sentinel/hunter/curiosity tunables; 140 sims
+handoffs/05_HANDOFF_FROM_STEP5.md	28334	cat	full	tools jam 4s/0.5; EMP 5s; KD 12s; stun keyed by siren.type; ADV10 arithmetic note
+handoffs/06_HANDOFF_FROM_STEP6.md	24045	cat	full	recon; Edit-tool truncation again at step 6; 89/90
+handoffs/07_HANDOFF_FROM_STEP7.md	32798	cat head+tail chunks	full	89-row roll-up (labelled 90); 4 changes; potholes
+handoffs/08_HANDOFF_FROM_STEP8.md	20853	cat	full	53 sims; 11 new __sim; UI placeholders
+handoffs/09_HANDOFF_FROM_STEP9.md	13119	cat	full	TUNING 99->102; 5 gates; caveats
+research/CLAUDE_AI_INBOX_ANALYSIS_20260605.md	46923	cat head + tail chunks	full	v0.2 vs v0.3; 5 pull-ins, 5 hold-outs, 12 Pat decisions
+research/GENRE_AND_MONETIZATION_RESEARCH.md	58896	cat head + 2 chunks + tail	full	genre; IP risk; monetization stack itch/Patreon/Ko-fi/Poki; defer Steam+mobile
+smoke_test.js	18739	cat; node --check	full	FAILS node --check: stray duplicated catch block after IIFE at line 488; jsdom-based (package.json lists playwright)
+tmp_audit_step6/harness.js	1456	cat	full	absolute /sessions/... paths; stubs
+tmp_audit_step6/inv5_check.js	743	cat	full	
+tmp_audit_step6/inv5_v2.js	1015	cat	full	inv5 tests
+tmp_audit_step6/step6_tests.js	17411	cat	full	hardcodes 400 radius boundary tests; stale after step7 (460)
+_step9_refire_patch.py	30650	cat head+tail	full	21 atomic string substitutions; shadow cones only for TERRAIN rects (not factory); AU.decoy/AU.drone unwired; silent=freeze
+Inbox_from_Claude.ai/Siren's Song claude web/SIRENS_SONG_dev_notes.md	7753	cat	full	4 playtest rounds; Pat quotes; v6 tuning
+Inbox_from_Claude.ai/Siren's Song claude web/SIRENS_SONG_functional_spec.md	16947	cat	full	v0.3: 15 sections, SEVEN invariants (analysis says same six); kill rule; noise; decision log
+Inbox_from_Claude.ai/Siren's Song claude web/SIRENS_SONG_pressure_design.md	8836	cat	full	HUNT proposal; unratified
+Inbox_from_Claude.ai/Siren's Song claude web/sirens_song_prototype.html	44721	cat 2 chunks	full	title says v6; implements kill rule+noise+drones+silent+logs (analysis wrong)
+Inbox_from_Claude.ai/Siren's Song claude web/sirens_song_prototype_v7.html	47365	full diff vs prototype.html (+prototype read in full)	full-by-diff	adds HUNT, graze, hull; noise squared; drones no longer lure; oxygen 300
+code/sirens_song.html	147438	cat in line ranges (1-330, 331-545, 546-588, byte 30001-62000 view, 1279-1335, 1336-1800, 1801-2250, 2251-2750, 2751-3130, 3131-3462)	full	md5 477469ef; TUNING 93 keys; AU.init only in keydown (touch gets no audio); AU.beat/decoy/drone/stopAmb unbound; hardcoded Patroller prox 194px/1.5 rate; stun keyed by siren.type; Sirens ignore terrain; title/header comments stale (say Step 4)
+code/sirens_song.html.bak.step2-pre-step3	23523	diff vs next; removed-lines dump + final read	full-by-diff	post-step-2 state; direct-velocity sub
+code/sirens_song.html.bak.pre-step1-fixpass-20260604	41825	diff chain	full-by-diff	post-step-3 state
+code/sirens_song.html.bak.pre-step4-20260604	55234	diff chain	full-by-diff	post fix-pass
+code/sirens_song.html.bak.pre-step5-20260604	79522	diff chain	full-by-diff	post step 4
+code/sirens_song.html.bak.pre-step6-20260604	97702	diff chain	full-by-diff	post step 5
+code/sirens_song.html.bak.pre-step7-20260604	110327	diff chain	full-by-diff	post step 6; md5 4b82a822
+code/sirens_song.html.bak_pre_step8	112450	diff chain	full-by-diff	post step 7; md5 be02fa80; TUNING 90 keys (table 89 rows + DECOY_TOGGLE_KEY_HINT)
+code/sirens_song.html.bak.pre-step9-20260605	135266	diff chain	full-by-diff	post step 8; md5 9e6d673b
+code/sirens_song.html.bak.pre-step9-refire-20260605	135266	cmp vs pre-step9	full-byte-identical	duplicate of pre-step9
