@@ -1,6 +1,6 @@
 # Protected capabilities ledger
 
-Status: DRAFT (work package WP-01, written 2026-11-11 on branch `fable/overhaul-20261111`). The Status column that records the Phase 5 result is not present yet. Phase 5 adds it to every table and fills it in.
+Status: COMPLETE (2026-11-12, Phase 1, work package WP-01). Drafted 2026-11-11; reviewed by root on 2026-11-12 with `python scripts/repo/ledger_check.py` (390 rows, every named path exists, every named suite is registered). The Status column that records the Phase 5 result is not present yet. Phase 5 adds it to every table and fills it in.
 
 ## What this ledger is
 
