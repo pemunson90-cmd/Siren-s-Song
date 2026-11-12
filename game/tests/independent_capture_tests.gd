@@ -1,13 +1,14 @@
 extends SceneTree
 const Sim=preload("res://src/simulation/simulation.gd")
 const Store=preload("res://src/persistence/save_store.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 var checks=0
 var failures=0
 func check(ok:bool,label:String):
  checks+=1
  if not ok:failures+=1;printerr("FAIL ",label)
 func make():
- var s=Sim.new();s.start(1)
+ var s=Sim.new();s.start(1);PlayerDive.launch_drones(s)
  # Isolate camera rules in the actual divided Split region.
  for enemy in s.sirens:enemy.stun=100.0
  for pair in [[1,0],[2,1]]:
@@ -28,7 +29,7 @@ func _initialize():
  check(s.mission.objectives[0].captured and s.mission.objectives[1].captured,"both separated craft finish within one exposure interval")
  check(not s.mission.objectives[2].captured,"parallel relay records still require Quietus uplink")
  for mission_id in [1,2]:
-  s=Sim.new();s.start(mission_id)
+  s=Sim.new();s.start(mission_id);PlayerDive.launch_drones(s)
   for enemy in s.sirens:enemy.stun=100.0
   for id in [1,2]:s.units[id].pos=s.mission.objectives[0].pos+Vector2(0,100)
   s.command("select",{"unit":1});check(s.command("camera"),"first craft owns record in mission%d"%mission_id)

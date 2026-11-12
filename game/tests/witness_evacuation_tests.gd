@@ -2,6 +2,9 @@ extends SceneTree
 # Controlled own-position fixtures isolate custody; real-guard journeys live
 # separately. No capsule/mission completion flag is injected as success proof.
 const Sim=preload("res://src/simulation/simulation.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
+# Authored rock and route-leg rules are not about discovery: known-charts switch (player rule: water hidden until charted).
+var charts_before=false
 const Store=preload("res://src/persistence/save_store.gd")
 const Campaign=preload("res://src/campaign/expedition_campaign.gd")
 const Endings=preload("res://src/campaign/endings.gd")
@@ -18,12 +21,13 @@ func step(sim,seconds:float):
  for n in ceili(seconds*60):sim.advance(1./60.)
  sim.paused=true
 func fresh(unit:int=0,fitted:Dictionary={}):
- var sim=Sim.new();sim.start(12,"endurance",{"fitted":fitted if not fitted.is_empty() else {"quietus":"","drone_a":"","drone_b":""}});sim.sirens=[]
+ var sim=Sim.new();sim.start(12,"endurance",{"fitted":fitted if not fitted.is_empty() else {"quietus":"","drone_a":"","drone_b":""}});PlayerDive.launch_drones(sim);sim.sirens=[]
  sim.units[unit].pos=BERTH+Vector2(0,40);sim.units[unit].vel=Vector2.ZERO;sim.command("select",{"unit":unit});step(sim,.02)
  return sim
 func progress()->Dictionary:
  return {"version":2,"route":"deep","routes":["deep"],"facts":{"deep":"Recovered branch","confluence_route":"concealed"},"completed":[6,7,9,11],"notes":{},"references":{},"entitlements":["quietus_vector_drive","drone_deep_cells","quietus_baffles"],"history":[],"selected_thread":"deep"}
 func run():
+ charts_before=PlayerDive.known_water(true)
  var abstract=fresh()
  abstract.command("camera");step(abstract,4.2)
  preload("res://tests/concealed_fixture.gd").solve(abstract)
@@ -84,7 +88,7 @@ func run():
  check(not Sim.valid_snapshot(bad),"saved ejected occupant requires a real dead carrier")
  bad=interrupted.snapshot();bad.mission.witness_evacuation.job={"unit":1,"item":"witness_capsule","elapsed":.5}
  check(not Sim.valid_snapshot(bad),"saved winch cannot continue on a craft whose HOLD was released")
- var unknown=Sim.new();unknown.start(12)
+ var unknown=Sim.new();unknown.start(12);PlayerDive.launch_drones(unknown)
  check(not unknown.witness_status().known and unknown.witness_status().capsule.is_empty() and unknown.salvage_sites().is_empty(),"undiscovered initial berth never projects a hidden passenger position")
  var lost=fresh(1,{"quietus":"","drone_a":"drone_deep_cells","drone_b":""})
  check(lost.command("salvage",{"item":"witness_capsule"}),"fitted carrier still loads the actual occupied pod")
@@ -127,4 +131,5 @@ func run():
  for suffix in ["",".bak",".tmp"]:DirAccess.remove_absolute(store.path+suffix)
  finish()
 func finish():
+ PlayerDive.known_water(charts_before)
  print("WITNESS EVACUATION CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)
