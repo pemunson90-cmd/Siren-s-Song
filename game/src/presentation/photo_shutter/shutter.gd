@@ -43,17 +43,23 @@ static func host_of(node:Node)->Node:
 	while at!=null and not at.has_method("_primary_action"):at=at.get_parent()
 	return at
 
-# One tap on the shutter. Returns true when the ring's action was issued.
-static func press(node:Node)->bool:
-	var host:=host_of(node)
+# Reports a refusal as the last order result and returns true, else returns false.
+# Main._primary_action can call this before its _order("camera") so the ring's
+# PHOTO gets the same refusal (that seam is in main.gd, outside this module).
+static func refuse(host)->bool:
 	if host==null or host.sim==null:return false
 	var sim=host.sim
 	var reason:=refusal(sim)
-	if not reason.is_empty():
-		sim.message=reason
-		if host.get("mission_hud")!=null:host.mission_hud.task_result={"owner":WorkTask.NAMES[sim.selected],"ok":false,"text":reason}
-		host._refresh()
-		return false
+	if reason.is_empty():return false
+	sim.message=reason
+	if host.get("mission_hud")!=null:host.mission_hud.task_result={"owner":WorkTask.NAMES[sim.selected],"ok":false,"text":reason}
+	host._refresh()
+	return true
+
+# One tap on the shutter. Returns true when the ring's action was issued.
+static func press(node:Node)->bool:
+	var host:=host_of(node)
+	if host==null or host.sim==null or refuse(host):return false
 	host._primary_action()
 	return true
 

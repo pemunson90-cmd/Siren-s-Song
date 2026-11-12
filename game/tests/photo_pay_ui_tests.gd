@@ -1,7 +1,8 @@
 extends SceneTree
 # WP-10: the debrief and the archive show what each secured photograph paid, read
 # from the intel the profile stored, never from a separate formula.
-const PhotoPay=preload("res://src/presentation/photo_pay/photo_pay.gd")
+const PAY_PATH="res://src/presentation/photo_pay/photo_pay.gd"
+var PhotoPay
 const Intel=preload("res://src/campaign/photo_intel.gd")
 const Archive=preload("res://src/presentation/archive/archive_view.gd")
 var checks=0
@@ -17,8 +18,10 @@ func run_sim(s,seconds):
 func screen_text(game)->String:
 	return "\n".join(game.panel_box.find_children("*","Label",true,false).map(func(label):return label.text))
 func run():
+	PhotoPay=load(PAY_PATH) if ResourceLoader.exists(PAY_PATH) else null
+	check(PhotoPay!=null,"the photo pay module exists")
 	await live_case()
-	table_case()
+	if PhotoPay!=null:table_case()
 	print("PHOTO PAY UI CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)
 func live_case():
 	var game=load("res://scenes/main.tscn").instantiate();game.store.path="user://wp10-pay-%d.save"%Time.get_ticks_usec()
@@ -34,7 +37,7 @@ func live_case():
 	s.outcome="won";s.mission["recovered"]=true
 	game._debrief()
 	var text=screen_text(game)
-	print("PAY_BLOCK ",PhotoPay.debrief_text(s.mission,game.photo_intel).replace("\n"," | "))
+	if PhotoPay!=null:print("PAY_BLOCK ",PhotoPay.debrief_text(s.mission,game.photo_intel).replace("\n"," | "))
 	check("PHOTO PAY" in text,"the debrief carries a photo pay block")
 	for key in ["spire_wreck","spire_scoring"]:
 		var stored:Dictionary=game.photo_intel.get(key,{})

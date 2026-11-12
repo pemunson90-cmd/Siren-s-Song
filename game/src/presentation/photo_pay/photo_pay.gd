@@ -64,7 +64,9 @@ static func debrief_text(mission:Dictionary,intel:Dictionary)->String:
 	return Table.TEXT.head+"\n"+"\n".join(lines)
 
 static func debrief(host)->void:
-	var text:=debrief_text(host.sim.mission,host.photo_intel)
+	var intel=host.get("photo_intel")
+	if not intel is Dictionary:return
+	var text:=debrief_text(host.sim.mission,intel)
 	if not text.is_empty():host._menu_text(text,17)
 
 # One archive line for an operation's photographs: the intel the profile holds from it.
