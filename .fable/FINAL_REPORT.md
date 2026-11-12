@@ -10,7 +10,8 @@ Branch `fable/overhaul-20261111`, final game code at `d64fbfb0` (later commits o
 
 - *Drones launch from the submarine.* Every dive starts with both drones aboard Quietus, off the map, where nothing can see or hit them. Open FLEET, choose a drone and tap the water: it launches beside the submarine and swims there. A drone you never launch comes home with you. This restores how the prototype worked; the rebuild had dropped it.
 - *Recon is discovery again.* After the first three tutorial operations the map starts almost blank: you see a small patch of water around your launch point and your craft's sensors fill in the rest as you explore. A survey sweep shows water and objectives for 30 seconds; they fade unless one of your craft goes and maps them. Each objective is a search area until a craft senses it or a sonar pulse reaches it.
-- *Disrupt (the EMP) no longer wastes a charge* when no Siren is in range.
+- *The EMP* (it used to be labelled DISRUPT) no longer wastes a charge when no Siren is in range. It is an area pulse: no target needed.
+- *Sonar is free for the submarine.* A pulse no longer costs oxygen; the risk is being heard. Drones still pay battery.
 - *The factory senses you.* In the two operations with a factory (3, Cold Foundry, and 11, Confluence), staying within 340 m of it raises Hunt, and the Hunt meter says why.
 - *Getting caught makes sense.* When you line up a photograph, the map draws a ring showing how far the shutter noise carries. When a Siren locks onto a craft, a countdown appears next to that craft. When you lose a drone, the message says what destroyed it and from which direction, or "UNSEEN SIREN" if you never saw it. A new optional setting (off by default) pauses the dive when a craft is lost.
 - *Planning while paused works.* Tapping a craft while paused no longer swings the camera away. RESUME always resumes in one press, and the button is large enough that taps are not missed. The "replace this route?" box names its real buttons, shows what the craft is doing now, and the clock stops while it is open.
@@ -93,6 +94,8 @@ Complete table, built from `git diff fable/pre-overhaul-20261111..fable/overhaul
 | 33 | On a player dive after operations 0 to 2 each plain objective is drawn as a search area (220 m radius, off centre) until a craft's passive sensing with a clear path, or a sonar pulse in its sector, finds it; a survey shows it for 30 s. The camera context says "search the marked area" until then. Developer console command `known` shows charts and objectives from the start. | `simulation/parity_rules/site_search.gd`, `simulation/photo_capture.gd`, `debug/debug_console.gd` | WP-16 | `RULES.site_search` |
 | 34 | On a player dive Disrupt is refused with "No Siren within Disrupt range · charge kept" when no Siren is inside its radius. The check uses true Siren positions, as the prototype did, so the refusal also tells the player nothing is that close. | `simulation/orders/weapon_orders.gd` | WP-16 | `RULES.disrupt_needs_target` |
 | 35 | In operations 3 and 11 a craft in the water within 340 m of the factory raises Hunt by up to 8 per second (the prototype's suspicion numbers applied to Hunt); the Hunt meter cause reads "factory sensors" and one message announces it. | `simulation/parity_rules/factory_sensors.gd`, `campaign/tutorial_missions.gd`, `campaign/confluence_region.gd`, `simulation/hunt_pressure/hunt_table.gd` | WP-16 | `RULES.factory_sensors` |
+| 36 | On a player dive Quietus's sonar pulse costs no life support (was 0.4 or 1.2 oxygen); the EMIT control reads NO COST. A drone's pulse still costs battery. | `simulation/advanced_sonar.gd`, `presentation/mission_hud.gd` | WP-16 | `RULES.free_quietus_sonar` |
+| 37 | The tool labelled DISRUPT is labelled EMP in buttons, messages, help, briefings, the field manual, the dossier, the Hunt cause and the challenge rules (28 strings). Internal identifiers are unchanged. The loadout is still named `disruption`. | 20 files under `game/src/` | WP-16 | none |
 
 Not behavior changes, listed for completeness: 441 `.gd.uid` files and line-ending normalization (whitespace only, `git diff -w` is empty for those files); the AI trace and sweeper patrol files changed in line endings only.
 
@@ -157,9 +160,9 @@ Open questions, each answerable in a word (recommendation in bold):
 | # | Question | Recommendation |
 | --- | --- | --- |
 | N-1 | Spare drones, as in the prototype (it carried four and launched a replacement when one was lost)? | **Decide after the playtest** |
-| N-2 | The survey is a recon plane. When it sweeps, should Sirens notice: nothing (as the prototype), a small Hunt rise, or a loud signal they investigate (as now)? | **A small Hunt rise** |
-| N-3 | Make drones stealthier than the submarine (seen and heard at about two thirds of its range)? Today they are not. | **Yes** |
-| N-4 | Draw the sight range of each Siren you have detected, as a faint circle on the chart? | **Yes** |
+| N-2 | The survey is a recon plane. When it sweeps, should Sirens notice: nothing (as the prototype), a small Hunt rise, or a loud signal they investigate (as now)? Pat, 2026-11-12: "Not sure." | **A small Hunt rise** |
+| N-3 | Drone stealth: A harder to see (two thirds range), B quieter (noise cut 40 percent), C slower lock (6 s), D calm Sirens ignore drones (the prototype's rule). | **D with B** |
+| N-4 | A diegetic sight range for Sirens: A drawn once that Siren type has been photographed, B an estimate that sharpens with a photograph, C shown only when a Siren looks toward a craft. | **A** |
 | N-5 | Besides the factories in operations 3 and 11, which Siren works should sense nearby craft: every Siren industrial structure, or only named factories? | **Every Siren industrial structure, after you have played 3 and 11** |
 | N-6 | Disrupt's refusal tells you no Siren is within range. Keep that (as the prototype), or fire anyway when you hold no contact? | **Keep** |
 | N-7 | Remove the names of the 341 archived branches now that their tags exist? | **Yes, when you want the branch list short** |

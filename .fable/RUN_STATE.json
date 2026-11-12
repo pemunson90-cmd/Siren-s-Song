@@ -2,11 +2,11 @@
   "run_id": "overhaul-20261111",
   "status": "RUNNING",
   "phase": "7-repairs",
-  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: Read the debug package run for d64fbfb0, record its SHA-256 in .fable/FINAL_REPORT.md, refresh the PR body. Then wait for Pat: questions N-1 to N-7 in the report and his playtest. PR 262 stays a draft until he says his rulings are done; then mark it ready and set DONE",
+  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: Read the debug package run for the head, record its SHA-256 in .fable/FINAL_REPORT.md, refresh the PR body. Then wait for Pat: N-1 to N-7 in the report (drone stealth options, diegetic sight range, survey, other factory sites) and his playtest. PR 262 stays a draft until he says his rulings are done",
   "base_ref": "origin/claude/integration",
   "base_sha": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
   "run_branch": "fable/overhaul-20261111",
-  "run_head": "d64fbfb04d4b747462651db452287dfdf729c0b5",
+  "run_head": "f22a3910a5212b7c7322f7ebbdcefae5f61dd32e",
   "shared_tips": {
     "claude/integration": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
     "main": "f5b66a198e3878950325f8c45a0bc6bc29dcba84",
@@ -35,5 +35,5 @@
   },
   "decisions_open": 0,
   "last_checkpoint": "WP-16 parity restores committed at d64fbfb0 (PARITY RULES 60/0, core 850/0, canaries)",
-  "updated": "2026-11-12 11:45:56"
+  "updated": "2026-11-12 11:53:13"
 }
