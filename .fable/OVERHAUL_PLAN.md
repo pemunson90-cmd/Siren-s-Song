@@ -62,3 +62,4 @@ Order: WP-02, WP-03, WP-04 (root, Phase 3). Then WP-05, WP-06 and WP-07 in paral
 
 - 2026-11-12: plan written. Compared with the 11 Nov sketch: the progress-loss defect S-01 moved to P2 (Pat's ruling of 2026-11-11); P1 was reseeded from cold review 6, which ranks readable detection and the planning camera above photo payoff for a new player; ARRIVALS, fitting screens and code consolidation moved to P2 to keep P1 finishable.
 - 2026-11-12: WP-06, WP-07 and WP-12 merged. Two backlog rows added from reviewer and implementer notes (more protected pins; remaining literal operation IDs). WP-08 started on its own; WP-09 to WP-11 follow one at a time because they share HUD and input files.
+- 2026-11-12: WP-05 and WP-08 merged. WP-09 and WP-10 run in parallel instead of one after the other: the briefs give WP-09 the input, camera, dialog and ring code and WP-10 the camera panel, debrief and archive, with no shared file. WP-11 follows both.
