@@ -1,9 +1,11 @@
 extends SceneTree
-# R3 (RULING_TESTS.md): Pat's protected rules pinned in tests/fixtures/protected_golden.json.
+# Pat's protected rules pinned in tests/fixtures/protected_golden.json. The rulings live in
+# docs/USER_DIRECTIVES.md (it carries the former docs/state/RULINGS.md text unchanged); the
+# protected rows are listed in .fable/PROTECTED_CAPABILITIES.md.
 # "constants" rows read live script constants; "source" rows read literals that live inline
 # in rule code, by regex capture. Any difference fails with the rule name and both values.
-# Changing the golden needs a commit message with `RULING:` and the dated line from
-# docs/state/RULINGS.md. This test does not read commit messages; reviewers do.
+# Changing the golden needs a commit message with `RULING:` and the dated ruling line from
+# docs/USER_DIRECTIVES.md. This test does not read commit messages; reviewers do.
 const GOLDEN="res://tests/fixtures/protected_golden.json"
 var checks=0
 var failures=0
