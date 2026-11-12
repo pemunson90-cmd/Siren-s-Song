@@ -23,6 +23,10 @@ Base: `claude/integration` at `cabd5bd5`. The complete account, including every 
 
 - The fast `guidance` job also checks documentation links and runs the tool self-tests that no workflow ran before; two helper tests that need Godot run in `game-core`. Nothing redundant was added and the matrix is unchanged.
 
+### Tests
+
+- The protected-rules golden pins 23 more protected numbers (Disrupt, torpedo, decoy, the Hunt table, radio reports, survivor ascent, passive reach, silt screen). A new suite states as one rule that no player tool permanently disables a Siren, for all eight roles. New suites also cover the release build gate and operation metadata parity.
+
 ### Tools
 
 - `scripts/critic/`: the blind critic play kit, versioned and reviewed.

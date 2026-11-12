@@ -2,11 +2,11 @@
   "run_id": "overhaul-20261111",
   "status": "RUNNING",
   "phase": "4-execution",
-  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: WP-05: implementer is adding the relay recovery case the reviewer asked for; then merge WP-05 with suites.txt row never_disabled_tests|NEVER DISABLED|1406|1406. Then launch WP-08 (readable detection and loss), followed by WP-09, WP-10, WP-11 one after another. Read CI run 43188734403",
+  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: Wait for the WP-08 implementer report, review, merge; then WP-09 (planning camera and order flow, second reviewer), WP-10 (photograph flow), WP-11 (HUD defects). Read CI run 43188734403",
   "base_ref": "origin/claude/integration",
   "base_sha": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
   "run_branch": "fable/overhaul-20261111",
-  "run_head": "0d8256e69b9c603617f96101c8022e0effddb0ca",
+  "run_head": "8af9dde35dda84f41a3481991ce0e0bbb56686b6",
   "shared_tips": {
     "claude/integration": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
     "main": "f5b66a198e3878950325f8c45a0bc6bc29dcba84",
@@ -20,7 +20,7 @@
     "WP-02": "merged",
     "WP-03": "merged",
     "WP-04": "merged",
-    "WP-05": "revise",
+    "WP-05": "merged",
     "WP-06": "merged",
     "WP-07": "merged",
     "WP-08": "building",
@@ -30,6 +30,6 @@
     "WP-12": "merged"
   },
   "decisions_open": 10,
-  "last_checkpoint": "Phase 3 exit met except the CI result: governance set, scrap manifest, changelog, link check clean, checker updated, draft PR 262 open, full matrix run 43188734403 dispatched on 075f627e. Phase 4 started",
-  "updated": "2026-11-12 04:36:38"
+  "last_checkpoint": "All P0 merged (WP-00 to WP-05). P1 merged: WP-06, WP-07, WP-12. WP-08 building",
+  "updated": "2026-11-12 04:41:10"
 }
