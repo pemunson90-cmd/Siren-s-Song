@@ -66,6 +66,7 @@ static func debrief(main)->bool:
   preload("res://src/presentation/module_recovery_view.gd").debrief(main)
   var grade=preload("res://src/simulation/recon_consequences.gd").grade(mission.get("objectives",[]))
   if grade.photos>0:main._menu_text("INTEL PHOTO GRADE %s · %d %s · average %d%%, sharpest %d%%"%[grade.grade,grade.photos,"record" if grade.photos==1 else "records",roundi(grade.quality*100),roundi(grade.best*100)],20)
+  preload("res://src/presentation/photo_pay/photo_pay.gd").debrief(main)
   if mission.id==6:
    main._menu_text("PHYSICAL ROUTE / %s\nRecovered carrier facts: %s"%[mission.chosen_route.to_upper(),", ".join(mission.expedition_facts.keys())],17)
   for item in main.expedition.get("entitlements",[]):
