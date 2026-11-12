@@ -110,7 +110,7 @@ static func briefing(host, index: int) -> void:
 	preload("res://src/presentation/crew/crew_view.gd").briefing(host,index)
 	# The opening brief confirms Quietus stock; its FITTINGS entry owns the full per-craft list.
 	var copy=preload("res://src/presentation/truthful_commands.gd")
-	host._menu_text(copy.launch_stock(host),17)
+	host._menu_text(copy.launch_stock(host,index),17)
 	if index>=3:host._menu_text(copy.brief_stock(host.tool_racks),14)
 	# Frames open after the first dive; recovered fittings appear once earned. A toggle folds them away.
 	if not compact:fit_start=host.panel_box.get_child_count()

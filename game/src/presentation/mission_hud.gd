@@ -21,6 +21,7 @@ const AllStop=preload("res://src/simulation/all_stop/all_stop.gd")
 const Truthful=preload("res://src/presentation/truthful_commands.gd")
 const WorkTask=preload("res://src/presentation/work_task/work_task.gd")
 const ReleaseControls=preload("res://src/presentation/release_controls.gd")
+const LifeChip=preload("res://src/presentation/life_support_chip.gd")
 # A tap opens an object-owned projection. A separate tap chooses an action.
 var host
 var blocker:Control
@@ -504,6 +505,8 @@ func threat_rects()->Array:
  var warning=host.lock_warning
  if warning!=null and warning.visible:rects.append(warning.banner)
  if alarm.visible:rects.append(alarm.get_rect())
+ var life=LifeChip.rect(self)
+ if life.has_area():rects.append(life)
  return rects
 func threat_floor()->float:
  var bottom=host.pause_button.get_rect().end.y+12.
@@ -514,7 +517,7 @@ func _place_threat_stack():
  if not host.advanced_orders and alarm.visible and alarm.text.begins_with("OP PRESSURE") and HuntMeter.Pressure.view(host.sim).active:alarm.hide()
  # The header has a stable lane between the pause and Fleet targets.
  if host.advanced_orders and alarm.visible:
-  var side=maxf(host.pause_button.size.x,close_button.size.x)+32.
+  var side=maxf(maxf(host.pause_button.size.x,close_button.size.x),LifeChip.rect(self).size.x)+32.
   alarm.position=Vector2(side,12);alarm.size.x=maxf(1.,size.x-side*2)
   alarm.size.y=maxf(touch_height,alarm.get_minimum_size().y)
  # Actual header controls reserve their complete 150% rectangles on either hand.
@@ -522,6 +525,8 @@ func _place_threat_stack():
  for control in [host.pause_button,host.advanced_button]:
   if control.visible:header_bottom=maxf(header_bottom,control.get_rect().end.y+8.)
  if host.advanced_orders:header_bottom=maxf(header_bottom,12.+close_button.size.y+8.)
+ var life=LifeChip.rect(self)
+ if life.has_area():header_bottom=maxf(header_bottom,life.end.y+8.)
  var warning=host.lock_warning
  var lock_height=warning.banner.size.y+8. if warning!=null and warning.visible else 0.
  # Budget for a full action viewport, Back and container padding. Received rows
@@ -584,6 +589,7 @@ func refresh():
  subject=Concealed.refresh_subject(sim,Recipient.refresh_subject(sim,Rendezvous.refresh_subject(sim,subject)))
  host.pause_button.text="PAUSED\n▶ RESUME" if sim.paused else "Ⅱ\nPAUSE"
  _fit_pause_button()
+ LifeChip.sync(self)
  host.advanced_button.text="FLEET"
  focus_button.text="FOLLOW" if host.ocean.chart_camera.mode=="follow" else "FOCUS"
  intent.text="%s · %s · %s"%[sim.units[sim.selected].name+" · "+sim.Depth.NAMES[sim.units[sim.selected].band],"QUEUE" if sim.queue_mode else "REPLACE",(host.targeting_feedback if not host.targeting_feedback.is_empty() else "DECOY · TAP CLEAR WATER ≤160m · TAP CANCEL" if host.decoy_armed else "TORPEDO · TAP FRESH CONTACT · TAP CANCEL" if host.knock_armed else sim.message)]
