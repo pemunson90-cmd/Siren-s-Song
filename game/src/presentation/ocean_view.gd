@@ -128,9 +128,10 @@ func contexts_at(point:Vector2,touch:float)->Array:
 	if not recipient.is_empty():
 		for key in ["gate","recipient"]:
 			if recipient[key].known and point.distance_to(screen_position(recipient[key].pos))<=maxf(touch*.32,25*world_scale):candidates.append(Recipient.subject(recipient[key],key))
+	var sites=observable_sites()
 	if Expedition.active(sim):
-		for index in observable_sites().size():
-			var site=observable_sites()[index]
+		for index in sites.size():
+			var site=sites[index]
 			if site.get("own_origin",false) and Expedition.transmission_badge(self,site,touch).has_point(point):candidates.append({"kind":"objective","subkind":"transmission","index":index,"name":"TRANSMISSION SECTOR","pos":site.pos})
 		for corridor in sim.extraction_corridors():
 			if point.distance_to(screen_position(corridor.pos))<=maxf(touch*.5,64*world_scale):candidates.append({"kind":"objective","subkind":"corridor","name":corridor.name,"pos":corridor.pos,"route":corridor.route,"available":corridor.available})
@@ -139,8 +140,8 @@ func contexts_at(point:Vector2,touch:float)->Array:
 		if marker.rect.has_point(point):candidates.append({"kind":"salvage","item":marker.site.item,"name":marker.site.name.to_upper(),"pos":marker.site.pos})
 	for target in preload("res://src/presentation/industrial_view.gd").targets(sim):
 		if point.distance_to(screen_position(target.pos))<maxf(touch*.38,24.*world_scale):candidates.append(target)
-	for id in observable_sites().size():
-		var site=observable_sites()[id]
+	for id in sites.size():
+		var site=sites[id]
 		if sim.mission.id==8 or site.get("own_origin",false) or Rendezvous.replaces_site(sim,site) or Witness.replaces_site(sim,site) or Recipient.replaces_site(sim,site) or Wake.replaces_site(sim,site):continue
 		if point.distance_to(screen_position(site.pos))<=maxf(touch*.5,38*world_scale):candidates.append({"kind":"objective","subkind":"actuator" if site.get("site_id","")=="witness_sluice" else "","index":id,"name":site.name,"pos":site.pos})
 	for label in label_targets:
@@ -168,7 +169,9 @@ func pick_context(point:Vector2,touch:float) -> Dictionary:
 		if point.distance_to(screen_position(pos))<maxf(touch*.5,24*world_scale):
 			# 119: a public machine whose work is CAMERA owns its own projection.
 			var machine=_machine_at(pos)
-			if machine>=0:return {"kind":"objective","index":machine,"name":observable_sites()[machine].name,"pos":observable_sites()[machine].pos}
+			if machine>=0:
+				var machine_site=observable_sites()[machine]
+				return {"kind":"objective","index":machine,"name":machine_site.name,"pos":machine_site.pos}
 			return {"kind":"objective","subkind":"glass_work","name":"REACH MACHINERY","pos":pos}
 	for marker in salvage_markers():
 		if marker.rect.has_point(point):return {"kind":"salvage","item":marker.site.item,"name":marker.site.name.to_upper(),"pos":marker.site.pos}
@@ -218,8 +221,9 @@ func objective_context(point:Vector2,touch:float)->Dictionary:
 	var witness=Witness.pick(self,sim,point,touch)
 	if not witness.is_empty():return witness
 	# Fixed public sites share their marker's actual hit area with fleet rings.
-	for id in observable_sites().size():
-		var site=observable_sites()[id]
+	var sites=observable_sites()
+	for id in sites.size():
+		var site=sites[id]
 		if sim.mission.id==8:continue
 		if Rendezvous.replaces_site(sim,site) or Witness.replaces_site(sim,site) or Recipient.replaces_site(sim,site) or Wake.replaces_site(sim,site):continue
 		if site.get("own_origin",false):continue
@@ -275,13 +279,13 @@ func acoustic_rows() -> Array:
 	return preload("res://src/presentation/acoustic_feedback.gd").rows(sim.acoustic_feedback()) if sim!=null else []
 func contact_entries() -> Array:
 	return preload("res://src/presentation/contact_feedback.gd").entries(sim.contacts,sim.elapsed,sim.units,sim.line_clear,sim.contact_target) if sim!=null else []
-func contact_readout_entries() -> Array:
-	return contact_entries().filter(func(entry):return not warnings_in_hud or not (entry.urgent or (entry.fresh and ("REPORT" in entry.text or "STUNNED" in entry.text))))
-func contact_readout_rects() -> Array:
+func contact_readout_entries(entries=null) -> Array:
+	return (entries if entries!=null else contact_entries()).filter(func(entry):return not warnings_in_hud or not (entry.urgent or (entry.fresh and ("REPORT" in entry.text or "STUNNED" in entry.text))))
+func contact_readout_rects(listed=null) -> Array:
 	var result: Array=[]
 	if contacts_in_scroll:return result
 	var top=maxf(instrument_top+10,contact_top)
-	for entry in contact_readout_entries():
+	for entry in (listed if listed!=null else contact_readout_entries()):
 		var width=ThemeDB.fallback_font.get_string_size(entry.text,HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size).x+20
 		result.append(Rect2(12,top,minf(width,size.x-24),feedback_font_size+6))
 		top+=feedback_font_size+8
@@ -390,7 +394,8 @@ func _draw() -> void:
 		if o.captured:_siren_mark(o)
 	for h in sim.mission.get("photo_hidden",[]):
 		if h.has("lead") and not h.get("found",false):_lead_area({"pos":h.pos+h.lead.get("off",Vector2.ZERO),"lead_r":float(h.lead.get("r",200.0)),"name":str(h.lead.get("alias","UNKNOWN RETURN"))})
-	for o in observable_sites():
+	var sites=observable_sites()
+	for o in sites:
 		if sim.mission.id==8:continue
 		if o.get("own_origin",false):continue
 		if o.has("siren"):continue
@@ -414,7 +419,7 @@ func _draw() -> void:
 		draw_texture_rect(foundry,Rect2(1080,-100,540,360),false,Color(0.65,0.8,0.82,0.8))
 		if ArtTable.enabled:Art.factory(self,Rect2(1080,-100,540,360),world_scale)
 	# Intelligence marks are briefed coordinates, not live contact observations.
-	for o in observable_sites():
+	for o in sites:
 		if sim.mission.id==8:continue
 		if o.get("own_origin",false) or o.has("siren") or o.get("stage","")=="lead":continue
 		if Wake.replaces_site(sim,o) or Rendezvous.replaces_site(sim,o) or WarningChain.replaces_site(sim,o) or Witness.replaces_site(sim,o) or Recipient.replaces_site(sim,o):continue
@@ -422,7 +427,7 @@ func _draw() -> void:
 		draw_arc(o.pos,43,0,TAU,40,Color(c,0.35),1.4)
 		draw_line(o.pos+Vector2(-14,0),o.pos+Vector2(14,0),c,1)
 		draw_line(o.pos+Vector2(0,-14),o.pos+Vector2(0,14),c,1)
-		if not o.captured: _label(o.pos+Vector2(50,-5),"SLUICE CONTROL" if o.get("site_id","")=="witness_sluice" else o.name,c,17,{"kind":"objective","subkind":"actuator" if o.get("site_id","")=="witness_sluice" else "","index":observable_sites().find(o),"name":o.name,"pos":o.pos})
+		if not o.captured: _label(o.pos+Vector2(50,-5),"SLUICE CONTROL" if o.get("site_id","")=="witness_sluice" else o.name,c,17,{"kind":"objective","subkind":"actuator" if o.get("site_id","")=="witness_sluice" else "","index":sites.find(o),"name":o.name,"pos":o.pos})
 	# Physical chart is retained. Unknown water, shadows, and contact memory remain separate.
 	var low=Vector2i((-world_offset/world_scale)/40.0).max(Vector2i.ZERO)
 	var high=Vector2i((size-world_offset)/world_scale/40.0)+Vector2i.ONE
@@ -555,8 +560,8 @@ func _draw() -> void:
 	for n in acoustic.pulses:
 		if n.label=="DECOY":
 			draw_string(ThemeDB.fallback_font,chart_camera.to_screen(n.pos)+Vector2(12,-12),"%ds"%ceili(n.time),HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size,Color("e1b66e"))
-	var readout=contact_readout_rects()
-	var listed=contact_readout_entries()
+	var listed=contact_readout_entries(observed)
+	var readout=contact_readout_rects(listed)
 	for i in readout.size():
 		var entry=listed[i];var box=readout[i]
 		draw_rect(box,Color(0.04,0.07,0.09,0.94))

@@ -170,12 +170,14 @@ func update(sim,dt: float,active_dive: bool=true) -> void:
 	ambience.stream_paused=frozen; engine.stream_paused=frozen
 	if sim.elapsed<last_clock: tension_level=0.0
 	last_clock=sim.elapsed
+	var recon_now=null
 	if tension!=null:
 		tension.stream_paused=frozen
 		if not frozen:
 			# Only the public, fresh received-contact threat channel is eligible.
 			# Public Hunt affects only ambience/stage cues; hidden sources/locks/rosters stay unread.
-			var target=clampf(float(sim.recon_feedback().get("threat",0.0)),0.0,1.0)
+			recon_now=sim.recon_feedback()
+			var target=clampf(float(recon_now.get("threat",0.0)),0.0,1.0)
 			var seconds=.7 if target>tension_level else 4.0
 			tension_level=lerpf(tension_level,target,1.0-exp(-maxf(dt,0.0)/seconds))
 		tension.volume_db=linear_to_db(maxf(.0001,tension_level*.24))
@@ -187,7 +189,7 @@ func update(sim,dt: float,active_dive: bool=true) -> void:
 	engine.volume_db=linear_to_db(maxf(0.0001,engine_gain(speed,sim.units[0].silent)*photo_engine)); engine.pitch_scale=0.75+speed/100.0
 	if active_dive and not sim.paused:
 		heartbeat_timer=maxf(0,heartbeat_timer-dt)
-		var pressure=sim.recon_feedback()
+		var pressure=recon_now if recon_now!=null else sim.recon_feedback()
 		if pressure.threat>.1 and heartbeat_timer<=0:
 			play("heartbeat");heartbeat_timer=.45 if pressure.hostile else .9
 		creak_timer-=dt
