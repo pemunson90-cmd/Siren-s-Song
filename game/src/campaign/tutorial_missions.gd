@@ -80,6 +80,7 @@ static func make(i: int) -> Dictionary:
 		result.brief+=" A charted cold-water front crosses the southern channel. Sound and passive contacts weaken across it in both directions. Waiting west of it may protect a staging drone, but costs information and time. Close sight and visible beam charges still expose you; optical photography remains noisy."
 		result.brief+=" The plant's motors cycle up, then a load moves out southeast. Its lit return comes from below our operating depth: it is not cover or an obstacle. Listen and watch the Siren guards before you cross. Waiting costs time; crossing early and loud may need a disruption. Sight still outranks the plant noise."
 		var factory=Rect2(1120,140,400,600)
+		result["factory_sensors"]=[{"pos":factory.get_center(),"r":340.0}] # WP-16: the plant senses craft near it
 		result["structures"]=[factory]; result["factory_rect"]=factory; result["phase"]="approach"; result["response_time"]=0.0
 		result.extraction=Vector2(1420,880)
 		for n in patrols.size():

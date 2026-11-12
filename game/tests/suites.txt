@@ -393,3 +393,4 @@ hud_chips_ui_tests|HUD CHIPS UI|1417|1417
 debrief_reach_ui_tests|DEBRIEF REACH UI|1418|1418
 ops_title_control_tests|OPS TITLE CONTROL|1419|1419
 drone_bay_tests|DRONE BAY|1420|1420
+parity_rules_tests|PARITY RULES|1421|1421

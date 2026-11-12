@@ -516,3 +516,30 @@ You should be using the absolute bare minimum amount of tests always."
 22. Mark the pull request ready once items 1 to 7 are in (D-15, changed by the minimum-testing workflow). [yes]
 23. Do not trim the 41 slow suites; they run only for a release build now. [yes]
 
+## 2026-11-12: parity review before the playtest
+
+[PAT, chat, verbatim] "We need to check the parity audit before I play anything I don't want any rude surprises and a game that was not my design unless it's something that was approved. That doesn't mean that everything is automatically garbage it just means I need to know what's going on before I waste time playing"
+
+[AI note] The agent then listed sixteen numbered differences between the v7 prototype and the game (1 to 9: built by earlier agents and recorded, no ruling from Pat found; 10 to 16: never recorded). The numbers in Pat's answer refer to that list: 5 sonar echoes, sectors and pulse cost; 7 tool numbers (Disrupt, decoy, survey); 9 most maps fully charted from the start; 10 objectives shown from the start; 11 Disrupt spends its charge with no Siren in range; 12 the survey is loud; 13 drones attract Sirens by movement noise; 14 factory proximity no longer raises suspicion; 15 a Siren's sight range is not drawn; 16 smaller numbers (extraction distance and speed, top speed).
+
+[PAT, chat, verbatim]
+"5. Is that realistic?
+7. What is disrupt? Is that emp?
+9. That's a complete fail. It's acceptable in maybe the first one to three missions as a tutorial in known waters, but the whole point is it's a recon and survey mission. You have to discover through exploration, sonar, photographs, recon sweeps but are temporary until you map them.
+
+10. Was probably a good choice for testing and should be left as a debug option but not primary for gameplay release.
+
+11. Yeah that's a failure
+
+12. That doesn't really make sense because it's supposed to be a recon plane in universe, we can discuss that.
+
+13. That's fine they should be stealthier than the sub but still able to fuck up and die
+
+14. Huge failure. It's an alien factory with sensors and protection. It should know you're there.
+
+15 explain? You mean like visibly on screen?
+
+16. I'll have to try that for testing."
+
+[AI note on effect] Rulings to build: 9 (charts are discovered; fully charted water only in the first one to three operations; survey sweeps are temporary until a craft maps the water), 10 (objectives shown from the start only as a debug option), 11 (Disrupt must not spend its charge with nothing in range), 14 (the factory senses a craft near it). Open with Pat: 12 (how a recon-plane survey should register with Sirens), 13 (drones are not in fact stealthier than the submarine today; whether to make them so), 15 (whether to draw a detected Siren's sight range). 16 and items 1 to 8 stay as built for the playtest.
+

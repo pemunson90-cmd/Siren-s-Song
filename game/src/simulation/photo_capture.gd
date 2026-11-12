@@ -67,13 +67,18 @@ static func target_in(mission:Dictionary,t:int)->Dictionary:
 static func label(o:Dictionary)->String:
 	return str(o.get("alias","UNIDENTIFIED CONTACT")) if o.get("unknown",false) and o.has("alias") else str(o.name)
 static func stage(o:Dictionary)->String:
-	if not o.get("unknown",false):return "resolved"
+	# WP-16: a named objective the player has not found yet is a search area too (parity_rules/site_search.gd).
+	if not o.get("unknown",false):return "lead" if preload("res://src/simulation/parity_rules/site_search.gd").hidden(o) else "resolved"
 	return "lead" if o.has("lead") and not o.get("sighted",false) else "sighted"
 static func lead_pos(o:Dictionary)->Vector2:
 	return o.pos+o.lead.get("off",Vector2.ZERO) if o.has("lead") else o.pos
 # The public view of an objective: unresolved subjects are named only as unknown.
 static func masked(o:Dictionary)->Dictionary:
-	if not o.get("unknown",false):return o
+	if not o.get("unknown",false):
+		if stage(o)!="lead":return o
+		var area:Dictionary=o.duplicate(true)
+		area["stage"]="lead";area["pos"]=lead_pos(o);area["lead_r"]=float(o.lead.get("r",150.0))
+		return area
 	var m:Dictionary=o.duplicate(true)
 	m["name"]=label(o);m["stage"]=stage(o)
 	if m.stage=="lead":m["pos"]=lead_pos(o);m["lead_r"]=float(o.lead.get("r",150.0))

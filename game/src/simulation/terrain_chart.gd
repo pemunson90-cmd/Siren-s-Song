@@ -16,8 +16,13 @@ var _grid_generation=-1
 var _known_grid:AStarGrid2D
 var _known_generation=-1
 var _known_paths:Dictionary={}
+# WP-16: cells and faces a survey sweep showed, with the time they lapse unless a
+# craft's own sensors map them first (parity_rules/). Never saved.
+var _provisional:Dictionary={}
+var _provisional_segments:Dictionary={}
 func configure(mission:Dictionary,shapes:Array,saved:Dictionary={})->void:
- dimensions=mission.world_size
+ dimensions=mission.get("world_size",preload("res://src/simulation/world_region.gd").LEGACY_SIZE)
+ _provisional={};_provisional_segments={}
  _shapes=shapes.duplicate(true);_bounds=[]
  for polygon in _shapes:_bounds.append(_box(polygon))
  clear_cells={};return_cells={};surface_segments=[];_surface_keys={};generation=0;_grid_generation=-1;_known_generation=-1;_known_paths={}
@@ -49,14 +54,25 @@ func open_structure(rect:Rect2,shapes:Array)->void:
   retained.append(segment);_surface_keys[_segment_key(segment)]=true
  surface_segments=retained;generation+=1;_grid_generation=-1
 func snapshot()->Dictionary:
- return {"generation":generation,"clear_cells":clear_cells.duplicate(),"return_cells":return_cells.duplicate(),"surface_segments":surface_segments.duplicate(true)}
+ if _provisional.is_empty() and _provisional_segments.is_empty():
+  return {"generation":generation,"clear_cells":clear_cells.duplicate(),"return_cells":return_cells.duplicate(),"surface_segments":surface_segments.duplicate(true)}
+ # A saved chart holds only what the craft mapped; a survey's passing picture is not kept.
+ var clear=clear_cells.duplicate();var back=return_cells.duplicate()
+ for cell in _provisional:clear.erase(cell);back.erase(cell)
+ var segments=surface_segments.filter(func(segment):return not _provisional_segments.has(_segment_key(segment))).duplicate(true)
+ return {"generation":generation,"clear_cells":clear,"return_cells":back,"surface_segments":segments}
 func public_chart()->Dictionary:
  return {"generation":generation,"cell_size":TILE,"world_size":dimensions,"clear_cells":clear_cells.keys(),"return_cells":return_cells.keys(),"surface_segments":surface_segments.duplicate(true)}
-func observe(receivers:Array,survey:Dictionary)->void:
+# now and memory: with memory>=0 a survey's cells and faces are provisional and
+# lapse at now+memory unless a receiver maps them first. memory<0 keeps them.
+func observe(receivers:Array,survey:Dictionary,now:float=-1.0,memory:float=-1.0)->void:
  for receiver in receivers:
   var origin:Vector2=receiver.pos;var radius:float=receiver.radius
   for cell in _cells(Rect2(origin-Vector2.ONE*radius,Vector2.ONE*radius*2)):
-   if clear_cells.has(cell) or return_cells.has(cell):continue
+   if clear_cells.has(cell) or return_cells.has(cell):
+    # A craft's own sensors map what a survey only showed.
+    if _provisional.has(cell) and _within(_rect(cell).grow(CLEARANCE),origin,radius) and _seen_rect(origin,_rect(cell).grow(CLEARANCE)):_provisional.erase(cell)
+    continue
    var rect=_rect(cell).grow(CLEARANCE)
    if _within(rect,origin,radius) and _water(rect) and _seen_rect(origin,rect):_clear(cell)
   _first_surfaces(origin,radius)
@@ -65,11 +81,26 @@ func observe(receivers:Array,survey:Dictionary)->void:
   for cell in _cells(Rect2(origin-Vector2.ONE*radius,Vector2.ONE*radius*2)):
    var rect=_rect(cell)
    if not _within(rect.grow(CLEARANCE),origin,radius):continue
+   var fresh=not clear_cells.has(cell) and not return_cells.has(cell)
    if _water(rect.grow(CLEARANCE)):_clear(cell)
    elif not _water(rect):_return(cell)
+   if memory>=0 and (fresh or _provisional.has(cell)) and (clear_cells.has(cell) or return_cells.has(cell)):_provisional[cell]=now+memory
   # Survey can earn every actual face in the finite disk, including occluded faces.
-  _first_surfaces(origin,radius,true)
-func _first_surfaces(origin:Vector2,radius:float,survey:bool=false)->void:
+  _first_surfaces(origin,radius,true,now+memory if memory>=0 else -1.0)
+ if memory>=0:_lapse(now)
+# Drops what a survey showed and no craft mapped in time.
+func _lapse(now:float)->void:
+ var changed=false
+ for cell in _provisional.keys():
+  if _provisional[cell]<=now:
+   _provisional.erase(cell);clear_cells.erase(cell);return_cells.erase(cell);changed=true
+ var lapsed={}
+ for key in _provisional_segments.keys():
+  if _provisional_segments[key]<=now:lapsed[key]=true;_provisional_segments.erase(key);_surface_keys.erase(key)
+ if not lapsed.is_empty():
+  surface_segments=surface_segments.filter(func(segment):return not lapsed.has(_segment_key(segment)));changed=true
+ if changed:generation+=1
+func _first_surfaces(origin:Vector2,radius:float,survey:bool=false,lapse_at:float=-1.0)->void:
  var disk=Rect2(origin-Vector2.ONE*radius,Vector2.ONE*radius*2)
  for i in _shapes.size():
   if not disk.intersects(_bounds[i],true):continue
@@ -85,9 +116,17 @@ func _first_surfaces(origin:Vector2,radius:float,survey:bool=false)->void:
      var triangle=Geometry2D.convex_hull(PackedVector2Array([origin,near_a,near_b]))
      if not _unobstructed(triangle):continue
     var segment=PackedVector2Array([first,last]);var key=_segment_key(segment)
+    var cell=Vector2i(first.lerp(last,0.5)/TILE)
+    var fresh_cell=not clear_cells.has(cell) and not return_cells.has(cell)
     if not _surface_keys.has(key):
      _surface_keys[key]=true;surface_segments.append(segment);generation+=1
-    _return(Vector2i(first.lerp(last,0.5)/TILE))
+     if lapse_at>=0:_provisional_segments[key]=lapse_at
+    elif _provisional_segments.has(key):
+     if lapse_at>=0:_provisional_segments[key]=lapse_at
+     else:_provisional_segments.erase(key) # mapped by a craft
+    _return(cell)
+    if lapse_at>=0 and (fresh_cell or _provisional.has(cell)) and return_cells.has(cell):_provisional[cell]=lapse_at
+    elif lapse_at<0 and _provisional.has(cell):_provisional.erase(cell)
 func _segment_key(segment:PackedVector2Array)->String:
  return str(segment[0])+":"+str(segment[1])
 # Seam for photo_rules/known_lane.gd: certifies one cell of open water along a lane
@@ -247,7 +286,7 @@ static func valid_state(value,mission:Dictionary)->bool:
  if not value is Dictionary or value.size()!=4 or not value.has_all(["generation","clear_cells","return_cells","surface_segments"]):return false
  if not value.generation is int or value.generation<0:return false
  if not value.clear_cells is Dictionary or not value.return_cells is Dictionary or not value.surface_segments is Array or value.surface_segments.size()>16000:return false
- var dimensions:Vector2=mission.world_size;var grid=Vector2i(dimensions/TILE)
+ var dimensions:Vector2=mission.get("world_size",preload("res://src/simulation/world_region.gd").LEGACY_SIZE);var grid=Vector2i(dimensions/TILE)
  if value.clear_cells.size()+value.return_cells.size()>grid.x*grid.y:return false
  for cells in [value.clear_cells,value.return_cells]:
   for cell in cells:

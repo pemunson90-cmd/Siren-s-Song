@@ -153,6 +153,12 @@ func execute(line:String)->String:
  if command=="step":
   mark();sim.paused=false;advance(sim.STEP/time_scale);sim.paused=true;return "Advanced one fixed tick."
  if command=="invulnerable":mark();invulnerable=not invulnerable;return "Invulnerable: "+str(invulnerable)
+ if command=="known":
+  # WP-16 developer option: charts and objectives known from the start of the next dive; this dive's objectives are marked now.
+  var Rules=preload("res://src/simulation/parity_rules/parity_rules.gd")
+  mark();Rules.debug_known=not Rules.debug_known
+  if Rules.debug_known:preload("res://src/simulation/parity_rules/site_search.gd").reveal_all(sim)
+  return "Known water and objectives: "+str(Rules.debug_known)+" (charts apply from the next dive)"
  if command=="oxygen":mark();sim.oxygen=120.;return "Oxygen refilled."
  if command=="end":
   mark();host.active_started=false;debrief();return "DEV dive ended. Setup commands are available."

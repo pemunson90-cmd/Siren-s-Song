@@ -19,7 +19,7 @@ func setup(id:String)->bool:
 	start(int(definition.op));return true
 func start(_index:int,_upgrade:String="endurance",_launch:Dictionary={})->void:
 	if definition.is_empty():return
-	super.start(int(definition.op),str(definition.loadout),{"fitted":Catalog.fitting(definition),"context":definition.get("context",{}).duplicate(true),"fleet_commit":false,DroneBay.FLAG:true})
+	super.start(int(definition.op),str(definition.loadout),{"fitted":Catalog.fitting(definition),"context":definition.get("context",{}).duplicate(true),"fleet_commit":false,DroneBay.FLAG:true,ParityRules.KEY:true})
 	launched=[];used={};loud_time=0.;rule_failure=""
 	for id in units.size():
 		if DroneBay.home(units[id]):launched.append(id)

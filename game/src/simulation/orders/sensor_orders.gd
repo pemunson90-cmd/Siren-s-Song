@@ -10,6 +10,7 @@ static func command(sim, order: String, args: Dictionary) -> bool:
 		"ping":
 			if sim.ping_time>0: return false
 			if not sim.Sonar.emit(sim,sim.selected):return false
+			sim.SiteSearch.pinged(sim,sim.selected,sim.Sonar.POWERS[sim.sonar.power].radius*(1.4 if sim.Sonar.prism_pulse(sim,sim.selected) else 1.))
 			sim.ping_time=Tuning.PING_FEEDBACK_TIME; sim.ping_origin=u.pos; sim.events.append({"type":"ping","pos":u.pos}); sim.message="Pulse away · wait for physical echoes · emission audible"
 			sim._observe()
 			if sim.mission.get("blackwater_revision",0)==1:

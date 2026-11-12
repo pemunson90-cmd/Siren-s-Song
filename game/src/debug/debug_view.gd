@@ -1,6 +1,6 @@
 extends PanelContainer
 # Touch-first scrolling developer panel. All interactive rows use the host's 48dp metric.
-const HELP="jump 0..41 | preset deep/shelf concealed/overt none/concealed/overt found/absent\nfact KEY VALUE | clear KEY | complete OP | grant ID [COUNT] | unlock\noverlay sight/hearing/patrol/hunt/locks/noise/endurance/cargo/chart\ntime 0.25..4 | step | invulnerable | oxygen | end | export | help\nProfile/run changes permanently mark DEV. Setup commands apply between dives."
+const HELP="jump 0..41 | preset deep/shelf concealed/overt none/concealed/overt found/absent\nfact KEY VALUE | clear KEY | complete OP | grant ID [COUNT] | unlock\noverlay sight/hearing/patrol/hunt/locks/noise/endurance/cargo/chart\ntime 0.25..4 | step | invulnerable | known | oxygen | end | export | help\nProfile/run changes permanently mark DEV. Setup commands apply between dives."
 var console
 var output:Label
 var entry:LineEdit

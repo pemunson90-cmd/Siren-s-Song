@@ -17,6 +17,7 @@ static func build(m:Dictionary)->void:
  var factory=Rect2(380,1300,600,360)
  var gate=Rect2(1300,2150,1100,300)
  m.structures=[factory,gate]
+ m["factory_sensors"]=[{"pos":factory.get_center(),"r":340.0}] # WP-16: the factory senses craft near it
  m.physical_gates=[{"id":"confluence_service_sluice","site_id":"confluence_repeater","closed_shape":gate,"opened":false}]
  m.landmarks=[{"id":"confluence_factory","pos":factory.get_center(),"rect":factory,"kind":"factory","source_id":"confluence_packet"}]
  m.currents=[{"center":Vector2(2770,3270),"radius":700.0,"velocity":Vector2(0,-26)},{"center":Vector2(1870,4620),"radius":500.0,"velocity":Vector2(-18,0)}]

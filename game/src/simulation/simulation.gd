@@ -9,6 +9,9 @@ const EnemyTypes=preload("res://src/simulation/enemy_types.gd")
 const GradeOnSecure=preload("res://src/photo_grade/grade_on_secure.gd")
 const LaunchLayout=preload("res://src/simulation/opening_fleet/launch_layout.gd")
 const DroneBay=preload("res://src/simulation/drone_bay/drone_bay.gd")
+const ParityRules=preload("res://src/simulation/parity_rules/parity_rules.gd")
+const SiteSearch=preload("res://src/simulation/parity_rules/site_search.gd")
+const FactorySensors=preload("res://src/simulation/parity_rules/factory_sensors.gd")
 const FieldTools=preload("res://src/simulation/field_tool_effects.gd")
 const Shelf=preload("res://src/simulation/shelf_habitat.gd")
 const Wake=preload("res://src/simulation/wake_crossing.gd")
@@ -147,6 +150,11 @@ func start(index: int, upgrade: String = "endurance", launch:Dictionary={}) -> v
 	if upgrade=="survey": tools.recon += 1
 	if upgrade=="endurance": oxygen=120.0
 	FieldTools.seed(self,upgrade)
+	# WP-16: on a player dive the chart and the objectives are discovered (parity_rules/).
+	if ParityRules.wanted(launch):
+		mission[ParityRules.KEY]=true
+		ParityRules.seed_chart(mission,world_size(),mission.get("start",Vector2(140,800)))
+		SiteSearch.prepare(mission)
 	if launch.has("tool_racks"):preload("res://src/equipment/tool_racks.gd").launch(self,launch.tool_racks)
 	_build_navigation()
 	_configure_terrain()
@@ -219,7 +227,7 @@ func _terrain_observe()->void:
 		if units[i].alive and units[i].band==geometry_band:receivers.append({"pos":units[i].pos,"radius":passive_range(i)})
 
 	var survey={"pos":mission.get("survey_origin",units[0].pos),"radius":560.0} if recon_time>0 else {}
-	terrain_chart.observe(receivers,survey)
+	terrain_chart.observe(receivers,survey,elapsed,ParityRules.survey_memory(mission))
 	if geometry_band==1:
 		known=terrain_chart.clear_cells.duplicate();mission["terrain_chart"]=terrain_chart.snapshot()
 func _course_block(u:Dictionary,reason:String)->void:
@@ -767,6 +775,7 @@ func _tick(dt: float) -> void:
 	AllStop.tick(self,dt)
 	Depth.advance(self,dt);Sonar.advance(self,dt); oxygen=maxf(0,oxygen-Endurance.oxygen_drain(mission,dt))
 	Recon.tick(mission,dt)
+	FactorySensors.tick(self,dt)
 	if mission.get("phase","")=="response": mission.response_time=mission.get("response_time",0.0)+dt
 	ping_time=maxf(0,ping_time-dt); recon_time=maxf(0,recon_time-dt)
 	for n in noises: n.time-=dt
@@ -805,7 +814,7 @@ func _tick(dt: float) -> void:
 	Concealed.tick(self,dt)
 	sensor_clock-=dt
 	if sensor_clock<=0:
-		_observe(); SignalField.observe(self); Consequences.observe(self); Photo.discover(self); sensor_clock=0.15
+		_observe(); SignalField.observe(self); Consequences.observe(self); Photo.discover(self); SiteSearch.tick(self); sensor_clock=0.15
 	for station in captures.size():
 		if captures[station].is_empty():continue
 		var work=captures[station];var u=units[station]; _use_band(u.band); var o=Photo.obj(self,work.target)
