@@ -1,6 +1,7 @@
 extends SceneTree
 # 127 (Pat 2026-10-30): scripted journeys here fly the dev/test pathfinder route; hand_pilot_journeys covers release play.
 const Sim=preload("res://src/simulation/simulation.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 const Glass=preload("res://tests/glass_reach_journeys.gd")
 const GlassVoyage=preload("res://tests/glass_fleet_voyage.gd")
 const Catalog=preload("res://src/campaign/operation_catalog.gd")
@@ -69,6 +70,8 @@ func ctx(row:Dictionary)->Dictionary:
  return h
 func _initialize():call_deferred("run")
 func run():
+ # Scripted route through authored water, not a discovery test: known-charts developer switch (the player rules leave this water uncharted).
+ var charts_before=PlayerDive.known_water(true)
  var earlier=Table.ROWS.filter(func(row):return row.op<30)
  var arc6=Table.ROWS.filter(func(row):return row.op>=30)
  check(earlier.size()>=6 and earlier.size()<=8,"earlier carry table retains 6 to 8 deltas")
@@ -119,6 +122,7 @@ func run():
  for row in arc6:
   arc6_journey(row,false)
   if row.kind=="mouth":arc6_journey(row,true)
+ PlayerDive.known_water(charts_before)
  print("CARRY CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)
 func arc6_journey(row:Dictionary,extra_mouth:bool):
  var s=Sim.new();s.start(row.op,"standard",{"context":ctx(row)});s.mission["dev"]=true

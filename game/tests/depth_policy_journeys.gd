@@ -1,5 +1,6 @@
 extends SceneTree
 const Sim=preload("res://src/simulation/simulation.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 var checks=0
 var failures=0
 func check(ok,label):
@@ -18,7 +19,9 @@ func travel(s,p):
   if s.units[0].pos.distance_to(p)<15 and s.units[0].vel.length()<2:s.paused=true;return true
  s.paused=true;return false
 func policy(active):
- var s=Sim.new();s.start(0)
+ # The active scout policy relied on the scout drone drawing the sweeper; under the player rules a calm Siren ignores a drone and the sweeper beams Quietus (vaporized at about 48 s). Re-authoring the policy is a design call, so this suite runs on the explicit legacy rules with the drones launched; reported.
+ var s=Sim.new();s.start(0,"endurance",{PlayerDive.Rules.KEY:false});PlayerDive.launch_drones(s)
+ for id in [1,2]:s.units[id].pos=s.units[0].pos+s.LaunchLayout.offset(0,id) # drones at their authored launch stations, as before the player rules
  # Baseline fleet; keep unused drones at their launch locations.
  if not active:
   check(s.command("depth",{"band":2}),"quiet policy deliberately dives");tick(s,4.1)

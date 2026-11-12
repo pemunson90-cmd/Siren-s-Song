@@ -1,4 +1,5 @@
 extends SceneTree
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 var game
 var checks=0
 var failures=0
@@ -52,7 +53,7 @@ func run():
 		for option in starts:
 			var s=starts[option];var row="%s · %d%% / %d / %d"%[preload("res://src/equipment/field_tools.gd").loadout_label(option),s.oxygen,s.tools.emp,s.tools.recon]
 			check("O₂ / EMP / SURVEY" in text and row in text,"comparison exposes actual "+option+" stock while "+choice+" selected")
-		var ordinary=starts[choice];var drones=ordinary.units.slice(1).filter(func(u):return u.alive).size()
+		var ordinary=starts[choice];var drones=ordinary.units.slice(1).filter(func(u):return u.alive or PlayerDive.Bay.aboard(u)).size() # drones aboard Quietus count: they are launched from it
 		check("TOOLS:" in text and ("%d DECOYS"%ordinary.tools.decoy) in text and ("%d DRONES"%drones) in text,"common equipment matches actual start while "+choice+" selected")
 		check(button("resume")!=null and button("resume").text.begins_with("RESUME DIVE") and game.sim.snapshot()==active,"selection explains active equipment preservation")
 		check(game.sim.snapshot()==active,"cycling next-dive choice preserves spent resources and paused route")

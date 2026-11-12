@@ -1,6 +1,7 @@
 extends SceneTree
 const Feed=preload("res://src/presentation/camera_feed.gd")
 const Sim=preload("res://src/simulation/simulation.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 var checks=0
 var failures=0
 func _initialize():call_deferred("run")
@@ -17,7 +18,7 @@ func run():
  var sim=Sim.new()
  # The retained compatible sluice is a capture-clock fixture; Warning Chain now uses plant controls.
  for unit in [1,0]:
-  sim.start(12,"disruption",{"fitted":{"quietus":"","drone_a":"drone_sampler","drone_b":""}});sim.sirens=[]
+  sim.start(12,"disruption",{"fitted":{"quietus":"","drone_a":"drone_sampler","drone_b":""}});PlayerDive.launch_drones(sim);sim.sirens=[]
   sim.units[unit].pos=sim.mission.objectives[0].pos+Vector2(0,80);sim.units[unit].vel=Vector2.ZERO;sim.command("select",{"unit":unit})
   check(sim.command("camera"),"actual compatible receiver starts for unit%d"%unit)
   sim.paused=false

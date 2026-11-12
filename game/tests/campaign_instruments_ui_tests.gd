@@ -1,4 +1,5 @@
 extends SceneTree
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 const Equipment=preload("res://src/presentation/equipment_context.gd")
 const Catalog=preload("res://src/equipment/equipment_catalog.gd")
 var checks=0
@@ -52,7 +53,7 @@ func live_fitting(game):
   await show_tab(game,slot,item.name);await menu_tap(game,menu_button(game,"fit_"+slot,item.name))
   check(game.fitted_equipment[slot]==id,"actual fitting row selects canonical "+item.name)
   await launch(game)
-  var sim=game.sim;sim.sirens=[]
+  var sim=game.sim;sim.sirens=[];PlayerDive.launch_drones(sim);game._refresh();await settle()
   check(sim.equipment_feedback().fitted[slot]==id,"actual ENTER WATER freezes launched "+item.name)
   await tap(game.mission_hud.fleet.buttons[unit].get_global_rect().get_center())
   if not game.advanced_orders:await tap(game.mission_hud.fleet.buttons[unit].get_global_rect().get_center())
@@ -68,7 +69,7 @@ func live_fitting(game):
   game.mission_hud.dismiss();await settle()
  # Old specialized details remain independent of this canonical status name.
  var sim=load("res://src/simulation/simulation.gd").new()
- sim.start(7,"endurance",{"fitted":{"quietus":"quietus_correlator","drone_a":"drone_sampler","drone_b":""}})
+ sim.start(7,"endurance",{"fitted":{"quietus":"quietus_correlator","drone_a":"drone_sampler","drone_b":""}});PlayerDive.launch_drones(sim)
  check("CADENCE CORRELATOR" in Equipment.status(sim),"existing correlator retains its named specialized status")
  sim.command("select",{"unit":1});check("FIELD SAMPLER" in Equipment.status(sim),"existing field sampler retains its named specialized status")
  sim.command("select",{"unit":2});check(Equipment.status(sim).is_empty(),"bare station still has no fitted-equipment status")
@@ -96,7 +97,7 @@ func run():
   var name="cover" if dimensions.x==2520 else "inner"
   await picture(name+"-fitting-fixture")
   await live_fitting(g)
-  g._start_mission(7);await settle()
+  g._start_mission(7);PlayerDive.launch_drones(g.sim);g._refresh();await settle()
   # Local acquisition geometry fixture: real passive reception earns site first.
   g.sim.units[0].pos=Vector2(540,800);g.sim.units[0].vel=Vector2.ZERO;g.sim.paused=false;g.sim.advance(.1);g.sim.paused=true
   g.ocean.focus_craft();g._refresh();await settle()

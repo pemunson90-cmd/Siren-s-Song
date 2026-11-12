@@ -1,4 +1,5 @@
 extends SceneTree
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 # Public-projection fixtures, not earned sampling or model finishability proof.
 class DeliverySim:
  extends "res://src/simulation/simulation.gd"
@@ -52,7 +53,7 @@ func run():
   root.size=dimensions;await settle()
   var game=load("res://scenes/main.tscn").instantiate();game.set_script(load("res://tests/density_main.gd"));game.capture_scenario="blackwater-delivery-ui-fixture"
   if dimensions.x==2520:game.fixture_safe_area=Rect2(136,0,2384,1080)
-  root.add_child(game);await settle();game.set_process(false);game.sim=DeliverySim.new();game._start_mission(2);await settle()
+  root.add_child(game);await settle();game.set_process(false);game.sim=DeliverySim.new();game._start_mission(2);PlayerDive.launch_drones(game.sim);game._refresh();await settle()
   var sim=game.sim;var h=game.mission_hud;var label="cover" if dimensions.x==2520 else "inner";var before=sim.snapshot()
   check("0/2" in View.summary(sim) and "2/2" in View.summary(sim) and sim.snapshot()==before,"read-only summary distinguishes two retained notes from zero packets aboard")
   check("REQUEST" in h.fleet.telemetry[1].text and "REPLY" in h.fleet.telemetry[2].text and "BUFFER" in h.fleet.telemetry[1].text,"remote craft telemetry identifies actual packet cargo without claiming delivery")
@@ -113,7 +114,7 @@ func run():
   await capture(label+"-combined-wreck")
   h.open("salvage",{"kind":"salvage","item":"drone_deep_cells","name":"WRECK RECOVERY","pos":sim.wreck_sites[0].pos});await settle();await tap(h.extra.salvage.get_global_rect().get_center())
   check(sim.requests.back()=={"order":"salvage","args":{"item":"drone_deep_cells"}},"one explicit winch command addresses the combined public wreck site")
-  game._start_mission(0);game._refresh();await settle();h.open("craft");await settle()
+  game._start_mission(0);PlayerDive.launch_drones(game.sim);game._refresh();await settle();h.open("craft");await settle()
   check(not h.extra.blackwater_handoff.visible and not h.extra.blackwater_data.visible and "BUFFER" not in h.fleet.telemetry[0].text,"delivery affordances disappear outside Blackwater without changing tutorial craft controls")
   game.queue_free();await settle()
  finish()

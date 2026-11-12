@@ -55,7 +55,8 @@ func run():
   # are separate. Only our craft pose is staged; contacts must be physically earned.
   g.sim.units[0].pos=Vector2(790,550);g.sim.units[0].angle=-1.33;g._refresh()
   h.open("acoustics");await settle();var reserve=g.sim.oxygen;await click(h.extra.sonar_emit)
-  check(g.sim.oxygen<reserve and not g.sim.sonar.pending.is_empty(),"actual pulse spends energy and waits for echoes")
+  # Until 2026-11-12 (player rules, Pat: Quietus sonar "shouldn't cost oxygen") this was: check(g.sim.oxygen<reserve and not g.sim.sonar.pending.is_empty(),"actual pulse spends energy and waits for echoes")
+  check(is_equal_approx(g.sim.oxygen,reserve) and not g.sim.sonar.pending.is_empty(),"actual Quietus pulse costs no life support and waits for echoes")
   g.sim.paused=false
   for n in 156:g.sim.advance(1./60)
   g.sim.paused=true;g._refresh()

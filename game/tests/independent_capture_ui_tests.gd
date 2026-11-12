@@ -1,4 +1,5 @@
 extends SceneTree
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 var checks=0
 var failures=0
 var game
@@ -24,7 +25,7 @@ func run():
  for dimensions in [Vector2i(2520,1080),Vector2i(2184,1968)]:
   root.size=dimensions;await settle()
   game=load("res://scenes/main.tscn").instantiate();game.capture_scenario="independent-capture-ui"
-  game.set_script(preload("res://tests/density_main.gd"));root.add_child(game);await settle();game.set_process(false);game._start_mission(1)
+  game.set_script(preload("res://tests/density_main.gd"));root.add_child(game);await settle();game.set_process(false);game._start_mission(1);PlayerDive.launch_drones(game.sim);game._refresh();
   for pair in [[1,0],[2,1]]:game.sim.units[pair[0]].pos=game.sim.mission.objectives[pair[1]].pos+Vector2(0,100)
   await settle()
   for id in [2,1]:
