@@ -64,7 +64,8 @@ func active_overlap():
 	var s = fixture()
 	var reserve = s.oxygen
 	check(s.command("ping"), "coincident source does not prevent a real sonar pulse")
-	check(s.oxygen == reserve - .4 and s.sonar.listening_until[0] > s.elapsed, "pulse keeps its existing cost and listening window")
+	# Player rule (Pat, 2026-11-12): Quietus's sonar costs no life support. The listening window is unchanged.
+	check(is_equal_approx(s.oxygen, reserve) and s.sonar.listening_until[0] > s.elapsed, "pulse keeps its listening window and costs Quietus no life support")
 	check(not s.sonar.pending.any(func(packet): return packet.kind == "echo"), "coincident reflection supplies no directionless pending echo")
 	roundtrip(s, "active")
 	Sonar.advance(s, 0.0)

@@ -1,4 +1,5 @@
 extends SceneTree
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 var checks=0
 var failures=0
 func check(ok,label):
@@ -18,7 +19,7 @@ func run():
   root.size=dimensions;await settle()
   var game=load("res://scenes/main.tscn").instantiate();game.set_script(load("res://tests/density_main.gd"));game.capture_scenario="view-controls-menu"
   if dimensions.x==2520:game.fixture_safe_area=Rect2(136,0,2384,1080)
-  root.add_child(game);await settle();game.set_process(false);game._start_mission(0);await settle()
+  root.add_child(game);await settle();game.set_process(false);game._start_mission(0);PlayerDive.launch_drones(game.sim);game._refresh();await settle() # both drones start aboard; this menu lists the craft in the water
   var hud=game.mission_hud;var before=game.sim.snapshot()
   var water_actions=hud.action_controls().keys()
   check(water_actions.size()==6 and ["pause","more_orders","fleet_q","fleet_a","fleet_b","hunt_meter"].all(func(key):return key in water_actions),"water keeps camera sizing controls inside menu beside own craft instruments")

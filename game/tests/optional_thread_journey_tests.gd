@@ -1,9 +1,12 @@
 extends "res://tests/calder_trench_journey_tests.gd"
 # 127 (Pat 2026-10-30): scripted journeys here fly the dev/test pathfinder route; hand_pilot_journeys covers release play.
 # Two source-known, bare Quietus voyages; no staged craft, threats or captures.
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 const Photo=preload("res://src/simulation/photo_capture.gd")
 const Layouts=preload("res://src/campaign/encounters/optional_layouts.gd")
 func run():
+ # Scripted voyages through authored water the player rules leave uncharted; this suite is not about discovery, so it uses the developer known-charts switch.
+ var charts_before=PlayerDive.known_water(true)
  for id in [38,39]:
   var s=Sim.new();s.start(id);s.mission["dev"]=true
   var stock=s.tools.duplicate(true)
@@ -18,6 +21,7 @@ func run():
   check(s.sirens.size()==2 and s.units[0].alive and s.hull>0,"authored threats remain live "+str(id))
   check(Sim.valid_snapshot(s.snapshot()),"recovered save validates "+str(id))
   print("OPTIONAL THREAD ROUTE ",id," outcome=",s.outcome," time=",s.elapsed," hull=",s.hull," oxygen=",s.oxygen," pos=",s.units[0].pos," message=",s.message)
+ PlayerDive.known_water(charts_before)
  print("OPTIONAL THREAD JOURNEY CHECKS %d FAILURES %d"%[checks,failures]);quit(1 if failures else 0)
 func leg(s,p:Vector2)->bool:
  var reached=go(s,p)

@@ -1,5 +1,6 @@
 extends SceneTree
 const Sim=preload("res://src/simulation/simulation.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 const Program=preload("res://src/simulation/route_program.gd")
 var checks=0
 var failures=0
@@ -34,6 +35,8 @@ func analytic_geometry():
  check(not s._player_leg_safe(Vector2(520,500),Vector2(500,520)),"crossing only expanded right and bottom boundaries still intersects structure interior")
  check(s._player_leg_safe(Vector2(520,504),Vector2(504,520)) and not s._player_leg_safe(Vector2(280,296),Vector2(296,280)),"grown AABB single-corner touch preserves excluded maximum and included minimum")
 func _initialize():
+ # Course repair runs through authored Well water the player rules leave uncharted; this suite is about course following, not discovery, so it uses the developer known-charts switch.
+ var charts_before=PlayerDive.known_water(true)
  analytic_geometry()
  var s=displaced();var u=s.units[0];var goal=s.route_goals();var undo=u.get("route_undo",[]).duplicate(true)
  check(not s.segment_safe(u.pos,u.route[0].pos,12),"earned displaced leg is physically obstructed despite retained accepted endpoint")
@@ -78,4 +81,5 @@ func _initialize():
  var own=wall.units[0];own.pos=Vector2(514,350);own.angle=-PI/2;wall.command("route",{"point":Vector2(470,200)});wall.command("route_edit",{"index":0,"stop":false})
  own.route=[{"pos":Vector2(470,200),"stop":false,"goal":true,"mode":"inherit"}];wall.paused=false;wall.advance(1.0/60)
  check(own.route.size()>1 and own.route[0].stop and not own.route.back().stop and wall.route_goals()[0].stop==false,"repair preserves near-wall recovery safety STOP separately from operator PASS")
+ PlayerDive.known_water(charts_before)
  print("TURN SAFE NAVIGATION CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)
