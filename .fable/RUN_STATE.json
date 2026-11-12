@@ -2,11 +2,11 @@
   "run_id": "overhaul-20261111",
   "status": "RUNNING",
   "phase": "8-audit",
-  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: Merge WP-20 (chart mesh cache, branch wp-20-chart-mesh at 6dc97279, reviewer running) after its verdict; collect WP-21 (fetch screen data once per function, branch wp-21-fetch-once from 44465f51, implementer running), review, merge; then A6 names registry (root designs the constants home in simulation/enemy_types.gd and new label files, implementer replaces literals), A5, A7, A8. A2's HUD 10 Hz throttle and cross-call caches wait for A8's named doors and the A1 drawing measurement",
+  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: Collect WP-21 (fetch screen data once per function, branch wp-21-fetch-once from 44465f51, Sonnet implementer running), review, merge. Then A6 names registry, A5 (player rules as the default), A7, A8. One GitHub run of the render suites is owed for WP-20 pixel checks at the next package build",
   "base_ref": "origin/claude/integration",
   "base_sha": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
   "run_branch": "fable/overhaul-20261111",
-  "run_head": "44465f51cb7f55f0cc5af3f9bf0a49ca5d2b386d",
+  "run_head": "4c0079ecc678a7a13ba7367c676813f90f6e2254",
   "shared_tips": {
     "claude/integration": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
     "main": "f5b66a198e3878950325f8c45a0bc6bc29dcba84",
@@ -35,10 +35,10 @@
     "WP-17": "merged",
     "WP-18": "merged",
     "WP-19": "merged",
-    "WP-20": "review",
+    "WP-20": "merged",
     "WP-21": "building"
   },
   "decisions_open": 0,
-  "last_checkpoint": "WP-19 done (44465f51); WP-20 in review; WP-21 building",
-  "updated": "2026-11-12 14:37:28"
+  "last_checkpoint": "WP-19 and WP-20 merged; WP-21 building",
+  "updated": "2026-11-12 14:39:17"
 }

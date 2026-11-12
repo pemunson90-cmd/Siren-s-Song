@@ -395,3 +395,4 @@ ops_title_control_tests|OPS TITLE CONTROL|1419|1419
 drone_bay_tests|DRONE BAY|1420|1420
 parity_rules_tests|PARITY RULES|1421|1421
 legacy_observe_equivalence_tests|LEGACY OBSERVE|1422|1422
+chart_cache_tests|CHART CACHE|1423|1423
