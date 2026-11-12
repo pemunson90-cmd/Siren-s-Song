@@ -1,5 +1,7 @@
 # Documentation inventory
 
+Status: COMPLETE (2026-11-11, Phase 1). Phase 3 executes it; rows are not edited afterwards.
+
 Every tracked documentation file on the base (`cabd5bd5`, 57 Markdown files outside the run's own folders), with its last commit date, role and class. Each file was read in full: the governing files, the specification and the rulings by the root session, the rest by a read-only explorer whose report the root reviewed. Classes follow charter section 6.2:
 
 - **LIVE:** stays. "LIVE, fix" means stale statements are corrected in place in Phase 3.

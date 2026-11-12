@@ -28,7 +28,7 @@ Produced by `scripts/repo/branch_ledger.py` on 2026-11-11 from the local remote-
 | `archive/archaeology-siren-20261106` | fa13bd27 | 2026-11-06 | Claude | 2/0 | 3/1320 | no | none | commit within 10 days |
 | `claude/archaeology-lookup` | 68133f46 | 2026-11-06 | Claude | 2/0 | 3/1320 | no | #261 OPEN | open PR #261 |
 | `docs/project-ledger-20261024` | 7dc09ad9 | 2026-10-24 | pemunson90-cmd | 1/1 | 1/1320 | no | #139 OPEN | open PR #139 |
-| `fable/overhaul-20261111` | f5bc2774 | 2026-11-11 | pemunson90-cmd | 1323/1 | 3/0 | no | none | run branch |
+| `fable/overhaul-20261111` | 874a92c9 | 2026-11-11 | pemunson90-cmd | 1325/1 | 5/0 | no | none | run branch |
 | `item/130-control-mix` | 82db3d60 | 2026-11-01 | pemunson90-cmd | 1223/1 | 0/97 | claude/integration | #247 MERGED | commit within 10 days |
 | `item/131-crash-possible` | 591959e3 | 2026-11-01 | pemunson90-cmd | 1234/1 | 0/86 | claude/integration | #255 MERGED | commit within 10 days |
 | `item/133-recovery-manifest` | 3adffb66 | 2026-11-01 | pemunson90-cmd | 1231/1 | 0/89 | claude/integration | #249 MERGED | commit within 10 days |

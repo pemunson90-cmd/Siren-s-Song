@@ -1,5 +1,7 @@
 # Survey working notes (root, Phase 1)
 
+Status: LIVE NOTES (working notes for the root session; superseded by SURVEY.md and HANDOFF.md where they overlap)
+
 Working notes that survive context compaction. The finished survey is `.fable/SURVEY.md`. These notes are facts read from the named files on 2026-11-11.
 
 ## Session facts

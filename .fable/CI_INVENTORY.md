@@ -1,5 +1,7 @@
 # CI inventory
 
+Status: COMPLETE (2026-11-11, Phase 1). Recheck at Phase 3 when workflows change.
+
 Read on 2026-11-11 from `.github/workflows/` at base `cabd5bd5` and from `gh run list`. Durations are wall-clock times of recent runs on GitHub.
 
 ## Workflows
