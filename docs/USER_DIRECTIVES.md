@@ -581,3 +581,11 @@ You should be using the absolute bare minimum amount of tests always."
 
 [AI note on effect] The start command `.claude/commands/siren-s-start-fable.md` was rewritten on this instruction to resume into phase 8 with Pat's standing rules (minimum tests, no unnecessary Actions runs, cheapest capable agents in small batches, plain English, a short update every few minutes). The run is paused for a context clear.
 
+
+## 2026-11-12: code base audit fixes approved; build a professional code base
+
+[AI note] The agent had listed twelve fixes, A1 to A12, in `.fable/CODE_AUDIT.md` section 3 with a recommendation for each: yes to A1 to A8 and A10 (A7 after A5; A8 after A5 and A6, in small steps; A10's change only if a hitch is measured), A9 later, no to A11 and A12.
+
+[PAT, chat, verbatim] "Yes to all of your recs. We should be building this as a professional video game code base, not a scrapped together prototype anymore. There's enough of a base here that it's worth expanding on and building this game but it needs a foundation that's not going to break every time we change a variable or a name"
+
+[AI note on effect] Fixes A1 to A8 and A10 are approved and are built one work package each (WP-19 onward), starting with A4 (the opening-operation sensing stutter), A3 and A2. A9 waits. A11 and A12 are not done. The standard for new and reworked code from here on is the one Pat states: names and numbers defined once, and changes that do not break distant files.

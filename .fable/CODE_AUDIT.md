@@ -141,6 +141,8 @@ The four right-hand columns are total microseconds over the 60 simulated seconds
 
 The slow group is exactly the opening operations a new player meets first (operation 1 is the exception). They take the older sensing path in `Simulation._observe`: with no depth charts, every sensor pulse re-tests every map cell that is not yet known to be water, and cells that can never be seen are re-tested forever. Later operations use the newer chart and skip that loop. Fix A4 covers it (remember cells already tested from the same craft positions, or move these operations onto the newer chart); results must stay identical. Log: `%USERPROFILE%\.cache\sirens-song-toolchain\artifacts\fable-p8-perfall-133257\performance_measurements.log`.
 
+**Fixed the same day (WP-19).** The pulse now skips cells outside every craft's reach. Same probe, same desktop, 15 simulated seconds, identical save hashes before and after: operation 0 mean 2,607 to 797 and worst 20,868 to 2,525; operation 2 mean 3,063 to 1,095 and worst 23,559 to 2,641; operation 3 mean 2,754 to 935 and worst 23,017 to 3,622; operation 4 mean 2,932 to 1,169 and worst 22,031 to 3,103; operation 5 mean 3,031 to 1,242 and worst 22,938 to 4,147 (microseconds). The core test run also fell from about 180 to 110 seconds.
+
 ## 5. Method
 
 - Size and shape: root, one Python script over `game/src` and `game/tests`.

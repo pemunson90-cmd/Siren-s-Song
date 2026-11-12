@@ -1,12 +1,12 @@
 {
   "run_id": "overhaul-20261111",
-  "status": "STUCK",
+  "status": "RUNNING",
   "phase": "8-audit",
-  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: Pat answers fixes A1 to A12 in .fable/CODE_AUDIT.md section 3 (yes or no each); build approved ones per PHASE8.md 8.3, one work package each, A4's opening-operation sensing fix first if approved. Then 8.4 Pat's playtest feedback",
+  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: Audit fixes approved by Pat (A1 to A8, A10): next A3 (chart drawn from a stored mesh, implementer) and A2 (per-step caches for screen data), then the rest of A4, A6, A5, A7, A8 per CODE_AUDIT.md section 3",
   "base_ref": "origin/claude/integration",
   "base_sha": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
   "run_branch": "fable/overhaul-20261111",
-  "run_head": "017184b1a3a22b7dc1a3f6f3ee376972b8cdc1e8",
+  "run_head": "1df6e20b5bc9b2f16988142d87161e34f6a7b56c",
   "shared_tips": {
     "claude/integration": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
     "main": "f5b66a198e3878950325f8c45a0bc6bc29dcba84",
@@ -33,9 +33,10 @@
     "WP-15": "merged",
     "WP-16": "merged",
     "WP-17": "merged",
-    "WP-18": "merged"
+    "WP-18": "merged",
+    "WP-19": "merged"
   },
   "decisions_open": 0,
-  "last_checkpoint": "Phase 8: WP-17 and WP-18 done and pushed; every remaining item waits on Pat (A1 to A12, playtest feedback, N-1 to N-7)",
-  "updated": "2026-11-12 13:34:20"
+  "last_checkpoint": "WP-19 (A4 part 1, opening-operation sensing) done; Pat approved A1 to A8 and A10",
+  "updated": "2026-11-12 14:31:55"
 }

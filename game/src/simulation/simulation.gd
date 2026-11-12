@@ -1051,10 +1051,15 @@ func _observe() -> void:
 			if known.get(cell,false)==true:continue
 			if visible(Vector2(cell)*TILE+Vector2.ONE*TILE/2):known[cell]=true
 	else:
+		# A4: same cells in the same order as the full 24x40 scan. A cell outside
+		# every live craft's reach square cannot pass visible() unless a legacy
+		# survey is running (it shows the whole map), so those cells are skipped.
+		var reach=[] if recon_time>0 else WorldRegion.reach_squares(self)
 		for y in 24:
 			for x in 40:
 				if known.get(Vector2i(x,y),false)==true:continue
 				var p=Vector2(x*40+20,y*40+20)
+				if recon_time<=0 and not WorldRegion.in_reach(reach,p):continue
 				if visible(p): known[Vector2i(x,y)]=true
 	for i in sirens.size():
 		if contact_visible(sirens[i]):
