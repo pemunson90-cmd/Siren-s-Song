@@ -1,5 +1,6 @@
 extends SceneTree
 const Manifest=preload("res://src/presentation/recovery_manifest.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 class ManifestSim:
  extends "res://src/simulation/simulation.gd"
  var mouth=Vector2(300,800)
@@ -36,7 +37,7 @@ func stage(game,drone_b_out:bool):
  s.paused=false;s.outcome="";s.requests.clear();game.screen="mission"
 func run():
  # Pure projection first: no scene needed.
- var probe=ManifestSim.new();probe.start(0)
+ var probe=ManifestSim.new();probe.start(0);PlayerDive.launch_drones(probe)
  for id in 3:probe.units[id].alive=true;probe.units[id].band=1;probe.units[id].transition={};probe.units[id].vel=Vector2.ZERO;probe.units[id].pos=probe.mouth
  check(Manifest.entries(probe).all(func(r):return r.in),"every craft at the mouth is IN")
  probe.units[2].pos=probe.mouth+Vector2(400,0)
@@ -48,7 +49,7 @@ func run():
  root.size=Vector2i(2520,1080);await settle()
  var game=load("res://scenes/main.tscn").instantiate();game.set_script(load("res://tests/density_main.gd"));game.capture_scenario="module-recovery-ui-fixture"
  game.fixture_safe_area=Rect2(136,0,2384,1080)
- root.add_child(game);await settle();game.set_process(false);game.sim=ManifestSim.new();game._start_mission(0);await settle()
+ root.add_child(game);await settle();game.set_process(false);game.sim=ManifestSim.new();game._start_mission(0);await settle();PlayerDive.launch_drones(game.sim)
  var s=game.sim
  # Drone B outside recovery: EXTRACT shows the manifest and nothing else happens.
  stage(game,true);game._recovery_route();await settle()

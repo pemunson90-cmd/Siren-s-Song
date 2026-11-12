@@ -185,7 +185,7 @@ func manual_craft_fixture(shape:Vector2i):
  root.size=shape;await settle()
  var game=load("res://scenes/main.tscn").instantiate();game.set_script(load("res://tests/density_main.gd"));game.capture_scenario="route-telemetry-touch-fixture"
  if shape.x==2520:game.fixture_safe_area=Rect2(136,0,2384,1080)
- root.add_child(game);await settle();game.set_process(false);game._start_mission(0);await settle()
+ root.add_child(game);await settle();game.set_process(false);game._start_mission(0);await settle();preload("res://tests/fixtures/player_dive.gd").launch_drones(game.sim)
  var sim=game.sim;var hud=game.mission_hud;var fleet=hud.fleet
  sim.sirens=[];sim.mission.rocks=[];sim.mission.structures=[];sim.mission.objectives=[];sim._build_navigation()
  sim.units[0].pos=Vector2(450,620);sim.units[1].pos=Vector2(900,720);sim.units[2].pos=Vector2(1460,160)
