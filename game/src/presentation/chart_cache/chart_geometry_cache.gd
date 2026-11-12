@@ -37,8 +37,10 @@ static func request(view,slot:String,data:Dictionary,extra:Array,color_fn:Callab
 	var cache=caches.get(slot)
 	if cache==null:
 		cache=load("res://src/presentation/chart_cache/chart_geometry_cache.gd").new();caches[slot]=cache;view.set_meta(META,caches)
+	# The content hashes matter: one view outlives many dives, and a new dive or a
+	# restored save can reuse a generation number with the same counts but other cells.
 	var clear:Array=data.get("clear_cells",[]);var faces:Array=data.get("surface_segments",[])
-	var wanted:Array=[data.get("generation"),float(data.get("cell_size",40.)),clear.size(),faces.size(),Palette.high_contrast(),extra]
+	var wanted:Array=[data.get("generation"),float(data.get("cell_size",40.)),clear.size(),faces.size(),clear.hash(),faces.hash(),Palette.high_contrast(),extra]
 	if cache.key!=wanted:cache._rebuild(data,wanted,color_fn)
 	return cache
 func _rebuild(data:Dictionary,wanted:Array,color_fn:Callable)->void:

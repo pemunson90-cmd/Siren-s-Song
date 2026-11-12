@@ -74,6 +74,15 @@ func run():
 	var fewer=chart(2);fewer.clear_cells=fewer.clear_cells.slice(0,3)
 	Cache.request(view,"t",fewer,[Color.RED],fill_color)
 	check(cache.rebuilds==6 and cache.quads.size()==12,"same counter but different cells rebuilds")
+	# Another dive on the same view: same generation, same counts, other cells and faces.
+	var moved=chart(2);moved.clear_cells=moved.clear_cells.slice(0,3);moved.clear_cells[2]=Vector2i(30,20)
+	Cache.request(view,"t",moved,[Color.RED],fill_color)
+	check(cache.rebuilds==7 and cache.quads[8]==Vector2(1200,800),"same counter and counts but a different cell rebuilds")
+	var bent=moved.duplicate(true);bent.surface_segments[0]=PackedVector2Array([Vector2(10,10),Vector2(55,12)])
+	Cache.request(view,"t",bent,[Color.RED],fill_color)
+	check(cache.rebuilds==8 and cache.face_points[1]==Vector2(55,12),"same counter and counts but a different rock face rebuilds")
+	Cache.request(view,"t",bent.duplicate(true),[Color.RED],fill_color)
+	check(cache.rebuilds==8,"an equal copy of the chart does not rebuild")
 	# Region path: styled chart uses the cache too.
 	var style={"floor":Color(.1,.2,.2),"stone":Color(.4,.5,.5),"edge":Color(.7,.8,.8)}
 	var region=Canvas.new()
