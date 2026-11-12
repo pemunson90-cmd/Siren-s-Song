@@ -2,11 +2,11 @@
   "run_id": "overhaul-20261111",
   "status": "RUNNING",
   "phase": "1-survey",
-  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: finish Phase 1: write .fable/COLD_REVIEW_6.md from the three blind critics, finish section 7 of .fable/SURVEY.md, review and commit .fable/PROTECTED_CAPABILITIES.md",
+  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: review .fable/PROTECTED_CAPABILITIES.md (DRAFT), finish the critic work from the three journals (see NOW.md), write .fable/COLD_REVIEW_6.md, finish section 7 of .fable/SURVEY.md, then Phase 2",
   "base_ref": "origin/claude/integration",
   "base_sha": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
   "run_branch": "fable/overhaul-20261111",
-  "run_head": "f5b950203c1682b3a046d196fe0979e6939d33a7",
+  "run_head": "7084d3febea89ea366f7e0651c4b784c265b4313",
   "shared_tips": {
     "claude/integration": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
     "main": "f5b66a198e3878950325f8c45a0bc6bc29dcba84",
@@ -15,9 +15,10 @@
     "claude/workflow-v2": "9624f1fba433008bf8534d194bc8b768658f5479"
   },
   "work_packages": {
-    "WP-00": "review"
+    "WP-00": "review",
+    "WP-01": "review"
   },
   "decisions_open": 7,
-  "last_checkpoint": "Phase 1 in progress: DOC_INVENTORY, BRANCH_LEDGER, CI_INVENTORY done; SURVEY sections 1 to 6 done; PROTECTED_CAPABILITIES, COLD_REVIEW_6 and SURVEY section 7 pending",
-  "updated": "2026-11-11 21:22:49"
+  "last_checkpoint": "Phase 1 in progress: DOC_INVENTORY, BRANCH_LEDGER, CI_INVENTORY, SURVEY sections 1 to 6 done; PROTECTED_CAPABILITIES drafted, unreviewed; critics partial (journals only); COLD_REVIEW_6 and SURVEY section 7 pending",
+  "updated": "2026-11-12 03:35:53"
 }

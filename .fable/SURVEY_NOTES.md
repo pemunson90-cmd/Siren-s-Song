@@ -73,3 +73,11 @@ Verbatim: "Save files are minor priority because the game isnt even finished yet
 ## Line endings (for WP-03)
 
 `git ls-files --eol`: 1,334 files are LF in the index and CRLF in the working copy (this clone has `core.autocrlf=true`), 10 files are CRLF in the index (`game/src/campaign/sweeper_patrols.gd` and nine test files), 2 are mixed (`game/src/diagnostics/ai_trace.gd`, `ai_trace_table.gd`). Plan: `.gitattributes` with `* text=auto eol=lf`, binaries marked, and `reference/**`, `references/**` and `game/tests/fixtures/**` set `-text` so provenance bytes and fixtures never convert; one normalization commit for the 12 files.
+
+## Critic assignments (for relaunch)
+
+Every critic gets: no source, no repository documents, no git; read only the two files in the kit's brief folder; budget 110 kit commands (a batch counts as one); screenshots at scale 0.5 under evidence/<session>; journal under audit/<session>/JOURNAL.md; quit the game when done; final message is the report defined in `scripts/critic/CRITIC_BRIEF.md`.
+
+- A: slot a, view cover, session critic-a-opening. Brand-new player; fresh CAMPAIGN from the title; play the opening operations in order (at least two); one cautious submarine-only attempt and one drone-heavy attempt; look at route map, fittings, supplies, archive and dossier between operations.
+- B: slot b, view inner, session critic-b-modes. Title, Profiles (Ironman, presets, copy, export, import), every Settings section, Credits (a quarter of the budget); a seeded EXPEDITION as far as the budget allows (half); NAVAL CAREER start and one contract, CHALLENGES (the rest). Judge fit and readability on the near-square screen.
+- C: slot c, view cover, session critic-c-glass. Returning player; import `M3-earned-final.qprofile` (already in the session's profiles folder) through Title, Profiles, Import; if import fails, record it and start fresh. Judge the dock for a mid-campaign player, play the next operations with one tool-heavy and one bare attempt, take photographs deliberately and judge whether quality, viewpoint and risk pay off.
