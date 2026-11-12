@@ -56,7 +56,7 @@ func fresh(g)->void:
 	# The once-only lock and sweep tips pause by design; they are not under test here.
 	for id in ["warning","sweep"]:
 		if id not in g.hints_seen:g.hints_seen.append(id)
-	g._start_mission(0);await settle()
+	g._start_mission(0);await settle();preload("res://tests/fixtures/player_dive.gd").launch_drones(g.sim)
 	var middle=g.sim.world_size()/2;var spots=[]
 	for r in range(0,420,30):
 		for k in 16:

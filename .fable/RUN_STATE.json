@@ -2,11 +2,11 @@
   "run_id": "overhaul-20261111",
   "status": "RUNNING",
   "phase": "8-audit",
-  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: WP-22 (A6): implementer replaces role, craft, loadout, noise, band and Hunt stage literals with constants from game/src/names.gd and adds a guard suite; review; merge. Root: triage the five Main-driven suites that fail on the run head since phase 7 (expedition_instruments_ui 18, playfield_hud 1, radial_hud 4, threat_read_ui 4, planning_order_flow_ui 2) as the first step of A5. Then A5 proper, A7, A8. Owed: one GitHub render run for WP-20 at the next package build",
+  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: Collect WP-22 (A6 names, branch wp-22-names from 5591be3c, Sonnet implementer running), review, merge. A5 continues: the five stale Main-driven suites are sorted (four fixed with tests/fixtures/player_dive.gd; playfield_hud_tests still fails one check: cover open water 0.7463 against the 0.75 floor since drones start aboard, cause not isolated, diagnostics print in the suite); next sort the 28 core failures seen with the player rules on by default, then make them the default. Then A7, A8. Owed: one GitHub render run for WP-20",
   "base_ref": "origin/claude/integration",
   "base_sha": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
   "run_branch": "fable/overhaul-20261111",
-  "run_head": "2c57ee4bbe833a5ed2588da7689e6b446f1a5ee2",
+  "run_head": "5591be3c887d43358f66a83b61062ea5bef7a8b6",
   "shared_tips": {
     "claude/integration": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
     "main": "f5b66a198e3878950325f8c45a0bc6bc29dcba84",
@@ -40,6 +40,6 @@
     "WP-22": "building"
   },
   "decisions_open": 0,
-  "last_checkpoint": "WP-19, WP-20, WP-21 merged; WP-22 starting",
-  "updated": "2026-11-12 14:50:50"
+  "last_checkpoint": "WP-19 to WP-21 merged; WP-22 building; A5 step 1 committed",
+  "updated": "2026-11-12 15:01:20"
 }

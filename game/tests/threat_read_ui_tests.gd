@@ -24,13 +24,15 @@ func step(seconds:float):
 	for n in roundi(seconds*60):game.tactical_aids.advance(Sim.STEP)
 	game.sim.paused=true
 func beam(quietus_near:bool):
-	game._start_mission(2);await settle()
+	game._start_mission(2);await settle();preload("res://tests/fixtures/player_dive.gd").launch_drones(game.sim)
 	var s=game.sim;s.mission.rocks=[];s.mission.structures=[];s._build_navigation()
 	s.units[2].alive=false
 	if quietus_near:s.units[1].alive=false;s.units[0].pos=Vector2(900,840)
 	else:s.units[0].pos=Vector2(400,2000);s.units[1].alive=true;s.units[1].pos=Vector2(900,840)
 	s.sirens=[s.sirens[0]];var e=s.sirens[0]
 	e.pos=Vector2(1060,840);e.home=e.pos;e.goal=e.pos;e.route=[];e.stun=0.;e.lock=0.;e.target=-1
+	# A calm Siren ignores a drone in its sight (Pat, 2026-11-12). The drone-loss case is a Siren already searching.
+	if not quietus_near:e.mode="SEARCH"
 	s.contacts={};s.known={}
 	# The fixture removes craft by hand; prime the loss observer after that.
 	TR.reset();TR.observe(s)
@@ -46,7 +48,7 @@ func run():
 	game.hints_seen=["move","pause","drone","sweep","noise"]
 	Settings.apply(Store.sanitize({}))
 	# 1 / Framing a photograph draws the panel's shutter reach.
-	game._start_mission(0);await settle()
+	game._start_mission(0);await settle();preload("res://tests/fixtures/player_dive.gd").launch_drones(game.sim)
 	var s=game.sim;s.sirens=[];s.units[1].alive=false;s.units[2].alive=false
 	var spire=Vector2(1300,300);var facing=2.74
 	s.units[0].pos=spire+Vector2.from_angle(facing+PI)*150;s.units[0].angle=facing;s.units[0].vel=Vector2.ZERO

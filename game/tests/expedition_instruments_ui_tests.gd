@@ -52,7 +52,7 @@ func run():
   root.size=dimensions;await settle()
   var g=load("res://scenes/main.tscn").instantiate();g.set_script(load("res://tests/density_main.gd"));g.capture_scenario="expedition-instrument-ui"
   if dimensions.x==2520:g.fixture_safe_area=Rect2(136,0,2384,1080)
-  root.add_child(g);await settle();g.set_process(false);g._start_mission(6);await settle()
+  root.add_child(g);await settle();g.set_process(false);g._start_mission(6);await settle();preload("res://tests/fixtures/player_dive.gd").launch_drones(g.sim)
   var h=g.mission_hud
   check(g.order_buttons.home.text=="WITHDRAW" and g.sim.observable_sites().is_empty(),"entry recovery says WITHDRAW without inventing source fixes")
   check(h.extra.has("arrivals"),"earned measurement details use the existing contextual HUD")
