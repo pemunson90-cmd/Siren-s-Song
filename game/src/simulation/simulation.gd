@@ -146,7 +146,8 @@ func start(index: int, upgrade: String = Names.LOADOUT_ENDURANCE, launch:Diction
 	ContactIdentity.seed(self,launch.get("context",{}).get("intel",{}))
 	elapsed=0.0; oxygen=100.0; hull=100.0; paused=true; selected=0; queue_mode=false; pass_through=true; outcome=""
 	message="Chart loaded. Tap a craft for DEPTH / SONAR; tap water to plot a route."
-	if DroneBay.any_aboard(self):message+=" Drones are aboard: select one and tap water to launch it."
+	# One line on the cover screen: a longer hint wraps the message plate to a third line and covers more water than the HUD allows.
+	if DroneBay.any_aboard(self):message="Drones aboard. Tap a craft for DEPTH / SONAR; tap water to route or launch."
 	ping_time=0.0; recon_time=0.0; captures=[{},{},{}]; accumulator=0.0
 	tools={"emp":2,"decoy":3,"recon":2,"knock":2}
 	if upgrade==Names.LOADOUT_EMP: tools.emp += 1
