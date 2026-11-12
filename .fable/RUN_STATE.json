@@ -1,12 +1,12 @@
 {
   "run_id": "overhaul-20261111",
   "status": "RUNNING",
-  "phase": "3-foundation",
-  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: Get WP-02 reviewed (reviewer subagent on the governance commit), then WP-03 hygiene (.gitattributes, uid files, PR template, archive_branches.py) and WP-04 CI (guidance job runs link check and tool self-tests), then the Phase 3 gate: full matrix dispatch and the draft PR",
+  "phase": "4-execution",
+  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: Collect implementer reports for WP-05, WP-06, WP-07 (save each to fable-notes), start one reviewer per package, apply suites.txt rows, merge with --no-ff after APPROVE and green focused checks; read CI run 43188734403 (Phase 3 gate); then WP-08, WP-09, WP-10, WP-11 one after another",
   "base_ref": "origin/claude/integration",
   "base_sha": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
   "run_branch": "fable/overhaul-20261111",
-  "run_head": "29553c36d7cca1962d4c70f090b36722212e85ea",
+  "run_head": "075f627e48c4fd4c7cd640b60bca7fdd85ca8db4",
   "shared_tips": {
     "claude/integration": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
     "main": "f5b66a198e3878950325f8c45a0bc6bc29dcba84",
@@ -20,9 +20,9 @@
     "WP-02": "merged",
     "WP-03": "merged",
     "WP-04": "merged",
-    "WP-05": "planned",
-    "WP-06": "planned",
-    "WP-07": "planned",
+    "WP-05": "building",
+    "WP-06": "building",
+    "WP-07": "building",
     "WP-08": "planned",
     "WP-09": "planned",
     "WP-10": "planned",
@@ -30,6 +30,6 @@
     "WP-12": "planned"
   },
   "decisions_open": 9,
-  "last_checkpoint": "Phase 1 and Phase 2 complete: SURVEY, COLD_REVIEW_6, ledger, plan committed. Phase 3 WP-02 in progress in the working tree",
-  "updated": "2026-11-12 04:07:42"
+  "last_checkpoint": "Phase 3 exit met except the CI result: governance set, scrap manifest, changelog, link check clean, checker updated, draft PR 262 open, full matrix run 43188734403 dispatched on 075f627e. Phase 4 started",
+  "updated": "2026-11-12 04:09:59"
 }
