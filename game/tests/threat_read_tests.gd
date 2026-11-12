@@ -125,9 +125,10 @@ func loss_checks():
 	var row=found[0]
 	check(row.siren==0 and absf(float(row.bearing)-90.0)<3.0,"the bearing points from the wreck to the Siren that fired (%.1f)"%row.bearing)
 	check(row.text.begins_with("DRONE A LOST · SIREN BEAM FROM 090°"),"the loss line names cause and bearing: %s"%row.text)
-	var known=Identity.known(s,0)
-	var true_role=TT.ROLE_WORDS.get(str(s.sirens[0].get("type","patroller")),"PATROL")
-	check(known or not row.text.contains(true_role) or true_role in ["PATROL","PATROLLER"],"an unidentified role is not named")
+	# Independent rule: no held contact -> UNSEEN SIREN; held and identified -> role word; held -> coarse class.
+	var true_type=str(s.sirens[0].get("type","patroller"))
+	var expected=" · UNSEEN SIREN" if not s.contacts.has(0) else " · S1 "+TT.ROLE_WORDS[true_type if Identity.known(s,0) else Identity.coarse(true_type)]
+	check(row.text.ends_with(expected),"the loss line names only the earned identity (%s, expected %s)"%[row.text,expected])
 	check(str(s.message).begins_with(row.text+" · ") and str(s.message).ends_with("submarine camera remains available"),"the status message leads with the cause and keeps its advice: %s"%s.message)
 	check(TR.loss_rows(s).size()==1,"the loss stays on the chart")
 	var at=s.elapsed
@@ -142,13 +143,24 @@ func loss_checks():
 	Identity.identify(s,0)
 	check(TR.source_label(s,0)==" · S1 GUARD","an identified contact shows the readout's role word")
 	s.contacts={}
-	check(TR.source_label(s,0)==" · S1 GUARD","an identification earned earlier in the dive is kept")
+	check(TR.source_label(s,0)==" · UNSEEN SIREN","an identification without a held contact names nothing")
+	s.sonar.erase("identified");Identity.seed(s,{"siren_sentinel":{"q":1.0,"op":0}})
+	check(Identity.known(s,0) and TR.source_label(s,0)==" · UNSEEN SIREN","a role seeded from earlier intel with no held contact stays UNSEEN SIREN")
 	# Battery loss: cause without a bearing.
 	s=beam_fixture();s.sirens=[];s.units[2].alive=true;TR.reset();TR.observe(s)
 	s.units[2].alive=false;s.units[2].battery=0.0;s.events.append({"type":"loss","pos":s.units[2].pos});s.message="DRONE B battery exhausted. Quietus camera remains available."
 	var battery=TR.observe(s)
 	check(battery.size()==1 and battery[0].text=="DRONE B LOST · BATTERY EXHAUSTED" and battery[0].bearing<0,"a battery loss names its cause and draws no bearing")
 	check(s.message=="DRONE B LOST · BATTERY EXHAUSTED · Quietus camera remains available.","battery message keeps its advice")
+	# A first notice pausing in the same step as a loss keeps the loss line first.
+	Settings.apply(Store.sanitize({"auto_pause_notice":true}))
+	s=beam_fixture();s.sirens=[];s.units[2].alive=true;var aid=Aids.new();aid.bind(host_for(s));TR.reset();aid.observe()
+	s.units[2].alive=false;s.units[2].battery=0.0;s.events.append({"type":"loss","pos":s.units[2].pos})
+	s.message="DRONE B battery exhausted. Quietus camera remains available.";aid.pending_notice=true;aid.observe()
+	check(s.paused and s.message=="AUTO PAUSE: DRONE B LOST · BATTERY EXHAUSTED · Quietus camera remains available. · FIRST NOTICE","a same-step notice keeps the loss cause: %s"%s.message)
+	s.paused=false;aid.pending_notice=true;aid.observe()
+	check(s.paused and s.message=="AUTO PAUSE: FIRST NOTICE","without a loss the notice aid prints its original text")
+	Settings.apply(Store.sanitize({}))
 	# A craft removed without a simulation loss event (a launch rule) is not reported.
 	s=beam_fixture();s.sirens=[];s.units[2].alive=true;TR.reset();TR.observe(s);s.events.clear();s.units[2].alive=false
 	check(TR.observe(s).is_empty(),"a craft removed without a loss event is not reported")

@@ -81,10 +81,12 @@ func observe()->void:
   var key=_pair_key(id[0],id[1])
   if not lock_seen.has(key) or sim.elapsed-float(lock_seen[key])>=LOCK_CLEAR_SECONDS:new_lock=true
   lock_seen[key]=sim.elapsed
- var lost=not ThreatRead.observe(sim).is_empty() and ThreatRead.pause_wanted()
+ var losses=ThreatRead.observe(sim);var lost=not losses.is_empty() and ThreatRead.pause_wanted()
  if pending_notice or (new_lock and Settings.current.get("auto_pause_lock",false)) or lost:
   sim.paused=true
-  sim.message="AUTO PAUSE: FIRST NOTICE" if pending_notice else "AUTO PAUSE: LOCK WARNING" if new_lock and Settings.current.get("auto_pause_lock",false) else ThreatRead.pause_message(sim)
+  var reason="FIRST NOTICE" if pending_notice else "LOCK WARNING" if new_lock and Settings.current.get("auto_pause_lock",false) else ""
+  # A loss in the same step keeps its cause line first (THREAT READ); otherwise the original text.
+  sim.message=ThreatRead.pause_message(sim,reason) if not losses.is_empty() else "AUTO PAUSE: "+reason
  pending_notice=false
 func advance(dt:float)->void:
  # Observe between fixed steps so a long rendered frame cannot consume the

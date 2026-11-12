@@ -127,14 +127,13 @@ static func loss_row(sim,unit:int)->Dictionary:
 		text+=Table.TEXT.beam%(roundi(bearing)%360)+source_label(sim,siren)
 	elif float(u.get("battery",100.0))<=0.0:text+=Table.TEXT.battery
 	return {"unit":unit,"time":sim.elapsed,"pos":u.pos,"bearing":bearing,"siren":siren,"text":text}
-# Only what the chart already shows: the contact's display class (coarse until
-# identified), an identified role, or UNSEEN SIREN with no number.
+# Only what the chart already shows for a held contact: its display class
+# (coarse until identified, then the role); with no held contact, UNSEEN SIREN.
 static func source_label(sim,id:int)->String:
 	if sim.contacts.has(id):
 		var kind:String=Identity.contact_type(sim.contacts[id])
 		return Table.TEXT.source%[id+1,Table.ROLE_WORDS.get(kind,"PATROL")]
-	if Identity.known(sim,id):
-		return Table.TEXT.source%[id+1,Table.ROLE_WORDS.get(str(sim.sonar.identified[id]),"PATROL")]
+	# No held contact: never a number or role, even when intel seeded the role at launch.
 	return Table.TEXT.unseen
 # The simulation's own loss messages keep their advice after the cause line.
 static func _annotate_message(sim,row:Dictionary)->void:
@@ -143,8 +142,9 @@ static func _annotate_message(sim,row:Dictionary)->void:
 	for prefix in [name+" lost · ","Drone lost · ",name+" battery exhausted · ",name+" battery exhausted. "]:
 		if message.begins_with(prefix):
 			sim.message=row.text+" · "+message.substr(prefix.length());return
-static func pause_message(sim)->String:
-	return Table.TEXT.pause%str(sim.message)
+# The loss line first; another aid's reason in the same step follows it.
+static func pause_message(sim,reason:String="")->String:
+	return Table.TEXT.pause%(str(sim.message)+("" if reason.is_empty() else " · "+reason))
 
 # --- drawing ---------------------------------------------------------------------
 # Inside the chart's world transform (ocean_view, after the priced rings).
