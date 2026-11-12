@@ -4,58 +4,126 @@
 
 **Before coding**, identify the actual most recent owner-accepted/installed usable baseline and the current authoritative development/integration branch; verify commit ancestry and inspect existing successful implementations, including playable prototypes, simulators and branches that the new work replaces. Neither `main` nor the newest-looking version number alone establishes the full feature set. For replacements or substantial refactors, account for each relevant existing capability and preserve behavior or explicitly approved improvements; check meaningful parity/regressions against the old working path. Recheck on the final integration head. If preservation and the requested change conflict, retain the old working functionality and seek Pat's explicit ruling on that **specific** loss; continue independent non-destructive work. Do not substitute extra paperwork or indiscriminate test campaigns for actual continuity checks. Apply updated guidance at the next safe work boundary without disrupting active writers.
 
-**Identity (user-ratified 22 Oct):** Siren's Song is first a military photographic reconnaissance game (Iron Lung influence); rescue, industrial and fleet work support it. Read docs/PHOTO_RECON.md. Implementation and evidence status live in docs/PHOTO_RECON.md; current work lives in docs/RESUME.md.
+# Siren's Song: instructions for every agent
 
-**Development integration:** `claude/integration`. `gauntlet/production` is the frozen promotion baseline; `main` is the protected accepted baseline. Pat authorizes promotion to either. Operational status: docs/RESUME.md. Codex assignments and claims: docs/codex/BOARD.md on `codex/handoffs`.
+This is the single governing file for agents working in this repository. `CLAUDE.md` only imports it. The table in [docs/GOVERNANCE_MIGRATION.md](docs/GOVERNANCE_MIGRATION.md) shows where every rule of the earlier governing files went.
 
-> **READ FIRST — CURRENT USER ORDER:** docs/USER_DIRECTIVES.md. Implement the approved full-release expansion; preserve accepted Pass0/V7 systems. User playtest timing never gates work.
+Pat O'Sullivan owns the repository and is the only authority on game design, canon and narrative. Agents own the engineering.
 
-# Siren’s Song — Gauntlet operating instructions
+## 1. Owner directives carried verbatim
 
-Continually assess the whole playable game, identify its most consequential weakness, improve it, evaluate actual player experience, and repeat. Build toward AAA-caliber Android content and execution. The user alone ends the Gauntlet. Milestones, passing checks and internally assessed readiness lead to the next highest-value work.
+The feature continuity directive above is Pat's and stays at the top of this file, unchanged. These further lines are also Pat's own words. Do not paraphrase, shorten or reorder them. New rulings are appended to [docs/USER_DIRECTIVES.md](docs/USER_DIRECTIVES.md), which is the one home for dated rulings.
 
-## Current execution contract
+Milestone loop [PAT, `AGENTS.md` on `main`, commit a2300840, 2026-10-19]:
 
-**Current execution:** Pat continued locally on25October2026 Eastern. Read the latest USER_DIRECTIVES and short RESUME; the codex/handoffs board owns claims. Earlier cloud stops below are dated history. Codex continues its authorized queue and Pat-reassigned work during Claude's absence with the existing independent-review and exact-head merge gates.
+> Milestone = a complete playable game. Each cycle: a fresh critic plays it with no build notes, the audit ranks its biggest weakness, the next version fixes it, repeat. The user's playtest gates nothing. The loop ends only when the user ends it or usage runs out, in which case write PAUSED, RESUME REQUIRED with the exact next command.
 
-**Historical user boundary (23 October Eastern, superseded by local resumption):** finish PR96, save later ARCH2 preparations, reconcile stale documentation and prepare the Windows desktop handover, then STOP. Do not start metrics, the feature contract or the next handoff in this cloud session. Read docs/DESKTOP_HANDOFF.md and docs/RESUME.md. Resume only when Pat asks; this overrides automatic continuation below without declaring the project finished.
-Read docs/USER_DIRECTIVES.md first. It records the latest order correction and governs earlier workflow prose. The unchanged audit and frozen-source response remain on archive/claude-audit-2026-10-19 under docs/audit/.
+Removal rule [PAT, 2026-11-05, read from Pat's working copy of `AGENTS.md` on 2026-11-12; not yet committed on any shared branch]:
 
-Standing development plan after Pat resumes: **implement the approved full-release program** in docs/CURRENT_GAME_SPEC.md. Earlier Pass0 rough-only and small-iteration limits are historical. Build reusable operation systems, depth-aware stealth/sonar/enemies/fleet, a complete campaign and replay package, expeditions and naval career, with production presentation and Android quality. Use Sol6.1 Medium, one implementation worker and one independent integration reviewer; broader critics run sequentially at substantial milestones. Preserve existing work/profiles and use coherent feature batches. No new governance tooling or approval gates. docs/CONTINUATION.md and docs/WORKBENCH.md stay under40 lines each.
+> **Removal rule (Pat, Nov 5 2026):** nothing is deleted. Move files to a scrap folder (`_scrap-YYYYMMDD/` at the repo root or `Documents\_to_delete\`). No `rm`, `git rm`, `git clean`, or delete-permission requests. Back up before overwriting.
 
-The user decides when to playtest; user play never gates development. Agents keep closing on the specification and external quality bar throughout execution. Preserve user agency over playtesting and keep developing autonomously. A task, worker, plan, review or milestone completion starts the next authorized action within the assigned scope. Codex follows its existing handoff protocol on codex/handoffs: complete its claim, then take the next eligible OPEN handoff; preserve HOLD/CLAIMED work and stop when no authorized handoff remains. Actual platform/usage exhaustion requires published recovery refs and PAUSED, RESUME REQUIRED with the exact next command. State execution honestly when a session ends.
+Gauntlet priorities [PAT, 2026-10-30, verbatim in docs/USER_DIRECTIVES.md]:
 
-## Development and integration
-1. Rank player-facing weaknesses across tactics, stakes, operations, controls, story, world, art, sound and technical quality. Examine actual source, playable v7 and relevant successful games.
-2. Develop coherent gains on dedicated feature branches/worktrees with explicit ownership. Reuse inactive worktrees and one shared toolchain. Preserve other workers’ edits and all unique evidence.
-3. Use one designated integration reviewer for actual source changes, gameplay consequences, current-save integrity and relevant targeted checks. Fix consequential regressions before integration.
-4. Complete coherent assigned batches on their dedicated branches, with independent review and final-head guidance/game-smoke CI before PR integration into `claude/integration`. Reconcile the fetched integration tip into the proposed head and recheck when it moves. Claude orchestrates; Codex may merge only under its current handoff/delegation permission. Preserve the frozen `gauntlet/production` and protected `main` baselines; promotion requires Pat. Preserve all published work and recovery refs.
-5. Validate primarily in Godot, locally or through GitHub. Batch broad regression at meaningful integrated passes. Current Pat rules prohibit Android APK builds and defer physical-phone testing until feature complete and bug free; native-specific risks do not grant an exception. Reuse the canonical Git-tracked debug signer.
-6. Evaluate actual gains and costs, then immediately continue. Every hour of simulation, layout and encounter work should outweigh an hour of documentation.
+> The storyline is the least important besides how it affects branching paths. The main point of the gauntlet loop right now is gameplay, graphics, ux, ui, bugs, features. The whole point is that we have a complete game. We review it, figure out where it's lacking especially in comparison to other AAA releases, and then we plan out the upgrades, and then we execute.
 
-## Merge handoff and reviewer provenance (existing boundaries)
-At the usual PR review/merge boundary, root fetches the live claude/integration tip and the exact proposed head. The SHA in `docs/RESUME.md` is the **last reconciled source baseline**, not a self-referential promise to equal the merge commit containing the document; the freshly fetched integration ref identifies live development. A different SHA alone is not a stale-document failure. Reconcile substantive state and next work rather than making follow-up commits merely to chase HEAD.
+Minimum tests [PAT, 2026-10-31, verbatim in docs/USER_DIRECTIVES.md]:
 
-For each feature PR, root records a linkable, attributable independent reviewer verdict in the PR before merge: reviewer identity/role, reviewed head (and integration base), blocker findings or none, their disposition, and the relevant CI run. Use a submitted GitHub review where possible; otherwise copy the review into a PR comment or description with its original provenance and explicitly label it a **relayed review**, not a formal GitHub approval. Passing CI establishes test success, not independent criticism.
+> you should always be using the absolute minimum number of required tests and you should always be aiming to get them as quickly done as possible. This doesn't mean take shortcuts, this doesn't mean modify CI to pass on a red, this means taking the most efficient and shortest pass on every single task.
 
-At each merge, root reconciles `docs/RESUME.md` against the integrated feature; `docs/CONTINUATION.md` and `docs/WORKBENCH.md` remain short pointers. Root includes the needed status/next-action corrections in the normal feature PR. If no game state, ownership or next action changed, record that decision in the PR instead of creating a meaningless document edit. After merging, fetch the new integration tip, confirm the landed source, and continue the next authorized task. Apply this during **existing** task/review/merge boundaries; do not reset active workers, gate user playtesting, introduce a new CI gate or build an additional orchestration layer.
+Identity [PAT, ratified 2026-10-22; summary, the verbatim ruling is in docs/USER_DIRECTIVES.md and docs/PHOTO_RECON.md]: Siren's Song is first a military photographic reconnaissance game (Iron Lung influence). Rescue, industrial and fleet work support it.
 
-## Critics stand in for players
-Fresh critics start without builder history, explanations or winning routes. They inspect the actual running game and play full operations through real injected touch on actual cover and inner views. Give distinct cautious, aggressive, drone-heavy and Quietus-only strategies. Record their actual routes, time, losses, confusion and unused options. Button callbacks and scripted controllers remain useful technical tests with their narrower scope.
+Story [PAT, 2026-10-21, verbatim in docs/USER_DIRECTIVES.md]: "**Do not author new narrative text.**" Story text stays one or two line placeholders until Pat writes it. Characters, site sequence and ending conditions need Pat's approval before they land.
 
-Use blind, anonymized side-by-side comparisons with real reference footage, one dimension each: Door Kickers for route/touch planning, Mark of the Ninja for detection readability, Barotrauma for acoustic tension, Duskers for drone tools/scarcity. Critics select the stronger experience without source labels; disclose recognizable identities and other comparison limits. The external bar keeps rising independently of internal output counts. Agent play supports development while human enjoyment, headphone audio and physical Fold7 ergonomics retain distinct limits.
+## 2. The project
 
-## Authority and architecture
-Current user decisions > living docs/CURRENT_GAME_SPEC.md and accepted amendments > ratified design bible/visual selections > demonstrated behavior > historical provenance > proposals. Apply docs/SOURCE_AUTHORITY.md and docs/V7_TO_GODOT_PARITY.md. Actual playable v7 outranks older prose about its implemented mechanics; preserve its source unchanged. The six original missions are the tutorial foundation for a longer branching campaign with craft growth, story and multiple endings.
+Original Android-first 2D tactical submarine stealth and reconnaissance game. One pilot commands USS Quietus and two drones through alien industrial water under superior Siren threats. Godot 4.6.3, GDScript, Compatibility renderer. The game is in `game/`. The six original missions are the tutorial foundation for a longer branching campaign with craft growth, story and multiple endings. The quality target is AAA-caliber Android content and execution. Store administration, marketing and legal publishing work are outside the grant.
 
-Preserve Godot4.6.3/GDScript/Compatibility and established simulation/campaign/persistence/presentation/audio boundaries in docs/architecture/GAUNTLET.md. Maintain physical movement, unlimited tactical pause, fair information, finite tools and independent craft. Publishing administration is outside the game-development grant.
+Maintain physical movement, unlimited tactical pause, fair information, finite tools and independent craft. Keep the engine and the simulation, campaign, persistence, presentation and audio boundaries described in [docs/architecture/GAUNTLET.md](docs/architecture/GAUNTLET.md).
 
-## Task closeout and instruction refresh
-At task/dispatch/review/merge boundaries fetch current integration guidance with scripts/toolchain/gauntlet-boundary.py, read changed governing files, reconcile user decisions and stale handoffs, and execute the next highest-value task. Treat the structural checker as supporting machinery. Root owns orchestration, PR reconciliation and continuity after workers finish.
+## 3. Authority order
 
-Substantial implementation/review defaults to gpt-6.1-sol with fresh context when selectable. Record requested routing separately from unavailable backend/effort telemetry. Use minimal useful parallelism with clear ownership.
+1. Pat's current explicit decisions: the launch message of a session, then [docs/USER_DIRECTIVES.md](docs/USER_DIRECTIVES.md), newest ruling first.
+2. [docs/CURRENT_GAME_SPEC.md](docs/CURRENT_GAME_SPEC.md) with accepted amendments, read with the ratified design bible (`design/SIRENS_SONG_DESIGN_BIBLE_GAUNTLET_V1.md`).
+3. Accepted concept selections and visual decisions (`references/package/`).
+4. Source-verified playable behavior and runtime evidence.
+5. Historical specifications and archives.
+6. Proposals.
 
-Keep source/assets/tests/tools and concise live instructions on production. Store raw reports, screenshots, video and metrics in recoverable external archives. Preserve branch refs, unique/untracked evidence, saves and signing material during housekeeping. Communicate concrete actions, results and player gains affirmatively; explain limitations when they affect actual expectations.
+[docs/SOURCE_AUTHORITY.md](docs/SOURCE_AUTHORITY.md) resolves details. The playable v7 prototype (`reference/original-prototype/sirens_song_prototype_v7.html`) is a working implementation reference: do not drop its demonstrated mechanics without comparison and rationale, and keep its source unchanged. [docs/V7_TO_GODOT_PARITY.md](docs/V7_TO_GODOT_PARITY.md) tracks purposeful differences.
 
-## Guidance ownership
-USER_DIRECTIVES records ratified decisions; AGENTS owns stable execution rules; CURRENT_GAME_SPEC owns intended behavior; PHOTO_RECON owns camera capabilities and gaps. RESUME alone owns the reconciled operational snapshot and links live PRs/refs. The codex/handoffs board alone owns Codex claims and completion. Session ledgers retain dated history. At closeout compare assertions with fetched source, PR state and evidence; a structural guidance pass cannot establish semantic accuracy. Existing installed hooks adopt a changed refresh helper only through explicit reinstallation at a safe session boundary.
+When two documents conflict, the newer one wins unless the older one is a verbatim Pat ruling that the newer one does not explicitly supersede.
+
+## 4. Rules that are Pat's call
+
+Record these as a numbered question with a recommendation, keep the old behavior, and continue independent work. Do not decide them.
+
+- Removing or reducing any working capability, rule, mode, setting, content or tool.
+- Narrative, story, dialogue, characters, site sequence and ending conditions. Art direction.
+- Protected game rules: Siren senses and sight ranges (silent sight 180 m, cruise sight 290 m), the four second interruptible lock warning, beam, collision, damage and hull rules, sight-only Hunt, photography exposure and grading, and the principle that no player tool permanently disables a Siren. `game/tests/protected_rules_tests.gd` pins the numbers.
+- One-press travel shortcuts stay behind the developer state. They exist for testing and are not part of release play.
+- Promotion to `main`, anything irreversible, repository settings and releases.
+
+Ask Pat one plain question at a time with a recommendation, and record any qualifier he gives (for example "for now"). Everything else is an engineering decision: make it, make it reversible, and report it.
+
+## 5. Branches
+
+- `claude/integration`: development integration. Feature branches start from it and return to it by pull request.
+- `main`: the protected accepted baseline and the only promotion target. Pat authorizes promotion.
+- `gauntlet/production`: frozen earlier promotion baseline. Kept, never updated.
+- `archive/*`: preserved evidence and history. Not instructions.
+- `codex/handoffs`: the earlier coordination branch. Its rulings are copied into docs/USER_DIRECTIVES.md and its status into docs/STATUS.md. Whether it is retired is Pat's decision.
+
+No force push, no history rewrite and no branch deletion on any shared branch. Keep every published branch and recovery ref. [docs/WORKFLOW.md](docs/WORKFLOW.md) has the commit format, review and merge rules and the CI gating.
+
+## 6. Where things are
+
+| Need | File |
+| --- | --- |
+| Current status, active work, top weaknesses, blockers, next action | [docs/STATUS.md](docs/STATUS.md), the one live status file |
+| Pat's rulings, verbatim and dated | [docs/USER_DIRECTIVES.md](docs/USER_DIRECTIVES.md) |
+| Open questions for Pat | [docs/QUESTIONS_FOR_PAT.md](docs/QUESTIONS_FOR_PAT.md) |
+| Intended game | [docs/CURRENT_GAME_SPEC.md](docs/CURRENT_GAME_SPEC.md) |
+| Camera capabilities and gaps | [docs/PHOTO_RECON.md](docs/PHOTO_RECON.md) |
+| Branch model, commits, review, CI | [docs/WORKFLOW.md](docs/WORKFLOW.md) |
+| Tests and the toolchain | [docs/TESTING.md](docs/TESTING.md) |
+| Module seams, switches and reverts | [docs/MODULES.md](docs/MODULES.md) |
+| Code conventions | [docs/CONVENTIONS.md](docs/CONVENTIONS.md) |
+| Folder map | [docs/REPOSITORY_MAP.md](docs/REPOSITORY_MAP.md) |
+
+## 7. How work is done
+
+- **Look at the whole game.** Rank player-facing weaknesses across tactics, stakes, operations, controls, world, art, sound and technical quality against the specification, the playable v7 and strong shipped games. Pick the change with the largest effect on the player. Work on the game, not on proving that a workflow happened: an hour of simulation, layout and encounter work should outweigh an hour of documentation.
+- **Research before building.** Check existing project code and established approaches before writing a custom system.
+- **One branch per coherent change**, with explicit file ownership. Keep other workers' edits intact. A worker gets a bounded brief (goal, base commit, owned paths, paths not to touch, documents to read, acceptance commands) and reads that brief and what it names, not the whole repository.
+- **Build reversibly.** New systems go in their own files or folders with one narrow, documented seam. Tunable numbers live in data tables. Save fields are optional and validated. Tests live beside the feature and are registered in `game/tests/suites.txt`.
+- **One independent reviewer per change**, on the frozen head, before merge. A second reviewer only for a named high risk: save and load, simulation determinism, input routing, the critic driver, or CI workflows. Record the verdict where the merge can cite it. Passing CI shows the tests pass; it is not a review.
+- **Test the minimum that proves the change.** Locally: import, core, the suites the diff reaches, the canaries and `check-suites`. The full matrix runs once per head on GitHub. Never loosen, skip or delete a test, and never edit CI to pass on red.
+- **Android packages.** Build a debug package when it helps testing, signed only with the tracked development keystore under `scripts/toolchain/signing/`. Never regenerate that key and never commit release or private key material. Pat provides release keys himself.
+- **Evidence levels stay distinct:** implementation, scripted verification, automated or critic play, and physical-device observation. Do not claim human enjoyment, audio perception, phone ergonomics or Android performance without that evidence.
+- **Keep the tree lean.** Game source, assets, tests, tools and concise instructions stay in the repository. Raw critic reports, screenshots, video and metrics stay outside the active tree in a recoverable place.
+- **Critics stand in for players.** A fresh critic gets the running game and nothing else: no build notes, no source, no winning routes. It plays full operations by real touch on the cover and inner views. The kit is in `scripts/critic/`.
+
+## 8. Task closeout and stale guidance
+
+At every task closeout, before reporting:
+
+1. Compare what the documents say with the fetched branches, the pull request state and the evidence. Repair stale status and stale references as part of the change. A passing structural check (`scripts/toolchain/check-gauntlet-guidance.py`, the docs link check) does not prove the documents are right.
+2. Update [docs/STATUS.md](docs/STATUS.md) when the integrated base, active work, top weaknesses, blockers or next action changed.
+3. State the concrete player or maintainer gain, the observed evidence and the largest remaining weakness.
+4. Never ask Pat to update ordinary project documents.
+
+## 9. How runs are bounded
+
+There are two kinds of run.
+
+**Gauntlet runs** follow the milestone loop quoted in section 1. Task completion is not program completion: after each task, root collects the result, reviews and reconciles it, checks for staleness, and starts the next highest-value authorized improvement. The user alone ends the Gauntlet. Pat's playtest never gates development.
+
+**Chartered runs** have their own charter file with a defined stop point (for example `.fable/FABLE_RUN.md`). A chartered run follows its charter and stops where the charter says.
+
+For both: only Pat's stop, a charter's stop point, or actual usage or platform exhaustion interrupts the work. On exhaustion, commit and push everything, record the exact SHA, branches, owners, evidence and first resumption command, and mark the status PAUSED, RESUME REQUIRED. Never claim that work continues after a session ends.
+
+Whether future work runs as a perpetual Gauntlet or as chartered runs is Pat's choice per session.
+
+## 10. Not carried forward
+
+Earlier files named specific models and effort levels for workers and reviewers, a Codex queue on another branch, and dated pause banners. Those were session arrangements, not standing rules. Each one is listed with its disposition in [docs/GOVERNANCE_MIGRATION.md](docs/GOVERNANCE_MIGRATION.md). Model choice is set per session by Pat or by the run's charter.

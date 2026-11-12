@@ -35,12 +35,60 @@ keyboard checks cover fallback behavior only.
 Run import, core and only the affected suites locally. Never run the full scenario
 list locally; GitHub game-smoke is the complete gate on the exact proposed head.
 The default runner behavior above describes implementation, not permission to
-run its complete list. No APK or Android export is part of this workflow.
+run its complete list. An Android package is not part of the test workflow; a
+debug package is built on request through `android-validation.yml` (see
+[WORKFLOW](WORKFLOW.md) and [PLAYTEST_ANDROID](PLAYTEST_ANDROID.md)).
 
-On Windows use WSL2 Ubuntu for the current Linux x86_64 scripts. See
-[CODEX_ENVIRONMENT](CODEX_ENVIRONMENT.md) and [DESKTOP_HANDOFF](DESKTOP_HANDOFF.md).
-Rendered suites run via Xvfb with software GL and Dummy audio; install `xvfb`,
-`xauth` and the distribution's Mesa/software-GL libraries. Keep separate artifact
-directories for concurrent checks. A clean exit alone is insufficient: inspect
-the strict summary and Godot errors/leaks. No physical-device performance or
-headphone evidence follows from these checks.
+On Windows use the native PowerShell scripts in `scripts/toolchain/win/`
+(see [their README](../scripts/toolchain/win/README.md)); they need no WSL.
+They run import, core and every suite that is not marked `render`. Rendered
+suites need Linux: they run via Xvfb with software GL and Dummy audio (install
+`xvfb`, `xauth` and the distribution's Mesa/software-GL libraries) and
+otherwise run on GitHub. Keep separate artifact directories for concurrent
+checks. A clean exit alone is insufficient: inspect the strict summary and
+Godot errors/leaks. No physical-device performance or headphone evidence
+follows from these checks.
+
+## Environment
+
+[Carried on 2026-11-12 from the retired CODEX_ENVIRONMENT and DESKTOP_HANDOFF
+documents, now under `_scrap-20261111/docs/`.]
+
+Godot 4.6.3 stable, GDScript, Compatibility renderer. `game/` is the project
+root. The Linux wrappers need Bash and GNU utilities, Python 3, curl, unzip and
+JDK 17. The Android SDK and emulator are not needed for import and tests. Use
+existing tools before installing or changing versions.
+
+Linux, from the repository root:
+
+```sh
+export PATH="$HOME/.cache/sirens-song-toolchain/bin:$PATH"
+scripts/toolchain/install-godot.sh
+scripts/toolchain/headless.sh --editor --import --quit
+scripts/toolchain/headless.sh --script res://tests/run_tests.gd
+scripts/toolchain/test.sh --profile ci --suite runtime_tests
+```
+
+The last command is an example of one affected suite. The installer verifies
+pinned official downloads and does not put its binary on PATH. Overrides:
+`JAVA_HOME`, `TOOLCHAIN_CACHE`, `GAME_DIR`, `GODOT_BIN`, `ARTIFACT_DIR` and the
+capture variables. The default cache is `/workspace/.sirens-song-toolchain`
+only if that directory already exists, otherwise
+`${XDG_CACHE_HOME:-$HOME/.cache}/sirens-song-toolchain`; artifacts default to
+its `artifacts/` folder. Give concurrent suites distinct artifact directories.
+
+Godot user data (saves, profiles, settings) is normally
+`%APPDATA%/Godot/app_userdata/Siren's Song` on Windows and
+`~/.local/share/godot/app_userdata/Siren's Song` on Linux; respect any explicit
+XDG or Godot user-data override, and back up existing data before replacing
+it. Do not overwrite desktop or phone progress with test fixtures.
+
+Signing: the development keystore is tracked at
+`scripts/toolchain/signing/sirens-song-debug.keystore`; its public certificate
+SHA256 is `32bcb2287acd01c1f58c26997c7639f3072c74c6b03ab2a24656dc7cd1c7dc3c`.
+Never generate a replacement on a cache miss. No release or store key is in
+the repository.
+
+Evidence from the cloud period (route-map screenshots, test logs, parity
+scripts) is preserved on the branch `archive/cloud-desktop-20261023`. Raw
+reports and captures stay outside the active tree.

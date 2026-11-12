@@ -4,7 +4,11 @@ import argparse, errno, hashlib, json, os, pathlib, re, signal, subprocess, sys,
 if os.name=='nt':import msvcrt
 else:import fcntl
 
-FILES=('AGENTS.md','docs/USER_DIRECTIVES.md','docs/RESUME.md','docs/CONTINUATION.md','docs/WORKBENCH.md','docs/architecture/GAUNTLET.md','docs/CURRENT_GAME_SPEC.md','docs/V7_TO_GODOT_PARITY.md')
+FILES=('AGENTS.md','docs/USER_DIRECTIVES.md','docs/STATUS.md','docs/WORKFLOW.md','docs/architecture/GAUNTLET.md','docs/CURRENT_GAME_SPEC.md','docs/V7_TO_GODOT_PARITY.md')
+# Layout before the governance consolidation of 2026-11-12. Read only when the
+# fetched integration commit predates it, so the helper keeps working until
+# the consolidated documents reach claude/integration.
+LEGACY_FILES=('AGENTS.md','docs/USER_DIRECTIVES.md','docs/RESUME.md','docs/CONTINUATION.md','docs/WORKBENCH.md','docs/architecture/GAUNTLET.md','docs/CURRENT_GAME_SPEC.md','docs/V7_TO_GODOT_PARITY.md')
 INTEGRATION='refs/heads/claude/integration'
 REF='refs/remotes/origin/claude/integration'
 PRODUCTION='refs/heads/gauntlet/production'
@@ -85,7 +89,10 @@ def refresh(boundary, timeout, lock_timeout):
             last=previous if previous.get('status')=='fresh' else previous.get('last_success',{})
             command(['git','fetch','--no-tags','--no-recurse-submodules','origin','+'+INTEGRATION+':'+REF],timeout)
             sha=command(['git','rev-parse',REF]).decode().strip();cache=state/'policies'/sha
-            contents={name:command(['git','show',sha+':'+name]) for name in FILES}
+            try:names=FILES;contents={name:command(['git','show',sha+':'+name]) for name in FILES}
+            except RuntimeError as missing:
+                try:names=LEGACY_FILES;contents={name:command(['git','show',sha+':'+name]) for name in LEGACY_FILES}
+                except RuntimeError:raise missing
             info={}
             for name,data in contents.items():
                 data.decode('utf-8') # Reject unreadable governance; never truncate full bytes.
@@ -93,11 +100,11 @@ def refresh(boundary, timeout, lock_timeout):
                 if dest.exists() and dest.read_bytes()!=data:raise RuntimeError('immutable instruction cache mismatch: '+name)
                 info[name]={'sha256':hashlib.sha256(data).hexdigest(),'bytes':len(data),'cache_path':str(dest)}
             for name,data in contents.items():atomic(cache/name,data)
-            changed=[name for name in FILES if info[name]['sha256']!=last.get('files',{}).get(name,{}).get('sha256')]
+            changed=[name for name in names if info[name]['sha256']!=last.get('files',{}).get(name,{}).get('sha256')]
             result={'status':'fresh','boundary':boundary,'observed_utc':time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime()),'policy_sha':sha,'previous_sha':last.get('policy_sha'),'changed_files':changed,'files':info}
             receipt(current,result)
             print('Gauntlet policy '+sha+'; changed: '+(', '.join(changed) or 'none'),file=sys.stderr)
-            for name in FILES:print('  '+name+': '+info[name]['cache_path'],file=sys.stderr)
+            for name in names:print('  '+name+': '+info[name]['cache_path'],file=sys.stderr)
             return result
         except (RuntimeError,OSError,ValueError) as error:
             previous=json.loads(current.read_text()) if current.exists() else {}
@@ -117,8 +124,8 @@ def dispatch(path, policy):
     match=re.search(r'^## Current execution contract[^\n]*\n(.*?)(?=^## |\Z)',agents,re.M|re.S)
     contract=agents[:match.end()].strip() if match else agents
     prefix='Current fetched policy SHA: '+policy['policy_sha']+'\n'+contract+'\n\nCached governing files (root reconciles the full set; worker reads USER_DIRECTIVES plus task-relevant guidance named in the brief):\n'
-    prefix+='\n'.join(name+': '+policy['files'][name]['cache_path'] for name in FILES)
-    prefix+='\nFor design or gameplay implementation, apply the relevant cached CURRENT_GAME_SPEC.md and V7_TO_GODOT_PARITY.md sections alongside source authority; historical specifications remain provenance. Inherit docs/AGENT_BRIEF.md and docs/SOURCE_AUTHORITY.md; current explicit user direction has priority. Imported originals remain immutable. Sol6.1 Medium is the substantial-work default; one implementation worker and one independent integration reviewer; record requested routing separately from unavailable backend/cost telemetry. Preserve assigned ownership and strongest verified baseline.\n\nAssigned task:\n'
+    prefix+='\n'.join(name+': '+entry['cache_path'] for name,entry in policy['files'].items())
+    prefix+='\nFor design or gameplay implementation, apply the relevant cached CURRENT_GAME_SPEC.md and V7_TO_GODOT_PARITY.md sections alongside source authority; historical specifications remain provenance. Inherit docs/WORKFLOW.md and docs/SOURCE_AUTHORITY.md; current explicit user direction has priority. Imported originals remain immutable. Sol6.1 Medium is the substantial-work default; one implementation worker and one independent integration reviewer; record requested routing separately from unavailable backend/cost telemetry. Preserve assigned ownership and strongest verified baseline.\n\nAssigned task:\n'
     task['message']=prefix+task['message']
     if not follow:task.setdefault('model','gpt-6.1-sol');task.setdefault('reasoning_effort','medium');task.setdefault('fork_turns','none')
     return {'tool':'collaboration.followup_task' if follow else 'collaboration.spawn_agent','arguments':task}

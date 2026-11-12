@@ -1,12 +1,12 @@
 {
   "run_id": "overhaul-20261111",
   "status": "RUNNING",
-  "phase": "2-plan",
-  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: Commit WP-02 governance consolidation (working tree holds it uncommitted: new AGENTS, CLAUDE, README, STATUS, WORKFLOW, checker and test rewritten, ten documents moved to _scrap-20261111): still to write GOVERNANCE_MIGRATION.md, SCRAP_MANIFEST.md, TESTING and PLAYTEST_ANDROID and REPOSITORY_MAP fixes, gauntlet-boundary.py FILES and its test, the docs link checker; then WP-03 and WP-04",
+  "phase": "3-foundation",
+  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: Get WP-02 reviewed (reviewer subagent on the governance commit), then WP-03 hygiene (.gitattributes, uid files, PR template, archive_branches.py) and WP-04 CI (guidance job runs link check and tool self-tests), then the Phase 3 gate: full matrix dispatch and the draft PR",
   "base_ref": "origin/claude/integration",
   "base_sha": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
   "run_branch": "fable/overhaul-20261111",
-  "run_head": "4debf73f7e06effcb1f40298826aef144e4ef862",
+  "run_head": "894c0c702d04aa5275b16083a58fe2728ed9c06b",
   "shared_tips": {
     "claude/integration": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
     "main": "f5b66a198e3878950325f8c45a0bc6bc29dcba84",
@@ -17,7 +17,7 @@
   "work_packages": {
     "WP-00": "merged",
     "WP-01": "merged",
-    "WP-02": "building",
+    "WP-02": "review",
     "WP-03": "planned",
     "WP-04": "planned",
     "WP-05": "planned",
@@ -31,5 +31,5 @@
   },
   "decisions_open": 9,
   "last_checkpoint": "Phase 1 and Phase 2 complete: SURVEY, COLD_REVIEW_6, ledger, plan committed. Phase 3 WP-02 in progress in the working tree",
-  "updated": "2026-11-12 03:50:57"
+  "updated": "2026-11-12 03:57:55"
 }

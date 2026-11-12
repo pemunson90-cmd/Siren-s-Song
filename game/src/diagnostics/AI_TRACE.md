@@ -19,4 +19,4 @@ Metrics (seconds since attach, -1 if it never happened), per Siren: `time_to_fir
 
 Rings are capped by `EVENT_CAP` and `TICK_CAP` in `ai_trace_table.gd`; oldest rows drop first and the dropped counters keep the loss visible. Times are stamped at the end of the tick that caused the change.
 
-Revert: delete `diagnostics/ai_trace*.gd`, this file, `tests/ai_trace_tests.gd` and its last row in `tests/suites.txt`. No other file refers to them. Tests: `AI TRACE` suite.
+Revert: delete `diagnostics/ai_trace*.gd`, this file, `tests/ai_trace_tests.gd` and its last row in `tests/suites.txt`. Check for users first: the Hunt pressure module reads the attached trace (see `docs/MODULES.md` and `docs/design/HUNT_RESTORE.md`), so this is no longer a free-standing removal. Tests: `AI TRACE` suite.

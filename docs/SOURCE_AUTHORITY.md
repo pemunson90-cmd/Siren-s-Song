@@ -1,6 +1,4 @@
-> **Current authority:** Pat continued locally on25 October 2026 Eastern. Read USER_DIRECTIVES and RESUME; follow the live codex/handoffs board. Earlier cloud-stop prose is historical. Preserve frozen baselines and current merge/verification rules.
-
-> **Historical 23 October cloud-boundary banner, superseded by local resumption:** **Former cloud-session order:** read docs/USER_DIRECTIVES.md first. Observe Pat's cloud stop and Windows desktop handover in docs/RESUME.md. The approved full-release program remains the standing plan when Pat resumes work. Preserve accepted Pass0/V7 systems. One implementation worker and one independent integration reviewer; human playtesting never gates authorized development.
+> Governing rules: [AGENTS.md](../AGENTS.md). Pat's rulings: [USER_DIRECTIVES.md](USER_DIRECTIVES.md). Current status: [STATUS.md](STATUS.md).
 
 # Source authority and provenance
 
@@ -28,7 +26,7 @@ A newer proposal does not silently supersede an established decision. When docum
 
 ## Operational authority
 
-Development integration is `claude/integration`; `gauntlet/production` is frozen pending Pat-authorized promotion and `main` remains the protected accepted baseline. RESUME is the sole reconciled operational snapshot. The codex/handoffs board and individual handoffs own worker claims; live Git refs and PR/check state establish what is actually published or merged. A dated snapshot may lag a live ref without changing design authority. Reconcile substantive differences at existing boundaries; an unexplained newer SHA alone is not a reason to rewrite a handoff. Session ledgers and earlier status blocks are historical evidence.
+Development integration is `claude/integration`; `gauntlet/production` is frozen and `main` is the protected accepted baseline and the only promotion target (Pat, 31 October 2026). [STATUS.md](STATUS.md) is the sole operational status file. Live Git refs and PR/check state establish what is actually published or merged. A dated snapshot may lag a live ref without changing design authority. Reconcile substantive differences at existing boundaries; an unexplained newer SHA alone is not a reason to rewrite a handoff. Session ledgers and earlier status blocks are historical evidence.
 
 ## Visual guidance
 

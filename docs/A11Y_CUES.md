@@ -105,7 +105,7 @@ optional palette. Revert this PR to remove mandatory ring patterns/labels and
 film words as well. Campaigns remain readable because no campaign fields change.
 
 
-## 081 chart settings (lane implementation; integration pending)
+## 081 chart settings (merged)
 
 The existing REDUCED MOTION setting holds regional and legacy dust at phase zero,
 steadies the beam target arc, pressure vignette and Hunt tone, and caps the own
