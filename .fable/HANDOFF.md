@@ -1,7 +1,7 @@
 # Handoff guide: resume the overhaul run from a cold start
 
 Status: LIVE GUIDE (root updates it at every phase boundary and whenever in-flight work changes)
-Verified: 2026-11-11 21:17 at commit 50b8c262
+Verified: 2026-11-11 21:16 at commit 50b8c262
 
 This guide lets a session with an empty context resume run `overhaul-20261111` from the documents alone. Every statement was checked against a file or a read-only command at the commit above. Where the documents disagree with git, see "Discrepancies found" at the end.
 

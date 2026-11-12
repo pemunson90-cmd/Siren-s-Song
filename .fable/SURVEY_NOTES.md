@@ -37,7 +37,7 @@ Findings:
 - Never `cd` outside the run clone in the Bash tool: the shell then resets to Pat's other clone (`repos\Siren-s-Song`), which the run must never touch. Use absolute paths or a subshell, and start risky commands with `cd` into the run clone.
 - The toolchain cache `%USERPROFILE%\.cache\sirens-song-toolchain` is shared with Pat's earlier agents and holds their evidence. Read it; write only into new folders named `fable-*` or `critic6-fable-*`.
 
-## Critic kit (external, not in the repository)
+## Earlier critic kit v3 (in the tool cache; the current kit is versioned in `scripts/critic/`)
 
 - Kit v3 transport: `artifacts\critic6-cabd-20261105\prep6-cabd\` (`driver.gd` 8297 bytes, `drive.ps1`, `launch.ps1`, `send.ps1`, `rootprep\geometry\size-owned-window.ps1`), briefs in `brief\`. Commands: geometry, screenshot, click, drag, wait, labels, key, quit. No pinch, hold or multitouch.
 - Desktop is 1280x720, so a launched window clamps to 1284x701 until `size-owned-window.ps1` resizes the GUI child (GEOMETRY_HANDOFF.txt has the exact steps). Cover is 2520x1080, inner 2184x1968.

@@ -1,5 +1,7 @@
 # Decisions for Pat: overhaul-20261111
 
+Status: LIVE LOG (entries are appended; Pat answers by number and letter)
+
 Each item keeps the current behavior in place until Pat rules. Answer by number and letter, for example "D-03 B, D-07 A". Items can be answered in any order and at any time; the run never waits on them.
 
 <!-- Format (FABLE_RUN.md section 9.3):

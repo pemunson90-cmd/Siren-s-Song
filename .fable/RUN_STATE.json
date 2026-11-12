@@ -2,11 +2,11 @@
   "run_id": "overhaul-20261111",
   "status": "RUNNING",
   "phase": "1-survey",
-  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md, then continue Phase 1: collect the explorer and critic results, write SURVEY.md and COLD_REVIEW_6.md, review PROTECTED_CAPABILITIES.md",
+  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: finish Phase 1: write .fable/COLD_REVIEW_6.md from the three blind critics, finish section 7 of .fable/SURVEY.md, review and commit .fable/PROTECTED_CAPABILITIES.md",
   "base_ref": "origin/claude/integration",
   "base_sha": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
   "run_branch": "fable/overhaul-20261111",
-  "run_head": "874a92c9c59776a5be75dd906fcf92d31766498c",
+  "run_head": "9e941f9bbeb836c0365168cc0e29812483256386",
   "shared_tips": {
     "claude/integration": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
     "main": "f5b66a198e3878950325f8c45a0bc6bc29dcba84",
@@ -14,8 +14,10 @@
     "codex/handoffs": "99e52d2d93c5d7a3ae879f336aca9b9832e170a4",
     "claude/workflow-v2": "9624f1fba433008bf8534d194bc8b768658f5479"
   },
-  "work_packages": {},
-  "decisions_open": 7,
-  "last_checkpoint": "Phase 1 in progress: DOC_INVENTORY, BRANCH_LEDGER, CI_INVENTORY done; SURVEY, PROTECTED_CAPABILITIES, COLD_REVIEW_6 pending",
-  "updated": "2026-11-11 21:09:05"
+  "work_packages": {
+    "WP-00": "review"
+  },
+  "decisions_open": 6,
+  "last_checkpoint": "Phase 1 in progress: DOC_INVENTORY, BRANCH_LEDGER, CI_INVENTORY done; SURVEY sections 1 to 6 done; PROTECTED_CAPABILITIES, COLD_REVIEW_6 and SURVEY section 7 pending",
+  "updated": "2026-11-11 21:18:42"
 }

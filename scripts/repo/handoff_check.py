@@ -13,6 +13,7 @@ wrong place:
   * `run_head` in the state is not an ancestor of HEAD;
   * a run document under `.fable/` has no `Status:` line near its top;
   * `decisions_open` disagrees with the OPEN entries in `.fable/DECISIONS.md`;
+  * `next_action` does not send the reader to `.fable/HANDOFF.md`;
   * `.fable/HANDOFF.md` or `.fable/NOW.md` is missing, or names a repository
     path that does not exist;
   * `.fable/NOW.md` is older than the newest commit by more than the allowed
@@ -43,7 +44,7 @@ PATH_RE = re.compile(r"`((?:\.fable|\.claude|\.github|docs|scripts|game|design|r
 
 def git(*args):
     out = subprocess.run(["git", "-C", str(ROOT), *args], capture_output=True, text=True, encoding="utf-8", errors="replace")
-    return out.returncode, out.stdout.strip()
+    return out.returncode, out.stdout.rstrip()
 
 
 def main():
@@ -59,6 +60,9 @@ def main():
             errors.append("RUN_STATE.json lacks field %s" % field)
     if state.get("status") not in STATUSES:
         errors.append("RUN_STATE.json status %r is not one of %s" % (state.get("status"), ", ".join(STATUSES)))
+
+    if state and "HANDOFF.md" not in str(state.get("next_action", "")):
+        errors.append("RUN_STATE.json next_action must start by pointing at .fable/HANDOFF.md and .fable/NOW.md")
 
     _, branch = git("rev-parse", "--abbrev-ref", "HEAD")
     if state.get("run_branch") and branch != state["run_branch"]:
@@ -77,6 +81,8 @@ def main():
         errors.append("RUN_STATE.json run_head is empty")
 
     decisions = (FABLE / "DECISIONS.md").read_text(encoding="utf-8") if (FABLE / "DECISIONS.md").exists() else ""
+    # The format template sits inside an HTML comment and is not an entry.
+    decisions = re.sub(r"<!--.*?-->", "", decisions, flags=re.S)
     open_count = len(re.findall(r"^Status:\s*OPEN\b", decisions, flags=re.M))
     if state and state.get("decisions_open") != open_count:
         errors.append("decisions_open is %r but DECISIONS.md has %d OPEN entries" % (state.get("decisions_open"), open_count))
