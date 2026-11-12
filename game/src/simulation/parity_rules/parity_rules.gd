@@ -40,7 +40,7 @@ const SURVEY_MEMORY=30.0
 # objectives known, and the current dive's objectives are all marked.
 static var debug_known:=false
 static func wanted(launch:Dictionary)->bool:
- return bool(launch.get(KEY,false))
+ return bool(launch.get(KEY,true))
 static func on(m:Dictionary,rule:String)->bool:
  return bool(RULES.get(rule,false)) and bool(m.get(KEY,false))
 static func tutorial(m:Dictionary)->bool:

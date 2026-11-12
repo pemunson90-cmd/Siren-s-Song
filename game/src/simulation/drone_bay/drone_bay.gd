@@ -46,7 +46,7 @@ static func lost(u:Dictionary)->bool:
 static func home(u:Dictionary)->bool:
  return not lost(u)
 static func wanted(launch:Dictionary)->bool:
- return ENABLED and bool(launch.get(FLAG,false))
+ return ENABLED and bool(launch.get(FLAG,true))
 # Dive start: both drones go aboard.
 static func stow(sim)->void:
  for id in [1,2]:
