@@ -15,7 +15,7 @@ Evidence levels: sizes and counts were measured by scripts on head `aa0833c7` pl
 
 Smaller tangles: Career, Expedition and Challenges are three near-copies of the same session, save and menu code. 22 feature switches are permanently on and their "off" side is never tested. 318 test files each carry their own copy of the same checking helper.
 
-**Is it inefficient?** In places. No timing had ever been recorded, so the audit ran the existing simulation probe once (section 4.5, on this desktop, not a phone). The simulation is light on three of the four operations measured (about 1 millisecond per step, where 16.7 is the limit for smooth play). Operation 3 is the exception: its sensing pulse takes about 18 milliseconds on the desktop, seven times a second, which on a phone would be a visible stutter. Drawing has not been timed (that probe needs a real screen). From reading the code:
+**Is it inefficient?** In places. No timing had ever been recorded, so the audit ran the existing simulation probe once (section 4.5, on this desktop, not a phone). The simulation is light on 37 of the 42 operations (about 1 millisecond per step, where 16.7 is the limit for smooth play). The five exceptions are opening operations 0, 2, 3, 4 and 5, the first things a new player sees: their sensing pulse takes about 18 milliseconds on the desktop, seven times a second, which on a phone would very likely be a visible stutter. The cause is an older sensing routine that only those operations still use. Drawing has not been timed (that probe needs a real screen). From reading the code:
 
 - **While time is paused the game is cheap.** It already limits itself to about ten screen updates a second.
 - **While time is running the screen does far more work than it needs.** Every frame it rebuilds the whole HUD text, redraws every charted map square one by one, and makes fresh copies of the same data several times (the objective list about five times a frame, the chart on every draw). On a phone this is the most likely cause of heat, battery drain and dropped frames.
@@ -36,10 +36,10 @@ Size: S (under a day of agent work), M (one to two days), L (several days, in st
 
 | No. | Fix | What you get | Size | Risk | Recommendation |
 | --- | --- | --- | --- | --- | --- |
-| A1 | Finish the baseline: the simulation probe was run by the audit (section 4.5); still to do are the drawing probe (needs a screen: one GitHub run or the phone), a run with your player rules switched on, and finding why operation 3's sensing pulse is slow | Every later speed claim is a measurement; the operation 3 stutter gets a named cause | S | None | Yes, first |
+| A1 | Finish the baseline: the simulation probe was run by the audit (section 4.5); still to do are the drawing probe (needs a screen: one GitHub run or the phone) and a run with your player rules switched on | Every later speed claim is a measurement | S | None | Yes, first |
 | A2 | Stop rebuilding screen data many times a frame: build the objective list, chart view, camera read-out and contact list once per simulation step and reuse them; update HUD text about ten times a second instead of every frame | Less heat and battery use, smoother play. No rule change | M | Low (display only; HUD text may lag by a tenth of a second) | Yes |
 | A3 | Draw the charted map from a stored picture that is rebuilt only when the chart changes, instead of one square at a time every frame | Same as A2; the largest single drawing saving | S to M | Low (display only) | Yes |
-| A4 | Simulation housekeeping with identical results: calculate each craft's noise and the Hunt sight scale once per step, stop copying the whole chart on every sensor pulse, skip rock faces that are already charted | Lower processor use on busy operations. Proven identical by before-and-after tests | M | Medium (touches the simulation; guarded by exact-match tests and the protected-rules check) | Yes, after A1 |
+| A4 | Simulation housekeeping with identical results: stop the opening operations (0, 2, 3, 4, 5) re-testing every unseen map cell on every sensing pulse (the measured stutter); calculate each craft's noise and the Hunt sight scale once per step, stop copying the whole chart on every sensor pulse, skip rock faces that are already charted | Lower processor use on busy operations. Proven identical by before-and-after tests | M | Medium (touches the simulation; guarded by exact-match tests and the protected-rules check) | Yes, after A1 |
 | A5 | Make your rules the only rules: drones aboard and the parity rules become the default for every dive, the older path is retired, and tests are updated or moved to scrap with a list | Tests describe the game you play. One rule set instead of two | L | Medium (many tests change; no change to player dives) | Yes |
 | A6 | One home for shared names: Siren roles, noise names, craft, loadouts, depth bands and Hunt stage names each defined once and referenced everywhere | Adding a Siren type, tool or loadout touches one table. Renames like DISRUPTION to EMP become one line | M | Low | Yes |
 | A7 | One shared base for Career, Expedition and Challenges sessions, saves and menus | A fix in one mode reaches all three | M | Medium (save and resume code) | Yes, after A5 |
@@ -131,6 +131,15 @@ Existing probes (not run by the audit): `game/tests/performance_measurements.gd`
 | 34 | 1,104 | 2,900 | 1,374,008 | 1,768,852 | 301,155 | 3,242 |
 
 The four right-hand columns are total microseconds over the 60 simulated seconds. Reading: on operations 19, 29 and 34 the simulation uses 5 to 7 percent of a desktop frame, and Siren threats (which include hearing) are the largest part. On operation 3 sensing takes 72 percent of all simulation time: about 400 pulses at about 18 milliseconds each, and the worst step (24.5 ms) is already longer than one frame on a desktop. The cause is not traced yet; the run-time reading (rank 25 in 4.4) names an older fog loop over every map cell that runs when an operation has no depth charts, which fits. Log: `%USERPROFILE%\.cache\sirens-song-toolchain\artifacts\fable-p8-perf-133123\performance_measurements.log`.
+
+**All 42 operations, 15 simulated seconds each (same probe, same desktop, same day):**
+
+| Group | Operations | Mean step (microseconds) | Worst step | Sensing share |
+| --- | --- | --- | --- | --- |
+| Slow | 0, 2, 3, 4, 5 | 2,607 to 3,063 | 20,868 to 23,559 | 1.74 to 1.89 seconds of sensing in 15 (about 17 to 19 ms per pulse) |
+| Normal | 1 and 6 to 41 | 567 to 1,876 (highest: 16, then 20 and 32) | 1,197 to 7,200 (highest: 8, then 16) | 0.03 to 0.23 seconds in 15 |
+
+The slow group is exactly the opening operations a new player meets first (operation 1 is the exception). They take the older sensing path in `Simulation._observe`: with no depth charts, every sensor pulse re-tests every map cell that is not yet known to be water, and cells that can never be seen are re-tested forever. Later operations use the newer chart and skip that loop. Fix A4 covers it (remember cells already tested from the same craft positions, or move these operations onto the newer chart); results must stay identical. Log: `%USERPROFILE%\.cache\sirens-song-toolchain\artifacts\fable-p8-perfall-133257\performance_measurements.log`.
 
 ## 5. Method
 

@@ -1,12 +1,12 @@
 {
   "run_id": "overhaul-20261111",
-  "status": "RUNNING",
+  "status": "STUCK",
   "phase": "8-audit",
-  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: Pat answers fixes A1 to A12 in .fable/CODE_AUDIT.md section 3 (yes or no each); build approved ones per PHASE8.md 8.3, one work package each. Independent meanwhile: trace why operation 3 sensing takes 18 ms per pulse (measurement only). Then 8.4 Pat's playtest feedback",
+  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: Pat answers fixes A1 to A12 in .fable/CODE_AUDIT.md section 3 (yes or no each); build approved ones per PHASE8.md 8.3, one work package each, A4's opening-operation sensing fix first if approved. Then 8.4 Pat's playtest feedback",
   "base_ref": "origin/claude/integration",
   "base_sha": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
   "run_branch": "fable/overhaul-20261111",
-  "run_head": "272bf9e25532a2cff98523d005411c12ef9e4220",
+  "run_head": "024e704300d0a00be8191bab101592dfd1e8ee02",
   "shared_tips": {
     "claude/integration": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
     "main": "f5b66a198e3878950325f8c45a0bc6bc29dcba84",
@@ -36,6 +36,6 @@
     "WP-18": "merged"
   },
   "decisions_open": 0,
-  "last_checkpoint": "Phase 8: loadout rename committed 272bf9e2; CODE_AUDIT.md written; waiting on Pat for A1 to A12",
-  "updated": "2026-11-12 13:32:30"
+  "last_checkpoint": "Phase 8: WP-17 and WP-18 done and pushed; every remaining item waits on Pat (A1 to A12, playtest feedback, N-1 to N-7)",
+  "updated": "2026-11-12 13:34:19"
 }
