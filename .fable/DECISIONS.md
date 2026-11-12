@@ -109,3 +109,20 @@ What: On the near-square inner screen a critic found no BACK on the Operations p
 Options: (A) Pin a TITLE control at the top of the Operations panel on both layouts. (B) Leave it as it is.
 Recommendation: A because it is one visible control and changes no behavior of Android back.
 Current state kept: the Operations panel and Android back are unchanged.
+
+## D-13 Diagnostic lines are silent in release builds
+Status: OPEN
+Raised: 2026-11-12, phase 5, WP-06
+What: Work package WP-06 made the internal `SS_` diagnostic lines and the Android UI metric records print only in debug builds. Debug packages (the kind you test, and the kind the emulator smoke reads) are unchanged. A release build no longer prints them, which reduces what a maintainer can read from a release build's log. This was merged before it was raised as a decision; restoring it is a one-line change in `game/src/presentation/release_controls.gd` (`debug_print`).
+Options: (A) Keep them silent in release builds. (B) Print them in release builds again.
+Recommendation: A because a store build should not write internal diagnostics to the device log, and every check that reads them uses a debug package.
+Current state kept: silent in release builds, printed in debug builds (the merged state; say B and it is restored).
+
+## D-14 Run the branch archive plan
+Status: OPEN
+Raised: 2026-11-12, phase 6
+What: `.fable/BRANCH_ARCHIVE_PLAN.md` lists 326 old branches (265 already merged, 61 old and unmerged). Archiving means: a tag `archive/branch/<name>` is created at each branch tip and pushed, and only then may the branch ref be removed. Every commit stays reachable through its tag. The run changed no ref.
+Options: (A) Add the tags only (`python scripts/repo/archive_branches.py --execute --approved-by-pat`). (B) Add the tags, then remove the archived branch refs (the same, then `--remove-branches --approved-by-pat`). (C) Not now.
+Recommendation: A first, because tags cost nothing and make B safe whenever you want the branch list shortened.
+Current state kept: all 373 remote branches exist; no archive tag was created.
+
