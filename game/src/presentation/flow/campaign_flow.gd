@@ -110,7 +110,7 @@ static func briefing(host, index: int) -> void:
 	preload("res://src/presentation/crew/crew_view.gd").briefing(host,index)
 	# The opening brief confirms Quietus stock; its FITTINGS entry owns the full per-craft list.
 	var copy=preload("res://src/presentation/truthful_commands.gd")
-	host._menu_text(copy.launch_stock(host),17)
+	host._menu_text(copy.launch_stock(host,index),17)
 	if index>=3:host._menu_text(copy.brief_stock(host.tool_racks),14)
 	# Frames open after the first dive; recovered fittings appear once earned. A toggle folds them away.
 	if not compact:fit_start=host.panel_box.get_child_count()
@@ -256,6 +256,7 @@ static func debrief(host) -> void:
 		expedition_stats(host)
 		preload("res://src/presentation/arcs/arc_card.gd").recovered(host,first_recovery)
 		return
+	var lift_at=-1
 	if host.sim.outcome=="won":
 		host._retain_evidence()
 		if host.mission_index not in host.completed: host.completed.append(host.mission_index)
@@ -281,11 +282,12 @@ static func debrief(host) -> void:
 			if 6 in host.ExpeditionCampaign.available(host.completed,host.expedition):host._button(host.panel_box,"BEYOND THE WARNING / THE DIVERGENCE",func():host._briefing(6),"expedition6")
 		else: host._button(host.panel_box,"NEXT DIVE",func(): host._briefing(host.mission_index+1),"next_dive")
 	else:
-		host._menu_text("SIGNAL LOST",32); host._menu_text(host.sim.message,22); host._menu_text(preload("res://src/presentation/loss_summary.gd").line(host.sim),17); host._menu_text(stats_line(host.sim),17); preload("res://src/presentation/death_cause/cause_log.gd").debrief(host); preload("res://src/presentation/damage_log/damage_log.gd").debrief(host); host._menu_text("Field records remain reviewable after loss or abandonment. Only successful extraction advances the campaign.",17)
+		host._menu_text("SIGNAL LOST",32); host._menu_text(host.sim.message,22); lift_at=host.panel_box.get_child_count(); host._menu_text(preload("res://src/presentation/loss_summary.gd").line(host.sim),17); host._menu_text(stats_line(host.sim),17); preload("res://src/presentation/death_cause/cause_log.gd").debrief(host); preload("res://src/presentation/damage_log/damage_log.gd").debrief(host); host._menu_text("Field records remain reviewable after loss or abandonment. Only successful extraction advances the campaign.",17)
 		host.BlackwaterDelivery.debrief(host)
 		host.ModuleRecovery.debrief(host)
 	host._button(host.panel_box,"RETRY DIVE",func(): host._briefing(host.mission_index),"retry")
 	host._button(host.panel_box,"OPERATIONS ARCHIVE",host._show_campaign,"back")
+	preload("res://src/presentation/debrief_actions.gd").lift(host,lift_at)
 	host._save_archive()
 	preload("res://src/presentation/arcs/arc_card.gd").recovered(host,first_recovery)
 	host.call_deferred("_layout")

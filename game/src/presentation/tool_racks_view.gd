@@ -47,8 +47,21 @@ static func controls(host,slots:Array,change:Callable,prefix:String,stock:Dictio
    var slot_key=slot+"_" if prefix=="mode_rack" else ""
    var add=host._button(host.panel_box,"LOAD +1 "+Tools.spec(id).name,change.bind(slot,id,1),prefix+"_add_"+slot_key+id)
    add.disabled=(prefix=="mode_rack" and host.save_failed) or not Racks.valid(candidate) or not Racks.reason(host.fitted_equipment,candidate).is_empty() or (stock_limited and not Racks.available(candidate,stock))
+   if add.disabled:_explain(add,load_reason(host,candidate,prefix,stock,stock_limited))
    var remove=host._button(host.panel_box,"UNLOAD -1 "+Tools.spec(id).name,change.bind(slot,id,-1),prefix+"_remove_"+slot_key+id)
    remove.disabled=(prefix=="mode_rack" and host.save_failed) or n<=0
+# WP-11 (I6): a grey LOAD names its reason inline and in its tooltip, in the
+# item 126 "LABEL / REASON" style. Checks run in the same order as disabled.
+static func load_reason(host,candidate:Dictionary,prefix:String,stock:Dictionary,stock_limited:bool)->String:
+ if prefix=="mode_rack" and host.save_failed:return "SAVE PENDING"
+ if not Racks.valid(candidate):return "RACK FULL"
+ if not Racks.reason(host.fitted_equipment,candidate).is_empty():return "CARGO FULL"
+ if stock_limited and not Racks.available(candidate,stock):return "NONE ASHORE"
+ return ""
+static func _explain(button:Button,reason:String)->void:
+ if reason.is_empty():return
+ button.text+=" / "+reason
+ button.tooltip_text={"SAVE PENDING":"Save the expedition before changing racks.","RACK FULL":"This craft or the fleet carries the most of this tool allowed.","CARGO FULL":"No locker or cargo room left: unload tools or modules.","NONE ASHORE":"No unloaded charges of this tool remain in expedition stock."}.get(reason,reason)
 static func summary(host)->String:
  var lines=[]
  for unit in 3:

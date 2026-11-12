@@ -88,13 +88,20 @@ func _show_campaign()->void:
 			_button(panel_box,"RIDER · "+("ACCEPTED" if accept_rider else "DECLINED"),preload("res://src/presentation/rider_choice.gd").toggle.bind(self,_show_campaign),"run_rider")
 		tool_racks=run_state.get("tool_racks",preload("res://src/equipment/tool_racks.gd").from_stock(run_state.stock)).duplicate(true)
 		preload("res://src/presentation/mode_racks_view.gd").show(self,true)
-		_button(panel_box,"BEGIN OPERATION · START PAUSED",_begin,"run_begin")
-		_button(panel_box,"RETURN TO MODES",_return,"run_return")
+		# WP-11 (I6): the launch and return actions sit in the pinned footer, not
+		# at the end of a page several screens tall.
+		_button(menu_footer,"BEGIN OPERATION · START PAUSED",_begin,"run_begin")
+		_button(menu_footer,"RETURN TO MODES",_return,"run_return")
+		menu_footer.show()
 	call_deferred("_layout")
 func _begin()->void:
 	if active_started or run_state.in_flight or RunOffers.pending(run_state):return
 	if not RunArchive._available(campaign_host):
-		_menu_text("LAUNCH PAUSED · "+str(campaign_host.get_meta("runs_save_error","")),17);return
+		# BEGIN is pinned in the footer (WP-11), so its refusal is stated at the
+		# top of the page and the page returns there. One note, replaced on a repeat.
+		var note:Label=panel_box.get_meta("launch_paused_note") if panel_box.has_meta("launch_paused_note") and is_instance_valid(panel_box.get_meta("launch_paused_note")) else _menu_text("",17)
+		note.text="LAUNCH PAUSED · "+str(campaign_host.get_meta("runs_save_error",""))
+		panel_box.set_meta("launch_paused_note",note);panel_box.move_child(note,0);scroll.scroll_vertical=0;return
 	var launched=RunState.launch(run_state,accept_rider)
 	if not launched.in_flight:return
 	run_state=launched;sim.configure(run_state);recorded=false;active_envelope={}
@@ -158,8 +165,16 @@ func _refresh()->void:
 	if not status_label.visible:return
 	status_label.text="EXPEDITION · %d / %d · SEED %d"%[run_state.cursor+1,run_state.operations.size(),run_state.seed]
 	if not sim.rider_status().is_empty():status_label.text+="\n"+sim.rider_status()
-	status_label.position=Vector2(12,ui_touch_height+24);status_label.size=Vector2(maxf(1,size.x-24),ui_touch_height*2)
 	status_label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;status_label.mouse_filter=Control.MOUSE_FILTER_IGNORE
+	# WP-11 (I2): the banner sits below the header controls and threat stack and
+	# is only as wide as its text, so the Hunt chip and other chips can clear it.
+	var top=ui_touch_height+24.
+	if mission_hud!=null:top=maxf(top,mission_hud.threat_floor())
+	var font=status_label.get_theme_font("font");var font_size=status_label.get_theme_font_size("font_size")
+	var room=maxf(1.,size.x-24.)
+	var text_size=font.get_multiline_string_size(status_label.text,HORIZONTAL_ALIGNMENT_LEFT,room,font_size)
+	var pad=status_label.get_theme_stylebox("normal").get_minimum_size()
+	status_label.position=Vector2(12,top);status_label.size=Vector2(minf(room,ceilf(text_size.x+pad.x+8.)),ceilf(text_size.y+pad.y))
 func _return()->void:
 	if not is_inside_tree():return
 	for item in prior_visibility:
