@@ -5,7 +5,8 @@ extends RefCounted
 # TRAVEL:<key> tag on its line and a row here; release_controls_tests greps
 # game/src for untagged calls. Dev-only rows exist only with the existing dev
 # state on (src/debug/dev_state.gd). Release play moves by placed legs, depth,
-# in-reach work and RECALL. Revert: make allowed() return true.
+# in-reach work and RECALL. Dev-only rows also need a debug build (see
+# debug_build below). Revert: make allowed() return true.
 const DevState=preload("res://src/debug/dev_state.gd")
 const HandPilot=preload("res://src/simulation/hand_pilot/hand_pilot.gd")
 const WARNING=Color("e0634f")
@@ -20,8 +21,28 @@ const TRAVEL_SHORTCUTS={
  "module_return":{"name":"Departure sheet: send carrier to the mouth","dev_only":true},
 }
 
+# Build seam (WP-06, survey S-02). A DEV mark travels inside saved and exported
+# profiles, so the mark alone would re-enable the dev-only rows when such a
+# profile is imported into a release build. The shortcuts therefore need a
+# debug build as well as the mark. The mark itself (DevState.marked) and its
+# record exclusions are unchanged in every build. null follows the running
+# build; release_build_gate_tests sets false to simulate a release build.
+static var build_override=null
+
+static func debug_build()->bool:
+ return OS.is_debug_build() if build_override==null else build_override
+
+# Internal SS_ diagnostics (survey S-04): printed only in debug builds, with the
+# same text print() gives for the same arguments. Android smoke scripts read
+# these from debug packages.
+static func debug_print(parts:Array)->void:
+ if not debug_build():return
+ var text=""
+ for part in parts:text+=str(part)
+ print(text)
+
 static func dev(host)->bool:
- return host!=null and DevState.marked(host)
+ return host!=null and debug_build() and DevState.marked(host)
 
 static func allowed(host,key:String)->bool:
  return not TRAVEL_SHORTCUTS[key].dev_only or dev(host)
