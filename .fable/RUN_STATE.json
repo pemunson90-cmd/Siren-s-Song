@@ -2,11 +2,11 @@
   "run_id": "overhaul-20261111",
   "status": "RUNNING",
   "phase": "4-execution",
-  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: Wait for the WP-09 implementer (planning camera and order flow); review with two reviewers (input routing is high risk); merge. Then WP-10 photograph flow, then WP-11 HUD defects. Then Phase 5",
+  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: Read the post-merge check job (WP-10 merged at f416831f); push. Wait for WP-11; review; merge. Then Phase 5: fetch base, recheck ledger rows, full CI gate, debug APK via android-validation.yml, behavior-change table",
   "base_ref": "origin/claude/integration",
   "base_sha": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
   "run_branch": "fable/overhaul-20261111",
-  "run_head": "8b787fd73ed5ed07cd0e096ca853c3cb108bfa45",
+  "run_head": "f416831f8d620b7ff2f715e2bd32f45b76acfeba",
   "shared_tips": {
     "claude/integration": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
     "main": "f5b66a198e3878950325f8c45a0bc6bc29dcba84",
@@ -25,11 +25,11 @@
     "WP-07": "merged",
     "WP-08": "merged",
     "WP-09": "merged",
-    "WP-10": "review",
-    "WP-11": "planned",
+    "WP-10": "merged",
+    "WP-11": "building",
     "WP-12": "merged"
   },
   "decisions_open": 10,
-  "last_checkpoint": "Merged: WP-00 to WP-08 and WP-12. WP-09 building. WP-10 and WP-11 planned",
-  "updated": "2026-11-12 06:10:50"
+  "last_checkpoint": "Merged: WP-00 to WP-10 and WP-12. WP-11 building",
+  "updated": "2026-11-12 06:12:10"
 }
