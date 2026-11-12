@@ -14,7 +14,7 @@ func make_game(id:int,shape:Vector2i):
  root.add_child(game);await settle();game.set_process(false)
  var settings=Store.DEFAULTS.duplicate(true);settings.text_scale=1.5
  Settings.apply(settings,game);await settle()
- game._start_mission(id);game._layout();await settle()
+ game._start_mission(id);preload("res://tests/fixtures/player_dive.gd").launch_drones(game.sim);game._layout();await settle()
  return game
 var settle_frames=0
 var settle_usec=0
@@ -165,7 +165,7 @@ func repair_threat_case(shape:Vector2i,mirrored:bool):
   var paused=sim.paused;await tap(game.pause_button.get_global_rect().get_center());check(sim.paused!=paused,tag+" actual Pause touch toggles pause")
   await tap(game.pause_button.get_global_rect().get_center());check(sim.paused==paused,tag+" actual Resume touch restores pause state")
   hud.dismiss();game._refresh();await settle()
- game._start_mission(0);sim=game.sim;sim.paused=true;game._refresh();await settle()
+ game._start_mission(0);preload("res://tests/fixtures/player_dive.gd").launch_drones(game.sim);sim=game.sim;sim.paused=true;game._refresh();await settle()
  for mode in ["free","follow","overview"]:
   var ocean=game.ocean
   if mode=="free":ocean.zoom_at(2.,ocean.size/2);ocean.pan_chart(Vector2(40,20))
@@ -198,7 +198,7 @@ func choose_special(game,point:Vector2,subkind:String):
  hud.dismiss();game._refresh();await settle()
 func repair_special_case(shape:Vector2i):
  var game=await make_game(7,shape);var sim=game.sim;var ocean=game.ocean
- game.tool_racks=preload("res://src/equipment/tool_racks.gd").empty();game.tool_racks.drone_b.recon=2;game._start_mission(7);sim=game.sim
+ game.tool_racks=preload("res://src/equipment/tool_racks.gd").empty();game.tool_racks.drone_b.recon=2;game._start_mission(7);preload("res://tests/fixtures/player_dive.gd").launch_drones(game.sim);sim=game.sim
  sim.units[2].pos=Vector2(650,1120);sim.command("select",{"unit":2});sim.paused=false;sim.advance(.8);sim.paused=true
  check(sim.command("recon"),"tender fixture spends own Survey");game._refresh();await settle()
  var known=game.mission_hud.Rendezvous.projection(sim)

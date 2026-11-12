@@ -1,6 +1,7 @@
 extends "res://tests/depth_policy_ui_tests.gd"
 # Source-known complete opening1–5 journeys. Commands enter through viewport
 # touch plus emulated releases; only simulation time is accelerated.
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 func mode(g,wanted):
  await craft(g,g.sim.selected);await click(g.order_buttons.program)
  var panel=g.route_editor
@@ -128,7 +129,7 @@ func run():
    root.add_child(g);await settle();g.set_process(false)
    # These routes deliberately launch bare; compare actual stock before/after.
    g.tool_racks=preload("res://src/equipment/tool_racks.gd").empty()
-   g._start_mission(id);await settle()
+   g._start_mission(id);PlayerDive.launch_drones(g.sim);await settle()
    var launch_tools=g.sim.tools.duplicate(true)
    var launch_field=g.sim.mission.field_tools.counts.duplicate(true)
    var launch_racks=g.sim.mission.tool_racks.duplicate(true)
