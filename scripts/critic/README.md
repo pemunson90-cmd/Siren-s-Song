@@ -5,7 +5,7 @@ Tools for a blind whole-game critic: a fresh reviewer who plays the real game by
 | File | Purpose |
 | --- | --- |
 | `kit.py` | Builds a kit folder from a git ref, launches one game instance per slot, sends commands. |
-| `driver.gd` | Runs inside Godot. Loads the game's main scene and turns JSON requests into parsed touch, drag, pinch and key events. It never calls game code or reads game state. |
+| `driver.gd` | Runs inside Godot. Loads the game's main scene and turns JSON requests into parsed touch, drag, pinch and key events. It never calls game code and never reads simulation or save state; the `labels` command reads only the text and rectangles of interface labels. |
 | `CRITIC_BRIEF.md` | What a critic judges and how to report. Give a critic this file and `OPERATE.md` only. |
 | `OPERATE.md` | The command reference a critic needs. |
 

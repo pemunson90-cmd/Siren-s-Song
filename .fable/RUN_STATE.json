@@ -6,7 +6,7 @@
   "base_ref": "origin/claude/integration",
   "base_sha": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
   "run_branch": "fable/overhaul-20261111",
-  "run_head": "efbb52452d6f8130666465b57fa7b3e39770afcd",
+  "run_head": "c38fbbcdf860f7f5a640b806a7b3166661cb8104",
   "shared_tips": {
     "claude/integration": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
     "main": "f5b66a198e3878950325f8c45a0bc6bc29dcba84",
@@ -15,10 +15,10 @@
     "claude/workflow-v2": "9624f1fba433008bf8534d194bc8b768658f5479"
   },
   "work_packages": {
-    "WP-00": "review",
+    "WP-00": "merged",
     "WP-01": "merged"
   },
   "decisions_open": 7,
   "last_checkpoint": "Capabilities ledger reviewed and COMPLETE (390 rows). Critics A and C relaunched, reviewer on WP-00. COLD_REVIEW_6 and SURVEY section 7 pending",
-  "updated": "2026-11-12 03:40:00"
+  "updated": "2026-11-12 03:42:32"
 }

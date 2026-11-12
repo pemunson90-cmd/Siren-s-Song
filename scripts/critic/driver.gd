@@ -2,8 +2,10 @@ extends SceneTree
 # Critic play kit driver, version 4.
 #
 # Runs the game's own main scene and turns JSON requests into real parsed input
-# events. It never calls game code, reads game state or changes a save. A blind
-# critic plays through it from screenshots.
+# events. It never calls game code, reads simulation or save state, or changes
+# a save. The one thing it reads from the scene is the text and rectangle of
+# interface labels (`labels`), as an aid for aiming taps. A blind critic plays
+# through it from screenshots.
 #
 # Protocol: the client writes one request file `<control>/request-<id>.json`
 # (written under a temporary name, then renamed). The driver executes it and
@@ -15,6 +17,7 @@ extends SceneTree
 var control := ""
 var busy := false
 var wanted_size := Vector2i.ZERO
+var served := {}
 
 
 func _initialize() -> void:
@@ -46,7 +49,7 @@ func _process(_delta: float) -> bool:
 	if dir == null:
 		return false
 	for name in dir.get_files():
-		if name.begins_with("request-") and name.ends_with(".json"):
+		if name.begins_with("request-") and name.ends_with(".json") and not served.has(name):
 			names.append(name)
 	if names.is_empty():
 		return false
@@ -57,6 +60,8 @@ func _process(_delta: float) -> bool:
 
 
 func _serve(name: String) -> void:
+	# A request is served once even if the rename below fails (file lock).
+	served[name] = true
 	var path := control.path_join(name)
 	var id := name.trim_prefix("request-").trim_suffix(".json")
 	var raw := FileAccess.get_file_as_string(path)
@@ -101,8 +106,21 @@ func _move(index: int, from: Vector2, to: Vector2) -> void:
 	Input.parse_input_event(event)
 
 
+func _number(c: Dictionary, key: String, fallback: float) -> float:
+	var value = c.get(key, fallback)
+	return float(value) if (value is float or value is int) else fallback
+
+
 func _point(c: Dictionary, x_key: String, y_key: String) -> Vector2:
-	return Vector2(float(c.get(x_key, 0)), float(c.get(y_key, 0)))
+	return Vector2(_number(c, x_key, 0), _number(c, y_key, 0))
+
+
+# Screenshots may only be written inside the kit folder (two levels above the
+# slot's control folder), so a mistyped path cannot overwrite a file elsewhere.
+func _inside_kit(path: String) -> bool:
+	var kit := control.get_base_dir().get_base_dir().replace("\\", "/").to_lower()
+	var target := path.replace("\\", "/").to_lower()
+	return not kit.is_empty() and not target.contains("..") and target.begins_with(kit + "/")
 
 
 func _execute(c: Dictionary) -> Dictionary:
@@ -115,12 +133,12 @@ func _execute(c: Dictionary) -> Dictionary:
 			_touch(0, pos, false)
 		"hold":
 			_touch(0, pos, true)
-			await create_timer(clampf(float(c.get("seconds", 0.8)), 0.0, 10.0)).timeout
+			await create_timer(clampf(_number(c, "seconds", 0.8), 0.0, 10.0)).timeout
 			_touch(0, pos, false)
 		"drag":
 			var finish := _point(c, "to_x", "to_y")
-			var steps := clampi(int(c.get("steps", 20)), 1, 600)
-			var seconds := clampf(float(c.get("seconds", 0.5)), 0.0, 20.0)
+			var steps := clampi(int(_number(c, "steps", 20)), 1, 600)
+			var seconds := clampf(_number(c, "seconds", 0.5), 0.0, 20.0)
 			_touch(0, pos, true)
 			var last := pos
 			for i in range(1, steps + 1):
@@ -132,10 +150,10 @@ func _execute(c: Dictionary) -> Dictionary:
 		"pinch":
 			# Two fingers on a horizontal line through (x, y), moving from
 			# `from_gap` pixels apart to `to_gap` pixels apart.
-			var from_gap := float(c.get("from_gap", 200))
-			var to_gap := float(c.get("to_gap", 400))
-			var steps := clampi(int(c.get("steps", 20)), 1, 600)
-			var seconds := clampf(float(c.get("seconds", 0.5)), 0.0, 20.0)
+			var from_gap := _number(c, "from_gap", 200)
+			var to_gap := _number(c, "to_gap", 400)
+			var steps := clampi(int(_number(c, "steps", 20)), 1, 600)
+			var seconds := clampf(_number(c, "seconds", 0.5), 0.0, 20.0)
 			var a := pos - Vector2(from_gap / 2.0, 0)
 			var b := pos + Vector2(from_gap / 2.0, 0)
 			_touch(0, a, true)
@@ -163,18 +181,22 @@ func _execute(c: Dictionary) -> Dictionary:
 			# The Android back button reaches the game as this notification.
 			root.propagate_notification(Node.NOTIFICATION_WM_GO_BACK_REQUEST)
 		"wait":
-			await create_timer(clampf(float(c.get("seconds", 1)), 0.0, 120.0)).timeout
+			await create_timer(clampf(_number(c, "seconds", 1), 0.0, 120.0)).timeout
 		"screenshot":
 			await RenderingServer.frame_post_draw
 			var image := root.get_texture().get_image()
 			result["native_size"] = [image.get_width(), image.get_height()]
-			var scale := clampf(float(c.get("scale", 1.0)), 0.1, 1.0)
+			var scale := clampf(_number(c, "scale", 1.0), 0.1, 1.0)
 			if scale < 1.0:
 				image.resize(int(image.get_width() * scale), int(image.get_height() * scale), Image.INTERPOLATE_LANCZOS)
 			result["path"] = str(c.get("path", ""))
 			result["saved_size"] = [image.get_width(), image.get_height()]
-			result["error"] = image.save_png(result["path"])
-			result["ok"] = result["error"] == OK
+			if _inside_kit(result["path"]):
+				result["error"] = image.save_png(result["path"])
+				result["ok"] = result["error"] == OK
+			else:
+				result["error"] = "Screenshot path must be inside the kit folder"
+				result["ok"] = false
 		"geometry":
 			result["texture_size"] = str(root.get_texture().get_image().get_size())
 			result["visible_rect"] = str(root.get_visible_rect())

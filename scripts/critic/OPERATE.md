@@ -19,7 +19,7 @@ python TOOL quit --kit KIT --slot SLOT
 python TOOL send --kit KIT --slot SLOT '<json>'
 ```
 
-It prints the result and exits non-zero on failure. One command at a time.
+It prints the result and exits non-zero on failure. One command at a time. `send` waits up to 150 seconds for the result; for a batch whose waits add up to more, pass `--timeout SECONDS` before the JSON (for example `--timeout 400`). Screenshot paths must be inside the kit folder.
 
 | Command | Fields | Effect |
 | --- | --- | --- |

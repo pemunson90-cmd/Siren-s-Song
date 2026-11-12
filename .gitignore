@@ -49,3 +49,7 @@ signing.properties
 release*.properties
 scripts/toolchain/signing/release/
 scripts/toolchain/signing/private/
+
+# Python bytecode
+__pycache__/
+*.pyc

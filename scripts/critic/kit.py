@@ -44,8 +44,16 @@ def godot_exe():
     return pathlib.Path(cache) / "win" / GODOT_NAME
 
 
+def safe_name(value, what):
+    if not value or any(ch in value for ch in ("/", chr(92), ":")) or value in (".", ".."):
+        raise SystemExit("%s must be a plain name without path separators: %r" % (what, value))
+    return value
+
+
 def cmd_new(args):
     out = pathlib.Path(args.out).resolve()
+    if out == REPO or REPO in out.parents:
+        raise SystemExit("A kit must live outside the repository: %s" % out)
     if out.exists() and any(out.iterdir()):
         raise SystemExit("Kit folder already exists and is not empty: %s" % out)
     out.mkdir(parents=True, exist_ok=True)
@@ -58,14 +66,20 @@ def cmd_new(args):
         (out / name).mkdir(exist_ok=True)
     (out / "kit.json").write_text(json.dumps({"source": sha, "ref": args.ref, "created": time.strftime("%Y-%m-%d %H:%M:%S")}, indent=2), encoding="utf-8")
     log = out / "import.log"
+    # The import runs with its own user folders so the editor writes no
+    # settings or cache into the real user profile.
+    user = out / "private" / "_import"
+    (user / "Roaming").mkdir(parents=True, exist_ok=True)
+    (user / "Local").mkdir(parents=True, exist_ok=True)
+    env = dict(os.environ, APPDATA=str(user / "Roaming"), LOCALAPPDATA=str(user / "Local"))
     with log.open("wb") as handle:
-        code = subprocess.run([str(godot_exe()), "--headless", "--path", str(out / "game"), "--editor", "--import", "--quit"], stdout=handle, stderr=subprocess.STDOUT).returncode
+        code = subprocess.run([str(godot_exe()), "--headless", "--path", str(out / "game"), "--editor", "--import", "--quit"], env=env, stdout=handle, stderr=subprocess.STDOUT).returncode
     print("kit %s at %s, import exit %d (log %s)" % (out, sha[:8], code, log))
     return code
 
 
 def slot_dir(kit, slot):
-    path = pathlib.Path(kit).resolve() / "control" / slot
+    path = pathlib.Path(kit).resolve() / "control" / safe_name(slot, "--slot")
     path.mkdir(parents=True, exist_ok=True)
     return path
 
@@ -78,7 +92,7 @@ def cmd_launch(args):
         raise SystemExit("Slot %s already has a live runtime (pid %s). Quit it first." % (args.slot, pid_file.read_text().strip()))
     for stale in control.glob("request-*.json"):
         stale.rename(stale.with_name("stale-" + stale.name))
-    user = kit / "private" / args.session / args.view
+    user = kit / "private" / safe_name(args.session, "--session") / args.view
     (user / "Roaming").mkdir(parents=True, exist_ok=True)
     (user / "Local").mkdir(parents=True, exist_ok=True)
     env = dict(os.environ)
