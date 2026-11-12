@@ -27,5 +27,6 @@
  "MAINT-024": "PASS (python scripts/repo/handoff_check.py: PASS on 2026-11-12)",
  "MAINT-026": "PASS (docs/MODULES.md gained a row for every module this run added; compared by hand with the work-package reports)",
  "DEV-005": "CHANGED (kept in debug builds; release builds now refuse the shortcuts on every profile. Ruling: Pat, 2026-10-30, \"they will absolutely have to be stripped for release play\", docs/USER_DIRECTIVES.md. Suites green in CI run 43242777379)",
- "DEV-009": "PAT (decision D-13: the records still print in debug builds and are silent in release builds. Suites green in CI run 43242777379)"
+ "DEV-009": "PASS (Pat answered D-13 A on 2026-11-12: the records still print in debug builds and are silent in release builds. Suites green in CI run 43242777379)",
+ "MOVE-027": "CHANGED (on a player dive the drones start aboard Quietus and launch from it; the offsets remain for a dive started without the launch flag. Ruling: Pat, 2026-11-12, docs/USER_DIRECTIVES.md. Checked by drone_bay_tests 74/0 and launch_clearance_tests)"
 }

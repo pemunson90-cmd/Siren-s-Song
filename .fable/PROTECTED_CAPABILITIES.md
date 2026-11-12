@@ -1,6 +1,6 @@
 # Protected capabilities ledger
 
-Status: COMPLETE (2026-11-12, Phase 1, work package WP-01). Drafted 2026-11-11; reviewed by root on 2026-11-12 with `python scripts/repo/ledger_check.py` (390 rows, every named path exists, every named suite is registered). Phase 5 result (2026-11-12, final code at `247e0582`): the last column of every table, filled by `python scripts/repo/ledger_status.py` from full-matrix run 43242777379 and `.fable/LEDGER_OVERRIDES.json`. 388 rows PASS, 1 CHANGED under a cited ruling (DEV-005), 1 waits on Pat (DEV-009, decision D-13).
+Status: COMPLETE (2026-11-12, Phase 1, work package WP-01). Drafted 2026-11-11; reviewed by root on 2026-11-12 with `python scripts/repo/ledger_check.py` (390 rows, every named path exists, every named suite is registered). Phase 5 result (2026-11-12, final code at `247e0582`): the last column of every table, filled by `python scripts/repo/ledger_status.py` from full-matrix run 43242777379 and `.fable/LEDGER_OVERRIDES.json`. 388 rows PASS and 2 CHANGED under cited rulings (DEV-005; MOVE-027 after the drone launch of 2026-11-12). DEV-009 was answered by decision D-13 A. The suite results are from before the drone launch and TITLE changes, which were checked by their own suites, core and the canaries.
 
 ## What this ledger is
 

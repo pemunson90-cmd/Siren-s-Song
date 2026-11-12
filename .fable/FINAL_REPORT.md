@@ -2,23 +2,26 @@
 
 Status: FINAL (2026-11-12)
 
-Branch `fable/overhaul-20261111`, final game code at `247e0582` (later commits on the branch change only run documents), base `claude/integration` at `cabd5bd5` (tag `fable/pre-overhaul-20261111`). Pull request: https://github.com/pemunson90-cmd/Siren-s-Song/pull/262 (complete, left as a draft on purpose, unmerged; see D-15; Pat merges).
+Branch `fable/overhaul-20261111`, final game code at `0d94ec49` (later commits on the branch change only documents). The first closeout was at `247e0582`; Pat then approved repairs (section 12), which are included, base `claude/integration` at `cabd5bd5` (tag `fable/pre-overhaul-20261111`). Pull request: https://github.com/pemunson90-cmd/Siren-s-Song/pull/262 (ready for review, unmerged; Pat merges).
 
 ## In plain English (for Pat)
 
 **What you will notice when you play**
 
+- *Drones launch from the submarine.* Every dive starts with both drones aboard Quietus, off the map, where nothing can see or hit them. Open FLEET, choose a drone and tap the water: it launches beside the submarine and swims there. A drone you never launch comes home with you. This restores how the prototype worked; the rebuild had dropped it.
 - *Getting caught makes sense.* When you line up a photograph, the map draws a ring showing how far the shutter noise carries. When a Siren locks onto a craft, a countdown appears next to that craft. When you lose a drone, the message says what destroyed it and from which direction, or "UNSEEN SIREN" if you never saw it. A new optional setting (off by default) pauses the dive when a craft is lost.
 - *Planning while paused works.* Tapping a craft while paused no longer swings the camera away. RESUME always resumes in one press, and the button is large enough that taps are not missed. The "replace this route?" box names its real buttons, shows what the craft is doing now, and the clock stops while it is open.
 - *Photographs explain themselves.* There is a SHUTTER button in the camera panel. If you are zoomed wide on something that needs a close-up, you get a warning before film is spent; press again to shoot anyway. After a dive, and in the archive, each photograph shows what it earned.
 - *Oxygen is always visible.* While the dive is running the pause button shows oxygen and roughly how long is left, and turns amber at 25 percent. From the second operation on, the briefing says how long the oxygen lasts.
-- *Buttons and labels stay put.* Warning labels no longer jump or run off the screen. After a lost dive, RETRY is at the top. The Expedition start screen keeps BEGIN at the bottom of the screen. A greyed-out LOAD button says why. Typos such as "by45%" are fixed.
+- *Buttons and labels stay put.* Warning labels no longer jump or run off the screen. After a lost dive, RETRY is at the top. The Expedition start screen keeps BEGIN at the bottom of the screen. A greyed-out LOAD button says why. The Operations screen has a TITLE button at the top. Typos such as "by45%" are fixed.
 
-**Not changed:** no game rule, number, Siren behavior, story text or price. The developer travel shortcuts still work in your test build; they are blocked only in a release build, as you ruled on 30 October.
+**Not changed:** no number, Siren behavior, story text or price. The one rule change is the drone launch above, on your ruling. The developer travel shortcuts still work in your test build; they are blocked only in a release build, as you ruled on 30 October.
 
 **Behind the scenes:** one rulebook for agents, one status page and one list of your rulings (your words copied exactly). Ten outdated notes moved to a scrap folder; nothing was deleted. Safety tests lock in your protected numbers and the rule that no tool permanently disables a Siren. Adding an operation, region, Siren type or fitting is simpler and has a short how-to. A plan to tidy 326 old branches is written and waits for your yes.
 
-**What I could not check:** nothing was seen on a real phone. Everything was checked by automated tests and by three AI play-testers, who covered the opening and middle of the campaign only. Two player complaints turned out to be the game working as designed and are left for you: drones start just outside recovery range (D-11) and there is no obvious way back to the title from the Operations screen (D-12).
+**What I could not check:** nothing was seen on a real phone. Everything was checked by automated tests and by three AI play-testers, who covered the opening and middle of the campaign only. After the drone launch change I ran only the checks that test it directly (your minimum-testing rule): its own suite, the core rules suite, the three rule canaries and the hand-piloted journeys, all passing. Seventy-two other test files that drive the whole game and touch drones were not rerun; some may need their setup updated the next time the full check runs for a release build.
+
+**Other prototype mechanics the rebuild changed without a record** (found by the audit you asked for; nothing changed yet, each waits for your yes or no): objectives are shown from the start instead of found by sensing; Disrupt spends its charge even with no Siren in range; the survey is loud where the prototype's was quiet; drones attract Sirens by their noise where the prototype removed that; being near the factory no longer raises suspicion; a Siren's sight range is no longer drawn. The full list is in `docs/V7_TO_GODOT_PARITY.md`.
 
 ## 1. Outcome
 
@@ -77,20 +80,25 @@ Complete table, built from `git diff fable/pre-overhaul-20261111..fable/overhaul
 | 25 | A grey LOAD button names its reason ("/ NONE ASHORE", "/ CARGO FULL", "/ RACK FULL", "/ SAVE PENDING"), on the Expedition and campaign rack pages. | `presentation/tool_racks_view.gd` | WP-11 | none |
 | 26 | Thirteen fitting descriptions gained missing spaces ("by45%" to "by 45%"); one gained a word ("capped22m/s" to "capped at 22m/s"). No number changed. | `equipment/equipment_catalog.gd` | WP-11 | none |
 | 27 | Region, route-map position, endurance and opening-arc gating are read from one table. No operation behaves differently (parity suite against values recorded from the base). | `campaign/operation_meta.gd` and five readers | WP-07 | none |
+| 28 | Every player dive starts with both drones aboard Quietus (not in the water, carried with it, battery not draining). The first `route` order to a drone launches it beside Quietus in Quietus's depth band; other orders are refused with "DRONE A is aboard Quietus · tap water to launch it"; no launch while Quietus changes depth. A drone never launched is recovered with Quietus and never counted lost. Fleet buttons read ABOARD; the recovery manifest reads "IN · ABOARD". Dives saved earlier keep their drones in the water. | `simulation/drone_bay/drone_bay.gd` and the seams listed in `docs/MODULES.md` | WP-13 | `drone_bay.gd: ENABLED` |
+| 29 | The opening message of a dive adds "Drones are aboard: select one and tap water to launch it."; the field manual's ORDERS paragraph gains one sentence saying the same (instruction text). | `simulation/simulation.gd`, `campaign/onboarding_text.gd` | WP-13 | same |
+| 30 | A TITLE control is the first row of the Operations panel (same action as the bottom-row TITLE, which stays). | `presentation/ops_home/` | WP-14 | `ops_home_table.gd: TOP_TITLE` |
 
 Not behavior changes, listed for completeness: 441 `.gd.uid` files and line-ending normalization (whitespace only, `git diff -w` is empty for those files); the AI trace and sweeper patrol files changed in line endings only.
 
 ## 5. Protected capabilities
 
-390 rows in `.fable/PROTECTED_CAPABILITIES.md`: 388 PASS, 1 CHANGED, 1 PAT. 361 rows pass through suites named on the row, all green in full-matrix run 43242777379; the others name their method in the last column.
+390 rows in `.fable/PROTECTED_CAPABILITIES.md`: 388 PASS, 2 CHANGED, 0 PAT (DEV-009 was answered by D-13 A). 361 rows pass through suites named on the row, all green in full-matrix run 43242777379; the others name their method in the last column.
 
 CHANGED rows:
 
 - **DEV-005** (developer travel shortcuts): kept in debug builds; release builds now refuse them on every profile. Ruling: Pat, 2026-10-30, "they will absolutely have to be stripped for release play" (`docs/USER_DIRECTIVES.md`).
 
-PAT rows:
+- **MOVE-027** (craft launch with clear starting offsets): on a player dive the drones now start aboard Quietus and launch from it; the offsets remain for a dive started without the launch flag. Ruling: Pat, 2026-11-12, "drones are torpedo launched from the quietus ... they do not start on the map."
 
-- **DEV-009** (UI metric records for native layout checks): still printed in debug builds, silent in release builds. Decision D-13.
+Answered: **DEV-009** (UI metric records silent in release builds): Pat, D-13 A, 2026-11-12.
+
+The suite results behind the PASS rows are from run 43242777379, before the drone launch and TITLE changes. Those two changes were checked by their own suites, core and the canaries only.
 
 Rows resolved without a CI suite name the method in the ledger's last column (a CI job, a tool run in this session, direct use during the run, or "unchanged since the base and never automated").
 
@@ -131,31 +139,35 @@ The first three lines refresh the ledger (branches change class as they age), th
 
 ## 9. Decisions for Pat
 
-Answer by number and letter. Full text in `.fable/DECISIONS.md`. Recommendation in bold.
+All fifteen decisions (D-01 to D-15) were answered on 2026-11-12 and are recorded, with the 23-item list Pat answered, in `docs/USER_DIRECTIVES.md` and `.fable/DECISIONS.md`. Applied in this branch: D-02 to D-07, D-11 (drone launch), D-12, D-13, D-14 (tags only) and D-15. Approved for after the playtest and not built: D-08 (photo pay retune, numbers shown first), D-09 (fast-forward and a starter drone tool), D-10 (late-campaign alternates; a Siren on every optional approach; fleet side objectives).
 
-| # | Question | Options |
+New questions, each answerable yes or no (recommendation in bold):
+
+| # | Question | Recommendation |
 | --- | --- | --- |
-| D-01 | Run continued without the command-text guard (git-level hooks worked) | A accept; **B** start future runs with the run clone open as the project |
-| D-02 | Four documents of uncertain staleness | **A** scrap the readiness gate and ending copy table, keep the roadmap and the report; B keep all; C scrap all |
-| D-03 | Stale lines in the story draft | A you fix them later; **B** dated correction notes quoting your rulings; C remove sweeper patrols |
-| D-04 | `codex/handoffs` branch | **A** freeze it as history; B keep it live |
-| D-05 | Perpetual Gauntlet or bounded runs | A bounded; B perpetual; **C** both available |
-| D-06 | Workflow questions Q3 to Q5 | **A** yes to Q3 only; B yes to all; C leave open |
-| D-07 | Guard files travel with the PR | **A** keep; B scrap them before merge; C keep but loosen the push rule |
-| D-08 | Photo pay: quality over distance | **A** retune after this run, numbers shown first; B leave; C retune now |
-| D-09 | Drone pace and an early purchase | **A** time step and starter tool; B time step; C starter tool; D neither |
-| D-10 | Route graph and late variety | Part 1 A, B, C or **D**; part 2 P, Q or **R** |
-| D-11 | Drone start positions | **A** start inside recovery reach and astern; B count unmoved drones as recovered; C leave |
-| D-12 | TITLE control on the Operations panel | **A** add; B leave |
-| D-13 | Diagnostics silent in release builds | **A** keep silent; B print again |
-| D-14 | Run the branch archive plan | **A** tags only; B tags then remove the archived branch refs; C not now |
-| D-15 | Pull request left as a draft to save a full check run | **A** leave it, you mark it ready or merge; B mark it ready now |
+| N-1 | Spare drones, as in the prototype (it carried four and launched a replacement when one was lost)? | **Decide after the playtest** |
+| N-2 | Hide objectives until a craft senses them, as in the prototype? | **Yes for operations on earned charts first** |
+| N-3 | Refuse Disrupt when no Siren is in range, keeping the charge? | **Yes** |
+| N-4 | Make the survey quiet again? | **Yes** |
+| N-5 | Stop drones attracting Sirens by their movement noise? | **No**: the acoustic model treats every craft alike and the decoy is still the stronger lure |
+| N-6 | Draw each known Siren's sight range on the chart? | **Yes** |
+| N-7 | Remove the names of the 341 archived branches now that their tags exist? | **Yes, when you want the branch list short** |
 
 ## 10. Deferred and backlog
 
 No P0 or P1 package was deferred: WP-00 to WP-12 all merged. Two critic findings inside WP-11 (launch strike, OUTSIDE RECOVERY) proved to be rules working as built and became D-11 instead of code changes; the Operations panel BACK became D-12.
 
 The P2 backlog is in `.fable/OVERHAUL_PLAN.md` ("P2: backlog"). Its first items: whole-campaign blind critic coverage, the route graph and late variety (after D-10), the photo pay table (after D-08), drone pace (after D-09), buying and fitting screens, and decomposing `main.gd` and `simulation.gd`.
+
+## 12. Repairs after the first closeout (2026-11-12)
+
+Pat reviewed the first closeout the same day and approved a list of repairs. Done on this branch:
+
+- **Testing cut to the bare minimum** (Pat: "the literal absolute minimum amount of testing ever"). The audit: the full matrix took 46 minutes and about 150 runner-minutes; 41 of 387 suites took 61 percent of it. Pull requests now run core, at most twelve directly affected suites and the canaries. The full matrix is a manual dispatch for a release or near-release package.
+- **Drone launch restored** (WP-13), **TITLE control** (WP-14), **prototype parity audit** (WP-15, eleven unrecorded differences in `docs/V7_TO_GODOT_PARITY.md`).
+- **Housekeeping from the answered decisions:** two documents to scrap, correction notes in the story draft, `codex/handoffs` frozen, the specification's movement clause, and archive tags for 341 old branches as `fable/archive/branch/<name>` (the run's guard allows pushes only under `fable/`; no branch was removed).
+
+Evidence for the repairs: DRONE BAY 74/0, core `CHECKS 850 FAILURES 0`, PROTECTED RULES 87/0, CONTROL MIX 41/0, CRASH 39/0, HANDPILOT 96/0, ONBOARDING 55/0, OPS TITLE CONTROL 60/0, the selector and guidance self-tests, all local scripted verification. No full matrix ran after them, by Pat's rule. The render-only Operations suites were not run with the TITLE control in place.
 
 ## 11. Testing on the phone, and rolling back
 

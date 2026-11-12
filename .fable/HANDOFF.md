@@ -13,9 +13,9 @@ This guide lets a session with an empty context resume run `overhaul-20261111` f
 4. **Check for staleness:** `python scripts/repo/handoff_check.py`, `git status --short`, `git log --oneline -15`, `git worktree list`, `git ls-remote origin 'refs/heads/fable/*'`, and `gh pr view 262 --json state,isDraft,headRefOid`. Rerun the four guard self-test commands of charter Phase 0 step 5 and log the result.
 5. **Recover in-flight work (section 3), then continue** from `next_action`. Before each step record it with `python scripts/repo/run_state.py --now "..."`.
 
-## 2. Where the run stands (closeout of 2026-11-12)
+## 2. Where the run stands (second closeout, 2026-11-12)
 
-The run is finished. Phases 0 to 6 are complete; every work package WP-00 to WP-12 is merged. The final code passed the full matrix (run 43242777379 on `247e0582`). The report is `.fable/FINAL_REPORT.md` and is also the body of pull request 262, which is left as a draft on purpose (decision D-15). Nothing is in flight. A new session has nothing to resume: it waits for Pat's playtest feedback and his answers to the decisions.
+The run is finished. Phases 0 to 6 closed first at `247e0582` (full matrix run 43242777379 green). Pat then answered every decision and approved repairs (phase 7): bare-minimum testing on pull requests, the drone launch restored from the prototype (WP-13), a TITLE control (WP-14), a prototype parity audit (WP-15), housekeeping and archive tags. All of it is merged and pushed. The report is `.fable/FINAL_REPORT.md` and is also the body of pull request 262. Nothing is in flight. A new session waits for Pat's playtest feedback and his answers to the new questions N-1 to N-7 in the report.
 
 ## 3. In-flight work and how to recover it
 
@@ -45,8 +45,8 @@ Merging a work package (charter 5.3): reviewer verdict, then `git merge --no-ff 
 
 ## 6. Open decisions for Pat
 
-Fifteen are open in `.fable/DECISIONS.md` (D-01 to D-15). None blocked the run.
+D-01 to D-15 are answered (`.fable/DECISIONS.md`). New yes or no questions N-1 to N-7 are in section 9 of `.fable/FINAL_REPORT.md`.
 
 ## 7. What comes next
 
-Pat plays the debug package, answers decisions and merges pull request 262. The next run starts from the P2 backlog in `.fable/OVERHAUL_PLAN.md`.
+Pat plays the debug package and merges pull request 262. Approved for after the playtest: photo pay retune (D-08), fast-forward and a starter drone tool (D-09), late-campaign alternates and Siren pressure on optional operations (D-10). Testing rule for all of it: the bare minimum (`docs/WORKFLOW.md`); the full matrix only by manual dispatch before a release package.

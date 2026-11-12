@@ -32,13 +32,14 @@ Ranked in `.fable/SURVEY.md` section 7 and `.fable/COLD_REVIEW_6.md`. In short:
 
 ## Waiting on Pat
 
-Open decisions of the current run are in `.fable/DECISIONS.md`. Older open questions are in [QUESTIONS_FOR_PAT.md](QUESTIONS_FOR_PAT.md) (items 3 and 8).
+The run's decisions D-01 to D-15 are answered. New questions N-1 to N-7 are in `.fable/FINAL_REPORT.md` section 9. Older open questions are in [QUESTIONS_FOR_PAT.md](QUESTIONS_FOR_PAT.md) (items 3 and 8).
 
 ## Next action
 
-The overhaul run `overhaul-20261111` is finished (2026-11-12). Pull request 262 holds all of it, as a draft. Next, in this order:
+The overhaul run `overhaul-20261111` is finished (2026-11-12), including the repairs Pat approved the same day. Pull request 262 holds all of it. Next, in this order:
 
 1. Pat plays the debug package (link and install steps in `.fable/FINAL_REPORT.md` section 11) and gives feedback.
-2. Pat answers the open decisions in `.fable/DECISIONS.md` by number and letter (D-01 to D-15).
-3. Pat merges pull request 262 into `claude/integration`.
-4. The next run starts from the P2 backlog in `.fable/OVERHAUL_PLAN.md`, reordered by Pat's playtest feedback.
+2. Pat answers the new yes or no questions N-1 to N-7 (report section 9) and merges pull request 262 into `claude/integration`.
+3. The next run builds what Pat approved for after the playtest (photo pay retune, fast-forward and a starter drone tool, late-campaign alternates), then the P2 backlog in `.fable/OVERHAUL_PLAN.md`, reordered by the playtest feedback.
+
+Testing rule (Pat, 2026-11-12): the bare minimum for every change; the full matrix only by manual dispatch before a release or near-release package.

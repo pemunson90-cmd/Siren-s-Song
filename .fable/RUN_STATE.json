@@ -2,11 +2,11 @@
   "run_id": "overhaul-20261111",
   "status": "RUNNING",
   "phase": "7-repairs",
-  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: Repairs Pat approved on 2026-11-12 (list in docs/USER_DIRECTIVES.md): WP-13 drone launch from Quietus (root), WP-14 TITLE control on the Operations panel (bounded agent), WP-15 v7 parity audit (bounded read-only agent), housekeeping items 13 to 20, then one debug package and mark PR 262 ready",
+  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: Read the debug package run for the final code, record its SHA-256 in .fable/FINAL_REPORT.md section 6 and 11, set status DONE, push, set the PR body, mark PR 262 ready (one minimum check run)",
   "base_ref": "origin/claude/integration",
   "base_sha": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
   "run_branch": "fable/overhaul-20261111",
-  "run_head": "f1b42b36ce4680b36e6b5aa9f9dc8cb518ac3e29",
+  "run_head": "a1cb98ef17114aab594ec2d3fc4b4970d3405920",
   "shared_tips": {
     "claude/integration": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
     "main": "f5b66a198e3878950325f8c45a0bc6bc29dcba84",
@@ -28,11 +28,11 @@
     "WP-10": "merged",
     "WP-11": "merged",
     "WP-12": "merged",
-    "WP-13": "building",
-    "WP-14": "building",
-    "WP-15": "building"
+    "WP-13": "merged",
+    "WP-14": "merged",
+    "WP-15": "merged"
   },
   "decisions_open": 0,
-  "last_checkpoint": "Run reopened by Pat after DONE for approved repairs",
-  "updated": "2026-11-12 11:01:42"
+  "last_checkpoint": "Phase 7 repairs merged: WP-13 drone launch, WP-14 TITLE control, WP-15 parity audit, housekeeping, minimum-testing CI",
+  "updated": "2026-11-12 11:20:09"
 }
