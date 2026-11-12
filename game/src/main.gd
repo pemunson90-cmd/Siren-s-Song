@@ -384,7 +384,7 @@ func _process(dt: float) -> void:
 		if save_clock>5.0: _save_archive(); save_clock=0.0
 	if screen=="mission":
 		_release_view()
-		if not _order_dialog_open():tactical_aids.advance(dt)
+		if not _order_dialog_open():preload("res://src/dive_clock.gd").advance(self,tactical_aids,dt)
 		_observation_diagnostics()
 		if not sim.outcome.is_empty(): _debrief()
 		elif sim.has_method("departure_context") and sim.departure_context().get("pending",false): _confirm_module_departure()

@@ -30,9 +30,6 @@ const ALLOWED={
 	"main.gd":[3,"CAMERA and DECOY here are order button captions, not noise labels"],
 	"presentation/acoustic_feedback.gd":[2,"CAMERA and KNOCKDOWN as the player-read words of a display map (keys use Names)"],
 	"presentation/death_cause/cause_table.gd":[1,"ACTIVE SONAR as the player-read phrase (the key uses Names)"],
-	"presentation/threat_read/":[-1,"pending: root is working in this folder"],
-	"presentation/expedition_view.gd":[-1,"pending: root is working in this file"],
-	"presentation/mission_hud.gd":[-1,"pending: root is working in this file"],
 }
 var checks=0
 var failures=0
