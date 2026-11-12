@@ -1,6 +1,8 @@
 extends RefCounted
 # Revert OPS HOME with enabled=false. Presentation only; no saved fields.
 static var enabled=true
+# WP-14: a TITLE control at the top of the panel (same callback as the bottom row). false = no top control.
+const TOP_TITLE=true
 const FOLD_THRESHOLD=3
 const GAP=12
 const HEADING_SIZE=18

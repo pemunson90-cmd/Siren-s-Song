@@ -106,6 +106,12 @@ static func arrange(host)->void:
   var stock_fold=host._button(host.panel_box,"LAUNCH DETAILS / LOADOUT",func():stock.visible=not stock.visible;host.set_meta("ops_home_details_open",stock.visible);host.call_deferred("_layout"),"launch_details")
   for node in details:node.reparent(stock)
   host.panel_box.move_child(stock_fold,start);host.panel_box.move_child(stock,start+1);stock.visible=host.get_meta("ops_home_details_open",false)
+ # WP-14: first row of the panel; reuses the bottom-row TITLE callback (MenuReach.open "title").
+ if Table.TOP_TITLE:
+  var title=host._button(host.panel_box,"TITLE",func():preload("res://src/presentation/frontend/menu_reach.gd").open(host,"title"),"ops_title")
+  host.panel_box.move_child(title,0)
+  title.size_flags_horizontal=Control.SIZE_SHRINK_BEGIN
+  title.custom_minimum_size=Vector2(maxf(title.custom_minimum_size.x,host.ui_touch_height*3.),maxf(title.custom_minimum_size.y,host.ui_touch_height))
  # Folded controls must retain a full touch-sized minimum before first layout.
  for control in host.panel_box.find_children("*","Button",true,false):
   control.custom_minimum_size.x=maxf(control.custom_minimum_size.x,host.ui_touch_height)
