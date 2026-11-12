@@ -8,7 +8,7 @@ static func emit_ui_metrics(host, snapshot: Dictionary={}) -> void:
 		if host.metrics_session.is_empty():host.metrics_session="%d-%d"%[OS.get_process_id(),Time.get_ticks_usec()]
 		host.metrics_serial+=1
 		for record in host.MetricsTransport.encode(snapshot,host.metrics_session,host.metrics_serial):print(record)
-	else:print("SS_UI_METRICS ",JSON.stringify(snapshot))
+	else:preload("res://src/presentation/release_controls.gd").debug_print(["SS_UI_METRICS ",JSON.stringify(snapshot)])
 
 
 static func rect_values(host, rect: Rect2) -> Array:
