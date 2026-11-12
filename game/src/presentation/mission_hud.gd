@@ -602,13 +602,14 @@ func refresh():
  host.order_buttons.home.text="WITHDRAW" if Expedition.entry(sim) else "EXTRACT"
  extra.route_here.text="PLOT ROUTE" if subject.has("subkind") else "ROUTE HERE"
  ReleaseControls.refresh(self)
- extra.arrivals.text="ARRIVALS\n%d"%Expedition.measurements(sim).size()
- extra.arrivals.disabled=Expedition.measurements(sim).is_empty()
+ var arrival_rows=Expedition.measurements(sim)
+ extra.arrivals.text="ARRIVALS\n%d"%arrival_rows.size()
+ extra.arrivals.disabled=arrival_rows.is_empty()
  var sites=host.ocean.observable_sites();var records=sites.filter(func(o):return o.captured).size()
  var summary="KNOWN SITES %d · RECORDED %d"%[sites.size(),records] if Expedition.active(sim) else "RECORDS %d/%d"%[records,sites.size()]
  instrument_info.text=summary+" · DEPTH %dm\n"%sim.mission.depth+"\n".join(host.ocean.acoustic_rows())+"\n"+sim.message
- if subject.get("kind","")=="objective" and subject.get("index",-1)>=0 and subject.index<host.ocean.observable_sites().size():
-  var site=host.ocean.observable_sites()[subject.index]
+ if subject.get("kind","")=="objective" and subject.get("index",-1)>=0 and subject.index<sites.size():
+  var site=sites[subject.index]
   instrument_info.text=site.name+" · "+("RECORDED" if site.captured else "NOT RECORDED")+"\n"+site.get("requirement","")+"\n"+site.get("unit_requirement","")+"\n"+instrument_info.text
  if subject.get("subkind","") in ["corridor","withdrawal"]:instrument_info.text=Expedition.context_detail(sim,subject)+"\n\n"+instrument_info.text
  FeatureViews.build_context(self)
@@ -763,7 +764,8 @@ func _draw():
   var a=-PI/2+TAU*(i-.5)/ring_buttons.size();var inner=StatusView.radial_point(self,a,ring_radius-h*.65);var outer=StatusView.radial_point(self,a,ring_radius+h*.6)
   draw_line(center+inner,center+outer,Color(.3,.72,.74,.4),1)
  var title=subject.get("name","SITE") if subject.get("kind","") in ["objective","salvage","plant","habitat"] else host.sim.units[host.sim.selected].name
- var caption=page.to_upper() if page!="craft" else ("COMMAND · SITES %d"%host.ocean.observable_sites().size() if Expedition.active(host.sim) else "COMMAND · %d/%d"%[host.ocean.observable_sites().filter(func(o):return o.captured).size(),host.ocean.observable_sites().size()])
+ var command_sites=host.ocean.observable_sites() if page=="craft" else []
+ var caption=page.to_upper() if page!="craft" else ("COMMAND · SITES %d"%command_sites.size() if Expedition.active(host.sim) else "COMMAND · %d/%d"%[command_sites.filter(func(o):return o.captured).size(),command_sites.size()])
  if page=="acoustics":
   var body=host.sim.units[host.sim.selected];caption=host.sim.Depth.NAMES[body.band]
   if not body.transition.is_empty():caption+=" → "+host.sim.Depth.NAMES[body.transition.to]+" %.1fs"%body.transition.remaining
