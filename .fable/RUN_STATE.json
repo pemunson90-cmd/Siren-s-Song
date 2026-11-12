@@ -1,8 +1,8 @@
 {
   "run_id": "overhaul-20261111",
-  "status": "STUCK",
-  "phase": "0-preflight",
-  "next_action": "Phase 0 step 5: start a new session whose project folder is the run clone (so .claude/settings.json hooks load), run /siren-s-start-fable, rerun the four guard self-test commands. If all four results are right, continue with step 6 (tag fable/pre-overhaul-20261111 at base_sha), step 7 (baseline: import and core through scripts/toolchain/win/headless.ps1) and step 8.",
+  "status": "RUNNING",
+  "phase": "1-survey",
+  "next_action": "Phase 1: read every documentation file and the codex/handoffs state, write DOC_INVENTORY, BRANCH_LEDGER, CI_INVENTORY, SURVEY and PROTECTED_CAPABILITIES; run Critic 6",
   "base_ref": "origin/claude/integration",
   "base_sha": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
   "run_branch": "fable/overhaul-20261111",
@@ -15,7 +15,7 @@
     "claude/workflow-v2": "9624f1fba433008bf8534d194bc8b768658f5479"
   },
   "work_packages": {},
-  "decisions_open": 0,
-  "last_checkpoint": "Phase 0 steps 1 to 4 complete; step 5 failed (PreToolUse guard not loaded in this session)",
-  "updated": "2026-11-11 20:42:05"
+  "decisions_open": 1,
+  "last_checkpoint": "Phase 0 exit: tag pushed, baseline import OK and core CHECKS 850 FAILURES 0",
+  "updated": "2026-11-11 20:49:58"
 }
