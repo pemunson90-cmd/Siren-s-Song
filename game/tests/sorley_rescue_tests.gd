@@ -1,4 +1,5 @@
 extends "res://tests/calder_trench_journey_tests.gd"
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 const S=preload("res://src/campaign/sorley_rescue.gd")
 const Catalog=preload("res://src/campaign/operation_catalog.gd")
 const C=preload("res://src/campaign/expedition_campaign.gd")
@@ -113,7 +114,7 @@ func run():
  var e={"stock":{"scrap":0,"cells":0,"alloy":0},"report":""}
  S.credit(e,p,recovered);check(e.stock.scrap==0 and e.stock.cells==0 and e.report.contains("PILOTAGE CHARTS"),"ordinary rescue receives pilotage charts")
  S.credit(e,recovered,recovered);check(e.stock.scrap==0,"replay cannot duplicate reward")
- var fleet=ObservedSim.new();fleet.start(41,"endurance",{"tool_racks":{"quietus":{},"drone_a":{"emp":1},"drone_b":{}}})
+ var fleet=ObservedSim.new();fleet.start(41,"endurance",{"tool_racks":{"quietus":{},"drone_a":{"emp":1},"drone_b":{}}});PlayerDive.launch_drones(fleet) # the independent drone starts aboard; it is launched before its depth orders
  var fleet_tools=fleet.tools.duplicate(true)
  fleet.command("select",{"unit":1})
  # Quiet propulsion limits the approach report; one local Disrupt covers the winch.

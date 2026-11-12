@@ -1,4 +1,5 @@
 extends SceneTree
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd") # both drones start aboard; the tasks under test belong to craft in the water
 # 119 (audit 091 F3/F5/F13): object work ownership, named recipient, craft/object
 # choice and moving-objective progress. Presentation and input only.
 const WorkTask=preload("res://src/presentation/work_task/work_task.gd")
@@ -41,6 +42,8 @@ func settle(g,id:int,pos:Vector2,band:int=1,face:Vector2=Vector2.INF):
  var u=g.sim.units[id];u.pos=pos;u.vel=Vector2.ZERO;u.band=band;u.route=[];u.transition={}
  if face.is_finite():u.angle=pos.angle_to_point(face)
 func run():
+ # The work objects are found by search under the player rules; these checks are about task ownership and the touch choice, not discovery, so they use the developer known-charts switch.
+ var charts_before=PlayerDive.known_water(true)
  for arg in OS.get_cmdline_user_args():
   if arg.begins_with("--capture-dir="):captures=arg.trim_prefix("--capture-dir=");DirAccess.make_dir_recursive_absolute(captures)
  for dimensions in [Vector2i(2520,1080),Vector2i(2184,1968)]:
@@ -50,7 +53,7 @@ func run():
   g.capture_scenario="runtime-test"
   root.add_child(g);await frames();g.set_process(false)
   if g.get_node_or_null("Frontend")!=null:g.get_node("Frontend")._dismiss()
-  g._start_mission(34);g._enter_water();g.sim.sirens=[];g.sim.paused=true
+  g._start_mission(34);g._enter_water();g.sim.sirens=[];PlayerDive.launch_drones(g.sim);g.sim.paused=true
   var tag=str(dimensions.x)
   var work_pos:Vector2=g.sim.mission.glass_reach.work_pos
   var disc=-1
@@ -120,7 +123,7 @@ func run():
    check("WORKING A" in g.mission_hud.intent.text and "LAST · DRONE A · ACCEPTED" in g.mission_hud.intent.text,"task progress and start result stay on water "+tag)
    await shot("work-progress-"+tag)
   # F13: moving load progress distinguishes motion, escort hold, last fix and arrival.
-  g._start_mission(25);g._enter_water();g.sim.sirens=[];g.sim.paused=true
+  g._start_mission(25);g._enter_water();g.sim.sirens=[];PlayerDive.launch_drones(g.sim);g.sim.paused=true
   var state=g.sim.mission.get("iron_choir",{})
   check(not state.get("load",{}).is_empty(),"Last Shift has a physical moving load "+tag)
   if not state.get("load",{}).is_empty():
@@ -140,7 +143,7 @@ func run():
    state.seen.time=g.sim.elapsed-6.
    check(WorkTask.load_tag(g.sim)=="ARRIVED \u00b7 CONFIRMED","observed arrival stays confirmed after sight ages "+tag)
   # The large-text dock carries the same recipient and task refusal as the ring.
-  g._start_mission(34);g._enter_water();g.sim.sirens=[];g.sim.paused=true
+  g._start_mission(34);g._enter_water();g.sim.sirens=[];PlayerDive.launch_drones(g.sim);g.sim.paused=true
   var settings=preload("res://src/presentation/frontend/frontend_settings.gd")
   var old_scale=settings.current.get("text_scale",1.)
   settings.current.text_scale=1.5;g._layout()
@@ -159,11 +162,12 @@ func run():
   await shot("work-dock-choice-"+tag)
   settings.current.text_scale=old_scale;g._layout()
   # Ordinary objectives occupied by another craft use the same visible choice.
-  g._start_mission(2);g._enter_water();g.sim.sirens=[];g.sim.paused=true
+  g._start_mission(2);g._enter_water();g.sim.sirens=[];PlayerDive.launch_drones(g.sim);g.sim.paused=true
   var ordinary=g.sim.mission.objectives[0].pos
   settle(g,0,ordinary+Vector2(-150,100));settle(g,1,ordinary);settle(g,2,ordinary+Vector2(-200,180))
   g._order("select",{"unit":0});g.ocean.focus_craft();g._refresh();await frames()
   await world_tap(g,ordinary)
   check(g.mission_hud.page=="choose" and 1 in craft_choices(g),"ordinary objective overlap offers craft or object choice "+tag)
   g.queue_free();await frames()
+ PlayerDive.known_water(charts_before)
  print("WORK TASK CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)

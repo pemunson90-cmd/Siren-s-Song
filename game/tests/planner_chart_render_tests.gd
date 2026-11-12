@@ -1,6 +1,7 @@
 extends SceneTree
 # Actual-render regression. Run with Compatibility and an X display; the
 # headless route-editor harnesses separately exercise commands and gestures.
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 var checks=0
 var failures=0
 var folder=""
@@ -20,6 +21,8 @@ func run():
  for arg in OS.get_cmdline_user_args():
   if arg.begins_with("--capture-dir="):folder=arg.trim_prefix("--capture-dir=");DirAccess.make_dir_recursive_absolute(folder)
  root.content_scale_size=Vector2i.ZERO;root.size=Vector2i(1200,900)
+ # The charted-basalt and shutter checks read authored Warning Chain water that the player rules leave uncharted; this suite is about the planner drawing, not discovery, so it uses the developer known-charts switch for operation 10 only.
+ var charts_before=PlayerDive.known_water(true)
  var sim=load("res://src/simulation/simulation.gd").new();sim.start(10)
  var preview=load("res://src/presentation/route_program_preview.gd").new();preview.sim=sim;preview.position=Vector2(20,30);preview.size=Vector2(1120,800);root.add_child(preview);await frame()
  preview.fit_chart();await frame();var before=sim.snapshot();var img=image_of(preview)
@@ -34,6 +37,7 @@ func run():
  preview.queue_redraw();await frame();var opened=image_of(preview)
  check(opened.get_pixelv(Vector2i(preview.screen_position(Vector2(1000,1020))))!=closed,"the planner visibly distinguishes the actual closed shutter from open water")
  capture(opened,"opened-warning")
+ PlayerDive.known_water(charts_before)
  sim.start(11);preview.fit_chart();preview.queue_redraw();await frame();var earned=image_of(preview)
  # This source-known fixture changes an unmeasured private obstacle, leaving
  # the actual public chart intact. It must produce no new planning silhouette.

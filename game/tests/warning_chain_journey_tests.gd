@@ -4,6 +4,7 @@ extends SceneTree
 # all plant transitions use public commands, and original guards/tools remain.
 # Only the loss case injects a near-empty own battery after its real connection.
 const Sim=preload("res://src/simulation/simulation.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 const WEST=Vector2(480,1000)
 const EAST=Vector2(1520,1000)
 const WEST_EXIT=Vector2(180,1000)
@@ -28,6 +29,7 @@ func defend(s,last:float)->float:
 func run_case(name:String,service:bool,helper:bool,lose:bool)->void:
  var s=Sim.new();s.start(10,"disruption");s.mission["dev"]=true;var stage=0;var last=-10.0;var connected_at=-1.0;var lost_at=-1.0
  if helper:
+  PlayerDive.launch_drones(s) # the helpers are in the water before their scripted legs
   route(s,1,Vector2(180,1660));s.command("queue");s.command("route",{"point":Vector2(180,1000)});s.command("route",{"point":WEST});s.command("queue")
   s.command("route_edit",{"index":1,"mode":"silent"});s.command("route_edit",{"index":2,"mode":"silent"})
  else:s.units[1].alive=false;s.units[2].alive=false;route(s,0,WEST)
@@ -63,8 +65,11 @@ func run_case(name:String,service:bool,helper:bool,lose:bool)->void:
  elif helper:check(s.units[1].alive,"quiet transit and actual defensive tools can preserve the supplying body through a complete operation")
  print("PLANT JOURNEY ",name," outcome=",s.outcome," time=",s.elapsed," hull=",s.hull," EMP=",s.tools.emp," torpedoes=",s.tools.knock," connected=",connected_at," lost=",lost_at," alive=",s.units.map(func(u):return u.alive))
 func _initialize():
+ # Scripted voyages through authored water the player rules leave uncharted; this suite is not about discovery, so it uses the developer known-charts switch.
+ var charts_before=PlayerDive.known_water(true)
  run_case("solo-service",true,false,false)
  run_case("solo-mast",false,false,false)
  run_case("dual-service",true,true,false)
  run_case("lost-power-service",true,true,true)
+ PlayerDive.known_water(charts_before)
  print("WARNING CHAIN JOURNEY CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)

@@ -24,7 +24,8 @@ func run():
  var enemy=game.sim.sirens[0];enemy.pos=game.sim.units[0].pos+Vector2(100,0);enemy.mode="DISRUPTED";enemy.stun=6.;enemy.lock=0.;enemy.target=-1
  game.sim._observe();game._refresh();await settle()
  game._target_knockdown(game.ocean.global_position+game.ocean.screen_position(enemy.pos));await settle()
- check("disrupt" in game.mission_hud.intent.text.to_lower() and game.sim.tools.knock==shots,"observed disrupted target explains rejection without spending")
+ # Player naming rule (Pat, 2026-11-12: "It should just say EMP"): the stunned-target refusal says "stunned by EMP"; it used to say "disrupt".
+ check("stunned by emp" in game.mission_hud.intent.text.to_lower() and game.sim.tools.knock==shots,"observed disrupted target explains rejection without spending")
  enemy.pos=game.sim.units[0].pos+Vector2(170,0);enemy.mode="PATROL";enemy.stun=0.;game.sim._observe();game._refresh();await settle()
  game._target_knockdown(game.ocean.global_position+game.ocean.screen_position(enemy.pos));await settle()
  check("out of range" in game.mission_hud.intent.text and "170m" in game.mission_hud.intent.text and "150m" in game.mission_hud.intent.text and game.sim.tools.knock==shots,"fresh observed target beyond launcher reach explains measured range without spending")

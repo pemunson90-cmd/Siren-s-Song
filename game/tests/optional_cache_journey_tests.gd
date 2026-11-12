@@ -1,6 +1,7 @@
 extends "res://tests/calder_trench_journey_tests.gd"
 # Source-known live-threat voyages. All travel, winching, receipt and film use
 # ordinary orders; no staged craft positions, cargo, captured records or threats.
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 const Cache=preload("res://src/simulation/optional_cache.gd")
 const Gear=preload("res://src/equipment/equipment_catalog.gd")
 const Campaign=preload("res://src/campaign/expedition_campaign.gd")
@@ -12,6 +13,7 @@ func run():
   fit.quietus="quietus_vector_drive"
   if frame!="heavy":fit.quietus_2="quietus_scrubber_bed"
   var s=Sim.new();s.start(39,"endurance",{"fitted":fit})
+  if frame=="heavy":PlayerDive.launch_drones(s) # the Heavy drone is the carrier; it must be in the water before it is given a depth order
   s.command("silent")
   var stock=s.tools.duplicate(true)
   var carrier=1 if frame=="heavy" else 0

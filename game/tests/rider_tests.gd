@@ -3,6 +3,7 @@ extends SceneTree
 const Riders=preload("res://src/campaign/career/riders.gd")
 const Dive=preload("res://src/presentation/career/rider_dive.gd")
 const Base=preload("res://src/simulation/simulation.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 const State=preload("res://src/campaign/career/career_state.gd")
 const Archive=preload("res://src/campaign/career/career_archive.gd")
 const Runs=preload("res://src/campaign/runs/run_state.gd")
@@ -36,14 +37,19 @@ func run()->void:
 		var ordinary=Base.new();ordinary.start(0)
 		match id:
 			"no_sonar","no_tools","middle_only":
+				if id=="no_tools":
+					# EMP needs a Siren inside its radius (Pat, 2026-11-12); the rider rule is about spending a tool, so one is placed within reach in both runs.
+					for craft in [run,ordinary]:craft.sirens[0].pos=craft.units[0].pos+Vector2(120,0)
 				var order="ping" if id=="no_sonar" else ("emp" if id=="no_tools" else "depth")
 				var args={"band":0} if id=="middle_only" else {}
 				var accepted=ordinary.command(order,args)
 				check(run.command(order,args)==accepted and run.tools==ordinary.tools and run.units==ordinary.units,"rule rejection preserves actual base command "+id)
 			"hull_intact":run.hull=99.;run._tick(0.)
-			"no_losses":run.units[1].alive=false;run._tick(0.)
+			"no_losses":PlayerDive.launch_drones(run);run.units[1].alive=false;run._tick(0.) # lost in the water, not aboard
 			"one_tool":
 				run.used={"emp":1}
+				# EMP needs a Siren inside its radius (Pat, 2026-11-12); a Siren is placed within reach in both runs.
+				for craft in [run,ordinary]:craft.sirens[0].pos=craft.units[0].pos+Vector2(120,0)
 				var accepted=ordinary.command("emp")
 				check(run.command("emp")==accepted and run.tools==ordinary.tools,"spent budget still executes base tool")
 			"quiet_propulsion":run.loud_time=21.;run._tick(0.)

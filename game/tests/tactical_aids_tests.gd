@@ -3,6 +3,7 @@ const Store=preload("res://src/persistence/settings_store.gd")
 const Settings=preload("res://src/presentation/frontend/frontend_settings.gd")
 const Aids=preload("res://src/presentation/accessibility/tactical_aids.gd")
 const Sim=preload("res://src/simulation/simulation.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 class Host extends RefCounted:
  var sim=Sim.new()
  var screen="mission"
@@ -21,7 +22,7 @@ func tap(point):
   var m=InputEventMouseButton.new();m.device=InputEvent.DEVICE_ID_EMULATION;m.position=point;m.button_index=MOUSE_BUTTON_LEFT;m.pressed=down;root.push_input(m,true);await process_frame
  await settle()
 func restored_aids():
- var host=Host.new();host.sim.start(0);var sim=host.sim;var aid=Aids.new();aid.bind(host)
+ var host=Host.new();host.sim.start(0);PlayerDive.launch_drones(host.sim);var sim=host.sim;var aid=Aids.new();aid.bind(host)
  sim.elapsed=10.;sim.mission.structures=[];sim.mission.depth_geometry={}
  sim.sirens[0].target=1
  sim.contacts={0:{"pos":sim.units[1].pos+Vector2(60,0),"time":10.,"mode":"LOCKING","lock":.1,"target":1,"band":sim.units[1].band}}
@@ -68,7 +69,7 @@ func restored_aids():
  check(not restored.sim.paused,"restored notice stays independent of lock toggle")
  restored.sim.contacts[0].target=2;restored.sim.contacts[0].pos=restored.sim.units[2].pos+Vector2(60,0);restored.sim.contacts[0].band=restored.sim.units[2].band
  next.observe();check(restored.sim.paused,"lock-only option still pauses for a fresh lock")
- sim.start(0);aid.observe();snapshot=sim.snapshot();history=aid.saved_history()
+ sim.start(0);PlayerDive.launch_drones(sim);aid.observe();snapshot=sim.snapshot();history=aid.saved_history()
  check(restored.sim.restore(snapshot),"snapshot before first warning restores")
  next.restore_history(history);restored.sim.paused=false
  Settings.apply(Store.sanitize({"auto_pause_notice":true}));restored.sim.siren_notice.emit(0,Vector2.ZERO);next.observe()
@@ -82,14 +83,14 @@ func run():
  var store=Store.new();store.path="user://tactical-aids-settings-test.json"
  check(store.save_settings(options) and store.load_settings()==options,"all three choices persist separately from campaign")
  DirAccess.remove_absolute(store.path)
- var host=Host.new();host.sim.start(0);var sim=host.sim;var aid=Aids.new();aid.bind(host)
+ var host=Host.new();host.sim.start(0);PlayerDive.launch_drones(host.sim);var sim=host.sim;var aid=Aids.new();aid.bind(host)
  Settings.apply(Store.DEFAULTS);sim.paused=false;sim.siren_notice.emit(0,Vector2.ZERO);aid.observe()
  check(not sim.paused,"default notice leaves time running")
  Settings.apply(options);sim.siren_notice.emit(0,Vector2.ZERO);aid.observe()
  check(not sim.paused,"enabling an aid does not replay an old notice")
  sim.siren_notice.emit(1,Vector2.ZERO);aid.observe();check(sim.paused,"a new Siren notice pauses")
  sim.paused=false;sim.siren_notice.emit(1,Vector2.ZERO);aid.observe();check(not sim.paused,"resume under same first notice stays running")
- sim.start(1);sim.paused=false;sim.selected=0
+ sim.start(1);PlayerDive.launch_drones(sim);sim.paused=false;sim.selected=0
  sim.siren_notice.emit(1,Vector2.ZERO);aid.observe();check(sim.paused,"new operation rearms first notice")
  # A received drone lock must pause even while Quietus is selected.
  sim.paused=false;sim.elapsed=10.;sim.mission.structures=[];sim.mission.depth_geometry={}
@@ -115,11 +116,12 @@ func run():
  sim.contacts[3].time=sim.elapsed;sim.contacts[3].recipient_target=true;aid.observe();check(not sim.paused,"recipient warning never aliases craft")
  host.screen="menu";sim.siren_notice.emit(4,Vector2.ZERO);aid.observe();check(not sim.paused,"menu never auto pauses")
  # Real simulation acquisition on an unselected, stationary SILENT drone.
- host.screen="mission";sim.start(0);sim.mission.structures=[];sim.mission.depth_geometry={}
+ host.screen="mission";sim.start(0);PlayerDive.launch_drones(sim);sim.mission.structures=[];sim.mission.depth_geometry={}
  sim.band_shapes={0:[],1:[],2:[]};sim.band_bounds={}
  sim.units[0].pos=Vector2(100,100);sim.units[1].pos=Vector2(400,300);sim.units[1].silent=true
  sim.units[2].alive=false;sim.selected=0
  sim.sirens=[sim.sirens[0]];sim.sirens[0].pos=Vector2(460,300);sim.sirens[0].route=[];sim.sirens[0].band=sim.units[1].band
+ sim.sirens[0].mode="SEARCH" # a calm Siren ignores a drone in its sight (Pat, 2026-11-12); this case is a Siren already searching
  sim.paused=false;aid.advance(.25)
  check(sim.paused and sim.elapsed<=sim.STEP+.00001,"real any-craft notice stops after first fixed step of long frame")
  check(sim.sirens[0].target==1 and sim.sirens[0].lock<.02,"real drone lock keeps its ordinary initial accumulation")

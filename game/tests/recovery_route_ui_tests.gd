@@ -1,5 +1,6 @@
 extends SceneTree
 # Source-known fixtures exercise real touch + emulated-mouse dispatch.
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 var checks=0
 var failures=0
 var capture_dir=""
@@ -33,7 +34,7 @@ func named(game,label:String):
  return null
 func begin(game,index:int,unit:int=0):
  game._start_mission(index)
- var s=game.sim
+ var s=game.sim;PlayerDive.launch_drones(s) # both drones start aboard; these routes are for craft in the water
  # Separate own craft so opening the selected craft never selects another one.
  s.units[1].pos=s.units[0].pos+Vector2(260,0);s.units[2].pos=s.units[0].pos+Vector2(0,-260)
  s.command("select",{"unit":unit});game.ocean.focus_craft();game._refresh();await settle()
