@@ -2,11 +2,11 @@
   "run_id": "overhaul-20261111",
   "status": "RUNNING",
   "phase": "4-execution",
-  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: Wait for the WP-08 implementer report, review, merge; then WP-09 (planning camera and order flow, second reviewer), WP-10 (photograph flow), WP-11 (HUD defects). Read CI run 43188734403",
+  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: Wait for the WP-09 implementer (planning camera and order flow); review with two reviewers (input routing is high risk); merge. Then WP-10 photograph flow, then WP-11 HUD defects. Then Phase 5",
   "base_ref": "origin/claude/integration",
   "base_sha": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
   "run_branch": "fable/overhaul-20261111",
-  "run_head": "cb0528be321acd04b6ffb5c89527d73550567b36",
+  "run_head": "d46d68da7f4ac9507344a0e11f97bd3d8f97fa06",
   "shared_tips": {
     "claude/integration": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
     "main": "f5b66a198e3878950325f8c45a0bc6bc29dcba84",
@@ -23,13 +23,13 @@
     "WP-05": "merged",
     "WP-06": "merged",
     "WP-07": "merged",
-    "WP-08": "review",
+    "WP-08": "merged",
     "WP-09": "building",
     "WP-10": "planned",
     "WP-11": "planned",
     "WP-12": "merged"
   },
   "decisions_open": 10,
-  "last_checkpoint": "All P0 merged (WP-00 to WP-05). P1 merged: WP-06, WP-07, WP-12. WP-08 building",
-  "updated": "2026-11-12 05:08:56"
+  "last_checkpoint": "Merged: WP-00 to WP-08 and WP-12. WP-09 building. WP-10 and WP-11 planned",
+  "updated": "2026-11-12 05:19:42"
 }

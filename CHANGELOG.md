@@ -22,6 +22,7 @@ Base: `claude/integration` at `cabd5bd5`. The complete account, including every 
 ### CI
 
 - The fast `guidance` job also checks documentation links and runs the tool self-tests that no workflow ran before; two helper tests that need Godot run in `game-core`. Nothing redundant was added and the matrix is unchanged.
+- While a photograph is framed, the chart draws the shutter-noise reach with its distance, using the same figure the camera panel prints. Every craft under a Siren lock shows a countdown chip beside it. A lost drone reports its cause and bearing ("UNSEEN SIREN" when the player held no contact). A new setting, off by default, pauses the dive when a craft is lost.
 
 ### Tests
 
