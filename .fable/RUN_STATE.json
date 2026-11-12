@@ -1,12 +1,12 @@
 {
   "run_id": "overhaul-20261111",
-  "status": "RUNNING",
-  "phase": "4-execution",
-  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: Read the result of the full-matrix run dispatched after the gate fix; if green, dispatch android-validation.yml once, then Phase 5 ledger and Phase 6 closeout. The PR stays a draft (marking it ready starts another full run; Pat: do not waste Actions)",
+  "status": "DONE",
+  "phase": "6-closeout",
+  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: None. The run is closed. Pat plays the debug package (run 43251208547), answers D-01 to D-15 and merges pull request 262",
   "base_ref": "origin/claude/integration",
   "base_sha": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
   "run_branch": "fable/overhaul-20261111",
-  "run_head": "b6a32a16bae083f04bbb1608da52d9a335114ea3",
+  "run_head": "247e05824dddd8b1b26be8bffc652afe1743c51c",
   "shared_tips": {
     "claude/integration": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
     "main": "f5b66a198e3878950325f8c45a0bc6bc29dcba84",
@@ -29,7 +29,7 @@
     "WP-11": "merged",
     "WP-12": "merged"
   },
-  "decisions_open": 14,
-  "last_checkpoint": "Phase 4 gate run 43229665195 failed seven suites; fixed in one commit; verification run dispatched",
-  "updated": "2026-11-12 09:58:27"
+  "decisions_open": 15,
+  "last_checkpoint": "DONE. Final code 247e0582 passed the full matrix (run 43242777379); debug package built (run 43251208547, SHA-256 78a8fa94...93bdd3); ledger 388 PASS, 1 CHANGED, 1 PAT; final report written; PR 262 left as a draft (D-15)",
+  "updated": "2026-11-12 10:47:45"
 }

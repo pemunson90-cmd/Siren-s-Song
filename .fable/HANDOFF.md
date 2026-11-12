@@ -1,7 +1,7 @@
 # Handoff guide: resume the overhaul run from a cold start
 
 Status: LIVE GUIDE (root updates it at every phase boundary and whenever in-flight work changes)
-Verified: 2026-11-12 at commit 075f627e (rewritten by root at the Phase 3 exit; the first version was written and cross-checked by two subagents on 2026-11-11)
+Verified: 2026-11-12 at the closeout (sections 2, 6 and 7 rewritten by root; earlier rewritten at the Phase 3 exit; the first version was written and cross-checked by two subagents on 2026-11-11)
 
 This guide lets a session with an empty context resume run `overhaul-20261111` from the documents alone.
 
@@ -13,20 +13,9 @@ This guide lets a session with an empty context resume run `overhaul-20261111` f
 4. **Check for staleness:** `python scripts/repo/handoff_check.py`, `git status --short`, `git log --oneline -15`, `git worktree list`, `git ls-remote origin 'refs/heads/fable/*'`, and `gh pr view 262 --json state,isDraft,headRefOid`. Rerun the four guard self-test commands of charter Phase 0 step 5 and log the result.
 5. **Recover in-flight work (section 3), then continue** from `next_action`. Before each step record it with `python scripts/repo/run_state.py --now "..."`.
 
-## 2. Where the run stands (pause of 2026-11-12)
+## 2. Where the run stands (closeout of 2026-11-12)
 
-The run is PAUSED for a usage reset, in Phase 4 (execution). Everything is committed and pushed on `fable/overhaul-20261111`. The draft pull request is https://github.com/pemunson90-cmd/Siren-s-Song/pull/262 into `claude/integration` (base `cabd5bd5`, unmoved).
-
-| Phase | Result |
-| --- | --- |
-| 0 Preflight | Done. Base tag `fable/pre-overhaul-20261111`. Baseline import OK, core `CHECKS 850 FAILURES 0`. |
-| 1 Survey | Done: `.fable/SURVEY.md`, `.fable/PROTECTED_CAPABILITIES.md` (390 rows), `.fable/DOC_INVENTORY.md`, `.fable/BRANCH_LEDGER.md`, `.fable/CI_INVENTORY.md`, `.fable/COLD_REVIEW_6.md`. |
-| 2 Plan | Done: `.fable/OVERHAUL_PLAN.md`. |
-| 3 Foundation | Done and green: full matrix run 43188734403 on 075f627e passed (guidance, core, four runtime shards, smoke). |
-| 4 Execution | Merged, reviewed and verified locally: WP-05 harness, WP-06 release hygiene, WP-07 operation metadata and guides, WP-08 readable detection and loss, WP-09 planning camera and order flow, WP-10 photograph flow, WP-12 route options document. Last local core on the merged head: `CHECKS 850 FAILURES 0`. **Open: WP-11** (built on its branch, not reported, not reviewed, not merged) and the Phase 4 CI gate. |
-| 5 and 6 | Not started. |
-
-Condensed reports of every implementer and reviewer are in the fable-notes folder of the tool cache (`report-wp*.md`, `review-wp*.md`); each merge's verdict and checks are in `.fable/RUN_LOG.md`. `CHANGELOG.md` lists every player-visible change so far.
+The run is finished. Phases 0 to 6 are complete; every work package WP-00 to WP-12 is merged. The final code passed the full matrix (run 43242777379 on `247e0582`). The report is `.fable/FINAL_REPORT.md` and is also the body of pull request 262, which is left as a draft on purpose (decision D-15). Nothing is in flight. A new session has nothing to resume: it waits for Pat's playtest feedback and his answers to the decisions.
 
 ## 3. In-flight work and how to recover it
 
@@ -56,8 +45,8 @@ Merging a work package (charter 5.3): reviewer verdict, then `git merge --no-ff 
 
 ## 6. Open decisions for Pat
 
-Ten are open in `.fable/DECISIONS.md` (D-01 to D-10). None blocks the run. D-08 (photo pay table) and D-09 (drone pace and an early purchase) came from the blind critics.
+Fifteen are open in `.fable/DECISIONS.md` (D-01 to D-15). None blocked the run.
 
 ## 7. What comes next
 
-Finish Phase 4 per the plan, then Phase 5 (merge the base if it moved, recheck every ledger row, full gate, one debug package through `gh workflow run android-validation.yml --ref fable/overhaul-20261111`, behavior-change table from the diff) and Phase 6 (commit the archive dry run as BRANCH_ARCHIVE_PLAN.md under .fable, write FINAL_REPORT.md under .fable, put it in the PR body, mark the PR ready, set status DONE).
+Pat plays the debug package, answers decisions and merges pull request 262. The next run starts from the P2 backlog in `.fable/OVERHAUL_PLAN.md`.

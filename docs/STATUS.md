@@ -11,7 +11,7 @@ Updated: 2026-11-12
 
 ## Active work
 
-- Chartered overhaul run `overhaul-20261111` on branch `fable/overhaul-20261111` (charter `.fable/FABLE_RUN.md`, plan `.fable/OVERHAUL_PLAN.md`, run state `.fable/RUN_STATE.json`). It ends in one pull request into `claude/integration` for Pat to review. No other writer is active.
+- Chartered overhaul run `overhaul-20261111` on branch `fable/overhaul-20261111`: finished, awaiting Pat's review in pull request 262 (report `.fable/FINAL_REPORT.md`). No writer is active.
 - Parked: item 134, route flow (superseded by the release controls of item 127; reopen only if a critic finds route stops again).
 
 ## Top weaknesses
@@ -20,7 +20,7 @@ Ranked in `.fable/SURVEY.md` section 7 and `.fable/COLD_REVIEW_6.md`. In short:
 
 1. Photo payoff: value favors distance and tools over photo quality.
 2. Late-operation variety and the branching route graph: forks mostly change approaches inside operations, not which operations the player gets.
-3. Touch interface defects on real screens: lists that do not scroll by dragging their content, HUD chips that move or clip, unexplained oxygen limit.
+3. Touch interface defects on real screens: lists that do not scroll by dragging their content (HUD chips and the oxygen reading were addressed in the overhaul run; unverified on a phone).
 4. Expansion cost: operations, regions, Siren roles and fittings are keyed on literal IDs in many files.
 5. Look and sound have never been compared against reference games; audio has never been assessed. Art direction is Pat's call.
 
@@ -36,4 +36,9 @@ Open decisions of the current run are in `.fable/DECISIONS.md`. Older open quest
 
 ## Next action
 
-PAUSED, RESUME REQUIRED (2026-11-12, usage reset). Resume command: `/siren-s-start-fable` in the run clone. The run continues from `.fable/RUN_STATE.json`: finish work package WP-11, run the full CI gate, verify every protected capability, build one debug package, write the final report. Then Pat reviews the pull request and plays the debug package.
+The overhaul run `overhaul-20261111` is finished (2026-11-12). Pull request 262 holds all of it, as a draft. Next, in this order:
+
+1. Pat plays the debug package (link and install steps in `.fable/FINAL_REPORT.md` section 11) and gives feedback.
+2. Pat answers the open decisions in `.fable/DECISIONS.md` by number and letter (D-01 to D-15).
+3. Pat merges pull request 262 into `claude/integration`.
+4. The next run starts from the P2 backlog in `.fable/OVERHAUL_PLAN.md`, reordered by Pat's playtest feedback.

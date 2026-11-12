@@ -126,3 +126,11 @@ Options: (A) Add the tags only (`python scripts/repo/archive_branches.py --execu
 Recommendation: A first, because tags cost nothing and make B safe whenever you want the branch list shortened.
 Current state kept: all 373 remote branches exist; no archive tag was created.
 
+## D-15 The pull request is left as a draft
+Status: OPEN
+Raised: 2026-11-12, phase 6
+What: The charter says to mark pull request 262 ready at the end. Marking it ready starts another full check run on GitHub (about an hour of Actions time), and every later push to a ready pull request starts one more. You said not to spend Actions unless necessary, and the same code already passed the full matrix by manual dispatch. So the pull request is complete but still marked draft.
+Options: (A) Leave it as a draft and merge when you have reviewed it (GitHub lets you mark it ready yourself in one tap; that tap starts the check run). (B) Tell the run to mark it ready now and accept one more full run.
+Recommendation: A because the check would repeat a run that already passed on the same code.
+Current state kept: pull request 262 is a draft, unmerged, with the final report as its body.
+
