@@ -44,10 +44,10 @@ static func show_campaign(host) -> void:
 	var rows=["COMPARE: O₂ / EMP / SURVEY"]
 	for choice in ["endurance","disruption","survey"]:
 		var supplies=host._loadout_stock(choice)
-		rows.append("%s · %d%% / %d / %d"%[choice.to_upper(),supplies[0],supplies[1],supplies[2]])
+		rows.append("%s · %d%% / %d / %d"%[preload("res://src/equipment/field_tools.gd").loadout_label(choice),supplies[0],supplies[1],supplies[2]])
 	host._menu_text("\n".join(rows),14)
 	host._menu_text("TOOLS: "+FitSurfaceModel.stock_text(host.tool_racks)+"\nEMP: 12s / SURVEY: 8s, audible",14)
-	host._button(host.panel_box,"CYCLE LOADOUT · endurance / disruption / survey",host._cycle_loadout,"loadout")
+	host._button(host.panel_box,"CYCLE LOADOUT · endurance / EMP / survey",host._cycle_loadout,"loadout")
 	host._button(host.panel_box,"AUDIO / SETTINGS",host._settings_menu,"settings")
 	preload("res://src/presentation/ops_home/ops_home.gd").arrange(host)
 	preload("res://src/presentation/arcs/arc_card.gd").group_rows(host,host.panel_box)

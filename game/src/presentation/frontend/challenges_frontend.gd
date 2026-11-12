@@ -35,7 +35,7 @@ static func details(front,id:String)->void:
 	front._text(row.title,30,Color("80d9cf"))
 	front._text(Catalog.description(row),20)
 	var stock=front.host._loadout_stock(row.loadout)
-	front._text("FIXED %s · O₂ %d%% · EMP %d · SURVEY %d\nSTANDARD FRAMES · NO FITTINGS"%[row.loadout.to_upper(),stock[0],stock[1],stock[2]],16)
+	front._text("FIXED %s · O₂ %d%% · EMP %d · SURVEY %d\nSTANDARD FRAMES · NO FITTINGS"%[preload("res://src/equipment/field_tools.gd").loadout_label(row.loadout),stock[0],stock[1],stock[2]],16)
 	front._text("PARS · %02d:%02d · HULL %d%% · TOOLS %d"%[int(row.par.time)/60,int(row.par.time)%60,roundi(row.par.hull),row.par.tools],17)
 	front._text("Best: "+Records.summary(history(front).get(id,{}).get("best",{})),16)
 	for line in Records.route_lines(row,history(front).get(id,{})):front._text(line,16)

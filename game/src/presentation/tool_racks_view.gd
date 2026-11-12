@@ -81,7 +81,7 @@ static func show(host)->void:
  host._menu_text("Templates fill dedicated tool lockers and keep cargo free for winch work. Tools fill the locker first; overflow shares cargo with modules and winch work. LOAD +1 may use cargo. RESUME preserves the active dive's stock.",15)
  for choice in Tools.LOADOUTS:
   var oxygen=host._loadout_stock(choice)[0]
-  host._button(host.panel_box,"FILL %s | O2 %d%%"%[choice.to_upper(),oxygen],func():_redraw(host,func():fill(host,choice)),"tools_loadout_"+choice)
+  host._button(host.panel_box,"FILL %s | O2 %d%%"%[Tools.loadout_label(choice),oxygen],func():_redraw(host,func():fill(host,choice)),"tools_loadout_"+choice)
  host._menu_text(summary(host),15)
  var why=Racks.reason(host.fitted_equipment,host.tool_racks)
  if not why.is_empty():host._menu_text(why+". Unload charges or choose a larger frame before launch.",15)

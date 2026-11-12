@@ -42,4 +42,4 @@ static func show(front,seed_value:int,back:Callable,start:Callable)->void:
 
 static func setup_context(state:Dictionary)->String:
 	var op=State.current_operation(state)
-	return "%s LOADOUT / %s / EXPEDITION HUNT %d\nFIRST OPERATION HUNT %d. Each operation caps the expedition modifier to its supported pressure; the in-dive meter shows current pressure."%[state.loadout.to_upper(),State.Table.SCARCITY[state.scarcity].to_upper(),state.hunt_stage,State.starting_hunt(state,op)]
+	return "%s LOADOUT / %s / EXPEDITION HUNT %d\nFIRST OPERATION HUNT %d. Each operation caps the expedition modifier to its supported pressure; the in-dive meter shows current pressure."%[preload("res://src/equipment/field_tools.gd").loadout_label(state.loadout),State.Table.SCARCITY[state.scarcity].to_upper(),state.hunt_stage,State.starting_hunt(state,op)]

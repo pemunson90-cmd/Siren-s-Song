@@ -68,7 +68,7 @@ static func add(records:Dictionary,state:Dictionary)->Dictionary:
 	out.last.resize(mini(LIMIT,out.last.size()))
 	return out
 static func modifiers(row:Dictionary)->String:
-	return "%s LOADOUT / %s / STARTING HUNT %d"%[row.loadout.to_upper(),Table.SCARCITY[row.scarcity].to_upper(),row.hunt_stage]
+	return "%s LOADOUT / %s / STARTING HUNT %d"%[preload("res://src/equipment/field_tools.gd").loadout_label(row.loadout),Table.SCARCITY[row.scarcity].to_upper(),row.hunt_stage]
 static func photo_text(quality:float)->String:
 	if quality<0.:return "NO PHOTO RECORDED"
 	return "%s / %d%%"%["A" if quality>=.85 else "B" if quality>=.6 else "C",roundi(quality*100)]

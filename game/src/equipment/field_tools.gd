@@ -40,6 +40,9 @@ const TOOLS={
   "noise":420.0,"noise_time":2.0,"noise_label":"RELAY BUOY",
   "summary":"Drones within 420 m reach 35% farther for 3 min. Chirp is audible."}
 }
+# What the player reads for a loadout id. The id "disruption" stays in code and saves; Pat ruled (2026-11-12) the name is EMP.
+const LOADOUT_LABELS={"disruption":"EMP"}
+static func loadout_label(id:String)->String:return String(LOADOUT_LABELS.get(id,id.to_upper()))
 static func ids()->Array:return TOOLS.keys()
 static func field_ids()->Array:
  return TOOLS.keys().filter(func(id):return TOOLS[id].owner=="field")
