@@ -1,13 +1,13 @@
 # NOW: what the root session is doing
 
 Status: LIVE NOTE (rewritten before every step; if a session died, this is the step it died in)
-Updated: 2026-11-12 04:09
+Updated: 2026-11-12 04:36
 
 **To resume after a context clear or a new session:** open this folder as the project and run `/siren-s-start-fable`. The command reads the charter, the target file, `.fable/RUN_STATE.json`, `.fable/RUN_LOG.md` and `.fable/DECISIONS.md`. The `next_action` field in the state file always starts by sending the session to `.fable/HANDOFF.md` and to this file.
 
 ## Doing right now
 
-Phase 4: three implementers building in worktrees (WP-05 harness, WP-06 release hygiene, WP-07 operation metadata). Root: watching CI run 43188734403 on 075f627e, writing WP-12 proposal, refreshing HANDOFF.md
+WP-08 implementer building (readable detection and loss); WP-05 implementer revising the relay case; CI run 43188734403 shards still running
 
 ## In flight
 

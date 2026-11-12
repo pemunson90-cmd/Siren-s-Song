@@ -54,8 +54,11 @@ Order: WP-02, WP-03, WP-04 (root, Phase 3). Then WP-05, WP-06 and WP-07 in paral
 | Narrower affected-suite selection | Safe narrowing of the serial-zone fallback | CI_INVENTORY gap 2 |
 | Nightly on `main` | Starts at the next promotion (Pat) | CI_INVENTORY gap 1 |
 | Journeys for operations 37 and 40; non-render split of tactical-aid and developer-taint logic; suite times for 24 suites | Ledger "Gaps noticed" | Ledger |
+| More protected pins and never-disabled cases | Pin the second copies of 240, 330 and 0.65 in `simulation.gd` and the thermal band rules; add torpedo-pin recovery cases for non-sight roles if `knockdown_targets()` admits them; cover the reach-work stuns in `glass_reach_work.gd` (120 s and 90 s) | WP-05 reviewer notes |
+| Remaining literal operation IDs | `main.gd` 389, 830, 861; `presentation/flow/campaign_flow.gd` 273 to 281; `finale_table.gd` `LAST_ID`; `craft_upgrades.recovered`; `arcs/arc_table.gd`; switch the two hunt-cap lookups to `OperationMeta.hunt_cap` | WP-07 report |
 | Look and sound comparison | Read-only comparison against the reference games; art direction is Pat's | 1 Nov plan package 6 |
 
 ## Change log
 
 - 2026-11-12: plan written. Compared with the 11 Nov sketch: the progress-loss defect S-01 moved to P2 (Pat's ruling of 2026-11-11); P1 was reseeded from cold review 6, which ranks readable detection and the planning camera above photo payoff for a new player; ARRIVALS, fitting screens and code consolidation moved to P2 to keep P1 finishable.
+- 2026-11-12: WP-06, WP-07 and WP-12 merged. Two backlog rows added from reviewer and implementer notes (more protected pins; remaining literal operation IDs). WP-08 started on its own; WP-09 to WP-11 follow one at a time because they share HUD and input files.
