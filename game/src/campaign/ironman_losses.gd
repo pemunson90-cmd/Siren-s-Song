@@ -28,7 +28,7 @@ static func migrated(e:Dictionary)->Dictionary:
  return result
 static func apply(e:Dictionary,sim)->void:
  for id in [1,2]:
-  if missing(e,id):sim.units[id].alive=false;sim.units[id].battery=0.
+  if missing(e,id):sim.DroneBay.leave_behind(sim.units[id]);sim.units[id].battery=0.
 static func name(id:String)->String:
  if id in ["drone_a","drone_b"]:return id.replace("_"," ").to_upper()
  return Catalog.ITEMS.get(id,{}).get("name",id)

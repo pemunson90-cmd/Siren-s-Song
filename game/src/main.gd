@@ -268,6 +268,8 @@ func _start_mission(index: int) -> void:
 		var why=racks.prepare_launch(launch.launch,fitted_equipment,Economy.Losses.racks(economy,tool_racks))
 		if not why.is_empty():sim.message=why;return
 	launch.launch["context"]=_launch_context(index)
+	# WP-13: every player dive starts with the drones aboard Quietus (simulation/drone_bay/).
+	launch.launch["drones_aboard"]=true
 	# The first call builds the paused display before loading an archive. Even
 	# blocked recovery needs valid craft/UI; later player launches stay guarded.
 	if not sim.mission.is_empty() and not preload("res://src/persistence/save_states/save2_controller.gd").before_launch(self,index):return
@@ -402,8 +404,8 @@ func _refresh() -> void:
 		var work=sim.capture_feedback(i)
 		var capture_task=WorkTaskView.action_verb(PhotoCapture.obj(sim,work.target)) if work.unit>=0 else ""
 		unit_buttons[i].modulate=Color("80d9cf") if sim.selected==i else Color.WHITE
-		unit_buttons[i].disabled=not sim.units[i].alive
-		var task="LOST" if not sim.units[i].alive else (capture_task if work.unit>=0 else (sim.units[i].hold if not sim.units[i].hold.is_empty() else ("ROUTE" if not sim.units[i].route.is_empty() else "READY")))
+		unit_buttons[i].disabled=sim.DroneBay.lost(sim.units[i])
+		var task="ABOARD" if sim.DroneBay.aboard(sim.units[i]) else "LOST" if not sim.units[i].alive else (capture_task if work.unit>=0 else (sim.units[i].hold if not sim.units[i].hold.is_empty() else ("ROUTE" if not sim.units[i].route.is_empty() else "READY")))
 		task={"SCOUT_STOP":"ALERT"}.get(task,task)
 		unit_buttons[i].text=["QUIETUS","DRONE A","DRONE B"][i]+"\n"+task
 		unit_buttons[i].add_theme_font_size_override("font_size",maxi(14,roundi(ui_touch_height*0.26*FrontendSettings.text_scale())))

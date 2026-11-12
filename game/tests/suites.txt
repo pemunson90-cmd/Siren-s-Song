@@ -392,3 +392,4 @@ life_support_ui_tests|LIFE SUPPORT UI|1416|1416
 hud_chips_ui_tests|HUD CHIPS UI|1417|1417
 debrief_reach_ui_tests|DEBRIEF REACH UI|1418|1418
 ops_title_control_tests|OPS TITLE CONTROL|1419|1419
+drone_bay_tests|DRONE BAY|1420|1420

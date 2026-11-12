@@ -32,7 +32,7 @@ func start(index:int,upgrade:String="endurance",launch:Dictionary={})->void:
 	used={};launched=[];loud_time=0.;rule_failure=""
 	super.start(index,upgrade,launch)
 	for id in units.size():
-		if units[id].alive:launched.append(id)
+		if DroneBay.home(units[id]):launched.append(id)
 func fail(reason:String)->void:
 	if rule_failure.is_empty() and not reason.is_empty():
 		rule_failure=reason.trim_prefix("CHALLENGE · ")
@@ -65,7 +65,7 @@ func tools_used()->int:
 func lost_craft()->int:
 	var count=0
 	for id in launched:
-		if not units[id].alive or (id==0 and hull<=0):count+=1
+		if DroneBay.lost(units[id]) or (id==0 and hull<=0):count+=1
 	return count
 func rider_status()->String:
 	if policy.is_empty():return ""

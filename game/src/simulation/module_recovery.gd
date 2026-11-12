@@ -78,7 +78,7 @@ static func tick(sim,dt:float)->void:
  var state=sim.mission.module_recovery
  for item in state.modules:
   var module=state.modules[item]
-  if module.unit>=0 and not sim.units[module.unit].alive:
+  if module.unit>=0 and sim.DroneBay.lost(sim.units[module.unit]):
    module.pos=sim.units[module.unit].pos;module.unit=-1;module.state="salvage"
    sim.message="%s lost · module salvage at last craft position"%_name(item)
  for id in 3:
@@ -103,7 +103,7 @@ static func departure(sim,corridor:Dictionary)->Dictionary:
  for id in [1,2]:
   var unit=sim.units[id]
   # 127: a recalled drone waiting inside Quietus's recovery reach also comes home.
-  if (unit.alive and unit.band==1 and unit.transition.is_empty() and unit.pos.distance_to(corridor.pos)<65 and unit.vel.length()<12 and sim.Depth.clear(sim,unit.pos,corridor.pos,unit.band)) or sim.HandPilot.recalled(sim,id):home.append(id);result.recovered_drones.append(id)
+  if (unit.alive and unit.band==1 and unit.transition.is_empty() and unit.pos.distance_to(corridor.pos)<65 and unit.vel.length()<12 and sim.Depth.clear(sim,unit.pos,corridor.pos,unit.band)) or sim.HandPilot.recalled(sim,id) or sim.DroneBay.aboard(unit):home.append(id);result.recovered_drones.append(id)
  for module in status(sim).modules:
   if module.unit in home:result.recovered.append(module.item)
   else:

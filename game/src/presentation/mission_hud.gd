@@ -640,7 +640,7 @@ func refresh():
  elif page!="object":
   var held=WorkTask.held_reason(sim,task)
   if not held.is_empty():host.order_buttons.camera.disabled=true;host.order_buttons.camera.tooltip_text=held
- for i in 3:extra["choose_unit_%d"%i].disabled=not sim.units[i].alive
+ for i in 3:extra["choose_unit_%d"%i].disabled=sim.DroneBay.lost(sim.units[i])
  # The full object identity stays in the heading; the choice names its action.
  extra.choose_object.text=WorkTask.choice_name(str(subject.get("name","OBJECT")))+"\nBY "+WorkTask.LETTERS[sim.selected]
  var fitted=Equipment.status(sim)

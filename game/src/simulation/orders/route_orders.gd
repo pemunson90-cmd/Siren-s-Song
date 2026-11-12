@@ -17,9 +17,10 @@ static func _command(sim, order: String, args: Dictionary) -> bool:
 	match order:
 		"select":
 			var id=int(args.get("unit",0))
-			if id<0 or id>=sim.units.size() or not sim.units[id].alive: return false
+			if id<0 or id>=sim.units.size() or sim.DroneBay.lost(sim.units[id]): return false
 			sim.selected=id; sim._use_band(sim.units[id].band); sim.queue_mode=false
 			sim.message="%s selected · next tap replaces route" % sim.units[id].name
+			if sim.DroneBay.aboard(sim.units[id]):sim.message="%s is aboard Quietus · tap water to launch it" % sim.units[id].name
 		"waypoint_mode": sim.pass_through=not sim.pass_through; sim.message="Queued waypoints PASS through" if sim.pass_through else "Queued waypoints STOP before continuing"
 		"queue": sim.queue_mode=not sim.queue_mode; sim.message="QUEUE: tap to add" if sim.queue_mode else "REPLACE: tap to set route"
 		"route", "emergency":

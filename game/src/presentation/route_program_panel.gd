@@ -40,7 +40,7 @@ func rebuild():
  var crafts=row(body)
  for n in 3:
   var id=n;var b=button(crafts,host.sim.units[n].name,"craft"+str(n),func():host._order("select",{"unit":id});selected_goal=0;error_text="";rebuild())
-  b.disabled=not host.sim.units[n].alive;b.modulate=Color("80d9cf") if n==host.sim.selected else Color.WHITE
+  b.disabled=host.sim.DroneBay.lost(host.sim.units[n]);b.modulate=Color("80d9cf") if n==host.sim.selected else Color.WHITE
  info=label(body,"")
  content=BoxContainer.new();content.add_theme_constant_override("separation",8);content.size_flags_vertical=Control.SIZE_EXPAND_FILL;body.add_child(content)
  preview=preload("res://src/presentation/route_program_preview.gd").new();preview.sim=host.sim;preview.custom_minimum_size=Vector2(160,70);preview.size_flags_vertical=Control.SIZE_EXPAND_FILL;preview.size_flags_horizontal=Control.SIZE_EXPAND_FILL;preview.size_flags_stretch_ratio=1.5;content.add_child(preview)

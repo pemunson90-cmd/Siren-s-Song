@@ -8,6 +8,7 @@ const SaveChecks=preload("res://src/persistence/save_checks.gd")
 const EnemyTypes=preload("res://src/simulation/enemy_types.gd")
 const GradeOnSecure=preload("res://src/photo_grade/grade_on_secure.gd")
 const LaunchLayout=preload("res://src/simulation/opening_fleet/launch_layout.gd")
+const DroneBay=preload("res://src/simulation/drone_bay/drone_bay.gd")
 const FieldTools=preload("res://src/simulation/field_tool_effects.gd")
 const Shelf=preload("res://src/simulation/shelf_habitat.gd")
 const Wake=preload("res://src/simulation/wake_crossing.gd")
@@ -133,10 +134,13 @@ func start(index: int, upgrade: String = "endurance", launch:Dictionary={}) -> v
 	mission["fleet_commit"]=launch.get("fleet_commit",false)
 	sirens = mission.sirens.duplicate(true)
 	Depth.initialize(self);Network.initialize(self);Industry.initialize(self);sonar=Sonar.initial();depth_charts={};geometry_band=1
+	# WP-13: on a player dive the drones begin aboard Quietus (drone_bay/).
+	if DroneBay.wanted(launch):DroneBay.stow(self)
 	known = {}; contacts = {}; events = []; noises = []; projectiles=[]
 	ContactIdentity.seed(self,launch.get("context",{}).get("intel",{}))
 	elapsed=0.0; oxygen=100.0; hull=100.0; paused=true; selected=0; queue_mode=false; pass_through=true; outcome=""
 	message="Chart loaded. Tap a craft for DEPTH / SONAR; tap water to plot a route."
+	if DroneBay.any_aboard(self):message+=" Drones are aboard: select one and tap water to launch it."
 	ping_time=0.0; recon_time=0.0; captures=[{},{},{}]; accumulator=0.0
 	tools={"emp":2,"decoy":3,"recon":2,"knock":2}
 	if upgrade=="disruption": tools.emp += 1
@@ -512,7 +516,11 @@ func command(order: String,args: Dictionary={}) -> bool:
 	if order=="depart":return Orders.TABLE[order][0].command(self,order,args)
 	var u=units[selected]
 	_use_band(u.band)
-	if not u.alive and order!="select":
+	if DroneBay.aboard(u):
+		DroneBay.carry(self)
+		var refusal:String=DroneBay.before_order(self,selected,order)
+		if not refusal.is_empty():message=refusal;return false
+	if not u.alive and not DroneBay.aboard(u) and order!="select":
 		selected=0; queue_mode=false; message="Selected drone lost. Quietus selected; reissue the order."; return false
 	if order in ["camera","chain_power","chain_route","chain_send","concealed_tow","witness_land","warning_gate","warning_depart","rendezvous_release","wake_playback","shelf_warn","shelf_alarm"] and ((u.band!=1 and not (order=="camera" and BandPhoto.can_shoot(self,u))) or not u.transition.is_empty()):
 		message="Ascend to MIDDLE and settle for local work";return false
@@ -754,6 +762,7 @@ func advance(dt: float) -> void:
 func _tick(dt: float) -> void:
 	var hull_origin:Vector2=units[0].pos;var hull_velocity:Vector2=units[0].vel
 	Departure.emit(self)
+	DroneBay.carry(self)
 	elapsed+=dt
 	AllStop.tick(self,dt)
 	Depth.advance(self,dt);Sonar.advance(self,dt); oxygen=maxf(0,oxygen-Endurance.oxygen_drain(mission,dt))
@@ -832,7 +841,7 @@ func _tick(dt: float) -> void:
 			events.append({"type":"return_received","receiver":0,"direction":direction,"identity":"return","time":elapsed})
 	_well_signature_observe()
 	_use_band(units[selected].band)
-	if not units[selected].alive:
+	if DroneBay.lost(units[selected]):
 		selected=0; queue_mode=false; message="Drone lost · Quietus selected · SAMPLE remains available." if mission.get("blackwater_revision",0)==1 else "Drone lost · Quietus command restored. Submarine camera remains available."
 	if oxygen<=0: outcome="lost"; message="Life support exhausted. The archive is silent."
 	if hull<=0:
@@ -1422,6 +1431,7 @@ static func valid_snapshot(data: Dictionary) -> bool:
 				if not (p[key] is float or p[key] is int) or not is_finite(p[key]): return false
 			if p.life<=0 or p.life>TORPEDO_LIFE or p.noise_clock<0 or p.noise_clock>0.201: return false
 	if data.units.size()!=3 or not data.tools.has_all(["emp","decoy","recon"]): return false
+	if not DroneBay.valid(data.units): return false
 	# 070: existing expedition resupply can carry more charges; physical projectile
 	# limits remain above. ModeActive also validates the actual ledger budget.
 	var knock_cap=FieldTools.stock_cap(data.mission,2)

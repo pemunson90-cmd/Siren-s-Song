@@ -128,7 +128,7 @@ static func consequence(sim,economy:Dictionary={})->String:
  if not sim.has_method("module_recovery_status"):return ""
  var result=status(sim).get("result",{});var lines=[];var absent=false
  for id in [1,2]:
-  var u=sim.units[id];var state="LOST" if not u.alive else "SURVIVED"
+  var u=sim.units[id];var state="ABOARD" if sim.DroneBay.aboard(u) else "LOST" if not u.alive else "SURVIVED"
   if u.alive and not result.is_empty():state="RECOVERED" if id in result.get("recovered_drones",[]) else "OUTSIDE RECOVERY"
   if state in ["LOST","OUTSIDE RECOVERY"]:absent=true
   lines.append(u.name+" · "+state)
@@ -149,7 +149,7 @@ static func carrier_check(sim,unit:int,corridor:Dictionary)->Dictionary:
  var u=sim.units[unit];var distance=u.pos.distance_to(corridor.pos);var speed=u.vel.length()
  var clear=sim.Depth.clear(sim,u.pos,corridor.pos,u.band)
  var unmet=[]
- if not u.alive:unmet.append("CRAFT LOST")
+ if sim.DroneBay.lost(u):unmet.append("CRAFT LOST")
  if u.band!=1:unmet.append("CHANGE TO MIDDLE")
  if not u.transition.is_empty():unmet.append("FINISH DEPTH CHANGE")
  if distance>=65.:unmet.append("MOVE INSIDE 65m")
