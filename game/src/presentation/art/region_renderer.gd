@@ -2,6 +2,7 @@ extends RefCounted
 # All atmosphere stays below stone, unknown-water masking, instruments and contacts.
 # Fixed draw budget, no geometry generation, random stream, nodes or sensing calls.
 const Palette=preload("res://src/presentation/accessibility/palette.gd")
+const ChartCache=preload("res://src/presentation/chart_cache/chart_geometry_cache.gd")
 const Quality=preload("res://src/presentation/quality/quality_table.gd")
 static func atmosphere(view,style:Dictionary,extent:Vector2,phase:float,tier:String=Quality.STANDARD)->void:
  if style.is_empty():return
@@ -28,6 +29,13 @@ static func atmosphere(view,style:Dictionary,extent:Vector2,phase:float,tier:Str
    if at.x<0 or at.y<0 or at.x>extent.x or at.y>extent.y:continue
    view.draw_line(at,at+drift.normalized()*3.5,Color(style.dust,style.dust.a*.2) if Palette.high_contrast() else style.dust,1./maxf(.35,view.world_scale))
 static func chart_terrain(view,data:Dictionary,scale:float,style:Dictionary)->void:
+ # [AI-DESIGNED] Cached path (WP-20): one mesh for the cells, two batched calls for the faces.
+ if ChartCache.active(data):
+  var floor_color:Color=Color(style.floor,.7)
+  var cache=ChartCache.request(view,"region",data,[floor_color,style.stone,style.edge],func(_tile):return floor_color)
+  cache.draw_fill(view)
+  cache.draw_faces(view,Color(style.stone,.95),7./maxf(scale,.01),style.edge,Palette.stroke(2.)/maxf(scale,.01))
+  return
  var cell=float(data.get("cell_size",40.))
  for tile in data.get("clear_cells",[]):
   view.draw_rect(Rect2(Vector2(tile)*cell,Vector2.ONE*cell),Color(style.floor,.7))

@@ -3,11 +3,25 @@ extends RefCounted
 # a rock mass: material stops at each measured segment's exact endpoints.
 const BASALT=preload("res://assets/materials/basalt.png")
 const FOUNDRY=preload("res://assets/structures/foundry.png")
+const ChartCache=preload("res://src/presentation/chart_cache/chart_geometry_cache.gd")
 const CYAN=Color("63c9cc")
 const AMBER=Color("d1a15d")
 
 static func draw_terrain(view,chart:Dictionary,scale:float,visible:Rect2=Rect2(-100000,-100000,200000,200000),style:Dictionary={})->void:
  var cell=float(chart.get("cell_size",40.))
+ # [AI-DESIGNED] WP-20: cell fills come from one cached mesh. Cells never
+ # overlap and every detail below stays inside its own cell, so drawing all
+ # fills first gives the same picture as the old fill-then-detail order.
+ var cached=ChartCache.active(chart)
+ if cached:
+  var floor_color=Color(style.floor,.88) if not style.is_empty() else Color.BLACK
+  var cell_color=func(key):
+   if not style.is_empty():return floor_color
+   var seed_value=absi(int(key.x)*73856093 ^ int(key.y)*19349663)
+   var shade=float(seed_value%17)/17.
+   return Color(.062+shade*.008,.148+shade*.018,.163+shade*.02,.88)
+  var fills=ChartCache.request(view,"confluence",chart,[floor_color,style.is_empty()],cell_color)
+  fills.draw_fill(view)
  for key in chart.get("clear_cells",[]):
   var rect=Rect2(Vector2(key)*cell,Vector2.ONE*cell)
   if not visible.intersects(rect):continue
@@ -15,7 +29,7 @@ static func draw_terrain(view,chart:Dictionary,scale:float,visible:Rect2=Rect2(-
   # sensing or obstacle meaning and never enter an unmeasured neighbouring cell.
   var seed_value=absi(int(key.x)*73856093 ^ int(key.y)*19349663)
   var shade=float(seed_value%17)/17.
-  view.draw_rect(rect,Color(style.floor,.88) if not style.is_empty() else Color(.062+shade*.008,.148+shade*.018,.163+shade*.02,.88))
+  if not cached:view.draw_rect(rect,Color(style.floor,.88) if not style.is_empty() else Color(.062+shade*.008,.148+shade*.018,.163+shade*.02,.88))
   if scale<.36:continue
   for n in 2:
    var y=rect.position.y+9.+n*15.+float(seed_value%5)
