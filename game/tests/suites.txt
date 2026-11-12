@@ -383,3 +383,6 @@ never_disabled_tests|NEVER DISABLED|1406|1406
 threat_read_tests|THREAT READ|1407|1407
 threat_read_ui_tests|THREAT READ UI|1408|1408
 planning_order_flow_ui_tests|PLANNING ORDER FLOW UI|1409|1409
+photo_shutter_ui_tests|PHOTO SHUTTER UI|1411|1411
+photo_range_caption_tests|PHOTO RANGE CAPTION|1412|1412
+photo_pay_ui_tests|PHOTO PAY UI|1413|1413
