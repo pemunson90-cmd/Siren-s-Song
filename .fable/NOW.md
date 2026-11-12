@@ -1,13 +1,13 @@
 # NOW: what the root session is doing
 
 Status: LIVE NOTE (rewritten before every step; if a session died, this is the step it died in)
-Updated: 2026-11-12 17:06
+Updated: 2026-11-12 18:27
 
 **To resume after a context clear or a new session:** open this folder as the project and run `/siren-s-start-fable`. The command reads the charter, the target file, `.fable/RUN_STATE.json`, `.fable/RUN_LOG.md` and `.fable/DECISIONS.md`. The `next_action` field in the state file always starts by sending the session to `.fable/HANDOFF.md` and to this file.
 
 ## Doing right now
 
-Waiting on three implementers repairing stale test suites for A5 (player rules as the default).
+Waiting on GitHub run 43328911983 for the A5 branch.
 
 ## In flight
 
