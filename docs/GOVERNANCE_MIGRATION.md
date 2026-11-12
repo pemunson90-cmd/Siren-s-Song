@@ -30,8 +30,9 @@ Pat's verbatim rulings are never dropped. Where a later ruling overrides an earl
 | 13 | A task, worker, plan, review or milestone completion starts the next authorized action | AGENTS.md:26 | KEPT, AGENTS.md section 9 (Gauntlet runs) |
 | 14 | Codex follows its handoff protocol on `codex/handoffs` | AGENTS.md:26 | DROPPED: the protocol was replaced on 31 Oct and Codex is not part of current work. Retiring the branch is decision D-04. |
 | 15 | On exhaustion publish recovery refs and write PAUSED, RESUME REQUIRED with the exact next command; state execution honestly | AGENTS.md:26 | KEPT, AGENTS.md section 9 |
-| 16 | Rank player-facing weaknesses against source, v7 and successful games | AGENTS.md:29 | KEPT, section 7 |
-| 17 | Dedicated branches and worktrees with explicit ownership; preserve other workers' edits and evidence | AGENTS.md:30 | KEPT, section 7 and WORKFLOW.md |
+| 16 | Rank player-facing weaknesses (tactics, stakes, operations, controls, story, world, art, sound, technical quality) against source, v7 and successful games | AGENTS.md:29 | KEPT, section 7, with the same list. Pat's 30 Oct priorities rank story last except where it affects branching. |
+| 17 | Dedicated branches and worktrees with explicit ownership; reuse inactive worktrees and one shared toolchain; preserve other workers' edits and evidence | AGENTS.md:30 | KEPT, section 7 and WORKFLOW.md |
+| 17b | The unchanged first audit and frozen-source response are on `archive/claude-audit-2026-10-19` under `docs/audit/` | AGENTS.md:22 | KEPT as a pointer, REPOSITORY_MAP.md "Where things live" |
 | 18 | One designated integration reviewer; fix consequential regressions before integration | AGENTS.md:31 | KEPT, section 7 and WORKFLOW.md "Review and merge" |
 | 19 | Independent review and final-head CI before a PR into `claude/integration`; reconcile the fetched tip when it moves | AGENTS.md:32 | KEPT, WORKFLOW.md "Review and merge" |
 | 20 | Claude orchestrates; Codex may merge only under delegation | AGENTS.md:32 | DROPPED: session arrangement. Who integrates is set per run. |
@@ -42,8 +43,8 @@ Pat's verbatim rulings are never dropped. Where a later ruling overrides an earl
 | 25 | The SHA in RESUME is the last reconciled baseline, not a promise to equal HEAD | AGENTS.md:37 | MERGED: STATUS.md records a base and is updated only when something substantive changes (WORKFLOW.md "Status") |
 | 26 | Record an attributable reviewer verdict in the PR before merge; label a relayed review as relayed; CI is not criticism | AGENTS.md:39 | KEPT, WORKFLOW.md "Review and merge" and AGENTS.md section 7 |
 | 27 | Reconcile RESUME at each merge; do not make meaningless document edits; do not add CI gates or orchestration layers | AGENTS.md:41 | MERGED into AGENTS.md section 8 and WORKFLOW.md step 5 |
-| 28 | Critics start fresh, play full operations by real touch on cover and inner views, with distinct strategies | AGENTS.md:44 | KEPT, AGENTS.md section 7 and `scripts/critic/CRITIC_BRIEF.md` |
-| 29 | Blind side-by-side comparison with reference footage (Door Kickers, Mark of the Ninja, Barotrauma, Duskers) | AGENTS.md:46 | MERGED: the critic brief names reference games per dimension and says comparisons are from memory, because no footage is available to the kit. Pat's 30 Oct reference list is in USER_DIRECTIVES. |
+| 28 | Critics start fresh, play full operations by real touch on cover and inner views, with distinct strategies; button callbacks and scripted controllers remain technical tests with a narrower scope | AGENTS.md:44 | KEPT, AGENTS.md section 7 and `scripts/critic/CRITIC_BRIEF.md` |
+| 29 | Blind side-by-side comparison with reference footage (Door Kickers, Mark of the Ninja, Barotrauma, Duskers) | AGENTS.md:46 | MERGED: the critic brief names reference games per dimension and says comparisons are from memory, because no footage is available to the kit. "Disclose comparison limits" is KEPT in AGENTS.md section 7. Pat's 30 Oct reference list is in USER_DIRECTIVES. |
 | 30 | Authority order | AGENTS.md:49 | KEPT, AGENTS.md section 3 |
 | 31 | v7 outranks older prose about its mechanics; preserve its source | AGENTS.md:49 | KEPT, section 3 |
 | 32 | Six original missions are the tutorial foundation of a longer branching campaign | AGENTS.md:49 | KEPT, section 2 |
@@ -80,8 +81,9 @@ Pat's verbatim rulings are never dropped. Where a later ruling overrides an earl
 | 53 | Read USER_DIRECTIVES first; the specification owns behavior; PHOTO_RECON owns the camera | RESUME.md:3 | KEPT, AGENTS.md sections 3 and 6 |
 | 54 | Live queue and next action are in `docs/state/` on `codex/handoffs`; rulings in `RULINGS.md` there | RESUME.md:8; CONTINUATION.md:7-8; WORKBENCH.md:5 | DROPPED as a pointer: status is now docs/STATUS.md and the rulings are copied into USER_DIRECTIVES. Whether the branch is retired is D-04. |
 | 55 | Critic evidence stays outside the repository | RESUME.md:9; CONTINUATION.md:9 | KEPT, AGENTS.md section 7 |
+| 55b | Audit findings and reconciliations live under `docs/design/` on `codex/handoffs` | RESUME.md:9 | KEPT as a pointer, REPOSITORY_MAP.md "Where things live". New merged findings are committed beside the game (for this run, `.fable/COLD_REVIEW_6.md`). |
 | 56 | Keep evidence levels distinct; CI does not establish enjoyment, audio, ergonomics or Android performance | RESUME.md:10; WORKBENCH.md:10-12 | KEPT, AGENTS.md section 7 |
-| 57 | Independent review precedes every new commit and merge; root verifies unchanged approved bytes | RESUME.md:14 | MERGED: one independent reviewer per change on the frozen head before merge (WORKFLOW.md). "Before every commit" was replaced by handoffs decision D17 (one reviewer per PR). |
+| 57 | Independent review precedes every new commit and merge; root verifies unchanged approved bytes | RESUME.md:14 | MERGED: one independent reviewer per change on the frozen head before merge (WORKFLOW.md). Pat's 28 Oct ruling (row 114) governs; it is applied as one reviewer per change on the frozen head, which is how handoffs decision D17 applied it. |
 | 58 | Focused local checks; do not loosen assertions or timeouts | RESUME.md:14 | KEPT, WORKFLOW.md "Tests and CI" |
 | 59 | APK builds allowed when they help testing, development key only (Pat 1 Nov) | RESUME.md:15 | KEPT, AGENTS.md section 7, WORKFLOW.md; verbatim ruling in USER_DIRECTIVES |
 | 60 | No phone acceptance claims without device evidence; preserve profiles, saves, edits, refs, signer; no force push or branch deletion | RESUME.md:15 | KEPT, AGENTS.md sections 5 and 7 |
@@ -100,7 +102,7 @@ Pat's verbatim rulings are never dropped. Where a later ruling overrides an earl
 | 68 | Implementer assignment: branch, owned files, base SHA, player-facing result, references, tests; report what improved, broke or is uncertain | AGENT_BRIEF.md:13 | KEPT, AGENTS.md section 7 (brief contents) |
 | 69 | Integration reviewer: examine the diff against integration, interactions, mechanics, intent, save fidelity, focused regressions; no automatic second critic, APK or evidence dossier for an ordinary merge | AGENT_BRIEF.md:15 | KEPT, WORKFLOW.md "Review and merge" |
 | 70 | Whole-game critic is periodic, not the merge reviewer | AGENT_BRIEF.md:17 | KEPT, AGENTS.md section 7 |
-| 71 | Closeout: every worker reports stale handoff text; root runs the boundary check and reconciles; repairs routine obsolete documents without the user | AGENT_BRIEF.md:19 | KEPT, AGENTS.md section 8 |
+| 71 | Closeout: every worker reports stale handoff text; root runs the boundary check and reconciles; repairs routine obsolete documents without the user; unrelated active worktrees remain untouched | AGENT_BRIEF.md:19 | KEPT, AGENTS.md section 8 (closeout) and section 7 (worktrees) |
 | 72 | `gpt-6.1-sol`, Medium effort defaults | AGENT_BRIEF.md:21 | DROPPED: model routing (section 9 below) |
 
 ## 5. `docs/GAUNTLET_ORCHESTRATION.md` (scrap)
@@ -117,7 +119,7 @@ Pat's verbatim rulings are never dropped. Where a later ruling overrides an earl
 | 80 | A coherent playable milestone alone is not an APK trigger | GAUNTLET_ORCHESTRATION.md:52 | KEPT, WORKFLOW.md: "Do not build a package for every change" |
 | 81 | Signing always reuses the tracked debug key | GAUNTLET_ORCHESTRATION.md:52 | KEPT, AGENTS.md section 7 |
 | 82 | At every completion run the boundary check; the linter runs in CI; a failure is a repair assignment | GAUNTLET_ORCHESTRATION.md:70 | KEPT, AGENTS.md section 8, WORKFLOW.md |
-| 83 | Structural checks do not establish semantic consistency; the user does not maintain handoffs | GAUNTLET_ORCHESTRATION.md:72 | KEPT, AGENTS.md section 8 |
+| 83 | Structural checks do not establish semantic consistency; if the current state cannot be determined reliably, preserve the uncertainty and assign a verification task; the user does not maintain handoffs | GAUNTLET_ORCHESTRATION.md:72 | KEPT, AGENTS.md section 8 |
 | 84 | Promotion policy; configure GitHub rulesets to require the checks | GAUNTLET_ORCHESTRATION.md:76 | Promotion KEPT (WORKFLOW.md). Rulesets are repository settings: Pat's, not restated as an agent rule. |
 
 ## 6. `docs/architecture/GAUNTLET.md`, `docs/SOURCE_AUTHORITY.md`, `docs/CURRENT_GAME_SPEC.md`, `docs/V7_TO_GODOT_PARITY.md` (kept, edited)
@@ -130,7 +132,7 @@ Pat's verbatim rulings are never dropped. Where a later ruling overrides an earl
 | 88 | All technical constraints, system boundaries, gameplay design decisions, art and sound targets, verification approach | architecture/GAUNTLET.md:7-61 | KEPT unchanged |
 | 89 | Two banners ("Current authority 25 October", "Historical 23 October cloud-boundary banner") | SOURCE_AUTHORITY.md:1-3; CURRENT_GAME_SPEC.md:1-3; V7_TO_GODOT_PARITY.md:1-3 | DROPPED, replaced by one pointer line each. Nothing else in the specification or the parity ledger changed, except the next row. |
 | 90 | "Historical cloud-era wording ... using Sol6.1 Medium" | CURRENT_GAME_SPEC.md:5 | DROPPED: model routing and a lifted stop |
-| 91 | "maintained in RESUME.md" | CURRENT_GAME_SPEC.md:114 | KEPT with STATUS.md named instead (link fix) |
+| 91 | "maintained in RESUME.md" | CURRENT_GAME_SPEC.md:114 | KEPT with STATUS.md named instead (link fix). Two other mentions of "RESUME" without a file name (lines 28 and 114) are left as written, because the specification is not rewritten by this run; read them as STATUS.md. |
 | 91b | "Current Pat rules prohibit APK builds and defer physical-phone testing" in the specification's development section | CURRENT_GAME_SPEC.md:114 | The sentence is kept as written (the specification is not rewritten by this run) and a dated note after it states that Pat's 1 Nov ruling supersedes it. The pointer "operational status: docs/RESUME.md" on line 91 now names STATUS.md (link fix). |
 | 92 | Authority hierarchy, v7 ratification, reconciliation note, visual guidance, scope, import checklist | SOURCE_AUTHORITY.md:5-54 | KEPT unchanged, except that "RESUME is the sole reconciled operational snapshot. The codex/handoffs board ... own worker claims" now names STATUS.md, and the promotion sentence names `main` as the only promotion target (31 Oct ruling) |
 | 93 | Specification line 73 "safe pathfinding" against Pat's 30 Oct movement ruling | CURRENT_GAME_SPEC.md:73 | PAT: decision D-06 (open question Q3). The line is unchanged. |

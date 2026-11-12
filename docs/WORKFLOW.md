@@ -51,7 +51,7 @@ A debug package may be built when it helps testing (Pat, 2026-11-01): `gh workfl
 | `scripts/toolchain/check-gauntlet-guidance.py --root .` | Structural check of the governing documents; runs in the `guidance` job |
 | `scripts/repo/check_doc_links.py` | Checks every relative link in tracked Markdown; runs in the `guidance` job |
 | `scripts/toolchain/gauntlet-boundary.py --boundary complete` | Fetches the governing files from `claude/integration` at a task boundary and runs the structural check on them. A fresh receipt means the files were fetched, not that anyone read them. |
-| `scripts/toolchain/install-gauntlet-hooks.py` | Optional local git hooks that call the boundary helper. It refuses to replace hooks it does not manage. |
+| `scripts/toolchain/install-gauntlet-hooks.py` | Optional local git hooks that call the boundary helper. It refuses to replace hooks it does not manage. Installed hooks keep the helper version they were installed with; run the installer again to adopt a changed helper. |
 | `scripts/repo/branch_ledger.py` | Read-only ledger of every remote branch and its class |
 | `scripts/critic/` | The blind critic play kit |
 

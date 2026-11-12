@@ -29,7 +29,7 @@ jobs:
   guidance:
     name: guidance
     runs-on: ubuntu-24.04
-    timeout-minutes: 5
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
@@ -38,6 +38,23 @@ jobs:
         run: python3 scripts/toolchain/test-check-gauntlet-guidance.py
       - name: Audit current branch's governing instructions
         run: python3 scripts/toolchain/check-gauntlet-guidance.py --root .
+      - name: Check documentation links
+        run: python3 scripts/repo/check_doc_links.py
+      # Tool self-tests that need no Godot. They are fast and guard the test
+      # runner's failure reporting, the signing configuration, the boundary
+      # helper and the Android smoke parsers.
+      - name: Test toolchain helpers
+        shell: bash
+        run: |
+          set -euo pipefail
+          for test in test-gauntlet-boundary.py test-test-sh-failures.py test-configure-signing.py \
+              test-android-capture.py test-android-menu.py test-android-metric-records.py \
+              test-android-planner.py test-android-radial.py test-android-role.py \
+              test-android-ui-metrics.py test-android-view.py; do
+            echo "::group::$test"
+            python3 "scripts/toolchain/$test"
+            echo "::endgroup::"
+          done
 
   game-core:
     name: game-core
@@ -116,6 +133,15 @@ jobs:
       - name: Verify affected-suite selection
         if: steps.changes.outputs.game == 'true'
         run: python3 scripts/toolchain/test-select-suites.py
+      # These two Android smoke helper tests call the Godot editor, so they
+      # run here, where it is installed, and not in the guidance job.
+      - name: Test Android smoke helpers that need Godot
+        if: steps.changes.outputs.game == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/toolchain/test-android-blackwater.py
+          python3 scripts/toolchain/test-android-resume.py
       - name: Docs-only change; no Godot run
         if: steps.changes.outputs.game == 'false'
         run: echo 'No active Godot game or gameplay change. Guidance is checked separately.'

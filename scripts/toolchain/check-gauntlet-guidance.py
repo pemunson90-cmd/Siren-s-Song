@@ -167,7 +167,7 @@ def scan(read):
             for phrase in STALE_PHRASES:
                 # The specification is kept as written; its superseded package
                 # sentence must carry the dated supersession note instead.
-                if path == "docs/CURRENT_GAME_SPEC.md" and "superseded 1 november 2026" in lowered:
+                if path == "docs/CURRENT_GAME_SPEC.md" and "apk" in phrase and "superseded 1 november 2026" in lowered:
                     continue
                 if phrase in lowered:
                     errors.append(path + ": carries superseded wording: " + phrase)

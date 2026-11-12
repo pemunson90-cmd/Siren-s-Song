@@ -19,7 +19,7 @@ Current status and next work: [STATUS](STATUS.md). Rules: [AGENTS](../AGENTS.md)
 | `design/`, `references/`, `reference/` | Ratified design, visual selections and provenance, the original prototype (immutable) |
 | `_scrap-YYYYMMDD/` | Retired files, each with a row in that folder's `SCRAP_MANIFEST.md`. Nothing is deleted. |
 | `.fable/` | Charter, state, survey, plan and reports of the chartered overhaul run |
-| `archive/*` branches | Preserved criticism, evidence and historical source; not current instructions |
+| `archive/*` branches | Preserved criticism, evidence and historical source; not current instructions. The first independent audit and the frozen-source response are on `archive/claude-audit-2026-10-19` under `docs/audit/`. Cold reviews 1 to 5 and the design audits are under `docs/design/` on `codex/handoffs`. |
 
 ## Branch roles
 

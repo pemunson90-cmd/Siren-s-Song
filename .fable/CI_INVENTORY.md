@@ -34,3 +34,10 @@ All three pin every action to a commit SHA, set `permissions: contents: read`, a
 - Local, per package: import, core, the affected suites that are not `render`, the three canaries, `check-suites.py`, through `scripts/toolchain/win/`.
 - GitHub: `gh workflow run gauntlet-pr-checks.yml --ref fable/overhaul-20261111` at the end of Phases 3, 4 and 5, once per head.
 - Package: `gh workflow run android-validation.yml --ref fable/overhaul-20261111` once, at Phase 5.
+
+## Changes made by the run (2026-11-12, WP-04)
+
+- The `guidance` job now also runs `scripts/repo/check_doc_links.py` and eleven tool self-tests that need no Godot (`test-gauntlet-boundary.py`, `test-test-sh-failures.py`, `test-configure-signing.py` and eight `test-android-*.py`). Its timeout went from 5 to 10 minutes. This closes gaps 3 and 8 above. Checked on a clean LF export under Linux (WSL): all eleven pass.
+- `game-core` now also runs `test-android-blackwater.py` and `test-android-resume.py`, which call the Godot editor. On the local Linux export they fail only with `godot: command not found`; their first real run is the Phase 3 gate.
+- Not added to CI: `test-decoy-role-contract.sh`, `test-native-role-archive.sh`, `test-capture-state.gd` and `test-resume-state.gd` (they need an Android device or a rendered session).
+- Nothing else changed: triggers, concurrency, the draft rule, the shard matrix and the pinned actions are as they were. Gaps 1, 2, 4, 5 and 6 stay as described; gap 2 (narrower selection) is in the P2 backlog.

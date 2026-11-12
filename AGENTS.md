@@ -26,7 +26,7 @@ Gauntlet priorities [PAT, 2026-10-30, verbatim in docs/USER_DIRECTIVES.md]:
 
 > The storyline is the least important besides how it affects branching paths. The main point of the gauntlet loop right now is gameplay, graphics, ux, ui, bugs, features. The whole point is that we have a complete game. We review it, figure out where it's lacking especially in comparison to other AAA releases, and then we plan out the upgrades, and then we execute.
 
-Minimum tests [PAT, 2026-10-31, verbatim in docs/USER_DIRECTIVES.md]:
+Minimum tests [PAT, 2026-10-31, excerpt from the middle of a longer sentence; the full ruling is verbatim in docs/USER_DIRECTIVES.md]:
 
 > you should always be using the absolute minimum number of required tests and you should always be aiming to get them as quickly done as possible. This doesn't mean take shortcuts, this doesn't mean modify CI to pass on a red, this means taking the most efficient and shortest pass on every single task.
 
@@ -92,22 +92,22 @@ No force push, no history rewrite and no branch deletion on any shared branch. K
 
 ## 7. How work is done
 
-- **Look at the whole game.** Rank player-facing weaknesses across tactics, stakes, operations, controls, world, art, sound and technical quality against the specification, the playable v7 and strong shipped games. Pick the change with the largest effect on the player. Work on the game, not on proving that a workflow happened: an hour of simulation, layout and encounter work should outweigh an hour of documentation.
+- **Look at the whole game.** Rank player-facing weaknesses across tactics, stakes, operations, controls, story, world, art, sound and technical quality against the specification, the playable v7 and strong shipped games. Pick the change with the largest effect on the player. Work on the game, not on proving that a workflow happened: an hour of simulation, layout and encounter work should outweigh an hour of documentation.
 - **Research before building.** Check existing project code and established approaches before writing a custom system.
-- **One branch per coherent change**, with explicit file ownership. Keep other workers' edits intact. A worker gets a bounded brief (goal, base commit, owned paths, paths not to touch, documents to read, acceptance commands) and reads that brief and what it names, not the whole repository.
+- **One branch per coherent change**, with explicit file ownership. Keep other workers' edits intact. A worker gets a bounded brief (goal, base commit, owned paths, paths not to touch, documents to read, acceptance commands) and reads that brief and what it names, not the whole repository. Reuse inactive worktrees and the one shared toolchain cache; leave unrelated active worktrees untouched.
 - **Build reversibly.** New systems go in their own files or folders with one narrow, documented seam. Tunable numbers live in data tables. Save fields are optional and validated. Tests live beside the feature and are registered in `game/tests/suites.txt`.
 - **One independent reviewer per change**, on the frozen head, before merge. A second reviewer only for a named high risk: save and load, simulation determinism, input routing, the critic driver, or CI workflows. Record the verdict where the merge can cite it. Passing CI shows the tests pass; it is not a review.
 - **Test the minimum that proves the change.** Locally: import, core, the suites the diff reaches, the canaries and `check-suites`. The full matrix runs once per head on GitHub. Never loosen, skip or delete a test, and never edit CI to pass on red.
 - **Android packages.** Build a debug package when it helps testing, signed only with the tracked development keystore under `scripts/toolchain/signing/`. Never regenerate that key and never commit release or private key material. Pat provides release keys himself.
 - **Evidence levels stay distinct:** implementation, scripted verification, automated or critic play, and physical-device observation. Do not claim human enjoyment, audio perception, phone ergonomics or Android performance without that evidence.
-- **Keep the tree lean.** Game source, assets, tests, tools and concise instructions stay in the repository. Raw critic reports, screenshots, video and metrics stay outside the active tree in a recoverable place.
-- **Critics stand in for players.** A fresh critic gets the running game and nothing else: no build notes, no source, no winning routes. It plays full operations by real touch on the cover and inner views. The kit is in `scripts/critic/`.
+- **Keep the tree lean.** Game source, assets, tests, tools and concise instructions stay in the repository. Raw critic reports, screenshots, video and metrics stay outside the active tree in a recoverable place. During any housekeeping, preserve branch refs, unique or untracked evidence, saves, profiles and the signing material.
+- **Critics stand in for players.** A fresh critic gets the running game and nothing else: no build notes, no source, no winning routes. It plays full operations by real touch on the cover and inner views. Comparisons with reference games state their limits. Button callbacks and scripted controllers remain useful technical tests with their narrower scope. The kit is in `scripts/critic/`.
 
 ## 8. Task closeout and stale guidance
 
 At every task closeout, before reporting:
 
-1. Compare what the documents say with the fetched branches, the pull request state and the evidence. Repair stale status and stale references as part of the change. A passing structural check (`scripts/toolchain/check-gauntlet-guidance.py`, the docs link check) does not prove the documents are right.
+1. Run `python scripts/toolchain/gauntlet-boundary.py --boundary complete` (it fetches the governing files from `claude/integration` and runs the structural check on them), then compare what the documents say with the fetched branches, the pull request state and the evidence. Repair stale status and stale references as part of the change. A passing structural check (`scripts/toolchain/check-gauntlet-guidance.py`, the docs link check) does not prove the documents are right. If the current state cannot be determined reliably, say so and assign a verification task instead of guessing.
 2. Update [docs/STATUS.md](docs/STATUS.md) when the integrated base, active work, top weaknesses, blockers or next action changed.
 3. State the concrete player or maintainer gain, the observed evidence and the largest remaining weakness.
 4. Never ask Pat to update ordinary project documents.

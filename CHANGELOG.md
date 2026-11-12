@@ -19,6 +19,10 @@ Base: `claude/integration` at `cabd5bd5`. The complete account, including every 
 - The 441 Godot `.gd.uid` files and three title `.import` files that an import generated are now tracked, so an import leaves a clean tree and script identifiers are the same on every machine.
 - Added a pull request template, a documentation link check and a branch archive planner (`scripts/repo/archive_branches.py`, dry run by default; it changes nothing without the owner's flag).
 
+### CI
+
+- The fast `guidance` job also checks documentation links and runs the tool self-tests that no workflow ran before; two helper tests that need Godot run in `game-core`. Nothing redundant was added and the matrix is unchanged.
+
 ### Tools
 
 - `scripts/critic/`: the blind critic play kit, versioned and reviewed.
