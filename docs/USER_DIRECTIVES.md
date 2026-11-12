@@ -480,3 +480,39 @@ You should be using the absolute bare minimum amount of tests always."
 
 [AI note on effect] Testing: pull requests no longer run the four-shard matrix; they run core, the minimum selection (`select-suites.py --minimum`) and the canaries. The full matrix is a manual dispatch for a release or near-release package. Drones: this is a design ruling. On the base and in this run's build, both drones begin every dive already in the water at fixed offsets from Quietus; the ruling says they begin aboard and are launched from Quietus. Decision D-11 is answered by it (none of its three options applies). The change is not built yet.
 
+## 2026-11-12: the drone launch was core design, and answers to the repair list
+
+[PAT, chat, verbatim] "That was a core gameplay design even all the way back in the prototype"
+
+[AI note] Confirmed against the sources: in `reference/original-prototype/sirens_song_prototype_v7.html` (lines 231 to 234) a drone does not exist until the player launches it, at the submarine's position, from a stock of four; the design bible (line 55) calls drones "limited, expendable, torpedo-launched units". The Godot game placed both drones in the water at the start of every dive, and `docs/V7_TO_GODOT_PARITY.md` never recorded the difference.
+
+[PAT, chat, verbatim] "Plan out your repairs. Everything you've listed so far that I haven't interacted with. I will give a yes or no answer to everything unless it requires elaboration. Just give me a numbered list."
+
+[PAT, chat, verbatim, in answer to the 23-item list below] "Yes to all your recs. Use yourself on high as needed and weaker bounded agents for smaller tasks."
+
+[AI summary of the list Pat answered; the wording is the agent's, the recommendation in brackets is what Pat accepted]
+
+1. Restore drone launch as in the prototype: drones start aboard Quietus, off the map; ordering one launches it from the submarine; a drone never launched counts as recovered. [yes]
+2. First version: launching makes no extra noise beyond the drone's normal movement. [yes]
+3. First version: two drones, no spares. [yes]
+4. First version: recovery unchanged (bring drones to the recovery point; no re-docking). [yes]
+5. Audit the rest of the prototype against the game for other silently dropped mechanics and record every difference in the parity document. [yes]
+6. Add a TITLE button to the Operations screen (D-12 A). [yes]
+7. One new test package after items 1 to 6. [yes]
+8. After the playtest: retune photo pay so a sharp close photo beats a safe distant one, numbers shown to Pat first (D-08 A). [yes]
+9. After the playtest: 2x and 4x fast-forward that drops to normal when any Siren notices a craft (D-09). [yes]
+10. After the playtest: one starter drone tool after operation 1 (D-09). [yes]
+11. After the playtest: late-campaign alternates from existing optional operations now, new arc-opening operations later (D-10 D). [yes]
+12. After the playtest: a Siren on the approach of every optional operation, and fleet-required side objectives (D-10 R). [yes]
+13. Diagnostic lines stay silent in release builds (D-13 A). [yes]
+14. Move HUMAN_TEST_READINESS and AUTHORED_ENDING_125 to scrap; keep the Siren AI roadmap and the 1 November overview (D-02 A). [yes]
+15. Dated correction notes under three stale lines of the story draft, quoting Pat's rulings, the draft's text unchanged (D-03 B). [yes]
+16. `codex/handoffs` is frozen history from now on (D-04 A). [yes]
+17. Bounded runs and the open-ended Gauntlet loop both stay available (D-05 C). [yes]
+18. The specification line that says "safe pathfinding" is changed to the 30 October movement ruling (D-06 A; Q4 and Q5 stay open). [yes]
+19. The guard files stay in the pull request (D-07 A). [yes]
+20. Create archive tags for the 326 old branches (D-14 A). [yes]
+21. Remove the archived branch names afterwards. [not yet]
+22. Mark the pull request ready once items 1 to 7 are in (D-15, changed by the minimum-testing workflow). [yes]
+23. Do not trim the 41 slow suites; they run only for a release build now. [yes]
+

@@ -1,12 +1,12 @@
 {
   "run_id": "overhaul-20261111",
-  "status": "DONE",
-  "phase": "6-closeout",
-  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: None. The run is closed. Pat plays the debug package (run 43251208547), answers D-01 to D-15 and merges pull request 262",
+  "status": "RUNNING",
+  "phase": "7-repairs",
+  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: Repairs Pat approved on 2026-11-12 (list in docs/USER_DIRECTIVES.md): WP-13 drone launch from Quietus (root), WP-14 TITLE control on the Operations panel (bounded agent), WP-15 v7 parity audit (bounded read-only agent), housekeeping items 13 to 20, then one debug package and mark PR 262 ready",
   "base_ref": "origin/claude/integration",
   "base_sha": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
   "run_branch": "fable/overhaul-20261111",
-  "run_head": "f443956129a000dc9a1ce343145320f82c7f31f2",
+  "run_head": "f1b42b36ce4680b36e6b5aa9f9dc8cb518ac3e29",
   "shared_tips": {
     "claude/integration": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
     "main": "f5b66a198e3878950325f8c45a0bc6bc29dcba84",
@@ -27,9 +27,12 @@
     "WP-09": "merged",
     "WP-10": "merged",
     "WP-11": "merged",
-    "WP-12": "merged"
+    "WP-12": "merged",
+    "WP-13": "building",
+    "WP-14": "building",
+    "WP-15": "building"
   },
-  "decisions_open": 14,
-  "last_checkpoint": "DONE. Final code 247e0582 passed the full matrix (run 43242777379); debug package built (run 43251208547, SHA-256 78a8fa94...93bdd3); ledger 388 PASS, 1 CHANGED, 1 PAT; final report written; PR 262 left as a draft (D-15)",
-  "updated": "2026-11-12 10:55:04"
+  "decisions_open": 0,
+  "last_checkpoint": "Run reopened by Pat after DONE for approved repairs",
+  "updated": "2026-11-12 11:01:42"
 }
