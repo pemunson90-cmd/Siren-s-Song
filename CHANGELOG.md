@@ -34,3 +34,4 @@ Base: `claude/integration` at `cabd5bd5`. The complete account, including every 
 - Release builds refuse the six developer-only travel shortcuts on every profile, including an imported developer-marked one. Debug builds are unchanged. The developer mark and its exclusion from records are unchanged.
 - Exported packages no longer contain the test scripts.
 - The internal `SS_` diagnostic lines print only in debug builds.
+- Per-operation metadata (region, route-map position, endurance, opening-arc gating) lives in one table, `game/src/campaign/operation_meta.gd`. No operation behaves differently; a parity suite proves it against values recorded from the base. `docs/guides/` explains how to add an operation, a region, a Siren role and a fitting.

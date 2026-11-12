@@ -378,3 +378,4 @@ all_stop_text_tests|ALL STOP TEXT|-|1402
 bare_contact_tests|BARE CONTACT|1390|1390
 launch_guard_ui_tests|LAUNCH GUARD UI|1296|1296|render
 release_build_gate_tests|RELEASE BUILD GATE|1404|1404
+operation_meta_parity_tests|OPERATION META|1405|1405

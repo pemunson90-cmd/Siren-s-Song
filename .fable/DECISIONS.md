@@ -85,3 +85,11 @@ What: A new player's drones carry no tools, the only early purchase costs alloy 
 Options: (A) Both: a 2x and 4x time step that drops to normal the moment any Siren notices a craft, and one starter drone tool after operation 1. (B) Time step only. (C) Starter tool only. (D) Neither for now.
 Recommendation: A because the three-craft premise is not felt in the opening without it, and both are additions that remove nothing.
 Current state kept: drone speed, tool stock and prices are unchanged.
+
+## D-10 Route graph and late-operation variety
+Status: OPEN
+Raised: 2026-11-12, phase 4, WP-12
+What: From operation 14 to 34 every player flies the same core operations; forks change approaches inside operations. `docs/proposals/2026-11-ROUTE_AND_VARIETY_OPTIONS.md` lays out options with costs. It contains no story text and nothing in it is built.
+Options: Part 1 (which operations you get): (A) alternates built from existing optional operations, (B) exit forks with two new arc-opening operations, (C) same operations with different encounters, (D) A now, B later. Part 2 (difficulty cliff): (P) a Siren on the approach of every optional operation, (Q) fleet-required side objectives, (R) both.
+Recommendation: D and R because A gives real branches from content that is already built and tested, and an optional operation standing in a core slot needs P anyway.
+Current state kept: the route graph, operation order and all encounters are unchanged.
