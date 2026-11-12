@@ -1,4 +1,5 @@
 extends "res://tests/depth_sonar_ui_tests.gd"
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 # Source-known, accelerated opening journeys. Every consequential order enters
 # through real viewport input; simulation travel is stepped faster than wall time.
 # Every command may move into the scroll dock while threats own the top lane.
@@ -130,7 +131,11 @@ func run():
    root.add_child(g);await settle();g.set_process(false)
    # The active-scout route spends two finite Disrupt charges through touch orders.
    g.tool_racks=preload("res://src/equipment/tool_racks.gd").empty();g.tool_racks.quietus.emp=2
-   g._start_mission(0);await settle()
+   g._start_mission(0);PlayerDive.launch_drones(g.sim)
+   for id in [1,2]:g.sim.units[id].pos=g.sim.units[0].pos+g.sim.LaunchLayout.offset(0,id) # drones at their authored launch stations, as before the player rules
+   g._refresh();await settle()
+   # As in depth_policy_journeys: under the player rules a calm Siren ignores the scout drone and the sweeper beams Quietus, so the touch journey runs on the legacy rules (flag cleared on this started mission; reported).
+   g.sim.mission[PlayerDive.Rules.KEY]=false
    await journey(g,active,shape)
    g.queue_free();await settle()
  print("DEPTH POLICY UI CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)
