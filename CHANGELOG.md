@@ -13,6 +13,12 @@ Base: `claude/integration` at `cabd5bd5`. The complete account, including every 
 - Ten pointer and handoff documents moved to `_scrap-20261111/` with a manifest. `docs/GOVERNANCE_MIGRATION.md` accounts for every rule of the old governing files.
 - Stale statements corrected in place: the lifted stop banners, the superseded APK prohibition, the WSL-only instructions, dead links.
 
+### Repository hygiene
+
+- `.gitattributes` stores text with LF on every platform and keeps provenance files and fixtures byte for byte. Twelve scripts with CRLF or mixed endings were normalized (whitespace only).
+- The 441 Godot `.gd.uid` files and three title `.import` files that an import generated are now tracked, so an import leaves a clean tree and script identifiers are the same on every machine.
+- Added a pull request template, a documentation link check and a branch archive planner (`scripts/repo/archive_branches.py`, dry run by default; it changes nothing without the owner's flag).
+
 ### Tools
 
 - `scripts/critic/`: the blind critic play kit, versioned and reviewed.

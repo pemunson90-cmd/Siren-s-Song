@@ -6,7 +6,7 @@
   "base_ref": "origin/claude/integration",
   "base_sha": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
   "run_branch": "fable/overhaul-20261111",
-  "run_head": "894c0c702d04aa5275b16083a58fe2728ed9c06b",
+  "run_head": "990b819f3e0ff0802b5ed5abc1c3348ce22698cf",
   "shared_tips": {
     "claude/integration": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
     "main": "f5b66a198e3878950325f8c45a0bc6bc29dcba84",
@@ -18,7 +18,7 @@
     "WP-00": "merged",
     "WP-01": "merged",
     "WP-02": "review",
-    "WP-03": "planned",
+    "WP-03": "merged",
     "WP-04": "planned",
     "WP-05": "planned",
     "WP-06": "planned",
@@ -31,5 +31,5 @@
   },
   "decisions_open": 9,
   "last_checkpoint": "Phase 1 and Phase 2 complete: SURVEY, COLD_REVIEW_6, ledger, plan committed. Phase 3 WP-02 in progress in the working tree",
-  "updated": "2026-11-12 03:57:55"
+  "updated": "2026-11-12 04:03:50"
 }

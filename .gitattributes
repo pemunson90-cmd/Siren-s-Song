@@ -1,0 +1,26 @@
+# Line endings: text is stored with LF and checked out with LF on every
+# platform, so a Godot import on Windows leaves the tree clean.
+* text=auto eol=lf
+
+# Windows scripts keep CRLF in the working copy.
+*.ps1 text eol=crlf
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Provenance and fixtures are stored byte for byte: never convert them.
+reference/** -text
+references/** -text
+game/tests/fixtures/** -text
+
+# Binary files.
+*.png binary
+*.jpg binary
+*.wav binary
+*.ogg binary
+*.zip binary
+*.pdf binary
+*.keystore binary
+*.jks binary
+*.bin binary
+*.archive binary
+*.apk binary
