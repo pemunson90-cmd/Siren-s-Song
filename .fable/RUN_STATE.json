@@ -1,12 +1,12 @@
 {
   "run_id": "overhaul-20261111",
-  "status": "STUCK",
+  "status": "RUNNING",
   "phase": "7-repairs",
-  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: Pat answers keep or restore for the sixteen prototype differences (root's chat message of 2026-11-12; items 1 to 9 recorded adaptations without a ruling, 10 to 16 the unrecorded ones in docs/V7_TO_GODOT_PARITY.md). Then: build the restores he chooses, one new debug package, set the PR body from .fable/FINAL_REPORT.md, mark PR 262 ready (one minimum check run), set status DONE",
+  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: Read the debug package run for d64fbfb0, record its SHA-256 in .fable/FINAL_REPORT.md, refresh the PR body. Then wait for Pat: questions N-1 to N-7 in the report and his playtest. PR 262 stays a draft until he says his rulings are done; then mark it ready and set DONE",
   "base_ref": "origin/claude/integration",
   "base_sha": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
   "run_branch": "fable/overhaul-20261111",
-  "run_head": "615e66b5116734f616fa0b82572db7c3605a3e21",
+  "run_head": "d64fbfb04d4b747462651db452287dfdf729c0b5",
   "shared_tips": {
     "claude/integration": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
     "main": "f5b66a198e3878950325f8c45a0bc6bc29dcba84",
@@ -30,9 +30,10 @@
     "WP-12": "merged",
     "WP-13": "merged",
     "WP-14": "merged",
-    "WP-15": "merged"
+    "WP-15": "merged",
+    "WP-16": "merged"
   },
   "decisions_open": 0,
-  "last_checkpoint": "Phase 7 repairs built and pushed; debug package run 43257538007 on 615e66b5, SHA-256 ea713eb9...1497a8; PR 262 still a draft until Pat has reviewed the parity differences",
-  "updated": "2026-11-12 11:23:07"
+  "last_checkpoint": "WP-16 parity restores committed at d64fbfb0 (PARITY RULES 60/0, core 850/0, canaries)",
+  "updated": "2026-11-12 11:45:56"
 }

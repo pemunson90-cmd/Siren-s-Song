@@ -2,13 +2,16 @@
 
 Status: FINAL (2026-11-12)
 
-Branch `fable/overhaul-20261111`, final game code at `0d94ec49` (later commits on the branch change only documents). The first closeout was at `247e0582`; Pat then approved repairs (section 12), which are included, base `claude/integration` at `cabd5bd5` (tag `fable/pre-overhaul-20261111`). Pull request: https://github.com/pemunson90-cmd/Siren-s-Song/pull/262 (ready for review, unmerged; Pat merges).
+Branch `fable/overhaul-20261111`, final game code at `d64fbfb0` (later commits on the branch change only documents). The first closeout was at `247e0582`; Pat then approved repairs (section 12), which are included, base `claude/integration` at `cabd5bd5` (tag `fable/pre-overhaul-20261111`). Pull request: https://github.com/pemunson90-cmd/Siren-s-Song/pull/262 (ready for review, unmerged; Pat merges).
 
 ## In plain English (for Pat)
 
 **What you will notice when you play**
 
 - *Drones launch from the submarine.* Every dive starts with both drones aboard Quietus, off the map, where nothing can see or hit them. Open FLEET, choose a drone and tap the water: it launches beside the submarine and swims there. A drone you never launch comes home with you. This restores how the prototype worked; the rebuild had dropped it.
+- *Recon is discovery again.* After the first three tutorial operations the map starts almost blank: you see a small patch of water around your launch point and your craft's sensors fill in the rest as you explore. A survey sweep shows water and objectives for 30 seconds; they fade unless one of your craft goes and maps them. Each objective is a search area until a craft senses it or a sonar pulse reaches it.
+- *Disrupt (the EMP) no longer wastes a charge* when no Siren is in range.
+- *The factory senses you.* In the two operations with a factory (3, Cold Foundry, and 11, Confluence), staying within 340 m of it raises Hunt, and the Hunt meter says why.
 - *Getting caught makes sense.* When you line up a photograph, the map draws a ring showing how far the shutter noise carries. When a Siren locks onto a craft, a countdown appears next to that craft. When you lose a drone, the message says what destroyed it and from which direction, or "UNSEEN SIREN" if you never saw it. A new optional setting (off by default) pauses the dive when a craft is lost.
 - *Planning while paused works.* Tapping a craft while paused no longer swings the camera away. RESUME always resumes in one press, and the button is large enough that taps are not missed. The "replace this route?" box names its real buttons, shows what the craft is doing now, and the clock stops while it is open.
 - *Photographs explain themselves.* There is a SHUTTER button in the camera panel. If you are zoomed wide on something that needs a close-up, you get a warning before film is spent; press again to shoot anyway. After a dive, and in the archive, each photograph shows what it earned.
@@ -21,7 +24,9 @@ Branch `fable/overhaul-20261111`, final game code at `0d94ec49` (later commits o
 
 **What I could not check:** nothing was seen on a real phone. Everything was checked by automated tests and by three AI play-testers, who covered the opening and middle of the campaign only. After the drone launch change I ran only the checks that test it directly (your minimum-testing rule): its own suite, the core rules suite, the three rule canaries and the hand-piloted journeys, all passing. Seventy-two other test files that drive the whole game and touch drones were not rerun; some may need their setup updated the next time the full check runs for a release build.
 
-**Other prototype mechanics the rebuild changed without a record** (found by the audit you asked for; nothing changed yet, each waits for your yes or no): objectives are shown from the start instead of found by sensing; Disrupt spends its charge even with no Siren in range; the survey is loud where the prototype's was quiet; drones attract Sirens by their noise where the prototype removed that; being near the factory no longer raises suspicion; a Siren's sight range is no longer drawn. The full list is in `docs/V7_TO_GODOT_PARITY.md`.
+**Not yet seen by anyone:** operations 3 to 41 have never been played or tested end to end on a discovered map. Each was authored with a full chart, so some may now be harder or awkward. That is the first thing your playtest will show.
+
+**Still open from the prototype audit** (your call, nothing changed): what Sirens should notice when the survey plane sweeps (today it is a loud signal they investigate); whether drones should be stealthier than the submarine (today they are not); whether to draw a detected Siren's sight range on screen; which other Siren works besides the two factories should sense craft. Items you chose to try as they are: the 4-second lock and beam, terrain damage, moving silent running, the eight Siren types, sonar echoes, drone batteries, tool numbers, sensing ranges, extraction distance and speed.
 
 ## 1. Outcome
 
@@ -83,6 +88,11 @@ Complete table, built from `git diff fable/pre-overhaul-20261111..fable/overhaul
 | 28 | Every player dive starts with both drones aboard Quietus (not in the water, carried with it, battery not draining). The first `route` order to a drone launches it beside Quietus in Quietus's depth band; other orders are refused with "DRONE A is aboard Quietus · tap water to launch it"; no launch while Quietus changes depth. A drone never launched is recovered with Quietus and never counted lost. Fleet buttons read ABOARD; the recovery manifest reads "IN · ABOARD". Dives saved earlier keep their drones in the water. | `simulation/drone_bay/drone_bay.gd` and the seams listed in `docs/MODULES.md` | WP-13 | `drone_bay.gd: ENABLED` |
 | 29 | The opening message of a dive adds "Drones are aboard: select one and tap water to launch it."; the field manual's ORDERS paragraph gains one sentence saying the same (instruction text). | `simulation/simulation.gd`, `campaign/onboarding_text.gd` | WP-13 | same |
 | 30 | A TITLE control is the first row of the Operations panel (same action as the bottom-row TITLE, which stays). | `presentation/ops_home/` | WP-14 | `ops_home_table.gd: TOP_TITLE` |
+| 31 | On a player dive after operations 0 to 2 the chart starts as a 480 m window around the launch point and is earned by the craft's sensors (the earned-chart system that five operations already used, now on all of them). Routes are planned on known water only, as on those five. | `simulation/parity_rules/parity_rules.gd`, `simulation/simulation.gd` | WP-16 | `parity_rules.gd: RULES.discovered_charts` |
+| 32 | A survey sweep's chart cells and faces lapse 30 s after the sweep last touched them unless a craft's own sensors map them; a saved chart leaves them out. Applies to the five earlier earned-chart operations too. | `simulation/terrain_chart.gd` | WP-16 | same |
+| 33 | On a player dive after operations 0 to 2 each plain objective is drawn as a search area (220 m radius, off centre) until a craft's passive sensing with a clear path, or a sonar pulse in its sector, finds it; a survey shows it for 30 s. The camera context says "search the marked area" until then. Developer console command `known` shows charts and objectives from the start. | `simulation/parity_rules/site_search.gd`, `simulation/photo_capture.gd`, `debug/debug_console.gd` | WP-16 | `RULES.site_search` |
+| 34 | On a player dive Disrupt is refused with "No Siren within Disrupt range · charge kept" when no Siren is inside its radius. The check uses true Siren positions, as the prototype did, so the refusal also tells the player nothing is that close. | `simulation/orders/weapon_orders.gd` | WP-16 | `RULES.disrupt_needs_target` |
+| 35 | In operations 3 and 11 a craft in the water within 340 m of the factory raises Hunt by up to 8 per second (the prototype's suspicion numbers applied to Hunt); the Hunt meter cause reads "factory sensors" and one message announces it. | `simulation/parity_rules/factory_sensors.gd`, `campaign/tutorial_missions.gd`, `campaign/confluence_region.gd`, `simulation/hunt_pressure/hunt_table.gd` | WP-16 | `RULES.factory_sensors` |
 
 Not behavior changes, listed for completeness: 441 `.gd.uid` files and line-ending normalization (whitespace only, `git diff -w` is empty for those files); the AI trace and sweeper patrol files changed in line endings only.
 
@@ -142,16 +152,16 @@ The first three lines refresh the ledger (branches change class as they age), th
 
 All fifteen decisions (D-01 to D-15) were answered on 2026-11-12 and are recorded, with the 23-item list Pat answered, in `docs/USER_DIRECTIVES.md` and `.fable/DECISIONS.md`. Applied in this branch: D-02 to D-07, D-11 (drone launch), D-12, D-13, D-14 (tags only) and D-15. Approved for after the playtest and not built: D-08 (photo pay retune, numbers shown first), D-09 (fast-forward and a starter drone tool), D-10 (late-campaign alternates; a Siren on every optional approach; fleet side objectives).
 
-New questions, each answerable yes or no (recommendation in bold):
+Open questions, each answerable in a word (recommendation in bold):
 
 | # | Question | Recommendation |
 | --- | --- | --- |
 | N-1 | Spare drones, as in the prototype (it carried four and launched a replacement when one was lost)? | **Decide after the playtest** |
-| N-2 | Hide objectives until a craft senses them, as in the prototype? | **Yes for operations on earned charts first** |
-| N-3 | Refuse Disrupt when no Siren is in range, keeping the charge? | **Yes** |
-| N-4 | Make the survey quiet again? | **Yes** |
-| N-5 | Stop drones attracting Sirens by their movement noise? | **No**: the acoustic model treats every craft alike and the decoy is still the stronger lure |
-| N-6 | Draw each known Siren's sight range on the chart? | **Yes** |
+| N-2 | The survey is a recon plane. When it sweeps, should Sirens notice: nothing (as the prototype), a small Hunt rise, or a loud signal they investigate (as now)? | **A small Hunt rise** |
+| N-3 | Make drones stealthier than the submarine (seen and heard at about two thirds of its range)? Today they are not. | **Yes** |
+| N-4 | Draw the sight range of each Siren you have detected, as a faint circle on the chart? | **Yes** |
+| N-5 | Besides the factories in operations 3 and 11, which Siren works should sense nearby craft: every Siren industrial structure, or only named factories? | **Every Siren industrial structure, after you have played 3 and 11** |
+| N-6 | Disrupt's refusal tells you no Siren is within range. Keep that (as the prototype), or fire anyway when you hold no contact? | **Keep** |
 | N-7 | Remove the names of the 341 archived branches now that their tags exist? | **Yes, when you want the branch list short** |
 
 ## 10. Deferred and backlog
@@ -166,9 +176,10 @@ Pat reviewed the first closeout the same day and approved a list of repairs. Don
 
 - **Testing cut to the bare minimum** (Pat: "the literal absolute minimum amount of testing ever"). The audit: the full matrix took 46 minutes and about 150 runner-minutes; 41 of 387 suites took 61 percent of it. Pull requests now run core, at most twelve directly affected suites and the canaries. The full matrix is a manual dispatch for a release or near-release package.
 - **Drone launch restored** (WP-13), **TITLE control** (WP-14), **prototype parity audit** (WP-15, eleven unrecorded differences in `docs/V7_TO_GODOT_PARITY.md`).
+- **Parity restores Pat ruled on after reading the audit** (WP-16): discovered charts on every operation after the first three, survey sweeps temporary, objectives as search areas, Disrupt keeps its charge with nothing in range, factory sensors in operations 3 and 11.
 - **Housekeeping from the answered decisions:** two documents to scrap, correction notes in the story draft, `codex/handoffs` frozen, the specification's movement clause, and archive tags for 341 old branches as `fable/archive/branch/<name>` (the run's guard allows pushes only under `fable/`; no branch was removed).
 
-Evidence for the repairs: DRONE BAY 74/0, core `CHECKS 850 FAILURES 0`, PROTECTED RULES 87/0, CONTROL MIX 41/0, CRASH 39/0, HANDPILOT 96/0, ONBOARDING 55/0, OPS TITLE CONTROL 60/0, the selector and guidance self-tests, all local scripted verification. No full matrix ran after them, by Pat's rule. The render-only Operations suites were not run with the TITLE control in place.
+Evidence for the repairs: DRONE BAY 74/0, core `CHECKS 850 FAILURES 0`, PROTECTED RULES 87/0, CONTROL MIX 41/0, CRASH 39/0, HANDPILOT 96/0, ONBOARDING 55/0, OPS TITLE CONTROL 60/0, PARITY RULES 60/0, V7 TERRAIN CHART 14/0, EARNED COURSE CONTINUITY 24/0, PHOTO DISCOVERY 25/0, core and the canaries again after WP-16, the selector and guidance self-tests, all local scripted verification. Unverified: operations 3 to 41 played or journeyed on a discovered chart. No full matrix ran after them, by Pat's rule. The render-only Operations suites were not run with the TITLE control in place.
 
 ## 11. Testing on the phone, and rolling back
 
