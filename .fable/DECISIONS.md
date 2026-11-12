@@ -93,3 +93,19 @@ What: From operation 14 to 34 every player flies the same core operations; forks
 Options: Part 1 (which operations you get): (A) alternates built from existing optional operations, (B) exit forks with two new arc-opening operations, (C) same operations with different encounters, (D) A now, B later. Part 2 (difficulty cliff): (P) a Siren on the approach of every optional operation, (Q) fleet-required side objectives, (R) both.
 Recommendation: D and R because A gives real branches from content that is already built and tested, and an optional operation standing in a core slot needs P anyway.
 Current state kept: the route graph, operation order and all encounters are unchanged.
+
+## D-11 Drones parked outside recovery reach, and a first leg that runs through a drone
+Status: OPEN
+Raised: 2026-11-12, phase 4, WP-11
+What: Two critic findings turned out to be rules working as built. In 16 operations the launch point is also the recovery mouth and each drone starts 100 m from it, while recovery reach is 65 m, so a drone that never moved is truthfully listed OUTSIDE RECOVERY. And Drone A starts 100 m ahead of Quietus, so a first straight leg north strikes it (13 percent hull at 2.5 s); the leg warning names Drone A, but a new player still takes the hit. Nothing was changed.
+Options: (A) Start drones inside recovery reach and astern of the first objective (changes start positions in those operations; needs the journey tests rerun). (B) Keep the positions, and count a drone that never left its start as recovered. (C) Leave both as they are.
+Recommendation: A because it removes both surprises with one layout change and touches no rule.
+Current state kept: start positions, recovery reach and the OUTSIDE RECOVERY label are unchanged.
+
+## D-12 A way back to the title from the campaign Operations panel
+Status: OPEN
+Raised: 2026-11-12, phase 4, WP-11
+What: On the near-square inner screen a critic found no BACK on the Operations panel, and Android back there starts the double-press exit. TITLE exists in the bottom row but was not seen. The package did not add a control, because a BACK that copies Android back would offer to exit the app.
+Options: (A) Pin a TITLE control at the top of the Operations panel on both layouts. (B) Leave it as it is.
+Recommendation: A because it is one visible control and changes no behavior of Android back.
+Current state kept: the Operations panel and Android back are unchanged.
