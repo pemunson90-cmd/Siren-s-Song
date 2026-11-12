@@ -1,12 +1,12 @@
 {
   "run_id": "overhaul-20261111",
-  "status": "STUCK",
-  "phase": "7-repairs",
-  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: Wait for Pat: his playtest of the debug package (run 43265277067) and his remaining answers (survey behavior, which other Siren works sense craft, spare drones, whether to rename the DISRUPTION loadout). Then apply them, mark PR 262 ready (one minimum check run) and set DONE",
+  "status": "PAUSED",
+  "phase": "8-audit",
+  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: Resume with /siren-s-start-fable. Then .fable/PHASE8.md in order: 8.1 rename the DISRUPTION loadout to EMP (display sites listed there; not started), 8.2 code base audit (three small read-only agent batches on cheap models, root synthesis into .fable/CODE_AUDIT.md, plain-English yes or no list for Pat), 8.3 build what Pat approves, 8.4 Pat's playtest feedback. PR 262 stays a draft",
   "base_ref": "origin/claude/integration",
   "base_sha": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
   "run_branch": "fable/overhaul-20261111",
-  "run_head": "955ac8a10380f2bd3912ea7f3a298aee42046752",
+  "run_head": "e74d5d1d9ab6e9ed18d1c6f9964328ab1ac34bf2",
   "shared_tips": {
     "claude/integration": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
     "main": "f5b66a198e3878950325f8c45a0bc6bc29dcba84",
@@ -31,9 +31,11 @@
     "WP-13": "merged",
     "WP-14": "merged",
     "WP-15": "merged",
-    "WP-16": "merged"
+    "WP-16": "merged",
+    "WP-17": "planned",
+    "WP-18": "planned"
   },
   "decisions_open": 0,
-  "last_checkpoint": "WP-16 complete at 955ac8a1; debug package run 43265277067, SHA-256 ba20421a...5286f; PR 262 a draft with the report as its body",
-  "updated": "2026-11-12 12:04:57"
+  "last_checkpoint": "PAUSED before phase 8. Head pushed; debug package run 43265277067 with Pat; start command rewritten for phase 8",
+  "updated": "2026-11-12 13:14:27"
 }

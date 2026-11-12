@@ -1,18 +1,21 @@
 # NOW: what the root session is doing
 
 Status: LIVE NOTE (rewritten before every step; if a session died, this is the step it died in)
-Updated: 2026-11-12 12:04
+Updated: 2026-11-12 13:14
 
 **To resume after a context clear or a new session:** open this folder as the project and run `/siren-s-start-fable`. The command reads the charter, the target file, `.fable/RUN_STATE.json`, `.fable/RUN_LOG.md` and `.fable/DECISIONS.md`. The `next_action` field in the state file always starts by sending the session to `.fable/HANDOFF.md` and to this file.
 
 ## Doing right now
 
-Nothing running. Waiting on Pat's playtest and remaining answers
+PAUSED for a context clear at Pat's request. Nothing is running; nothing is uncommitted
 
 ## In flight
 
-Nothing. WP-00 to WP-12 are merged and pushed. No subagent or test job is running; the Phase 4 CI gate runs on GitHub.
+Nothing. No subagent, test job or build is running, and no code is uncommitted.
 
 ## Next, in order
 
-Nothing. The run is closed; see `.fable/FINAL_REPORT.md`.
+1. `.fable/PHASE8.md` item 8.1: rename the DISRUPTION loadout to EMP (display only).
+2. Item 8.2: the code base audit (three small read-only agent batches, root synthesis, `.fable/CODE_AUDIT.md`, plain-English summary for Pat).
+3. Item 8.3: build what Pat approves.
+4. Item 8.4: Pat's playtest feedback.

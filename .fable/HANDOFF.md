@@ -9,13 +9,15 @@ This guide lets a session with an empty context resume run `overhaul-20261111` f
 
 1. **Open this folder as the project** (`repos\_fable\Siren-s-Song`), so the hooks in the tracked `.claude/settings.json` load: the command guard, the post-command restore check, the session-start hook and the stop gate. Two sessions so far were started in Pat's other clone and pointed here; in those the command guard did not load and its rules were applied by hand (decision D-01). The git-level hooks in `.git/hooks` work either way.
 2. **Run `/siren-s-start-fable`.** It sets the run parameters (`PLAN_GATE=off`, `APK_AT_END=yes`, `SUBAGENT_LIMIT=3`) and tells a resumed session to continue from `next_action`.
-3. **Read, in full and in this order:** `.fable/FABLE_RUN.md`, `.fable/TARGET.md`, `.fable/RUN_STATE.json`, the last 50 lines of `.fable/RUN_LOG.md`, `.fable/DECISIONS.md`, this guide, `.fable/NOW.md`, then `.fable/OVERHAUL_PLAN.md` and `AGENTS.md`.
+3. **Read, in full and in this order:** `.fable/FABLE_RUN.md`, `.fable/TARGET.md`, `.fable/RUN_STATE.json`, the last 50 lines of `.fable/RUN_LOG.md`, `.fable/DECISIONS.md`, this guide, `.fable/PHASE8.md`, `.fable/NOW.md`, then `.fable/OVERHAUL_PLAN.md` and `AGENTS.md`.
 4. **Check for staleness:** `python scripts/repo/handoff_check.py`, `git status --short`, `git log --oneline -15`, `git worktree list`, `git ls-remote origin 'refs/heads/fable/*'`, and `gh pr view 262 --json state,isDraft,headRefOid`. Rerun the four guard self-test commands of charter Phase 0 step 5 and log the result.
 5. **Recover in-flight work (section 3), then continue** from `next_action`. Before each step record it with `python scripts/repo/run_state.py --now "..."`.
 
-## 2. Where the run stands (second closeout, 2026-11-12)
+## 2. Where the run stands (pause of 2026-11-12, before phase 8)
 
-The run is finished. Phases 0 to 6 closed first at `247e0582` (full matrix run 43242777379 green). Pat then answered every decision and approved repairs (phase 7): bare-minimum testing on pull requests, the drone launch restored from the prototype (WP-13), a TITLE control (WP-14), a prototype parity audit (WP-15), housekeeping and archive tags. All of it is merged and pushed. The report is `.fable/FINAL_REPORT.md` and is also the body of pull request 262. Nothing is in flight. A new session waits for Pat's playtest feedback and his answers to the new questions N-1 to N-7 in the report.
+Phases 0 to 7 are finished and pushed. Phase 7 (the same day as the first closeout) restored the drone launch from the prototype, added a TITLE control, audited the prototype against the game, cut pull request testing to the bare minimum, and built the parity rules Pat ruled on (discovered charts, objective search areas, temporary survey sweeps, free Quietus sonar, the EMP name and refusal, factory sensors, calm Sirens ignoring drones, quieter drones, Siren sight rings). Pat has the debug package of run 43265277067 to playtest. Pull request 262 is a draft with `.fable/FINAL_REPORT.md` as its body.
+
+**Next is phase 8, defined in `.fable/PHASE8.md`:** rename the DISRUPTION loadout to EMP, audit the code base for tangle and inefficiency with small batches of cheap read-only agents, report to Pat in plain English, then build what he approves. Nothing is in flight; no code is uncommitted.
 
 ## 3. In-flight work and how to recover it
 
@@ -49,4 +51,4 @@ D-01 to D-15 are answered (`.fable/DECISIONS.md`). New yes or no questions N-1 t
 
 ## 7. What comes next
 
-Pat plays the debug package and merges pull request 262. Approved for after the playtest: photo pay retune (D-08), fast-forward and a starter drone tool (D-09), late-campaign alternates and Siren pressure on optional operations (D-10). Testing rule for all of it: the bare minimum (`docs/WORKFLOW.md`); the full matrix only by manual dispatch before a release package.
+Phase 8 (`.fable/PHASE8.md`), then Pat's playtest feedback and the items he approved for after it. Testing rule for all of it: the bare minimum (`docs/WORKFLOW.md`); the full matrix only by manual dispatch before a release package.

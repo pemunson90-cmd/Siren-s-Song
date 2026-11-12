@@ -569,3 +569,15 @@ You should be using the absolute bare minimum amount of tests always."
 
 [AI note on effect] Built in WP-16 (`game/src/simulation/parity_rules/drone_stealth.gd`, `sight_range.gd`). The in-world explanation of the sight range is Pat's to supply later. The survey question (item 12) stays open.
 
+## 2026-11-12: loadout rename, code base audit, pause and resume
+
+[PAT, chat, verbatim] "Yes I wanted disruption renamed to emp, the rest I will give feedback after play testing. In the meantime I want you to avoid it the code base and see if it could be made more efficient because it sounds like a tangled mess."
+
+[AI note] "avoid it" is read as "audit". The loadout rename and the audit are phase 8 of the overhaul run (`.fable/PHASE8.md`).
+
+[PAT, chat, verbatim] "I stopped you because you were spending your gears for like 20 minutes with no response so what I'm going to ask you to do instead is make sure that you are ready to pause I don't want to clear and restart because our context is very full. Make sure that the siren start Fable command is properly scoped for the current work including the code base audit I just asked for please. Remember the delegation rules and to always use limited badges of the most capable but cheapest possible agents per task except where your specific intelligence is needed. Orchestrate, update still drafts and documents, and keep working. After the resume."
+
+[PAT, chat, verbatim] "Continue and prepare for clear a d resume"
+
+[AI note on effect] The start command `.claude/commands/siren-s-start-fable.md` was rewritten on this instruction to resume into phase 8 with Pat's standing rules (minimum tests, no unnecessary Actions runs, cheapest capable agents in small batches, plain English, a short update every few minutes). The run is paused for a context clear.
+
