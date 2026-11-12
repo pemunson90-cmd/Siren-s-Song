@@ -6,7 +6,7 @@
   "base_ref": "origin/claude/integration",
   "base_sha": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
   "run_branch": "fable/overhaul-20261111",
-  "run_head": "9e941f9bbeb836c0365168cc0e29812483256386",
+  "run_head": "51fdad42d80faddef5088f7548a27c00f7b421ce",
   "shared_tips": {
     "claude/integration": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
     "main": "f5b66a198e3878950325f8c45a0bc6bc29dcba84",
@@ -19,5 +19,5 @@
   },
   "decisions_open": 6,
   "last_checkpoint": "Phase 1 in progress: DOC_INVENTORY, BRANCH_LEDGER, CI_INVENTORY done; SURVEY sections 1 to 6 done; PROTECTED_CAPABILITIES, COLD_REVIEW_6 and SURVEY section 7 pending",
-  "updated": "2026-11-11 21:18:42"
+  "updated": "2026-11-11 21:18:43"
 }
