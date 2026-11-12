@@ -173,7 +173,7 @@ def main():
             )) + "\n")
         return
 
-    out.write("# Branch ledger\n\n")
+    out.write("# Branch ledger\n\nStatus: GENERATED (rerun the script to refresh; do not edit by hand)\n\n")
     out.write(
         "Produced by `scripts/repo/branch_ledger.py` on %s from the local remote-tracking refs of `%s`. "
         "Baseline `%s` at %s, base `%s` at %s. Activity window: %d days. Nothing was changed.\n\n"

@@ -51,3 +51,17 @@ Findings:
 Design choices for Phase 3: rulings home stays `docs/USER_DIRECTIVES.md` (append handoffs RULINGS.md verbatim); new `docs/STATUS.md`, `docs/WORKFLOW.md`, `docs/GOVERNANCE_MIGRATION.md`; scrap START_HERE, RESUME, CONTINUATION, WORKBENCH, AGENT_BRIEF, GAUNTLET_ORCHESTRATION, CODEX_ENVIRONMENT, CRITIC_BRIEF, DESKTOP_HANDOFF, PAUSE_CHECKPOINT and the old AGENTS.md text. `check-gauntlet-guidance.py` FILES and `gauntlet-boundary.py` FILES (line 7) and its dispatch prefix (line 121, names Sol6.1) must change in the same commit; `test-gauntlet-boundary.py` and `install-gauntlet-hooks.py` reference them.
 
 Plan seeds from the cold reviews (handoffs): COLD_REVIEW_5 rank 9 (ARRIVALS opens instructions, not received content) has no later item: open. Rank 11 (machinery and site roles rely on text, weak compositions): open, art is Pat's. PLAN_DRAFT_1 package 6 (look and sound, read-only comparison) and package 7 (late-operation variety) open. FLEET_MATTERS (28 Oct): 29 of 41 operations classed WAYPOINT, 4 EARNED; tools with no demonstrated decisive use: Decoy, RECON, Torpedo, Sonobuoy, Silt screen, Hull patch, Relay buoy, flash; no fitting individually proven decisive; later fixes 094 to 097 and 139 raised pressure on some operations. COLD_REVIEW_4 F9 (newest record needs 44 NEXT presses), F15 (challenge pars ignore photo quality) not retested. STATE order after Critic 6: photo payoff; late-operation variety and branching route graph; fitting allocation; look and sound comparison.
+
+## Root's intended plan (sketch, 2026-11-11 21:20; the binding version will be `.fable/OVERHAUL_PLAN.md`)
+
+P0, all land in this run:
+- WP-00 Critic kit versioned under `scripts/critic/` (done, commit aa77916c; needs a reviewer pass before the Phase 3 gate).
+- WP-01 Protected capabilities ledger (`.fable/PROTECTED_CAPABILITIES.md`, drafter running).
+- WP-02 Governance consolidation: new `AGENTS.md`, `CLAUDE.md` (`@AGENTS.md`), `README.md`, `docs/STATUS.md`, `docs/WORKFLOW.md`, `docs/GOVERNANCE_MIGRATION.md`; append handoffs RULINGS verbatim to `docs/USER_DIRECTIVES.md`; fix stale lines in the LIVE, fix documents; scrap moves with `_scrap-20261111/SCRAP_MANIFEST.md`; update `check-gauntlet-guidance.py`, its test, `gauntlet-boundary.py` FILES and dispatch prefix, `test-gauntlet-boundary.py`. Root does this itself (shared files).
+- WP-03 Repository hygiene: `.gitattributes`, track the 441 `.gd.uid` and 3 `.import` files, `.gitignore` additions, `CHANGELOG.md`, PR template, refresh `docs/REPOSITORY_MAP.md`, a docs link checker in `scripts/repo/` wired into the `guidance` job.
+- WP-04 CI necessity: run the Python tool self-tests in CI; keep the matrix as it is unless a safe narrowing is proven.
+- WP-05 Progress-loss defect S-01: reproduce with a test, then fix (`main.gd`, `save_store.gd`, `frontend.gd`). High risk: second reviewer.
+
+P1 candidates (rank after the critics report): release hygiene S-02, S-03, S-04; data-driven operation tables (hunt caps, endurance, region and route position keyed by registry rows instead of ID arrays) plus guides for adding an operation, a Siren role, a fitting and a region, and MODULES.md rows for items 126 to 148; photo payoff; ARRIVALS shows received content; duplicated constants S-06 and dead guards S-05; critic findings.
+
+P2 backlog: look and sound comparison, shared test assertion helper, god-object decomposition, settings stored twice, select-suites narrowing, nightly on main.
