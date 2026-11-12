@@ -1,4 +1,5 @@
 extends Control
+const Names=preload("res://src/names.gd")
 # D1 bearing-only presentation of the existing acquisition decision, never a sensor.
 # Seam: install(host) in main; Simulation publishes its existing heard/seen decision.
 # Revert: cue_table.enabled=false, or remove install() and this signal consumer.
@@ -90,7 +91,7 @@ func note_text()->String:
  return "" if note_frames.is_empty() else note_frames.back().text
 func label_text()->String:
  if frames.is_empty():return ""
- return "NOTICE · FROM %s · %03d°"%[["Q","A","B"][frames.back().unit],roundi(frames.back().bearing)%360]
+ return "NOTICE · FROM %s · %03d°"%[Names.UNIT_LETTERS[frames.back().unit],roundi(frames.back().bearing)%360]
 func _notification(what:int)->void:
  if what in [NOTIFICATION_APPLICATION_PAUSED,NOTIFICATION_APPLICATION_FOCUS_OUT,NOTIFICATION_WM_WINDOW_FOCUS_OUT]:
   suspended=true

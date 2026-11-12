@@ -1,4 +1,5 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 const TITLES = ["Shelf Signal", "Split Channel", "Blackwater Relay", "Cold Foundry", "The Listening Well", "Siren's Song"]
 const BRIEFS = [
 	"Corran Bank's beacon is still pinging from the shelf. Find what is sending and photograph it, then bring Quietus home. Your charts show rock, not what waits behind it. Sonar shows you the water and tells everything in it where you are.",
@@ -63,7 +64,7 @@ static func make(i: int) -> Dictionary:
 		objectives[2]["evidence"]="DECODED: a list of bearings, one for every loud site on this coast the night of the strike. Two still answer. South down the trench: the drillship Tessaly. West on the shelf: the sonar station at Port Ardent."
 	var patrols: Array = []
 	for n in (1 + i / 2):
-		patrols.append({"pos":Vector2(620 + n*270,130),"home":Vector2(620+n*270,130),"goal":Vector2(620+n*270,130),"vel":Vector2.ZERO,"route":[],"angle":0.0,"mode":"PATROL","suspicion":0.0,"stun":0.0,"lock":0.0,"target":-1,"patrol":n,"path_time":0.0,"type":"patroller"})
+		patrols.append({"pos":Vector2(620 + n*270,130),"home":Vector2(620+n*270,130),"goal":Vector2(620+n*270,130),"vel":Vector2.ZERO,"route":[],"angle":0.0,"mode":"PATROL","suspicion":0.0,"stun":0.0,"lock":0.0,"target":-1,"patrol":n,"path_time":0.0,"type":Names.ROLE_PATROLLER})
 	if i==1:
 		patrols[0].pos=Vector2(420,140); patrols[0].home=patrols[0].pos; patrols[0].goal=patrols[0].pos
 		var east=patrols[0].duplicate(true); east.pos=Vector2(1220,140); east.home=east.pos; east.goal=east.pos; east.patrol=1; patrols.append(east)
@@ -86,7 +87,7 @@ static func make(i: int) -> Dictionary:
 		for n in patrols.size():
 			var home=[Vector2(960,260),Vector2(1320,820)][n]
 			patrols[n].pos=home; patrols[n].home=home; patrols[n].goal=home
-			patrols[n]["type"]="sentinel"; patrols[n]["tether"]=190.0
+			patrols[n]["type"]=Names.ROLE_SENTINEL; patrols[n]["tether"]=190.0
 	if i==4:
 		result["well_revision"]=1;result["well_reference"]={};result["well_observation"]={}
 		result.brief="The well repeats an unassigned cadence. Recover three perimeter records and return. Its fast hunter follows real noise and sightings. Optional comparison: after recording the PATTERN ARRAY, cruise Quietus through clear water within 240m of the PROFILE APERTURE while MOTION NOISE shows QUIETUS. Then bring a live receiver within passive reach of the RETURN ARCHIVE. A drone can listen while Quietus makes its pass; Quietus can make the comparison alone. Remote records remain a valid unverified archive. No comparison is worth promising a safe escape."
@@ -94,7 +95,7 @@ static func make(i: int) -> Dictionary:
 		objectives[0].name="PATTERN ARRAY";objectives[0]["optical"]="well_pattern"
 		objectives[0]["evidence"]="UNASSIGNED CADENCE. This perimeter record contains a repeating pattern, not an identified speaker. Optional test: cruise Quietus past the PROFILE APERTURE within 240m and a clear line while its motion-noise instrument is active. Receive the local return near the RETURN ARCHIVE: Quietus within 240m or a live drone within 330m, with a clear line. Keep the remote archive without making this comparison, or risk a moving pass for a recorded match."
 		objectives[1].name="PROFILE APERTURE";objectives[2].name="RETURN ARCHIVE"
-		patrols[1]["type"]="hunter"; patrols[1].pos=Vector2(800,600); patrols[1].home=patrols[1].pos; patrols[1].goal=patrols[1].pos
+		patrols[1]["type"]=Names.ROLE_HUNTER; patrols[1].pos=Vector2(800,600); patrols[1].home=patrols[1].pos; patrols[1].goal=patrols[1].pos
 	if i==5:
 		result["phase"]="observations"; result["finale_revision"]=1
 		result["array_rect"]=Rect2(1260,60,300,280); result["structures"]=[result.array_rect]

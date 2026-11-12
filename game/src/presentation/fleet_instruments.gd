@@ -1,4 +1,5 @@
 extends Control
+const Names=preload("res://src/names.gd")
 const Operations=preload("res://src/presentation/operation_instruments.gd")
 const Recovery=preload("res://src/presentation/module_recovery_view.gd")
 const WarningChain=preload("res://src/presentation/warning_chain_view.gd")
@@ -101,7 +102,7 @@ func _ordinary_task(id:int)->String:
   var verb={"receiver":"LISTEN","exchange":"SAMPLE","uplink":"LINK","actuator":"OPERATE"}.get(site.get("kind",""),"PHOTO")
   var operation=Operations.operation(sim,work.target)
   if not operation.is_empty():verb=operation.action
-  if id>0 and site.get("sampler_compatible",false) and sim.equipment_feedback().get("fitted",{}).get("drone_a" if id==1 else "drone_b","")=="drone_sampler":verb="FIELD SAMPLE"
+  if id>0 and site.get("sampler_compatible",false) and sim.equipment_feedback().get("fitted",{}).get(Names.CRAFT_DRONE_A if id==1 else Names.CRAFT_DRONE_B,"")=="drone_sampler":verb="FIELD SAMPLE"
   return "%s %d%% · %s"%[verb,clampi(floori(work.elapsed/maxf(.01,work.duration)*100),0,100),site.name]
  var scout=sim.scout_context(id)
  if scout.state=="stopped":return "SCOUT STOP · "+("BRAKING" if u.vel.length()>2 else "HOLDING")+" · ROUTE KEPT"
@@ -206,7 +207,7 @@ func refresh(blocked:Array):
   var critical=reserves.any(func(r):return r.critical)
   var show_detail=id==sim.selected and (sim.paused or sim.elapsed<detail_until)
   if show_detail or critical:
-   if not show_detail:reading.text=["Q","A","B"][id]+" · "+" · ".join(reserves.filter(func(r):return r.critical).map(func(r):return "%s %d%s"%[r.label,roundi(r.value),"%" if id>0 else ""]))
+   if not show_detail:reading.text=Names.UNIT_LETTERS[id]+" · "+" · ".join(reserves.filter(func(r):return r.critical).map(func(r):return "%s %d%s"%[r.label,roundi(r.value),"%" if id>0 else ""]))
    var plate=StyleBoxFlat.new();plate.bg_color=Color(.015,.045,.06,.78);plate.set_content_margin_all(8);plate.border_width_bottom=1;plate.border_color=Color("b78565") if critical else Color("4a7779")
    reading.add_theme_stylebox_override("normal",plate);reading.add_theme_font_size_override("font_size",font_size)
    reading.add_theme_color_override("font_color",Color("ffc097") if critical else Color("b6dcd7"))
@@ -235,14 +236,14 @@ func refresh(blocked:Array):
    if reading.visible:occupied.append(detail_box.grow(5))
   var bounds=box.merge(cue_rect) if cue_rect.has_area() else box
   if reading.visible:bounds=bounds.merge(reading.get_rect())
-  readouts.append({"unit":id,"rect":bounds,"handle_rect":box,"text_rect":reading.get_rect() if reading.visible else Rect2(),"text":reading.text if reading.visible else ["Q","A","B"][id]+" · "+" · ".join(captions),"anchor":at,"offscreen":offscreen,"direction":bearing,"progress":progress,"ring":not offscreen,"reserves":reserves,"cues":cues,"captions":captions,"active":active,"detail_visible":reading.visible})
+  readouts.append({"unit":id,"rect":bounds,"handle_rect":box,"text_rect":reading.get_rect() if reading.visible else Rect2(),"text":reading.text if reading.visible else Names.UNIT_LETTERS[id]+" · "+" · ".join(captions),"anchor":at,"offscreen":offscreen,"direction":bearing,"progress":progress,"ring":not offscreen,"reserves":reserves,"cues":cues,"captions":captions,"active":active,"detail_visible":reading.visible})
   readouts.back().projected=projected
  for reading in readouts:
   # Near-coincident bodies must not masquerade as whichever badge painted last.
   reading.cluster=[]
   for other in readouts:
    if other.unit==reading.unit or (not reading.offscreen and not other.offscreen and reading.anchor.distance_to(other.anchor)<h*.2):reading.cluster.append(other.unit)
-  reading.identity=["Q","A","B"][reading.unit]+(" +%d"%(reading.cluster.size()-1) if reading.cluster.size()>1 else "")
+  reading.identity=Names.UNIT_LETTERS[reading.unit]+(" +%d"%(reading.cluster.size()-1) if reading.cluster.size()>1 else "")
  queue_redraw();progress_layer.queue_redraw()
 func _paint_order()->Array:
  var result=readouts.duplicate();var selected=host.sim.selected
@@ -256,7 +257,7 @@ func _draw():
   if reading.offscreen:
    draw_style_box(_edge_style(selected),reading.handle_rect)
    var direction=["→","↘","↓","↙","←","↖","↑","↗"][posmod(roundi(reading.direction.angle()/(PI/4)),8)]
-   _text(["Q","A","B"][id]+" "+direction,center+Vector2(0,-h*.22 if not reading.cues.is_empty() or reading.progress.unit>=0 else -h*.04),text_size,ink)
+   _text(Names.UNIT_LETTERS[id]+" "+direction,center+Vector2(0,-h*.22 if not reading.cues.is_empty() or reading.progress.unit>=0 else -h*.04),text_size,ink)
   else:
    draw_arc(center,h*.44,0,TAU,64,Color(.01,.045,.055,.7),6,true)
   Ring.draw_gauge(self,center,h*.44,reading.reserves,selected)

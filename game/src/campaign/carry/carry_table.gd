@@ -1,4 +1,5 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 # Route and recovered-fact carry table (ops 14 to 36). AI-DESIGNED, pending owner ratification.
 # Every row reads facts the campaign already saves (launch_context: thread plus facts) and
 # applies one small authored world delta. Tune or remove rows here; carry.gd holds the logic.
@@ -21,7 +22,7 @@ const ROWS=[
  {"id":"cache_shelf_start","op":21,"when":{"thread":"shelf"},"kind":"start","pos":Vector2(600,2650),
   "line":"Shelf water brings Quietus in from the south-west edge of the crater."},
  {"id":"cache_external_buoy","op":21,"when":{"fact":"warning_chain","is":["mast_transmission_external_unknown"]},"kind":"add_guard",
-  "type":"buoy","pos":Vector2(2450,2350),"band":1,
+  "type":Names.ROLE_BUOY,"pos":Vector2(2450,2350),"band":1,
   "line":"Your mast transmission was heard outside; a listener now floats off the south-east rim."},
  {"id":"hammer_concealed_warden","op":22,"when":{"fact":"confluence_route","is":["concealed"]},"kind":"drop_guard","index":-1,
   "line":"The concealed route left the southern warden unreplaced."},

@@ -1,4 +1,5 @@
 extends Control
+const Names=preload("res://src/names.gd")
 const UiMetrics=preload("res://src/presentation/flow/ui_metrics.gd")
 const PhotoReview=preload("res://src/presentation/flow/photo_review.gd")
 const CampaignFlow=preload("res://src/presentation/flow/campaign_flow.gd")
@@ -71,8 +72,8 @@ const Economy=preload("res://src/campaign/economy.gd")
 var economy:Dictionary=Economy.new_state()
 var challenge_records:Dictionary={}
 var fitted_equipment:Dictionary=preload("res://src/equipment/equipment_catalog.gd").default_loadout()
-var tool_racks:Dictionary=preload("res://src/equipment/tool_racks.gd").template("endurance")
-var upgrade := "endurance"
+var tool_racks:Dictionary=preload("res://src/equipment/tool_racks.gd").template(Names.LOADOUT_ENDURANCE)
+var upgrade := Names.LOADOUT_ENDURANCE
 var capture_scenario := ""
 var frame := 0
 var capture_path := ""
@@ -132,7 +133,7 @@ func _ready() -> void:
 	pause_button=_button(hud,"▶  RESUME",_pause)
 	for i in 3:
 		var id=i
-		unit_buttons.append(_button(hud,["QUIETUS","DRONE A","DRONE B"][i],func(): _order("select",{"unit":id})))
+		unit_buttons.append(_button(hud,Names.UNIT_NAMES[i],func(): _order("select",{"unit":id})))
 	var orders=[["ping","SONAR"],["camera","CAMERA"],["silent","SILENT"],["queue","+ QUEUE"],["hold","HOLD"],["emp","EMP"],["decoy","DECOY"],["recon","SURVEY"],["contact_hold","IF CONTACT"],["wait_drone","WAIT DRONE"],["waypoint_mode","WAYPOINT: PASS"],["program","PLAN ROUTE"],["knock","TORPEDO"]]
 	for o in orders:
 		var order=o[0]
@@ -408,7 +409,7 @@ func _refresh() -> void:
 		unit_buttons[i].disabled=sim.DroneBay.lost(sim.units[i])
 		var task="ABOARD" if sim.DroneBay.aboard(sim.units[i]) else "LOST" if not sim.units[i].alive else (capture_task if work.unit>=0 else (sim.units[i].hold if not sim.units[i].hold.is_empty() else ("ROUTE" if not sim.units[i].route.is_empty() else "READY")))
 		task={"SCOUT_STOP":"ALERT"}.get(task,task)
-		unit_buttons[i].text=["QUIETUS","DRONE A","DRONE B"][i]+"\n"+task
+		unit_buttons[i].text=Names.UNIT_NAMES[i]+"\n"+task
 		unit_buttons[i].add_theme_font_size_override("font_size",maxi(14,roundi(ui_touch_height*0.26*FrontendSettings.text_scale())))
 	order_buttons.waypoint_mode.text="PASS\nPOINTS" if sim.pass_through else "STOP AT\nPOINTS"
 	ocean.optical_feed.receiver_font_size=maxi(17,roundi(ui_touch_height*0.29*FrontendSettings.text_scale()))
@@ -882,7 +883,7 @@ func _observation_diagnostics() -> void:
 	# Read-only validation logs. Hidden AI state never enters the player HUD.
 	for id in sim.sirens.size():
 		var siren=sim.sirens[id]
-		if siren.get("type","patroller")=="patroller": continue
+		if siren.get("type",Names.ROLE_PATROLLER)==Names.ROLE_PATROLLER: continue
 		if diagnostic_roles.get(id,"")!=siren.mode:
 			diagnostic_roles[id]=siren.mode
 			ReleaseControls.debug_print(["SS_ROLE mission=%d index=%d type=%s mode=%s pos=%.6f,%.6f home=%.6f,%.6f target=%d lock=%.6f time=%.6f"%[mission_index,id,siren.type,siren.mode,siren.pos.x,siren.pos.y,siren.home.x,siren.home.y,siren.target,siren.lock,sim.elapsed]])

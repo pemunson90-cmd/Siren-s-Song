@@ -59,7 +59,7 @@ func _challenge_status()->void:
 	status_label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;status_label.mouse_filter=Control.MOUSE_FILTER_IGNORE
 	status_label.add_theme_font_size_override("font_size",maxi(14,roundi(ui_touch_height*.25*FrontendSettings.text_scale())))
 	for id in unit_buttons.size():
-		if id not in sim.launched:unit_buttons[id].text=["QUIETUS","DRONE A","DRONE B"][id]+"\nASHORE"
+		if id not in sim.launched:unit_buttons[id].text=Names.UNIT_NAMES[id]+"\nASHORE"
 func _unhandled_key_input(event:InputEvent)->void:
 	if event is InputEventKey and event.pressed and event.keycode==KEY_ESCAPE:
 		# Consume before returning: _show_campaign may detach this session.

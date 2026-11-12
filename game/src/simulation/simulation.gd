@@ -1,4 +1,5 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 # Read-only D1 presentation seam. Existing acquisition decides when to publish.
 signal siren_notice(id:int, source_position:Vector2)
 const Orders=preload("res://src/simulation/orders/order_table.gd")
@@ -125,7 +126,7 @@ var navigation: AStarGrid2D
 var rock_shapes: Array=[]
 var rock_bounds:Array=[]
 var acoustic_paths=Acoustics.new()
-func start(index: int, upgrade: String = "endurance", launch:Dictionary={}) -> void:
+func start(index: int, upgrade: String = Names.LOADOUT_ENDURANCE, launch:Dictionary={}) -> void:
 	var operation=Missions.make(index,launch.get("context",{}))
 	if operation.is_empty():return
 	mission=operation
@@ -134,7 +135,7 @@ func start(index: int, upgrade: String = "endurance", launch:Dictionary={}) -> v
 	mission["launch_equipment"]=launch.get("fitted",Consequences.EMPTY_FIT).duplicate(true)
 	units.clear()
 	for i in 3:
-		units.append({"pos":mission.get("start",Vector2(140,800))+LaunchLayout.offset(index,i),"vel":Vector2.ZERO,"angle":-0.3,"route":[],"alive":true,"hold":"","silent":true,"battery":100.0,"name":["QUIETUS","DRONE A","DRONE B"][i]})
+		units.append({"pos":mission.get("start",Vector2(140,800))+LaunchLayout.offset(index,i),"vel":Vector2.ZERO,"angle":-0.3,"route":[],"alive":true,"hold":"","silent":true,"battery":100.0,"name":Names.UNIT_NAMES[i]})
 	mission["module_recovery"]=ModuleRecovery.initial(mission.launch_equipment,units)
 	mission["fleet_commit"]=launch.get("fleet_commit",false)
 	sirens = mission.sirens.duplicate(true)
@@ -148,9 +149,9 @@ func start(index: int, upgrade: String = "endurance", launch:Dictionary={}) -> v
 	if DroneBay.any_aboard(self):message+=" Drones are aboard: select one and tap water to launch it."
 	ping_time=0.0; recon_time=0.0; captures=[{},{},{}]; accumulator=0.0
 	tools={"emp":2,"decoy":3,"recon":2,"knock":2}
-	if upgrade=="disruption": tools.emp += 1
-	if upgrade=="survey": tools.recon += 1
-	if upgrade=="endurance": oxygen=120.0
+	if upgrade==Names.LOADOUT_EMP: tools.emp += 1
+	if upgrade==Names.LOADOUT_SURVEY: tools.recon += 1
+	if upgrade==Names.LOADOUT_ENDURANCE: oxygen=120.0
 	FieldTools.seed(self,upgrade)
 	# WP-16: on a player dive the chart and the objectives are discovered (parity_rules/).
 	if ParityRules.wanted(launch):
@@ -273,7 +274,7 @@ func _course_collision(u:Dictionary,physical:bool=false,impact:float=-1.0)->void
 	if u==units[0] and u.has("water_velocity"):u.water_velocity=u.vel-current_at(u.pos)
 func _hull_strike(u:Dictionary,impact:float=-1.0,hit:String="terrain")->void:
 	if impact<0:impact=u.vel.length()
-	if u.name=="QUIETUS" and u.alive and outcome.is_empty() and elapsed-float(u.get("hit_at",-100.0))>=COLLISION_COOLDOWN:
+	if u.name==Names.UNIT_QUIETUS and u.alive and outcome.is_empty() and elapsed-float(u.get("hit_at",-100.0))>=COLLISION_COOLDOWN:
 		var damage:=collision_damage(impact)
 		if damage>0.0:
 			var hull_before_strike:float=hull
@@ -418,7 +419,7 @@ func passive_range(unit_id:int)->float:
 func motion_radius(unit_id:int)->float:
 	return CraftUpgrades.motion_radius(mission.get("launch_equipment",{}),unit_id,propulsion_speed(units[unit_id]))*DroneStealth.noise(self,unit_id)*AllStop.noise_scale(units[unit_id])+(130.0 if not units[unit_id].get("transition",{}).is_empty() else 0.0)+Choir.noise(self,unit_id)
 func _craft_speed(unit:Dictionary,fallback:float)->float:
-	var quietus=unit.name=="QUIETUS"
+	var quietus=unit.name==Names.UNIT_QUIETUS
 	var speed=RouteProgram.speed(unit,fallback,quietus)
 	return Choir.speed(self,units.find(unit),Concealed.speed(self,CraftUpgrades.cruise_speed(mission.get("launch_equipment",{})) if quietus and not unit.silent else CraftUpgrades.frame_speed(mission.get("launch_equipment",{}),units.find(unit),speed),unit))
 func world_size() -> Vector2:
@@ -681,7 +682,7 @@ func _camera_context_base() -> Dictionary:
 	if best<0 and reshoot>=0:best=reshoot
 	if best<0 and (nearest<0 or not Operations.own_origin(mission.objectives[nearest])):
 		var sighted=Photo.siren_candidate(self,selected)
-		if sighted>=0:return {"target":-2,"siren":sighted,"ready":true,"text":"READY · S%d %s · PHOTO %.0fs · observe its form and movement from clear water"%[sighted+1,str(sirens[sighted].get("type","patroller")).to_upper(),8.0]}
+		if sighted>=0:return {"target":-2,"siren":sighted,"ready":true,"text":"READY · S%d %s · PHOTO %.0fs · observe its form and movement from clear water"%[sighted+1,str(sirens[sighted].get("type",Names.ROLE_PATROLLER)).to_upper(),8.0]}
 	if nearest<0 and best<0: return {"target":-1,"ready":false,"text":Delivery.status(self).text if Delivery.applies(mission) else "Archive aboard · return Quietus to extraction."}
 	var candidate=best if best>=0 else nearest
 	if Witness.applies(mission) and mission.objectives[candidate].get("site_id","")==Witness.packet(mission):return {"target":candidate,"ready":false,"text":Witness.context(self,selected).winch.reason}
@@ -741,7 +742,7 @@ func decoy_target_valid(point:Variant) -> bool:
 	return origin.alive and outcome.is_empty() and tools.decoy>0 and Rect2(Vector2(6,6),world_size()-Vector2(12,12)).has_point(point) and origin.pos.distance_to(point)<=DECOY_RANGE+0.001 and not blocked(point,6) and segment_safe(origin.pos,point,6)
 func _noise(p: Vector2,radius: float,label: String,duration: float=2.0,band:int=1) -> void:
 	noises.append({"band":band,"pos":p,"radius":radius,"time":duration,"label":label})
-	var pressure={"ACTIVE SONAR":5.0,"DISRUPTION":4.0,"KNOCKDOWN":4.0,"DECOY":4.0,"RECON UPLINK":4.0}.get(label,0.0)
+	var pressure={Names.NOISE_ACTIVE_SONAR:5.0,Names.NOISE_EMP:4.0,Names.NOISE_KNOCKDOWN:4.0,Names.NOISE_DECOY:4.0,Names.NOISE_RECON_UPLINK:4.0}.get(label,0.0)
 	pressure=HuntPressure.action_amount(mission,label,pressure)
 	if pressure>0:Recon.action(mission,pressure,label)
 func courier_feedback() -> Dictionary:
@@ -760,7 +761,7 @@ func acoustic_feedback() -> Dictionary:
 			result.motion.append({"name":u.name,"pos":u.pos,"radius":motion_radius(units.find(u)) if mission.get("acoustic_revision",0)==1 else 430.0,"speed":propulsion_speed(u)})
 	for n in noises:
 		if n.time<=0: continue
-		if n.label in ["DECOY","ACTIVE SONAR","RECON UPLINK","DISRUPTION","CAMERA","KNOCKDOWN","TORPEDO RUN","WARNING CHAIN TRANSMISSION","SERVICE SLUICE MOTOR","RECOVERY WINCH","BERTH RELEASE","BACKUP GENERATOR START","SERVICE SHUTTER","SERVICE WARNING","NORTH MAST WARNING"]:
+		if n.label in [Names.NOISE_DECOY,Names.NOISE_ACTIVE_SONAR,Names.NOISE_RECON_UPLINK,Names.NOISE_EMP,Names.NOISE_CAMERA,Names.NOISE_KNOCKDOWN,Names.NOISE_TORPEDO_RUN,"WARNING CHAIN TRANSMISSION","SERVICE SLUICE MOTOR",Names.NOISE_RECOVERY_WINCH,"BERTH RELEASE","BACKUP GENERATOR START","SERVICE SHUTTER","SERVICE WARNING","NORTH MAST WARNING"]:
 			result.pulses.append({"label":n.label,"pos":n.pos,"time":n.time,"radius":n.radius})
 		elif n.label=="FACTORY RESPONSE" and visible(n.pos):
 			result.responses.append({"label":n.label,"pos":n.pos,"time":n.time})
@@ -1063,7 +1064,7 @@ func _observe() -> void:
 				if visible(p): known[Vector2i(x,y)]=true
 	for i in sirens.size():
 		if contact_visible(sirens[i]):
-			contacts[i]={"pos":sirens[i].pos,"time":elapsed,"mode":sirens[i].mode,"lock":sirens[i].lock,"angle":sirens[i].angle,"target":sirens[i].target,"type":sirens[i].get("type","patroller"),"band":sirens[i].band,"transition":sirens[i].transition.duplicate(),"source":"optical","confidence":1.0}
+			contacts[i]={"pos":sirens[i].pos,"time":elapsed,"mode":sirens[i].mode,"lock":sirens[i].lock,"angle":sirens[i].angle,"target":sirens[i].target,"type":sirens[i].get("type",Names.ROLE_PATROLLER),"band":sirens[i].band,"transition":sirens[i].transition.duplicate(),"source":"optical","confidence":1.0}
 			contacts[i]["seen_by"]=passive_receivers(sirens[i].pos,sirens[i].band)
 			if mission.get("thermal_revision",0)==1:
 				for occupied_band in Depth.occupied(sirens[i]):
@@ -1149,7 +1150,7 @@ func _advance_projectiles(dt: float) -> void:
 			continue
 		p.pos=next; p.noise_clock=maxf(0,p.noise_clock-dt)
 		if p.noise_clock<=0:
-			_noise(p.pos,430,"TORPEDO RUN",0.25,p.band); p.noise_clock=0.2
+			_noise(p.pos,430,Names.NOISE_TORPEDO_RUN,0.25,p.band); p.noise_clock=0.2
 func _threats(dt: float) -> bool:
 	var vaporized=false # Per-tick terminal cause survives other actors' messages.
 	var observations=[];var fresh=[];var distractions=[]
@@ -1194,7 +1195,7 @@ func _threats(dt: float) -> bool:
 			for noise in noises:
 				var acoustic=1.0 if line_clear(s.pos,noise.pos) else 0.36
 				if s.pos.distance_to(noise.pos)<noise.radius*acoustic*Sweeper.ear(s)*Depth.transmission(s,noise):
-					distraction=noise.label=="DECOY"
+					distraction=noise.label==Names.NOISE_DECOY
 					craft_heard=noise.label in NoticeSources.CRAFT_EMISSIONS
 					s.goal=noise.pos; heard=true; s.mode="INVESTIGATE"; s.suspicion=maxf(s.suspicion,0.45)
 		if heard:
@@ -1239,7 +1240,7 @@ func _threats(dt: float) -> bool:
 							s.mode="SEARCH" if s.suspicion>0.1 else "PATROL"; s.route=_patrol_route(s)
 					s.path_time=2.0
 		var speed=48.0 if s.suspicion>0.1 else 25.0
-		if s.get("type","")=="hunter": speed=38.0 if s.mode in ["RETURN","DORMANT"] else 64.0
+		if s.get("type","")==Names.ROLE_HUNTER: speed=38.0 if s.mode in ["RETURN","DORMANT"] else 64.0
 		speed=Sweeper.speed(s,speed)
 		speed*=1.0+float(s.get("alert_floor",0))*.2
 		_move(s,dt,speed,false,false)
@@ -1267,13 +1268,13 @@ func _heard_arrival(s:Dictionary)->Dictionary:
 		if not arrival.is_empty() and (best.is_empty() or arrival.strength>best.strength):
 			best=arrival;best["suspicion"]=0.3;best["player_craft"]=true;best["distraction"]=unit_id>0
 	for noise in noises:
-		if noise.label in ["BUOY REPORT WINDUP","RELAY FORWARD","INTERCEPTOR WINDUP","WARDEN CHARGE","WARDEN PRESSURE"]:continue
+		if noise.label in Names.SIREN_NOISES:continue
 		var arrival=Acoustics.choose(Thermal.arrivals(self,s,noise.pos,noise.radius*Recon.readiness(s)*Sweeper.ear(s)*Depth.transmission(s,noise),noise),int(s.patrol))
 		if not arrival.is_empty() and (best.is_empty() or arrival.strength>best.strength):
 			best=arrival;best["suspicion"]=0.45;best["pulse"]=true;best["player_craft"]=noise.label in NoticeSources.CRAFT_EMISSIONS
-			best["distraction"]=noise.label=="DECOY"
+			best["distraction"]=noise.label==Names.NOISE_DECOY
 			if noise.has("record"):best["record"]=noise.record
-			if noise.label in ["ACTIVE SONAR","ACTIVE SWEEP"] and arrival.direct:best["band"]=noise.get("band",1)
+			if noise.label in [Names.NOISE_ACTIVE_SONAR,"ACTIVE SWEEP"] and arrival.direct:best["band"]=noise.get("band",1)
 	return best
 
 func _visual_pursuit(s: Dictionary,target: Vector2,dt: float) -> void:
@@ -1291,7 +1292,7 @@ func _station_intent(s: Dictionary,heard: bool,dt: float) -> void:
 	# v7 station roles react to evidence, then return. Tether is conditional,
 	# never an invisible wall that defeats a currently heard lure or visual lock.
 	var outside=s.pos.distance_to(s.home)>float(s.get("tether",190.0))
-	var returning=s.get("attention_time",0.0)<=0 or (s.get("type","")=="sentinel" and outside and not heard)
+	var returning=s.get("attention_time",0.0)<=0 or (s.get("type","")==Names.ROLE_SENTINEL and outside and not heard)
 	if returning:
 		s["attention_time"]=0.0; s.goal=s.home
 		s.mode="DORMANT" if s.pos.distance_to(s.home)<15 else "RETURN"

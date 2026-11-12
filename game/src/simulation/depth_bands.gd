@@ -1,6 +1,7 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 # Three discrete water volumes. Transitions occupy BOTH volumes until settled.
-const NAMES=["SHALLOW","MIDDLE","DEEP"]
+const NAMES=Names.BANDS
 const DURATION=4.0
 const SurvivorAscent=preload("res://src/simulation/survivor_ascent.gd")
 const FieldTools=preload("res://src/simulation/field_tool_effects.gd")

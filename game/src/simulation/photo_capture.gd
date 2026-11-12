@@ -1,4 +1,5 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 # Reconnaissance photography. A frame is computed from where a craft is, how it
 # is oriented, what its optics can resolve and what it chose to frame. Nothing
 # here changes combat, beams, collision or detection: it only reads them, and a
@@ -29,7 +30,7 @@ const TURN_RATE:=1.8
 const FLASH_CHARGES:=[4,2,2]
 const STUDY:=1000
 const MAX_STUDIES:=8
-const SIREN_TYPES:=["patroller","hunter","sentinel","warden","sweeper","interceptor","buoy","relay"]
+const SIREN_TYPES:=[Names.ROLE_PATROLLER,Names.ROLE_HUNTER,Names.ROLE_SENTINEL,Names.ROLE_WARDEN,Names.ROLE_SWEEPER,Names.ROLE_INTERCEPTOR,Names.ROLE_BUOY,Names.ROLE_RELAY]
 
 static func state(sim)->Dictionary:
 	if not sim.mission.get("photo") is Dictionary:
@@ -89,7 +90,7 @@ static func applies(o:Dictionary)->bool:
 static func default_subject(facing:float=0.0,size:float=70.0)->Dictionary:
 	return {"facing":facing,"size":size,"glow":0.0,"required":["overview"],"features":[{"id":"overview","label":"SUBJECT","bearing":0.0,"arc":3.2,"detail":0.06,"lat":0.0,"dwell":1.0}]}
 static func siren_subject(s:Dictionary)->Dictionary:
-	var type:String=s.get("type","patroller")
+	var type:String=s.get("type",Names.ROLE_PATROLLER)
 	return {"facing":float(s.get("angle",0.0)),"size":56.0,"glow":0.1,"live":true,"type":type,"required":["form"],"features":[
 		{"id":"form","label":"BODY","bearing":0.0,"arc":3.2,"detail":0.08,"lat":0.0,"dwell":1.0,"gloss":"Angular body, red-lit seams."},
 		{"id":"array","label":"SENSOR ARRAY","bearing":0.0,"arc":0.9,"detail":0.42,"lat":-0.35,"dwell":1.5,"intel":"siren_"+type,"gloss":"A forward array, the part that listens."},
@@ -305,7 +306,7 @@ static func finish(sim,uid:int,o:Dictionary)->Dictionary:
 	var quality:float=clampf(mean_sharp*0.55+minf(1.0,coverage)*0.45,0.0,1.0) if usable else clampf(mean_sharp*0.3,0.0,0.4)
 	var shot={"id":int(st.next),"op":int(sim.mission.id),"obj":oi,"key":str(o.get("optical",o.get("site_id",oi))),"name":label(o),"unit":uid,"craft":str(f.craft),"pos":[snappedf(f.pos.x,0.1),snappedf(f.pos.y,0.1)],"heading":snappedf(f.heading,0.01),"dist":snappedf(f.dist,0.1),"aspect":snappedf(f.aspect,0.01),"mode":f.mode,"flash":f.flash,"q":snappedf(quality,0.01),"sharp":snappedf(mean_sharp,0.01),"light":snappedf(f.light,0.01),"clarity":snappedf(f.clarity,0.01),"shimmer":snappedf(f.shimmer,0.01),"features":seen,"fq":fq,"intel":intel,"usable":usable,"time":snappedf(sim.elapsed,0.1),"frame":{"fov":snappedf(f.fov,0.01),"aim":snappedf(f.aim,0.01),"cols":f.cols,"marks":marks,"size":s.get("size",70.0),"dist":snappedf(f.dist,1.0),"facing":snappedf(f.facing,0.01),"aspect":snappedf(f.aspect,0.01),"bearing":snappedf(f.bearing,0.01),"glow":snappedf(f.glow,0.01),"seed":int(st.next)*7919%1000,"kind":"siren" if o.has("siren") else "site","depth":snappedf(f.depth,0.01),"thermal":f.thermal}}
 	if o.has("siren"):
-		shot["path"]=acc.get("path",[]);shot["siren"]=int(o.siren);shot["type"]=str(sim.sirens[o.siren].get("type","patroller"));shot["mode_seen"]=str(sim.sirens[o.siren].get("mode",""))
+		shot["path"]=acc.get("path",[]);shot["siren"]=int(o.siren);shot["type"]=str(sim.sirens[o.siren].get("type",Names.ROLE_PATROLLER));shot["mode_seen"]=str(sim.sirens[o.siren].get("mode",""))
 		if shot.path.size()>=4:st.paths.append({"siren":int(o.siren),"pts":shot.path.duplicate(),"time":sim.elapsed})
 	if usable:
 		var found:Array=Findings.from_subject(o,s,seen,fq,int(sim.mission.id),int(shot.id))
@@ -409,7 +410,7 @@ static func siren_objective(sim,i:int)->int:
 	var st=state(sim)
 	for n in st.studies.size():
 		if st.studies[n].get("siren",-1)==i:return STUDY+n
-	var s=sim.sirens[i];var type=str(s.get("type","patroller"))
+	var s=sim.sirens[i];var type=str(s.get("type",Names.ROLE_PATROLLER))
 	var study={"pos":s.pos,"name":"S%d %s"%[i+1,type.to_upper()],"captured":false,"optional":true,"kind":"","duration":8.0,"siren":i,"subject":siren_subject(s),"optical":"siren_"+type,"site_id":"siren_"+type,"evidence":""}
 	# Study indices are persistent identities: never evict/reindex a live or archived subject.
 	if st.studies.size()>=maxi(MAX_STUDIES,sim.sirens.size()):return -1
@@ -440,7 +441,7 @@ static func preview(sim,uid:int)->Dictionary:
 	var t=int(ctx.get("target",-1))
 	if t==-2:
 		var i=int(ctx.siren);var s=sim.sirens[i]
-		return {"o":{"pos":s.pos,"name":"S%d %s"%[i+1,str(s.get("type","patroller")).to_upper()],"subject":siren_subject(s),"siren":i},"index":-2,"unit":uid,"ctx":ctx}
+		return {"o":{"pos":s.pos,"name":"S%d %s"%[i+1,str(s.get("type",Names.ROLE_PATROLLER)).to_upper()],"subject":siren_subject(s),"siren":i},"index":-2,"unit":uid,"ctx":ctx}
 	if t>=0 and t<sim.mission.objectives.size() and applies(sim.mission.objectives[t]):
 		var o=sim.mission.objectives[t]
 		if not sim.Depth.optical_clear(sim,sim.units[uid].pos,o.pos,sim.units[uid].band):return {}

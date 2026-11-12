@@ -1,4 +1,5 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 const OperationsCatalog=preload("res://src/campaign/operation_catalog.gd")
 # Witness-guided environmental work. The tow follows the actual body trail;
 # only authored seating unfolds a screen into solid/acoustic geometry.
@@ -90,7 +91,7 @@ static func command(sim,action:String)->bool:
   sim.mission.structures.append(Rect2(2040,940,200,60));sim._build_navigation();sim.opened_terrain(Rect2(1800,860,440,400))
  sim._noise(state.pos,460.0,"TOW SEATED",2.0);sim.events.append({"type":"concealed_seated","pos":state.pos});sim.message="Tow seated · wait for a received local station acknowledgement";return true
 static func speed(sim,speed:float,unit:Dictionary)->float:
- if applies(sim.mission) and sim.mission.concealed_harbour.phase=="towing" and unit.name=="QUIETUS":return minf(speed,26.0 if unit.silent else 40.0)
+ if applies(sim.mission) and sim.mission.concealed_harbour.phase=="towing" and unit.name==Names.UNIT_QUIETUS:return minf(speed,26.0 if unit.silent else 40.0)
  return speed
 static func tick(sim,dt:float)->void:
  if not applies(sim.mission):return

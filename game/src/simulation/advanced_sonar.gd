@@ -1,4 +1,5 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 const Thermal=preload("res://src/simulation/thermal_front.gd")
 const Depth=preload("res://src/simulation/depth_bands.gd")
 const Equipment=preload("res://src/equipment/equipment_catalog.gd")
@@ -40,7 +41,7 @@ static func emit(sim,station:int)->bool:
  var radius=settings.radius*(1.4 if prism else 1.)
  # Receiver knows its own emission window, never how many hidden returns exist.
  sim.sonar.listening_until[station]=sim.elapsed+2*radius/SOUND_SPEED
- sim._noise(u.pos,settings.signature*(1.25 if prism else 1.),"ACTIVE SONAR",2.5,u.band)
+ sim._noise(u.pos,settings.signature*(1.25 if prism else 1.),Names.NOISE_ACTIVE_SONAR,2.5,u.band)
  var sector=sim.sonar.sector;var angle=u.angle
  for id in sim.sirens.size():
   var enemy=sim.sirens[id]
@@ -49,7 +50,7 @@ static func emit(sim,station:int)->bool:
   var path=water_path(sim,u,enemy,radius)
   if path.is_empty() or not in_sector(u.pos,path.points[1],angle,sector):continue
   # The returning packet contains only the emission-time reflection.
-  sim.sonar.pending.append({"kind":"echo","due":sim.elapsed+2*path.length/SOUND_SPEED,"time":sim.elapsed,"station":station,"emitter_band":u.band,"enemy":id,"pos":enemy.pos,"band":enemy.band,"type":enemy.get("type","patroller"),"tone":enemy.acoustic_tone,"origin":u.pos,"direction":u.pos.direction_to(path.points[1]),"direct":path.direct})
+  sim.sonar.pending.append({"kind":"echo","due":sim.elapsed+2*path.length/SOUND_SPEED,"time":sim.elapsed,"station":station,"emitter_band":u.band,"enemy":id,"pos":enemy.pos,"band":enemy.band,"type":enemy.get("type",Names.ROLE_PATROLLER),"tone":enemy.acoustic_tone,"origin":u.pos,"direction":u.pos.direction_to(path.points[1]),"direct":path.direct})
  var chart=sim.depth_charts.get(u.band)
  if chart!=null:
   var sample=Chart.new();var config=sim.mission.duplicate()
@@ -96,21 +97,21 @@ static func advance(sim,dt):
    if u.pos==enemy.pos:continue
    # Propulsion only, never fabricated ghosts. No Siren emits sonar.
    var emission=510.0
-   var industry=enemy.get("type","") in ["interceptor","warden"]
+   var industry=enemy.get("type","") in [Names.ROLE_INTERCEPTOR,Names.ROLE_WARDEN]
    if industry:emission=450. if enemy.industry.phase=="windup" else 510. if enemy.industry.phase=="burst" else 110.
-   var network=enemy.get("type","") in ["buoy","relay"]
+   var network=enemy.get("type","") in [Names.ROLE_BUOY,Names.ROLE_RELAY]
    if network:emission=420. if enemy.get("network",{}).get("charge",0)>0 else 95.
    var path=water_path(sim,u,enemy,emission/masking)
    if path.is_empty():continue
    var direction=u.pos.direction_to(path.points[1])
    var confidence=clampf((path.strength-1.)*.45,.12,.85)
-   var row={"station":station,"enemy":id,"origin":u.pos,"direction":direction,"time":sim.elapsed,"band":-1,"confidence":confidence,"tone":enemy.acoustic_tone,"classification":(Sweeper.WARNING if enemy.get("type","")=="sweeper" and enemy.get("mode","")=="INVESTIGATE" else "MACHINERY" if confidence<.5 else "PROPULSION"),"direct":path.direct,"kind":"bearing"}
+   var row={"station":station,"enemy":id,"origin":u.pos,"direction":direction,"time":sim.elapsed,"band":-1,"confidence":confidence,"tone":enemy.acoustic_tone,"classification":(Sweeper.WARNING if enemy.get("type","")==Names.ROLE_SWEEPER and enemy.get("mode","")=="INVESTIGATE" else "MACHINERY" if confidence<.5 else "PROPULSION"),"direct":path.direct,"kind":"bearing"}
    if industry:
-    row.classification=("BURST WINDUP" if enemy.type=="interceptor" else "PRESSURE CHARGE") if enemy.industry.phase=="windup" else "COMMITTED BURST" if enemy.industry.phase=="burst" else "STATION TONE"
+    row.classification=("BURST WINDUP" if enemy.type==Names.ROLE_INTERCEPTOR else "PRESSURE CHARGE") if enemy.industry.phase=="windup" else "COMMITTED BURST" if enemy.industry.phase=="burst" else "STATION TONE"
    if network:
-    row.classification=("LISTENER UPLINK" if enemy.type=="buoy" else "RELAY FORWARDING") if enemy.get("network",{}).get("charge",0)>0 else "STATION TONE"
+    row.classification=("LISTENER UPLINK" if enemy.type==Names.ROLE_BUOY else "RELAY FORWARDING") if enemy.get("network",{}).get("charge",0)>0 else "STATION TONE"
     if enemy.get("network",{}).get("charge",0)>0 and not sim.sonar.history.any(func(old):return old.station==station and old.enemy==id and old.classification==row.classification and sim.elapsed-old.time<3.):
-     sim.events.append({"type":"carrier_received" if enemy.type=="buoy" else "return_received","receiver":station,"direction":direction,"identity":"network","enemy":id,"time":sim.elapsed})
+     sim.events.append({"type":"carrier_received" if enemy.type==Names.ROLE_BUOY else "return_received","receiver":station,"direction":direction,"identity":"network","enemy":id,"time":sim.elapsed})
    # Correlate an actual received motor tone; indistinguishable received
    # sources suppress positional inference instead of inventing a unique fix.
    var ambiguous=sim.sonar.history.any(func(old):return old.tone==row.tone and old.enemy!=id and sim.elapsed-old.time<=3.)
@@ -185,7 +186,7 @@ static func valid(data)->bool:
   if not _number(packet.due) or not _number(packet.time) or packet.time<0 or packet.time>time or packet.due<time or packet.due>time+2*POWERS.high.radius*(1.4 if packet.get("station",-1)==0 and Equipment.has(fitting,0,"quietus_prism") else 1.)/SOUND_SPEED+.001:return false
   if not packet.station is int or packet.station<0 or packet.station>2 or not packet.band is int or packet.band<0 or packet.band>2 or not packet.origin is Vector2 or not packet.origin.is_finite():return false
   if packet.kind=="echo":
-   if not packet.get("emitter_band") is int or packet.emitter_band not in [0,1,2] or not packet.get("enemy") is int or packet.enemy<0 or packet.enemy>=data.sirens.size() or not packet.get("pos") is Vector2 or not packet.pos.is_finite() or not _number(packet.get("tone")) or packet.tone<40 or packet.tone>2000 or not packet.get("direction") is Vector2 or not packet.direction.is_finite() or packet.direction.length()<.99 or packet.direction.length()>1.01 or not packet.get("direct") is bool or packet.get("type") not in ["patroller","sentinel","hunter","sweeper","buoy","relay","interceptor","warden"]:return false
+   if not packet.get("emitter_band") is int or packet.emitter_band not in [0,1,2] or not packet.get("enemy") is int or packet.enemy<0 or packet.enemy>=data.sirens.size() or not packet.get("pos") is Vector2 or not packet.pos.is_finite() or not _number(packet.get("tone")) or packet.tone<40 or packet.tone>2000 or not packet.get("direction") is Vector2 or not packet.direction.is_finite() or packet.direction.length()<.99 or packet.direction.length()>1.01 or not packet.get("direct") is bool or packet.get("type") not in Names.ROLES:return false
   else:
    var config=data.mission.duplicate();config["world_size"]=data.mission.get("world_size",Vector2(1600,960))
    if packet.get("sector") not in ["all","forward"] or not _number(packet.get("angle")) or not Chart.valid_state(packet.get("chart"),config):return false

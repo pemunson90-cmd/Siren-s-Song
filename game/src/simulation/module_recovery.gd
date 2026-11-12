@@ -1,4 +1,5 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 # Only unique hardware actually launched on own drones enters this authority.
 # Salvage positions come from own craft, never a hostile or terrain query.
 const Catalog=preload("res://src/equipment/equipment_catalog.gd")
@@ -67,7 +68,7 @@ static func begin(sim,item:String)->bool:
  var c=context(sim,item,sim.selected)
  if not c.ready:sim.message=c.reason;return false
  var state=_state(sim);state.jobs[sim.selected]={"item":item,"elapsed":0.0};sim.units[sim.selected].hold="HOLD"
- sim._noise(sim.units[sim.selected].pos,NOISE,"RECOVERY WINCH",DURATION,sim.units[sim.selected].band)
+ sim._noise(sim.units[sim.selected].pos,NOISE,Names.NOISE_RECOVERY_WINCH,DURATION,sim.units[sim.selected].band)
  sim.events.append({"type":"salvage","pos":sim.units[sim.selected].pos,"item":item});sim.message="%s · recover %s · audible winch 4s"%[sim.units[sim.selected].name,_name(item)]
  return true
 # JobRelease calls this only after the shared HOLD guard.

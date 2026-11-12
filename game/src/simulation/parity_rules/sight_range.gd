@@ -1,4 +1,5 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 # WP-16 (parity_rules.gd, rule "sight_range"): the chart draws how far a Siren
 # sees, as the v7 prototype did (line 504), once that Siren type's sensor array
 # has been photographed. [PAT, 2026-11-12] chose this option: "A is fine for now
@@ -19,7 +20,7 @@ const PREFIX="siren_"
 const SILENT=180.0
 const MOVING=290.0
 # Roles that acquire craft by sight.
-const SIGHTED=["patroller","sentinel","hunter","sweeper"]
+const SIGHTED=[Names.ROLE_PATROLLER,Names.ROLE_SENTINEL,Names.ROLE_HUNTER,Names.ROLE_SWEEPER]
 # Dive start: remember which Siren types earlier photographs resolved.
 static func prepare(m:Dictionary,intel:Dictionary)->void:
  var types=[]
@@ -30,7 +31,7 @@ static func known_types(sim)->Array:
  var types:Array=sim.mission.get("sight_intel",[]).duplicate()
  for shot in sim.mission.get("photo",{}).get("shots",[]):
   if shot.get("usable",false) and shot.has("siren") and int(shot.siren)>=0 and int(shot.siren)<sim.sirens.size():
-   var type=str(sim.sirens[int(shot.siren)].get("type","patroller"))
+   var type=str(sim.sirens[int(shot.siren)].get("type",Names.ROLE_PATROLLER))
    if type not in types:types.append(type)
  return types
 # [{id,pos,radius,label}] for the chart.

@@ -1,4 +1,5 @@
 extends Control
+const Names=preload("res://src/names.gd")
 var sim
 var receiver_font_size=17
 var touch_height=48.0
@@ -224,7 +225,7 @@ func _draw_photo(t:Dictionary) -> void:
 		_draw_shutter(shutter_rect,fs)
 		title_room-=shutter_rect.size.x+8
 		if mirrored:title_x=shutter_rect.end.x+8
-	draw_string(font,Vector2(title_x,fs+6),fit_caption(("EXPOSING" if live else "VIEW")+" / "+["Q","A","B"][uid],title_room,fs),HORIZONTAL_ALIGNMENT_LEFT,-1,fs,PHOSPHOR)
+	draw_string(font,Vector2(title_x,fs+6),fit_caption(("EXPOSING" if live else "VIEW")+" / "+Names.UNIT_LETTERS[uid],title_room,fs),HORIZONTAL_ALIGNMENT_LEFT,-1,fs,PHOSPHOR)
 	if live:
 		var progress:=acquisition_progress(sim)
 		draw_rect(Rect2(picture.position.x,picture.end.y-5,picture.size.x,3),Color("25464b"));draw_rect(Rect2(picture.position.x,picture.end.y-5,picture.size.x*progress,3),PHOSPHOR)

@@ -26,7 +26,7 @@ func freeze_campaign()->void:
 	campaign_host.sound.suspend();campaign_host.process_mode=Node.PROCESS_MODE_DISABLED
 func _bind_state()->void:
 	economy=career_state.economy;expedition=career_state.progress;fitted_equipment=career_state.fitted
-	tool_racks=career_state.get("tool_racks",preload("res://src/equipment/tool_racks.gd").template("endurance")).duplicate(true)
+	tool_racks=career_state.get("tool_racks",preload("res://src/equipment/tool_racks.gd").template(Names.LOADOUT_ENDURANCE)).duplicate(true)
 func _ready()->void:
 	pinned_path=campaign_host.store.path
 	if DevState.marked(self):set_meta("dev_profile",true)

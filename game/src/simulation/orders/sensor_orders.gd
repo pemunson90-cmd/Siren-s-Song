@@ -1,4 +1,5 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 # Player sensors orders. Called only after Simulation.command's existing guards.
 # The shared table records whether successful orders run the legacy finish hooks.
 # Revert by inlining these cases and removing their table rows; no rule changes.
@@ -22,6 +23,6 @@ static func command(sim, order: String, args: Dictionary) -> bool:
 		"recon":
 			if sim.tools.recon<=0: return false
 			if sim.mission.has("world_size"):sim.mission["survey_origin"]=u.pos
-			sim.tools.recon-=1; sim.recon_time=Tuning.RECON_TIME; sim._noise(u.pos,Tuning.RECON_NOISE,"RECON UPLINK",Tuning.RECON_NOISE_TIME,u.band); sim.message="Local 560m survey · 8 seconds" if sim.mission.has("world_size") else "Wide survey uplink · 8 seconds"; sim.SignalField.observe(sim,true); sim.Consequences.observe(sim,true); sim.events.append({"type":"recon","pos":u.pos}); sim._observe()
+			sim.tools.recon-=1; sim.recon_time=Tuning.RECON_TIME; sim._noise(u.pos,Tuning.RECON_NOISE,Names.NOISE_RECON_UPLINK,Tuning.RECON_NOISE_TIME,u.band); sim.message="Local 560m survey · 8 seconds" if sim.mission.has("world_size") else "Wide survey uplink · 8 seconds"; sim.SignalField.observe(sim,true); sim.Consequences.observe(sim,true); sim.events.append({"type":"recon","pos":u.pos}); sim._observe()
 		_:return false
 	return true

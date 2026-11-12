@@ -28,7 +28,7 @@ func configure(value:Dictionary)->bool:
 	assignment=value.duplicate(true) if Riders.valid(value) else {}
 	policy=Riders.policy(assignment)
 	return Riders.valid(value)
-func start(index:int,upgrade:String="endurance",launch:Dictionary={})->void:
+func start(index:int,upgrade:String=Names.LOADOUT_ENDURANCE,launch:Dictionary={})->void:
 	used={};launched=[];loud_time=0.;rule_failure=""
 	super.start(index,upgrade,launch)
 	for id in units.size():

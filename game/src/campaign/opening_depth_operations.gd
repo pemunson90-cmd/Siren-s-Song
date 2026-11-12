@@ -1,4 +1,5 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 # Authored encounters use the same geometry/actor vocabulary. Runtime systems do
 # not branch on operation identity; more content adds a profile and catalog entry.
 const Base=preload("res://src/campaign/tutorial_missions.gd")
@@ -17,7 +18,7 @@ const PROFILES={
  "blackwater_custody":{
   "source":2,
   "bands":{0:{"remove":[1],"add":[Rect2(650,650,360,120)]},2:{"remove":[0],"add":[]}},
-  "threats":{0:{"pos":Vector2(700,350),"home":Vector2(700,350),"goal":Vector2(700,350),"type":"sentinel","tether":190.0,"patrol_points":[Vector2(760,350),Vector2(760,180),Vector2(1120,180),Vector2(1120,520),Vector2(760,720)]},1:{"band":0}},
+  "threats":{0:{"pos":Vector2(700,350),"home":Vector2(700,350),"goal":Vector2(700,350),"type":Names.ROLE_SENTINEL,"tether":190.0,"patrol_points":[Vector2(760,350),Vector2(760,180),Vector2(1120,180),Vector2(1120,520),Vector2(760,720)]},1:{"band":0}},
   "sweepers":[{"pos":Vector2(1120,570),"band":2}],
   "posts":[{"pos":Vector2(257,346),"band":2}],
   "hint":"Buffers stay on craft · DECODE in MIDDLE · TRANSFER at same depth within 60m.",
@@ -65,12 +66,12 @@ static func build(config:Dictionary,_history:Dictionary={})->Dictionary:
  var sweeper_index=0
  for descriptor in profile.get("sweepers",[]):
   var enemy=m.sirens[0].duplicate(true)
-  enemy.merge({"pos":descriptor.pos,"home":descriptor.pos,"goal":descriptor.pos,"route":[],"type":"sweeper","patrol_points":Patrols.circuit(config.source_id,sweeper_index),"band":descriptor.band},true)
+  enemy.merge({"pos":descriptor.pos,"home":descriptor.pos,"goal":descriptor.pos,"route":[],"type":Names.ROLE_SWEEPER,"patrol_points":Patrols.circuit(config.source_id,sweeper_index),"band":descriptor.band},true)
   m.sirens.append(enemy);sweeper_index+=1
  # 139: tethered posts (same shape as encounters/roster.gd post); Blackwater keeps one over the western deep approach.
  for descriptor in profile.get("posts",[]):
   var post=m.sirens[0].duplicate(true)
-  post.merge({"pos":descriptor.pos,"home":descriptor.pos,"goal":descriptor.pos,"route":[],"type":"sentinel","patrol_points":[descriptor.pos,descriptor.pos+Vector2(70,0),descriptor.pos+Vector2(0,90)],"band":descriptor.band,"tether":170.0},true)
+  post.merge({"pos":descriptor.pos,"home":descriptor.pos,"goal":descriptor.pos,"route":[],"type":Names.ROLE_SENTINEL,"patrol_points":[descriptor.pos,descriptor.pos+Vector2(70,0),descriptor.pos+Vector2(0,90)],"band":descriptor.band,"tether":170.0},true)
   m.sirens.append(post)
  m.brief=profile.brief;m["depth_hint"]=profile.hint
  if config.source_id==2:m.brief+=" A quiet drone can sample the northern REQUEST from farther off the watched lip; meet Quietus in the southern water to transfer. A recovered local transfer earns a service premium on the first return."

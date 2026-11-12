@@ -1,4 +1,5 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 signal noticed(row:Dictionary)
 # D1 observer only: never writes simulation, contacts, saves or detection state.
 # Revert with cue_table.enabled=false; the unconsumed notice signal has no effect.
@@ -36,7 +37,7 @@ func _note_type(id:int)->void:
  if id<0 or id>=sim.sirens.size():return
  var identity=preload("res://src/simulation/contact_identity.gd")
  if not identity.known(sim,id) and not identity.sighted(sim,id):return
- var kind=str(sim.sirens[id].get("type","patroller"))
+ var kind=str(sim.sirens[id].get("type",Names.ROLE_PATROLLER))
  if not Table.TYPE_NAMES.has(kind) or kind in types_seen:return
  types_seen.append(kind)
  note_records.append({"id":id,"time":sim.elapsed,"type":kind,"text":Table.NOTE_PREFIX+Table.TYPE_NAMES[kind]})

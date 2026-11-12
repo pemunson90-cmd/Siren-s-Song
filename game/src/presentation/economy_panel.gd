@@ -1,4 +1,5 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 # Between-operation economy controls: balances, costs, preset, repair, manufacturing,
 # research and frame unlocks. Main owns state; every action saves and redraws so prices
 # stay current. Nothing here changes sensing, pause or combat.
@@ -183,7 +184,7 @@ static func _do_research(host,material:String)->void:
 static func _repairs(host)->void:
 	var e=host.economy
 	for target in Table.TARGETS:
-		if (target=="drone_a" and Economy.Losses.missing(e,1)) or (target=="drone_b" and Economy.Losses.missing(e,2)):
+		if (target==Names.CRAFT_DRONE_A and Economy.Losses.missing(e,1)) or (target==Names.CRAFT_DRONE_B and Economy.Losses.missing(e,2)):
 			host._menu_text("%s / BAY EMPTY / MANUFACTURE REPLACEMENT"%Table.LABELS[target],14);continue
 		var cost=Economy.repair_cost(e,target)
 		if cost.is_empty():
