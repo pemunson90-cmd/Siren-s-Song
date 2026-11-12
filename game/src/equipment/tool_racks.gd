@@ -54,7 +54,7 @@ static func migrated(data:Dictionary)->Dictionary:
  # 098 did not record edits: its automatic template and EMPTY ALL are identical.
  # Refill that exact unversioned shape once; any edited keys, even zero, survive.
  if not data.has("tool_racks") or (not data.has("tool_racks_version") and data.tool_racks==empty()):
-  return template(data.get("upgrade","endurance"))
+  return template(data.get("upgrade",Names.LOADOUT_ENDURANCE))
  return data.tool_racks.duplicate(true)
 static func write_archive(data:Dictionary,racks:Dictionary)->void:
  data["tool_racks"]=racks.duplicate(true)

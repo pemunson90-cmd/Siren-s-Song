@@ -41,7 +41,7 @@ static func emit(sim,station:int)->bool:
  var radius=settings.radius*(1.4 if prism else 1.)
  # Receiver knows its own emission window, never how many hidden returns exist.
  sim.sonar.listening_until[station]=sim.elapsed+2*radius/SOUND_SPEED
- sim._noise(u.pos,settings.signature*(1.25 if prism else 1.),"ACTIVE SONAR",2.5,u.band)
+ sim._noise(u.pos,settings.signature*(1.25 if prism else 1.),Names.NOISE_ACTIVE_SONAR,2.5,u.band)
  var sector=sim.sonar.sector;var angle=u.angle
  for id in sim.sirens.size():
   var enemy=sim.sirens[id]

@@ -20,7 +20,7 @@ static func heard(sim,e:Dictionary)->Dictionary:
   if u.alive and e.band in sim.Depth.occupied(u) and sim.propulsion_speed(u)>12:
    candidates.append({"pos":u.pos,"radius":minf(650.,sim.motion_radius(id)*1.6),"band":u.band,"transition":u.get("transition",{})})
  for noise in sim.noises:
-  if noise.band==e.band and noise.label in ["ACTIVE SONAR","CAMERA","DISRUPTION","KNOCKDOWN","TORPEDO RUN","DECOY","RECOVERY WINCH","REACH MACHINERY","CHOIR MACHINERY","CHOIR BERTH RELEASE","PRESSURE SLEEVE"]:candidates.append(noise)
+  if noise.band==e.band and noise.label in [Names.NOISE_ACTIVE_SONAR,Names.NOISE_CAMERA,Names.NOISE_EMP,Names.NOISE_KNOCKDOWN,Names.NOISE_TORPEDO_RUN,Names.NOISE_DECOY,Names.NOISE_RECOVERY_WINCH,"REACH MACHINERY","CHOIR MACHINERY","CHOIR BERTH RELEASE","PRESSURE SLEEVE"]:candidates.append(noise)
  for candidate in candidates:
   var arrivals=preload("res://src/simulation/thermal_front.gd").arrivals(sim,e,candidate.pos,candidate.radius,candidate) if sim.mission.get("thermal_revision",0)==1 else sim.band_acoustics[e.band].arrivals(e.pos,candidate.pos,candidate.radius)
   if arrivals.is_empty():continue
@@ -42,14 +42,14 @@ static func advance(sim,dt:float):
    var packet=heard(sim,e)
    if not packet.is_empty():
     state.packet=packet;state.last=key(packet);state.charge=0.
-    sim._noise(e.pos,320.,"BUOY REPORT WINDUP",2.,e.band)
+    sim._noise(e.pos,320.,Names.NOISE_BUOY_REPORT_WINDUP,2.,e.band)
   if state.packet.is_empty():e.mode="LISTENING" if e.type==Names.ROLE_BUOY else "RELAY IDLE";continue
   if state.cooldown>0:e.mode="LISTENING" if e.type==Names.ROLE_BUOY else "RELAY IDLE";continue
   e.mode="BUOY CHARGING" if e.type==Names.ROLE_BUOY else "RELAY CHARGING";state.charge+=dt
   if state.charge+0.000001>=(2. if e.type==Names.ROLE_BUOY else 3.):
    dispatch.append({"sender":e,"packet":state.packet.duplicate(true)})
    state.packet={};state.charge=0.;state.cooldown=LIFETIME
-   sim._noise(e.pos,700.,"RELAY FORWARD",1.5,e.band)
+   sim._noise(e.pos,700.,Names.NOISE_RELAY_FORWARD,1.5,e.band)
  # Separate receive/forward turns prevent array-order zero-delay propagation.
  for sent in dispatch:
   var packet=sent.packet;var sender=sent.sender
@@ -59,7 +59,7 @@ static func advance(sim,dt:float):
     var state=peer.network
     if packet.hops>=2 or state.cooldown>0 or not state.packet.is_empty() or state.last==key(packet):continue
     state.packet=packet.duplicate(true);state.packet.hops+=1;state.last=key(packet);state.charge=0.
-    sim._noise(peer.pos,380.,"BUOY REPORT WINDUP",3.,peer.band)
+    sim._noise(peer.pos,380.,Names.NOISE_BUOY_REPORT_WINDUP,3.,peer.band)
    elif peer.get("type","") not in ROLES and peer.get("target",-1)<0 and peer.get("attention_time",0)<=0:
     peer.goal=packet.point;peer["last_known"]=packet.point;peer["known_band"]=packet.band
     peer["attention_time"]=minf(8.,packet.expires-sim.elapsed);peer.suspicion=maxf(peer.suspicion,.35);peer.mode="INVESTIGATE";peer.path_time=0.;peer.route=[]

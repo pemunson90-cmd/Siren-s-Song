@@ -536,7 +536,7 @@ func _draw() -> void:
 			draw_arc(n.pos,60+fmod(sim.mission.get("response_time",0.0)*100,350),0,TAU,64,Color(0.95,0.66,0.32,0.6),3)
 			_label(sim.mission.factory_rect.position+Vector2(16,520),"CARRIER · CRADLE",Color("e1b66e"),16)
 	for n in acoustic.pulses:
-		if n.label=="DECOY":
+		if n.label==Names.NOISE_DECOY:
 			draw_arc(n.pos,29,0,TAU,40,Color("675b43"),2)
 			draw_arc(n.pos,29,-PI/2,-PI/2+TAU*clampf(n.time/15.0,0,1),40,Color("e1b66e"),3)
 			draw_circle(n.pos,4,Color("e1b66e"))
@@ -559,7 +559,7 @@ func _draw() -> void:
 		draw_rect(Rect2(anchor-Vector2(3,feedback_font_size),Vector2(tag_size.x+6,feedback_font_size+5)),Color(0.025,0.06,0.075,0.94))
 		draw_string(ThemeDB.fallback_font,anchor,entry.tag,HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size,Color("ed8e79") if entry.fresh else Color("b09a94"))
 	for n in acoustic.pulses:
-		if n.label=="DECOY":
+		if n.label==Names.NOISE_DECOY:
 			draw_string(ThemeDB.fallback_font,chart_camera.to_screen(n.pos)+Vector2(12,-12),"%ds"%ceili(n.time),HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size,Color("e1b66e"))
 	var listed=contact_readout_entries(observed)
 	var readout=contact_readout_rects(listed)

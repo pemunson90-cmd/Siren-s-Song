@@ -217,7 +217,7 @@ static func reason_token(reason:String)->String:
  if "zero stock" in lower:return "NONE ABOARD"
  if "no measured approach" in lower:return "SURVEY SIDE"
  if "needs " in lower:
-  for band in ["SHALLOW","MIDDLE","DEEP"]:
+  for band in Names.BANDS:
    if band.to_lower() in lower:return "NEEDS "+band
  if "already " in lower:return reason.to_upper()
  if "changing depth" in lower or "depth change" in lower:return "CHANGING DEPTH"

@@ -11,7 +11,7 @@ static func entries(contacts: Dictionary,elapsed: float,units: Array,clear_view:
 		var fresh=age<0.3;var urgent=false
 		var text="%s %s · %s"%[tag,role,preload("res://src/simulation/contact_identity.gd").contact_mode(c)] if fresh else "%s %s · LAST SEEN %ds"%[tag,role,int(age)]
 		if c.get("source","") in ["active","triangulation"]:text+=" · %d%%"%roundi(c.get("confidence",0.)*100)
-		if c.get("band",-1)>=0:text+=" · "+["SHALLOW","MIDDLE","DEEP"][c.band]
+		if c.get("band",-1)>=0:text+=" · "+Names.BANDS[c.band]
 		var target=int(c.get("target",-1))
 		var victim=target_lookup.call(c) if target_lookup.is_valid() else units[target] if target>=0 and target<units.size() else {}
 		if fresh and c.lock>0 and not victim.is_empty() and victim.alive and (not clear_view.is_valid() or clear_view.call(c.pos,victim.pos)):

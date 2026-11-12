@@ -60,4 +60,4 @@ static func feedback(sim)->Dictionary:
   intensity=maxf(intensity,clampf(float(c.get("lock",0))/4.0,0,1))
  var p=state(sim.mission)
  var stage=4 if p.hunt>=90 else 3 if p.hunt>=70 else 2 if p.hunt>=45 else 1 if p.hunt>=20 else 0
- return {"hunt":p.hunt,"floor":p.floor,"stage":["DORMANT","STIRRING","SEARCHING","HUNTING","LOCKDOWN"][stage],"threat":intensity,"hostile":intensity>=.75,"grade":grade(sim.mission.objectives)}
+ return {"hunt":p.hunt,"floor":p.floor,"stage":HuntPressure.Table.STAGES[stage],"threat":intensity,"hostile":intensity>=.75,"grade":grade(sim.mission.objectives)}

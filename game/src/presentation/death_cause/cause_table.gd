@@ -1,4 +1,5 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 # Death cause line settings. Revert: set enabled=false, or remove the two debrief calls and this folder.
 # AI-DESIGNED wording, Pat to adjust. Story text stays 1 to 2 line placeholders.
 static var enabled=true
@@ -11,7 +12,7 @@ const NOTICE_CAP=200      # bounded per-Siren list of recent notice times
 const MOTION_MERGE=1.0     # motion samples closer than this collapse into one entry
 const LOCKISH=["LOCKING","BEAM"]
 # Emission label -> phrase used after "It was drawn by: ". Labels come from NoticeSources.CRAFT_EMISSIONS.
-const EMISSION_PHRASE={"ACTIVE SONAR":"ACTIVE SONAR","CAMERA":"the CAMERA shutter","DISRUPTION":"an EMP pulse","KNOCKDOWN":"a KNOCKDOWN pulse","RECON UPLINK":"the RECON UPLINK"}
+const EMISSION_PHRASE={Names.NOISE_ACTIVE_SONAR:"ACTIVE SONAR",Names.NOISE_CAMERA:"the CAMERA shutter",Names.NOISE_EMP:"an EMP pulse",Names.NOISE_KNOCKDOWN:"a KNOCKDOWN pulse",Names.NOISE_RECON_UPLINK:"the RECON UPLINK"}
 const DRAWN="It was drawn by: %s %d s before the lock."
 const MOVING="It heard %s moving at speed."
 const SIGHT="%s was in the Siren's sight line."

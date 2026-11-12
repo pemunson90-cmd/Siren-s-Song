@@ -70,7 +70,7 @@ static func command(sim,args:Dictionary)->bool:
  if not c.ready:sim.message=c.reason;return false
  sim.mission.glass_reach.job={"unit":sim.selected,"action":action,"elapsed":0.,"duration":c.duration,"pos":c.pos,"band":sim.units[sim.selected].band}
  sim.units[sim.selected].hold="HOLD"
- if not (action=="gate" and decoder(sim,sim.selected)):sim._noise(sim.units[sim.selected].pos,520.,"RECOVERY WINCH" if action=="recover" else "REACH MACHINERY",c.duration,sim.units[sim.selected].band)
+ if not (action=="gate" and decoder(sim,sim.selected)):sim._noise(sim.units[sim.selected].pos,520.,Names.NOISE_RECOVERY_WINCH if action=="recover" else "REACH MACHINERY",c.duration,sim.units[sim.selected].band)
  sim.message=c.reason;return true
 static func transfer(sim,carrier)->bool:
  var a=artifact(sim)

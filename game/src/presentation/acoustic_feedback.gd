@@ -1,4 +1,5 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 # Read-only instrument copy, never an estimate of hidden enemy reception.
 static func rows(feedback: Dictionary) -> Array:
 	var names: Array=[]; var decoys: Array=[]; var pulses: Array=[]
@@ -7,11 +8,11 @@ static func rows(feedback: Dictionary) -> Array:
 		if feedback.get("revision",0)==1:name+=" "+("<1m" if u.radius<1 else "%dm"%roundi(u.radius))
 		names.append(name)
 	for n in feedback.pulses:
-		if n.label=="DECOY":decoys.append("%ds"%ceili(n.time))
+		if n.label==Names.NOISE_DECOY:decoys.append("%ds"%ceili(n.time))
 		else:pulses.append(n)
 	var tool_text="none"
 	if pulses.size()==1:
-		tool_text="%s %ds"%[{"ACTIVE SONAR":"SONAR","RECON UPLINK":"SURVEY","DISRUPTION":"EMP","CAMERA":"CAMERA","KNOCKDOWN":"KNOCKDOWN","TORPEDO RUN":"TORPEDO"}.get(pulses[0].label,pulses[0].label),ceili(pulses[0].time)]
+		tool_text="%s %ds"%[{Names.NOISE_ACTIVE_SONAR:"SONAR",Names.NOISE_RECON_UPLINK:"SURVEY",Names.NOISE_EMP:"EMP",Names.NOISE_CAMERA:"CAMERA",Names.NOISE_KNOCKDOWN:"KNOCKDOWN",Names.NOISE_TORPEDO_RUN:"TORPEDO"}.get(pulses[0].label,pulses[0].label),ceili(pulses[0].time)]
 	elif not pulses.is_empty():
 		var remaining=0.0
 		for n in pulses:remaining=maxf(remaining,n.time)

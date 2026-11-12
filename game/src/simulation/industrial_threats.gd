@@ -60,7 +60,7 @@ static func advance(sim,e:Dictionary,dt:float):
    if flight<=2. and sim.Depth.clear(sim,received.pos,predicted,state.band,12) and sim.Depth.clear(sim,e.pos,predicted,state.band,16):state.aim=predicted
   e.route=[];e.vel=Vector2.ZERO
   e.angle=e.pos.angle_to_point(state.aim);e.mode="BURST WINDUP" if e.type==Names.ROLE_INTERCEPTOR else "PRESSURE CHARGE"
-  sim._noise(e.pos,WINDUP_CUE_RADIUS,"INTERCEPTOR WINDUP" if e.type==Names.ROLE_INTERCEPTOR else "WARDEN CHARGE",state.remaining,e.band)
+  sim._noise(e.pos,WINDUP_CUE_RADIUS,Names.NOISE_INTERCEPTOR_WINDUP if e.type==Names.ROLE_INTERCEPTOR else Names.NOISE_WARDEN_CHARGE,state.remaining,e.band)
   # Only local physical reception earns this consequential cue.
   for id in sim.units.size():
    var u=sim.units[id]
@@ -77,7 +77,7 @@ static func advance(sim,e:Dictionary,dt:float):
   if e.type==Names.ROLE_INTERCEPTOR:state.phase="burst";state.remaining=2.
   else:
    if sim.Depth.clear(sim,e.pos,state.aim,state.band,12) and state.patches.size()<2:state.patches.append({"pos":state.aim,"band":state.band,"remaining":6.,"radius":85.})
-   state.phase="recovery";state.remaining=4.;state.cooldown=10.;sim._noise(e.pos,650.,"WARDEN PRESSURE",1.,e.band)
+   state.phase="recovery";state.remaining=4.;state.cooldown=10.;sim._noise(e.pos,650.,Names.NOISE_WARDEN_PRESSURE,1.,e.band)
  elif state.phase=="burst":
   e.mode="COMMITTED BURST"
   var next:Vector2=e.pos.move_toward(state.aim,200.*dt)

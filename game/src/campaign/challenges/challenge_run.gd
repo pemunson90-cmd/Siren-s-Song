@@ -17,7 +17,7 @@ func configure(id:String)->bool:
 func setup(id:String)->bool:
 	if not configure(id):return false
 	start(int(definition.op));return true
-func start(_index:int,_upgrade:String="endurance",_launch:Dictionary={})->void:
+func start(_index:int,_upgrade:String=Names.LOADOUT_ENDURANCE,_launch:Dictionary={})->void:
 	if definition.is_empty():return
 	super.start(int(definition.op),str(definition.loadout),{"fitted":Catalog.fitting(definition),"context":definition.get("context",{}).duplicate(true),"fleet_commit":false,DroneBay.FLAG:true,ParityRules.KEY:true})
 	launched=[];used={};loud_time=0.;rule_failure=""

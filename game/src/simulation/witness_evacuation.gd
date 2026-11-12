@@ -96,7 +96,7 @@ static func begin(sim,item:String)->bool:
  var c=context(sim,sim.selected,item).get("winch",{})
  if not c.get("ready",false):sim.message=c.get("reason","Witness unavailable");return false
  sim.mission.witness_evacuation.job={"unit":sim.selected,"item":item,"elapsed":0.0};sim.units[sim.selected].hold="HOLD"
- sim._noise(sim.units[sim.selected].pos,520.0,"RECOVERY WINCH",DURATION,sim.units[sim.selected].band);sim.events.append({"type":"salvage","pos":sim.units[sim.selected].pos,"item":item})
+ sim._noise(sim.units[sim.selected].pos,520.0,Names.NOISE_RECOVERY_WINCH,DURATION,sim.units[sim.selected].band);sim.events.append({"type":"salvage","pos":sim.units[sim.selected].pos,"item":item})
  sim.message="Occupied pressure pod · living witness aboard · audible winch4s";return true
 static func land(sim)->bool:
  var c=context(sim,sim.selected).get("land",{})

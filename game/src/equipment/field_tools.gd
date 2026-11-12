@@ -14,35 +14,35 @@ const CARGO_WEIGHTS={"emp":5,"decoy":5,"sonobuoy":5,"recon":10,"knock":10,"silt_
 # 100 separate lockers, hundredths. Role maxima from the original bundles are95/15/50.
 # Rounded to1.00/.50/.50 to keep all original stock and whole winch places on every frame.
 const LOCKER_TICKS={Names.CRAFT_QUIETUS:100,Names.CRAFT_DRONE_A:50,Names.CRAFT_DRONE_B:50}
-const LOADOUTS=["endurance","disruption","survey"]
+const LOADOUTS=Names.LOADOUTS
 # counts: starting stock per campaign loadout. deploy: placement range from the craft in metres.
 const TOOLS={
  "emp":{"id":"emp","name":"EMP","order":"emp","owner":"tools","enabled":true,
-  "counts":{"endurance":2,"disruption":3,"survey":2},"summary":"Pulse that stuns Sirens for 12 s."},
+  "counts":{Names.LOADOUT_ENDURANCE:2,Names.LOADOUT_EMP:3,Names.LOADOUT_SURVEY:2},"summary":"Pulse that stuns Sirens for 12 s."},
  "decoy":{"id":"decoy","name":"Decoy","order":"decoy","owner":"tools","enabled":true,
-  "counts":{"endurance":3,"disruption":3,"survey":3},"summary":"Open-water transmission that draws Sirens."},
+  "counts":{Names.LOADOUT_ENDURANCE:3,Names.LOADOUT_EMP:3,Names.LOADOUT_SURVEY:3},"summary":"Open-water transmission that draws Sirens."},
  "recon":{"id":"recon","name":"Survey","order":"recon","owner":"tools","enabled":true,
-  "counts":{"endurance":2,"disruption":2,"survey":3},"summary":"Loud local survey uplink."},
+  "counts":{Names.LOADOUT_ENDURANCE:2,Names.LOADOUT_EMP:2,Names.LOADOUT_SURVEY:3},"summary":"Loud local survey uplink."},
  "knock":{"id":"knock","name":"Torpedo","order":"knock","owner":"tools","enabled":true,
-  "counts":{"endurance":2,"disruption":2,"survey":2},"summary":"Pins one Siren on impact."},
+  "counts":{Names.LOADOUT_ENDURANCE:2,Names.LOADOUT_EMP:2,Names.LOADOUT_SURVEY:2},"summary":"Pins one Siren on impact."},
  "sonobuoy":{"id":"sonobuoy","name":"Sonobuoy","order":"sonobuoy","owner":"field","enabled":true,"ai_designed":true,
-  "counts":{"endurance":2,"disruption":1,"survey":3},"deploy":160.0,"life":90.0,"max_active":2,"range":520.0,
+  "counts":{Names.LOADOUT_ENDURANCE:2,Names.LOADOUT_EMP:1,Names.LOADOUT_SURVEY:3},"deploy":160.0,"life":90.0,"max_active":2,"range":520.0,
   "bearing_step":0.0873,"noise":0.0,"noise_time":0.0,"noise_label":"",
   "summary":"Drop a passive listener: bearings to nearby Sirens for 90 s, never range."},
  "silt_screen":{"id":"silt_screen","name":"Silt screen","order":"silt_screen","owner":"field","enabled":true,"ai_designed":true,
-  "counts":{"endurance":1,"disruption":2,"survey":1},"deploy":160.0,"life":25.0,"max_active":1,"radius":110.0,
+  "counts":{Names.LOADOUT_ENDURANCE:1,Names.LOADOUT_EMP:2,Names.LOADOUT_SURVEY:1},"deploy":160.0,"life":25.0,"max_active":1,"radius":110.0,
   "noise":320.0,"noise_time":1.5,"noise_label":"SILT RELEASE",
   "summary":"Cloud blocks sight through it for 25 s, for you and for Sirens."},
  "hull_patch":{"id":"hull_patch","name":"Hull patch","order":"hull_patch","owner":"field","enabled":true,"ai_designed":true,
-  "counts":{"endurance":1,"disruption":1,"survey":1},"repair":30.0,"noise":260.0,"noise_time":2.0,"noise_label":"PATCH WORK",
+  "counts":{Names.LOADOUT_ENDURANCE:1,Names.LOADOUT_EMP:1,Names.LOADOUT_SURVEY:1},"repair":30.0,"noise":260.0,"noise_time":2.0,"noise_label":"PATCH WORK",
   "summary":"Repairs up to 30% collision hull damage once. Live Quietus only."},
  "relay_buoy":{"id":"relay_buoy","name":"Relay buoy","order":"relay_buoy","owner":"field","enabled":true,"ai_designed":true,
-  "counts":{"endurance":1,"disruption":0,"survey":2},"deploy":160.0,"life":180.0,"max_active":1,"radius":420.0,"scale":1.35,
+  "counts":{Names.LOADOUT_ENDURANCE:1,Names.LOADOUT_EMP:0,Names.LOADOUT_SURVEY:2},"deploy":160.0,"life":180.0,"max_active":1,"radius":420.0,"scale":1.35,
   "noise":420.0,"noise_time":2.0,"noise_label":"RELAY BUOY",
   "summary":"Drones within 420 m reach 35% farther for 3 min. Chirp is audible."}
 }
 # What the player reads for a loadout id. The id "disruption" stays in code and saves; Pat ruled (2026-11-12) the name is EMP.
-const LOADOUT_LABELS={"disruption":"EMP"}
+const LOADOUT_LABELS={Names.LOADOUT_EMP:"EMP"}
 static func loadout_label(id:String)->String:return String(LOADOUT_LABELS.get(id,id.to_upper()))
 static func ids()->Array:return TOOLS.keys()
 static func field_ids()->Array:

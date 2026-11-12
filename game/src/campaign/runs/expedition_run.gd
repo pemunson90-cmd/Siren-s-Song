@@ -18,7 +18,7 @@ func configure(state:Dictionary)->bool:
 	run_state=state.duplicate(true)
 	super.configure(RunState.rider_assignment(state))
 	return true
-func start(_index:int,_upgrade:String="endurance",_launch:Dictionary={})->void:
+func start(_index:int,_upgrade:String=Names.LOADOUT_ENDURANCE,_launch:Dictionary={})->void:
 	if run_state.is_empty():return
 	var op=RunState.current_operation(run_state)
 	super.start(op,run_state.loadout,{"fitted":Equipment.default_loadout(),"context":RunState.context(run_state),"fleet_commit":false})
