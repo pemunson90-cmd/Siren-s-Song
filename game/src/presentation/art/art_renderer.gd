@@ -26,7 +26,7 @@ static func prepare()->void:
    for point in points:uv.append(Table.RAY_MATERIAL_UV.position+(point-rect.position)/rect.size*Table.RAY_MATERIAL_UV.size)
    uvs[key]=uv
  for key in Table.SHAPES:
-  if key!="quietus":meshes[key]=_mesh(Table.SHAPES[key],uvs.get(key,PackedVector2Array()))
+  if key!=Names.CRAFT_QUIETUS:meshes[key]=_mesh(Table.SHAPES[key],uvs.get(key,PackedVector2Array()))
  meshes["lamp"]=ArrayMesh.new()
  lamp.resize(3);lamp_colors.resize(3)
  lamp_arrays.resize(Mesh.ARRAY_MAX);lamp_arrays[Mesh.ARRAY_INDEX]=PackedInt32Array([0,1,2])
@@ -39,11 +39,11 @@ static func _mesh(points:PackedVector2Array,uv:PackedVector2Array)->ArrayMesh:
  return mesh
 static func craft(view,index:int,frame:String="standard")->void:
  prepare()
- var key="quietus" if index==0 else "drone_a" if index==1 else "drone_b"
+ var key=Names.CRAFT_QUIETUS if index==0 else Names.CRAFT_DRONE_A if index==1 else Names.CRAFT_DRONE_B
  if index==0 and frame in ["quiet","fast"]:key=frame
  elif index>0 and frame in ["scout","heavy","endurance"]:key=frame
  if index==0:
-  if key=="quietus":
+  if key==Names.CRAFT_QUIETUS:
    # Retain the charcoal painted material and its original footprint.
    view.draw_texture_rect_region(view.quietus,Rect2(-66,-17,132,34),Rect2(60,145,1940,390))
    view.draw_polyline(outlines[key],Table.HULL_SEAM,Table.HULL_OUTLINE_WIDTH,true)
@@ -53,9 +53,9 @@ static func craft(view,index:int,frame:String="standard")->void:
    # The raised dorsal ridge distinguishes the fast transit frame at phone size.
    if key=="fast":view.draw_line(Vector2(-20,-13),Vector2(13,-18),Table.AMBER,2.5)
  else:
-  view.draw_mesh(meshes[key],null,Transform2D.IDENTITY,Table.HULL if key in ["drone_a","drone_b"] else Color("30464b"))
+  view.draw_mesh(meshes[key],null,Transform2D.IDENTITY,Table.HULL if key in [Names.CRAFT_DRONE_A,Names.CRAFT_DRONE_B] else Color("30464b"))
   view.draw_polyline(outlines[key],Table.EDGE,Table.DRONE_OUTLINE_WIDTH,true)
-  if key in ["drone_a","scout"]:view.draw_line(Vector2(-8,-5),Vector2(-8,5),Table.AMBER,3.)
+  if key in [Names.CRAFT_DRONE_A,"scout"]:view.draw_line(Vector2(-8,-5),Vector2(-8,5),Table.AMBER,3.)
   elif key=="heavy":view.draw_line(Vector2(-7,-11),Vector2(-7,11),Table.AMBER,3.);view.draw_line(Vector2(10,-9),Vector2(10,9),Table.CYAN,2.)
   elif key=="endurance":view.draw_circle(Vector2(-8,0),3.5,Table.AMBER);view.draw_line(Vector2(8,-7),Vector2(8,7),Table.CYAN,2.)
   else:view.draw_circle(Vector2(-8,0),3.5,Table.AMBER)

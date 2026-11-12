@@ -1,4 +1,5 @@
 extends Node
+const Names=preload("res://src/names.gd")
 # Audit 091 F11: an after-the-moment hull damage record for the debrief. A presentation
 # observer like DeathCauseLog: it reads sim.hull, sim.elapsed, sim.message, drone life and
 # the field-tool collision ledger, and never writes the simulation, saves or any rule.
@@ -73,7 +74,7 @@ func _record(kind:String,amount:float,after:float,note:String)->void:
   rows[-1].t1=t;rows[-1].loss+=amount;rows[-1].after=after
   if rows[-1].note.is_empty():rows[-1].note=note
   return
- rows.append({"t0":t,"t1":t,"kind":kind,"craft":"QUIETUS","loss":amount,"after":after,"note":note})
+ rows.append({"t0":t,"t1":t,"kind":kind,"craft":Names.UNIT_QUIETUS,"loss":amount,"after":after,"note":note})
 func events()->Array:
  return rows.duplicate(true)
 # Plain lines for the debrief, or "" when nothing was observed.

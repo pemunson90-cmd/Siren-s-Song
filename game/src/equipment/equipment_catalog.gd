@@ -1,4 +1,5 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 # Persistent hardware is optional. Campaign recovery owns entitlements; this
 # catalog cannot award them or change equipment on an already launched mission.
 # A fit names one hull, one chassis per drone and items held in typed mounts.
@@ -6,58 +7,58 @@ extends RefCounted
 # key fit {"quietus","drone_a","drone_b"} still reads as the standard loadout.
 const Hulls=preload("res://src/equipment/hulls.gd")
 const Chassis=preload("res://src/equipment/chassis.gd")
-const SLOTS=["quietus","drone_a","drone_b"]
-const NAMES={"quietus":"QUIETUS","drone_a":"DRONE A","drone_b":"DRONE B"}
-const FRAME_KEYS={"quietus":"hull","drone_a":"chassis_a","drone_b":"chassis_b"}
-const MOUNT_KEYS={"quietus":["quietus","quietus_2","quietus_3","quietus_4","quietus_5","quietus_6"],"drone_a":["drone_a","drone_a_2","drone_a_3","drone_a_4","drone_a_5"],"drone_b":["drone_b","drone_b_2","drone_b_3","drone_b_4","drone_b_5"]}
+const SLOTS=Names.CRAFT_IDS
+const NAMES={Names.CRAFT_QUIETUS:Names.UNIT_QUIETUS,Names.CRAFT_DRONE_A:Names.UNIT_DRONE_A,Names.CRAFT_DRONE_B:Names.UNIT_DRONE_B}
+const FRAME_KEYS={Names.CRAFT_QUIETUS:"hull",Names.CRAFT_DRONE_A:"chassis_a",Names.CRAFT_DRONE_B:"chassis_b"}
+const MOUNT_KEYS={Names.CRAFT_QUIETUS:[Names.CRAFT_QUIETUS,"quietus_2","quietus_3","quietus_4","quietus_5","quietus_6"],Names.CRAFT_DRONE_A:[Names.CRAFT_DRONE_A,"drone_a_2","drone_a_3","drone_a_4","drone_a_5"],Names.CRAFT_DRONE_B:[Names.CRAFT_DRONE_B,"drone_b_2","drone_b_3","drone_b_4","drone_b_5"]}
 # power: draw on the craft bus; cargo: winch places the item occupies; noise and
 # endurance: additive changes to the frame multipliers.
 const ITEMS={
- "quietus_pressure_sleeve":{"id":"quietus_pressure_sleeve","name":"Choir pressure sleeve","compatible_slots":["quietus"],"mount":"HARDWARE","power":2,"cargo":0,"noise":0.0,"endurance":0.0,"benefit":"Adjacent depth transition takes 2.5s instead of 4s, still exposed in both bands.","cost":"Each change spends 0.75 reserve and emits a 250m pump pulse."},
- "drone_traction_yoke":{"id":"drone_traction_yoke","name":"Choir traction yoke","compatible_slots":["drone_a","drone_b"],"mount":"CARGO","power":1,"cargo":1,"noise":0.0,"endurance":0.0,"benefit":"This drone can tow industrial loads through narrow service water.","cost":"Tow speed capped at 22m/s with extra propulsion noise. Bare Quietus tows wider water at 28m/s."},
- "quietus_prism":{"id":"quietus_prism","name":"Reach directional prism","compatible_slots":["quietus"],"mount":"SENSOR","power":2,"cargo":0,"noise":0.0,"endurance":0.0,"benefit":"Forward SONAR reaches 40% farther.","cost":"Forward pulses cost double reserve and emit 25% farther. All-around sonar unchanged."},
- "quietus_decoder":{"id":"quietus_decoder","name":"Range service decoder","compatible_slots":["quietus"],"mount":"UTILITY","power":1,"cargo":0,"noise":0.0,"endurance":0.0,"benefit":"Open nearby Reach service gates quietly in 2s within 120m, after measuring their local position.","cost":"Bare manual work takes 8 audible seconds within 60m; outside routes remain available."},
- "quietus_baffles":{"id":"quietus_baffles","name":"Quietus acoustic baffles","compatible_slots":["quietus"],"mount":"PROPULSION","power":1,"cargo":0,"noise":0.0,"endurance":0.0,"benefit":"Reduce propulsion sound by 45% at the same actual speed.","cost":"Occupies the propulsion mount."},
- "quietus_vector_drive":{"id":"quietus_vector_drive","name":"Quietus vector drive","compatible_slots":["quietus"],"mount":"PROPULSION","power":2,"cargo":0,"noise":0.0,"endurance":0.0,"benefit":"Cruise at 112m/s instead of 78m/s; silent speed remains 42m/s.","cost":"Fast cruise makes more motion noise. Occupies the propulsion mount."},
- "drone_survey_array":{"id":"drone_survey_array","name":"Drone survey array","compatible_slots":["drone_a","drone_b"],"mount":"SENSOR","power":1,"cargo":0,"noise":0.0,"endurance":0.0,"benefit":"Extend this drone's ordinary passive and chart reach from 330m to 460m.","cost":"Occupies the drone sensor mount."},
- "drone_deep_cells":{"id":"drone_deep_cells","name":"Drone deep cells","compatible_slots":["drone_a","drone_b"],"mount":"HARDWARE","power":0,"cargo":0,"noise":0.0,"endurance":0.0,"benefit":"Double this drone's operating endurance.","cost":"Occupies the drone hardware mount."},
- "quietus_correlator":{"id":"quietus_correlator","name":"Cadence correlator","compatible_slots":["quietus"],"mount":"SENSOR","power":1,"cargo":0,"noise":0.0,"endurance":0.0,"benefit":"Compare fresh received cadence with a recovered reference before close source acquisition.","cost":"Settle below 12m/s for 6 seconds. Matching cadence does not prove identity, range or safety."},
- "quietus_tele_lens":{"id":"quietus_tele_lens","name":"Tele lens","compatible_slots":["quietus"],"mount":"OPTICS","power":1,"cargo":0,"noise":0.0,"endurance":0.0,"benefit":"Photograph from 50% farther with a narrower frame and a longer sweet spot.","cost":"Narrow field: close or wide subjects crop, and hull motion blurs the frame sooner."},
- "photo_flash":{"id":"photo_flash","name":"Flash unit","compatible_slots":["quietus","drone_a","drone_b"],"mount":"OPTICS","power":1,"cargo":0,"noise":0.0,"endurance":0.0,"benefit":"Lights a subject within about 200m for a sharp frame in the dark. Four charges on Quietus, two on a drone.","cost":"Each flash exposure is a louder audible camera event and spends a charge."},
- "thermal_imager":{"id":"thermal_imager","name":"Thermal imager","compatible_slots":["quietus","drone_a","drone_b"],"mount":"OPTICS","power":1,"cargo":0,"noise":0.0,"endurance":0.0,"benefit":"Resolves heat features at range and through thermal shimmer, with no light needed.","cost":"15% lower resolution on every other feature."},
- "low_light_back":{"id":"low_light_back","name":"Low-light film back","compatible_slots":["quietus","drone_a","drone_b"],"mount":"OPTICS","power":0,"cargo":0,"noise":0.0,"endurance":0.0,"benefit":"A still exposure gathers light over eight seconds: dark subjects sharpen without a flash.","cost":"Gain is lost if the craft drifts or turns; short exposures see no benefit."},
- "drone_sampler":{"id":"drone_sampler","name":"Field sampler pod","compatible_slots":["drone_a","drone_b"],"mount":"UTILITY","power":1,"cargo":1,"noise":0.0,"endurance":0.0,"benefit":"Prepare compatible field receivers and operate the powered Warning Chain panel while Quietus takes another task.","cost":"One pod on one drone. Receiver exposure takes 8 audible seconds; Quietus takes 4. Plant switches require a settled local connection."},
+ "quietus_pressure_sleeve":{"id":"quietus_pressure_sleeve","name":"Choir pressure sleeve","compatible_slots":[Names.CRAFT_QUIETUS],"mount":"HARDWARE","power":2,"cargo":0,"noise":0.0,"endurance":0.0,"benefit":"Adjacent depth transition takes 2.5s instead of 4s, still exposed in both bands.","cost":"Each change spends 0.75 reserve and emits a 250m pump pulse."},
+ "drone_traction_yoke":{"id":"drone_traction_yoke","name":"Choir traction yoke","compatible_slots":[Names.CRAFT_DRONE_A,Names.CRAFT_DRONE_B],"mount":"CARGO","power":1,"cargo":1,"noise":0.0,"endurance":0.0,"benefit":"This drone can tow industrial loads through narrow service water.","cost":"Tow speed capped at 22m/s with extra propulsion noise. Bare Quietus tows wider water at 28m/s."},
+ "quietus_prism":{"id":"quietus_prism","name":"Reach directional prism","compatible_slots":[Names.CRAFT_QUIETUS],"mount":"SENSOR","power":2,"cargo":0,"noise":0.0,"endurance":0.0,"benefit":"Forward SONAR reaches 40% farther.","cost":"Forward pulses cost double reserve and emit 25% farther. All-around sonar unchanged."},
+ "quietus_decoder":{"id":"quietus_decoder","name":"Range service decoder","compatible_slots":[Names.CRAFT_QUIETUS],"mount":"UTILITY","power":1,"cargo":0,"noise":0.0,"endurance":0.0,"benefit":"Open nearby Reach service gates quietly in 2s within 120m, after measuring their local position.","cost":"Bare manual work takes 8 audible seconds within 60m; outside routes remain available."},
+ "quietus_baffles":{"id":"quietus_baffles","name":"Quietus acoustic baffles","compatible_slots":[Names.CRAFT_QUIETUS],"mount":"PROPULSION","power":1,"cargo":0,"noise":0.0,"endurance":0.0,"benefit":"Reduce propulsion sound by 45% at the same actual speed.","cost":"Occupies the propulsion mount."},
+ "quietus_vector_drive":{"id":"quietus_vector_drive","name":"Quietus vector drive","compatible_slots":[Names.CRAFT_QUIETUS],"mount":"PROPULSION","power":2,"cargo":0,"noise":0.0,"endurance":0.0,"benefit":"Cruise at 112m/s instead of 78m/s; silent speed remains 42m/s.","cost":"Fast cruise makes more motion noise. Occupies the propulsion mount."},
+ "drone_survey_array":{"id":"drone_survey_array","name":"Drone survey array","compatible_slots":[Names.CRAFT_DRONE_A,Names.CRAFT_DRONE_B],"mount":"SENSOR","power":1,"cargo":0,"noise":0.0,"endurance":0.0,"benefit":"Extend this drone's ordinary passive and chart reach from 330m to 460m.","cost":"Occupies the drone sensor mount."},
+ "drone_deep_cells":{"id":"drone_deep_cells","name":"Drone deep cells","compatible_slots":[Names.CRAFT_DRONE_A,Names.CRAFT_DRONE_B],"mount":"HARDWARE","power":0,"cargo":0,"noise":0.0,"endurance":0.0,"benefit":"Double this drone's operating endurance.","cost":"Occupies the drone hardware mount."},
+ "quietus_correlator":{"id":"quietus_correlator","name":"Cadence correlator","compatible_slots":[Names.CRAFT_QUIETUS],"mount":"SENSOR","power":1,"cargo":0,"noise":0.0,"endurance":0.0,"benefit":"Compare fresh received cadence with a recovered reference before close source acquisition.","cost":"Settle below 12m/s for 6 seconds. Matching cadence does not prove identity, range or safety."},
+ "quietus_tele_lens":{"id":"quietus_tele_lens","name":"Tele lens","compatible_slots":[Names.CRAFT_QUIETUS],"mount":"OPTICS","power":1,"cargo":0,"noise":0.0,"endurance":0.0,"benefit":"Photograph from 50% farther with a narrower frame and a longer sweet spot.","cost":"Narrow field: close or wide subjects crop, and hull motion blurs the frame sooner."},
+ "photo_flash":{"id":"photo_flash","name":"Flash unit","compatible_slots":[Names.CRAFT_QUIETUS,Names.CRAFT_DRONE_A,Names.CRAFT_DRONE_B],"mount":"OPTICS","power":1,"cargo":0,"noise":0.0,"endurance":0.0,"benefit":"Lights a subject within about 200m for a sharp frame in the dark. Four charges on Quietus, two on a drone.","cost":"Each flash exposure is a louder audible camera event and spends a charge."},
+ "thermal_imager":{"id":"thermal_imager","name":"Thermal imager","compatible_slots":[Names.CRAFT_QUIETUS,Names.CRAFT_DRONE_A,Names.CRAFT_DRONE_B],"mount":"OPTICS","power":1,"cargo":0,"noise":0.0,"endurance":0.0,"benefit":"Resolves heat features at range and through thermal shimmer, with no light needed.","cost":"15% lower resolution on every other feature."},
+ "low_light_back":{"id":"low_light_back","name":"Low-light film back","compatible_slots":[Names.CRAFT_QUIETUS,Names.CRAFT_DRONE_A,Names.CRAFT_DRONE_B],"mount":"OPTICS","power":0,"cargo":0,"noise":0.0,"endurance":0.0,"benefit":"A still exposure gathers light over eight seconds: dark subjects sharpen without a flash.","cost":"Gain is lost if the craft drifts or turns; short exposures see no benefit."},
+ "drone_sampler":{"id":"drone_sampler","name":"Field sampler pod","compatible_slots":[Names.CRAFT_DRONE_A,Names.CRAFT_DRONE_B],"mount":"UTILITY","power":1,"cargo":1,"noise":0.0,"endurance":0.0,"benefit":"Prepare compatible field receivers and operate the powered Warning Chain panel while Quietus takes another task.","cost":"One pod on one drone. Receiver exposure takes 8 audible seconds; Quietus takes 4. Plant switches require a settled local connection."},
  # C2 equipment: 8 conventional rows, then 2 alien rows that research grants (campaign/glass_research.gd).
  # Optional keys: reach and speed are fractions added to passive reach and Quietus cruise (craft_upgrades.gd).
- "quietus_ducted_shroud":{"id":"quietus_ducted_shroud","name":"Ducted prop shroud","compatible_slots":["quietus"],
+ "quietus_ducted_shroud":{"id":"quietus_ducted_shroud","name":"Ducted prop shroud","compatible_slots":[Names.CRAFT_QUIETUS],
   "mount":"PROPULSION","power":1,"cargo":0,"noise":-0.15,"endurance":0.0,"speed":-0.08,
   "benefit":"Motion sound 15% lower at the same speed.","cost":"Cruise 8% slower. Occupies the propulsion mount."},
- "quietus_scrubber_bed":{"id":"quietus_scrubber_bed","name":"Regen scrubber bed","compatible_slots":["quietus"],
+ "quietus_scrubber_bed":{"id":"quietus_scrubber_bed","name":"Regen scrubber bed","compatible_slots":[Names.CRAFT_QUIETUS],
   "mount":"UTILITY","power":1,"cargo":0,"noise":0.1,"endurance":0.25,
   "benefit":"Life support lasts 25% longer.","cost":"Fan hum raises motion sound 10%."},
- "quietus_long_hydrophone":{"id":"quietus_long_hydrophone","name":"Long hydrophone","compatible_slots":["quietus"],
+ "quietus_long_hydrophone":{"id":"quietus_long_hydrophone","name":"Long hydrophone","compatible_slots":[Names.CRAFT_QUIETUS],
   "mount":"SENSOR","power":2,"cargo":0,"noise":0.05,"endurance":0.0,"reach":0.2,
   "benefit":"Quietus passive reach 20% longer.","cost":"Draws 2 power and towing drag adds 5% motion sound."},
- "quietus_reserve_cell":{"id":"quietus_reserve_cell","name":"Reserve air cell","compatible_slots":["quietus"],
+ "quietus_reserve_cell":{"id":"quietus_reserve_cell","name":"Reserve air cell","compatible_slots":[Names.CRAFT_QUIETUS],
   "mount":"HARDWARE","power":1,"cargo":1,"noise":0.0,"endurance":0.2,
   "benefit":"Life support lasts 20% longer.","cost":"Takes one winch place and one power."},
- "quietus_camera_cowl":{"id":"quietus_camera_cowl","name":"Streamlined camera cowl","compatible_slots":["quietus"],
+ "quietus_camera_cowl":{"id":"quietus_camera_cowl","name":"Streamlined camera cowl","compatible_slots":[Names.CRAFT_QUIETUS],
   "mount":"OPTICS","power":1,"cargo":0,"noise":-0.1,"endurance":0.0,
   "benefit":"Motion sound 10% lower.","cost":"Fills the camera mount, so no optics module rides with it."},
- "drone_ballast_pack":{"id":"drone_ballast_pack","name":"Drone ballast pack","compatible_slots":["drone_a","drone_b"],
+ "drone_ballast_pack":{"id":"drone_ballast_pack","name":"Drone ballast pack","compatible_slots":[Names.CRAFT_DRONE_A,Names.CRAFT_DRONE_B],
   "mount":"CARGO","power":0,"cargo":1,"noise":0.0,"endurance":0.3,
   "benefit":"This drone's battery lasts 30% longer.","cost":"Takes one winch place."},
- "drone_mast_array":{"id":"drone_mast_array","name":"Drone mast array","compatible_slots":["drone_a","drone_b"],
+ "drone_mast_array":{"id":"drone_mast_array","name":"Drone mast array","compatible_slots":[Names.CRAFT_DRONE_A,Names.CRAFT_DRONE_B],
   "mount":"SENSOR","power":0,"cargo":0,"noise":0.0,"endurance":-0.15,"reach":0.12,
   "benefit":"This drone's passive reach is 12% longer.","cost":"Mast drain shortens battery 15%."},
- "drone_whisper_props":{"id":"drone_whisper_props","name":"Drone whisper props","compatible_slots":["drone_a","drone_b"],
+ "drone_whisper_props":{"id":"drone_whisper_props","name":"Drone whisper props","compatible_slots":[Names.CRAFT_DRONE_A,Names.CRAFT_DRONE_B],
   "mount":"UTILITY","power":1,"cargo":0,"noise":-0.2,"endurance":-0.15,
   "benefit":"This drone's motion sound is 20% lower.","cost":"Slow props shorten battery 15%."},
- "quietus_wellhead_seal":{"id":"quietus_wellhead_seal","name":"Trench wellhead seal","compatible_slots":["quietus"],
+ "quietus_wellhead_seal":{"id":"quietus_wellhead_seal","name":"Trench wellhead seal","compatible_slots":[Names.CRAFT_QUIETUS],
   "mount":"HARDWARE","power":2,"cargo":1,"noise":0.15,"endurance":0.4,
   "origin":"alien","gate":"research","artifact":"trench_seal_core",
   "benefit":"Life support lasts 40% longer. AI-DESIGNED: marked optional pump/lift work takes 6s instead of 12s, with half the sound radius and audible time.","cost":"Pump hum raises motion sound 15%. Two power, one winch place."},
- "drone_choir_tuner":{"id":"drone_choir_tuner","name":"Choir reed tuner","compatible_slots":["drone_a","drone_b"],
+ "drone_choir_tuner":{"id":"drone_choir_tuner","name":"Choir reed tuner","compatible_slots":[Names.CRAFT_DRONE_A,Names.CRAFT_DRONE_B],
   "mount":"SENSOR","power":1,"cargo":0,"noise":0.15,"endurance":0.0,"reach":0.3,
   "origin":"alien","gate":"research","artifact":"choir_reed",
   "benefit":"This drone's passive reach is 30% longer. AI-DESIGNED: this drone works marked optional reed/service machinery silently from its own position; bare work stays audible.","cost":"The reed tone raises its motion sound 15%."}

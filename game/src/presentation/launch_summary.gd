@@ -1,4 +1,5 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 # Audit 091 F10: compact launch and retry economics on the briefing. Presentation only.
 # It reads the same prices the launch charges (EconomyPanel.launch_cost and its parts) on
 # copies; it never pays, refits, changes a price or writes the economy.
@@ -54,7 +55,7 @@ static func text(host)->String:
   for unit in 3:
    var names=[]
    for id in FitModel.Catalog.items_for(slots,unit):names.append(str(FitModel.Catalog.ITEMS[id].name))
-   lines.append("%s MOUNTS · %s"%[["QUIETUS","DRONE A","DRONE B"][unit],", ".join(names) if not names.is_empty() else "BARE"])
+   lines.append("%s MOUNTS · %s"%[Names.UNIT_NAMES[unit],", ".join(names) if not names.is_empty() else "BARE"])
  return "\n".join(lines)
 # Two lines for compact briefings: launch/retry/bare costs, then one short mount entry per craft.
 static func short(host)->String:
@@ -67,5 +68,5 @@ static func short(host)->String:
  var slots=FitModel.Catalog.canonical(context.get("slots",{}));var mounts=[]
  for unit in 3:
   var b=FitModel.Catalog.budget(slots,unit)
-  mounts.append("%s %s %d"%[["Q","A","B"][unit],str(b.name).to_upper(),FitModel.Catalog.items_for(slots,unit).size()])
+  mounts.append("%s %s %d"%[Names.UNIT_LETTERS[unit],str(b.name).to_upper(),FitModel.Catalog.items_for(slots,unit).size()])
  return line+"\nMOUNTED · "+" · ".join(mounts)

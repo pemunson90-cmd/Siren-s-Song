@@ -135,7 +135,7 @@ func start(index: int, upgrade: String = "endurance", launch:Dictionary={}) -> v
 	mission["launch_equipment"]=launch.get("fitted",Consequences.EMPTY_FIT).duplicate(true)
 	units.clear()
 	for i in 3:
-		units.append({"pos":mission.get("start",Vector2(140,800))+LaunchLayout.offset(index,i),"vel":Vector2.ZERO,"angle":-0.3,"route":[],"alive":true,"hold":"","silent":true,"battery":100.0,"name":["QUIETUS","DRONE A","DRONE B"][i]})
+		units.append({"pos":mission.get("start",Vector2(140,800))+LaunchLayout.offset(index,i),"vel":Vector2.ZERO,"angle":-0.3,"route":[],"alive":true,"hold":"","silent":true,"battery":100.0,"name":Names.UNIT_NAMES[i]})
 	mission["module_recovery"]=ModuleRecovery.initial(mission.launch_equipment,units)
 	mission["fleet_commit"]=launch.get("fleet_commit",false)
 	sirens = mission.sirens.duplicate(true)

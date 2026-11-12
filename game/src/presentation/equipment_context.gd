@@ -1,9 +1,10 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 # A read-only projection of successfully recovered equipment. Main owns fitting,
 # uniqueness, persistence and the launch snapshot; this view grants nothing.
 const Catalog=preload("res://src/equipment/equipment_catalog.gd")
 const Economy=preload("res://src/campaign/economy.gd")
-const SLOTS={"quietus":"QUIETUS","drone_a":"DRONE A","drone_b":"DRONE B"}
+const SLOTS={Names.CRAFT_QUIETUS:Names.UNIT_QUIETUS,Names.CRAFT_DRONE_A:Names.UNIT_DRONE_A,Names.CRAFT_DRONE_B:Names.UNIT_DRONE_B}
 # A locked frame is bought with alloy when tapped, then chosen like any other.
 static func _pick_frame(main,locked:bool,unit:int,id:String,key:String,choose:Callable)->void:
  if locked and not Economy.buy_unlock(main.economy,Economy.unlock_of(unit,id)):return
@@ -11,7 +12,7 @@ static func _pick_frame(main,locked:bool,unit:int,id:String,key:String,choose:Ca
 static func rows(context:Dictionary)->Array:
  var result=[];var slots=context.get("slots",{});var available=context.get("available",[])
  # Quietus first, then each drone module with both compatible carriers together.
- for carriers in [["quietus"],["drone_a","drone_b"]]:
+ for carriers in [[Names.CRAFT_QUIETUS],[Names.CRAFT_DRONE_A,Names.CRAFT_DRONE_B]]:
   for item in context.get("catalog",[]):
    for slot in carriers:
     var unit=Catalog.SLOTS.find(slot)

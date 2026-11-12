@@ -1,4 +1,5 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 # C2 field tools: the single table of the eight finite tools. AI-DESIGNED (Pat tunes the numbers).
 # emp, decoy, recon and knock keep their owner (sim.tools, weapon_orders, sensor_orders); their rows only
 # describe them. sonobuoy, silt_screen, hull_patch and relay_buoy are new and live in
@@ -12,7 +13,7 @@ const enabled=true
 const CARGO_WEIGHTS={"emp":5,"decoy":5,"sonobuoy":5,"recon":10,"knock":10,"silt_screen":10,"hull_patch":20,"relay_buoy":20}
 # 100 separate lockers, hundredths. Role maxima from the original bundles are95/15/50.
 # Rounded to1.00/.50/.50 to keep all original stock and whole winch places on every frame.
-const LOCKER_TICKS={"quietus":100,"drone_a":50,"drone_b":50}
+const LOCKER_TICKS={Names.CRAFT_QUIETUS:100,Names.CRAFT_DRONE_A:50,Names.CRAFT_DRONE_B:50}
 const LOADOUTS=["endurance","disruption","survey"]
 # counts: starting stock per campaign loadout. deploy: placement range from the craft in metres.
 const TOOLS={

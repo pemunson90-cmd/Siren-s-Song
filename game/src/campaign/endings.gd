@@ -1,4 +1,5 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 const STORIES={
  "silent_exodus":{"title":"UNHEARD","outcome":"Drill crews and divers out by craft. No surface ship came.","story":"Quietus carried the drill crews and divers out by craft, a few at a time. No surface ship came. The Sirens never registered Quietus, and it can keep diving."},
  "beacon_pact":{"title":"OPEN WATER","outcome":"The most people out, by surface ship on an open channel.","story":"A surface ship took the most people out on a broadcast channel. The Sirens heard it often enough to learn it: a known, unarmed voice. They leave Quietus alone."},
@@ -54,8 +55,8 @@ static func resolve(progress:Dictionary,channel:String="")->Dictionary:
  if id.is_empty():return {}
  var result=STORIES[id].duplicate(true);result["id"]=id
  var arrival=progress.get("facts",{}).get("witness_arrival","")
- if id in ["silent_exodus","hidden_harbour"] and arrival in ["quietus","drone_a","drone_b"]:
-  var carrier={"quietus":"QUIETUS","drone_a":"DRONE A","drone_b":"DRONE B"}[arrival]
+ if id in ["silent_exodus","hidden_harbour"] and arrival in Names.CRAFT_IDS:
+  var carrier={Names.CRAFT_QUIETUS:Names.UNIT_QUIETUS,Names.CRAFT_DRONE_A:Names.UNIT_DRONE_A,Names.CRAFT_DRONE_B:Names.UNIT_DRONE_B}[arrival]
   result.outcome="Kestrel's capsule reached the quiet lift point with the sailors alive."
   result.story=carrier+" set Kestrel's escape capsule down at the southeast lift point with the sailors still breathing inside. Quietus came home with their account and nothing broadcast behind it. Anyone else still down there, this dive did not see. "+progress.facts.get("witness_recovery","")
  var concealed=progress.get("facts",{}).get("concealed_consequence","")
@@ -80,4 +81,4 @@ static func resolve(progress:Dictionary,channel:String="")->Dictionary:
  if not sorley.is_empty():result.story+=" "+sorley
  return result
 
-static func carrier_name(arrival:String)->String:return {"quietus":"QUIETUS","drone_a":"DRONE A","drone_b":"DRONE B"}.get(arrival,"The rescue craft")
+static func carrier_name(arrival:String)->String:return {Names.CRAFT_QUIETUS:Names.UNIT_QUIETUS,Names.CRAFT_DRONE_A:Names.UNIT_DRONE_A,Names.CRAFT_DRONE_B:Names.UNIT_DRONE_B}.get(arrival,"The rescue craft")

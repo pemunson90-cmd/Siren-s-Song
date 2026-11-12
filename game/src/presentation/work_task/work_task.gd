@@ -1,11 +1,12 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 # 119 (audit 091 F3/F5/F13) AI-DESIGNED presentation of the player's chosen work.
 # Reads only public projections (observable sites, own craft, the selected
 # craft's camera context, own capture clocks, observed industrial load).
 # It never issues, reorders or retargets an order and changes no rule.
 const Rules=preload("res://src/campaign/encounters/choir_rules.gd")
-const NAMES=["QUIETUS","DRONE A","DRONE B"]
-const LETTERS=["Q","A","B"]
+const NAMES=Names.UNIT_NAMES
+const LETTERS=Names.UNIT_LETTERS
 static func choice_name(name:String)->String:
 	return "DISCONNECT" if name=="DRILL FEED DISCONNECT" else name
 

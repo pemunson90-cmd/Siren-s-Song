@@ -1,4 +1,5 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 const OperationsCatalog=preload("res://src/campaign/operation_catalog.gd")
 # One occupied sealed pod travels on real fleet bodies. It is not a fourth
 # combat actor: ordinary carrier sight, beams, loss and salvage remain physical.
@@ -138,7 +139,7 @@ static func tick(sim,dt:float)->void:
   if job.elapsed+0.0000001>=DURATION:sim._collect_shared_wreck(job.unit,state.pos);state.job={};body.hold=""
 static func recovered_facts(mission:Dictionary)->Dictionary:
  if not applies(mission) or mission.witness_evacuation.state!="landed":return {}
- var state=mission.witness_evacuation;var names=["QUIETUS","DRONE A","DRONE B"]
+ var state=mission.witness_evacuation;var names=[Names.UNIT_QUIETUS,Names.UNIT_DRONE_A,Names.UNIT_DRONE_B]
  var account="No transport lost."
  if not state.losses.is_empty():account=", ".join(state.losses.map(func(id):return names[id]))+" lost while carrying the occupied pod; %d rescue(s) brought the same living witness home."%state.rescues
  var kit=mission.get("module_recovery",{}).get("result",{}).get("lost",[])
@@ -147,7 +148,7 @@ static func recovered_facts(mission:Dictionary)->Dictionary:
   var intact=state.losses.is_empty() and mission.get("module_recovery",{}).get("result",{}).get("lost",[]).is_empty()
   var undamaged=mission.get("sorley_quiet",false)
   return {"sorley_boy":"rescued_quiet" if state.landed_by in [1,2] and intact and undamaged else "rescued"}
- return {"witness_arrival":["quietus","drone_a","drone_b"][state.landed_by],"witness_recovery":account}
+ return {"witness_arrival":Names.CRAFT_IDS[state.landed_by],"witness_recovery":account}
 static func valid(data:Dictionary)->bool:
  var mission=data.mission
  if mission.get("id")==41 and (not mission.get("sorley_quiet",false) is bool):return false

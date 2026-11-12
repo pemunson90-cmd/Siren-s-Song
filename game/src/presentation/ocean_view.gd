@@ -757,7 +757,7 @@ func _craft(u: Dictionary,index: int) -> void:
 			draw_polyline(heading,Color("a7c7c3"),feedback_font_size*0.15/world_scale,true)
 	var label_y=63 if index==0 else 45
 	if (world_offset+p*world_scale).y+label_y*world_scale>size.y-8: label_y=-36
-	if index!=sim.selected and (fleet_instruments==null or not fleet_instruments.is_visible_in_tree()):_label(p+Vector2(-8,label_y),["Q","A","B"][index],Color("7e9da4"),18)
+	if index!=sim.selected and (fleet_instruments==null or not fleet_instruments.is_visible_in_tree()):_label(p+Vector2(-8,label_y),Names.UNIT_LETTERS[index],Color("7e9da4"),18)
 func selected_heading_marker() -> PackedVector2Array:
 	if sim==null or sim.selected!=0 or sim.units.is_empty(): return PackedVector2Array()
 	var u=sim.units[sim.selected]

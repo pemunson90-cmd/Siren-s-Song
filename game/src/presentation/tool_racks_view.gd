@@ -1,4 +1,5 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 # 098 next-launch controls use the host's 48 dp scrolling buttons and ordinary Fittings Back route.
 # Revert: Racks.enabled=false. No writes to a launched dive, including Ironman.
 const Racks=preload("res://src/equipment/tool_racks.gd")
@@ -38,7 +39,7 @@ static func controls(host,slots:Array,change:Callable,prefix:String,stock:Dictio
  for slot in slots:
   if prefix=="mode_rack":host._menu_text(slot.replace("_"," ").to_upper(),17)
   for id in Tools.ids():
-   if slot!="quietus" and id in Racks.QUIETUS_ONLY:continue
+   if slot!=Names.CRAFT_QUIETUS and id in Racks.QUIETUS_ONLY:continue
    if id in Tools.field_ids() and not Tools.is_enabled(id):continue
    var n=int(host.tool_racks[slot].get(id,0))
    var label=Racks.label(id) if prefix=="mode_rack" else Tools.spec(id).name.to_upper()
@@ -87,9 +88,9 @@ static func show(host)->void:
  if not why.is_empty():host._menu_text(why+". Unload charges or choose a larger frame before launch.",15)
  host._menu_text("EXTRA CHARGE MANUFACTURING / NEXT LAUNCH: "+Economy.fmt(Racks.cost(host.tool_racks,host.upgrade,host.economy))+". Template totals are free; extras are charged each launch, including Ironman retries.",15)
  host._button(host.panel_box,"EMPTY ALL RACKS",func():_redraw(host,func():host.tool_racks=Racks.empty()),"rack_empty")
- var selected=host.get_meta("rack_craft","quietus")
+ var selected=host.get_meta("rack_craft",Names.CRAFT_QUIETUS)
  for slot in Racks.UNITS:
   var button=host._button(host.panel_box,"EDIT "+Catalog.NAMES[slot],func():_redraw(host,func():host.set_meta("rack_craft",slot)),"rack_craft_"+slot)
   button.disabled=slot==selected
- host._menu_text("%s / %s"%[Catalog.NAMES[selected],"Torpedo and Hull patch: Quietus only." if selected=="quietus" else "Loaded tools deploy from this drone. Torpedo and Hull patch: Quietus only."],15)
+ host._menu_text("%s / %s"%[Catalog.NAMES[selected],"Torpedo and Hull patch: Quietus only." if selected==Names.CRAFT_QUIETUS else "Loaded tools deploy from this drone. Torpedo and Hull patch: Quietus only."],15)
  controls(host,[selected],func(slot,id,delta):_redraw(host,func():edit(host,slot,id,delta)),"rack",{},true)

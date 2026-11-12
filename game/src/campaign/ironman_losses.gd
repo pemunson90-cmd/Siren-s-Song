@@ -1,4 +1,5 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 # 107: physical Ironman losses. Missing bays stay empty until paid manufacturing.
 # Optional economy block migrates lazily; no retrospective losses. Numbers are in economy_table.
 # Revert: enabled=false ignores the block without damaging an existing profile.
@@ -20,7 +21,7 @@ static func fitting(e:Dictionary,fit:Dictionary)->Dictionary:
 static func racks(e:Dictionary,stock:Dictionary)->Dictionary:
  var result=stock.duplicate(true)
  for id in [1,2]:
-  if missing(e,id):result["drone_a" if id==1 else "drone_b"]={}
+  if missing(e,id):result[Names.CRAFT_DRONE_A if id==1 else Names.CRAFT_DRONE_B]={}
  return result
 static func migrated(e:Dictionary)->Dictionary:
  var result=e.duplicate(true)
@@ -30,7 +31,7 @@ static func apply(e:Dictionary,sim)->void:
  for id in [1,2]:
   if missing(e,id):sim.DroneBay.leave_behind(sim.units[id]);sim.units[id].battery=0.
 static func name(id:String)->String:
- if id in ["drone_a","drone_b"]:return id.replace("_"," ").to_upper()
+ if id in [Names.CRAFT_DRONE_A,Names.CRAFT_DRONE_B]:return id.replace("_"," ").to_upper()
  return Catalog.ITEMS.get(id,{}).get("name",id)
 static func line(id:String,count:int=1)->String:
  return "PERMANENT LOSS: %s%s."%[name(id)," x%d"%count if count>1 else ""]
@@ -54,7 +55,7 @@ static func settle(e:Dictionary,facts:Dictionary)->void:
   # Legacy terminal saves without a physical receipt use survival only.
   if facts.outcome=="won" and receipt.is_empty():home=facts.alive[id-1]
   if not home:
-   s.drones.append(id);s.last.append("drone_a" if id==1 else "drone_b")
+   s.drones.append(id);s.last.append(Names.CRAFT_DRONE_A if id==1 else Names.CRAFT_DRONE_B)
  for id in [1,2]:
   for item in Catalog.items_for(fit,id):
    if item in s.modules:continue
@@ -72,9 +73,9 @@ static func valid(value)->bool:
  for id in value.drones:
   if not id is int or id not in [1,2] or value.drones.count(id)!=1:return false
  for item in value.modules+value.last+value.counts.keys():
-  if not item is String or (item not in ["drone_a","drone_b"] and (not Catalog.ITEMS.has(item) or not Catalog.ITEMS[item].compatible_slots.any(func(slot):return slot in ["drone_a","drone_b"]))):return false
+  if not item is String or (item not in [Names.CRAFT_DRONE_A,Names.CRAFT_DRONE_B] and (not Catalog.ITEMS.has(item) or not Catalog.ITEMS[item].compatible_slots.any(func(slot):return slot in [Names.CRAFT_DRONE_A,Names.CRAFT_DRONE_B]))):return false
  for item in value.modules:
-  if item in ["drone_a","drone_b"] or value.modules.count(item)!=1:return false
+  if item in [Names.CRAFT_DRONE_A,Names.CRAFT_DRONE_B] or value.modules.count(item)!=1:return false
  for item in value.last:
   if value.last.count(item)!=1 or not value.counts.has(item):return false
  for item in value.counts:

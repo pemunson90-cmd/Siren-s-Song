@@ -1,4 +1,5 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 # 126: read-only command wording and approach selection. No saved state or rules.
 const Work=preload("res://src/presentation/work_task/work_task.gd")
 const Racks=preload("res://src/equipment/tool_racks.gd")
@@ -22,7 +23,7 @@ static func brief_stock(racks:Dictionary)->String:
  return "\n".join(rows)
 
 static func launch_stock(host,index:int=-1)->String:
- var q=host.tool_racks.get("quietus",{})
+ var q=host.tool_racks.get(Names.CRAFT_QUIETUS,{})
  var text="NEXT DIVE / RETRY / %s / QUIETUS\nO₂ %d%% · EMP %d · SURVEY %d"%[Tools.loadout_label(host.upgrade),host._loadout_stock(host.upgrade)[0],int(q.get("emp",0)),int(q.get("recon",0))]
  # Operation 0 keeps its short opening briefing (a goal and one danger, under 420 characters).
  if index>0:text+="\n"+life_support_line(host,index)

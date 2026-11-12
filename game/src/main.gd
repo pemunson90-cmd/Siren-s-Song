@@ -133,7 +133,7 @@ func _ready() -> void:
 	pause_button=_button(hud,"▶  RESUME",_pause)
 	for i in 3:
 		var id=i
-		unit_buttons.append(_button(hud,["QUIETUS","DRONE A","DRONE B"][i],func(): _order("select",{"unit":id})))
+		unit_buttons.append(_button(hud,Names.UNIT_NAMES[i],func(): _order("select",{"unit":id})))
 	var orders=[["ping","SONAR"],["camera","CAMERA"],["silent","SILENT"],["queue","+ QUEUE"],["hold","HOLD"],["emp","EMP"],["decoy","DECOY"],["recon","SURVEY"],["contact_hold","IF CONTACT"],["wait_drone","WAIT DRONE"],["waypoint_mode","WAYPOINT: PASS"],["program","PLAN ROUTE"],["knock","TORPEDO"]]
 	for o in orders:
 		var order=o[0]
@@ -409,7 +409,7 @@ func _refresh() -> void:
 		unit_buttons[i].disabled=sim.DroneBay.lost(sim.units[i])
 		var task="ABOARD" if sim.DroneBay.aboard(sim.units[i]) else "LOST" if not sim.units[i].alive else (capture_task if work.unit>=0 else (sim.units[i].hold if not sim.units[i].hold.is_empty() else ("ROUTE" if not sim.units[i].route.is_empty() else "READY")))
 		task={"SCOUT_STOP":"ALERT"}.get(task,task)
-		unit_buttons[i].text=["QUIETUS","DRONE A","DRONE B"][i]+"\n"+task
+		unit_buttons[i].text=Names.UNIT_NAMES[i]+"\n"+task
 		unit_buttons[i].add_theme_font_size_override("font_size",maxi(14,roundi(ui_touch_height*0.26*FrontendSettings.text_scale())))
 	order_buttons.waypoint_mode.text="PASS\nPOINTS" if sim.pass_through else "STOP AT\nPOINTS"
 	ocean.optical_feed.receiver_font_size=maxi(17,roundi(ui_touch_height*0.29*FrontendSettings.text_scale()))
