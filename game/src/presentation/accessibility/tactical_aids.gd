@@ -3,6 +3,8 @@ extends RefCounted
 # fresh received contacts; never changes sensing, lock accumulation or damage.
 const Settings=preload("res://src/presentation/frontend/frontend_settings.gd")
 const Stun=preload("res://src/simulation/observed_stun.gd")
+# THREAT READ seam: drone loss cause line and the optional craft-loss pause (threat_read/).
+const ThreatRead=preload("res://src/presentation/threat_read/threat_read.gd")
 # AI-DESIGNED UI episode rearm: brief contact/cover gaps must not demand
 # repeated resume taps. This never changes an actual lock or warning display.
 const LOCK_CLEAR_SECONDS=2.0
@@ -79,15 +81,18 @@ func observe()->void:
   var key=_pair_key(id[0],id[1])
   if not lock_seen.has(key) or sim.elapsed-float(lock_seen[key])>=LOCK_CLEAR_SECONDS:new_lock=true
   lock_seen[key]=sim.elapsed
- if pending_notice or (new_lock and Settings.current.get("auto_pause_lock",false)):
+ var losses=ThreatRead.observe(sim);var lost=not losses.is_empty() and ThreatRead.pause_wanted()
+ if pending_notice or (new_lock and Settings.current.get("auto_pause_lock",false)) or lost:
   sim.paused=true
-  sim.message="AUTO PAUSE: FIRST NOTICE" if pending_notice else "AUTO PAUSE: LOCK WARNING"
+  var reason="FIRST NOTICE" if pending_notice else "LOCK WARNING" if new_lock and Settings.current.get("auto_pause_lock",false) else ""
+  # A loss in the same step keeps its cause line first (THREAT READ); otherwise the original text.
+  sim.message=ThreatRead.pause_message(sim,reason) if not losses.is_empty() else "AUTO PAUSE: "+reason
  pending_notice=false
 func advance(dt:float)->void:
  # Observe between fixed steps so a long rendered frame cannot consume the
  # warning after the aid pauses. Keep the ordinary frame cap and accumulator.
  _reset()
- var enabled=Settings.current.get("auto_pause_notice",false) or Settings.current.get("auto_pause_lock",false)
+ var enabled=Settings.current.get("auto_pause_notice",false) or Settings.current.get("auto_pause_lock",false) or ThreatRead.pause_wanted()
  if not enabled:
   _advance(dt);observe();return
  var remaining=minf(dt,.25)

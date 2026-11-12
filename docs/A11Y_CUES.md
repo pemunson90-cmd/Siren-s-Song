@@ -127,3 +127,25 @@ flash cap and unchanged warning/contact data. Its optional `--chart-render` chec
 actual Compatibility output and reversible toggles; `--chart-baseline=<gd path>`
 compares pre-change OceanView source as well. These fixtures establish technical
 render behavior, not human perception or physical-phone readability.
+
+## WP-08 threat read chart marks [AI-DESIGNED]
+
+Presentation of existing player information from `presentation/threat_read/`;
+no sound cue, sensing, lock, beam or photography rule changes. Each mark below
+carries text and shape, so none relies on colour alone. Strokes use
+`Palette.stroke` (HIGH CONTRAST thickens them) and colours use `Palette.color` /
+`chart_color` (SAFE PALETTE roles `heard`, `warning`, `ink`). Nothing animates,
+so REDUCED MOTION has nothing to hold. Screen chips avoid the HUD's occupied
+rectangles, which follow the MIRRORED HUD layout and include the lock card.
+Mirrored HUD, high contrast and safe palette were checked by code reading only;
+no render or phone check was made.
+
+| Mark | Text and shape channel | Colour role |
+| --- | --- | --- |
+| Shutter reach ring while framing | "SHUTTER HEARD <n>m" label, solid ring on a dark backing with 12 radial ticks; same radius as the panel line | `heard` |
+| Known contact inside the reach | "IN SHUTTER REACH" label beside the contact | `warning` |
+| Lock countdown chip beside a locked craft | "S<n> LOCK · <t>s" or "<k> LOCKS · <t>s", emptying arc, leader line to the craft | `warning` |
+| Drone wreck mark and bearing ray | Cross at the wreck, dashed fixed-length ray with an arrow head; chip text "DRONE <x> LOST · SIREN BEAM FROM <bearing>° · <identity>" or "· BATTERY EXHAUSTED" | `warning` (mark), `ink` (chip) |
+| Pause on craft loss (optional, off by default) | Status text "AUTO PAUSE: <loss line>"; the settings row reads "TACTICAL AID: PAUSE ON CRAFT LOSS: ON/OFF" | none |
+
+Revert with `threat_read_table.gd enabled=false`.

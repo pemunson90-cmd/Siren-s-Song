@@ -259,6 +259,8 @@ func _controls_page() -> void:
 	_text("Swap left and right controls for one-handed play.", 14)
 	_toggle_row("auto_pause_notice", "TACTICAL AID: PAUSE ON FIRST NOTICE")
 	_toggle_row("auto_pause_lock", "TACTICAL AID: PAUSE ON LOCK WARNING")
+	# THREAT READ seam: optional craft-loss pause, hidden when the module is off.
+	if preload("res://src/presentation/threat_read/threat_read_table.gd").enabled: _toggle_row("auto_pause_loss", "TACTICAL AID: PAUSE ON CRAFT LOSS")
 	_text("Optional Accessible aids for any preset. Resume when ready; warning time freezes during pause.", 14)
 	_toggle_row("haptics", "HAPTICS")
 	_choice_setting("HAPTIC STRENGTH · pulse length", "haptic_strength", "haptic_strength", Depth.HAPTIC_LABELS.slice(1), 1)

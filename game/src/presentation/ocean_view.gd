@@ -20,6 +20,8 @@ const Expedition=preload("res://src/presentation/expedition_view.gd")
 const Confluence=preload("res://src/presentation/confluence_world.gd")
 const WarningChain=preload("res://src/presentation/warning_chain_view.gd")
 const Rendezvous=preload("res://src/presentation/rendezvous_view.gd")
+# THREAT READ seam: shutter reach, lock countdown chips and drone loss marks (threat_read/).
+const ThreatRead=preload("res://src/presentation/threat_read/threat_read.gd")
 var sim
 var presenting_mission=true
 var optical_feed
@@ -447,6 +449,7 @@ func _draw() -> void:
 	_draw_findings()
 	RuleOverlay.draw_chart(self,sim)
 	Priced.draw_chart(self,sim)
+	ThreatRead.draw_world(self,sim)
 	# Own open-water estimate only; deliberately does not sample hidden terrain or
 	# listeners. Dotted amber radius is subordinate to later foreground beam cues.
 	if sim.mission.get("acoustic_revision",0)==1:
@@ -541,6 +544,7 @@ func _draw() -> void:
 	_draw_pressure_overlay()
 	_draw_local_current()
 	FeatureViews.draw_screen(self)
+	ThreatRead.draw_screen(self,sim)
 	ReleaseControls.draw_reason(self,sim)
 	# Short screen-sized tags preserve observed identity without long world labels.
 	for entry in observed:
