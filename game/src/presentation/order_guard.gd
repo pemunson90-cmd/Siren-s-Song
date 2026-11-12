@@ -3,7 +3,7 @@ extends Control
 # A tap on water issues at once only when it replaces nothing. If the selected craft already has
 # a route, hold or exposure under way, the tap sets a pending marker. REPLACE ROUTE replaces,
 # ADD TO ROUTE extends (offered only when there is a route), CANCEL drops it. Tapping the marker
-# again also replaces. Time may stay paused throughout.
+# again also replaces. Main holds dive time while this dialog is open.
 const UNDO_MS := 10000
 var host
 var pending := {}
@@ -107,7 +107,7 @@ func refresh(bounds: Vector2, h: float, font: int, floor_y: float) -> void:
 	var width := bounds.x - 24 if host.mission_hud.text_scale >= 1.5 else minf(bounds.x - 24, 720.0)
 	if panel.visible:
 		var stops := stops_count()
-		prompt.text = "%s %s. New route to the marker?" % [sim.units[sim.selected].name, orders_text()]
+		prompt.text = "%s %s. New route to the marker? Dive time is held until you choose." % [sim.units[sim.selected].name, orders_text()]
 		go_button.text = "REPLACE ROUTE"; add_button.text = "ADD TO ROUTE"
 		# ADD and its pass/stop choice exist only when there is a route to add to.
 		var can_add: bool = stops > 0 and not sim.units[sim.selected].route.is_empty()

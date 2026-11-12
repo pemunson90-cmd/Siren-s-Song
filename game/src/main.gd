@@ -363,6 +363,9 @@ func _release_view() -> void:
 	if held_view.is_empty() or sim.paused:return
 	if ocean.chart_camera.snapshot()==held_view:ocean.focus_craft()
 	held_view={}
+# The route confirm dialog holds dive time until the player answers it.
+func _order_dialog_open() -> bool:
+	return mission_hud!=null and mission_hud.guard!=null and mission_hud.guard.panel.is_visible_in_tree()
 func _confirm_module_departure()->void:
 	ModuleRecovery.confirm_departure(self)
 func _process(dt: float) -> void:
@@ -375,7 +378,7 @@ func _process(dt: float) -> void:
 		if save_clock>5.0: _save_archive(); save_clock=0.0
 	if screen=="mission":
 		_release_view()
-		tactical_aids.advance(dt)
+		if not _order_dialog_open():tactical_aids.advance(dt)
 		_observation_diagnostics()
 		if not sim.outcome.is_empty(): _debrief()
 		elif sim.has_method("departure_context") and sim.departure_context().get("pending",false): _confirm_module_departure()
