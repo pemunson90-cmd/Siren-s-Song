@@ -42,6 +42,8 @@ func run():
  survey_case(5)
  disrupt_case()
  sonar_case()
+ drone_case()
+ sight_case()
  factory_case()
  save_case()
  developer_case()
@@ -131,6 +133,68 @@ func sonar_case():
  check(s.command("ping") and float(s.units[1].battery)<battery,"a drone pulse spends battery")
  var plain=Sim.new();plain.start(5,"endurance")
  check(plain.Sonar.pulse_cost(plain,0)>0.,"without the flag the older sonar cost stands")
+# Drone A and one Siren 90 m apart in open water, both far from Quietus.
+func beside_drone(s)->Dictionary:
+ var e:Dictionary=s.sirens[0].duplicate(true)
+ var size:Vector2=s.world_size();var drone_at=Vector2.INF;var spot=Vector2.INF
+ for gy in range(2,int(size.y/80.)-1):
+  for gx in range(2,int(size.x/80.)-1):
+   var d=Vector2(gx,gy)*80.
+   if s.blocked(d,24.) or d.distance_to(s.units[0].pos)<520.:continue
+   for turn in 8:
+    var p:Vector2=d+Vector2(90,0).rotated(TAU*turn/8.)
+    if not s.blocked(p,24.) and p.distance_to(s.units[0].pos)>520. and s.Depth.clear(s,p,d,1):drone_at=d;spot=p;break
+   if spot!=Vector2.INF:break
+  if spot!=Vector2.INF:break
+ if spot==Vector2.INF:return {"pos":Vector2.INF}
+ s.units[1].pos=drone_at;s.units[1].vel=Vector2.ZERO;s.units[1].route=[]
+ e.pos=spot;e.home=spot;e.goal=spot;e.route=[];e.patrol_points=[];e.stun=0.;e.lock=0.;e.target=-1;e.band=s.units[1].band;e.transition={};e.type="patroller";e.mode="PATROL"
+ s.sirens=[e];return e
+func drone_case():
+ # Drones deployed (no drone bay flag) so the Siren rules are tested alone.
+ var s=dive(5)
+ if s.sirens.is_empty():check(false,"drone setup");return
+ # Move Quietus well away so only the drone is near the Siren.
+ var e=beside_drone(s)
+ check(e.pos!=Vector2.INF,"setup: a Siren beside Drone A")
+ s.units[0].silent=true;s.units[1].silent=true
+ run_for(s,6.0)
+ check(s.units[1].alive and float(s.sirens[0].get("lock",0.))==0.,"a calm Siren ignores a drone in its sight")
+ s.mission.reconnaissance=s.Recon.state(s.mission).duplicate(true);s.mission.reconnaissance.hunt=60.;s.mission.reconnaissance.floor=60.
+ run_for(s,6.0)
+ check(not s.units[1].alive,"once Hunt reaches SEARCHING the same Siren destroys the drone")
+ var plain=Sim.new();plain.start(5,"endurance")
+ if not plain.sirens.is_empty():
+  beside_drone(plain);plain.units[1].silent=true
+  run_for(plain,6.0)
+  check(not plain.units[1].alive,"without the flag a calm Siren destroys a drone in its sight as before")
+ # Quieter drones: same craft, same speed, 0.6 of the noise reach.
+ var a=dive(5);var b=Sim.new();b.start(5,"endurance")
+ for sim in [a,b]:sim.units[1].vel=Vector2(90,0);sim.units[1].silent=false
+ var with_rule=a.motion_radius(1);var without=b.motion_radius(1)
+ check(without>0. and absf(with_rule/without-s.DroneStealth.NOISE)<.01,"a drone's movement noise reaches %.0f%% as far (%.0f against %.0f)"%[s.DroneStealth.NOISE*100,with_rule,without])
+ check(a.motion_radius(0)==b.motion_radius(0),"Quietus's noise is unchanged")
+func sight_case():
+ var known={Rules.KEY:true,"context":{"intel":{"siren_patroller":{"q":1.0}}}}
+ var s=Sim.new();s.start(5,"endurance",known)
+ if s.sirens.is_empty():check(false,"sight setup");return
+ s.sirens[0]["type"]="patroller"
+ check("patroller" in s.SightRange.known_types(s),"photo intel of a Siren type is remembered for the dive")
+ check(s.SightRange.rows(s).is_empty(),"no sight range is drawn without a contact")
+ s.contacts[0]={"pos":s.sirens[0].pos,"time":s.elapsed,"mode":"","lock":0.0,"angle":0.0,"target":-1,"type":"patroller","band":1,"seen_by":[0]}
+ s.sonar.get("identified",{}).erase(0)
+ check(s.SightRange.rows(s).is_empty(),"no sight range for a contact whose type is not identified")
+ s.ContactIdentity.identify(s,0)
+ var rows=s.SightRange.rows(s)
+ check(rows.size()==1 and rows[0].pos==s.contacts[0].pos,"an identified contact of a photographed type gets a sight range at its last known position")
+ if rows.size()==1:
+  s.units[s.selected].silent=true;var quiet=float(s.SightRange.rows(s)[0].radius)
+  s.units[s.selected].silent=false;var moving=float(s.SightRange.rows(s)[0].radius)
+  check(quiet<moving and "SIGHT" in str(rows[0].label),"the range follows the selected craft's silent state (%.0f quiet, %.0f moving)"%[quiet,moving])
+ var t=dive(5)
+ if not t.sirens.is_empty():
+  t.sirens[0]["type"]="patroller";t.contacts[0]={"pos":t.sirens[0].pos,"time":t.elapsed,"mode":"","lock":0.0,"angle":0.0,"target":-1,"type":"patroller","band":1,"seen_by":[0]};t.ContactIdentity.identify(t,0)
+  check(t.SightRange.rows(t).is_empty(),"a Siren type that was never photographed shows no sight range")
 func factory_case():
  for operation in [3,11]:
   var s=dive(operation);var tag="op%d"%operation;s.sirens=[]

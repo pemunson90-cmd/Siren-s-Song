@@ -12,6 +12,8 @@ const DroneBay=preload("res://src/simulation/drone_bay/drone_bay.gd")
 const ParityRules=preload("res://src/simulation/parity_rules/parity_rules.gd")
 const SiteSearch=preload("res://src/simulation/parity_rules/site_search.gd")
 const FactorySensors=preload("res://src/simulation/parity_rules/factory_sensors.gd")
+const DroneStealth=preload("res://src/simulation/parity_rules/drone_stealth.gd")
+const SightRange=preload("res://src/simulation/parity_rules/sight_range.gd")
 const FieldTools=preload("res://src/simulation/field_tool_effects.gd")
 const Shelf=preload("res://src/simulation/shelf_habitat.gd")
 const Wake=preload("res://src/simulation/wake_crossing.gd")
@@ -155,6 +157,7 @@ func start(index: int, upgrade: String = "endurance", launch:Dictionary={}) -> v
 		mission[ParityRules.KEY]=true
 		ParityRules.seed_chart(mission,world_size(),mission.get("start",Vector2(140,800)))
 		SiteSearch.prepare(mission)
+		SightRange.prepare(mission,launch.get("context",{}).get("intel",{}))
 	if launch.has("tool_racks"):preload("res://src/equipment/tool_racks.gd").launch(self,launch.tool_racks)
 	_build_navigation()
 	_configure_terrain()
@@ -413,7 +416,7 @@ func _capture_duration(objective:Dictionary,unit_id:int)->float:
 func passive_range(unit_id:int)->float:
 	return CraftUpgrades.passive_range(mission.get("launch_equipment",{}),unit_id)*(0.65 if mission.darkness else 1.0)*FieldTools.reach_scale(self,unit_id)
 func motion_radius(unit_id:int)->float:
-	return CraftUpgrades.motion_radius(mission.get("launch_equipment",{}),unit_id,propulsion_speed(units[unit_id]))*AllStop.noise_scale(units[unit_id])+(130.0 if not units[unit_id].get("transition",{}).is_empty() else 0.0)+Choir.noise(self,unit_id)
+	return CraftUpgrades.motion_radius(mission.get("launch_equipment",{}),unit_id,propulsion_speed(units[unit_id]))*DroneStealth.noise(self,unit_id)*AllStop.noise_scale(units[unit_id])+(130.0 if not units[unit_id].get("transition",{}).is_empty() else 0.0)+Choir.noise(self,unit_id)
 func _craft_speed(unit:Dictionary,fallback:float)->float:
 	var quietus=unit.name=="QUIETUS"
 	var speed=RouteProgram.speed(unit,fallback,quietus)
@@ -1169,8 +1172,8 @@ func _threats(dt: float) -> bool:
 			if not u.alive: continue
 			var dist=s.pos.distance_to(u.pos)
 			var radius=(180.0 if u.silent else 290.0)*HuntPressure.sight(mission,s,Recon.readiness(s))
-			if dist<radius and Depth.sight(self,s,u): detected=i; break
-			if mission.get("acoustic_revision",0)!=1 and propulsion_speed(u)>50 and dist<430*Recon.readiness(s)*Sweeper.ear(s)*Depth.transmission(s,u) and Depth.clear(self,s.pos,u.pos,s.band):
+			if dist<radius and Depth.sight(self,s,u) and not DroneStealth.ignores(self,s,i): detected=i; break
+			if mission.get("acoustic_revision",0)!=1 and propulsion_speed(u)>50 and dist<430*Recon.readiness(s)*Sweeper.ear(s)*Depth.transmission(s,u)*DroneStealth.noise(self,i) and Depth.clear(self,s.pos,u.pos,s.band):
 				s.goal=u.pos; heard=true; craft_heard=true; distraction=i>0; s.mode="INVESTIGATE"; s.suspicion=maxf(s.suspicion,0.3)
 		var recipient=Choir.body(self) if not Choir.body(self).is_empty() else Recipient.body(self);var recipient_seen=false
 		if detected<0 and not recipient.is_empty() and recipient.alive and s.pos.distance_to(recipient.pos)<180.*HuntPressure.sight(mission,s,Recon.readiness(s)) and Depth.sight(self,s,recipient):recipient_seen=true

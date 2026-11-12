@@ -560,3 +560,12 @@ You should be using the absolute bare minimum amount of tests always."
 
 [AI note on effect] Built in WP-16: Quietus's sonar pulse costs no life support on a player dive (a drone's still costs battery); the tool is named EMP in everything the player reads (internal identifiers such as the noise label DISRUPTION and the loadout id `disruption` are unchanged). The EMP was already an area pulse that needs no target; the only refusal is when no Siren at all is inside its radius. Options given to Pat and awaiting his choice: drone stealth (A harder to see, B quieter, C slower lock, D calm Sirens ignore drones as in the prototype; recommended D with B) and a diegetic sight range (A earned by photographing the Siren type, B an estimate that sharpens, C shown only when a Siren looks toward a craft; recommended A). The survey question stays open. Pat's idea for later: more interactive and defensive tools, for example a jammer that confuses Sirens.
 
+## 2026-11-12: drone stealth and Siren sight range chosen
+
+[AI note] The agent had recommended, for drone stealth, option D with B (calm Sirens ignore drones, as in the prototype; drones about 40 percent quieter) and, for a diegetic Siren sight range, option A (drawn once that Siren type has been photographed).
+
+[PAT, chat, verbatim] "Approved your recommendations.
+15. A is fine for now even though it doesn't make a ton of sense we can figure out a way to explain it later."
+
+[AI note on effect] Built in WP-16 (`game/src/simulation/parity_rules/drone_stealth.gd`, `sight_range.gd`). The in-world explanation of the sight range is Pat's to supply later. The survey question (item 12) stays open.
+

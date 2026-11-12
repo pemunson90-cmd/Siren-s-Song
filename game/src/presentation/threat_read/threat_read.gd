@@ -152,6 +152,13 @@ static func draw_world(view,sim)->void:
 	if not Table.enabled or sim==null or not view.presenting_mission:return
 	var scale:float=maxf(view.world_scale,0.001)
 	var width:float=Palette.stroke(Table.RING_WIDTH)/scale
+	# WP-16: sight range of photographed Siren types (parity_rules/sight_range.gd).
+	var sight_rows:Array=preload("res://src/simulation/parity_rules/sight_range.gd").rows(sim)
+	last_draw["sight"]=sight_rows.size()
+	for row in sight_rows:
+		var ink:Color=Palette.chart_color("warning",Color("ffb18b"));ink.a=0.55
+		view.draw_arc(row.pos,row.radius,0,TAU,72,ink,width*0.75)
+		view._label(row.pos+Vector2.from_angle(-PI*0.25)*float(row.radius),row.label,ink,12)
 	var reach:Dictionary=shutter_reach(sim)
 	last_draw["reach"]=float(reach.get("radius",0.0));last_draw["losses"]=loss_rows(sim).size()
 	if not reach.is_empty():
