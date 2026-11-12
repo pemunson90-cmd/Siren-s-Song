@@ -79,6 +79,8 @@ Files that load the most other files: `simulation.gd` 64, `main.gd` 62, `campaig
 
 Stale tests found today: `loadout_ui_tests` (14 failures) and `truthful_commands_tests` (7 failures) expected DISRUPT wording and three craft in the water. `player_names_tests` (135 failures) still treated the word EMP as an internal id. All three were updated with the loadout rename. Other suites that were not rerun since phase 7 may hold more; 72 Main-driven test files touch drones.
 
+**Sizing run for fix A5 (root, 2026-11-12, not committed):** with both flags defaulting to on, the core suite reached 810 of its 850 checks, reported 28 failures and stopped on a script error (`Invalid access to property or key '0' on a base object of type 'Dictionary'`). Failing checks include drone-station cases, sonar reserve cost (operations 1 to 5), and several end-to-end recoveries ("routed physical recovery completes changed-world operation", "finale completes via covered solo routes"). Each failure is either a test of the older rules or a sign that an operation is harder or unfinishable under the player rules; A5 has to sort them one by one. The other 390 suites were not run this way. Log: `%USERPROFILE%\.cache\sirens-song-toolchain\artifacts\fable-p8-a5probe-144032\run_tests.log`.
+
 ### 4.3 Duplication (delegated script measurement, spot-checked by root)
 
 | What is repeated | Count |
