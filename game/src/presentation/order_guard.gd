@@ -1,8 +1,9 @@
 extends Control
 # Accidental-order safety for plain water taps and a short-lived undo for the last route order.
 # A tap on water issues at once only when it replaces nothing. If the selected craft already has
-# a route, hold or exposure under way, the tap sets a pending marker. GO replaces, ADD TO ROUTE
-# extends, CANCEL drops it. Tapping the marker again also confirms. Time may stay paused throughout.
+# a route, hold or exposure under way, the tap sets a pending marker. REPLACE ROUTE replaces,
+# ADD TO ROUTE extends (offered only when there is a route), CANCEL drops it. Tapping the marker
+# again also replaces. Time may stay paused throughout.
 const UNDO_MS := 10000
 var host
 var pending := {}
@@ -42,6 +43,22 @@ func replaces_plan() -> bool:
 	return not u.route.is_empty() or u.hold != "" or sim.capture_feedback(sim.selected).unit >= 0
 func stops_count() -> int:
 	return host.sim.route_goals().size()
+const HOLD_NAMES := {"HOLD": "HOLD", "CONTACT": "IF CONTACT hold", "DRONE": "WAIT DRONE hold", "SCOUT": "SCOUT guard", "SCOUT_STOP": "SCOUT stop"}
+static func stops_text(count: int) -> String:
+	return "%d stop%s" % [count, "" if count == 1 else "s"]
+# What the selected craft is doing now, read from live state each refresh.
+func orders_text() -> String:
+	var sim = host.sim; var u = sim.units[sim.selected]; var parts := []
+	if not u.route.is_empty(): parts.append("has a route (%s)" % stops_text(stops_count()))
+	if u.hold != "": parts.append("is on %s" % HOLD_NAMES.get(u.hold, u.hold))
+	if sim.capture_feedback(sim.selected).unit >= 0: parts.append("has camera work under way")
+	return " and ".join(parts) if not parts.is_empty() else "has no orders now"
+# What UNDO restores, named before the press.
+static func restore_text(record: Dictionary) -> String:
+	var goals: Array = record.get("goals", []); var hold: String = record.get("hold", "")
+	var text := "no route" if goals.is_empty() else stops_text(goals.size())
+	if hold != "": text += " + " + HOLD_NAMES.get(hold, hold)
+	return text
 func tap_water(world: Vector2) -> void:
 	var sim = host.sim
 	if not pending.is_empty() and pending.unit == sim.selected:
@@ -50,7 +67,7 @@ func tap_water(world: Vector2) -> void:
 			confirm(false); return
 	if replaces_plan():
 		pending = {"unit": sim.selected, "point": world}; undo = {}
-		sim.message = "Marker set · GO replaces %s's orders, or tap elsewhere to move it" % sim.units[sim.selected].name
+		sim.message = "Marker set · REPLACE ROUTE replaces %s's orders%s · tap elsewhere to move the marker" % [sim.units[sim.selected].name, ", ADD TO ROUTE extends its route" if not sim.units[sim.selected].route.is_empty() else ""]
 		host._refresh(); return
 	host._order("route", {"point": world}) # TRAVEL:water_leg
 func confirm(append: bool) -> void:
@@ -90,8 +107,11 @@ func refresh(bounds: Vector2, h: float, font: int, floor_y: float) -> void:
 	var width := bounds.x - 24 if host.mission_hud.text_scale >= 1.5 else minf(bounds.x - 24, 720.0)
 	if panel.visible:
 		var stops := stops_count()
-		prompt.text = "%s already has orders%s. New route to the marker?" % [sim.units[sim.selected].name, " (%d stop%s)" % [stops, "" if stops == 1 else "s"] if stops > 0 else ""]
-		go_button.text = "REPLACE ROUTE"; add_button.text = "ADD TO ROUTE"; add_button.disabled = sim.units[sim.selected].route.is_empty()
+		prompt.text = "%s %s. New route to the marker?" % [sim.units[sim.selected].name, orders_text()]
+		go_button.text = "REPLACE ROUTE"; add_button.text = "ADD TO ROUTE"
+		# ADD and its pass/stop choice exist only when there is a route to add to.
+		var can_add: bool = stops > 0 and not sim.units[sim.selected].route.is_empty()
+		add_button.visible = can_add; add_button.disabled = not can_add; points_button.visible = can_add
 		points_button.text = "ADDED POINTS: PASS THROUGH" if sim.pass_through else "ADDED POINTS: STOP AT EACH"
 		for b in [go_button, add_button, points_button, cancel_button, prompt]:
 			b.add_theme_font_size_override("font_size", font)
@@ -102,7 +122,7 @@ func refresh(bounds: Vector2, h: float, font: int, floor_y: float) -> void:
 		panel.custom_minimum_size = Vector2(width, 0); panel.reset_size()
 		panel.position = Vector2((bounds.x - panel.size.x) / 2, maxf(host.mission_hud.threat_floor(), maxf(h * 2, floor_y - panel.size.y - 10)))
 	if undo_button.visible:
-		undo_button.text = "UNDO  ·  %s order" % undo.name
+		undo_button.text = "UNDO  ·  %s back to %s" % [undo.name, restore_text(undo)]
 		undo_button.add_theme_font_size_override("font_size", font)
 		undo_button.custom_minimum_size = Vector2(h * 3.2, h); undo_button.reset_size()
 		undo_button.position = Vector2((bounds.x - undo_button.size.x) / 2, maxf(host.mission_hud.threat_floor(), maxf(h * 2, floor_y - undo_button.size.y - 10)))

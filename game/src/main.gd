@@ -409,7 +409,7 @@ func _refresh() -> void:
 	var camera_target:int=int(sim.camera_context().get("target",-1))
 	if camera_target==-2 or (camera_target>=0 and PhotoCapture.applies(PhotoCapture.obj(sim,camera_target))):order_buttons.camera.text="PHOTO"
 	elif camera_target>=0 and PhotoCapture.obj(sim,camera_target).get("kind","")=="receiver" and sim.mission.get("blackwater_revision",0)!=1:order_buttons.camera.text="LISTEN"
-	order_buttons.queue.text="+ QUEUE ON" if sim.queue_mode else "REPLACE"
+	order_buttons.queue.text="TAPS:\nQUEUE" if sim.queue_mode else "TAPS:\nREPLACE"
 	order_buttons.program.text="PLAN\nROUTE"
 	order_buttons.silent.text=("LOW\nPROFILE" if sim.units[sim.selected].silent else "OPEN\nPROFILE") if sim.selected>0 else ("SILENT ✓" if sim.units[0].silent else "CRUISE")
 	order_buttons.knock.text="CANCEL\nTORPEDO" if knock_armed else "TORPEDO\n%d"%preload("res://src/presentation/truthful_commands.gd").stock(sim,"knock")

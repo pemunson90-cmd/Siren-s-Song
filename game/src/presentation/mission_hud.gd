@@ -688,6 +688,9 @@ func refresh():
  hints.refresh(size,touch_height,aid_font,threat_floor())
  # A first-notice tutorial must not cover the very warning it explains.
  if hints.panel.visible and (not Rect2(Vector2.ZERO,size).encloses(hints.panel.get_rect()) or threat_rects().any(func(r):return r.intersects(hints.panel.get_rect())) or (order_dock.visible and hints.panel.get_rect().intersects(order_dock.get_rect()))):hints.panel.hide()
+ # A tip card never sits over the order dialog or UNDO, where it would take their taps.
+ for aid in [guard.panel,guard.undo_button]:
+  if hints.panel.visible and aid.visible and hints.panel.get_global_rect().intersects(aid.get_global_rect()):hints.panel.hide()
  preload("res://src/presentation/field_tool_view.gd").place_notice(self)
  var blocked=[]
  for button in action_controls().values():
