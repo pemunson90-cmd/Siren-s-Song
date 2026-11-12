@@ -114,6 +114,9 @@ const DevState=preload("res://src/debug/dev_state.gd")
 var tactical_aids=preload("res://src/presentation/accessibility/tactical_aids.gd").new()
 var quality_runtime=preload("res://src/presentation/quality/quality_runtime.gd").new()
 var quality_periodic_refresh:=false
+# The follow view converted to a still view by a paused selection. Resuming follows the
+# selected craft again only while the view is exactly this one (no pan, zoom or FIT since).
+var held_view:Dictionary={}
 func _ready() -> void:
 	get_tree().auto_accept_quit=false
 	_theme()
@@ -269,7 +272,7 @@ func _start_mission(index: int) -> void:
 	# blocked recovery needs valid craft/UI; later player launches stay guarded.
 	if not sim.mission.is_empty() and not preload("res://src/persistence/save_states/save2_controller.gd").before_launch(self,index):return
 	if mission_hud!=null and mission_hud.guard!=null:mission_hud.guard.reset()
-	diagnostic_ready=""; diagnostic_records.clear(); diagnostic_roles.clear(); diagnostic_role_route_ready=false; map_gesture.cancel(); advanced_orders=false; knock_armed=false; ocean.knock_targeting=false; decoy_armed=false; ocean.decoy_targeting=false
+	diagnostic_ready=""; diagnostic_records.clear(); diagnostic_roles.clear(); diagnostic_role_route_ready=false; held_view={}; map_gesture.cancel(); advanced_orders=false; knock_armed=false; ocean.knock_targeting=false; decoy_armed=false; ocean.decoy_targeting=false
 	call_deferred("_layout")
 	if route_editor!=null: route_editor.hide()
 	active_started=true; mission_index=index; sim.start(index,upgrade,launch.launch)
@@ -333,6 +336,7 @@ func _order(order: String,args: Dictionary={}) -> void:
 	var undo_record={}
 	if order=="route" and sim.outcome.is_empty() and mission_hud!=null and mission_hud.guard!=null:undo_record=mission_hud.guard.capture()
 	var worker=sim.selected
+	if order=="select" and sim.paused and int(args.get("unit",-1))!=sim.selected:_hold_view()
 	var accepted=sim.command(order,args)
 	if mission_hud!=null and (order=="camera" or order.ends_with("_action") or order in WORK_ORDERS):
 		mission_hud.task_result={"owner":WorkTaskView.NAMES[worker],"ok":accepted,"text":sim.message}
@@ -344,7 +348,17 @@ func _order(order: String,args: Dictionary={}) -> void:
 	_refresh(); _save_archive()
 	if accepted and order=="camera": call_deferred("_report_targets")
 func _pause() -> void:
-	sim.paused=not sim.paused; ReleaseControls.debug_print(["SS_PAUSE paused=",sim.paused]); _refresh(); _save_archive()
+	sim.paused=not sim.paused; ReleaseControls.debug_print(["SS_PAUSE paused=",sim.paused]); _release_view(); _refresh(); _save_archive()
+# While paused, a selection keeps the view still: a follow view becomes a still view on the
+# same centre and scale. FOCUS recentres explicitly; running play keeps following.
+func _hold_view() -> void:
+	if ocean.chart_camera.mode!="follow":return
+	ocean._sync_camera(); ocean.chart_camera.mode="free"; ocean.chart_camera.center=ocean.chart_camera.center
+	ocean._sync_camera(); held_view=ocean.chart_camera.snapshot()
+func _release_view() -> void:
+	if held_view.is_empty() or sim.paused:return
+	if ocean.chart_camera.snapshot()==held_view:ocean.focus_craft()
+	held_view={}
 func _confirm_module_departure()->void:
 	ModuleRecovery.confirm_departure(self)
 func _process(dt: float) -> void:
@@ -356,6 +370,7 @@ func _process(dt: float) -> void:
 		save_clock+=dt
 		if save_clock>5.0: _save_archive(); save_clock=0.0
 	if screen=="mission":
+		_release_view()
 		tactical_aids.advance(dt)
 		_observation_diagnostics()
 		if not sim.outcome.is_empty(): _debrief()
