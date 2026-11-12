@@ -51,6 +51,33 @@
     ]
   },
   "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup|resume|clear|compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "C:\\Python314\\python.exe",
+            "args": [
+              "${CLAUDE_PROJECT_DIR}/.claude/hooks/session_context.py"
+            ]
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "C:\\Python314\\python.exe",
+            "args": [
+              "${CLAUDE_PROJECT_DIR}/.claude/hooks/run_stop_gate.py"
+            ]
+          }
+        ]
+      }
+    ],
     "PreToolUse": [
       {
         "matcher": "Bash|PowerShell|Edit|Write|MultiEdit|NotebookEdit",

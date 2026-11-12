@@ -61,3 +61,11 @@ What: Three of your open questions from `claude/workflow-v2` affect documents th
 Options: (A) Yes to Q3 only (the specification then matches the game you ruled on; Q4 and Q5 wait). (B) Yes to all three. (C) Leave all three open.
 Recommendation: A because the game already plays by your 30 Oct ruling while the specification still describes the autopilot you rejected, and critics judge against the specification.
 Current state kept: specification line 73 is unchanged; the intent card is carried as a draft marked unratified.
+
+## D-07 The run's guard files travel with the pull request
+Status: OPEN
+Raised: 2026-11-11, phase 1
+What: The bootstrap committed `.claude/` (guard, hooks, agent files) and `.fable/` to the run branch, and on 2026-11-11 you asked for the stop gate, the session-start hook and the start command to be tracked too. When the final PR merges into `claude/integration`, every later Claude session in any clone of that branch inherits them: pushes allowed only under `fable/`, no deletions, and a stop gate that reads `.fable/RUN_STATE.json` (it lets a session stop once status is DONE).
+Options: (A) Keep them in the PR as the standing safety layer for future runs; a future run only needs a new charter. (B) Before the PR is marked ready, move `.claude/` and `.fable/` run files to scrap on the run branch so the merge carries only the game and its documents. (C) Keep the hooks but have the run loosen the push rule to the normal branch model at closeout (needs your explicit go-ahead, because a run may not loosen its own guard).
+Recommendation: A because the guard only restricts destructive commands and pushes outside `fable/`, which matches how you want agents to work, and option C can follow later if it gets in the way.
+Current state kept: `.claude/` and `.fable/` stay tracked on the run branch.
