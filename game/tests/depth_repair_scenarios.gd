@@ -1,5 +1,6 @@
 extends RefCounted
 const Sim=preload("res://src/simulation/simulation.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 static func tick(s,seconds):
  s.paused=false
  for n in roundi(seconds*60):s.advance(Sim.STEP)
@@ -85,7 +86,7 @@ static func audit_local_work(t):
   s=Sim.new();s.start(12,"endurance",{"fitted":{"quietus":"","drone_a":"drone_sampler","drone_b":""}});s.sirens=[]
   pos=s.Witness.BERTH;s.units[0].pos=pos+Vector2(0,40)
   if kind=="module":
-   s.units[1].pos=pos;s.units[1].alive=false;s.ModuleRecovery.tick(s,0.)
+   PlayerDive.launch_drones(s);s.units[1].pos=pos;s.units[1].alive=false;s.ModuleRecovery.tick(s,0.) # lost in the water, not aboard
   else:
    for source in s.mission.signal_sources:
     if source.id=="witness_packet":source.located=true
