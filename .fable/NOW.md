@@ -16,6 +16,6 @@ Nothing. No subagent, test job or build is running, and no code is uncommitted.
 ## Next, in order
 
 1. `.fable/PHASE8.md` item 8.1: rename the DISRUPTION loadout to EMP (display only).
-2. Item 8.2: the code base audit (three small read-only agent batches, root synthesis, `.fable/CODE_AUDIT.md`, plain-English summary for Pat).
+2. Item 8.2: the code base audit (three small read-only agent batches, root synthesis into a CODE_AUDIT report under .fable, plain-English summary for Pat).
 3. Item 8.3: build what Pat approves.
 4. Item 8.4: Pat's playtest feedback.
