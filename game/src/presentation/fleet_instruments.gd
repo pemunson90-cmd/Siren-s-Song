@@ -130,7 +130,7 @@ func _layout_commands():
   protected[i]=Rect2(at-turned,turned*2)
  protected.append(host.pause_button.get_rect())
  protected.append_array(hud.threat_rects())
- var top=maxf(h+24,hud.threat_floor())
+ var top=maxf(h+24,hud.threat_floor(false))
  var safe=Rect2(Vector2(12,top),Vector2(maxf(1,host.size.x-24),maxf(1,host.size.y-top-12)))
  var center=Ring.command_center(hud.anchor,safe,half,protected)
  var delta=center-hud.center;hud.center=center

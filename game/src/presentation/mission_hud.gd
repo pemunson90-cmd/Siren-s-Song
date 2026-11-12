@@ -509,9 +509,13 @@ func threat_rects()->Array:
  var life=LifeChip.rect(self)
  if life.has_area():rects.append(life)
  return rects
-func threat_floor()->float:
+# include_life=false: the life support chip is header furniture under the pause
+# control; a radial may sit beside it (it still lists it as a protected rect).
+func threat_floor(include_life:bool=true)->float:
  var bottom=host.pause_button.get_rect().end.y+12.
- for rect in threat_rects():bottom=maxf(bottom,rect.end.y+12.)
+ var life=LifeChip.rect(self)
+ for rect in threat_rects():
+  if include_life or rect!=life:bottom=maxf(bottom,rect.end.y+12.)
  return bottom
 func _place_threat_stack():
  # The Hunt chip already owns our pressure estimate; it is not a received threat.
