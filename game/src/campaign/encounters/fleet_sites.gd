@@ -1,4 +1,5 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 # Optional fleet payoffs through existing Reach work, currents and finite tools.
 # Revert: set ENABLED=false; retain record registration for existing saved notes.
 # No fleet rules or required records. Optional cache custody lives in its module.
@@ -50,7 +51,7 @@ static func apply(m:Dictionary)->void:
    m.brief+="\nOptional exhaust patrol account: LISTEN in MIDDLE near (2300,1100), beside the moving southern patrol. Drop a sonobuoy from the eastern basin to watch coarse bearings turn away before crossing; bearings give direction, never range or a guaranteed safe window. The outer contour or a patient approach needs no tool; the exhaust photograph remains the job."
 
 static func _sentinel(pos:Vector2,patrol:int)->Dictionary:
- var guard=preload("res://src/campaign/encounters/roster.gd").guard("sentinel",pos,1,[],{"angle":-PI/2,"patrol":patrol})
+ var guard=preload("res://src/campaign/encounters/roster.gd").guard(Names.ROLE_SENTINEL,pos,1,[],{"angle":-PI/2,"patrol":patrol})
  # Preserve the authored stationary format; launch supplies its depth defaults.
  for key in ["band","patrol_points","patrol_index"]:guard.erase(key)
  return guard

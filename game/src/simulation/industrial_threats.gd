@@ -1,5 +1,6 @@
 extends RefCounted
-const ROLES=["interceptor","warden"]
+const Names=preload("res://src/names.gd")
+const ROLES=[Names.ROLE_INTERCEPTOR,Names.ROLE_WARDEN]
 const WINDUP_CUE_RADIUS=650. # Covers the full500m clear-water engagement.
 static func initial()->Dictionary:return {"phase":"idle","remaining":0.,"cooldown":0.,"aim":Vector2.ZERO,"band":1,"patches":[],"hit":[]}
 static func initialize(sim):
@@ -30,12 +31,12 @@ static func advance(sim,e:Dictionary,dt:float):
  state.patches=state.patches.filter(func(patch):return patch.remaining>0)
  for patch in state.patches:damage_patch(sim,patch,dt)
  if state.phase=="idle":
-  e.mode="INTERCEPT LISTEN" if e.type=="interceptor" else "WARDEN IDLE"
+  e.mode="INTERCEPT LISTEN" if e.type==Names.ROLE_INTERCEPTOR else "WARDEN IDLE"
   if state.cooldown>0:return
   var received=evidence(sim,e)
   if received.is_empty():
    # Honor only a patrol anchored at this station, never procedural roaming.
-   if e.type=="interceptor" and not e.get("patrol_points",[]).is_empty() and e.patrol_points[0]==e.home:
+   if e.type==Names.ROLE_INTERCEPTOR and not e.get("patrol_points",[]).is_empty() and e.patrol_points[0]==e.home:
     e.mode="PATROL"
     if e.route.is_empty():
      for attempt in e.patrol_points.size():
@@ -49,17 +50,17 @@ static func advance(sim,e:Dictionary,dt:float):
     sim._move(e,dt,25.,false,false)
    return
   if received.band!=e.band or e.pos.distance_to(received.pos)>500 or not sim.Depth.clear(sim,e.pos,received.pos,e.band,12):return
-  state.aim=received.pos;state.band=received.band;state.phase="windup";state.remaining=2. if e.type=="interceptor" else 2.5;state.hit=[]
+  state.aim=received.pos;state.band=received.band;state.phase="windup";state.remaining=2. if e.type==Names.ROLE_INTERCEPTOR else 2.5;state.hit=[]
   # Lead only currently seen motion. Heard/report points carry no velocity.
   # This single commit stays frozen throughout the warning and burst.
-  if e.type=="interceptor" and received.has("vel"):
+  if e.type==Names.ROLE_INTERCEPTOR and received.has("vel"):
    var flight=e.pos.distance_to(received.pos)/200.
    for n in 4:flight=e.pos.distance_to(received.pos+received.vel*(state.remaining+flight))/200.
    var predicted:Vector2=received.pos+received.vel*(state.remaining+flight)
    if flight<=2. and sim.Depth.clear(sim,received.pos,predicted,state.band,12) and sim.Depth.clear(sim,e.pos,predicted,state.band,16):state.aim=predicted
   e.route=[];e.vel=Vector2.ZERO
-  e.angle=e.pos.angle_to_point(state.aim);e.mode="BURST WINDUP" if e.type=="interceptor" else "PRESSURE CHARGE"
-  sim._noise(e.pos,WINDUP_CUE_RADIUS,"INTERCEPTOR WINDUP" if e.type=="interceptor" else "WARDEN CHARGE",state.remaining,e.band)
+  e.angle=e.pos.angle_to_point(state.aim);e.mode="BURST WINDUP" if e.type==Names.ROLE_INTERCEPTOR else "PRESSURE CHARGE"
+  sim._noise(e.pos,WINDUP_CUE_RADIUS,"INTERCEPTOR WINDUP" if e.type==Names.ROLE_INTERCEPTOR else "WARDEN CHARGE",state.remaining,e.band)
   # Only local physical reception earns this consequential cue.
   for id in sim.units.size():
    var u=sim.units[id]
@@ -67,13 +68,13 @@ static func advance(sim,e:Dictionary,dt:float):
    var arrivals=preload("res://src/simulation/thermal_front.gd").arrivals(sim,u,e.pos,WINDUP_CUE_RADIUS*sim.Depth.transmission(u,e),e)
    if arrivals.is_empty():continue
    var direction=u.pos.direction_to(arrivals[0].goal)
-   sim.events.append({"type":"carrier_received" if e.type=="interceptor" else "factory","enemy":sim.sirens.find(e),"receiver":id,"pos":u.pos+direction*180.,"direction":direction,"time":sim.elapsed})
+   sim.events.append({"type":"carrier_received" if e.type==Names.ROLE_INTERCEPTOR else "factory","enemy":sim.sirens.find(e),"receiver":id,"pos":u.pos+direction*180.,"direction":direction,"time":sim.elapsed})
   return
  state.remaining=maxf(0.,state.remaining-dt)
  if state.phase=="windup":
-  e.mode="BURST WINDUP" if e.type=="interceptor" else "PRESSURE CHARGE"
+  e.mode="BURST WINDUP" if e.type==Names.ROLE_INTERCEPTOR else "PRESSURE CHARGE"
   if state.remaining>0:return
-  if e.type=="interceptor":state.phase="burst";state.remaining=2.
+  if e.type==Names.ROLE_INTERCEPTOR:state.phase="burst";state.remaining=2.
   else:
    if sim.Depth.clear(sim,e.pos,state.aim,state.band,12) and state.patches.size()<2:state.patches.append({"pos":state.aim,"band":state.band,"remaining":6.,"radius":85.})
    state.phase="recovery";state.remaining=4.;state.cooldown=10.;sim._noise(e.pos,650.,"WARDEN PRESSURE",1.,e.band)
@@ -92,7 +93,7 @@ static func advance(sim,e:Dictionary,dt:float):
   if not load.is_empty() and load.alive and 3 not in state.hit and sim.Depth.overlap(e,load) and load.pos.distance_to(e.pos)<35:state.hit.append(3);sim.Choir.damage(sim,20.)
   if state.remaining<=0 or e.pos.distance_to(state.aim)<2:state.phase="recovery";state.remaining=4.;state.cooldown=8.
  elif state.phase=="recovery":
-  e.mode="BURST RECOVERY" if e.type=="interceptor" else "PRESSURE RECOVERY"
+  e.mode="BURST RECOVERY" if e.type==Names.ROLE_INTERCEPTOR else "PRESSURE RECOVERY"
   if state.remaining<=0:state.phase="idle"
 static func damage_patch(sim,patch:Dictionary,dt:float):
  for id in sim.units.size():
@@ -106,7 +107,7 @@ static func patches(sim)->Array:
  var result=[]
  # Presentation receives only a currently visible pressure field, not hidden aim.
  for e in sim.sirens:
-  if e.get("type","")!="warden":continue
+  if e.get("type","")!=Names.ROLE_WARDEN:continue
   for patch in e.industry.patches:
    if sim.visible(patch.pos,patch.band):result.append(patch.duplicate())
  return result

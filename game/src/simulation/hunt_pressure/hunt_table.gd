@@ -1,4 +1,5 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 # 050 sight-only global pressure. Revert enabled=false; retain validators and tests.
 # Hearing, movement, lock, damage, goals and reports never consume this table.
 static var enabled=true
@@ -10,7 +11,7 @@ const CAPS=[1.,1.,1.,1.15,1.15,1.15,1.3,1.3,1.3,1.3,1.3,1.3,1.3,1.3,1.5,1.5,1.5,
 # Sorley41 shares the 1.30 cap of the neighbouring optional range operations38..40.
 # Final pair30/31 deliberately retain1.00 pending their distinct balance evidence.
 # CAPS is indexed by operation ID; operation_meta.gd hunt_cap(id) is the bounds-safe lookup (1.0 past the end).
-const ROLES=["","patroller","sentinel","hunter","sweeper"]
+const ROLES=["",Names.ROLE_PATROLLER,Names.ROLE_SENTINEL,Names.ROLE_HUNTER,Names.ROLE_SWEEPER]
 const ACTIONS={"ACTIVE SONAR":5.,"DISRUPTION":4.,"KNOCKDOWN":4.,"DECOY":0.,"RECON UPLINK":0.}
 const SIGHT_EDGE=6.
 const CUE_INTERVAL=3.

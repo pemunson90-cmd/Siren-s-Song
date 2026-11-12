@@ -1,4 +1,5 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 # Read-only D1 presentation seam. Existing acquisition decides when to publish.
 signal siren_notice(id:int, source_position:Vector2)
 const Orders=preload("res://src/simulation/orders/order_table.gd")
@@ -681,7 +682,7 @@ func _camera_context_base() -> Dictionary:
 	if best<0 and reshoot>=0:best=reshoot
 	if best<0 and (nearest<0 or not Operations.own_origin(mission.objectives[nearest])):
 		var sighted=Photo.siren_candidate(self,selected)
-		if sighted>=0:return {"target":-2,"siren":sighted,"ready":true,"text":"READY · S%d %s · PHOTO %.0fs · observe its form and movement from clear water"%[sighted+1,str(sirens[sighted].get("type","patroller")).to_upper(),8.0]}
+		if sighted>=0:return {"target":-2,"siren":sighted,"ready":true,"text":"READY · S%d %s · PHOTO %.0fs · observe its form and movement from clear water"%[sighted+1,str(sirens[sighted].get("type",Names.ROLE_PATROLLER)).to_upper(),8.0]}
 	if nearest<0 and best<0: return {"target":-1,"ready":false,"text":Delivery.status(self).text if Delivery.applies(mission) else "Archive aboard · return Quietus to extraction."}
 	var candidate=best if best>=0 else nearest
 	if Witness.applies(mission) and mission.objectives[candidate].get("site_id","")==Witness.packet(mission):return {"target":candidate,"ready":false,"text":Witness.context(self,selected).winch.reason}
@@ -1063,7 +1064,7 @@ func _observe() -> void:
 				if visible(p): known[Vector2i(x,y)]=true
 	for i in sirens.size():
 		if contact_visible(sirens[i]):
-			contacts[i]={"pos":sirens[i].pos,"time":elapsed,"mode":sirens[i].mode,"lock":sirens[i].lock,"angle":sirens[i].angle,"target":sirens[i].target,"type":sirens[i].get("type","patroller"),"band":sirens[i].band,"transition":sirens[i].transition.duplicate(),"source":"optical","confidence":1.0}
+			contacts[i]={"pos":sirens[i].pos,"time":elapsed,"mode":sirens[i].mode,"lock":sirens[i].lock,"angle":sirens[i].angle,"target":sirens[i].target,"type":sirens[i].get("type",Names.ROLE_PATROLLER),"band":sirens[i].band,"transition":sirens[i].transition.duplicate(),"source":"optical","confidence":1.0}
 			contacts[i]["seen_by"]=passive_receivers(sirens[i].pos,sirens[i].band)
 			if mission.get("thermal_revision",0)==1:
 				for occupied_band in Depth.occupied(sirens[i]):
@@ -1239,7 +1240,7 @@ func _threats(dt: float) -> bool:
 							s.mode="SEARCH" if s.suspicion>0.1 else "PATROL"; s.route=_patrol_route(s)
 					s.path_time=2.0
 		var speed=48.0 if s.suspicion>0.1 else 25.0
-		if s.get("type","")=="hunter": speed=38.0 if s.mode in ["RETURN","DORMANT"] else 64.0
+		if s.get("type","")==Names.ROLE_HUNTER: speed=38.0 if s.mode in ["RETURN","DORMANT"] else 64.0
 		speed=Sweeper.speed(s,speed)
 		speed*=1.0+float(s.get("alert_floor",0))*.2
 		_move(s,dt,speed,false,false)
@@ -1291,7 +1292,7 @@ func _station_intent(s: Dictionary,heard: bool,dt: float) -> void:
 	# v7 station roles react to evidence, then return. Tether is conditional,
 	# never an invisible wall that defeats a currently heard lure or visual lock.
 	var outside=s.pos.distance_to(s.home)>float(s.get("tether",190.0))
-	var returning=s.get("attention_time",0.0)<=0 or (s.get("type","")=="sentinel" and outside and not heard)
+	var returning=s.get("attention_time",0.0)<=0 or (s.get("type","")==Names.ROLE_SENTINEL and outside and not heard)
 	if returning:
 		s["attention_time"]=0.0; s.goal=s.home
 		s.mode="DORMANT" if s.pos.distance_to(s.home)<15 else "RETURN"

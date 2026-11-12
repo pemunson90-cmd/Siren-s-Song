@@ -1,4 +1,5 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 # PHOTO RULES: every number and every line of placeholder text the module uses.
 #
 # What a studied subject teaches the player. These are display and planning aids
@@ -19,7 +20,7 @@ const ALERT_SPEED := 48.0
 # A gait frame at this quality files the loop (photo_findings.gd uses the same 0.45).
 const LOOP_MIN_Q := 0.45
 # Only Sirens that walk a loop get a loop clock (sentinels hold a post).
-const LOOP_TYPES := ["patroller"]
+const LOOP_TYPES := [Names.ROLE_PATROLLER]
 # Text key that marks an authored loop finding (an "OBSERVED PATH" is not one).
 const LOOP_TEXT_KEY := "PATROL LOOP"
 # A last sighting this close to the loop is placed on it, metres.

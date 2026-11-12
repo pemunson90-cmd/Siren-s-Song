@@ -1,4 +1,5 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 # PRICED SHOTS tunables. Every number and every line of placeholder text that the
 # photo_pricing module uses lives here, so balance and wording change in one file.
 # Nothing here changes damage, hull, collision, beams, Siren sight or hearing:
@@ -19,7 +20,7 @@ const FLASH_RING := 760.0
 # Speed a Siren closes at once it has heard something (simulation.gd, suspicious
 # movement). Used only for the "if heard" estimate; hunters are faster.
 const SIREN_ALERT_SPEED := 48.0
-const SIREN_SPEED := {"hunter": 64.0}
+const SIREN_SPEED := {Names.ROLE_HUNTER: 64.0}
 # A contact older than this is not used for the estimate (simulation.gd expires them at 20 s).
 const CONTACT_MAX_AGE := 20.0
 

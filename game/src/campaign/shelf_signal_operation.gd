@@ -1,4 +1,5 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 const Base=preload("res://src/campaign/tutorial_missions.gd")
 const Patrols=preload("res://src/campaign/sweeper_patrols.gd")
 # First authored depth encounter; remaining tutorial factories keep their geometry.
@@ -11,7 +12,7 @@ static func build(config:Dictionary,_history:Dictionary={})->Dictionary:
  m["start"]=Vector2(140,800)
  m["depth_geometry"]={0:{"rocks":m.rocks+[Rect2(400,610,350,130)]},2:{"rocks":m.rocks.slice(1)}}
  var sweeper=m.sirens[0].duplicate(true)
- sweeper.pos=Vector2(850,300);sweeper.home=sweeper.pos;sweeper.goal=sweeper.pos;sweeper.route=[];sweeper.type="sweeper";sweeper.patrol_points=Patrols.circuit(0)
+ sweeper.pos=Vector2(850,300);sweeper.home=sweeper.pos;sweeper.goal=sweeper.pos;sweeper.route=[];sweeper.type=Names.ROLE_SWEEPER;sweeper.patrol_points=Patrols.circuit(0)
  m.sirens.append(sweeper)
  m["depth_hint"]="DEEP under the arch · MIDDLE camera/recovery · craft → DEPTH / SONAR."
  m.brief="Photograph the listening spire, then return Quietus. DEEP passes beneath the western arch; SHALLOW has an extra sill; MIDDLE retains the long water route. Craft → DEPTH / SONAR changes adjacent layers: four stationary seconds exposed in both. Deep pumps cost reserves. Work and recovery require MIDDLE. A sweeper guards the far side. It hears farther than a patrol, searches longer, and follows only the last noise it heard. Go quiet or use the EMP before it arrives. Passive bearings need movement or independent receivers to narrow a position. Choose a quiet crossing or coordinate a costly active sounding, then bring the evidence home."

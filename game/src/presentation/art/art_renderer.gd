@@ -1,4 +1,5 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 const Palette=preload("res://src/presentation/accessibility/palette.gd")
 # One shared immutable geometry cache. Draw methods consume public values only.
 # Revert via ArtTable.enabled. The preceding renderer stays in its original seam.
@@ -69,7 +70,7 @@ static func siren(view,role:String,shade:Color)->void:
  view.draw_mesh(meshes[role],RAY,Transform2D.IDENTITY,shade)
  view.draw_polyline(outlines[role],Color(Table.SIREN_EDGE,shade.a),Table.SIREN_OUTLINE_WIDTH,true)
  # Red lighting is already carried by the retained biological material.
- if role=="hunter":
+ if role==Names.ROLE_HUNTER:
   for n in Table.HUNTER_SEGMENTS:
    var x=-38.+n*Table.HUNTER_PITCH
    view.draw_line(Vector2(x,-7),Vector2(x+5,6),Color(Table.SIREN_SEGMENT,shade.a),Table.SIREN_OUTLINE_WIDTH)

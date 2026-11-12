@@ -1,10 +1,11 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 # D1 presentation settings. Revert by setting enabled=false or reverting this PR.
 static var enabled=true
 const OPERATIONS=[0,1,2,3]
 # One-time type note: shown the first time a Siren kind appears in a notice, on any operation.
 # Keys are the sim's existing `type` strings; an absent type shows nothing.
-const TYPE_NAMES={"patroller":"PATROLLER","sweeper":"SWEEPER","hunter":"HUNTER","sentinel":"SENTINEL","warden":"WARDEN","interceptor":"INTERCEPTOR","buoy":"BUOY","relay":"RELAY"}
+const TYPE_NAMES={Names.ROLE_PATROLLER:"PATROLLER",Names.ROLE_SWEEPER:"SWEEPER",Names.ROLE_HUNTER:"HUNTER",Names.ROLE_SENTINEL:"SENTINEL",Names.ROLE_WARDEN:"WARDEN",Names.ROLE_INTERCEPTOR:"INTERCEPTOR",Names.ROLE_BUOY:"BUOY",Names.ROLE_RELAY:"RELAY"}
 const NOTE_PREFIX="NEW SIREN TYPE: "
 const NOTE_DURATION=2.5
 const NOTE_LIMIT=16

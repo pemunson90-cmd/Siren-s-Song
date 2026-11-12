@@ -1,4 +1,5 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 # Authored water, rock and industry share one geometry. The two halves of the
 # basalt divide meet at an optional man-made sluice; they are not scaled slabs.
 static func build(m:Dictionary)->void:
@@ -30,10 +31,10 @@ static func build(m:Dictionary)->void:
  m.brief="The submarine Kestrel lies bottomed on the ridge north of the basalt divide. Recover its live transmission, then bring Quietus back to one of the two southern recovery mouths. The western arm is a narrow broken channel with sheltered recesses; the wider eastern passage carries a north-setting current that helps the approach and resists the return. A west-setting current crosses the narrow southern saddle between the entry mouths. Rock separates their sight and sound. Drones can investigate the two arms independently while Quietus advances, or Quietus can do all the fieldwork alone. Two unlocated carriers remain: Kestrel's transmission and an old survey repeater. A received cadence and recovered RETURN reference can distinguish their patterns; without a fitted correlator, close observation or finite local RECON still works. The service repeater may offer a physical shortcut, at a cost you can inspect there. Preserve air and drone energy for withdrawal. Return through CONCEALED ASCENT to bring the sailors out quietly, or OPEN WARNING PASSAGE to call a surface ship. The physical southern exit commits the next operation; no hidden purity score chooses it."
  m.brief+=" Your deep approach begins in the eastern current passage." if deep else " Your shelf approach begins below the western broken channel."
  m.record="Kestrel's transmission is recovered: eleven alive in the aft trunk, the torpedo tube still open. Quietus returned through a chosen passage with a record, not a target list; opening the optional service sluice changed the physical return without certifying the water safe."
- _guard(m,Vector2(930,2000),[Vector2(930,2000),Vector2(1070,1710),Vector2(1070,2310),Vector2(1090,2930),Vector2(870,3190),Vector2(790,3550)],"patroller")
- _guard(m,Vector2(990,1180),[Vector2(990,1180),Vector2(1090,1370)],"sentinel")
+ _guard(m,Vector2(930,2000),[Vector2(930,2000),Vector2(1070,1710),Vector2(1070,2310),Vector2(1090,2930),Vector2(870,3190),Vector2(790,3550)],Names.ROLE_PATROLLER)
+ _guard(m,Vector2(990,1180),[Vector2(990,1180),Vector2(1090,1370)],Names.ROLE_SENTINEL)
  m.sirens[1]["tether"]=210.0
- _guard(m,Vector2(2780,1740),[Vector2(2780,1740),Vector2(2640,2460),Vector2(2740,3100),Vector2(2850,3570),Vector2(3000,2780)],"hunter")
+ _guard(m,Vector2(2780,1740),[Vector2(2780,1740),Vector2(2640,2460),Vector2(2740,3100),Vector2(2850,3570),Vector2(3000,2780)],Names.ROLE_HUNTER)
 static func _source(id:String,label:String,pos:Vector2,evidence:String,cadence:Array)->Dictionary:
  return {"id":id,"label":label,"pos":pos,"optical":"divergence_"+id,"evidence":evidence,"located":false,"cadence":cadence,"confirm":true,"sampler_compatible":true}
 static func _guard(m:Dictionary,pos:Vector2,points:Array,role:String)->void:

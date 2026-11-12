@@ -1,4 +1,5 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 const EnemyTypes=preload("res://src/simulation/enemy_types.gd")
 # Sweeper role on V7 senses. A sweeper owns no sonar: it sees by proximity plus line of sight,
 # hears throttle noise, pings and loud tools through the shared Siren loop, and attacks only
@@ -17,14 +18,14 @@ const DEFAULT:={"ear":1.0,"attention":12.0,"patrol_speed":null,"investigate_spee
 # No new save fields. Existing last_known/attention_time/search_index remain optional.
 # Per-role tunables. A role absent here behaves exactly as before this file existed.
 const PROFILES:={
-	"patroller":{"stands":true},
-	"hunter":{"ear":1.1,"attention":10.0,"search_radius":100.0},
-	"sentinel":{"ear":0.95,"attention":16.0,"search_hold":true,"search_turn_speed":0.8},
-	"sweeper":{"ear":1.3,"attention":20.0,"patrol_speed":22.0,"investigate_speed":34.0,"stands":true,"lane_needs_points":true},
+	Names.ROLE_PATROLLER:{"stands":true},
+	Names.ROLE_HUNTER:{"ear":1.1,"attention":10.0,"search_radius":100.0},
+	Names.ROLE_SENTINEL:{"ear":0.95,"attention":16.0,"search_hold":true,"search_turn_speed":0.8},
+	Names.ROLE_SWEEPER:{"ear":1.3,"attention":20.0,"patrol_speed":22.0,"investigate_speed":34.0,"stands":true,"lane_needs_points":true},
 }
 static var _profiles:Dictionary={}
 static func profile(enemy)->Dictionary:
- var role=enemy.get("type","patroller")
+ var role=enemy.get("type",Names.ROLE_PATROLLER)
  if not _profiles.has(role):
   var p:Dictionary=DEFAULT.duplicate()
   p.merge(PROFILES.get(role,{}),true)
@@ -50,8 +51,8 @@ static func stands_to_lock(enemy)->bool:
 # Walk a patrol lane while idle. A sweeper walks only a lane its operation authored; otherwise
 # it holds its post like other station roles, then returns to it after a search.
 static func walks_lane(enemy)->bool:
- var type=enemy.get("type","patroller")
- if type=="patroller":return true
+ var type=enemy.get("type",Names.ROLE_PATROLLER)
+ if type==Names.ROLE_PATROLLER:return true
  return type==EnemyTypes.SWEEPER and not (profile(enemy).lane_needs_points and enemy.get("patrol_points",[]).is_empty())
 # Remember the last heard spot. It is a stale report: it moves only when something new is heard.
 static func note_heard(enemy,pos:Vector2,time:float)->void:

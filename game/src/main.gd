@@ -1,4 +1,5 @@
 extends Control
+const Names=preload("res://src/names.gd")
 const UiMetrics=preload("res://src/presentation/flow/ui_metrics.gd")
 const PhotoReview=preload("res://src/presentation/flow/photo_review.gd")
 const CampaignFlow=preload("res://src/presentation/flow/campaign_flow.gd")
@@ -882,7 +883,7 @@ func _observation_diagnostics() -> void:
 	# Read-only validation logs. Hidden AI state never enters the player HUD.
 	for id in sim.sirens.size():
 		var siren=sim.sirens[id]
-		if siren.get("type","patroller")=="patroller": continue
+		if siren.get("type",Names.ROLE_PATROLLER)==Names.ROLE_PATROLLER: continue
 		if diagnostic_roles.get(id,"")!=siren.mode:
 			diagnostic_roles[id]=siren.mode
 			ReleaseControls.debug_print(["SS_ROLE mission=%d index=%d type=%s mode=%s pos=%.6f,%.6f home=%.6f,%.6f target=%d lock=%.6f time=%.6f"%[mission_index,id,siren.type,siren.mode,siren.pos.x,siren.pos.y,siren.home.x,siren.home.y,siren.target,siren.lock,sim.elapsed]])

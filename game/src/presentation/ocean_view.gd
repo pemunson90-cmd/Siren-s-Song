@@ -1,4 +1,5 @@
 extends Control
+const Names=preload("res://src/names.gd")
 const Palette=preload("res://src/presentation/accessibility/palette.gd")
 const ArtTable=preload("res://src/presentation/art/art_table.gd")
 const Art=preload("res://src/presentation/art/art_renderer.gd")
@@ -769,41 +770,41 @@ func selected_heading_marker() -> PackedVector2Array:
 	return PackedVector2Array([bow+side,bow+direction*length,bow-side])
 func _hull_style() -> StyleBoxFlat:
 	var style=StyleBoxFlat.new(); style.bg_color=Color("263841"); style.border_color=Color("627780"); style.set_border_width_all(1); style.set_corner_radius_all(7); return style
-func _siren(p: Vector2,angle: float,fresh: bool,role: String="patroller",pin_time: float=0.0) -> void:
+func _siren(p: Vector2,angle: float,fresh: bool,role: String=Names.ROLE_PATROLLER,pin_time: float=0.0) -> void:
 	var depth=1.0
 	if pin_time>0: depth=1.0-0.58*minf(clampf((8.0-pin_time)/0.8,0,1),clampf(pin_time/0.8,0,1))
 	draw_set_transform(world_offset+p*world_scale,angle,Vector2.ONE*world_scale*depth)
 	if fresh:
 		# The same original biological material has distinct station/response profiles.
 		var body=Rect2(-67,-40,134,80)
-		if role=="sweeper": body=Rect2(-70,-50,140,100)
-		if role=="sentinel": body=Rect2(-58,-53,116,106)
+		if role==Names.ROLE_SWEEPER: body=Rect2(-70,-50,140,100)
+		if role==Names.ROLE_SENTINEL: body=Rect2(-58,-53,116,106)
 		var shade=Color(lerpf(0.25,1.0,depth),lerpf(0.44,1.0,depth),lerpf(0.55,1.0,depth),lerpf(0.45,1.0,depth))
-		if role=="buoy":
+		if role==Names.ROLE_BUOY:
 			draw_line(Vector2(0,-36),Vector2(0,48),Color("d5b77c"),4.)
 			draw_circle(Vector2.ZERO,20,Color("193a40"));draw_arc(Vector2.ZERO,22,0,TAU,24,Color("d5b77c"),3.)
-		elif role=="relay":
+		elif role==Names.ROLE_RELAY:
 			draw_colored_polygon(PackedVector2Array([Vector2(0,-35),Vector2(23,0),Vector2(0,35),Vector2(-23,0)]),Color("578c99"))
 			for side in [-1,1]:draw_line(Vector2(side*20,0),Vector2(side*47,-20),Color("dbcfa5"),3.)
-		elif role=="interceptor":
+		elif role==Names.ROLE_INTERCEPTOR:
 			draw_colored_polygon(PackedVector2Array([Vector2(70,0),Vector2(-45,-24),Vector2(-25,-5),Vector2(-60,0),Vector2(-25,5),Vector2(-45,24)]),Color("67868e"))
 			for side in [-1,1]:draw_line(Vector2(-40,side*20),Vector2(-65,side*28),Color("d87961"),4.)
-		elif role=="warden":
+		elif role==Names.ROLE_WARDEN:
 			draw_circle(Vector2.ZERO,30,Color("37535d"))
 			for n in 6:
 				var spoke=Vector2.from_angle(n*TAU/6);draw_line(spoke*24,spoke*55,Color("d1ad72"),6.)
 			draw_arc(Vector2.ZERO,40,0,TAU,24,Color("b87864"),3.)
 		elif ArtTable.enabled and ArtTable.SHAPES.has(role):Art.siren(self,role,shade)
-		elif role=="hunter":Confluence.draw_hunter(self,sim.elapsed,shade)
+		elif role==Names.ROLE_HUNTER:Confluence.draw_hunter(self,sim.elapsed,shade)
 		else:draw_texture_rect(siren_ray,body,false,shade)
-		if role=="sweeper":
+		if role==Names.ROLE_SWEEPER:
 			for radius in [30,43,56]:draw_arc(Vector2(25,0),radius,-PI*.45,PI*.45,20,Color("e4b273"),2.)
 		if pin_time>0:
 			for x in [-25.0,0.0,25.0]:
 				draw_arc(Vector2(x,0),26,-PI*0.45,PI*0.45,16,Color("85b1b4"),2.0)
 			draw_line(Vector2(-40,19),Vector2(40,-19),Color("85b1b4"),2.0)
 			draw_line(Vector2(0,26),Vector2(0,60),Color(0.2,0.35,0.4,0.5),1.5)
-		if role=="sentinel":
+		if role==Names.ROLE_SENTINEL:
 			for side in [-1,1]:
 				draw_line(Vector2(-18,side*39),Vector2(14,side*48),Color("b6a58b"),2)
 	else:

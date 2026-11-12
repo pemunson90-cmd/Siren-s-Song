@@ -1,4 +1,5 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 # 065 optional machinery profiles.
 # Caller seams: capture duration, start sound and recorded operator.
 # AI-DESIGNED tuning; existing endurance/reach bonuses stay in the catalog.
@@ -109,7 +110,7 @@ static func tick(sim,dt:float):
   if job.action=="service":open_gate(sim)
   else:
    for enemy in sim.sirens:
-    if enemy.get("type","")=="buoy":enemy.stun=maxf(enemy.stun,120.);enemy.network.packet={};enemy.network.charge=0.
+    if enemy.get("type","")==Names.ROLE_BUOY:enemy.stun=maxf(enemy.stun,120.);enemy.network.packet={};enemy.network.charge=0.
   if sim.mission.id==18:
    sim.mission.expedition_facts.glass_choice=job.action
    sim.mission.objectives[0].captured=true;recorded(sim,sim.mission.objectives[0]);sim._record_secured(sim.mission.objectives[0],job.unit)
@@ -149,7 +150,7 @@ static func apply_effect(sim,o:Dictionary,unit:int=-1):
   sim._use_band(sim.units[sim.selected].band)
  if effect.has("quiet"):
   for enemy in sim.sirens:
-   if enemy.get("type","") in ["buoy","relay"] and enemy.pos.distance_to(o.pos)<=effect.quiet:enemy.stun=maxf(enemy.stun,effect.get("quiet_time",90.));enemy.network.packet={};enemy.network.charge=0.
+   if enemy.get("type","") in [Names.ROLE_BUOY,Names.ROLE_RELAY] and enemy.pos.distance_to(o.pos)<=effect.quiet:enemy.stun=maxf(enemy.stun,effect.get("quiet_time",90.));enemy.network.packet={};enemy.network.charge=0.
  if effect.has("calm"):
   for current in sim.mission.get("currents",[]):current.velocity*=effect.calm
  var spec=machine_spec(sim,o,unit) if unit>=0 else {}
