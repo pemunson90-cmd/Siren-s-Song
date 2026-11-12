@@ -313,14 +313,14 @@ func _order(order: String,args: Dictionary={}) -> void:
 		knock_armed=false; ocean.knock_targeting=false; decoy_armed=false; ocean.decoy_targeting=false
 		map_gesture.cancel(); sim.paused=true; screen="program"; hud.hide(); menu.hide()
 		for button in zoom_buttons: button.hide()
-		print("SS_SCREEN program paused=",sim.paused)
+		ReleaseControls.debug_print(["SS_SCREEN program paused=",sim.paused])
 		route_editor.open(self); call_deferred("_report_targets"); _save_archive(); return
 	if order=="decoy" and not args.has("point"):
 		targeting_feedback=""
 		map_gesture.cancel(); knock_armed=false; ocean.knock_targeting=false
 		if sim.units[sim.selected].alive and preload("res://src/equipment/tool_racks.gd").count(sim,"decoy")>0 and sim.outcome.is_empty():decoy_armed=not decoy_armed;decoy_unit=sim.selected
 		else:decoy_armed=false;sim.message="Decoy unavailable · no charge spent"
-		_refresh(); print("SS_DECOY_AIM armed=",decoy_armed," selected=",sim.selected); call_deferred("_report_targets"); return
+		_refresh(); ReleaseControls.debug_print(["SS_DECOY_AIM armed=",decoy_armed," selected=",sim.selected]); call_deferred("_report_targets"); return
 	if order=="knock" and not args.has("target"):
 		targeting_feedback=""
 		map_gesture.cancel();decoy_armed=false;ocean.decoy_targeting=false
@@ -340,11 +340,11 @@ func _order(order: String,args: Dictionary={}) -> void:
 	if order=="knock" and not accepted: knock_armed=aiming
 	if order=="decoy" and not accepted:decoy_armed=aiming_decoy
 	if not accepted and (knock_armed or decoy_armed):targeting_feedback=sim.message
-	print("SS_ORDER ",order," accepted=",accepted," selected=",sim.selected," queued=",sim.queue_mode)
+	ReleaseControls.debug_print(["SS_ORDER ",order," accepted=",accepted," selected=",sim.selected," queued=",sim.queue_mode])
 	_refresh(); _save_archive()
 	if accepted and order=="camera": call_deferred("_report_targets")
 func _pause() -> void:
-	sim.paused=not sim.paused; print("SS_PAUSE paused=",sim.paused); _refresh(); _save_archive()
+	sim.paused=not sim.paused; ReleaseControls.debug_print(["SS_PAUSE paused=",sim.paused]); _refresh(); _save_archive()
 func _confirm_module_departure()->void:
 	ModuleRecovery.confirm_departure(self)
 func _process(dt: float) -> void:
@@ -512,7 +512,7 @@ func _chart_zoom(factor: float) -> void:
 func _view_changed() -> void:
 	_refresh()
 	_save_archive()
-	print("SS_VIEW zoom=",snappedf(ocean.chart_camera.zoom,0.01)," center=",ocean.chart_camera.center)
+	ReleaseControls.debug_print(["SS_VIEW zoom=",snappedf(ocean.chart_camera.zoom,0.01)," center=",ocean.chart_camera.center])
 	call_deferred("_report_targets")
 func _unhandled_key_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo and event.keycode==KEY_ESCAPE:
@@ -670,12 +670,12 @@ func _write_archive(retry:bool)->void:
 	_sync_craft_upgrades()
 	if store.save(_archive()):
 		save_retry_pending=false;save_error=""
-		print("SS_SAVE ok mission=",mission_index," time=",snappedf(sim.elapsed,0.01)," paused=",sim.paused," completed=",completed," unlocked=",unlocked)
+		ReleaseControls.debug_print(["SS_SAVE ok mission=",mission_index," time=",snappedf(sim.elapsed,0.01)," paused=",sim.paused," completed=",completed," unlocked=",unlocked])
 	elif retry:
 		save_error=store.warning;sim.message=save_error
-		print("SS_SAVE retry_failed reason=",store.warning," active.captures=",sim.captures)
+		ReleaseControls.debug_print(["SS_SAVE retry_failed reason=",store.warning," active.captures=",sim.captures])
 	else:
-		print("SS_SAVE retry_pending reason=",store.warning," active.captures=",sim.captures)
+		ReleaseControls.debug_print(["SS_SAVE retry_pending reason=",store.warning," active.captures=",sim.captures])
 		if not save_retry_pending:
 			save_retry_pending=true;call_deferred("_retry_archive")
 	_update_archive_status()
@@ -718,7 +718,7 @@ func _load_archive() -> void:
 			ocean._sync_camera()
 			var chart_view=saved.get("chart_view",{})
 			if chart_view is Dictionary:ocean.chart_camera.restore(chart_view)
-			print("SS_RESTORE ok mission=",mission_index," time=",snappedf(sim.elapsed,0.01)," paused=",sim.paused," completed=",completed," unlocked=",unlocked)
+			ReleaseControls.debug_print(["SS_RESTORE ok mission=",mission_index," time=",snappedf(sim.elapsed,0.01)," paused=",sim.paused," completed=",completed," unlocked=",unlocked])
 	preload("res://src/persistence/save_states/save2_controller.gd").restore(self,saved)
 	sound.music_volume=settings.get("music",0.5); sound.effects_volume=settings.get("effects",0.8); sound.muted=settings.get("mute",false)
 	if not store.warning.is_empty():archive_warning=store.warning;sim.message=store.warning
@@ -747,11 +747,11 @@ func _notification(what: int) -> void:
 			knock_armed=false; ocean.knock_targeting=false; decoy_armed=false; ocean.decoy_targeting=false; map_gesture.cancel()
 			sim.paused=true; _save_archive()
 			if sound!=null: sound.suspend()
-			print("SS_LIFECYCLE suspended paused=true")
+			ReleaseControls.debug_print(["SS_LIFECYCLE suspended paused=true"])
 	if what in [NOTIFICATION_APPLICATION_RESUMED,NOTIFICATION_APPLICATION_FOCUS_IN,NOTIFICATION_WM_WINDOW_FOCUS_IN]:
 		if sound!=null: sound.resume()
 		if is_node_ready() and is_inside_tree() and hud!=null:
-			print("SS_LIFECYCLE foreground")
+			ReleaseControls.debug_print(["SS_LIFECYCLE foreground"])
 			call_deferred("_report_targets")
 	if what==NOTIFICATION_WM_CLOSE_REQUEST:
 		_save_archive(); get_tree().quit()
@@ -782,7 +782,7 @@ func _take_capture() -> void:
 	await RenderingServer.frame_post_draw
 	var image=get_viewport().get_texture().get_image()
 	var result=image.save_png(capture_path)
-	print("SS_CAPTURE ",capture_path," size=",image.get_size()," result=",result)
+	ReleaseControls.debug_print(["SS_CAPTURE ",capture_path," size=",image.get_size()," result=",result])
 
 func _report_targets() -> void:
 	if not is_inside_tree():return
@@ -808,37 +808,37 @@ func _report_targets() -> void:
 	_emit_ui_metrics(_ui_metrics(capture_phase))
 	for key in buttons:
 		var p=buttons[key].get_global_rect().get_center()
-		print("SS_TARGET ",key," center=",roundi(p.x),",",roundi(p.y)," viewport=",roundi(get_viewport_rect().size.x),",",roundi(get_viewport_rect().size.y))
+		ReleaseControls.debug_print(["SS_TARGET ",key," center=",roundi(p.x),",",roundi(p.y)," viewport=",roundi(get_viewport_rect().size.x),",",roundi(get_viewport_rect().size.y)])
 	if hud.visible:
 		var center=ocean.get_global_rect().get_center()
-		print("SS_TARGET chart_center center=",roundi(center.x),",",roundi(center.y)," viewport=",roundi(get_viewport_rect().size.x),",",roundi(get_viewport_rect().size.y))
+		ReleaseControls.debug_print(["SS_TARGET chart_center center=",roundi(center.x),",",roundi(center.y)," viewport=",roundi(get_viewport_rect().size.x),",",roundi(get_viewport_rect().size.y)])
 		var sites=sim.observable_sites()
 		if not sites.is_empty():
 			var approach=sites[0].pos+Vector2(0,210)
 			if sim.blocked(approach,25): approach=sites[0].pos+Vector2(-210,0)
 			var objective_point=ocean.global_position+ocean.world_offset+approach*ocean.world_scale
-			print("SS_TARGET objective0 center=",roundi(objective_point.x),",",roundi(objective_point.y)," viewport=",roundi(get_viewport_rect().size.x),",",roundi(get_viewport_rect().size.y))
+			ReleaseControls.debug_print(["SS_TARGET objective0 center=",roundi(objective_point.x),",",roundi(objective_point.y)," viewport=",roundi(get_viewport_rect().size.x),",",roundi(get_viewport_rect().size.y)])
 		var p=ocean.global_position+ocean.world_offset+Vector2(480,850)*ocean.world_scale
-		print("SS_TARGET route center=",roundi(p.x),",",roundi(p.y)," viewport=",roundi(get_viewport_rect().size.x),",",roundi(get_viewport_rect().size.y))
+		ReleaseControls.debug_print(["SS_TARGET route center=",roundi(p.x),",",roundi(p.y)," viewport=",roundi(get_viewport_rect().size.x),",",roundi(get_viewport_rect().size.y)])
 
 		# Own launch geometry only. Keep10m inside the cap for rounded input pixels.
 		if decoy_armed:
 			var deployment=sim.units[sim.selected].pos+Vector2(150,0)
 			if sim.decoy_target_valid(deployment):
 				var mapped=ocean.global_position+ocean.screen_position(deployment)
-				print("SS_TARGET role_decoy center=",roundi(mapped.x),",",roundi(mapped.y)," viewport=",roundi(get_viewport_rect().size.x),",",roundi(get_viewport_rect().size.y))
+				ReleaseControls.debug_print(["SS_TARGET role_decoy center=",roundi(mapped.x),",",roundi(mapped.y)," viewport=",roundi(get_viewport_rect().size.x),",",roundi(get_viewport_rect().size.y)])
 		if mission_index==4:
 			for action in {"role_observer":Vector2(640,850),"role_home":Vector2(140,800)}:
 				var world:Vector2={"role_observer":Vector2(640,850),"role_home":Vector2(140,800)}[action]
 				var mapped=ocean.global_position+ocean.world_offset+world*ocean.world_scale
-				print("SS_TARGET ",action," center=",roundi(mapped.x),",",roundi(mapped.y)," viewport=",roundi(get_viewport_rect().size.x),",",roundi(get_viewport_rect().size.y))
+				ReleaseControls.debug_print(["SS_TARGET ",action," center=",roundi(mapped.x),",",roundi(mapped.y)," viewport=",roundi(get_viewport_rect().size.x),",",roundi(get_viewport_rect().size.y)])
 
 func _emit_ui_metrics(snapshot: Dictionary={}) -> void:
 	UiMetrics.emit_ui_metrics(self, snapshot)
 func _enter_water() -> void:
 	screen="mission"; menu.hide(); hud.show()
 	for button in zoom_buttons: button.show()
-	print("SS_SCREEN mission paused=",sim.paused)
+	ReleaseControls.debug_print(["SS_SCREEN mission paused=",sim.paused])
 	call_deferred("_layout"); _save_archive()
 
 func _apply_safe_area() -> void:
@@ -857,9 +857,9 @@ func _observation_diagnostics() -> void:
 		if siren.get("type","patroller")=="patroller": continue
 		if diagnostic_roles.get(id,"")!=siren.mode:
 			diagnostic_roles[id]=siren.mode
-			print("SS_ROLE mission=%d index=%d type=%s mode=%s pos=%.6f,%.6f home=%.6f,%.6f target=%d lock=%.6f time=%.6f"%[mission_index,id,siren.type,siren.mode,siren.pos.x,siren.pos.y,siren.home.x,siren.home.y,siren.target,siren.lock,sim.elapsed])
+			ReleaseControls.debug_print(["SS_ROLE mission=%d index=%d type=%s mode=%s pos=%.6f,%.6f home=%.6f,%.6f target=%d lock=%.6f time=%.6f"%[mission_index,id,siren.type,siren.mode,siren.pos.x,siren.pos.y,siren.home.x,siren.home.y,siren.target,siren.lock,sim.elapsed]])
 	var route_ready=mission_index==4 and sim.units[0].alive and sim.units[0].pos.distance_to(Vector2(640,850))<20 and sim.units[0].vel.length()<2
-	if route_ready and not diagnostic_role_route_ready: print("SS_ROLE_ROUTE_READY mission=4 unit=0 time=",sim.elapsed)
+	if route_ready and not diagnostic_role_route_ready: ReleaseControls.debug_print(["SS_ROLE_ROUTE_READY mission=4 unit=0 time=",sim.elapsed])
 	diagnostic_role_route_ready=route_ready
 	var ready=""
 	var unit=sim.units[sim.selected]
@@ -867,13 +867,13 @@ func _observation_diagnostics() -> void:
 		var objective=sim.mission.objectives[id]
 		if objective.captured and not diagnostic_records.has(id):
 			diagnostic_records[id]=true
-			print("SS_OBJECTIVE_RECORDED mission=",mission_index," objective=",id)
+			ReleaseControls.debug_print(["SS_OBJECTIVE_RECORDED mission=",mission_index," objective=",id])
 			_retain_evidence()
 	var context=sim.camera_context()
 	if unit.alive and context.ready: ready="unit=%d objective=%d"%[sim.selected,context.target]
 	if ready!=diagnostic_ready:
 		diagnostic_ready=ready
-		if not ready.is_empty(): print("SS_CAMERA_READY ",ready)
+		if not ready.is_empty(): ReleaseControls.debug_print(["SS_CAMERA_READY ",ready])
 	if sim.mission.get("well_revision",0)==1 and not sim.mission.well_observation.is_empty() and not recovered_evidence.has("well_signature"):_retain_evidence()
 # Frames of one subject accumulate across dives: best frames kept, newest listed last.
 func _merge_shots(key:String) -> void:

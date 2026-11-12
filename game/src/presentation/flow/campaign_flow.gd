@@ -19,7 +19,7 @@ static func show_campaign(host) -> void:
 	host._menu_text("USS QUIETUS  /  OPERATIONS ARCHIVE",18)
 	for i in 6:
 		var id=i
-		var b=host._button(host.panel_box,"%02d   %s   %s"%[i+1,host.Simulation.Missions.TITLES[i],"RECOVERED" if i in host.completed else ("AVAILABLE" if i<=host.unlocked else "LOCKED")],func(): print("SS_MISSION_SELECT ",id); host._briefing(id))
+		var b=host._button(host.panel_box,"%02d   %s   %s"%[i+1,host.Simulation.Missions.TITLES[i],"RECOVERED" if i in host.completed else ("AVAILABLE" if i<=host.unlocked else "LOCKED")],func(): ReleaseControls.debug_print(["SS_MISSION_SELECT ",id]); host._briefing(id))
 		b.disabled=i>host.unlocked
 		b.set_meta("action","mission%d"%i)
 	host.ExpeditionOperations.operations(host)
@@ -52,7 +52,7 @@ static func show_campaign(host) -> void:
 	preload("res://src/presentation/ops_home/ops_home.gd").arrange(host)
 	preload("res://src/presentation/arcs/arc_card.gd").group_rows(host,host.panel_box)
 	preload("res://src/presentation/frontend/menu_reach.gd").entries(host)
-	print("SS_SCREEN operations window=",host.get_window().size," viewport=",host.get_viewport_rect().size," root=",host.size," unlocked=",host.unlocked," active_time=",snappedf(host.sim.elapsed,0.01))
+	ReleaseControls.debug_print(["SS_SCREEN operations window=",host.get_window().size," viewport=",host.get_viewport_rect().size," root=",host.size," unlocked=",host.unlocked," active_time=",snappedf(host.sim.elapsed,0.01)])
 	host.call_deferred("_layout")
 
 static func campaign_pristine(host)->bool:
@@ -248,7 +248,7 @@ static func debrief(host) -> void:
 	EconomyPanel.settle(host,first_recovery,fleet_before)
 	for loss in Economy.Losses.lines(host.economy,true):host._menu_text(loss,17)
 	host.fitted_equipment=host.FleetInventory.reconcile_fitting(host.fitted_equipment,host.FleetInventory.available(host._equipment_entitlements(),host.fleet,host.economy))
-	print("SS_DEBRIEF outcome=",host.sim.outcome," mission=",host.mission_index)
+	ReleaseControls.debug_print(["SS_DEBRIEF outcome=",host.sim.outcome," mission=",host.mission_index])
 	if host.sim.outcome=="won":
 		host._retain_evidence()
 		host.photo_intel=host.PhotoIntel.recover(host.photo_intel,host.sim.mission)
