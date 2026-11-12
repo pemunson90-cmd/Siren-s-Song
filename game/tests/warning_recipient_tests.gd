@@ -1,6 +1,7 @@
 extends SceneTree
 # Local fixtures isolate causality. Unchanged-guard voyages are tested separately.
 const Sim=preload("res://src/simulation/simulation.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 const Store=preload("res://src/persistence/save_store.gd")
 const Campaign=preload("res://src/campaign/expedition_campaign.gd")
 const Endings=preload("res://src/campaign/endings.gd")
@@ -24,7 +25,7 @@ func advance(s,seconds:float):
  for frame in ceili(seconds*60):s.advance(1./60.)
  s.paused=true
 func fresh(proof:String=""):
- var s=Sim.new();s.start(13,"endurance",{"context":{"thread":"shelf","facts":{"warning_chain":proof}}});s.sirens=[];return s
+ var s=Sim.new();s.start(13,"endurance",{"context":{"thread":"shelf","facts":{"warning_chain":proof}}});PlayerDive.launch_drones(s);s.sirens=[];return s
 func progress(thread:String="shelf")->Dictionary:
  return {"version":2,"route":thread,"routes":[thread],"facts":{thread:"Recovered branch","confluence_route":"overt"},"completed":[6,8,10,11] if thread=="shelf" else [6,7,9,11],"notes":{},"references":{},"entitlements":[],"history":[],"selected_thread":thread}
 func transmit(s):

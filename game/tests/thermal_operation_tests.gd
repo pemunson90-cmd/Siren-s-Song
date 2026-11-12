@@ -4,15 +4,23 @@ extends SceneTree
 # No field tools. This proves a flash-assisted policy, not globally optimal depth.
 const Plan=preload("res://tests/thermal_operation_plan.gd")
 const Sim=preload("res://src/simulation/simulation.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 var checks=0
 var failures=0
 func check(ok:bool,label:String):
  checks+=1
  if not ok:failures+=1;printerr("FAIL ",label)
+# The Foundry plan sends drone A on its own legs; both drones now start aboard, so this voyage launches them as it starts.
+class LaunchedVoyage extends Plan.Voyage:
+ func start(index:int,upgrade:String="endurance",launch:Dictionary={})->void:
+  super.start(index,upgrade,launch)
+  PlayerDive.launch_drones(self)
 func _initialize():call_deferred("run")
 func run():
+ # Scripted voyage through authored water the player rules leave uncharted; this suite is not about discovery, so it uses the developer known-charts switch.
+ var charts_before=PlayerDive.known_water(true)
  for id in [3,39]:
-  var layer=Plan.play(id,1);var wrong=Plan.play(id,2)
+  var layer=Plan.play(id,1,LaunchedVoyage.new() if id==3 else null);var wrong=Plan.play(id,2,LaunchedVoyage.new() if id==3 else null)
   var good=layer.sim;var bad=wrong.sim
   check(good.mission.thermal_band==1,"op%d authors MIDDLE layer"%id)
   check(layer.metrics.accepted and good.outcome=="won","op%d ordinary layer-band plan completes"%id)
@@ -47,4 +55,5 @@ func run():
    check(Sim.valid_snapshot(voyage.snapshot()),"op39 %s recovered comparison save validates"%preset)
   print("THERMAL OP FLEET ",JSON.stringify(bare.metrics))
   print("THERMAL OP FLEET ",JSON.stringify(equipped.metrics))
+ PlayerDive.known_water(charts_before)
  print("THERMAL OPERATION CHECKS %d FAILURES %d"%[checks,failures]);quit(1 if failures else 0)

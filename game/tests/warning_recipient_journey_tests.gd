@@ -2,6 +2,7 @@ extends SceneTree
 # Source-known technical voyages, not blind play. Original guards, real routes,
 # actual acoustic delivery and own finite protection remain active throughout.
 const Sim=preload("res://src/simulation/simulation.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 const BERTH=Vector2(1840,440)
 const PANEL=Vector2(1840,380)
 const HOME=Vector2(2420,240)
@@ -73,6 +74,8 @@ func voyage(course:String,proof:String,tools:bool,wait_seconds:float=0.,expect_w
  if proof.is_empty() and course=="sheltered":check(manual,"default no-proof journey pays real manual gate cost")
  print("RECIPIENT JOURNEY ",course," proof=",proof," protection=",tools," departure_hull=",departure_hull," departure_tools=",departure_tools," outcome=",s.outcome," stage=",stage," time=",s.elapsed," Q=",s.units[0].pos," hull=",s.hull," recipient=",s.mission.warning_recipient.body.pos," recipient_hull=",s.mission.warning_recipient.body.hull," oxygen=",s.oxygen," tools=",s.tools)
 func _initialize():
+ # Scripted voyages through authored water the player rules leave uncharted; this suite is not about discovery, so it uses the developer known-charts switch.
+ var charts_before=PlayerDive.known_water(true)
  var waiting=Sim.new();waiting.start(13);waiting.paused=false
  for frame in 3600:waiting.advance(Sim.STEP)
  check(waiting.mission.warning_recipient.body.hull==100 and waiting.mission.warning_recipient.course.is_empty() and waiting.outcome.is_empty(),"ordinary unchanged guards impose no pre-warning departure deadline on covered berth")
@@ -80,4 +83,5 @@ func _initialize():
  voyage("sheltered","service_local_receipt",false,45.)
  voyage("exposed","",false,45.,false)
  voyage("exposed","",true,45.)
+ PlayerDive.known_water(charts_before)
  print("WARNING RECIPIENT JOURNEY CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)

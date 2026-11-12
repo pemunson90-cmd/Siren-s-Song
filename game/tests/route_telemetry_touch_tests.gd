@@ -1,5 +1,6 @@
 extends SceneTree
 # Source-known local input fixtures, not a blind campaign journey.
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 var checks=0
 var failures=0
 var folder=""
@@ -29,7 +30,8 @@ func run():
   var game=load("res://scenes/main.tscn").instantiate();game.set_script(load("res://tests/density_main.gd"));game.capture_scenario="route-telemetry-touch-fixture"
   if dimensions.x==2520:game.fixture_safe_area=Rect2(136,0,2384,1080)
   root.add_child(game);await settle();game.set_process(false);game._start_mission(0);await settle()
-  var sim=game.sim;var h=game.mission_hud;var fleet=h.fleet;var name="cover" if dimensions.x==2520 else "inner"
+  var sim=game.sim;PlayerDive.launch_drones(sim) # both drones start aboard; the station handles under test belong to craft in the water
+  var h=game.mission_hud;var fleet=h.fleet;var name="cover" if dimensions.x==2520 else "inner"
   check(fleet.get("telemetry") is Array,"fleet telemetry is a separate read-only display beside explicit station handles")
   if not fleet.get("telemetry") is Array:game.queue_free();await settle();continue
   # Clear known geometry solely to isolate gesture ownership from path rejection.
@@ -92,7 +94,7 @@ func run():
   # Plant replaces the old north upload: retain the same B-to-control offset
   # at its publicly observable EAST panel, without an internal third marker.
   game._start_mission(10);await settle()
-  sim=game.sim;h=game.mission_hud;fleet=h.fleet
+  sim=game.sim;PlayerDive.launch_drones(sim);h=game.mission_hud;fleet=h.fleet # a second dive starts with both drones aboard
   var station=sim.observable_sites()[1]
   sim.units[0].pos=Vector2(480,1000);sim.units[1].pos=Vector2(1000,1880);sim.units[2].pos=station.pos+Vector2(285,205)
   game.ocean.fit_chart();game._refresh();await settle()
