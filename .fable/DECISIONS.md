@@ -69,3 +69,19 @@ What: The bootstrap committed `.claude/` (guard, hooks, agent files) and `.fable
 Options: (A) Keep them in the PR as the standing safety layer for future runs; a future run only needs a new charter. (B) Before the PR is marked ready, move `.claude/` and `.fable/` run files to scrap on the run branch so the merge carries only the game and its documents. (C) Keep the hooks but have the run loosen the push rule to the normal branch model at closeout (needs your explicit go-ahead, because a run may not loosen its own guard).
 Recommendation: A because the guard only restricts destructive commands and pushes outside `fable/`, which matches how you want agents to work, and option C can follow later if it gets in the way.
 Current state kept: `.claude/` and `.fable/` stay tracked on the run branch.
+
+## D-08 Photo pay: should quality outweigh distance and tools
+Status: OPEN
+Raised: 2026-11-12, phase 2, WP-10
+What: Blind critics saw a photo grade and never saw what it paid; the 1 Nov plan already noted that pay favors distance and tools over photo quality. This run adds a line that shows what each photograph paid. Changing the pay numbers themselves is a game-rule tuning question.
+Options: (A) After this run, retune the pay table so a sharper, better-framed photo pays clearly more than a distant safe one, with numbers shown to you first. (B) Keep the pay table as it is; showing the pay is enough. (C) Retune inside this run without showing numbers first.
+Recommendation: A because the risk dial on the camera is the game's best idea and it needs a reward on the other side, while the numbers are yours to see before they land.
+Current state kept: photo pricing, exposure and grading are unchanged; only the display of what was paid is added.
+
+## D-09 Drone pace and something to buy early
+Status: OPEN
+Raised: 2026-11-12, phase 2
+What: A new player's drones carry no tools, the only early purchase costs alloy the player does not have, and a drone leg of 900 to 1800 m is mostly waiting. Fixing this means design changes: a player-controlled time step while no Siren is aware, and an affordable first purchase or a starter drone tool.
+Options: (A) Both: a 2x and 4x time step that drops to normal the moment any Siren notices a craft, and one starter drone tool after operation 1. (B) Time step only. (C) Starter tool only. (D) Neither for now.
+Recommendation: A because the three-craft premise is not felt in the opening without it, and both are additions that remove nothing.
+Current state kept: drone speed, tool stock and prices are unchanged.

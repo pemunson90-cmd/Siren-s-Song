@@ -1,6 +1,6 @@
 # Survey: Siren's Song at base cabd5bd5
 
-Status: IN PROGRESS (2026-11-11, Phase 1). Sections 1 to 6 are complete. Section 7 (ranked weaknesses) is provisional until the three blind critics report and `.fable/COLD_REVIEW_6.md` is written.
+Status: COMPLETE (2026-11-12, Phase 1). Section 7 was finished after the three blind critics reported (`.fable/COLD_REVIEW_6.md`).
 
 Sources: a read-only explorer read the code (it ran no tests; items marked "inferred" were not executed), the root session read the governing documents, the specification, the rulings and the CI workflows. Paths are relative to `game/` unless they start with `docs/`, `scripts/` or `.github/`.
 
@@ -92,18 +92,23 @@ This is the expansion-readiness gap: the specification asks for reusable operati
 
 Code-quality observations without a single defect: two god objects (`main.gd`, `simulation.gd`), 118 `set_meta` calls with 45 keys as hidden state, 38 feature switches and 167 "revert" comments kept so features can be turned off, seven `TODO` markers (six on Glass Reach recovery corridors, one for the creator credit line, which is Pat's).
 
-## 7. Ranked weaknesses and opportunities (provisional)
+## 7. Ranked weaknesses and opportunities
 
-Ranked by Pat's priorities (gameplay, graphics, interface, bugs, features above story). Critic findings will reorder the gameplay rows.
+Ranked by Pat's priorities (gameplay, graphics, interface, bugs, features above story), using the code survey above, the three blind critics (`.fable/COLD_REVIEW_6.md`, finding IDs G, I and B) and the earlier cold reviews on `codex/handoffs`. The plan (`.fable/OVERHAUL_PLAN.md`) turns these into work packages.
 
-1. **Progress-loss risk S-01.** Pat ruled on 2026-11-11 that save files are minor priority while the game is unfinished, so this is P2 backlog, not P0. It stays listed first here only because it is the one defect that could lose data.
-2. **Governance and documentation sprawl** (S-10, S-11): stale banners, contradictory rules, status on another branch. P0.
-3. **Repository hygiene** (S-09) and **CI and harness gaps** (S-12, S-13). P0.
-4. **Photo payoff:** value favors distance and tools over photo quality (STATE.md plan item, COLD_REVIEW_4 F1 and F15). P1.
-5. **Late-operation variety and the branching route graph:** forks mostly change approaches inside operations, not which operations you get; 29 of 41 operations were classed as waypoint runs on 28 Oct before the pressure fixes. P1, and it depends on rank 6.
-6. **Expansion readiness:** operation, region, role and fitting definitions keyed on literal IDs (section 4). P1: data-driven tables and guides for adding an operation, a Siren role, a fitting and a region.
-7. **Received content:** ARRIVALS opens instructions instead of the received content (COLD_REVIEW_5 rank 9, no later item). P1.
-8. **Fitting allocation** (COLD_REVIEW_5 rank 10, partly addressed by items 135 and 138). P1 or P2 after the critics.
-9. **Release hygiene:** S-02, S-03, S-04. P1.
-10. **Code duplication and dead guards** (S-05, S-06, S-07). P1 small packages or P2.
-11. **Look and sound:** read-only comparison only; art is Pat's call and audio has never been assessed. P2 backlog and decisions.
+| Rank | Weakness or opportunity | Evidence | Plan |
+| --- | --- | --- | --- |
+| 1 | Being caught or losing a drone is not readable on the chart | Cold review 6 G1 (all three critics) | P1 |
+| 2 | The planning camera moves under the finger and the order flow says untrue things | Cold review 6 I1, I3, I4 | P1 |
+| 3 | Photographs: no visible payoff, no shutter control, film spent on frames that cannot succeed | Cold review 6 G3, G4, I5; the 1 Nov plan item "photo payoff"; cold review 4 F1 and F15 | P1 for what is shown; pay-table tuning is a decision for Pat |
+| 4 | HUD chips move and clip, primary buttons fall below the fold, the oxygen limit is unexplained, small text defects, two result and launch bugs | Cold review 6 I2, I6, I8, G6, B1, B2 | P1 |
+| 5 | Expansion cost: operations, regions, roles and fittings keyed on literal IDs | Section 4; the specification asks for reusable definitions | P1 |
+| 6 | Release hygiene: developer shortcuts reachable through an imported profile, tests in the export, diagnostics printed in every build | S-02, S-03, S-04 | P1 |
+| 7 | Governance and documentation sprawl; repository hygiene; CI and harness gaps | S-08 to S-13 | P0 |
+| 8 | Late-operation variety, the difficulty cliff between optional and core operations, and the branching route graph | Cold review 6 G5; fleet diagnostic of 28 Oct; the 1 Nov plan | A structural proposal for Pat in this run; building is backlog |
+| 9 | Drone play is mostly waiting and a new player's drones have nothing to do | Cold review 6 G2 | Decision for Pat (pace and early purchases are design) |
+| 10 | Buying and fitting hide stats, conflicts and the balance | Cold review 6 I7; cold review 5 rank 10 | Backlog |
+| 11 | ARRIVALS opens instructions instead of the received content | Cold review 5 rank 9; not retested by cold review 6 | Backlog |
+| 12 | Duplicated constants, dead guards, settings stored twice | S-05, S-06, S-07 | Backlog, apart from what the data-table package removes |
+| 13 | Possible progress loss with an unreadable save (S-01) | Read from code, not reproduced | Backlog: Pat ruled on 2026-11-11 that save files are minor priority |
+| 14 | Look and sound have never been compared with reference games; whole-campaign critic coverage has never been reached | Cold review 6 coverage section | Backlog and decisions |
