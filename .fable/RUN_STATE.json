@@ -2,11 +2,11 @@
   "run_id": "overhaul-20261111",
   "status": "RUNNING",
   "phase": "4-execution",
-  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: Read the Phase 4 gate result (gh run list --workflow gauntlet-pr-checks.yml --branch fable/overhaul-20261111), attribute any failure, fix locally, then Phase 5 per NOW.md",
+  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: Read the result of the full-matrix run dispatched after the gate fix; if green, dispatch android-validation.yml once, then Phase 5 ledger and Phase 6 closeout. The PR stays a draft (marking it ready starts another full run; Pat: do not waste Actions)",
   "base_ref": "origin/claude/integration",
   "base_sha": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
   "run_branch": "fable/overhaul-20261111",
-  "run_head": "95cbc1cb47866f19404841d3fc1e36905ce23662",
+  "run_head": "b6a32a16bae083f04bbb1608da52d9a335114ea3",
   "shared_tips": {
     "claude/integration": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
     "main": "f5b66a198e3878950325f8c45a0bc6bc29dcba84",
@@ -30,6 +30,6 @@
     "WP-12": "merged"
   },
   "decisions_open": 14,
-  "last_checkpoint": "All work packages WP-00 to WP-12 merged. Phase 4 CI gate dispatched on the merged head",
-  "updated": "2026-11-12 08:44:31"
+  "last_checkpoint": "Phase 4 gate run 43229665195 failed seven suites; fixed in one commit; verification run dispatched",
+  "updated": "2026-11-12 09:58:27"
 }
