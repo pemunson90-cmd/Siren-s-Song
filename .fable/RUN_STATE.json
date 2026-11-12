@@ -6,7 +6,7 @@
   "base_ref": "origin/claude/integration",
   "base_sha": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
   "run_branch": "fable/overhaul-20261111",
-  "run_head": "0edb71abe424f11b7b07a2446152097972ac0d7b",
+  "run_head": "ef7aba85ba5d56869b83b893c68dbfc9813a605f",
   "shared_tips": {
     "claude/integration": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
     "main": "f5b66a198e3878950325f8c45a0bc6bc29dcba84",
@@ -38,9 +38,10 @@
     "WP-20": "merged",
     "WP-21": "merged",
     "WP-22": "merged",
-    "WP-23": "building"
+    "WP-23": "building",
+    "WP-24": "building"
   },
   "decisions_open": 0,
   "last_checkpoint": "WP-19 to WP-22 merged (A4, A3, A2 part 1, A6); A5 in progress",
-  "updated": "2026-11-12 15:12:18"
+  "updated": "2026-11-12 15:13:54"
 }

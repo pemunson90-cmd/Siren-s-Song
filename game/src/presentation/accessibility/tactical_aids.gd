@@ -88,17 +88,11 @@ func observe()->void:
   # A loss in the same step keeps its cause line first (THREAT READ); otherwise the original text.
   sim.message=ThreatRead.pause_message(sim,reason) if not losses.is_empty() else "AUTO PAUSE: "+reason
  pending_notice=false
+# A8 step 1: the dive's clock lives in src/dive_clock.gd. The aids only say
+# whether they need to look after every fixed step, and look.
+func begin_frame()->void:_reset()
+func slices_steps()->bool:
+ return Settings.current.get("auto_pause_notice",false) or Settings.current.get("auto_pause_lock",false) or ThreatRead.pause_wanted()
+# Kept for callers that still advance a dive through the aids (tests).
 func advance(dt:float)->void:
- # Observe between fixed steps so a long rendered frame cannot consume the
- # warning after the aid pauses. Keep the ordinary frame cap and accumulator.
- _reset()
- var enabled=Settings.current.get("auto_pause_notice",false) or Settings.current.get("auto_pause_lock",false) or ThreatRead.pause_wanted()
- if not enabled:
-  _advance(dt);observe();return
- var remaining=minf(dt,.25)
- while remaining>0.0000001 and not host.sim.paused and host.sim.outcome.is_empty():
-  var amount=minf(remaining,host.sim.STEP)
-  _advance(amount);observe();remaining-=amount
-func _advance(dt:float)->void:
- if host.get("debug_console")!=null:host.debug_console.advance(dt)
- else:host.sim.advance(dt)
+ preload("res://src/dive_clock.gd").advance(host,self,dt)
