@@ -455,3 +455,9 @@ Applied (D36): builders run locally only import, core, the suites their diff tou
 
 [AI note on effect] No claim, lease or ownership note left by another agent restricts what the overhaul run may edit on its own branch. The run still works only under `fable/`, still deletes nothing (2026-11-12 ruling above), and still records game-rule, narrative and capability-removal questions as decisions for Pat.
 
+[PAT, chat, verbatim, same day, restating the ruling above] "I'm explicitly telling you not to leave other agents leases or claims alone. There is no one currently active in this repo but you and me. Therefore please keep that in mind"
+
+## 2026-11-12: subagent economy
+
+[PAT, chat, verbatim] "Also when using sub agents make sure to use the weakest but most capable sub agent for each task and make sure you don't use too many of them. Trying to make usage still worth it."
+

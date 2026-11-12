@@ -386,3 +386,8 @@ planning_order_flow_ui_tests|PLANNING ORDER FLOW UI|1409|1409
 photo_shutter_ui_tests|PHOTO SHUTTER UI|1411|1411
 photo_range_caption_tests|PHOTO RANGE CAPTION|1412|1412
 photo_pay_ui_tests|PHOTO PAY UI|1413|1413
+launch_clearance_tests|LAUNCH CLEARANCE|1414|1414
+text_spacing_tests|TEXT SPACING|1415|1415
+life_support_ui_tests|LIFE SUPPORT UI|1416|1416
+hud_chips_ui_tests|HUD CHIPS UI|1417|1417
+debrief_reach_ui_tests|DEBRIEF REACH UI|1418|1418
