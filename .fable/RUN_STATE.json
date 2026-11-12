@@ -1,0 +1,15 @@
+{
+  "run_id": "overhaul-20261111",
+  "status": "NOT_STARTED",
+  "phase": "0-preflight",
+  "next_action": "Phase 0 step 1: confirm the run clone, branch and bootstrap commit",
+  "base_ref": "origin/claude/integration",
+  "base_sha": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
+  "run_branch": "fable/overhaul-20261111",
+  "run_head": "",
+  "shared_tips": {},
+  "work_packages": {},
+  "decisions_open": 0,
+  "last_checkpoint": "",
+  "updated": "2026-11-11 19:50:03"
+}

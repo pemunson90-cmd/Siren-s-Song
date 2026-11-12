@@ -28,3 +28,24 @@ Thumbs.db
 test-results/
 playwright-report/
 coverage/
+
+# Autonomous run local files
+.claude/settings.local.json
+.claude/worktrees/
+.fable/.stop_blocks
+.fable/.stop_blocks.last
+
+# Private signing material and secrets: never committed. Pat provides release
+# keys when needed, from a path outside the repository. Debug APKs use only the
+# tracked development keystore listed in the exception above.
+*.p12
+*.pfx
+*.pk8
+*.pem
+*.der
+*.key
+keystore.properties
+signing.properties
+release*.properties
+scripts/toolchain/signing/release/
+scripts/toolchain/signing/private/
