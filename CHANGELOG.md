@@ -31,4 +31,6 @@ Base: `claude/integration` at `cabd5bd5`. The complete account, including every 
 
 ### Game
 
-Entries are added as work packages land.
+- Release builds refuse the six developer-only travel shortcuts on every profile, including an imported developer-marked one. Debug builds are unchanged. The developer mark and its exclusion from records are unchanged.
+- Exported packages no longer contain the test scripts.
+- The internal `SS_` diagnostic lines print only in debug builds.
