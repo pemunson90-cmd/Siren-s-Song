@@ -4,6 +4,7 @@ extends "res://tests/endings_photo_ui_tests.gd"
 const Campaign=preload("res://src/campaign/expedition_campaign.gd")
 const Journey=preload("res://tests/calder_trench_journey_tests.gd")
 const Store=preload("res://src/persistence/save_store.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 var expected_plate_keys=[]
 const FinaleTablePath="res://src/presentation/finale/finale_table.gd"
 func has_text(node,text):
@@ -48,10 +49,13 @@ func expedition_fixture()->Dictionary:
 	for id in range(14,34):completed.append(id)
 	return {"version":2,"route":"deep","routes":["deep"],"facts":{"deep":"Recovered branch account","confluence_route":"concealed","glass_choice":"salvage","choir_choice":"bypass","choir_people":"landed","choir_plant":"reconnect"},"completed":completed,"notes":{},"references":{},"entitlements":[],"history":[],"selected_thread":"deep"}
 func fixture_last_recovery(game)->bool:
+	# The scripted operation 34 route crosses authored water the player rules leave uncharted; it is not a discovery test: known-charts developer switch.
+	var charts_before=PlayerDive.known_water(true)
 	game._start_mission(34)
 	game.sim.mission["dev"]=true # 127: the scripted operation 34 journey flies the dev/test pathfinder route (Pat 2026-10-30).
 	var won=Journey.run_core(game.sim,34)
 	game.sim.mission.erase("dev")
+	PlayerDive.known_water(charts_before)
 	check(game.sim.mission.objectives[2].captured,"fixture completes the actual operation 34 drill-feed disconnect")
 	check(game.sim.mission.objectives[0].captured,"fixture exposes the actual operation 34 core photograph")
 	check(game.sim.outcome=="won" and game.sim.mission.recovered,"fixture physically recovers operation 34 film")

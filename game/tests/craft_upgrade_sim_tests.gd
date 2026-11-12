@@ -1,19 +1,24 @@
 extends SceneTree
 const Sim=preload("res://src/simulation/simulation.gd")
 const World=preload("res://src/simulation/world_region.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 var checks=0
 var failures=0
 func check(ok,label):
  checks+=1
  if not ok:failures+=1;printerr("FAIL ",label)
 func make(item="",drone="",index=0):
- var sim=Sim.new();sim.start(index,"disruption",{"fitted":{"quietus":item,"drone_a":drone,"drone_b":""}});return sim
+ var sim=Sim.new();sim.start(index,"disruption",{"fitted":{"quietus":item,"drone_a":drone,"drone_b":""}});PlayerDive.launch_drones(sim)
+ for id in [1,2]:sim.units[id].pos=sim.units[0].pos+sim.LaunchLayout.offset(index,id) # drones at their authored launch stations, as before the player rules
+ sim._observe();return sim
 func run(sim,count):
  sim.paused=false
  var peak=0.0
  for tick in count:sim.advance(Sim.STEP);peak=maxf(peak,sim.units[0].vel.length())
  return peak
 func _initialize():
+ # Larger-region observation is the legacy known-water path; known-charts developer switch (the player rules give op 8 an earned chart instead).
+ var charts_before=PlayerDive.known_water(true)
  var probe=Sim.new()
  if not probe.has_method("passive_range"):check(false,"general hardware reaches actual simulation systems")
  else:
@@ -38,4 +43,5 @@ func _initialize():
   var active=Sim.new();active.start(6,"disruption",{"fitted":fit});fit.quietus="";active.command("silent");active.command("route",{"point":active.units[0].pos+Vector2(100,-200)});run(active,47);active.paused=true
   var restored=Sim.new();check(restored.restore(active.snapshot()),"current active upgrade fitting restores into fresh simulation")
   check(restored.mission.launch_equipment.quietus=="quietus_vector_drive" and restored.passive_range(1)==460 and restored.mission.launch_equipment.drone_b=="drone_deep_cells","launch freezes real fitted capabilities across save/reload")
+ PlayerDive.known_water(charts_before)
  print("CRAFT UPGRADE SIM CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)

@@ -1,4 +1,5 @@
 extends SceneTree
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 # Source-known UI fixtures. All interactions use ScreenTouch plus Android-style
 # mouse emulation; synthetic placement isolates presentation from travel skill.
 var checks=0
@@ -31,8 +32,9 @@ func lock_drone(op:int,busy:bool=false):
  var s=game.sim;s.mission.rocks=[];s.mission.structures=[]
  for band in s.mission.get("depth_geometry",{}):s.mission.depth_geometry[band].rocks=[];s.mission.depth_geometry[band].structures=[]
  s._build_navigation();s._configure_terrain();s._configure_depth_charts()
- s.units[0].pos=Vector2(100,900);s.units[1].pos=Vector2(600,500);s.units[1].band=1
+ PlayerDive.launch_drones(s);s.units[0].pos=Vector2(100,900);s.units[1].pos=Vector2(600,500);s.units[1].band=1
  var e=s.sirens[0];e.pos=Vector2(720,500);e.home=e.pos;e.goal=e.pos;e.route=[];e.patrol_points=[];e.angle=PI;e.stun=0.0;e.band=1;e.transition={};s.sirens=[e]
+ e.mode="SEARCH" # a calm Siren ignores a drone (Pat, 2026-11-12); this fixture needs an alerted one
  game.hints_seen=["move","pause","drone","noise"];game.mission_hud.hints.dismiss()
  if busy:game.mission_hud.open("tools")
  s.paused=false;s.advance(.5);game._refresh();await settle()

@@ -6,6 +6,7 @@ const Card=preload("res://src/presentation/arcs/arc_card.gd")
 const Flow=preload("res://src/presentation/flow/campaign_flow.gd")
 const Journey=preload("res://tests/calder_trench_journey_tests.gd")
 const Photo=preload("res://src/simulation/photo_capture.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 const LINE="Dive time 02:05  /  Hull 63%  /  Life support 41%"
 class ManifestSim:
  extends "res://src/simulation/simulation.gd"
@@ -42,6 +43,7 @@ func stat_lines(node)->Array:
  return node.find_children("*","Label",true,false).filter(func(l):return l.is_visible_in_tree() and re.search(l.text)!=null).map(func(l):return l.text)
 func stage(game,quietus_out:bool):
  var s=game.sim
+ PlayerDive.launch_drones(s) # the drones are launched; none is aboard
  for id in 3:
   var u=s.units[id];u.alive=true;u.band=1;u.transition={};u.vel=Vector2.ZERO;u.pos=s.mouth_pos+Vector2(10*id,0)
  s.units[2].pos=s.mouth_pos+Vector2(400,0)
@@ -112,10 +114,13 @@ func finale_case():
  root.add_child(game);await settle();game.set_process(false)
  game.completed=[0,1,2,3,4,5];game.unlocked=5;game.expedition=expedition_fixture();game.recovered_evidence=archive_fixture();game.active_started=false
  game._show_campaign();game.capture_scenario=""
+ # The scripted finale route crosses authored water the player rules leave uncharted; it is not a discovery test: known-charts developer switch.
+ var charts_before=PlayerDive.known_water(true)
  game._start_mission(34)
  game.sim.mission["dev"]=true
  var won=Journey.run_core(game.sim,34)
  game.sim.mission.erase("dev")
+ PlayerDive.known_water(charts_before)
  check(won and game.sim.outcome=="won","fixture recovers operation 34")
  set_stats(game.sim)
  game._debrief();await settle()
