@@ -6,7 +6,7 @@
   "base_ref": "origin/claude/integration",
   "base_sha": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
   "run_branch": "fable/overhaul-20261111",
-  "run_head": "075f627e48c4fd4c7cd640b60bca7fdd85ca8db4",
+  "run_head": "03e006f0d473e12c10a83b556fdc99f4cb753f9e",
   "shared_tips": {
     "claude/integration": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
     "main": "f5b66a198e3878950325f8c45a0bc6bc29dcba84",
@@ -29,7 +29,7 @@
     "WP-11": "planned",
     "WP-12": "planned"
   },
-  "decisions_open": 9,
+  "decisions_open": 10,
   "last_checkpoint": "Phase 3 exit met except the CI result: governance set, scrap manifest, changelog, link check clean, checker updated, draft PR 262 open, full matrix run 43188734403 dispatched on 075f627e. Phase 4 started",
-  "updated": "2026-11-12 04:09:59"
+  "updated": "2026-11-12 04:11:58"
 }

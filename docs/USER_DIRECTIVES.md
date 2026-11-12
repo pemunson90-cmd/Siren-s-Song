@@ -440,3 +440,11 @@ Applied (D36): builders run locally only import, core, the suites their diff tou
 ## 2026-11-12: overhaul run launch
 
 [PAT, launch message, verbatim excerpts] "I want a real overhaul: consolidate, restructure and fix what you find, and make the game easier to expand. Every behavior change goes in the final report, small ones included." "Do not start P2 work or further polish."
+
+## 2026-11-12: no deletions without Pat's permission
+
+[PAT, chat, verbatim] "there should be absolutely no deletions ever for any reason without my permission. Anything that is to be deleted needs to go to a scrap folder and if you can't, left alone."
+
+[PAT, same message, verbatim] "I don't know how to open the _fable clone as the project from my phone. If everything else is working just continue"
+
+[AI note on effect] This restates the removal rule of 5 November 2026 and extends it to every kind of deletion (files, folders, branches, tags, caches, scratch output). Where a move to scrap is not possible, the item is left where it is.
