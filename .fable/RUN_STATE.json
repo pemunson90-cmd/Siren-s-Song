@@ -6,7 +6,7 @@
   "base_ref": "origin/claude/integration",
   "base_sha": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
   "run_branch": "fable/overhaul-20261111",
-  "run_head": "024e704300d0a00be8191bab101592dfd1e8ee02",
+  "run_head": "017184b1a3a22b7dc1a3f6f3ee376972b8cdc1e8",
   "shared_tips": {
     "claude/integration": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
     "main": "f5b66a198e3878950325f8c45a0bc6bc29dcba84",
@@ -37,5 +37,5 @@
   },
   "decisions_open": 0,
   "last_checkpoint": "Phase 8: WP-17 and WP-18 done and pushed; every remaining item waits on Pat (A1 to A12, playtest feedback, N-1 to N-7)",
-  "updated": "2026-11-12 13:34:19"
+  "updated": "2026-11-12 13:34:20"
 }
