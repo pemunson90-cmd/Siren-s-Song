@@ -461,3 +461,14 @@ Applied (D36): builders run locally only import, core, the suites their diff tou
 
 [PAT, chat, verbatim] "Also when using sub agents make sure to use the weakest but most capable sub agent for each task and make sure you don't use too many of them. Trying to make usage still worth it."
 
+## 2026-11-12: effort, tests and GitHub Actions
+
+[PAT, chat, verbatim] "And if you hit any work that would require high effort or anything above medium let me know and I can make the change"
+
+[PAT, chat, verbatim] "You should be focusing on development and efficiency and properly building up the game, not running endless tests for everything you do."
+
+[PAT, chat, verbatim] "Don't waste my GitHub actions unless necessary.
+You should be using the absolute bare minimum amount of tests always."
+
+[AI note on effect] Consistent with the 2026-10-31 minimum-tests ruling. Applied in the overhaul run from this point: local checks limited to the suites a fix touches; one full-matrix run to verify the gate fix; one package build; the pull request is left as a draft because marking it ready starts another full run.
+

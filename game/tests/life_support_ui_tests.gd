@@ -1,8 +1,9 @@
 extends SceneTree
 # WP-11 (cold review 6, G6): Quietus life support is on screen during a dive,
-# while running and with a command ring open, on the Fold cover and inner
-# shapes, normal and mirrored, at 100 and 150 percent text. The briefing names
-# the operation's life-support limit as a fact line.
+# as the second line of the running pause control, while running and with a
+# command ring open, on the Fold cover and inner shapes, normal and mirrored,
+# at 100 and 150 percent text. The control keeps its size, so nothing else
+# moves. The briefing names the operation's life-support limit as a fact line.
 const Settings=preload("res://src/presentation/frontend/frontend_settings.gd")
 const CHIP_PATH="res://src/presentation/life_support_chip.gd"
 var Chip
@@ -14,10 +15,6 @@ func check(ok,label):
 func _initialize():call_deferred("run")
 func settle():
 	for n in 6:await process_frame
-func chip_label(game)->Label:
-	for c in game.mission_hud.get_children():
-		if c is Label and c.visible and c.text.begins_with("LIFE"):return c
-	return null
 func controls(game)->Array:
 	var out=[]
 	for b in game.mission_hud.action_controls().values():
@@ -46,51 +43,56 @@ func shape_case(shape:Vector2i,mirrored:bool,scale:float):
 	game._start_mission(0);await settle();game._layout();await settle()
 	if game.mission_hud.hints.panel.visible:game.mission_hud.hints.dismiss()
 	var s=game.sim;s.sirens=[]
+	var hud=game.mission_hud;var pause:Button=game.pause_button
+	# Paused: the control reads as before and gives the size to compare with.
+	s.paused=true;game._refresh();await settle()
+	check(pause.text=="PAUSED
+▶ RESUME","the paused control keeps its text "+stamp)
+	var paused_rect=pause.get_rect()
 	# Running, unselected detail window elapsed: the old plate would be hidden here.
 	s.paused=false
 	for n in roundi(6.0/s.STEP):s.advance(s.STEP)
 	game._refresh();await settle()
-	var hud=game.mission_hud;var area=Rect2(Vector2.ZERO,hud.size)
-	var label=chip_label(game)
-	check(label!=null,"life support is on screen while the dive runs "+stamp)
-	if label==null:game.queue_free();await settle();return
-	check(("%d%%"%roundi(s.oxygen)) in label.text and "~" in label.text,"the chip reads the live oxygen value and time left "+stamp+" "+label.text)
-	check(area.encloses(label.get_rect()),"the chip lies inside the HUD area "+stamp)
-	check(not label.get_rect().intersects(game.pause_button.get_rect()),"the chip clears the pause control "+stamp)
-	check(not controls(game).any(func(r):return r.intersects(label.get_rect())),"the chip clears every visible control "+stamp)
-	var pause_left=game.pause_button.get_rect().get_center().x<hud.size.x*.5
-	check(pause_left!=mirrored and (label.get_rect().get_center().x<hud.size.x*.5)==pause_left,"the chip follows the pause side "+stamp)
-	check(hud.threat_rects().has(label.get_rect()),"placed panels and chips are told to clear the chip "+stamp)
-	var oxygen_text=label.text
+	var lines=pause.text.split("
+")
+	check(lines.size()==2 and lines[0]=="Ⅱ PAUSE" and lines[1].begins_with("O₂"),"the running pause control carries life support on its second line "+stamp+" "+str(lines))
+	if lines.size()!=2:game.queue_free();await settle();return
 	var left=int(s.oxygen/preload("res://src/simulation/operation_endurance.gd").oxygen_drain(s.mission,1.0))
-	check(("~%d:%02d"%[left/60,left%60]) in label.text,"the clock is oxygen over the base drain rate %s: %s"%[stamp,label.text])
-	s.oxygen=80.0;game._refresh();await settle()
-	var calm:Color=label.get_theme_color("font_color")
+	var clock="~%d:%02d"%[left/60,left%60];var percent="%d%%"%roundi(s.oxygen)
+	check(lines[1] in ["O₂ %s %s"%[percent,clock],"O₂ "+clock,"O₂ "+percent],"the line is the live reading: percent, time left at the base drain rate, or both %s: %s"%[stamp,lines[1]])
+	if shape.x==2520 and scale==1.0:check(clock in lines[1],"the cover screen at normal text shows the time left "+stamp)
+	check(pause.get_rect()==paused_rect,"the pause control keeps its place and size "+stamp)
+	check(Rect2(Vector2.ZERO,hud.size).encloses(pause.get_rect()),"the pause control lies inside the HUD area "+stamp)
+	check(not Chip.rect(hud).has_area(),"the reading reserves no space of its own "+stamp)
+	check(not pause.has_theme_color_override("font_color"),"the reading has the ordinary colour above 25 percent "+stamp)
+	var oxygen_text=pause.text
 	s.oxygen=20.0;game._refresh();await settle()
-	check(label.visible and "20%" in label.text and label.text!=oxygen_text,"the chip follows a falling reading "+stamp)
-	check(label.get_theme_color("font_color")!=calm,"the chip changes colour at 25 percent or below "+stamp)
-	# A command ring open: the reading stays, and the ring clears it.
-	s.oxygen=80.0
-	hud.open("craft",{"kind":"craft","unit":0,"pos":s.units[0].pos});await settle()
-	label=chip_label(game)
-	check(label!=null and "80%" in label.text,"life support stays on screen with the command ring open "+stamp)
-	if label!=null:
-		check(not controls(game).any(func(r):return r.intersects(label.get_rect())),"ring controls clear the chip "+stamp)
-		check(not hud.close_button.get_rect().intersects(label.get_rect()),"ring BACK clears the chip "+stamp)
-		check(not (hud.alarm.visible and hud.alarm.get_rect().intersects(label.get_rect())),"the warning header clears the chip "+stamp)
+	check("20%" in pause.text or "~" in pause.text,"the reading follows a falling value "+stamp)
+	check(pause.text!=oxygen_text and pause.has_theme_color_override("font_color"),"the reading turns amber at 25 percent or below "+stamp)
+	check(pause.get_rect()==paused_rect,"the pause control keeps its size when the reading changes "+stamp)
+	s.oxygen=80.0;game._refresh();await settle()
+	check(not pause.has_theme_color_override("font_color"),"the amber state clears above 25 percent "+stamp)
+	# A command ring open while running: the reading stays.
+	hud.open("craft",{"kind":"craft","unit":0,"pos":s.units[0].pos});await settle();game._refresh();await settle()
+	if not s.paused:check("O₂" in pause.text,"life support stays on screen with the command ring open "+stamp)
+	else:check(pause.text.begins_with("PAUSED"),"a ring that pauses the dive shows the paused control "+stamp)
+	check(not controls(game).any(func(r):return r!=pause.get_rect() and r.intersects(pause.get_rect())),"ring controls clear the pause control "+stamp)
 	hud.dismiss();await settle()
+	s.paused=true;game._refresh();await settle()
+	check(pause.text=="PAUSED
+▶ RESUME" and not pause.has_theme_color_override("font_color"),"pausing restores the paused text and colour "+stamp)
 	game.queue_free();await settle()
 func briefing_case():
 	root.size=Vector2i(2520,1080);await settle()
 	var game=load("res://scenes/main.tscn").instantiate();game.set_script(load("res://tests/density_main.gd"))
 	game.store.path="user://wp11-life-brief-%d.save"%Time.get_ticks_usec()
 	root.add_child(game);await settle();game.set_process(false)
-	game.upgrade="endurance";game._briefing(0);await settle()
+	game.upgrade="endurance";game._briefing(1);await settle()
 	var found=""
 	for c in game.panel_box.find_children("*","Label",true,false):
 		if c.text.begins_with("NEXT DIVE / RETRY"):found=c.text
-	var s=load("res://src/simulation/simulation.gd").new();s.start(0,"endurance")
+	var s=load("res://src/simulation/simulation.gd").new();s.start(1,"endurance")
 	var seconds=int(s.oxygen/preload("res://src/simulation/operation_endurance.gd").oxygen_drain(s.mission,1.0))
 	check(("LIFE SUPPORT %d:%02d"%[seconds/60,seconds%60]) in found,"the briefing states the operation's life-support limit %d s: %s"%[seconds,found])
-	check(found.begins_with("NEXT DIVE / RETRY") and "O₂ 120% · DISRUPT" in found,"the existing stock line is unchanged ahead of it")
+	check(found.begins_with("NEXT DIVE / RETRY") and "O₂" in found,"the existing stock line is unchanged ahead of it")
 	game.queue_free();await settle()

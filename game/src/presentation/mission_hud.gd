@@ -509,8 +509,8 @@ func threat_rects()->Array:
  var life=LifeChip.rect(self)
  if life.has_area():rects.append(life)
  return rects
-# include_life=false: the life support chip is header furniture under the pause
-# control; a radial may sit beside it (it still lists it as a protected rect).
+# include_life is kept for callers; the life support reading now lives inside the
+# pause control and has an empty rectangle, so both values give the same floor.
 func threat_floor(include_life:bool=true)->float:
  var bottom=host.pause_button.get_rect().end.y+12.
  var life=LifeChip.rect(self)
@@ -593,8 +593,8 @@ func refresh():
  extra.sonar_emit.text="EMIT\n"+("%s RESERVE"%String.num(snappedf(sim.Sonar.pulse_cost(sim,sim.selected),0.01)));extra.sonar_emit.disabled=sim.ping_time>0 or not transition.is_empty()
  subject=Concealed.refresh_subject(sim,Recipient.refresh_subject(sim,Rendezvous.refresh_subject(sim,subject)))
  host.pause_button.text="PAUSED\n▶ RESUME" if sim.paused else "Ⅱ\nPAUSE"
- _fit_pause_button()
  LifeChip.sync(self)
+ _fit_pause_button()
  host.advanced_button.text="FLEET"
  focus_button.text="FOLLOW" if host.ocean.chart_camera.mode=="follow" else "FOCUS"
  intent.text="%s · %s · %s"%[sim.units[sim.selected].name+" · "+sim.Depth.NAMES[sim.units[sim.selected].band],"QUEUE" if sim.queue_mode else "REPLACE",(host.targeting_feedback if not host.targeting_feedback.is_empty() else "DECOY · TAP CLEAR WATER ≤160m · TAP CANCEL" if host.decoy_armed else "TORPEDO · TAP FRESH CONTACT · TAP CANCEL" if host.knock_armed else sim.message)]

@@ -86,7 +86,7 @@ func campaign_case(shape:Vector2i,mirrored:bool,scale:float):
 	var cue=game.hud.get_node_or_null("FirstSirenCue")
 	check(cue!=null and cue.is_visible_in_tree() and not cue.frames.is_empty() and not cue.note_frames.is_empty(),"setup: NOTICE and NEW SIREN TYPE chips are shown "+stamp)
 	var found=layout_checks(game,stamp)
-	check(found.has("hunt") and found.has("life"),"setup: the Hunt and life support chips are shown "+stamp+" "+str(found.keys()))
+	check(found.has("hunt"),"setup: the Hunt chip is shown "+stamp+" "+str(found.keys()))
 	if cue!=null:check(text_inside(cue,ThemeDB.fallback_font),"NOTICE and NEW SIREN TYPE text fit inside their chips "+stamp)
 	# The same layout over several frames: drones move, the Hunt chip holds its seat.
 	if found.has("hunt"):

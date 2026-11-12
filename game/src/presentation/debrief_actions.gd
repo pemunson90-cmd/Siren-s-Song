@@ -10,7 +10,7 @@ const ENABLED=true
 const ACTIONS=["evidence","retry","back"]
 static func lift(host,at:int)->void:
  if not ENABLED or at<0:return
- var box:Control=host.panel_box
+ var box=host.panel_box # a Control in the game; test hosts pass a plain Node
  var row=[]
  for child in box.get_children():
   if child is Button and str(child.get_meta("action","")) in ACTIONS:row.append(child)

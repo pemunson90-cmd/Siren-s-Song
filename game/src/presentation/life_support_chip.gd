@@ -2,60 +2,53 @@ extends RefCounted
 # WP-11 (cold review 6, G6): Quietus life support stays readable during a dive.
 # Before this, the reading lived only in the craft ring gauge and in a detail
 # plate shown while paused, for 3 s after selection or below 25 percent, so a
-# player under way could lose track of the limit. This chip sits directly
-# under the pause control (which follows the mirrored HUD), on the header lane,
-# and reports itself through MissionHud.threat_rects() so every placed panel,
-# chip and badge already clears it. Presentation only: it reads sim.oxygen and
-# the base drain; it never changes oxygen, drain rates or any rule.
-# Seam: MissionHud.refresh() calls sync(hud); threat_rects() appends rect(hud).
-# Revert: set ENABLED=false (the chip hides and lays out nothing), or remove
-# the two calls in mission_hud.gd and this file.
+# player under way could lose track of the limit.
+#
+# The reading is the second line of the running pause control ("Ⅱ PAUSE" over
+# "O₂ 87% ~3:10"). The control keeps its two lines, its place and its size, so
+# no panel, chip, ring or list moves. A first version drew a separate chip
+# under the pause control; that took a strip of the header lane and broke the
+# rendezvous, knockdown, sonar history and Hunt help layouts on small screens
+# (full matrix run 43229665195), so it was replaced. The paused control keeps
+# its "PAUSED / ▶ RESUME" text; the detail plate already shows oxygen then.
+#
+# Presentation only: it reads sim.oxygen and the base drain; it never changes
+# oxygen, drain rates or any rule.
+# Seam: MissionHud.refresh() calls sync(hud) after it sets the pause text and
+# before it fits the pause control.
+# Revert: set ENABLED=false (the control reads "Ⅱ / PAUSE" as before).
 const Endurance=preload("res://src/simulation/operation_endurance.gd")
 const ENABLED=true
-const META="life_support_chip"
-const GAP=4.
 const CRITICAL=25.
-# One compact line keeps the chart's open-water share (playfield_hud_tests).
-const FONT_FACTOR=.22
-static func chip(hud)->Label:
- var existing=hud.get_meta(META) if hud.has_meta(META) else null
- if is_instance_valid(existing):return existing
- var label=Label.new();label.name="LifeSupportChip"
- label.mouse_filter=Control.MOUSE_FILTER_IGNORE
- label.autowrap_mode=TextServer.AUTOWRAP_OFF
- label.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
- var plate=StyleBoxFlat.new();plate.bg_color=Color(.015,.045,.06,.82);plate.set_content_margin_all(4);plate.border_width_bottom=1;plate.border_color=Color("4a7779")
- label.add_theme_stylebox_override("normal",plate)
- label.add_theme_color_override("font_outline_color",Color("041019"));label.add_theme_constant_override("outline_size",3)
- hud.add_child(label);hud.set_meta(META,label)
- return label
+const AMBER=Color("ffc097")
+const META="life_support_amber"
 # Seconds left at the base life-support rate; SONAR pulses, the deep band and
-# ALL STOP spend extra, so the figure is shown as an estimate.
+# ALL STOP spend extra, so the figure is shown as an estimate ("~").
 static func seconds_left(sim)->float:
  var per_second:float=Endurance.oxygen_drain(sim.mission,1.0)
  return maxf(0.,float(sim.oxygen))/per_second if per_second>0.0 else INF
-static func text(sim)->String:
+static func clock(sim)->String:
  var left=seconds_left(sim)
- var clock="--:--" if left==INF else "~%d:%02d"%[int(left)/60,int(left)%60]
- return "LIFE O₂ %d%% %s"%[roundi(float(sim.oxygen)),clock]
+ return "--:--" if left==INF else "~%d:%02d"%[int(left)/60,int(left)%60]
+# Longest first; sync() takes the first that fits on one line of the control.
+static func forms(sim)->Array:
+ var percent=roundi(float(sim.oxygen))
+ return ["O₂ %d%% %s"%[percent,clock(sim)],"O₂ %s"%clock(sim),"O₂ %d%%"%percent]
 static func active(hud)->bool:
- return ENABLED and hud.host.screen=="mission" and not hud.host.sim.mission.is_empty() and hud.host.pause_button.visible
+ return ENABLED and hud.host.screen=="mission" and not hud.host.sim.mission.is_empty() and hud.host.pause_button.visible and not hud.host.sim.paused
 static func sync(hud)->void:
- var label=chip(hud)
- if not active(hud):label.hide();return
- var sim=hud.host.sim
- label.text=text(sim)
- var font=maxi(14,roundi(hud.touch_height*FONT_FACTOR*hud.text_scale))
- label.add_theme_font_size_override("font_size",font)
- label.add_theme_color_override("font_color",Color("ffc097") if float(sim.oxygen)<=CRITICAL else Color("b6dcd7"))
- var pause:Rect2=hud.host.pause_button.get_rect()
- var need=label.get_combined_minimum_size()
- var width=maxf(pause.size.x,need.x)
- # Stay on the pause side of the screen: grow inward, never past the edge.
- var x=pause.position.x if pause.get_center().x<hud.size.x*.5 else pause.end.x-width
- label.position=Vector2(clampf(x,0.,maxf(0.,hud.size.x-width)),pause.end.y+GAP)
- label.size=Vector2(width,need.y)
- label.show()
-static func rect(hud)->Rect2:
- var label=hud.get_meta(META) if hud.has_meta(META) else null
- return label.get_rect() if is_instance_valid(label) and label.visible else Rect2()
+ var b:Button=hud.host.pause_button
+ var amber=false
+ if active(hud):
+  var sim=hud.host.sim
+  var font=b.get_theme_font("font");var font_size=b.get_theme_font_size("font_size")
+  var room=b.size.x-b.get_theme_stylebox("normal").get_minimum_size().x
+  var fits=func(line:String)->bool:return font.get_string_size(line,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x<=room
+  for form in forms(sim) if fits.call("Ⅱ PAUSE") else []:
+   if fits.call(form):
+    b.text="Ⅱ PAUSE\n"+form;amber=float(sim.oxygen)<=CRITICAL;break
+ if amber:b.add_theme_color_override("font_color",AMBER);b.set_meta(META,true)
+ elif b.has_meta(META):b.remove_theme_color_override("font_color");b.remove_meta(META)
+# The reading takes no space of its own, so it reserves none.
+static func rect(_hud)->Rect2:
+ return Rect2()
