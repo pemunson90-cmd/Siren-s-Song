@@ -6,6 +6,7 @@ const Harbour=preload("res://src/simulation/concealed_harbour.gd")
 const Campaign=preload("res://src/campaign/expedition_campaign.gd")
 const Endings=preload("res://src/campaign/endings.gd")
 const Store=preload("res://src/persistence/save_store.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 var checks=0
 var failures=0
 func check(ok:bool,label:String):
@@ -80,7 +81,7 @@ func run():
   check(hook(shelf),"bare Quietus can attach the screen outside its solid face")
   check(not shelf.blocked(Vector2(2010,1070)),"folding onto tow removes the actual collapsed obstruction")
   if placement=="baffle":
-   shelf.units[2].pos=Vector2(2140,970);shelf.units[2].vel=Vector2.ZERO
+   PlayerDive.Bay.launch(shelf,2);shelf.units[2].pos=Vector2(2140,970);shelf.units[2].vel=Vector2.ZERO # drone B launched from Quietus
    check(not staged_place(shelf,placement),"unfolding screen refuses to enclose another living craft")
    shelf.units[2].pos=Vector2(2060,2680)
   check(staged_place(shelf,placement),"both advertised shelf placements can be seated through the real local command")
@@ -126,11 +127,13 @@ func move_body(s,id:int,point:Vector2)->bool:
   step(s,1./60.)
  return false
 func baffle_pod_recovery():
+ # Scripted drone and Quietus routes through authored water, not a discovery test: known-charts developer switch (the player rules leave this water uncharted).
+ var charts_before=PlayerDive.known_water(true)
  # Relocated ordinary sentinel is a controlled custody-loss fixture, NOT a
  # claimed natural authored guard policy. The beam and drone route are real.
  var s=Sim.new();s.start(12,"endurance",{"context":{"thread":"shelf","facts":{},"completed":[6,8,10,11],"references":{}},"fitted":{"quietus":"","drone_a":"drone_deep_cells","drone_b":""}});s.mission["dev"]=true
  var guard=s.sirens[1].duplicate(true);s.sirens=[]
- s.units[1].pos=Vector2(1840,800);s.units[1].vel=Vector2.ZERO;s.command("select",{"unit":1});step(s,.02)
+ PlayerDive.Bay.launch(s,1);s.units[1].pos=Vector2(1840,800);s.units[1].vel=Vector2.ZERO;s.command("select",{"unit":1});step(s,.02)
  check(s.command("salvage",{"item":"witness_capsule"}),"enclosure regression begins real occupied-drone winch")
  step(s,4.1)
  s.command("select",{"unit":0});s.units[0].pos=Vector2(1940,1040);s.units[0].vel=Vector2.ZERO;s.units[0].silent=true
@@ -140,6 +143,7 @@ func baffle_pod_recovery():
  s.command("select",{"unit":0})
  check(not s.concealed_status().actions.seats.filter(func(p):return p.id=="baffle")[0].ready,"living occupied carrier already prevents unfolding")
  guard.pos=Vector2(2260,970);guard.home=guard.pos;guard.goal=guard.pos;guard.route=[];guard.patrol_points=[];s.sirens=[guard]
+ guard.mode="SEARCH" # a calm Siren ignores a drone (Pat, 2026-11-12); this guard is alerted so its beam still takes the carrier
  step(s,4.3)
  check(not s.units[1].alive and s.events.any(func(e):return e.type=="beam") and s.mission.witness_evacuation.state=="salvage","ordinary actual beam loss ejects the same required living pod")
  var pod=s.mission.witness_evacuation.pos
@@ -169,3 +173,4 @@ func baffle_pod_recovery():
   check(s.command("concealed_tow",{"action":"baffle"}) and not s.blocked(s.units[0].pos) and s.witness_status().capsule.carrier==0,"genuine later baffle seating succeeds with the required living pod safely aboard outside")
   check(Sim.valid_snapshot(s.snapshot()),"recovered-pod baffle state remains a valid current dive")
  for suffix in ["",".bak",".tmp"]:DirAccess.remove_absolute(store.path+suffix)
+ PlayerDive.known_water(charts_before)
