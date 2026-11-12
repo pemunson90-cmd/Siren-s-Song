@@ -2,6 +2,7 @@ extends SceneTree
 # Witness capsule carriage honors winch capacity; menu SPACE never touches the
 # hidden mission pause state.
 const Sim=preload("res://src/simulation/simulation.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 const BERTH=Vector2(1840,760)
 var checks=0
 var failures=0
@@ -16,7 +17,7 @@ func step(sim,seconds:float):
  for n in ceili(seconds*60):sim.advance(1./60.)
  sim.paused=true
 func fresh(unit:int,fit:Dictionary):
- var sim=Sim.new();sim.start(12,"endurance",{"fitted":fit});sim.sirens=[]
+ var sim=Sim.new();sim.start(12,"endurance",{"fitted":fit});PlayerDive.launch_drones(sim);sim.sirens=[]
  sim.units[unit].pos=BERTH+Vector2(0,40);sim.units[unit].vel=Vector2.ZERO;sim.command("select",{"unit":unit});step(sim,.02)
  return sim
 func key(code:int):

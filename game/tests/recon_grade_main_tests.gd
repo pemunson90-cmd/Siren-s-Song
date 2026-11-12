@@ -11,7 +11,7 @@ func run():
  root.add_child(game);game.set_process(false)
  # Mechanical local photograph fixture. Quietus remains at extraction while
  # its physically present drone performs the ordinary exposure and recovery.
- game._start_mission(0);game.sim.units[1].pos=game.sim.mission.objectives[0].pos
+ game._start_mission(0);preload("res://tests/fixtures/player_dive.gd").launch_drones(game.sim);game.sim.units[1].pos=game.sim.mission.objectives[0].pos
  game.sim.command("select",{"unit":1});check(game.sim.command("camera"),"real close drone exposure begins")
  game.sim.paused=false
  for n in 250:game.sim.advance(1./60)
