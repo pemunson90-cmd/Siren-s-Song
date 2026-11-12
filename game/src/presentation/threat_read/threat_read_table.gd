@@ -37,7 +37,8 @@ const EDGE=12.0
 const OFFSETS=[Vector2(1.2,-1.6),Vector2(1.2,0.6),Vector2(-1.2,-1.6),Vector2(-1.2,0.6),Vector2(1.2,-2.9),Vector2(-1.2,-2.9),Vector2(1.2,1.9),Vector2(-1.2,1.9)]
 
 # Same role words as the contact readout (contact_feedback.gd).
-const ROLE_WORDS={"hunter":"HUNTER","sentinel":"GUARD","sweeper":"SWEEPER","buoy":"LISTENER","relay":"RELAY","interceptor":"INTERCEPTOR","warden":"WARDEN","patroller":"PATROL","unknown":"UNCLASSIFIED","STATIC":"STATIC","PATROLLER":"PATROLLER","UNCLASSIFIED":"UNCLASSIFIED"}
+const Names=preload("res://src/names.gd")
+const ROLE_WORDS={Names.ROLE_HUNTER:"HUNTER",Names.ROLE_SENTINEL:"GUARD",Names.ROLE_SWEEPER:"SWEEPER",Names.ROLE_BUOY:"LISTENER",Names.ROLE_RELAY:"RELAY",Names.ROLE_INTERCEPTOR:"INTERCEPTOR",Names.ROLE_WARDEN:"WARDEN",Names.ROLE_PATROLLER:"PATROL","unknown":"UNCLASSIFIED","STATIC":"STATIC","PATROLLER":"PATROLLER","UNCLASSIFIED":"UNCLASSIFIED"}
 
 const TEXT={
 	"shutter":"SHUTTER HEARD %dm",
