@@ -1,0 +1,53 @@
+extends RefCounted
+# THREAT READ settings: chart shutter reach, lock countdown beside the craft,
+# drone loss cause and bearing, and the optional pause on a craft loss.
+# Presentation only. Every figure below mirrors a rule the simulation already
+# applies; nothing here changes sensing, lock, beam, damage or photography.
+# Revert: set enabled=false. The chart, the status message and the pause
+# behave as before this module, and the CRAFT LOSS settings row is hidden.
+# For a full removal see the seam list in threat_read.gd.
+# AI-DESIGNED wording, short factual labels only; Pat to adjust.
+static var enabled=true
+
+# Settings key of the optional pause aid (validated in settings_store.gd).
+const SETTING="auto_pause_loss"
+# Mirrors simulation.gd: a Siren fires when its lock reaches 4 s.
+const LOCK_SECONDS=4.0
+# Mirrors tactical_aids.gd / lock_warning.gd: a received contact older than this is not live.
+const FRESH_AGE=0.3
+# Mirrors photo_pricing_table.gd CONTACT_MAX_AGE: contacts older than this are not counted in shutter reach.
+const CONTACT_MAX_AGE=20.0
+
+# Drone loss presentation.
+const LOSS_SECONDS=10.0   # sim seconds the wreck mark and loss label stay on the chart (frozen while paused)
+const RAY_METRES=110.0    # fixed length of the bearing ray, so it gives a direction and never a range
+const WRECK_METRES=14.0   # half size of the wreck cross
+const EVENT_MATCH=1.0     # metres between a loss event and the craft's last position
+
+# Shutter reach ring.
+const RING_WIDTH=2.4      # screen pixels, before high contrast thickening
+const RING_TICKS=12       # short radial ticks so the ring reads without colour
+const TICK_PIXELS=9.0
+
+# Screen chips (lock countdown and loss label).
+const CHIP_PAD=6.0
+const CHIP_GAP=10.0
+const EDGE=12.0
+# Candidate chip offsets, in chip heights, from the craft's screen point.
+const OFFSETS=[Vector2(1.2,-1.6),Vector2(1.2,0.6),Vector2(-1.2,-1.6),Vector2(-1.2,0.6),Vector2(1.2,-2.9),Vector2(-1.2,-2.9),Vector2(1.2,1.9),Vector2(-1.2,1.9)]
+
+# Same role words as the contact readout (contact_feedback.gd).
+const ROLE_WORDS={"hunter":"HUNTER","sentinel":"GUARD","sweeper":"SWEEPER","buoy":"LISTENER","relay":"RELAY","interceptor":"INTERCEPTOR","warden":"WARDEN","patroller":"PATROL","unknown":"UNCLASSIFIED","STATIC":"STATIC","PATROLLER":"PATROLLER","UNCLASSIFIED":"UNCLASSIFIED"}
+
+const TEXT={
+	"shutter":"SHUTTER HEARD %dm",
+	"in_reach":"IN SHUTTER REACH",
+	"lock_one":"S%d LOCK · %.1fs",
+	"lock_many":"%d LOCKS · %.1fs",
+	"lost":"%s LOST",
+	"beam":" · SIREN BEAM FROM %03d°",
+	"battery":" · BATTERY EXHAUSTED",
+	"source":" · S%d %s",
+	"unseen":" · UNSEEN SIREN",
+	"pause":"AUTO PAUSE: %s",
+}
