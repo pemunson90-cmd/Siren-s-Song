@@ -18,7 +18,7 @@ func _initialize():call_deferred("run")
 func settle():
  for n in 6:await process_frame
 func dive(operation:int)->Object:
- var s=Sim.new();s.start(operation,"endurance",{Rules.KEY:true});return s
+ var s=Sim.new();s.start(operation,"endurance",{Rules.KEY:true});preload("res://tests/fixtures/player_dive.gd").launch_drones(s);return s
 func run_for(s,seconds:float)->void:
  s.paused=false
  for n in roundi(seconds/Sim.STEP):s.advance(Sim.STEP)
@@ -50,7 +50,7 @@ func run():
  await main_case()
  print("PARITY RULES CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)
 func older_rules_case():
- var s=Sim.new();s.start(5,"endurance")
+ var s=Sim.new();s.start(5,"endurance",{Rules.KEY:false,"drones_aboard":false})
  check(not s.mission.get(Rules.KEY,false),"a start without the flag carries no parity rules")
  check(searched(s).is_empty() and s.observable_sites().all(func(o):return o.get("stage","")!="lead" or o.get("unknown",false)),"without the flag objectives are charted as before")
  var before=int(s.tools.emp);s.sirens=[]
@@ -131,7 +131,7 @@ func sonar_case():
  check(s.command("ping") and s.oxygen==oxygen,"a Quietus pulse spends no oxygen (%.2f to %.2f)"%[oxygen,s.oxygen])
  var battery=float(s.units[1].battery);s.ping_time=0.;s.command("select",{"unit":1})
  check(s.command("ping") and float(s.units[1].battery)<battery,"a drone pulse spends battery")
- var plain=Sim.new();plain.start(5,"endurance")
+ var plain=Sim.new();plain.start(5,"endurance",{Rules.KEY:false,"drones_aboard":false})
  check(plain.Sonar.pulse_cost(plain,0)>0.,"without the flag the older sonar cost stands")
 # Drone A and one Siren 90 m apart in open water, both far from Quietus.
 func beside_drone(s)->Dictionary:
@@ -163,13 +163,13 @@ func drone_case():
  s.mission.reconnaissance=s.Recon.state(s.mission).duplicate(true);s.mission.reconnaissance.hunt=60.;s.mission.reconnaissance.floor=60.
  run_for(s,6.0)
  check(not s.units[1].alive,"once Hunt reaches SEARCHING the same Siren destroys the drone")
- var plain=Sim.new();plain.start(5,"endurance")
+ var plain=Sim.new();plain.start(5,"endurance",{Rules.KEY:false,"drones_aboard":false})
  if not plain.sirens.is_empty():
   beside_drone(plain);plain.units[1].silent=true
   run_for(plain,6.0)
   check(not plain.units[1].alive,"without the flag a calm Siren destroys a drone in its sight as before")
  # Quieter drones: same craft, same speed, 0.6 of the noise reach.
- var a=dive(5);var b=Sim.new();b.start(5,"endurance")
+ var a=dive(5);var b=Sim.new();b.start(5,"endurance",{Rules.KEY:false,"drones_aboard":false})
  for sim in [a,b]:sim.units[1].vel=Vector2(90,0);sim.units[1].silent=false
  var with_rule=a.motion_radius(1);var without=b.motion_radius(1)
  check(without>0. and absf(with_rule/without-s.DroneStealth.NOISE)<.01,"a drone's movement noise reaches %.0f%% as far (%.0f against %.0f)"%[s.DroneStealth.NOISE*100,with_rule,without])
@@ -215,7 +215,7 @@ func factory_case():
   check(s.mission.get("factory_state",{}).get("sensed",false),tag+" the player is told once")
   # Aboard drones are not in the water and are not sensed.
   check(s.units[1].get("alive",true),tag+" setup: this fixture has its drones deployed")
- var plain=Sim.new();plain.start(3,"endurance")
+ var plain=Sim.new();plain.start(3,"endurance",{Rules.KEY:false,"drones_aboard":false})
  check(Factory.sites(plain.mission).is_empty(),"without the flag the factory senses nothing")
 func save_case():
  var s=dive(16);s.sirens=[]
