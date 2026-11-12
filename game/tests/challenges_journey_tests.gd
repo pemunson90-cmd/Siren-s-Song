@@ -3,6 +3,7 @@ extends SceneTree
 # This proves one representative completion, not difficulty or Android play quality.
 const Run=preload("res://src/campaign/challenges/challenge_run.gd")
 const Travel=preload("res://tests/campaign_scenarios.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 var checks=0
 var failures=0
 func check(ok,label):
@@ -11,6 +12,7 @@ func check(ok,label):
 func _initialize():
  var s=Run.new()
  check(s.setup("shelf_passive"),"the representative challenge starts with its authored loadout")
+ PlayerDive.launch_drones(s) # the fixed fleet is launched from Quietus
  check(not s.command("ping") and not s.command("recon"),"passive-only restriction remains active on the real journey")
  var objective=s.mission.objectives[0]
  var reached=Travel.move(s,objective.pos+Vector2(0,210))

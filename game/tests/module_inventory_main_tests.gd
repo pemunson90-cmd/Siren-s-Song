@@ -1,5 +1,6 @@
 extends SceneTree
 const Inventory=preload("res://src/campaign/fleet_inventory.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 var checks=0
 var failures=0
 func check(ok:bool,label:String):
@@ -13,7 +14,7 @@ func run():
  check(game.get_property_list().any(func(p):return p.name=="fleet"),"Main owns the campaign fleet ledger separately from historical entitlements")
  if not game.get_property_list().any(func(p):return p.name=="fleet"):game.queue_free();await settle();finish();return
  game.completed=[0,1,2,3,4,5];game.unlocked=5;game.fitted_equipment.drone_a="drone_deep_cells";game._start_mission(6);await settle()
- var s=game.sim;s.sirens=[]
+ var s=game.sim;s.sirens=[];PlayerDive.launch_drones(s) # the fitted drone is launched, then runs its battery down in the water
  check(s.mission.get("fleet_commit",false),"first expedition launch freezes genuine first-completion inventory commitment")
  # Explicit local-source fixture using actual sensing; real module loss and
  # departure follow. This is not an earned campaign journey.
@@ -46,7 +47,7 @@ func run():
  game.fleet={};game.expedition={};game.fitted_equipment.drone_a="drone_deep_cells";game._start_mission(6);await settle();game.sim.outcome="lost";game._debrief();await settle()
  check(game.fleet.is_empty(),"failed first-attempt fixture does not spend permanent launch stock")
  game._new_campaign();await settle();check(game.fleet.is_empty(),"new campaign clears the physical stock ledger")
- game.sim.units[1].alive=false;game.sim.units[2].alive=false;game.sim.outcome="won";game._debrief();await settle()
+ game.sim.outcome="";PlayerDive.launch_drones(game.sim);game.sim.units[1].alive=false;game.sim.units[2].alive=false;game.sim.outcome="won";game._debrief();await settle()
  check(game.panel_box.find_children("*","Label",true,false).any(func(l):return "DRONE A" in l.text and "DRONE B" in l.text and "LOST" in l.text),"bare-drone success still truthfully acknowledges both sortie losses")
  # Public ending-view fixture: an old ending can be opened after another dive.
  game.expedition={"route":"shelf","completed":[12],"facts":{"confluence_route":"concealed"}};game._show_ending();await settle()

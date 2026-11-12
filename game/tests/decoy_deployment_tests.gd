@@ -1,5 +1,6 @@
 extends SceneTree
 const Sim=preload("res://src/simulation/simulation.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 var checks=0
 var failures=0
 func check(ok:bool,label:String):
@@ -23,6 +24,6 @@ func _initialize():
  var legacy=ordinary.snapshot();legacy.noises[0].pos=Vector2(560,500);legacy.noises[0].time=12.0
  var restored=Sim.new();check(restored.restore(legacy) and restored.snapshot()==legacy,"existing active legacy noise is preserved even at newly forbidden landing")
  restored.advance(2);check(restored.snapshot()==legacy,"pause preserves existing transmission lifetime")
- var drone=Sim.new();drone.start(0);drone.command("select",{"unit":1})
+ var drone=Sim.new();drone.start(0);PlayerDive.launch_drones(drone);drone.command("select",{"unit":1})
  check(drone.command("decoy",{"point":Vector2(240,700)}) and drone.tools.decoy==2,"selected drone can deliberately place its finite common buoy")
  print("DECOY DEPLOYMENT CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)

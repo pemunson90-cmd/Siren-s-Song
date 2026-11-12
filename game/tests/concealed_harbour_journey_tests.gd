@@ -2,6 +2,7 @@ extends SceneTree
 # Source-known voyages use ordinary authored guards and physically moved craft.
 # These are builder feasibility/cost probes, not blind preference acceptance.
 const Sim=preload("res://src/simulation/simulation.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 var checks=0
 var failures=0
 var distance=0.
@@ -90,8 +91,11 @@ func run_case(thread:String,placement:String,north:bool=true):
 func result(s,thread:String,placement:String,north:bool,work_time:float=-1.):
  print("CONCEALED JOURNEY ",thread,"/",placement,"/",("north" if north else "south")," outcome=",s.outcome," elapsed=",s.elapsed," work_seconds=",work_time," metres=",distance," hull=",s.hull," oxygen=",s.oxygen," drag_reaction=",drag_reaction," reply_heard=",reply_heard," reply_investigation=",reply_investigation," tow_clipped=",tow_clip," state=",s.mission.concealed_harbour.phase," receipt=",s.mission.concealed_harbour.receipt)
 func run():
+ # Scripted route through authored water, not a discovery test: known-charts developer switch (the player rules leave this water uncharted).
+ var charts_before=PlayerDive.known_water(true)
  run_case("deep","cast-off",true)
  run_case("deep","cast-off",false)
  run_case("shelf","service")
  run_case("shelf","baffle")
+ PlayerDive.known_water(charts_before)
  print("CONCEALED HARBOUR JOURNEY CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)

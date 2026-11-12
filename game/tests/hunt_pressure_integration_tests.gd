@@ -86,6 +86,7 @@ func action_paths()->void:
  var base:float=s.Recon.state(s.mission).hunt
  check(s.command("ping") and is_equal_approx(s.Recon.state(s.mission).hunt,base+5.),"real active sonar command adds five")
  base=s.Recon.state(s.mission).hunt
+ s.sirens[0].pos=s.units[0].pos+Vector2(120,0) # EMP needs a Siren inside its radius (Pat, 2026-11-12)
  check(s.command("emp") and is_equal_approx(s.Recon.state(s.mission).hunt,base+4.),"real EMP command adds four")
  base=s.Recon.state(s.mission).hunt
  check(s.command("decoy",{"point":s.units[0].pos}) and is_equal_approx(s.Recon.state(s.mission).hunt,base),"real decoy spends a charge without Hunt rise")
@@ -187,7 +188,7 @@ func cue_audio_trace()->void:
  s.Recon.action(s.mission,25.,"ACTIVE SONAR");Hunt.observe(s,Sim.STEP);AITrace.sample(recorder,s)
  check(recorder.get("hunt_events",[]).size()==1 and recorder.hunt_events[0].cause=="active sonar","attached trace records first own-cause Hunt rise")
  s.Recon.action(s.mission,50.,"DISRUPTION");Hunt.observe(s,Sim.STEP);AITrace.sample(recorder,s)
- check(recorder.hunt_events.size()==1 and recorder.dropped>=1 and recorder.hunt_events[0].cause=="Disrupt","attached trace ring bounds later owned cause")
+ check(recorder.hunt_events.size()==1 and recorder.dropped>=1 and recorder.hunt_events[0].cause=="EMP","attached trace ring bounds later owned cause") # the tool is named EMP wherever the player reads it (Pat, 2026-11-12); was "Disrupt"
  AITrace.detach(recorder,s);TraceTable.enabled=false
  var sound=CueSound.new();get_root().add_child(sound)
  await process_frame
