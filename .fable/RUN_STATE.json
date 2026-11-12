@@ -2,11 +2,11 @@
   "run_id": "overhaul-20261111",
   "status": "RUNNING",
   "phase": "8-audit",
-  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: A5 (WP-23): sort the 28 core failures seen with parity_rules and drones_aboard on by default (log fable-p8-a5probe-144032), then make the player rules the default and retire the older path; open defect PLAYFIELD HUD cover open water 0.7463 against 0.75. Then A7 (shared base for Career, Expedition, Challenge sessions), A8 (split main.gd and simulation.gd in steps), A1 drawing probe and A10 autosave measurement. Follow-up for A6: replace literals in threat_read, expedition_view.gd, mission_hud.gd and drop the three pending allow-list entries. Owed: one GitHub render run for WP-20",
+  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: A5 (WP-23): read run 43301827177 (full matrix on fable/wp-23-player-rules at 0fb15413) when it finishes (gh run view 43301827177 --json jobs; download the shard logs and list failing suites), sort each failing suite as launch-first, known-charts, rule-replaced or real defect (one or two Sonnet implementers on disjoint suite lists), then merge wp-23-player-rules into the run branch. Open defect: PLAYFIELD HUD cover open water 0.7463 against 0.75. Then A7, more A8 steps, A1 drawing probe, A10",
   "base_ref": "origin/claude/integration",
   "base_sha": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
   "run_branch": "fable/overhaul-20261111",
-  "run_head": "ef7aba85ba5d56869b83b893c68dbfc9813a605f",
+  "run_head": "6fa0545d59898c17f06af6290118f72fa28e6be2",
   "shared_tips": {
     "claude/integration": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
     "main": "f5b66a198e3878950325f8c45a0bc6bc29dcba84",
@@ -42,6 +42,6 @@
     "WP-24": "building"
   },
   "decisions_open": 0,
-  "last_checkpoint": "WP-19 to WP-22 merged (A4, A3, A2 part 1, A6); A5 in progress",
-  "updated": "2026-11-12 15:13:54"
+  "last_checkpoint": "A5: core green under the player rules on wp-23-player-rules; enumeration run 43301827177 in progress",
+  "updated": "2026-11-12 15:35:55"
 }
