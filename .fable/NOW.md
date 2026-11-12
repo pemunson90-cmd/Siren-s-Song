@@ -1,13 +1,13 @@
 # NOW: what the root session is doing
 
 Status: LIVE NOTE (rewritten before every step; if a session died, this is the step it died in)
-Updated: 2026-11-12 11:20
+Updated: 2026-11-12 11:23
 
 **To resume after a context clear or a new session:** open this folder as the project and run `/siren-s-start-fable`. The command reads the charter, the target file, `.fable/RUN_STATE.json`, `.fable/RUN_LOG.md` and `.fable/DECISIONS.md`. The `next_action` field in the state file always starts by sending the session to `.fable/HANDOFF.md` and to this file.
 
 ## Doing right now
 
-Phase 7: package build dispatched; archive tags being pushed; then final documents and PR ready
+Waiting on Pat: keep or restore for sixteen prototype differences. Archive tag pushes may still be finishing (python scripts/repo/archive_branches.py --execute --approved-by-pat --tag-prefix fable/archive/branch/ is safe to rerun)
 
 ## In flight
 
