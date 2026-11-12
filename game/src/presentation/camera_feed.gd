@@ -11,6 +11,10 @@ const PhotoView=preload("res://src/presentation/photo_view.gd")
 const Priced=preload("res://src/presentation/photo_pricing/photo_pricing_overlay.gd")
 const Photo=preload("res://src/simulation/photo_capture.gd")
 const Quality=preload("res://src/presentation/quality/quality_table.gd")
+const Shutter=preload("res://src/presentation/photo_shutter/shutter.gd")
+const ShutterTable=preload("res://src/presentation/photo_shutter/shutter_table.gd")
+var shutter_rect:=Rect2()
+var shutter_refusal:=""
 var _vm:Dictionary={}
 var _shot_count:=-1
 var _shot_seen_reset:=true
@@ -91,7 +95,7 @@ func route_input(event:InputEvent)->bool:
 	if event is InputEventMouse and event.device==InputEvent.DEVICE_ID_EMULATION:
 		if event is InputEventMouseButton and event.button_index==MOUSE_BUTTON_LEFT and event.pressed:
 			var point=event.position-global_position
-			owned_emulated_mouse=is_visible_in_tree() and (toggle_rect.has_point(point) or _buttons.any(func(b):return b.rect.has_point(point)))
+			owned_emulated_mouse=is_visible_in_tree() and (toggle_rect.has_point(point) or shutter_rect.has_point(point) or _buttons.any(func(b):return b.rect.has_point(point)))
 		var owned=owned_emulated_mouse
 		if event is InputEventMouseButton and event.button_index==MOUSE_BUTTON_LEFT and not event.pressed:owned_emulated_mouse=false
 		return owned
@@ -102,7 +106,7 @@ func route_input(event:InputEvent)->bool:
 	if not press:return owned_pointers.has(id)
 	if not is_visible_in_tree():return false
 	var point=event.position-global_position
-	if not toggle_rect.has_point(point) and not _buttons.any(func(b):return b.rect.has_point(point)):return false
+	if not toggle_rect.has_point(point) and not shutter_rect.has_point(point) and not _buttons.any(func(b):return b.rect.has_point(point)):return false
 	owned_pointers[id]=true
 	var local=event.duplicate();local.position=point;_gui_input(local)
 	return true
@@ -113,6 +117,8 @@ func _gui_input(event: InputEvent) -> void:
 	var point=event.position
 	if toggle_rect.has_point(point):
 		compact=not compact;accept_event();queue_redraw();return
+	if shutter_rect.has_point(point):
+		Shutter.press(self);_vm_age=1.0;accept_event();return
 	for button in _buttons:
 		if button.rect.has_point(point):
 			sim.command("frame",button.args);_vm_age=1.0;accept_event();return
@@ -207,12 +213,26 @@ func _draw_photo(t:Dictionary) -> void:
 		draw_string(font,r.position+Vector2(6,bh*0.7),spec[0],HORIZONTAL_ALIGNMENT_LEFT,r.size.x-8,fs,PHOSPHOR)
 		_buttons.append({"rect":r,"args":spec[1]})
 
-	draw_string(font,Vector2(10,fs+6),fit_caption(("EXPOSING" if live else "VIEW")+" / "+["Q","A","B"][uid],size.x-maxf(touch_height,fs*6.)-30,fs),HORIZONTAL_ALIGNMENT_LEFT,-1,fs,PHOSPHOR)
 	_draw_toggle()
+	# WP-10 shutter: same order as the ring's PHOTO, in the header beside FOLD.
+	shutter_rect=Rect2();shutter_refusal=""
+	var title_x:=10.0;var title_room:=size.x-maxf(touch_height,fs*6.)-30
+	if ShutterTable.enabled and not live:
+		var mirrored:bool=Settings.current.get("mirrored_hud",false)
+		shutter_rect=Shutter.rect(size.x,touch_height,fs,toggle_rect,mirrored)
+		shutter_refusal=Shutter.refusal(sim)
+		_draw_shutter(shutter_rect,fs)
+		title_room-=shutter_rect.size.x+8
+		if mirrored:title_x=shutter_rect.end.x+8
+	draw_string(font,Vector2(title_x,fs+6),fit_caption(("EXPOSING" if live else "VIEW")+" / "+["Q","A","B"][uid],title_room,fs),HORIZONTAL_ALIGNMENT_LEFT,-1,fs,PHOSPHOR)
 	if live:
 		var progress:=acquisition_progress(sim)
 		draw_rect(Rect2(picture.position.x,picture.end.y-5,picture.size.x,3),Color("25464b"));draw_rect(Rect2(picture.position.x,picture.end.y-5,picture.size.x*progress,3),PHOSPHOR)
 
+func _draw_shutter(r:Rect2,fs:int)->void:
+	var ink:=Color(ShutterTable.COLORS.refused if not shutter_refusal.is_empty() else ShutterTable.COLORS.ready)
+	draw_rect(r,Color(ShutterTable.COLORS.fill));draw_rect(r,ink,false,2)
+	draw_string(ThemeDB.fallback_font,r.position+Vector2(8,r.size.y*.68),ShutterTable.TEXT.label,HORIZONTAL_ALIGNMENT_LEFT,r.size.x-16,fs,ink)
 func _draw_ambient_sea_life(picture:Rect2)->void:
 	# Viewfinder atmosphere only: no species data, collision, chart marks, sonar
 	# return, photo finding or archived-frame modification. Olive is not contact cyan.
@@ -236,6 +256,7 @@ func _draw_quality(picture:Rect2,fs:int)->void:
 func _draw() -> void:
 	if footer_scroll!=null:footer_scroll.hide()
 	_buttons=[]
+	shutter_rect=Rect2()
 	art_lamp_strength=0.0
 	if sim==null:return
 	var subject:=subject_view()
