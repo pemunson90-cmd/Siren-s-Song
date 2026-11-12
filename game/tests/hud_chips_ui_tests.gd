@@ -7,6 +7,8 @@ const Settings=preload("res://src/presentation/frontend/frontend_settings.gd")
 const RunState=preload("res://src/campaign/runs/run_state.gd")
 var checks=0
 var failures=0
+var lock_cases=0
+var ring_cases=0
 func check(ok,label):
 	checks+=1
 	if not ok:failures+=1;printerr("FAIL ",label)
@@ -26,6 +28,8 @@ func run():
 		await expedition_case(Vector2i(2184,1968),mirrored)
 		Settings.current=saved.duplicate()
 	Settings.current=saved
+	check(lock_cases>0,"at least one case reached a lock card (%d did)"%lock_cases)
+	check(ring_cases>0,"at least one case drew ring centre text (%d did)"%ring_cases)
 	print("HUD CHIPS UI CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)
 func global_of(control:Control,rect:Rect2)->Rect2:
 	return Rect2(control.global_position+rect.position,rect.size)
@@ -44,8 +48,8 @@ func chips(game)->Dictionary:
 	return out
 func text_inside(cue,font)->bool:
 	var ok=true
-	if not cue.frames.is_empty():ok=ok and font.get_string_size(cue.label_text(),HORIZONTAL_ALIGNMENT_LEFT,-1,cue.font_size).x<=cue.chip_rect.size.x-minf(cue.chip_rect.size.y,cue.host.ui_touch_height*.9)-4 or cue.chip_rect.size.y>cue.host.ui_touch_height*.9+1
-	if not cue.note_frames.is_empty():ok=ok and font.get_string_size(cue.note_text(),HORIZONTAL_ALIGNMENT_LEFT,-1,cue.font_size).x<=cue.note_rect.size.x-8 or cue.note_rect.size.y>cue.host.ui_touch_height*.9+1
+	if not cue.frames.is_empty():ok=ok and (font.get_string_size(cue.label_text(),HORIZONTAL_ALIGNMENT_LEFT,-1,cue.font_size).x<=cue.chip_rect.size.x-minf(cue.chip_rect.size.y,cue.host.ui_touch_height*.9)-4 or cue.chip_rect.size.y>cue.host.ui_touch_height*.9+1)
+	if not cue.note_frames.is_empty():ok=ok and (font.get_string_size(cue.note_text(),HORIZONTAL_ALIGNMENT_LEFT,-1,cue.font_size).x<=cue.note_rect.size.x-8 or cue.note_rect.size.y>cue.host.ui_touch_height*.9+1)
 	return ok
 func layout_checks(game,stamp:String,banner:Rect2=Rect2()):
 	var area=game.get_global_rect()
@@ -93,7 +97,7 @@ func campaign_case(shape:Vector2i,mirrored:bool,scale:float):
 			game._refresh();await process_frame
 			if game.lock_warning!=null and game.lock_warning.visible:break
 		await settle()
-		if game.lock_warning!=null and game.lock_warning.visible:layout_checks(game,stamp+" with lock card")
+		if game.lock_warning!=null and game.lock_warning.visible:lock_cases+=1;layout_checks(game,stamp+" with lock card")
 		else:print("NO LOCK ",stamp)
 		s.sirens=[];s.hull=100.0;game._refresh();await settle();seat=chips(game).get("hunt",found.hunt).position
 		for id in [1,2]:s.units[id].route=[{"pos":s.units[id].pos+Vector2(260,0).rotated(id*2.),"stop":true}]
@@ -124,6 +128,7 @@ func ring_case(shape:Vector2i,mirrored:bool,scale:float):
 	var disc=Rect2(hud.center-Vector2.ONE*(hud.ring_radius-hud.touch_height*.7),Vector2.ONE*2*(hud.ring_radius-hud.touch_height*.7))
 	if hud.has_meta("status_command_grid") or hud.order_dock.visible:
 		print("RING ",stamp," uses the order dock; no ring centre text");hud.dismiss();await settle();game.queue_free();await settle();return
+	ring_cases+=1
 	check(not hud.caption_rects.is_empty(),"setup: ring centre text is drawn "+stamp)
 	for r in hud.caption_rects:
 		check(r.position.x>=disc.position.x-1 and r.end.x<=disc.end.x+1,"ring centre line stays inside the disc width "+stamp+" "+str(r)+" in "+str(disc))

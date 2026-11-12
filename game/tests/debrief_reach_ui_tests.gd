@@ -77,4 +77,12 @@ func expedition_case(shape:Vector2i):
 	for b in loads.filter(func(b):return not b.disabled):check(not " / " in b.text,"an available %s carries no reason %s"%[b.text,tag])
 	var dp=float(root.size.x)/root.get_visible_rect().size.x*160./420.
 	for b in begin+back:check(b.size.y*dp>=48.,"%s keeps a 48 dp target %s"%[b.text,tag])
+	# BEGIN refused (no profile storage): the reason is on screen, once, however often BEGIN is pressed.
+	var kept=host.store.path;host.store.path="";session.scroll.scroll_vertical=400
+	if not begin.is_empty():
+		begin[0].pressed.emit();await settle();begin[0].pressed.emit();await settle()
+	var notes=session.panel_box.find_children("*","Label",true,false).filter(func(l):return l.text.begins_with("LAUNCH PAUSED"))
+	check(notes.size()==1 and notes[0].is_visible_in_tree() and session.scroll.get_global_rect().grow(1.).encloses(notes[0].get_global_rect()),"a refused BEGIN states its reason once, in view %s (%d notes)"%[tag,notes.size()])
+	check(session.screen=="expedition_menu" and not session.run_state.in_flight,"a refused BEGIN launches nothing "+tag)
+	host.store.path=kept
 	host.queue_free();await settle()

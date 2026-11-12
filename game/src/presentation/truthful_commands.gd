@@ -37,7 +37,7 @@ static func life_support_line(host,index:int)->String:
  var per_second:float=Endurance.oxygen_drain({"id":index,"endurance":budget,"launch_equipment":fit},1.0)
  if per_second<=0.0:return ""
  var seconds=int(float(host._loadout_stock(host.upgrade)[0])/per_second)
- return "LIFE SUPPORT %d:%02d at the base rate · SONAR, the deep band and ALL STOP use more"%[seconds/60,seconds%60]
+ return "LIFE SUPPORT %d:%02d at the base rate · SONAR, the deep band, ALL STOP and some actions use more"%[seconds/60,seconds%60]
 
 static func recovery_name(sim)->String:
  var names=[]

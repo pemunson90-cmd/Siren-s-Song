@@ -62,8 +62,13 @@ func shape_case(shape:Vector2i,mirrored:bool,scale:float):
 	check(pause_left!=mirrored and (label.get_rect().get_center().x<hud.size.x*.5)==pause_left,"the chip follows the pause side "+stamp)
 	check(hud.threat_rects().has(label.get_rect()),"placed panels and chips are told to clear the chip "+stamp)
 	var oxygen_text=label.text
+	var left=int(s.oxygen/preload("res://src/simulation/operation_endurance.gd").oxygen_drain(s.mission,1.0))
+	check(("~%d:%02d"%[left/60,left%60]) in label.text,"the clock is oxygen over the base drain rate %s: %s"%[stamp,label.text])
+	s.oxygen=80.0;game._refresh();await settle()
+	var calm:Color=label.get_theme_color("font_color")
 	s.oxygen=20.0;game._refresh();await settle()
 	check(label.visible and "20%" in label.text and label.text!=oxygen_text,"the chip follows a falling reading "+stamp)
+	check(label.get_theme_color("font_color")!=calm,"the chip changes colour at 25 percent or below "+stamp)
 	# A command ring open: the reading stays, and the ring clears it.
 	s.oxygen=80.0
 	hud.open("craft",{"kind":"craft","unit":0,"pos":s.units[0].pos});await settle()

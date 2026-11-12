@@ -97,7 +97,11 @@ func _show_campaign()->void:
 func _begin()->void:
 	if active_started or run_state.in_flight or RunOffers.pending(run_state):return
 	if not RunArchive._available(campaign_host):
-		_menu_text("LAUNCH PAUSED · "+str(campaign_host.get_meta("runs_save_error","")),17);return
+		# BEGIN is pinned in the footer (WP-11), so its refusal is stated at the
+		# top of the page and the page returns there. One note, replaced on a repeat.
+		var note:Label=panel_box.get_meta("launch_paused_note") if panel_box.has_meta("launch_paused_note") and is_instance_valid(panel_box.get_meta("launch_paused_note")) else _menu_text("",17)
+		note.text="LAUNCH PAUSED · "+str(campaign_host.get_meta("runs_save_error",""))
+		panel_box.set_meta("launch_paused_note",note);panel_box.move_child(note,0);scroll.scroll_vertical=0;return
 	var launched=RunState.launch(run_state,accept_rider)
 	if not launched.in_flight:return
 	run_state=launched;sim.configure(run_state);recorded=false;active_envelope={}
