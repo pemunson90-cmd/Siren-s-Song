@@ -16,7 +16,7 @@ Pat, 2026-11-12 (chat, verbatim): "make sure that you are ready to pause I don't
 
 ### 8.1 Rename the DISRUPTION loadout to EMP (small; root or one Sonnet implementer)
 
-Not started. Display-only rename is the safe route: the loadout id `disruption` stays in code and saves; every place the player reads the loadout name shows EMP. Display sites found so far: `campaign/runs/run_records.gd` 71, `presentation/flow/campaign_flow.gd` 50 ("CYCLE LOADOUT · endurance / disruption / survey"), `presentation/frontend/challenges_frontend.gd` 38, `presentation/runs/expedition_session.gd` 76, `presentation/runs/seed_entry.gd` 45, `presentation/truthful_commands.gd` 26. Add one helper (for example `FieldTools.loadout_label(id)`) and use it at each site; search again for others (`grep -rn "to_upper()" game/src | grep -i loadout`, and `upgrade.to_upper`). Check: import plus the suites `select-suites.py --minimum` names. Record in CHANGELOG, parity rules comment, final report table.
+**DONE 2026-11-12** (`FieldTools.loadout_label`, eight display sites; three stale test files repaired; LOADOUT 40/0, TRUTHFUL COMMANDS 114/0, PLAYER NAMES 2834/0 and the other selected non-render suites pass). The original note follows. Display-only rename is the safe route: the loadout id `disruption` stays in code and saves; every place the player reads the loadout name shows EMP. Display sites found so far: `campaign/runs/run_records.gd` 71, `presentation/flow/campaign_flow.gd` 50 ("CYCLE LOADOUT · endurance / disruption / survey"), `presentation/frontend/challenges_frontend.gd` 38, `presentation/runs/expedition_session.gd` 76, `presentation/runs/seed_entry.gd` 45, `presentation/truthful_commands.gd` 26. Add one helper (for example `FieldTools.loadout_label(id)`) and use it at each site; search again for others (`grep -rn "to_upper()" game/src | grep -i loadout`, and `upgrade.to_upper`). Check: import plus the suites `select-suites.py --minimum` names. Record in CHANGELOG, parity rules comment, final report table.
 
 ### 8.2 Code base audit (delegated measurements, root synthesis)
 
@@ -36,6 +36,8 @@ Root adds what only it knows from this run:
 - **Tests that assert old wording or layouts** (DISRUPT strings, full charts, drones in the water): unknown number now failing in suites that were not rerun; 72 Main-driven test files touch drones.
 - **Suite count and cost:** 391 suites, 46 minutes for the full matrix; 41 suites take 61 percent of it.
 - **`main.gd` and `simulation.gd`** are the two files everything passes through (1,517 lines of dense simulation; Main holds input, save, lifecycle and menus).
+
+**DONE 2026-11-12:** `.fable/CODE_AUDIT.md` is written (two read-only Sonnet agents plus root measurements); fixes A1 to A12 wait for Pat's yes or no. The original note follows.
 
 Output: `.fable/CODE_AUDIT.md` (plain English first, then the tables), a short version in chat for Pat with a numbered yes or no list, and the items added to the plan below.
 

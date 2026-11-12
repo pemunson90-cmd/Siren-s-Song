@@ -1,12 +1,12 @@
 {
   "run_id": "overhaul-20261111",
-  "status": "PAUSED",
+  "status": "RUNNING",
   "phase": "8-audit",
-  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: Resume with /siren-s-start-fable. Then .fable/PHASE8.md in order: 8.1 rename the DISRUPTION loadout to EMP (display sites listed there; not started), 8.2 code base audit (three small read-only agent batches on cheap models, root synthesis into .fable/CODE_AUDIT.md, plain-English yes or no list for Pat), 8.3 build what Pat approves, 8.4 Pat's playtest feedback. PR 262 stays a draft",
+  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: Pat answers fixes A1 to A12 in .fable/CODE_AUDIT.md section 3 (yes or no each); build approved ones per PHASE8.md 8.3, one work package each. Independent meanwhile: trace why operation 3 sensing takes 18 ms per pulse (measurement only). Then 8.4 Pat's playtest feedback",
   "base_ref": "origin/claude/integration",
   "base_sha": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
   "run_branch": "fable/overhaul-20261111",
-  "run_head": "e74d5d1d9ab6e9ed18d1c6f9964328ab1ac34bf2",
+  "run_head": "272bf9e25532a2cff98523d005411c12ef9e4220",
   "shared_tips": {
     "claude/integration": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
     "main": "f5b66a198e3878950325f8c45a0bc6bc29dcba84",
@@ -32,10 +32,10 @@
     "WP-14": "merged",
     "WP-15": "merged",
     "WP-16": "merged",
-    "WP-17": "planned",
-    "WP-18": "planned"
+    "WP-17": "merged",
+    "WP-18": "merged"
   },
   "decisions_open": 0,
-  "last_checkpoint": "PAUSED before phase 8. Head pushed; debug package run 43265277067 with Pat; start command rewritten for phase 8",
-  "updated": "2026-11-12 13:14:27"
+  "last_checkpoint": "Phase 8: loadout rename committed 272bf9e2; CODE_AUDIT.md written; waiting on Pat for A1 to A12",
+  "updated": "2026-11-12 13:32:30"
 }
