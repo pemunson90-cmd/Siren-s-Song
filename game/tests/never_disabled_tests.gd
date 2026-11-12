@@ -5,12 +5,16 @@ extends SceneTree
 # Suppressing tools: Disrupt (emp, stun EMP_STUN), Torpedo (knock, pin KNOCK_TIME), Decoy (decoy,
 # distraction DECOY_TIME) and Silt screen (silt_screen, sight blocked for its table life).
 # Sonobuoy, Survey, Hull patch and Relay buoy never act on a Siren and are not cases here.
-# Disrupt is applied to every Siren role found in the campaign, including network and industrial roles.
+# Disrupt and Torpedo are applied to every Siren role found in the campaign, including network and
+# industrial roles: Simulation.knockdown_targets() filters by fresh contact, range and band, not by role.
+# The reach-work stuns in game/src/simulation/glass_reach_work.gd (120 s and 90 s on buoys and relays)
+# are outside this suite: they are operation work, not field tools.
 # Durations are read from the game's own tables, so this suite follows a ruled change of a number;
 # the numbers themselves are pinned by protected_rules_tests.
 const Simulation=preload("res://src/simulation/simulation.gd")
 const Tuning=preload("res://src/simulation/tuning.gd")
 const FieldTools=preload("res://src/equipment/field_tools.gd")
+const Network=preload("res://src/simulation/acoustic_network.gd")
 const SIGHT_ROLES=["patroller","sentinel","hunter","sweeper"]
 const NETWORK_ROLES=["buoy","relay"]
 const INDUSTRY_ROLES=["interceptor","warden"]
@@ -90,7 +94,8 @@ func run()->void:
  for r in SIGHT_ROLES:
   if roles.has(r):disrupt_sight(r,roles[r].op,roles[r].index);torpedo(r,roles[r].op,roles[r].index)
  for r in NETWORK_ROLES+INDUSTRY_ROLES:
-  if roles.has(r):disrupt_static(r,roles[r].op,roles[r].index)
+  if roles.has(r):
+   static_role(r,roles[r].op,roles[r].index,"emp");static_role(r,roles[r].op,roles[r].index,"knock")
  if roles.has("patroller"):
   decoy(roles.patroller.op,roles.patroller.index)
   silt(roles.patroller.op,roles.patroller.index)
@@ -127,29 +132,72 @@ func torpedo(r:String,op:int,index:int)->void:
  tick(s,1.5)
  check(e.stun<=0 and e.get("pin_time",0)<=0 and e.mode!="PINNED" and senses(e),label+": after the pin the Siren senses Quietus again")
  acts_after(s,e,f.far,label)
-func disrupt_static(r:String,op:int,index:int)->void:
- var label="Disrupt on %s (op %d S%d)"%[r,op,index+1]
+# Network and industrial roles stand still by design, so "acts again" means the role's own work resumes.
+func static_role(r:String,op:int,index:int,tool:String)->void:
+ var label="%s on %s (op %d S%d)"%["Disrupt" if tool=="emp" else "Torpedo",r,op,index+1]
  var f=setup(op,index);check(not f.is_empty(),label+": open water found beside the Siren")
  if f.is_empty():return
  var s=f.sim;var e=f.e
- check(s.command("emp") and e.stun==Tuning.EMP_STUN and e.mode=="DISRUPTED",label+": pulse stuns the Siren")
+ var duration:float=Tuning.EMP_STUN if tool=="emp" else Simulation.KNOCK_TIME
+ var suppressed="DISRUPTED" if tool=="emp" else "PINNED"
+ if tool=="emp":
+  check(s.command("emp") and e.stun==Tuning.EMP_STUN and e.mode=="DISRUPTED",label+": pulse stuns the Siren")
+ else:
+  check(s.command("knock",{"target":index}),label+": torpedo launches at the observed Siren")
+  var hit=false
+  for i in 120:
+   tick(s,Simulation.STEP*2)
+   if e.mode=="PINNED":hit=true;break
+  check(hit and e.get("pin_time",0)>Simulation.KNOCK_TIME-0.3,label+": impact pins the Siren (mode %s, %s)"%[e.mode,s.message])
+  if not hit:return
  rehold(s,index)
- tick(s,Tuning.EMP_STUN-0.5)
- check(e.stun>0 and e.mode=="DISRUPTED",label+": role stays suppressed during the stun")
- if r in NETWORK_ROLES:check(e.network.packet.is_empty(),label+": stunned network Siren carries no report")
- else:check(e.industry.phase=="idle",label+": stunned industrial Siren charges nothing")
- tick(s,1.0)
- check(e.stun<=0 and e.mode!="DISRUPTED",label+": role resumes after the stun (mode "+str(e.mode)+")")
+ # A buoy linked to the relay is the relay's only source of reports.
+ var source={}
+ if r=="relay":
+  for b in s.sirens:
+   if role(b)=="buoy" and Network.link(s,b,e):source=b;break
+  check(not source.is_empty(),label+": a buoy in the same operation is linked to the relay")
+  if source.is_empty():return
+ tick(s,duration-3.0)
+ check(e.stun>0 and e.mode==suppressed,label+": role stays suppressed during the tool's duration")
  if r=="buoy":
-  e.network.cooldown=0.0
-  s._noise(e.pos+Vector2(60,0),650.0,"ACTIVE SONAR",2.0,f.band);tick(s,0.3)
+  trigger(s,e);tick(s,0.5)
+  check(e.stun>0 and e.network.packet.is_empty(),label+": suppressed listener hears a sonar ping and carries no report")
+ elif r=="relay":
+  release(source);trigger(s,source);tick(s,2.5)
+  check(e.stun>0 and source.network.cooldown>0,label+": the linked buoy reports while the relay is suppressed")
+  check(e.network.packet.is_empty(),label+": suppressed relay receives and carries no report")
+ else:
+  tick(s,0.5)
+  check(e.industry.phase=="idle",label+": suppressed industrial Siren charges nothing with Quietus in sight")
+ for i in 40:
+  if e.stun<=0:break
+  tick(s,0.1)
+ tick(s,0.1)
+ check(e.stun<=0 and not e.mode in ["DISRUPTED","PINNED"],label+": role resumes after the tool's duration (mode "+str(e.mode)+")")
+ if r=="buoy":
+  e.network.cooldown=0.0;trigger(s,e);tick(s,0.3)
   check(not e.network.packet.is_empty(),label+": recovered listener hears and reports again (mode "+str(e.mode)+")")
- elif r in INDUSTRY_ROLES:
+ elif r=="relay":
+  release(source);trigger(s,source);tick(s,2.5)
+  check(not e.network.packet.is_empty(),label+": recovered relay receives and carries the buoy's report (mode "+str(e.mode)+")")
+  var forwarded=false
+  for i in 40:
+   tick(s,0.1)
+   if e.network.cooldown>0 and s.noises.any(func(n):return n.label=="RELAY FORWARD" and n.pos==e.pos):forwarded=true;break
+  check(forwarded,label+": recovered relay charges and forwards the report")
+ else:
   e.industry.cooldown=0.0;var acted=false
   for i in 30:
    tick(s,0.1)
    if e.industry.phase!="idle":acted=true;break
   check(acted,label+": recovered industrial Siren senses Quietus and winds up again (mode "+str(e.mode)+")")
+# Test input: an active sonar ping heard beside a listener.
+func trigger(s,b:Dictionary)->void:
+ s._noise(b.pos+Vector2(60,0),650.0,"ACTIVE SONAR",2.0,int(b.band))
+# Lets one held buoy work again, with no packet or cooldown left from before.
+func release(b:Dictionary)->void:
+ b.stun=0.0;b.network.cooldown=0.0;b.network.packet={};b.network.charge=0.0
 func decoy(op:int,index:int)->void:
  var label="Decoy on patroller (op %d S%d)"%[op,index+1]
  var f=setup(op,index,140.0);check(not f.is_empty(),label+": open water found beside the Siren")
