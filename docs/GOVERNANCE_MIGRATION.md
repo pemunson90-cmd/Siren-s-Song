@@ -204,7 +204,7 @@ These were agent calls that Pat could revert. The ones that are standing rules:
 | # | Rule | Source | Disposition |
 | --- | --- | --- | --- |
 | 129 | The draft intent card (ten lines on what the player does and what must stay hard) | handoffs RULINGS.md section 1 | PAT: unratified until Pat answers Q3 (decision D-06). Copied verbatim into USER_DIRECTIVES with its UNRATIFIED label and used only as a lens in the critic brief. |
-| 130 | "Human test readiness" gate before phone testing | docs/design/HUMAN_TEST_READINESS.md | PAT: decision D-02. The file is unchanged. |
+| 130 | "Human test readiness" gate before phone testing | docs/design/HUMAN_TEST_READINESS.md | PAT: decision D-02, answered A on 2026-11-12. The file is in `_scrap-20261111/docs/design/`. |
 | 131 | Authored sweeper patrol points called "against the PR70 invariant" on the old board while the game ships them | handoffs BOARD.md:134 | PAT: decision D-03. The game is unchanged. |
 | 132 | Removal rule of 5 Nov 2026 (nothing is deleted; move to scrap) | Pat's working copy of AGENTS.md, not committed on a shared branch | KEPT verbatim in AGENTS.md section 1 and USER_DIRECTIVES, with its source stated. It matches the run charter's own rule. |
 | 133 | Milestone loop line ("Milestone = a complete playable game...") | `AGENTS.md` on `main`, commit a2300840; absent from `claude/integration` | KEPT verbatim in AGENTS.md section 1 |

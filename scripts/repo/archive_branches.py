@@ -71,6 +71,8 @@ def main():
     mode.add_argument("--remove-branches", action="store_true", help="remove remote branch refs that already have a pushed archive tag")
     parser.add_argument("--approved-by-pat", action="store_true", help="required for --execute and --remove-branches")
     parser.add_argument("--remote", default="origin")
+    parser.add_argument("--tag-prefix", default="archive/branch/",
+                        help="prefix of the archive tags (a run whose guard allows pushes only under fable/ uses fable/archive/branch/)")
     parser.add_argument("--ledger", default=str(ROOT / ".fable" / "BRANCH_LEDGER.md"))
     args = parser.parse_args()
     ledger = pathlib.Path(args.ledger).resolve()
@@ -83,7 +85,7 @@ def main():
         return 2
     failures = 0
     for section, name, tip in rows:
-        tag = "archive/branch/" + name
+        tag = args.tag_prefix + name
         ref = "refs/remotes/%s/%s" % (args.remote, name)
         current = git("rev-parse", "--verify", "--quiet", ref, check=False).stdout.strip()
         if not current:

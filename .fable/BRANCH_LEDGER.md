@@ -2,15 +2,15 @@
 
 Status: GENERATED (rerun the script to refresh; do not edit by hand)
 
-Produced by `scripts/repo/branch_ledger.py` on 2026-11-11 from the local remote-tracking refs of `origin`. Baseline `main` at f5b66a19, base `claude/integration` at cabd5bd5. Activity window: 10 days. Nothing was changed.
+Produced by `scripts/repo/branch_ledger.py` on 2026-11-12 from the local remote-tracking refs of `origin`. Baseline `main` at f5b66a19, base `claude/integration` at cabd5bd5. Activity window: 10 days. Nothing was changed.
 
 | Class | Count | Meaning |
 | --- | --- | --- |
 | SHARED | 5 | other work is based on it or promoted through it; keep |
-| ACTIVE | 19 | run branch, open PR or recent commit; keep |
+| ACTIVE | 4 | run branch, open PR or recent commit; keep |
 | UNMERGED-UNIQUE | 24 | unmerged and still needed as a branch; keep |
-| UNMERGED-STALE | 61 | unmerged, old; archivable once a tag holds the tip |
-| MERGED | 265 | tip is in the baseline or the base; archivable |
+| UNMERGED-STALE | 62 | unmerged, old; archivable once a tag holds the tip |
+| MERGED | 279 | tip is in the baseline or the base; archivable |
 | Total | 374 | |
 
 ## SHARED (5)
@@ -23,29 +23,14 @@ Produced by `scripts/repo/branch_ledger.py` on 2026-11-11 from the local remote-
 | `gauntlet/production` | 26e09906 | 2026-10-30 | pemunson90-cmd | 1165/1 | 4/159 | no | #5 MERGED | shared line |
 | `main` | f5b66a19 | 2026-11-01 | pemunson90-cmd | 0/0 | 1/1320 | main | none | shared line |
 
-## ACTIVE (19)
+## ACTIVE (4)
 
 | Branch | Tip | Last commit | Author | Ahead/behind main | Ahead/behind claude/integration | Merged into | PR | Reason |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | `archive/archaeology-siren-20261106` | fa13bd27 | 2026-11-06 | Claude | 2/0 | 3/1320 | no | none | commit within 10 days |
 | `claude/archaeology-lookup` | 68133f46 | 2026-11-06 | Claude | 2/0 | 3/1320 | no | #261 OPEN | open PR #261 |
 | `docs/project-ledger-20261024` | 7dc09ad9 | 2026-10-24 | pemunson90-cmd | 1/1 | 1/1320 | no | #139 OPEN | open PR #139 |
-| `fable/overhaul-20261111` | 3b949a12 | 2026-11-11 | pemunson90-cmd | 1326/1 | 6/0 | no | none | run branch |
-| `item/130-control-mix` | 82db3d60 | 2026-11-01 | pemunson90-cmd | 1223/1 | 0/97 | claude/integration | #247 MERGED | commit within 10 days |
-| `item/131-crash-possible` | 591959e3 | 2026-11-01 | pemunson90-cmd | 1234/1 | 0/86 | claude/integration | #255 MERGED | commit within 10 days |
-| `item/133-recovery-manifest` | 3adffb66 | 2026-11-01 | pemunson90-cmd | 1231/1 | 0/89 | claude/integration | #249 MERGED | commit within 10 days |
-| `item/139-bare-contact` | 2bff50e5 | 2026-11-01 | pemunson90-cmd | 1269/1 | 0/51 | claude/integration | #252 MERGED | commit within 10 days |
-| `item/140-dive-end-stats` | 2de2736f | 2026-11-01 | pemunson90-cmd | 1240/1 | 0/80 | claude/integration | #248 MERGED | commit within 10 days |
-| `item/141-own-craft-legs` | ec6f0daa | 2026-11-01 | pemunson90-cmd | 1245/1 | 0/75 | claude/integration | #250 MERGED | commit within 10 days |
-| `item/142-launch-guard` | 4b2cd830 | 2026-11-01 | pemunson90-cmd | 1284/1 | 0/36 | claude/integration | #251 MERGED | commit within 10 days |
-| `item/143-dive-end-polish` | 0087f5ee | 2026-11-01 | pemunson90-cmd | 1291/1 | 0/29 | claude/integration | #256 MERGED | commit within 10 days |
-| `item/144-all-stop-cost` | 3e4907b4 | 2026-11-01 | pemunson90-cmd | 1251/1 | 0/69 | claude/integration | #253 MERGED | commit within 10 days |
-| `item/145-briefing-truth` | bf99e502 | 2026-11-01 | pemunson90-cmd | 1255/1 | 0/65 | claude/integration | #254 MERGED | commit within 10 days |
-| `item/146-docs-pointers` | dae48357 | 2026-11-01 | pemunson90-cmd | 1273/1 | 0/47 | claude/integration | #257 MERGED | commit within 10 days |
-| `item/147-integration-apk` | 63b03a75 | 2026-11-01 | pemunson90-cmd | 1297/1 | 0/23 | claude/integration | #258 MERGED | commit within 10 days |
-| `item/148-android-smokes` | 8b7815bb | 2026-11-01 | pemunson90-cmd | 1299/1 | 0/21 | claude/integration | #259 MERGED | commit within 10 days |
-| `policy/preserve-working-features-20261101` | c6d7d362 | 2026-11-01 | pemunson90-cmd | 2/1 | 2/1320 | no | #260 MERGED | commit within 10 days |
-| `root/stable-board-pkg2` | f9839757 | 2026-11-01 | pemunson90-cmd | 1317/1 | 0/3 | claude/integration | #239 MERGED | commit within 10 days |
+| `fable/overhaul-20261111` | f1b42b36 | 2026-11-12 | pemunson90-cmd | 1404/1 | 84/0 | no | #262 OPEN | run branch |
 
 ## UNMERGED-UNIQUE (24)
 
@@ -76,7 +61,7 @@ Produced by `scripts/repo/branch_ledger.py` on 2026-11-11 from the local remote-
 | `archive/gauntlet-program-audit-2026-10-19` | 715043c5 | 2026-10-19 | Codex | 8/3 | 1/1315 | no | none | preservation branch |
 | `archive/workflow-v1-2026-10-31` | 543fd415 | 2026-10-30 | pemunson90-cmd | 1011/3 | 712/1023 | no | none | preservation branch |
 
-## UNMERGED-STALE (61)
+## UNMERGED-STALE (62)
 
 | Branch | Tip | Last commit | Author | Ahead/behind main | Ahead/behind claude/integration | Merged into | PR | Reason |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -141,8 +126,9 @@ Produced by `scripts/repo/branch_ledger.py` on 2026-11-11 from the local remote-
 | `maintenance/gauntlet-default-branch-sync-20261019` | 84b72247 | 2026-10-19 | pemunson90-cmd | 4/405 | 4/1724 | no | #1 MERGED | PR #1 merged; tip has later or rewritten commits |
 | `maintenance/gauntlet-staleness-continuity-20261019` | 74dc6669 | 2026-10-19 | pemunson90-cmd | 14/78 | 14/1397 | no | #2 MERGED | PR #2 merged; tip has later or rewritten commits |
 | `maintenance/main-gauntlet-check-bootstrap-20261019` | 50dd9878 | 2026-10-19 | pemunson90-cmd | 3/404 | 3/1723 | no | #3 MERGED | PR #3 merged; tip has later or rewritten commits |
+| `policy/preserve-working-features-20261101` | c6d7d362 | 2026-11-01 | pemunson90-cmd | 2/1 | 2/1320 | no | #260 MERGED | PR #260 merged; tip has later or rewritten commits |
 
-## MERGED (265)
+## MERGED (279)
 
 | Branch | Tip | Last commit | Author | Ahead/behind main | Ahead/behind claude/integration | Merged into | PR | Reason |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -407,7 +393,21 @@ Produced by `scripts/repo/branch_ledger.py` on 2026-11-11 from the local remote-
 | `item/127-release-controls` | eb919c8c | 2026-10-31 | pemunson90-cmd | 1203/1 | 0/117 | claude/integration | #241 MERGED | tip is in claude/integration |
 | `item/128-ci-v2` | 9ff652ab | 2026-10-31 | pemunson90-cmd | 1179/1 | 0/141 | claude/integration | #240 MERGED | tip is in claude/integration |
 | `item/129-protected-golden` | e2c7ba41 | 2026-10-31 | pemunson90-cmd | 1187/1 | 0/133 | claude/integration | #243 MERGED | tip is in claude/integration |
+| `item/130-control-mix` | 82db3d60 | 2026-11-01 | pemunson90-cmd | 1223/1 | 0/97 | claude/integration | #247 MERGED | tip is in claude/integration |
+| `item/131-crash-possible` | 591959e3 | 2026-11-01 | pemunson90-cmd | 1234/1 | 0/86 | claude/integration | #255 MERGED | tip is in claude/integration |
+| `item/133-recovery-manifest` | 3adffb66 | 2026-11-01 | pemunson90-cmd | 1231/1 | 0/89 | claude/integration | #249 MERGED | tip is in claude/integration |
 | `item/135-prep-results` | a402e770 | 2026-10-31 | pemunson90-cmd | 1191/1 | 0/129 | claude/integration | #244 MERGED | tip is in claude/integration |
 | `item/136-shard-all-failures` | e748afa5 | 2026-10-31 | pemunson90-cmd | 1183/1 | 0/137 | claude/integration | #242 MERGED | tip is in claude/integration |
 | `item/137-menu-scroll-keys` | a0729129 | 2026-10-31 | pemunson90-cmd | 1211/1 | 0/109 | claude/integration | #246 MERGED | tip is in claude/integration |
 | `item/138-player-names` | e6ddad5b | 2026-10-31 | pemunson90-cmd | 1217/1 | 0/103 | claude/integration | #245 MERGED | tip is in claude/integration |
+| `item/139-bare-contact` | 2bff50e5 | 2026-11-01 | pemunson90-cmd | 1269/1 | 0/51 | claude/integration | #252 MERGED | tip is in claude/integration |
+| `item/140-dive-end-stats` | 2de2736f | 2026-11-01 | pemunson90-cmd | 1240/1 | 0/80 | claude/integration | #248 MERGED | tip is in claude/integration |
+| `item/141-own-craft-legs` | ec6f0daa | 2026-11-01 | pemunson90-cmd | 1245/1 | 0/75 | claude/integration | #250 MERGED | tip is in claude/integration |
+| `item/142-launch-guard` | 4b2cd830 | 2026-11-01 | pemunson90-cmd | 1284/1 | 0/36 | claude/integration | #251 MERGED | tip is in claude/integration |
+| `item/143-dive-end-polish` | 0087f5ee | 2026-11-01 | pemunson90-cmd | 1291/1 | 0/29 | claude/integration | #256 MERGED | tip is in claude/integration |
+| `item/144-all-stop-cost` | 3e4907b4 | 2026-11-01 | pemunson90-cmd | 1251/1 | 0/69 | claude/integration | #253 MERGED | tip is in claude/integration |
+| `item/145-briefing-truth` | bf99e502 | 2026-11-01 | pemunson90-cmd | 1255/1 | 0/65 | claude/integration | #254 MERGED | tip is in claude/integration |
+| `item/146-docs-pointers` | dae48357 | 2026-11-01 | pemunson90-cmd | 1273/1 | 0/47 | claude/integration | #257 MERGED | tip is in claude/integration |
+| `item/147-integration-apk` | 63b03a75 | 2026-11-01 | pemunson90-cmd | 1297/1 | 0/23 | claude/integration | #258 MERGED | tip is in claude/integration |
+| `item/148-android-smokes` | 8b7815bb | 2026-11-01 | pemunson90-cmd | 1299/1 | 0/21 | claude/integration | #259 MERGED | tip is in claude/integration |
+| `root/stable-board-pkg2` | f9839757 | 2026-11-01 | pemunson90-cmd | 1317/1 | 0/3 | claude/integration | #239 MERGED | tip is in claude/integration |

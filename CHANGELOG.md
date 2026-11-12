@@ -46,3 +46,12 @@ Base: `claude/integration` at `cabd5bd5`. The complete account, including every 
 - Threat, notice and new-Siren-type chips stay inside the screen and grow to fit their text; the Hunt chip keeps its seat while the layout is unchanged; the Expedition banner sits under the header; the ring's centre title wraps to two lines.
 - Loss and withdrawal debriefs show REVIEW FIELD RECORDS, RETRY and OPERATIONS ARCHIVE directly under the heading. The Expedition pre-dive page pins BEGIN OPERATION and RETURN TO MODES at the bottom of the screen. A grey LOAD button names its reason.
 - Thirteen fitting descriptions gained the missing spaces between words and numbers. No number changed.
+- **Drones launch from Quietus (restored from the v7 prototype, Pat's ruling of 2026-11-12).** Every dive starts with both drones aboard: they are not on the chart and nothing can see, hear or strike them. Choose a drone under FLEET and tap water: it enters the water beside Quietus and swims the route. Other orders to an aboard drone are refused with the reason. A drone never launched comes home with Quietus and is never counted lost. No launch noise, two drones and no spares, recovery of a launched drone unchanged (Pat's rulings for this first version). Dives saved before this keep their drones in the water.
+- The Operations panel has a TITLE control at its top.
+
+### After the first closeout (2026-11-12)
+
+- Pull requests run the bare minimum on GitHub: core, at most twelve suites that directly test the change, and the three canaries. The full matrix (46 minutes, about 150 runner-minutes) runs only by manual dispatch, for a release or near-release package.
+- `docs/V7_TO_GODOT_PARITY.md` records an audit of the prototype against the game: eleven differences that had no recorded rationale. One (drone launch) is restored; ten wait on Pat.
+- Pat's answers to decisions D-01 to D-15 are applied: two documents moved to scrap, correction notes in the story draft, `codex/handoffs` frozen, the specification's movement clause updated, archive tags for old branches.
+

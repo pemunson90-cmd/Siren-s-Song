@@ -71,7 +71,7 @@ Ask Pat one plain question at a time with a recommendation, and record any quali
 - `main`: the protected accepted baseline and the only promotion target. Pat authorizes promotion.
 - `gauntlet/production`: frozen earlier promotion baseline. Kept, never updated.
 - `archive/*`: preserved evidence and history. Not instructions.
-- `codex/handoffs`: the earlier coordination branch. Its rulings are copied into docs/USER_DIRECTIVES.md and its status into docs/STATUS.md. Whether it is retired is Pat's decision.
+- `codex/handoffs`: the earlier coordination branch. Its rulings are copied into docs/USER_DIRECTIVES.md and its status into docs/STATUS.md. Frozen history since 2026-11-12 (Pat, decision D-04 A): read it, never write to it; status and rulings live beside the game.
 
 No force push, no history rewrite and no branch deletion on any shared branch. Keep every published branch and recovery ref. [docs/WORKFLOW.md](docs/WORKFLOW.md) has the commit format, review and merge rules and the CI gating.
 

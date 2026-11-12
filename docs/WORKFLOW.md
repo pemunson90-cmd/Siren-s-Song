@@ -10,7 +10,7 @@ How changes move through this repository. The rules for agents are in [AGENTS.md
 | `main` | Protected accepted baseline and the only promotion target (Pat, 2026-10-31) | Pat, by a promotion pull request from `claude/integration` at a coherent milestone |
 | `gauntlet/production` | Frozen earlier promotion baseline. Kept, never updated. | Nobody |
 | `archive/*` | Preserved evidence and history | Nobody after creation |
-| `codex/handoffs` | Earlier coordination branch (queue, rulings and state until 2026-11-01) | Nobody in current work; retirement is Pat's decision |
+| `codex/handoffs` | Earlier coordination branch (queue, rulings and state until 2026-11-01) | Nobody: frozen history since 2026-11-12 (Pat, decision D-04 A) |
 | feature branches | One coherent change each, started from the latest `claude/integration` | Their owner |
 
 No force push, history rewrite or deletion on a shared branch. A feature branch whose base moved merges the new base in and rechecks; it is not rebased after it has been pushed for review. Keep every published branch. Old branches are archived by tag, only when Pat approves; `scripts/repo/branch_ledger.py` classifies them.
