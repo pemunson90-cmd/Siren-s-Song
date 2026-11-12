@@ -49,6 +49,20 @@ func live_case():
 	text=screen_text(game)
 	var wreck:Dictionary=game.photo_intel.get("spire_wreck",{})
 	check("PAID · " in text and not wreck.is_empty() and ("INTEL %s %d%%"%[Intel.label("spire_wreck"),roundi(float(wreck.q)*100)]) in text,"the archive shows what the operation's photographs paid")
+	var table_path="res://src/presentation/photo_pay/pay_table.gd"
+	var PayTable=load(table_path) if ResourceLoader.exists(table_path) else null
+	if PhotoPay!=null and PayTable!=null:
+		var labels_on:int=game.panel_box.find_children("*","Label",true,false).size()
+		var photo_rows:int=game.panel_box.find_children("*","Label",true,false).filter(func(l):return l.text.begins_with("PHOTO · ")).size()
+		PayTable.enabled=false
+		for n in 2:await process_frame
+		Archive.show(game)
+		var labels_off:int=game.panel_box.find_children("*","Label",true,false).size()
+		check(not "PAID · " in screen_text(game) and photo_rows>0 and labels_on-labels_off==photo_rows,"switch off: the archive adds no pay label, blank or not")
+		var before:int=game.panel_box.find_children("*","Label",true,false).size()
+		PhotoPay.debrief(game)
+		check(game.panel_box.find_children("*","Label",true,false).size()==before and PhotoPay.debrief_text(s.mission,game.photo_intel).is_empty(),"switch off: the debrief adds no pay block")
+		PayTable.enabled=true
 	for n in 4:await process_frame # the archive restores its scroll position a frame later
 	game.queue_free();await process_frame
 func table_case():
@@ -66,4 +80,4 @@ func table_case():
 	check("cut from" in text,"research the archive already cut is named as cut")
 	o.erase("photo_quality")
 	check(PhotoPay.debrief_text(mission,{}).is_empty(),"no secured photograph, no pay block")
-	check(PhotoPay.archive_line({},5).begins_with("PAID · no"),"an operation with no intel says so in the archive")
+	check(PhotoPay.archive_line({},5)=="PAID · no intel currently credited to this operation","an operation with no credited intel says so in the archive")

@@ -33,6 +33,14 @@ func run():
 	check(line.begins_with("NOT READY"),"caption still says NOT READY before the tap")
 	check(hidden not in numbers(line),"caption does not show the distance to the hidden source (%dm)"%hidden)
 	check(numbers(line)==[reach] and "REACH" in line,"caption names the same camera reach as the refusal")
+	var path="res://src/presentation/photo_shutter/range_caption.gd"
+	var Range=load(path) if ResourceLoader.exists(path) else null
+	check(Range!=null,"the range caption module exists")
+	if Range!=null:
+		Range.enabled=false
+		caption=game.mission_hud.camera_caption()
+		check(caption.size()>2 and str(caption[2])=="NOT READY · %dm"%hidden,"switch off: the caption returns to the base line exactly")
+		Range.enabled=true
 	# A resolved subject: the caption labels distance and reach, matching the refusal pair.
 	o.erase("unknown")
 	u.pos=o.pos+Vector2.from_angle(o.subject.facing)*300.0;u.angle=u.pos.angle_to_point(o.pos)

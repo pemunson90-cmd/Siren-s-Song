@@ -286,7 +286,9 @@ func _primary_action() -> void:
 	var held=WorkTaskView.held_reason(sim,mission_hud.task) if mission_hud!=null else ""
 	if not held.is_empty():mission_hud.task_result={"owner":WorkTaskView.NAMES[sim.selected],"ok":false,"text":held};_refresh();return
 	var photographic=sim.camera_context()
-	if photographic.get("ready",false) and preload("res://src/simulation/photo_context.gd").is_photo(sim,photographic):_order("camera");return
+	if photographic.get("ready",false) and preload("res://src/simulation/photo_context.gd").is_photo(sim,photographic):
+		if preload("res://src/presentation/photo_shutter/shutter.gd").refuse(self):return
+		_order("camera");return
 	var shelter=preload("res://src/presentation/shelf_habitat_view.gd").nearest(sim)
 	if not shelter.is_empty():mission_hud.open("habitat",shelter);return
 	var station=WarningChain.nearest_station(sim)

@@ -16,6 +16,6 @@ const TEXT:={
 	"short":"CAMERA RESEARCH · %s needs %s at %d%% · best %d%%",
 	"chart":"LATER CHARTS · %s marks dive %s",
 	"archive":"PAID · %s",
-	"archive_none":"PAID · no photographic intel from this operation",
+	"archive_none":"PAID · no intel currently credited to this operation",
 }
 const RECORD_NAME_CHARS:=28

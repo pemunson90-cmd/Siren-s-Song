@@ -90,7 +90,8 @@ static func show(host)->void:
 		for photo in group.photos:
 			host._menu_text("PHOTO · %s · QUALITY %d%%%s"%[title_of(photo.op,cache),roundi(photo.quality*100.0),
 				" · %dm"%roundi(photo.distance) if photo.distance>0.0 else ""],15)
-			host._menu_text(preload("res://src/presentation/photo_pay/photo_pay.gd").archive_line(host.photo_intel,photo.op),15)
+			var pay:String=preload("res://src/presentation/photo_pay/photo_pay.gd").archive_line(host.photo_intel,photo.op)
+			if not pay.is_empty():host._menu_text(pay,15)
 		for item in group.evidence:
 			var label="EVIDENCE · %s"%str(item.entry.get("name","RECORD")).to_upper()
 			host._button(host.panel_box,label,func():host._evidence_gallery(item.index),"archive_evidence_%d"%item.index)

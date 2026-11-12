@@ -217,10 +217,10 @@ func _draw_photo(t:Dictionary) -> void:
 	# WP-10 shutter: same order as the ring's PHOTO, in the header beside FOLD.
 	shutter_rect=Rect2();shutter_refusal=""
 	var title_x:=10.0;var title_room:=size.x-maxf(touch_height,fs*6.)-30
-	if ShutterTable.enabled and not live:
+	if not live and Shutter.offered(sim,t.get("ctx",{})):
 		var mirrored:bool=Settings.current.get("mirrored_hud",false)
 		shutter_rect=Shutter.rect(size.x,touch_height,fs,toggle_rect,mirrored)
-		shutter_refusal=Shutter.refusal(sim)
+		shutter_refusal=Shutter.refusal_for(sim,t.ctx,_frame.get("rows",[]))
 		_draw_shutter(shutter_rect,fs)
 		title_room-=shutter_rect.size.x+8
 		if mirrored:title_x=shutter_rect.end.x+8
