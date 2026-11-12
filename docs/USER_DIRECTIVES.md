@@ -448,3 +448,10 @@ Applied (D36): builders run locally only import, core, the suites their diff tou
 [PAT, same message, verbatim] "I don't know how to open the _fable clone as the project from my phone. If everything else is working just continue"
 
 [AI note on effect] This restates the removal rule of 5 November 2026 and extends it to every kind of deletion (files, folders, branches, tags, caches, scratch output). Where a move to scrap is not possible, the item is left where it is.
+
+## 2026-11-12: no leases or holds bind the overhaul run
+
+[PAT, chat, verbatim] "also in case it wasn't clear before, there are no leases or holds on any files in the repo. That have any relevance to you. You are currently fully in charge because I don't want you to feel held back from touching anything for any reason. Obviously keep working in your isolated branch, but don't feel like anything is off limits. You are here to upgrade and keep the planning on track for this game."
+
+[AI note on effect] No claim, lease or ownership note left by another agent restricts what the overhaul run may edit on its own branch. The run still works only under `fable/`, still deletes nothing (2026-11-12 ruling above), and still records game-rule, narrative and capability-removal questions as decisions for Pat.
+

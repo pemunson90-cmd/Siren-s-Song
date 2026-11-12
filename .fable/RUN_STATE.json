@@ -1,12 +1,12 @@
 {
   "run_id": "overhaul-20261111",
-  "status": "PAUSED",
+  "status": "RUNNING",
   "phase": "4-execution",
-  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: Resume with /siren-s-start-fable. Then recover WP-11 (branch wp-11-hud-defects in .claude/worktrees/agent-a8b80588f1ebc7a47, six commits on base f416831f, implementer had not reported): check its diff, run its suites plus import, core and canaries, one reviewer, merge --no-ff, register suites from rank 1414, push. Then the Phase 4 gate: gh workflow run gauntlet-pr-checks.yml --ref fable/overhaul-20261111. Then Phase 5 and Phase 6 per NOW.md",
+  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: Finish WP-11: root checks on the branch, reviewer verdict, merge --no-ff, register suites 1414 to 1418, push. Then the Phase 4 gate, Phase 5, Phase 6 per NOW.md",
   "base_ref": "origin/claude/integration",
   "base_sha": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
   "run_branch": "fable/overhaul-20261111",
-  "run_head": "bbe1af30b413084e328c416037fec0e62a6ddd79",
+  "run_head": "e84d4ede6eeb5afe06a6117215f627bb2ae57b00",
   "shared_tips": {
     "claude/integration": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
     "main": "f5b66a198e3878950325f8c45a0bc6bc29dcba84",
@@ -31,5 +31,5 @@
   },
   "decisions_open": 12,
   "last_checkpoint": "PAUSED for a usage reset. Merged and pushed: WP-00 to WP-10 and WP-12; last core on the merged head CHECKS 850 FAILURES 0; Phase 3 CI gate green (run 43188734403). WP-11 built on its branch, unreviewed, unmerged",
-  "updated": "2026-11-12 07:23:01"
+  "updated": "2026-11-12 08:34:09"
 }
