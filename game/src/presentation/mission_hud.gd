@@ -583,6 +583,7 @@ func refresh():
  extra.sonar_emit.text="EMIT\n"+("%s RESERVE"%String.num(snappedf(sim.Sonar.pulse_cost(sim,sim.selected),0.01)));extra.sonar_emit.disabled=sim.ping_time>0 or not transition.is_empty()
  subject=Concealed.refresh_subject(sim,Recipient.refresh_subject(sim,Rendezvous.refresh_subject(sim,subject)))
  host.pause_button.text="PAUSED\n▶ RESUME" if sim.paused else "Ⅱ\nPAUSE"
+ _fit_pause_button()
  host.advanced_button.text="FLEET"
  focus_button.text="FOLLOW" if host.ocean.chart_camera.mode=="follow" else "FOCUS"
  intent.text="%s · %s · %s"%[sim.units[sim.selected].name+" · "+sim.Depth.NAMES[sim.units[sim.selected].band],"QUEUE" if sim.queue_mode else "REPLACE",(host.targeting_feedback if not host.targeting_feedback.is_empty() else "DECOY · TAP CLEAR WATER ≤160m · TAP CANCEL" if host.decoy_armed else "TORPEDO · TAP FRESH CONTACT · TAP CANCEL" if host.knock_armed else sim.message)]
@@ -687,6 +688,9 @@ func refresh():
  hints.refresh(size,touch_height,aid_font,threat_floor())
  # A first-notice tutorial must not cover the very warning it explains.
  if hints.panel.visible and (not Rect2(Vector2.ZERO,size).encloses(hints.panel.get_rect()) or threat_rects().any(func(r):return r.intersects(hints.panel.get_rect())) or (order_dock.visible and hints.panel.get_rect().intersects(order_dock.get_rect()))):hints.panel.hide()
+ # A tip card never sits over the order dialog or UNDO, where it would take their taps.
+ for aid in [guard.panel,guard.undo_button]:
+  if hints.panel.visible and aid.visible and hints.panel.get_global_rect().intersects(aid.get_global_rect()):hints.panel.hide()
  preload("res://src/presentation/field_tool_view.gd").place_notice(self)
  var blocked=[]
  for button in action_controls().values():
@@ -717,6 +721,13 @@ func refresh():
  HuntMeter.sync(self)
  if has_meta(StatusView.GRID):StatusView.fit_dock(self)
 
+# The pause control's hit area always covers its whole wrapped label, so a tap on the
+# visible RESUME line is never lost to the chart below it.
+func _fit_pause_button():
+ var b:Button=host.pause_button
+ var margin=b.get_theme_stylebox("normal").get_minimum_size()
+ var text=b.get_theme_font("font").get_multiline_string_size(b.text,HORIZONTAL_ALIGNMENT_CENTER,maxf(1.,b.size.x-margin.x),b.get_theme_font_size("font_size")).y
+ if b.size.y<ceilf(text+margin.y):b.size.y=ceilf(text+margin.y)
 func _clear_hint_overlap():
  if hints.panel.visible and (command_controls()+[close_button,sheet]).any(func(b):return b.is_visible_in_tree() and b.get_global_rect().intersects(hints.panel.get_global_rect())):hints.panel.hide()
 
