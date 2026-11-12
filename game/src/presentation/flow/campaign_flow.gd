@@ -268,6 +268,7 @@ static func debrief(host) -> void:
 		host.BlackwaterDelivery.debrief(host)
 		host.ModuleRecovery.debrief(host)
 		host._show_photo_grade(host.sim.mission.objectives)
+		preload("res://src/presentation/photo_pay/photo_pay.gd").debrief(host)
 		host._menu_text(stats_line(host.sim),17)
 		preload("res://src/presentation/damage_log/damage_log.gd").debrief(host)
 		if host.mission_index==5:
