@@ -65,3 +65,11 @@ P0, all land in this run:
 P1 candidates (rank after the critics report): release hygiene S-02, S-03, S-04; data-driven operation tables (hunt caps, endurance, region and route position keyed by registry rows instead of ID arrays) plus guides for adding an operation, a Siren role, a fitting and a region, and MODULES.md rows for items 126 to 148; photo payoff; ARRIVALS shows received content; duplicated constants S-06 and dead guards S-05; critic findings.
 
 P2 backlog: look and sound comparison, shared test assertion helper, god-object decomposition, settings stored twice, select-suites narrowing, nightly on main.
+
+## Pat ruling 2026-11-11 21:16:48: saves are minor priority
+
+Verbatim: "Save files are minor priority because the game isnt even finished yet so saves absolutely will not be able to be carried forward if there is a major refactor or a change in the flow of the game." Plan changes: WP-05 (S-01) leaves P0 and goes to the P2 backlog. Refactors may break compatibility with existing saves as long as incompatible saves are rejected cleanly and save, restore, profiles, export and import keep working on new saves. Record this ruling in `docs/USER_DIRECTIVES.md` in Phase 3 (append, verbatim, dated 2026-11-11).
+
+## Line endings (for WP-03)
+
+`git ls-files --eol`: 1,334 files are LF in the index and CRLF in the working copy (this clone has `core.autocrlf=true`), 10 files are CRLF in the index (`game/src/campaign/sweeper_patrols.gd` and nine test files), 2 are mixed (`game/src/diagnostics/ai_trace.gd`, `ai_trace_table.gd`). Plan: `.gitattributes` with `* text=auto eol=lf`, binaries marked, and `reference/**`, `references/**` and `game/tests/fixtures/**` set `-text` so provenance bytes and fixtures never convert; one normalization commit for the 12 files.

@@ -96,7 +96,7 @@ Code-quality observations without a single defect: two god objects (`main.gd`, `
 
 Ranked by Pat's priorities (gameplay, graphics, interface, bugs, features above story). Critic findings will reorder the gameplay rows.
 
-1. **Progress-loss risk S-01.** Verify, then fix. P0.
+1. **Progress-loss risk S-01.** Pat ruled on 2026-11-11 that save files are minor priority while the game is unfinished, so this is P2 backlog, not P0. It stays listed first here only because it is the one defect that could lose data.
 2. **Governance and documentation sprawl** (S-10, S-11): stale banners, contradictory rules, status on another branch. P0.
 3. **Repository hygiene** (S-09) and **CI and harness gaps** (S-12, S-13). P0.
 4. **Photo payoff:** value favors distance and tools over photo quality (STATE.md plan item, COLD_REVIEW_4 F1 and F15). P1.
