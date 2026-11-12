@@ -63,6 +63,7 @@ var chart_choice
 var hints
 var text_scale=1.0
 var caption_rects:Array=[]
+var caption_texts:Array=[]
 var tool_help=preload("res://src/presentation/tool_help/tool_help.gd").new()
 var help_return="tools"
 var help_text=""
@@ -782,6 +783,8 @@ func _draw():
  if page in ["object","salvage","plant","habitat"]:lines.append_array(WorkTask.captions(host.sim,subject))
  if page=="choose":lines.append("CRAFT OR OBJECT?")
  lines=StatusView.captions(self,lines)
+ lines=CenterLayout.fit_lines(lines,font,text_size,CenterLayout.text_width(ring_radius,h))
+ caption_texts=lines.duplicate()
  var first_y=CenterLayout.first_baseline(center.y,close_button.get_rect(),h,text_scale,lines.size(),font,text_size)
  for n in lines.size():
   var text=lines[n];var width=font.get_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,-1,text_size).x

@@ -36,16 +36,25 @@ func refresh()->void:
  frames=tracker.frames();note_frames=tracker.notes();position=Vector2.ZERO;size=host.size
  visible=host.screen=="mission" and not (frames.is_empty() and note_frames.is_empty()) and host.sim.outcome.is_empty()
  var h=host.ui_touch_height;var layout=Table.LAYOUT
- var width=minf(size.x-layout.gap*2,h*layout.width_touch)
- chip_rect=Rect2(Vector2(size.x-width-layout.gap,h*layout.top_touch+layout.gap),Vector2(width,h*layout.height_touch))
+ font_size=maxi(layout.font_min,roundi(h*layout.font_touch))
+ # WP-11 (I2): grow to the measured text, never past the content edge; wrap when even that is short.
+ var tall=h*layout.height_touch;var widest=maxf(1.,size.x-layout.gap*2)
+ var need=maxf(_text_width(label_text())+tall+12.,_text_width(note_text())+tall*.4+12.)
+ var width=clampf(need,minf(widest,h*layout.width_touch),widest)
+ chip_rect=Rect2(Vector2(size.x-width-layout.gap,h*layout.top_touch+layout.gap),Vector2(width,_box_height(label_text(),width-tall-8.,tall)))
+ # A received lock card in the same column pushes the chip (and its note) below it.
+ var lock=host.get("lock_warning")
+ if lock!=null and lock.visible and lock.banner.has_area():
+  var card=Rect2(lock.global_position-global_position+lock.banner.position,lock.banner.size)
+  var stack=Rect2(chip_rect.position,Vector2(chip_rect.size.x,chip_rect.size.y*2.+layout.gap))
+  if card.grow(layout.gap*.5).intersects(stack):chip_rect.position.y=card.end.y+layout.gap*.5
  # The kind note sits directly under the chip (or alone) clear of the centred lock banner.
  note_rect=Rect2()
  if not note_frames.is_empty():
   var note_at=chip_rect.position if frames.is_empty() else chip_rect.end+Vector2(-chip_rect.size.x,layout.gap*.5)
-  note_rect=Rect2(note_at,Vector2(width,h*layout.height_touch))
+  note_rect=Rect2(note_at,Vector2(width,_box_height(note_text(),width-tall*.4-8.,tall)))
  # marker_rect is the chip (the note alone when no bearing); captions also avoid note_rect.
  marker_rect=chip_rect if not frames.is_empty() or note_frames.is_empty() else note_rect
- font_size=maxi(layout.font_min,roundi(h*layout.font_touch))
  var silent=not visible or not host.sound.cue_audible(Table.AUDIO.id)
  if silent or voice.get_playback_position()>=Table.AUDIO.seconds:voice.stop()
  voice.stream_paused=host.sim.paused or suspended or host.sound.system_suspended
@@ -60,10 +69,23 @@ func _draw()->void:
   draw_line(center-direction*radius,center+direction*radius,Palette.chart_color("evidence",Color("a9d9df")),3.,true)
   var tip=center+direction*radius;var side=direction.orthogonal()*radius*.4
   draw_colored_polygon(PackedVector2Array([tip,center+side,center-side]),Palette.chart_color("evidence",Color("a9d9df")))
-  draw_string(ThemeDB.fallback_font,chip_rect.position+Vector2(chip_rect.size.y,chip_rect.size.y*.62),label_text(),HORIZONTAL_ALIGNMENT_LEFT,-1,font_size,Color.WHITE)
+  var tall=minf(chip_rect.size.y,host.ui_touch_height*Table.LAYOUT.height_touch)
+  _text(chip_rect.position+Vector2(tall,0),label_text(),chip_rect.size.x-tall-8.,chip_rect.size.y)
  if not note_frames.is_empty():
   panel.border_color=Palette.chart_color("warning",Color("e6c46a"));draw_style_box(panel,note_rect)
-  draw_string(ThemeDB.fallback_font,note_rect.position+Vector2(note_rect.size.y*.4,note_rect.size.y*.62),note_text(),HORIZONTAL_ALIGNMENT_LEFT,-1,font_size,Color.WHITE)
+  var inset=minf(note_rect.size.y,host.ui_touch_height*Table.LAYOUT.height_touch)*.4
+  _text(note_rect.position+Vector2(inset,0),note_text(),note_rect.size.x-inset-8.,note_rect.size.y)
+func _text_width(text:String)->float:
+ return ThemeDB.fallback_font.get_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x
+# One line keeps the original box height; wrapped text grows the box downward.
+func _box_height(text:String,room:float,tall:float)->float:
+ if text.is_empty() or _text_width(text)<=room:return tall
+ return maxf(tall,ThemeDB.fallback_font.get_multiline_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,maxf(1.,room),font_size).y+tall*.4)
+func _text(at:Vector2,text:String,room:float,box_height:float)->void:
+ var font=ThemeDB.fallback_font
+ if _text_width(text)<=room:
+  draw_string(font,at+Vector2(0,box_height*.62),text,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size,Color.WHITE);return
+ draw_multiline_string(font,at+Vector2(0,box_height*.2+font.get_ascent(font_size)),text,HORIZONTAL_ALIGNMENT_LEFT,maxf(1.,room),font_size,-1,Color.WHITE)
 func note_text()->String:
  return "" if note_frames.is_empty() else note_frames.back().text
 func label_text()->String:

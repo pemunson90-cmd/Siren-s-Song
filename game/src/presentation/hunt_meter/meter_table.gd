@@ -19,6 +19,8 @@ const HEIGHT_PADDING=16.0
 const HELP_PAUSE_GAP=8.0
 const HELP_WIDTH_MARGIN_COUNT=3.0
 const SCAN_MIN_STEP=12.0
+# WP-11: keep a clear seat between frames of the same layout. false restores per-frame search.
+const STICKY=true
 const SCAN_TOUCH_FACTOR=0.5
 const PIP_COUNT=5
 const COMPACT_PIP_SPLIT=3

@@ -142,6 +142,13 @@ static func _obstacles(hud,button:Button,craft:bool=true)->Array:
  var optics=hud.host.ocean.optical_feed
  if optics.is_visible_in_tree():result.append(Rect2(optics.global_position-hud.global_position,optics.size))
  if hud.intent.visible and area.encloses(hud.intent.get_rect()):result.append(hud.intent.get_rect())
+ # WP-11 (I2): the first-notice chip and note, and a mode banner (Expedition), are not controls but must stay readable.
+ var cue=hud.host.hud.get_node_or_null("FirstSirenCue") if hud.host.get("hud")!=null else null
+ if cue!=null and cue.is_visible_in_tree():
+  for r in [cue.marker_rect,cue.note_rect]:
+   if r.has_area():result.append(Rect2(cue.global_position-hud.global_position+r.position,r.size))
+ var banner=hud.host.get("status_label")
+ if banner is Control and banner.is_visible_in_tree():result.append(Rect2(banner.global_position-hud.global_position,banner.size))
  if hud.fleet!=null and hud.fleet.is_visible_in_tree():
   for reading in hud.fleet.readouts:result.append(Rect2(hud.fleet.position+reading.rect.position,reading.rect.size))
  if craft:result.append_array(_craft_touch_rects(hud))
@@ -161,6 +168,13 @@ static func fit(hud)->void:
  var bottom=area.end.y-body.y-Table.MARGIN
  var near_top=hud.touch_height+Table.MARGIN
  var middle=maxf(Table.MARGIN,(area.size.x-body.x)/2)
+ # WP-11 (I2): hold the chip where it is while the layout is the same and its seat
+ # stays clear, so it moves for a resize, mirroring, text scale or a panel, not per frame.
+ var signature=str([area.size,hud.touch_height,hud.text_scale,Settings.current.get("mirrored_hud",false),hud.host.advanced_orders,hud.page,hud.order_dock.visible])
+ if Table.STICKY and button.get_meta("hunt_meter_fitted",false) and button.get_meta("hunt_meter_signature","")==signature:
+  var held=Rect2(old_position,body)
+  if area.encloses(held) and not obstacles.any(func(other):return held.intersects(other)):return
+ button.set_meta("hunt_meter_signature",signature)
  var candidates=[Vector2(right,near_top),Vector2(Table.MARGIN,near_top),Vector2(right,Table.MARGIN),Vector2(middle,Table.MARGIN),Vector2(Table.MARGIN,Table.MARGIN),Vector2(right,bottom),Vector2(middle,bottom),Vector2(Table.MARGIN,bottom)]
  # Try exact obstacle edges before the coarse scan: a full touch target can fit
  # between the header and a craft even when the scan step skips that gap.
