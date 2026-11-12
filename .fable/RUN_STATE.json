@@ -2,11 +2,11 @@
   "run_id": "overhaul-20261111",
   "status": "RUNNING",
   "phase": "8-audit",
-  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: A5 (WP-23): read run 43301827177 (full matrix on fable/wp-23-player-rules at 0fb15413) when it finishes (gh run view 43301827177 --json jobs; download the shard logs and list failing suites), sort each failing suite as launch-first, known-charts, rule-replaced or real defect (one or two Sonnet implementers on disjoint suite lists), then merge wp-23-player-rules into the run branch. Open defect: PLAYFIELD HUD cover open water 0.7463 against 0.75. Then A7, more A8 steps, A1 drawing probe, A10",
+  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: A5 (WP-23): three Sonnet implementers are repairing the stale suites found by run 43301827177 (123 failing + 14 crashed of 384) on branches wp-23a (listA, 62 suites), wp-23b (listB, 61), wp-23c (listC, 14), all cut from fable/wp-23-player-rules at 2d7e4b72. When each reports: review its diff (tests only, no weakened checks), merge into wp-23-player-rules, look at every suite it marked NOT FIXED or real defect, then one full GitHub matrix on the A5 branch, then merge A5 into the run branch. Lists live in the session scratchpad; if lost, re-derive from the run's logs.",
   "base_ref": "origin/claude/integration",
   "base_sha": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
   "run_branch": "fable/overhaul-20261111",
-  "run_head": "1e59cfee53b85e690a19efab83ab62f84d29ec45",
+  "run_head": "9c586eddad843689deec53303c291877f9b6133a",
   "shared_tips": {
     "claude/integration": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
     "main": "f5b66a198e3878950325f8c45a0bc6bc29dcba84",
@@ -43,5 +43,5 @@
   },
   "decisions_open": 0,
   "last_checkpoint": "A5: core green under the player rules on wp-23-player-rules; enumeration run 43301827177 in progress",
-  "updated": "2026-11-12 15:43:08"
+  "updated": "2026-11-12 17:06:41"
 }
