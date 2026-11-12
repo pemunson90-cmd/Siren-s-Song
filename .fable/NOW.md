@@ -1,13 +1,13 @@
 # NOW: what the root session is doing
 
 Status: LIVE NOTE (rewritten before every step; if a session died, this is the step it died in)
-Updated: 2026-11-12 15:09
+Updated: 2026-11-12 15:10
 
 **To resume after a context clear or a new session:** open this folder as the project and run `/siren-s-start-fable`. The command reads the charter, the target file, `.fable/RUN_STATE.json`, `.fable/RUN_LOG.md` and `.fable/DECISIONS.md`. The `next_action` field in the state file always starts by sending the session to `.fable/HANDOFF.md` and to this file.
 
 ## Doing right now
 
-A5: sorting core failures under the player rules
+A5: full matrix run 43297552176 on fable/wp-23-player-rules (728a9d13) lists every suite that fails under the player rules; implementer sorting the core scenarios
 
 ## In flight
 
