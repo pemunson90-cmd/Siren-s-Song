@@ -48,11 +48,11 @@ static func description(row:Dictionary)->String:
 	match row.rule:
 		"no_sonar":return "No SONAR or SURVEY. Listen and use the camera."
 		"quietus_only":return "Quietus works alone. Drones stay ashore."
-		"no_tools":return "Use no DISRUPT, DECOY, SURVEY or TORPEDO charges."
+		"no_tools":return "Use no EMP, DECOY, SURVEY or TORPEDO charges."
 		"hull_intact":return "Keep at least %d%% hull throughout the dive."%roundi(r.min_hull)
 		"no_losses":return "Bring every launched craft home alive."
 		"middle_only":return "Keep every craft in MIDDLE throughout the dive."
-		"one_tool":return "Use at most %d DISRUPT, DECOY, SURVEY or TORPEDO charge."%r.max_tools
+		"one_tool":return "Use at most %d EMP, DECOY, SURVEY or TORPEDO charge."%r.max_tools
 		"quiet_propulsion":return "Any craft with MOTION above %dm spends the shared %ds loud-propulsion budget."%[roundi(r.loud_radius),roundi(r.loud_limit)]
 		"time_limit":return "Recover within %02d:%02d of running time. Tactical pause is unlimited."%[int(r.max_time)/60,int(r.max_time)%60]
 	return ""

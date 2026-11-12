@@ -41,6 +41,7 @@ func run():
   site_case(operation)
  survey_case(5)
  disrupt_case()
+ sonar_case()
  factory_case()
  save_case()
  developer_case()
@@ -114,12 +115,22 @@ func disrupt_case():
  var s=dive(5);s.sirens=[]
  var before=int(s.tools.emp)
  check(not s.command("emp") and int(s.tools.emp)==before,"Disrupt with no Siren in range is refused and keeps its charge")
- check("charge kept" in s.message,"the refusal says the charge is kept: "+s.message)
+ check("charge kept" in s.message and "EMP" in s.message,"the refusal names the EMP and says the charge is kept: "+s.message)
  var t=dive(5)
  if not t.sirens.is_empty():
   t.sirens[0].pos=t.units[0].pos+Vector2(80,0);t.sirens[0]["band"]=t.units[0].band
   var had=int(t.tools.emp)
   check(t.command("emp") and int(t.tools.emp)==had-1 and float(t.sirens[0].get("stun",0.))>0.,"Disrupt with a Siren in range fires, spends and stuns")
+func sonar_case():
+ var s=dive(5);s.sirens=[];s.sonar.sector="all"
+ check(s.Sonar.pulse_cost(s,0)==0.,"Quietus's sonar costs no life support on a player dive")
+ check(s.Sonar.pulse_cost(s,1)>0.,"a drone's sonar still costs battery")
+ var oxygen=s.oxygen
+ check(s.command("ping") and s.oxygen==oxygen,"a Quietus pulse spends no oxygen (%.2f to %.2f)"%[oxygen,s.oxygen])
+ var battery=float(s.units[1].battery);s.ping_time=0.;s.command("select",{"unit":1})
+ check(s.command("ping") and float(s.units[1].battery)<battery,"a drone pulse spends battery")
+ var plain=Sim.new();plain.start(5,"endurance")
+ check(plain.Sonar.pulse_cost(plain,0)>0.,"without the flag the older sonar cost stands")
 func factory_case():
  for operation in [3,11]:
   var s=dive(operation);var tag="op%d"%operation;s.sirens=[]
@@ -167,4 +178,5 @@ func main_case():
  game._start_mission(5);await settle();game._refresh();await settle()
  check(game.sim.mission.get(Rules.KEY,false),"a dive started by the game carries the parity rules")
  check(not searched(game.sim).is_empty() and game.sim.terrain_chart!=null,"the game's dive has search areas and a discovered chart")
+ check(game.order_buttons.emp.text.begins_with("EMP"),"the tool button reads EMP: "+game.order_buttons.emp.text.replace("\n"," / "))
  game.queue_free();await settle()

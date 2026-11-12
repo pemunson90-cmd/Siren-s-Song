@@ -11,11 +11,11 @@ static func command(sim, order: String, args: Dictionary) -> bool:
 			if sim.tools.emp<=0: return false
 			# WP-16 (Pat, 2026-11-12; v7 line 254): with no Siren in range the charge is kept.
 			if sim.ParityRules.on(sim.mission,"disrupt_needs_target") and not sim.sirens.any(func(s):return s.pos.distance_to(u.pos)<Tuning.EMP_RADIUS*sim.Depth.transmission(u,s)):
-				sim.message="No Siren within Disrupt range · charge kept";return false
+				sim.message="No Siren within EMP range · charge kept";return false
 			sim.tools.emp-=1
 			for s in sim.sirens:
 				if s.pos.distance_to(u.pos)<Tuning.EMP_RADIUS*sim.Depth.transmission(u,s): s.stun=Tuning.EMP_STUN; s.lock=0.0; s.target=-1; s.erase("recipient_target"); s.mode="PINNED" if s.get("pin_time",0)>0 else "DISRUPTED"
-			sim._noise(u.pos,Tuning.WEAPON_NOISE,"DISRUPTION",Tuning.WEAPON_NOISE_TIME,u.band); sim.message="Disruption pulse · 12 second recovery window"; sim.events.append({"type":"emp","pos":u.pos})
+			sim._noise(u.pos,Tuning.WEAPON_NOISE,"DISRUPTION",Tuning.WEAPON_NOISE_TIME,u.band); sim.message="EMP pulse · 12 second recovery window"; sim.events.append({"type":"emp","pos":u.pos})
 		"knock":
 			var id=args.get("target",null)
 			var eligible=sim.knockdown_targets().any(func(c):return c.key==id) if id is int else false

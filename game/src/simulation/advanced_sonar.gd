@@ -26,6 +26,8 @@ static func prism_pulse(sim,station:int)->bool:
  return station==0 and Equipment.has(sim.mission.launch_equipment,0,"quietus_prism") and sim.sonar.sector=="forward"
 # Single source of truth: the HUD shows exactly what emit() spends.
 static func pulse_cost(sim,station:int)->float:
+ # WP-16 (Pat, 2026-11-12): on a player dive Quietus's sonar costs no life support; a drone still pays battery.
+ if station==0 and preload("res://src/simulation/parity_rules/parity_rules.gd").on(sim.mission,"free_quietus_sonar"):return 0.
  return POWERS[sim.sonar.power].cost*(2. if prism_pulse(sim,station) else 1.)*Upgrades.pulse_cost(sim.mission.launch_equipment,station)
 static func emit(sim,station:int)->bool:
  var u=sim.units[station]

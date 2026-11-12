@@ -17,4 +17,4 @@ const CUE_INTERVAL=3.
 const AMBIENCE_DB=[0.,1.6,2.9,4.1,5.1]
 const EARLY_AMBIENCE_CAP=3.
 const CUE_SOURCE="develop"
-const CAUSES={"FACTORY":"factory sensors","LAUNCH":"operation start","ACTIVE SONAR":"active sonar","DISRUPTION":"Disrupt","KNOCKDOWN":"knockdown","EXPOSURE":"photographic exposure","UNUSABLE EXPOSURE":"unusable exposure","SECURED RECORD":"secured record","NEW SIGHT":"new visual detection","ACTIVITY":"own activity","TIME":"elapsed time","COOLING":"quiet cooling"}
+const CAUSES={"FACTORY":"factory sensors","LAUNCH":"operation start","ACTIVE SONAR":"active sonar","DISRUPTION":"EMP","KNOCKDOWN":"knockdown","EXPOSURE":"photographic exposure","UNUSABLE EXPOSURE":"unusable exposure","SECURED RECORD":"secured record","NEW SIGHT":"new visual detection","ACTIVITY":"own activity","TIME":"elapsed time","COOLING":"quiet cooling"}

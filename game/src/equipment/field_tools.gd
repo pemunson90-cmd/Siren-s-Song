@@ -16,7 +16,7 @@ const LOCKER_TICKS={"quietus":100,"drone_a":50,"drone_b":50}
 const LOADOUTS=["endurance","disruption","survey"]
 # counts: starting stock per campaign loadout. deploy: placement range from the craft in metres.
 const TOOLS={
- "emp":{"id":"emp","name":"Disrupt","order":"emp","owner":"tools","enabled":true,
+ "emp":{"id":"emp","name":"EMP","order":"emp","owner":"tools","enabled":true,
   "counts":{"endurance":2,"disruption":3,"survey":2},"summary":"Pulse that stuns Sirens for 12 s."},
  "decoy":{"id":"decoy","name":"Decoy","order":"decoy","owner":"tools","enabled":true,
   "counts":{"endurance":3,"disruption":3,"survey":3},"summary":"Open-water transmission that draws Sirens."},

@@ -5,7 +5,7 @@ const Settings=preload("res://src/presentation/frontend/frontend_settings.gd")
 const Depth=preload("res://src/presentation/frontend/settings_depth.gd")
 const TEXT = {
  "decoy":"DECOY: This craft carries charges; place a noise source to draw Sirens away.",
- "emp":"DISRUPT: This craft carries charges; briefly interrupt nearby Sirens.",
+ "emp":"EMP: This craft carries charges; a pulse briefly interrupts every Siren in range. No target needed.",
  "recon":"SURVEY: This craft carries charges; inspect its local area.",
  "sonar_emit":"EMIT: spend reserve on an audible sonar pulse.",
  "sonar_sector":"SECTOR: choose all-around or forward sonar coverage.",

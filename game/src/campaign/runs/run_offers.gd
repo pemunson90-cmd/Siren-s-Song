@@ -51,7 +51,7 @@ static func describe(state:Dictionary,id:String)->Dictionary:
 	if id.begins_with("route:"):op=state.operations[int(id.get_slice(":",1))]
 	var title:String=Catalog.make(op,{}).title
 	if id.begins_with("route:"):
-		return {"title":"ROUTE · "+title,"detail":"Next: %s. Spend up to 1 Decoy for 2 Disrupt charges."%title}
+		return {"title":"ROUTE · "+title,"detail":"Next: %s. Spend up to 1 Decoy for 2 EMP charges."%title}
 	if id=="refit":
 		return {"title":"REPAIR KIT / REFIT","detail":"Next: %s. Gain 2 Hull patches and 1 Decoy. Use patches during a dive to repair collision damage."%title}
 	var tool:String=id.get_slice(":",1)

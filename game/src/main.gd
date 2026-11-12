@@ -133,7 +133,7 @@ func _ready() -> void:
 	for i in 3:
 		var id=i
 		unit_buttons.append(_button(hud,["QUIETUS","DRONE A","DRONE B"][i],func(): _order("select",{"unit":id})))
-	var orders=[["ping","SONAR"],["camera","CAMERA"],["silent","SILENT"],["queue","+ QUEUE"],["hold","HOLD"],["emp","DISRUPT"],["decoy","DECOY"],["recon","SURVEY"],["contact_hold","IF CONTACT"],["wait_drone","WAIT DRONE"],["waypoint_mode","WAYPOINT: PASS"],["program","PLAN ROUTE"],["knock","TORPEDO"]]
+	var orders=[["ping","SONAR"],["camera","CAMERA"],["silent","SILENT"],["queue","+ QUEUE"],["hold","HOLD"],["emp","EMP"],["decoy","DECOY"],["recon","SURVEY"],["contact_hold","IF CONTACT"],["wait_drone","WAIT DRONE"],["waypoint_mode","WAYPOINT: PASS"],["program","PLAN ROUTE"],["knock","TORPEDO"]]
 	for o in orders:
 		var order=o[0]
 		order_buttons[order]=_button(hud,o[1],func(): _primary_action() if order=="camera" else _order(order))
@@ -422,7 +422,7 @@ func _refresh() -> void:
 	order_buttons.silent.text=("LOW\nPROFILE" if sim.units[sim.selected].silent else "OPEN\nPROFILE") if sim.selected>0 else ("SILENT ✓" if sim.units[0].silent else "CRUISE")
 	order_buttons.knock.text="CANCEL\nTORPEDO" if knock_armed else "TORPEDO\n%d"%preload("res://src/presentation/truthful_commands.gd").stock(sim,"knock")
 	order_buttons.knock.disabled=not knock_armed and (sim.selected!=0 or not sim.units[0].alive or sim.tools.get("knock",0)<=0)
-	order_buttons.emp.text="DISRUPT\n%d"%preload("res://src/equipment/tool_racks.gd").count(sim,"emp")
+	order_buttons.emp.text="EMP\n%d"%preload("res://src/equipment/tool_racks.gd").count(sim,"emp")
 	order_buttons.emp.disabled=preload("res://src/equipment/tool_racks.gd").count(sim,"emp")<=0
 	order_buttons.decoy.text="CANCEL\nDECOY" if decoy_armed else "DECOY\n%d"%preload("res://src/equipment/tool_racks.gd").count(sim,"decoy")
 	order_buttons.decoy.disabled=preload("res://src/equipment/tool_racks.gd").count(sim,"decoy")<=0 and not decoy_armed
@@ -526,7 +526,7 @@ func _target_knockdown(point: Vector2,intended:int=-2) -> void:
 			if sim.elapsed-contact.time>=.3:continue
 			if ocean.screen_position(contact.pos).distance_to(point-ocean.global_position)>maxf(ui_touch_height/2,43*ocean.world_scale):continue
 			if contact.get("mode","") in ["DISRUPTED","PINNED"]:
-				sim.message="S%d %s · shot declined · no torpedo spent"%[int(id)+1,"disrupted" if contact.mode=="DISRUPTED" else "already snared"]
+				sim.message="S%d %s · shot declined · no torpedo spent"%[int(id)+1,"stunned by EMP" if contact.mode=="DISRUPTED" else "already snared"]
 				break
 			var distance=sim.units[0].pos.distance_to(contact.pos)
 			if distance>sim.KNOCK_RANGE:
@@ -586,7 +586,7 @@ func _cycle_loadout()->void:
 	CampaignFlow.cycle_loadout(self)
 func _orders_text(briefing:Dictionary) -> String:
 	return CampaignFlow.orders_text(self, briefing)
-const RULES_TEXT="SPACE / PAUSE grants unlimited planning time. Silent running is slower and quieter. Disruption interrupts nearby Sirens for 12 seconds. Quietus torpedoes travel noisily up to 150m; impact pins one Siren for 8s. Cover blocks sonar, enemy sight and torpedoes."
+const RULES_TEXT="SPACE / PAUSE grants unlimited planning time. Silent running is slower and quieter. An EMP pulse interrupts nearby Sirens for 12 seconds. Quietus torpedoes travel noisily up to 150m; impact pins one Siren for 8s. Cover blocks sonar, enemy sight and torpedoes."
 func _briefing(index: int) -> void:
 	CampaignFlow.briefing(self, index)
 func _fold_fit(nodes:Array,holder:Array) -> void:

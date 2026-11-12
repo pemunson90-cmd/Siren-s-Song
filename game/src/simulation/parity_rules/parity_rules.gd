@@ -14,6 +14,12 @@ extends RefCounted
 #                       "Yeah that's a failure".
 #  factory_sensors      "It's an alien factory with sensors and protection. It
 #                       should know you're there."
+#  free_quietus_sonar   "I don't think it should cost oxygen. It's your primary
+#                       maneuverability and recon ability. ... The biggest risk
+#                       is getting caught. On the drones it costing battery
+#                       makes sense."
+#  The tool the code calls emp is named EMP wherever the player reads it
+#  ("It should just say EMP"); it is an area pulse and never needs a target.
 #
 # The rules apply to a dive whose launch dictionary carries "parity_rules"
 # (Main passes it for every player dive, ChallengeRun too). The flag is stored
@@ -22,7 +28,7 @@ extends RefCounted
 # tests use as their fixture (the same arrangement as drone_bay/).
 # Revert: set a row of RULES to false, or all of them.
 const KEY="parity_rules"
-const RULES={"discovered_charts":true,"site_search":true,"disrupt_needs_target":true,"factory_sensors":true}
+const RULES={"discovered_charts":true,"site_search":true,"disrupt_needs_target":true,"factory_sensors":true,"free_quietus_sonar":true}
 # Operations whose water and objectives are known from the start (tutorial).
 const CHARTED_OPERATIONS=[0,1,2]
 # Seconds a survey sweep's picture stays on the chart, and an objective it

@@ -23,7 +23,7 @@ static func brief_stock(racks:Dictionary)->String:
 
 static func launch_stock(host,index:int=-1)->String:
  var q=host.tool_racks.get("quietus",{})
- var text="NEXT DIVE / RETRY / %s / QUIETUS\nO₂ %d%% · DISRUPT %d · SURVEY %d"%[host.upgrade.to_upper(),host._loadout_stock(host.upgrade)[0],int(q.get("emp",0)),int(q.get("recon",0))]
+ var text="NEXT DIVE / RETRY / %s / QUIETUS\nO₂ %d%% · EMP %d · SURVEY %d"%[host.upgrade.to_upper(),host._loadout_stock(host.upgrade)[0],int(q.get("emp",0)),int(q.get("recon",0))]
  # Operation 0 keeps its short opening briefing (a goal and one danger, under 420 characters).
  if index>0:text+="\n"+life_support_line(host,index)
  return text

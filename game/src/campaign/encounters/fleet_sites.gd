@@ -42,7 +42,7 @@ static func apply(m:Dictionary)->void:
    var watch=W.listen("glass_record_38_watch","ROOF WATCH ACCOUNT",SILT_ACCOUNT,"The roof watch account records the southern patrol's crossing beneath the roof.",6.)
    watch.optional=true
    m.objectives.append(watch)
-   m.brief+="\nOptional roof watch account: LISTEN in MIDDLE along the strip north of the closed sluice (1500,1680). Silt screen can cover this exposed reception from the southern patrol for25s; it also hides your view and its release is audible. Waiting for the patrol or using Disrupt remains possible. The DEEP underside photograph is still the required job."
+   m.brief+="\nOptional roof watch account: LISTEN in MIDDLE along the strip north of the closed sluice (1500,1680). Silt screen can cover this exposed reception from the southern patrol for25s; it also hides your view and its release is audible. Waiting for the patrol or using the EMP remains possible. The DEEP underside photograph is still the required job."
   39:
    var patrol=W.listen("glass_record_39_patrol","EXHAUST PATROL ACCOUNT",PATROL_ACCOUNT,"The exhaust patrol account records the inner terrace's service crossing.",6.)
    patrol.optional=true

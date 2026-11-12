@@ -543,3 +543,20 @@ You should be using the absolute bare minimum amount of tests always."
 
 [AI note on effect] Rulings to build: 9 (charts are discovered; fully charted water only in the first one to three operations; survey sweeps are temporary until a craft maps the water), 10 (objectives shown from the start only as a debug option), 11 (Disrupt must not spend its charge with nothing in range), 14 (the factory senses a craft near it). Open with Pat: 12 (how a recon-plane survey should register with Sirens), 13 (drones are not in fact stealthier than the submarine today; whether to make them so), 15 (whether to draw a detected Siren's sight range). 16 and items 1 to 8 stay as built for the playtest.
 
+## 2026-11-12: sonar cost, the EMP name, drone stealth, sight range, survey
+
+[AI note] The numbers again refer to the sixteen-item list of prototype differences: 5 sonar, 7 tool numbers and the Disrupt tool, 13 drones and Siren attention, 15 drawing a Siren's sight range, 12 the survey.
+
+[PAT, chat, verbatim]
+"5. I don't think it should cost oxygen. It's your primary maneuverability and recon ability. It's kind of important. It shouldn't be limited like that. The biggest risk is getting caught. On the drones it costing battery makes sense.
+
+7. It should just say EMP and it's an area of affected package shouldn't required you to Target anything. It should work on any sirens in the range. Knockdown torpedos are the single target. We can spec out more interactive and defensive tools later. Like a scrambled jammer that makes sirens confused or something like that.
+
+13. Give me some options and evaluate how it affects gameplay.
+
+15. It needa a way to be diegetic and make sense.
+
+12. Not sure."
+
+[AI note on effect] Built in WP-16: Quietus's sonar pulse costs no life support on a player dive (a drone's still costs battery); the tool is named EMP in everything the player reads (internal identifiers such as the noise label DISRUPTION and the loadout id `disruption` are unchanged). The EMP was already an area pulse that needs no target; the only refusal is when no Siren at all is inside its radius. Options given to Pat and awaiting his choice: drone stealth (A harder to see, B quieter, C slower lock, D calm Sirens ignore drones as in the prototype; recommended D with B) and a diegetic sight range (A earned by photographing the Siren type, B an estimate that sharpens, C shown only when a Siren looks toward a craft; recommended A). The survey question stays open. Pat's idea for later: more interactive and defensive tools, for example a jammer that confuses Sirens.
+

@@ -62,7 +62,7 @@ func _draw():
  draw_string(font,banner.position+Vector2(h*.9,h*.5),"S%d LOCK · %.1fs"%[int(locks[0].id)+1,locks[0].remaining],HORIZONTAL_ALIGNMENT_LEFT,-1,font_size,warning)
  if show_hint:
   draw_string(font,banner.position+Vector2(12,h),"Break sight with cover.",HORIZONTAL_ALIGNMENT_LEFT,-1,font_size,Color.WHITE)
-  draw_string(font,banner.position+Vector2(12,h*1.35),"DISRUPT or torpedo impact interrupts.",HORIZONTAL_ALIGNMENT_LEFT,-1,maxi(16,roundi(h*.21)),Color.WHITE)
+  draw_string(font,banner.position+Vector2(12,h*1.35),"EMP or torpedo impact interrupts.",HORIZONTAL_ALIGNMENT_LEFT,-1,maxi(16,roundi(h*.21)),Color.WHITE)
 func _panel()->StyleBoxFlat:
  var panel=StyleBoxFlat.new();panel.bg_color=Color(.06,.015,.025,.97);panel.border_color=preload("res://src/presentation/accessibility/palette.gd").color("warning",Color("ffb18b"));panel.set_border_width_all(int(Palette.stroke(2)));panel.set_corner_radius_all(10)
  return panel
