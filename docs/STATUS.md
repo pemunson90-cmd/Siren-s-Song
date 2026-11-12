@@ -36,4 +36,4 @@ Open decisions of the current run are in `.fable/DECISIONS.md`. Older open quest
 
 ## Next action
 
-Finish the overhaul run to its Definition of Done, then Pat reviews the pull request and plays the debug package.
+PAUSED, RESUME REQUIRED (2026-11-12, usage reset). Resume command: `/siren-s-start-fable` in the run clone. The run continues from `.fable/RUN_STATE.json`: finish work package WP-11, run the full CI gate, verify every protected capability, build one debug package, write the final report. Then Pat reviews the pull request and plays the debug package.
