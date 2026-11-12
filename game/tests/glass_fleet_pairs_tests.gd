@@ -2,6 +2,7 @@ extends SceneTree
 const V=preload("res://tests/glass_fleet_voyage.gd")
 const G=preload("res://tests/glass_reach_journeys.gd")
 const H=preload("res://tests/glass_fleet_photo_support.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 var checks=0
 var failures=0
 var rows=[]
@@ -83,6 +84,8 @@ func photographer(s,id,g)->bool:
  return ok
 func _initialize():call_deferred("run")
 func run():
+ # Scripted route through authored water, not a discovery test: known-charts developer switch (the player rules leave this water uncharted).
+ var charts_before=PlayerDive.known_water(true)
  var g=G.new();var qualified=0
  var ids=[14,15,16,17,18,20,21,19]
  var args=OS.get_cmdline_user_args()
@@ -95,7 +98,7 @@ func run():
   check(V.valid_snapshot(bare.snapshot()),"bare empty-rack save remains valid "+str(id))
   rows.append({"policy":"bare","result":bare.measured()})
   var s=V.new();s.equipped=true
-  s.start(id,"endurance",{"context":V.Consequences.context(g.progress()),"fitted":{"quietus":"quietus_decoder" if id==19 else "quietus_baffles","drone_a":"drone_deep_cells","drone_b":"drone_survey_array"}})
+  s.start(id,"endurance",{"context":V.Consequences.context(g.progress()),"fitted":{"quietus":"quietus_decoder" if id==19 else "quietus_baffles","drone_a":"drone_deep_cells","drone_b":"drone_survey_array"}});PlayerDive.launch_drones(s)
   for uid in [1,2]:
    s.command("select",{"unit":uid});s.command("drone_drive",{"mode":"quiet"})
   s.command("select",{"unit":0})
@@ -119,4 +122,5 @@ func run():
   var f=FileAccess.open(path+"/glass-pairs"+("-"+str(ids[0]) if ids.size()==1 else "")+".json",FileAccess.WRITE)
   f.store_string(JSON.stringify(rows));f.close()
  g.free()
+ PlayerDive.known_water(charts_before)
  print("GLASS FLEET PAIRS CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)
