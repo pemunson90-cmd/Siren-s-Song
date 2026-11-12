@@ -1,12 +1,12 @@
 {
   "run_id": "overhaul-20261111",
-  "status": "RUNNING",
+  "status": "STUCK",
   "phase": "7-repairs",
-  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: Read the debug package run for the head, record its SHA-256 in .fable/FINAL_REPORT.md sections 6 and 11, refresh the PR body. Then wait for Pat's playtest and his remaining answers (survey, other factory sites, spare drones). PR 262 stays a draft until he says his rulings are done",
+  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: Wait for Pat: his playtest of the debug package (run 43265277067) and his remaining answers (survey behavior, which other Siren works sense craft, spare drones, whether to rename the DISRUPTION loadout). Then apply them, mark PR 262 ready (one minimum check run) and set DONE",
   "base_ref": "origin/claude/integration",
   "base_sha": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
   "run_branch": "fable/overhaul-20261111",
-  "run_head": "7319c0ec17e827d39289cc1a109cff9f5aaf07dd",
+  "run_head": "955ac8a10380f2bd3912ea7f3a298aee42046752",
   "shared_tips": {
     "claude/integration": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
     "main": "f5b66a198e3878950325f8c45a0bc6bc29dcba84",
@@ -34,6 +34,6 @@
     "WP-16": "merged"
   },
   "decisions_open": 0,
-  "last_checkpoint": "WP-16 parity restores committed at d64fbfb0 (PARITY RULES 60/0, core 850/0, canaries)",
-  "updated": "2026-11-12 12:02:56"
+  "last_checkpoint": "WP-16 complete at 955ac8a1; debug package run 43265277067, SHA-256 ba20421a...5286f; PR 262 a draft with the report as its body",
+  "updated": "2026-11-12 12:04:57"
 }

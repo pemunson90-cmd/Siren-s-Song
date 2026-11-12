@@ -2,7 +2,7 @@
 
 Status: FINAL (2026-11-12)
 
-Branch `fable/overhaul-20261111`, final game code at `d64fbfb0` (later commits on the branch change only documents). The first closeout was at `247e0582`; Pat then approved repairs (section 12), which are included, base `claude/integration` at `cabd5bd5` (tag `fable/pre-overhaul-20261111`). Pull request: https://github.com/pemunson90-cmd/Siren-s-Song/pull/262 (ready for review, unmerged; Pat merges).
+Branch `fable/overhaul-20261111`, final game code at `955ac8a1` (later commits on the branch change only documents). The first closeout was at `247e0582`; Pat then approved repairs (section 12), which are included, base `claude/integration` at `cabd5bd5` (tag `fable/pre-overhaul-20261111`). Pull request: https://github.com/pemunson90-cmd/Siren-s-Song/pull/262 (ready for review, unmerged; Pat merges).
 
 ## In plain English (for Pat)
 
@@ -134,7 +134,8 @@ Evidence levels: *implementation* (code read), *scripted verification* (a test s
 | Per package, local | Import, core, the package suites and the three canaries after every merge (figures in `.fable/RUN_LOG.md`) | scripted |
 | Reviews | One independent reviewer per package, two for WP-09 (input routing); every finding applied or recorded | implementation |
 | Critic 6 | Three blind critics, partial coverage (`.fable/COLD_REVIEW_6.md`) | automated play |
-| Debug package (current, with the repairs) | Workflow run 43257538007 on `615e66b5` (game code `0d94ec49`): `sirens-song-debug.apk`, 76,846,978 bytes, SHA-256 `ea713eb963d5a93d0b724a9f09d291a9c0e94d1f94ae90fa82b5abea831497a8`, versionCode 1, same development key and signer certificate, signature schemes v2 and v3 verified by the workflow; built and signed, not launched | scripted (build and signature only); no emulator or phone observation |
+| Debug package (current: every repair and parity restore) | Workflow run 43265277067 on `955ac8a1`: `sirens-song-debug.apk`, 76,864,361 bytes, SHA-256 `ba20421a658225f07ff99dbb1882c17477450647cdd625e2e54f1edfbfd5286f`, versionCode 1, same development key, signature scheme v2 verified by the workflow; built and signed, not launched | scripted (build and signature only); no emulator or phone observation |
+| Earlier packages of 2026-11-12 (superseded) | Runs 43257538007 (`615e66b5`, drone launch) and 43263531875 (`8386988a`, parity restores without drone stealth and sight range); run 43262228119 was cancelled | scripted (build only) |
 | Debug package (first closeout, superseded) | Workflow run 43251208547 on `247e0582`: `sirens-song-debug.apk`, 76,842,695 bytes, SHA-256 `78a8fa947ccee90714174001cb71ed8972fe6316ba8bc312807fb119eb93bdd3`, versionCode 1, signed with the tracked development key (signer certificate SHA-256 `32bcb228...c7dc3c`, signature schemes v2 and v3 verified by the workflow). The emulator smoke job does not run on a manual dispatch, so the package was built and its signature checked, not launched | scripted (build and signature only); no emulator or phone observation |
 
 Not verified by anyone in this run: how the changes look and feel on Pat's phone, audio, performance on Android hardware, and enjoyment.
@@ -190,6 +191,6 @@ Evidence for the repairs: DRONE BAY 74/0, core `CHECKS 850 FAILURES 0`, PROTECTE
 
 ## 11. Testing on the phone, and rolling back
 
-- **Test:** open https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/43257538007 on the phone (signed in to GitHub), scroll to Artifacts, download `sirens-song-debug-apk`, unzip it and install `sirens-song-debug.apk`. It is signed with the same development key as the 1 November package, so it installs over that one. Saves from an older build may be rejected (your ruling of 2026-11-11 makes that acceptable); start a new campaign if so.
+- **Test:** open https://github.com/pemunson90-cmd/Siren-s-Song/actions/runs/43265277067 on the phone (signed in to GitHub), scroll to Artifacts, download `sirens-song-debug-apk`, unzip it and install `sirens-song-debug.apk`. It is signed with the same development key as the 1 November package, so it installs over that one. Saves from an older build may be rejected (your ruling of 2026-11-11 makes that acceptable); start a new campaign if so.
 - **Things worth trying first:** open FLEET, choose a drone (it reads ABOARD) and tap water to launch it; frame a photograph near a Siren and watch the shutter ring; lose a drone and read the message; pause, select each craft and plan; open the camera on a subject that needs TIGHT while in WIDE; let oxygen run under 25 percent; lose a dive and look at the debrief; open an Expedition pre-dive page.
 - **Roll back:** nothing outside `fable/` was touched, so not merging PR 262 is a full rollback. The base is tagged `fable/pre-overhaul-20261111`. Backups made before the run: `repos/_backups/Siren-s-Song-pre-overhaul-20261111.git` (mirror) and the `.bundle` beside it.
