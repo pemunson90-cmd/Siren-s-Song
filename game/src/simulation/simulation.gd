@@ -1254,15 +1254,18 @@ func _heard_arrival(s:Dictionary)->Dictionary:
 	# Never consult player contacts or a hidden exact destination. A listener
 	# receives only supported water-path arrivals; visual acquisition stays separate.
 	var best:Dictionary={}
-	var recipient=Choir.body(self) if not Choir.body(self).is_empty() else Recipient.body(self)
+	var choir_body=Choir.body(self)
+	var recipient=choir_body if not choir_body.is_empty() else Recipient.body(self)
 	if not recipient.is_empty() and recipient.alive and recipient.vel.length()>1:
 		var arrival=Acoustics.choose(Thermal.arrivals(self,s,recipient.pos,recipient.vel.length_squared()*.12*Recon.readiness(s)*Sweeper.ear(s)*Depth.transmission(s,recipient),recipient),int(s.patrol))
 		if not arrival.is_empty():best=arrival;best["suspicion"]=0.3
-	for u in units:
+	# A4: the craft's own index, not a search of the list for it.
+	for unit_id in units.size():
+		var u=units[unit_id]
 		if not u.alive:continue
-		var arrival=Acoustics.choose(Thermal.arrivals(self,s,u.pos,motion_radius(units.find(u))*Recon.readiness(s)*Sweeper.ear(s)*Depth.transmission(s,u),u),int(s.patrol))
+		var arrival=Acoustics.choose(Thermal.arrivals(self,s,u.pos,motion_radius(unit_id)*Recon.readiness(s)*Sweeper.ear(s)*Depth.transmission(s,u),u),int(s.patrol))
 		if not arrival.is_empty() and (best.is_empty() or arrival.strength>best.strength):
-			best=arrival;best["suspicion"]=0.3;best["player_craft"]=true;best["distraction"]=units.find(u)>0
+			best=arrival;best["suspicion"]=0.3;best["player_craft"]=true;best["distraction"]=unit_id>0
 	for noise in noises:
 		if noise.label in ["BUOY REPORT WINDUP","RELAY FORWARD","INTERCEPTOR WINDUP","WARDEN CHARGE","WARDEN PRESSURE"]:continue
 		var arrival=Acoustics.choose(Thermal.arrivals(self,s,noise.pos,noise.radius*Recon.readiness(s)*Sweeper.ear(s)*Depth.transmission(s,noise),noise),int(s.patrol))

@@ -28,7 +28,13 @@ static func view_mission(m:Dictionary)->Dictionary:
 static func view(sim)->Dictionary:return view_mission(sim.mission)
 static func sight(m:Dictionary,guard:Dictionary,local:float)->float:
  if not active(m) or guard.get("type","") not in Table.ROLES:return local
- return maxf(local,view_mission(m).scale)
+ return maxf(local,scale(m))
+# A4: the sight floor alone, without building the whole view. Same value as view_mission(m).scale.
+static func scale(m:Dictionary)->float:
+ if not active(m):return 1.
+ var id=int(m.get("id",-1))
+ var cap:float=Table.CAPS[id] if id>=0 and id<Table.CAPS.size() else 1.
+ return minf(Table.SCALES[stage(m)],cap)
 static func action_amount(m:Dictionary,label:String,legacy:float)->float:
  return float(Table.ACTIONS.get(label,legacy)) if active(m) else legacy
 static func note(m:Dictionary,cause:String)->void:
