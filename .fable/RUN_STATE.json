@@ -6,7 +6,7 @@
   "base_ref": "origin/claude/integration",
   "base_sha": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
   "run_branch": "fable/overhaul-20261111",
-  "run_head": "8af9dde35dda84f41a3481991ce0e0bbb56686b6",
+  "run_head": "cb0528be321acd04b6ffb5c89527d73550567b36",
   "shared_tips": {
     "claude/integration": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
     "main": "f5b66a198e3878950325f8c45a0bc6bc29dcba84",
@@ -23,13 +23,13 @@
     "WP-05": "merged",
     "WP-06": "merged",
     "WP-07": "merged",
-    "WP-08": "building",
-    "WP-09": "planned",
+    "WP-08": "review",
+    "WP-09": "building",
     "WP-10": "planned",
     "WP-11": "planned",
     "WP-12": "merged"
   },
   "decisions_open": 10,
   "last_checkpoint": "All P0 merged (WP-00 to WP-05). P1 merged: WP-06, WP-07, WP-12. WP-08 building",
-  "updated": "2026-11-12 04:41:10"
+  "updated": "2026-11-12 05:08:56"
 }
