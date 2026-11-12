@@ -472,3 +472,11 @@ You should be using the absolute bare minimum amount of tests always."
 
 [AI note on effect] Consistent with the 2026-10-31 minimum-tests ruling. Applied in the overhaul run from this point: local checks limited to the suites a fix touches; one full-matrix run to verify the gate fix; one package build; the pull request is left as a draft because marking it ready starts another full run.
 
+## 2026-11-12: hour-long checks, bare minimum testing, drones launch from Quietus
+
+[PAT, chat, verbatim] "We should not be having hour long checks. You need to audit that. That's a problem."
+
+[PAT, chat, verbatim] "Yes I want the literal absolute minimum amount of testing ever for anything ever. Unless we are doing a final or near final release apk, I do not want a massive tests taking up our time and usage. The literal absolute bare minimum test for every single process no exception. Also drones are torpedo launched from the quietus. There should be no issues of throwing starting in any place cuz they do not start on the map."
+
+[AI note on effect] Testing: pull requests no longer run the four-shard matrix; they run core, the minimum selection (`select-suites.py --minimum`) and the canaries. The full matrix is a manual dispatch for a release or near-release package. Drones: this is a design ruling. On the base and in this run's build, both drones begin every dive already in the water at fixed offsets from Quietus; the ruling says they begin aboard and are launched from Quietus. Decision D-11 is answered by it (none of its three options applies). The change is not built yet.
+

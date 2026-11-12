@@ -95,7 +95,7 @@ Recommendation: D and R because A gives real branches from content that is alrea
 Current state kept: the route graph, operation order and all encounters are unchanged.
 
 ## D-11 Drones parked outside recovery reach, and a first leg that runs through a drone
-Status: OPEN
+Status: ANSWERED by Pat, 2026-11-12: "drones are torpedo launched from the quietus ... they do not start on the map." None of the options below applies; drones are to begin aboard Quietus and be launched from it. Not built yet.
 Raised: 2026-11-12, phase 4, WP-11
 What: Two critic findings turned out to be rules working as built. In 16 operations the launch point is also the recovery mouth and each drone starts 100 m from it, while recovery reach is 65 m, so a drone that never moved is truthfully listed OUTSIDE RECOVERY. And Drone A starts 100 m ahead of Quietus, so a first straight leg north strikes it (13 percent hull at 2.5 s); the leg warning names Drone A, but a new player still takes the hit. Nothing was changed.
 Options: (A) Start drones inside recovery reach and astern of the first objective (changes start positions in those operations; needs the journey tests rerun). (B) Keep the positions, and count a drone that never left its start as recovered. (C) Leave both as they are.

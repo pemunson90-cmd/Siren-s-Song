@@ -31,10 +31,10 @@ Nothing is deleted from the tree. A retired file is moved with `git mv` into a d
 
 ## Tests and CI: run what is necessary, once
 
-Pat's ruling of 2026-10-31 sets the rule: the minimum tests that prove the change, as fast as possible, with no shortcuts and no editing CI to pass on red.
+Pat's rulings of 2026-10-31 and 2026-11-12 set the rule: the literal bare minimum of testing for every process, as fast as possible, with no editing CI to pass on red. Large test runs are for a release or near-release package only.
 
-- **Locally, per change:** import, core, the suites the diff reaches (`scripts/toolchain/select-suites.py`), the canaries (`scripts/toolchain/canaries.txt`) and `scripts/toolchain/check-suites.py`. Never the full scenario list.
-- **On GitHub:** `gauntlet-pr-checks.yml`. Draft pull requests run the `guidance` job only (governing documents, documentation links, tool self-tests). Ready pull requests run core plus the affected suites, or the full four-shard matrix when shared code changed. A manual dispatch (`gh workflow run gauntlet-pr-checks.yml --ref <branch>`) always runs the full matrix.
+- **Locally, per change:** an import and the suites that test what you changed (`python scripts/toolchain/select-suites.py --minimum --changed <paths>` names them). Core only when simulation or campaign rules changed. `scripts/toolchain/check-suites.py` when the registry changed. Never the full scenario list, and no neighbouring suites to be safe.
+- **On GitHub:** `gauntlet-pr-checks.yml`. Draft pull requests run the `guidance` job only (governing documents, documentation links, tool self-tests). Ready pull requests run core plus the minimum selection and the canaries (a few minutes); they never run the four-shard matrix. A manual dispatch (`gh workflow run gauntlet-pr-checks.yml --ref <branch>`) runs the full matrix (about 46 minutes, 150 runner-minutes): use it only before a release or near-release package. Marking a pull request ready, and each push to a ready pull request, starts a check run.
 - **Once per head.** Do not rerun a suite that is already green on the same head. Read existing results first. An infrastructure failure (runner, quota, network) is retried once, then recorded.
 - **Never** loosen, skip or delete a test, or lengthen a timeout, to get a pass.
 
