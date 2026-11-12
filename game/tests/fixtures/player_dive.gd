@@ -16,3 +16,13 @@ static func launch_drones(sim)->String:
 		var refused:String=Bay.launch(sim,id)
 		if refused!="":return refused
 	return ""
+# Player rules hide water the craft has not charted (Pat, 2026-11-12). A test
+# that flies a scripted route through authored water, and is about something
+# other than discovery, uses the game's own developer switch for known charts
+# (ParityRules.debug_known, the console command "known"). Call with true before
+# Simulation.start(); call with the returned previous value afterwards.
+const Rules=preload("res://src/simulation/parity_rules/parity_rules.gd")
+static func known_water(on:bool)->bool:
+	var previous:bool=Rules.debug_known
+	Rules.debug_known=on
+	return previous
