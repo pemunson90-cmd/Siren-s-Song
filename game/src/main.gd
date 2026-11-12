@@ -348,6 +348,10 @@ func _order(order: String,args: Dictionary={}) -> void:
 	_refresh(); _save_archive()
 	if accepted and order=="camera": call_deferred("_report_targets")
 func _pause() -> void:
+	# RESUME closes an open ring or order dialog in the same press; the dialog's marker is dropped.
+	if sim.paused and mission_hud!=null:
+		if not mission_hud.guard.pending.is_empty():mission_hud.guard.cancel()
+		if advanced_orders:mission_hud.dismiss()
 	sim.paused=not sim.paused; ReleaseControls.debug_print(["SS_PAUSE paused=",sim.paused]); _release_view(); _refresh(); _save_archive()
 # While paused, a selection keeps the view still: a follow view becomes a still view on the
 # same centre and scale. FOCUS recentres explicitly; running play keeps following.
