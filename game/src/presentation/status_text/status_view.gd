@@ -84,9 +84,11 @@ static func fit(hud)->void:
  var r:float=hud.ring_radius
  var original=_rects(buttons,hud.center,Vector2.ONE*r)
  var reserved=hud.threat_rects()
- if original.any(func(rect):return reserved.any(func(block):return block.intersects(rect))) or reserved.any(func(block):return block.intersects(hud.close_button.get_rect())):
-  fit_grid(hud,visible);return
- var needs=_intersects(original) or original.any(func(rect):return not visible.encloses(rect)) or not visible.encloses(hud.close_button.get_rect())
+ # WP-50: a card over the wheel (the lock card beside a wheel at the screen edge) no longer sends the wheel straight
+ # to the dock: the search below keeps the wheel under the threat floor, squeezed into an ellipse if it must, and
+ # only a wheel that cannot fit anywhere becomes the dock.
+ var covered=original.any(func(rect):return reserved.any(func(block):return block.intersects(rect))) or reserved.any(func(block):return block.intersects(hud.close_button.get_rect()))
+ var needs=covered or _intersects(original) or original.any(func(rect):return not visible.encloses(rect)) or not visible.encloses(hud.close_button.get_rect())
  if not needs:
   if hud.has_meta(AXES):hud.remove_meta(AXES)
   return

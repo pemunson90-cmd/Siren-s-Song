@@ -534,10 +534,16 @@ func threat_rects()->Array:
  return rects
 # include_life is kept for callers; the life support reading now lives inside the
 # pause control and has an empty rectangle, so both values give the same floor.
+# WP-50: include_life=false is the wheel's own question (fleet_instruments places the open wheel under this floor).
+# A card that sits beside the wheel's columns (the lock card at the far side of a wide screen) cannot cover it, so
+# it must not push the whole wheel down until its bottom labels leave the screen; only cards over the wheel count.
 func threat_floor(include_life:bool=true)->float:
  var bottom=host.pause_button.get_rect().end.y+12.
  var life=LifeChip.rect(self)
+ var beside_wheel=not include_life and host.advanced_orders and not ring_buttons.is_empty()
+ var reach=ring_radius+touch_height*1.55*text_scale/2.
  for rect in threat_rects():
+  if beside_wheel and (rect.end.x<=center.x-reach or rect.position.x>=center.x+reach):continue
   if include_life or rect!=life:bottom=maxf(bottom,rect.end.y+12.)
  return bottom
 func _place_threat_stack():
