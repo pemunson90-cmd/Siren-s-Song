@@ -106,7 +106,7 @@ func _debrief(abandoned:bool=false)->void:
 	_bind_state();result_pending=true;_save_archive();_result_menu()
 func _result_menu()->void:
 	sim.paused=true;screen="career_result";_clear_menu()
-	_menu_text("CONTRACT RESULT",30);_menu_text(career_state.report,18)
+	_menu_text("CONTRACT RESULT",30);_menu_text("\n".join(CareerBoard.ResultText.career_lines(career_state.report)),18)
 	_show_photo_grade(sim.mission.objectives)
 	if save_failed:
 		preload("res://src/presentation/frontend/save_error_view.gd").menu_retry(self,"RESULT NOT SAVED · "+str(campaign_host.get_meta("career_save_error","")),17,"RETRY SAVE",func():_save_archive();_result_menu(),"career_retry")
