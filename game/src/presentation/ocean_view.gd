@@ -47,6 +47,7 @@ var rocks: Array = []
 var foundry=preload("res://assets/structures/foundry.png")
 var quietus=preload("res://assets/craft/quietus.png")
 var basalt=preload("res://assets/materials/basalt.png")
+const RockPainter=preload("res://src/presentation/art/rock_painter.gd")
 # Presentation-only static contours. Disable to rebuild the identical points on
 # every draw; cache retains only the last world extent and never reads sim state.
 var _contour_extent := Vector2(-1,-1)
@@ -738,21 +739,8 @@ func _rock(r) -> void:
 	var origin:Vector2=r.position if r is Rect2 else poly[0]
 	if r is PackedVector2Array:
 		for p in poly:origin=Vector2(minf(origin.x,p.x),minf(origin.y,p.y))
-	var lower=PackedVector2Array(); var uv=PackedVector2Array()
-	for p in poly:
-		lower.append(p+Vector2(9,23)); uv.append((p-origin)/Vector2(400,400))
-	draw_colored_polygon(lower,Color("030b11"))
-	draw_colored_polygon(poly,regional_style.get("stone",Color("31474c")))
-	draw_polygon(poly,PackedColorArray([regional_style.get("water",Color(0.72,0.85,0.86))]),uv,basalt)
-	for n in poly.size():
-		var a=poly[n]; var b=poly[(n+1)%poly.size()]
-		if b.x<a.x:
-			draw_colored_polygon(PackedVector2Array([a,b,b+Vector2(9,23),a+Vector2(9,23)]),Color("11252e"))
-			for k in range(0,int(a.distance_to(b)),8):
-				var p=a.move_toward(b,k)
-				draw_line(p,p+Vector2(7,21),Color(0.2,0.35,0.39,0.5),2)
-		else: draw_line(a,b,Color(regional_style.edge,.55) if not regional_style.is_empty() else Color(0.49,0.65,0.66,0.55),1.8)
-	draw_polyline(poly,Color(0.17,0.26,0.3,0.5),Palette.stroke(2))
+	var edge:Color=Color(regional_style.edge,.55) if not regional_style.is_empty() else RockPainter.EDGE
+	RockPainter.rock(self,poly,origin,basalt,regional_style.get("stone",RockPainter.STONE),regional_style.get("water",RockPainter.TINT),edge,Palette.stroke(2))
 func _installation(p: Vector2,recorded: bool) -> void:
 	if ArtTable.enabled:
 		draw_set_transform(world_offset+p*world_scale,0,Vector2.ONE*world_scale)
