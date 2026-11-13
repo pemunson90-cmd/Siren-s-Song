@@ -6,5 +6,7 @@ static func launch(front,script,node_name:String,fields:Dictionary)->void:
 	var session=load("res://scenes/main.tscn").instantiate()
 	session.set_script(script);session.name=node_name
 	session.campaign_host=front.host
-	for key in fields:session.set(key,fields[key])
+	for key in fields:
+		if not (key in session):push_error("mode_launcher: session has no field '%s'"%key);continue
+		session.set(key,fields[key])
 	session.process_mode=Node.PROCESS_MODE_ALWAYS;session.freeze_campaign();front.host.add_child(session)

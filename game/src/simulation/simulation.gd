@@ -1374,7 +1374,7 @@ func restore(data: Dictionary) -> bool:
 	correlation=data.get("correlation",{}).duplicate(true)
 	mission=data.mission.duplicate(true); units=data.units.duplicate(true); sirens=data.sirens.duplicate(true); known=data.known.duplicate(true); contacts=data.get("contacts",{}).duplicate(true); noises=data.get("noises",[]).duplicate(true); projectiles=data.get("projectiles",[]).duplicate(true)
 	elapsed=float(data.get("elapsed",0)); oxygen=float(data.get("oxygen",100)); hull=float(data.get("hull",100)); selected=clampi(int(data.get("selected",0)),0,2); tools=data.tools.duplicate(); outcome=data.get("outcome",""); paused=true; queue_mode=false
-	ping_time=data.get("ping_time",0.0); ping_origin=data.get("ping_origin",Vector2.ZERO); recon_time=data.get("recon_time",0.0); captures=data.captures.duplicate(true); accumulator=0.0; sensor_clock=float(data.get("sensor_clock",0.0))
+	ping_time=data.get("ping_time",0.0); ping_origin=data.get("ping_origin",Vector2.ZERO); recon_time=data.get("recon_time",0.0); captures=data.captures.duplicate(true); accumulator=0.0; sensor_clock=clampf(float(data.get("sensor_clock",0.0)),0.0,0.15) if is_finite(float(data.get("sensor_clock",0.0))) else 0.0
 	_build_navigation(); _configure_terrain(); _configure_depth_charts(); message="Mission restored · paused for review"; return true
 
 static func valid_snapshot(data: Dictionary) -> bool:

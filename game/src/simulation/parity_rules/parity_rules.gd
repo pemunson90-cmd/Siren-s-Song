@@ -23,11 +23,11 @@ extends RefCounted
 #  The tool the code calls emp is named EMP wherever the player reads it
 #  ("It should just say EMP"); it is an area pulse and never needs a target.
 #
-# The rules apply to a dive whose launch dictionary carries "parity_rules"
-# (Main passes it for every player dive, ChallengeRun too). The flag is stored
-# on the mission, so a saved dive keeps the rules it started with. A direct
-# Simulation.start() without the flag keeps the older behavior, which the rule
-# tests use as their fixture (the same arrangement as drone_bay/).
+# The rules apply to every dive unless its launch dictionary says
+# "parity_rules":false (wanted() below; on is the default since code audit fix
+# A5, 2026-11-12). The flag is stored on the mission, so a saved dive keeps the
+# rules it started with. Only a test of the older rules passes false (the same
+# arrangement as drone_bay/).
 # Revert: set a row of RULES to false, or all of them.
 const KEY="parity_rules"
 const RULES={"discovered_charts":true,"site_search":true,"disrupt_needs_target":true,"factory_sensors":true,"free_quietus_sonar":true,"calm_sirens_ignore_drones":true,"quiet_drones":true,"sight_range":true}

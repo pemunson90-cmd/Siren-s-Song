@@ -143,9 +143,12 @@ static func route(hud,key:String)->void:
  if result.ready:hud.host._order("route",{"point":result.point,"travel":key}) # TRAVEL:route_here TRAVEL:glass_route TRAVEL:choir_route
  else:hud.host.sim.message=result.reason;hud.host._refresh()
 
+# Why a craft that is not in the water cannot take an order: a drone still aboard Quietus is not a lost craft.
+static func gone(sim,u:Dictionary)->String:
+ return "Aboard Quietus" if sim.DroneBay.aboard(u) else "Craft lost"
 static func depth_reason(sim,direction:int)->String:
  var u=sim.units[sim.selected];var band=int(u.band)+direction
- if not u.alive:return "Craft lost"
+ if not u.alive:return gone(sim,u)
  if band<0:return "Already SHALLOW"
  if band>2:return "Already DEEP"
  if not u.transition.is_empty():return "Depth change / %.1fs remaining"%u.transition.remaining
@@ -342,7 +345,7 @@ static func apply(hud)->void:
  # currently resolves a different nearby receiver.
  if target>=0 and target<sites.size() and sites[target].get("own_origin",false) and hud.host.order_buttons.camera.disabled:
   var site=sites[target]
-  hud.host.order_buttons.camera.tooltip_text="Quietus required" if sim.selected!=0 else "Craft lost" if not u.alive else "Finish changing depth" if not u.transition.is_empty() else "Needs MIDDLE" if u.band!=1 else "Enter the charted transmission sector" if not site.get("origin_region",Rect2()).has_point(u.pos) else "Settle below 12m/s" if u.vel.length()>=12 else "Finish this craft's active work first"
+  hud.host.order_buttons.camera.tooltip_text="Quietus required" if sim.selected!=0 else gone(sim,u) if not u.alive else "Finish changing depth" if not u.transition.is_empty() else "Needs MIDDLE" if u.band!=1 else "Enter the charted transmission sector" if not site.get("origin_region",Rect2()).has_point(u.pos) else "Settle below 12m/s" if u.vel.length()>=12 else "Finish this craft's active work first"
  if hud.host.order_buttons.camera.disabled:
   if hud.host.order_buttons.camera.tooltip_text.is_empty():hud.host.order_buttons.camera.tooltip_text="Finish this craft's active work first" if camera_busy(sim) else str(context.get("text","Locate a site first"))
  var buttons=hud.extra.duplicate()
@@ -356,7 +359,7 @@ static func apply(hud)->void:
   if key=="arrivals" and b.disabled:why="No received arrivals on this craft" if not hud.host.advanced_orders else "No received fleet arrivals"
   if key=="sonar_emit" and b.disabled:why="Finish changing depth" if not u.transition.is_empty() else "Sonar recharging / %.1fs"%sim.ping_time
   if key=="glass_transfer" and b.disabled:why="Material must be aboard a drone"
-  if b.disabled and why.is_empty():why="Craft lost" if not u.alive else "Quietus required" if key=="all_stop" else "No local work available" if key.ends_with("route") else "Unavailable here"
+  if b.disabled and why.is_empty():why=gone(sim,u) if not u.alive else "Quietus required" if key=="all_stop" else "No local work available" if key.ends_with("route") else "Unavailable here"
   if key=="glass_withdraw":
    b.set_meta("truthful_reason",why);b.tooltip_text=why
   else:reason_button(b,why,hud.text_scale>=1.5 and hud.host.advanced_orders and key!="choose_object")

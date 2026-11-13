@@ -20,11 +20,11 @@ extends RefCounted
 # beyond the drone's own movement; two drones, no spares; recovery is unchanged
 # (bring a launched drone to the recovery point).
 #
-# Seam: Simulation.start() stows the drones when the launch dictionary carries
-# "drones_aboard" (Main passes it for every player dive); Simulation.command()
-# launches; Simulation._tick() carries. Direct Simulation.start() calls without
-# the key keep both drones in the water, which is the fixture most rule tests
-# use for a dive in progress.
+# Seam: Simulation.start() stows the drones unless the launch dictionary says
+# "drones_aboard":false (wanted() below; aboard is the default since code audit
+# fix A5, 2026-11-12). Simulation.command() launches; Simulation._tick()
+# carries. A test that needs drones in the water launches them with
+# tests/fixtures/player_dive.gd; only a test of the older start passes false.
 # Revert: set ENABLED=false (every dive starts with the drones in the water).
 const ENABLED=true
 const KEY="aboard"

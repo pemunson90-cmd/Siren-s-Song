@@ -168,3 +168,27 @@ Measured on this PC with a live dive (operations 0 and 3, drones launched, 20 sa
 Reading: our own code is about 7 ms; the larger part is the operating system's file work, which a phone's storage will price differently. A trial change that skipped re-reading the old file saved nothing measurable and was taken back out (kept as `_scrap-20261111/a10-save-stamp.diff`). The probe is `_scrap-20261111/autosave_probe.gd`.
 
 Not changed. The two real fixes (save less often than every 5 seconds, or write on a background thread) both trade save safety for smoothness, which is Pat's call. Whether the save hitch is visible is a phone question: if Pat sees a small regular stutter in play, the first step is the 15 second interval.
+
+## Independent review of the audit work (2026-11-12)
+
+A fresh reviewer that wrote none of the work read every change since the audit against Pat's eight headings: accuracy, necessity, functionality, complexity, scalability, interoperability, stability, overall code base health. Verdict: the code base is better for the work; the pure moves are exact (each compared with the code it replaced; the names change was checked by putting every constant's value back and comparing lines).
+
+Fixed (behavior rows 50 and 56 of the final report):
+
+- Career charged a never-launched drone as lost at settlement.
+- Expedition dives had silently moved to the player rules; now stated, and the mode says so in its own code.
+- "Craft lost" shown for a drone still aboard.
+- Stale comments that described the old default; the Hunt cap formula copied twice; the mode launcher dropping a misspelled field silently; an unchecked saved sensor beat.
+
+Known and left, with the reason:
+
+| Finding | Why it is left |
+|---|---|
+| The chart drawing cache still hashes the whole chart on every draw, and rebuilds when the chart grows | Needs the drawing measurement (A1) on a real screen before more work is justified |
+| A save made within 30 seconds of a survey sweep restores with the survey picture already gone, and the known-water list disagrees with the chart for one sensor beat (0.15 s) | Heals itself on the next beat; saves are a minor priority by Pat's ruling |
+| Each local test run leaves its own data folder in the cache | No deletions rule; the folders are small. Pat can clear `%USERPROFILE%\.cache\sirens-song-toolchain\isolated-userdata` whenever he likes |
+| The quick local test selection keeps only 12 suites, so a wide change can pass locally and fail on GitHub | By Pat's minimum-testing rule; the full GitHub pass before a merge of size is the guard |
+| Test-only switches (known charts, chart cache) are static and can leak into a later suite in the same process | Each suite runs in its own process |
+| Drone state is still read straight from the `alive` field in about 30 places | The cause of the Career defect above; the next cleanup worth doing: one `DroneBay` question for "is this craft in the water, aboard, or lost" |
+| `main.gd` is still the shared bag of fields that its helper modules reach into | Splitting state out is the larger A8 follow-up |
+| One mission brief (Sorley rescue) still says "Disrupt" | Mission text is Pat's; on the UI audit list as a yes/no |

@@ -102,7 +102,7 @@ func _debrief(abandoned:bool=false)->void:
 	if result_pending:return
 	if not career_state.in_flight:return
 	sim.paused=true
-	career_state=Career.settle(career_state,{"outcome":"won" if not abandoned and sim.outcome=="won" else "lost","hull":sim.hull,"alive":[sim.units[1].alive,sim.units[2].alive],"mission":sim.mission,"rider":sim.rider_result()})
+	career_state=Career.settle(career_state,{"outcome":"won" if not abandoned and sim.outcome=="won" else "lost","hull":sim.hull,"alive":[sim.DroneBay.home(sim.units[1]),sim.DroneBay.home(sim.units[2])],"mission":sim.mission,"rider":sim.rider_result()})
 	_bind_state();result_pending=true;_save_archive();_result_menu()
 func _result_menu()->void:
 	sim.paused=true;screen="career_result";_clear_menu()
