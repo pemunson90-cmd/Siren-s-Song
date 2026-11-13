@@ -79,7 +79,7 @@ func rock_outline(spec: Array) -> PackedVector2Array:
 	var points := PackedVector2Array()
 	for i in ROCK_POINTS:
 		var angle := TAU * i / ROCK_POINTS
-		var reach := radius * (0.80 + 0.16 * sin(i * 2.3 + shape) + 0.08 * sin(i * 5.1 + shape * 2.0))
+		var reach := radius * (0.86 + 0.09 * sin(i * 2.3 + shape) + 0.04 * sin(i * 5.1 + shape * 2.0))	# gentle, so no outline folds inward
 		points.append(centre + Vector2(cos(angle) * 1.25, sin(angle)) * reach)
 	return points
 func _paint_static(canvas: Control) -> void:
@@ -90,7 +90,7 @@ func _paint_static(canvas: Control) -> void:
 	var bands := 48
 	for i in bands:
 		var t := float(i) / float(bands - 1)
-		canvas.draw_rect(Rect2(0, s.y * i / bands, s.x, ceilf(s.y / bands) + 1.0), Color(UiStyle.TITLE_DEEP, 0.55 * t * t))
+		canvas.draw_rect(Rect2(0, s.y * i / bands, s.x, ceilf(s.y / bands) + 1.0), Color(UiStyle.TITLE_DEEP, 0.55 * t * t) if t > 0.45 else Color(UiStyle.ACCENT, 0.07 * (1.0 - t / 0.45)))
 	for spec in ROCKS:
 		var outline := rock_outline(spec)
 		var origin := outline[0]
