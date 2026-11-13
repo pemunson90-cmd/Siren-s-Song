@@ -2,11 +2,11 @@
   "run_id": "overhaul-20261111",
   "status": "RUNNING",
   "phase": "9-ux-repair",
-  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: Everyday set on the merged head (scripts/toolchain/win/test-suite.ps1 -All -Profile local): fix any failure. Then a fresh blind critic round of three through the kit (briefs scripts/critic/CRITIC_BRIEF.md and OPERATE.md; tell them native coordinates, double half-size readings, use wheel to scroll menus). Rank what is weak and continue. Open small items are in PHASE9.md 'Seen in the kit and not yet fixed' (both lists); next report row is 76.",
+  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: Three blind critics are playing kit fable-critic26-20261113 (reports arrive as their final messages; journals in <kit>/audit/critic-a|b|c/). When they report: rank findings across the three, write the ranking into PHASE9.md, build the top ones (one Sonnet implementer per package on disjoint files, root for small or risky ones). Also read the everyday set result on 23ee8db5 and fix any failure. Next report row is 76.",
   "base_ref": "origin/claude/integration",
   "base_sha": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
   "run_branch": "fable/overhaul-20261111",
-  "run_head": "867a9aa1c0fc549d15d75644adcafe469f1de80e",
+  "run_head": "23ee8db5d62ab0954b3d4e7fe0db0cb1b563889f",
   "shared_tips": {
     "claude/integration": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
     "main": "f5b66a198e3878950325f8c45a0bc6bc29dcba84",
@@ -63,5 +63,5 @@
   },
   "decisions_open": 0,
   "last_checkpoint": "Paused at Pat's request on 2026-11-13, in phase 9, at a clean point: WP-31 to WP-39 merged, looked at in the kit and pushed; nothing in flight. Everyday set on the merged head: 37 of 39 passed, the 2 failures (a stray argument when the hub is rebuilt on resize; one test expecting the old briefing wording) were fixed and rerun green with their neighbours and the menu and briefing suites.",
-  "updated": "2026-11-13 10:48:10"
+  "updated": "2026-11-13 10:49:32"
 }

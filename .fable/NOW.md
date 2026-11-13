@@ -1,13 +1,13 @@
 # NOW: what the root session is doing
 
 Status: LIVE NOTE (rewritten before every step; if a session died, this is the step it died in)
-Updated: 2026-11-13 10:48
+Updated: 2026-11-13 10:49
 
 **To resume after a context clear or a new session:** open this folder as the project and run `/siren-s-start-fable`. Read `.fable/PHASE9.md` first: it is the whole handoff. The `next_action` field in the state file always starts by sending the session to `.fable/HANDOFF.md` and to this file.
 
 ## Doing right now
 
-RUNNING. WP-40 to WP-44 merged and pushed. Root runs the everyday set (39 suites, about 20 min) on the merged head, then dispatches the blind critic round.
+RUNNING. Everyday set running on head 23ee8db5 (background). Blind critic round dispatched: three Sonnet critics on kit fable-critic26-20261113 (slot a cover: first session, cautious; slot b inner: every screen outside the dive; slot c cover: aggressive dive and an Expedition), 70 commands each. Root waits, then ranks the findings and builds the top ones.
 
 ## In flight
 
