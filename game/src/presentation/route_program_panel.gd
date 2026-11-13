@@ -1,4 +1,5 @@
 extends PanelContainer
+const Words=preload("res://src/presentation/hud_words.gd")
 var host
 var selected_goal=0
 var preview
@@ -45,9 +46,7 @@ func rebuild():
  content=BoxContainer.new();content.add_theme_constant_override("separation",8);content.size_flags_vertical=Control.SIZE_EXPAND_FILL;body.add_child(content)
  preview=preload("res://src/presentation/route_program_preview.gd").new();preview.sim=host.sim;preview.custom_minimum_size=Vector2(160,70);preview.size_flags_vertical=Control.SIZE_EXPAND_FILL;preview.size_flags_horizontal=Control.SIZE_EXPAND_FILL;preview.size_flags_stretch_ratio=1.5;content.add_child(preview)
  preview.view_changed.connect(host._report_targets,CONNECT_DEFERRED)
- preview.point_chosen.connect(func(p):
-  var count=host.sim.route_goals().size()
-  apply("route_insert" if count==0 else "route_edit",{"index":0 if count==0 else selected_goal,"point":p}))
+ preview.point_chosen.connect(choose_point)
  editor=BoxContainer.new();editor.vertical=true;editor.size_flags_horizontal=Control.SIZE_EXPAND_FILL;editor.add_theme_constant_override("separation",8);content.add_child(editor)
  row_scroll=ScrollContainer.new();row_scroll.custom_minimum_size.y=touch_height;row_scroll.size_flags_vertical=Control.SIZE_EXPAND_FILL;row_scroll.horizontal_scroll_mode=ScrollContainer.SCROLL_MODE_DISABLED;editor.add_child(row_scroll)
  rows=VBoxContainer.new();rows.size_flags_horizontal=Control.SIZE_EXPAND_FILL;row_scroll.add_child(rows)
@@ -57,6 +56,19 @@ func rebuild():
  var modes=row(edit_controls);mode_button=button(modes,"","propulsion",cycle_mode);arrival_button=button(modes,"","arrival",toggle_arrival)
  var edits=row(edit_controls);button(edits,"INSERT","insert",insert_after);delete_button=button(edits,"DELETE","delete",func():apply("route_delete",{"index":selected_goal}));undo_button=button(edits,"UNDO","undo",func():apply("route_undo",{}))
  configure(host.size,host.ui_touch_height);refresh()
+# WP-52: a tapped point whose leg from the previous point (or the craft) crosses charted rock waits for a second tap
+# on the same point; the status line says so and nothing is ordered before. Open water elsewhere moves the marker.
+func choose_point(p:Vector2):
+ var goals=host.sim.route_goals();var count=goals.size()
+ var index=0 if count==0 else selected_goal
+ var u=host.sim.units[host.sim.selected]
+ var origin:Vector2=u.pos if index<=0 else goals[index-1].pos
+ var crossing=preview.leg_crosses_rock(origin,p)
+ var again=preview.pending_point!=null and preview.screen_position(p).distance_to(preview.screen_position(preview.pending_point))<=touch_height
+ if crossing and not again:
+  preview.pending_point=p;error_text=Words.TEXT.rock_route;preview.queue_redraw();refresh();return
+ preview.pending_point=null
+ apply("route_insert" if count==0 else "route_edit",{"index":index,"point":p})
 func configure(bounds:Vector2,h:float):
  if preview!=null and bounds!=layout_bounds:
   # BoxContainer changes can produce several intermediate preview sizes. Retain

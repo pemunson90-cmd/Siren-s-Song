@@ -33,6 +33,11 @@ func run():
 	Settings.current=saved
 	Settings.current["text_scale"]=1.0
 	await silent_case()
+	await two_tap_case()
+	await slot_case()
+	await fit_case()
+	await rock_case()
+	await planner_case()
 	await route_end_case()
 	Settings.current=saved
 	print("HUD WORDS UI CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)
@@ -59,9 +64,11 @@ func silent_case():
 		s.units[0].silent=silent;s.selected=0;game._refresh();await settle()
 		var speed=Words.speeds(s)
 		check(speed.cruise==CraftUpgrades.cruise_speed(s.mission.get("launch_equipment",{})),"the cruise figure is the fitted cruise speed")
-		check(game.order_buttons.silent.text==("SILENT IS ON" if silent else "GO SILENT"),"the silent segment says what it is or does: "+game.order_buttons.silent.text)
+		check(game.order_buttons.silent.text==("GO LOUD" if silent else "GO SILENT"),"the silent segment names the action its tap performs: "+game.order_buttons.silent.text)
+		check(Words.state_line("silent",s)==("silent is on" if silent else "running loud"),"its small second line names the state: "+Words.state_line("silent",s))
 		var caption="\n".join(Words.silent_caption(s))
-		if silent:check(("tap for full speed (%d m/s) · seen from %d m"%[roundi(speed.cruise),roundi(sight.open)]) in caption,"silent on says what the tap gives back: "+caption)
+		check(caption.begins_with(game.order_buttons.silent.text),"the centre caption starts with the same name as the segment: "+caption)
+		if silent:check(("full speed (%d m/s) · seen from %d m"%[roundi(speed.cruise),roundi(sight.open)]) in caption,"silent on says what the tap gives back: "+caption)
 		else:check(("slower (%d m/s) · seen from %d m"%[roundi(speed.silent),roundi(sight.silent)]) in caption,"silent off says its cost and its gain: "+caption)
 	# A finger on the segment, or the last one touched, puts the caption in the wheel's centre.
 	s.units[0].silent=false;hud.open("craft");await settle()
@@ -69,13 +76,172 @@ func silent_case():
 	check(hud.caption_texts.any(func(t):return "slower (" in t),"the wheel centre carries the silent caption for the touched segment: "+str(hud.caption_texts))
 	hud.wheel_focus=null;hud.queue_redraw();await settle()
 	check(not hud.caption_texts.any(func(t):return "slower (" in t),"the caption leaves with the touch")
-	# A drone keeps LOW PROFILE and says what it does.
+	# A drone's segment names the profile a tap switches to and its small line says which one is on now.
 	s.selected=1;s.units[1].silent=true;game._refresh();await settle()
-	check(game.order_buttons.silent.text=="LOW\nPROFILE" and "180 m, not 290 m" in "\n".join(Words.silent_caption(s)),"a drone's LOW PROFILE says what it changes")
+	check(game.order_buttons.silent.text=="GO OPEN" and Words.state_line("silent",s)=="low profile is on" and "290 m, not 180 m" in "\n".join(Words.silent_caption(s)),"a drone on low profile offers GO OPEN and says what it changes: "+game.order_buttons.silent.text)
+	s.units[1].silent=false;game._refresh();await settle()
+	check(game.order_buttons.silent.text=="GO LOW PROFILE" and Words.state_line("silent",s)=="open profile" and "180 m, not 290 m" in "\n".join(Words.silent_caption(s)),"a drone on the open profile offers GO LOW PROFILE: "+game.order_buttons.silent.text)
 	# The sonar segments use the plain words.
 	s.selected=0;game._refresh();hud.open("acoustics");await settle()
 	check(hud.extra.sonar_emit.text.begins_with("PING SONAR\nuses ") and hud.extra.sonar_history.text=="PAST PINGS","the sonar segments say PING SONAR and PAST PINGS")
 	check(hud.extra.sonar_sector.text=="PING ARC\nALL" and hud.extra.sonar_power.text=="PING POWER\nLOW","the arc and power segments say what they set: "+hud.extra.sonar_sector.text+" / "+hud.extra.sonar_power.text)
+	game.queue_free();await settle()
+func touch(point:Vector2,down:bool):
+	var e=InputEventScreenTouch.new();e.index=0;e.position=point;e.pressed=down;root.push_input(e,true);await process_frame
+func click(button):
+	var point=button.get_global_rect().get_center()
+	for down in [true,false]:
+		await touch(point,down)
+		var mouse=InputEventMouseButton.new();mouse.device=InputEvent.DEVICE_ID_EMULATION;mouse.position=point;mouse.button_index=MOUSE_BUTTON_LEFT;mouse.pressed=down;root.push_input(mouse,true);await process_frame
+	await settle()
+# WP-52: a segment that costs something is armed by its first tap and performed by its second.
+func two_tap_case():
+	var game=await make(Vector2i(2520,1080),1.0)
+	var s=game.sim;var hud=game.mission_hud
+	check(Words.TWO_TAP==["silent","all_stop"],"the two-tap list is one table: "+str(Words.TWO_TAP))
+	s.selected=0;s.units[0].silent=false;game._refresh();hud.open("craft");await settle()
+	var button=game.order_buttons.silent
+	check(button in hud.ring_buttons,"the silent segment is on Quietus's wheel")
+	var before=s.snapshot()
+	await click(button)
+	check(hud.segments.armed=="silent" and not s.units[0].silent and s.snapshot()==before,"the first tap arms the segment and changes nothing in the simulation")
+	check(hud.caption_texts.any(func(t):return "Tap again to confirm" in t) and hud.caption_texts.any(func(t):return "slower (" in t),"the centre shows the cost and asks for a second tap: "+str(hud.caption_texts))
+	var fill=UiStyleRef.role_colors(UiStyleRef.MAIN).fill
+	check(hud.segments.is_armed(button) and button.get_theme_color("font_color")==UiStyleRef.role_colors(UiStyleRef.MAIN).text and fill!=Color(.025,.095,.12,.9),"the armed segment is drawn with the MAIN role colours")
+	await click(button)
+	check(s.units[0].silent and hud.segments.armed=="","the second tap on the same segment goes silent")
+	check(game.order_buttons.silent.text=="GO LOUD","and the segment now offers GO LOUD: "+game.order_buttons.silent.text)
+	# Another segment, or outside the wheel, disarms.
+	s.units[0].silent=false;game._refresh();hud.open("craft");await settle()
+	await click(game.order_buttons.silent)
+	check(hud.segments.armed=="silent","armed again")
+	await click(hud.extra.depth_menu)
+	check(hud.segments.armed=="" and not s.units[0].silent and hud.page=="acoustics","a tap on another segment disarms and does its own work")
+	hud.open("craft");await settle();await click(game.order_buttons.silent)
+	hud.dismiss();await settle()
+	check(hud.segments.armed=="" and not s.units[0].silent,"closing the wheel disarms")
+	# ALL STOP shows its cost only when armed, and keeps its name.
+	hud.open("craft");await settle()
+	var stop:Button=hud.extra.all_stop
+	check(stop in hud.ring_buttons and stop.text=="ALL STOP","the ALL STOP segment keeps its bare name: "+stop.text)
+	var oxygen=s.oxygen
+	await click(stop)
+	check(hud.segments.armed=="all_stop" and s.oxygen==oxygen and hud.page=="craft" and hud.caption_texts.any(func(t):return "restart" in t),"the first ALL STOP tap arms it and shows the cost in the centre: "+str(hud.caption_texts))
+	await click(stop)
+	check(hud.page=="route" and hud.segments.armed=="","the second tap performs it")
+	# A drone's profile segment is a two-tap too.
+	s.selected=1;s.units[1].silent=false;game._refresh();hud.open("craft",{"kind":"craft","unit":1,"pos":s.units[1].pos});await settle()
+	var profile=game.order_buttons.silent
+	await click(profile)
+	check(hud.segments.armed=="silent" and not s.units[1].silent,"a drone's first tap arms the profile switch")
+	await click(profile)
+	check(s.units[1].silent,"and the second switches it")
+	game.queue_free();await settle()
+# WP-52: no segment's words cross its own rectangle, and no rectangle crosses the screen-edge margin (cover and inner
+# screens, both text scales the layout suites test). The state line has its own room under the name.
+func fit_case():
+	for shape in [Vector2i(2520,1080),Vector2i(2184,1968)]:
+		for scale in [1.0,1.5]:
+			var stamp="%dx%d %d%%"%[shape.x,shape.y,roundi(scale*100)]
+			var game=await make(shape,scale)
+			var s=game.sim;var hud=game.mission_hud
+			for who in [0,1]:
+				for page in ["craft","route","acoustics"]:
+					s.selected=who;game._refresh()
+					hud.open(page,{"kind":"craft","unit":who,"pos":s.units[who].pos});await settle()
+					var margin=hud.edge_margin(hud.touch_height);var safe=Rect2(Vector2.ZERO,hud.size).grow(-margin+.5)
+					for b in hud.ring_buttons:
+						var font=b.get_theme_font("font");var size=b.get_theme_font_size("font_size")
+						var box=b.get_theme_stylebox("normal").get_minimum_size()
+						var inner=font.get_multiline_string_size(b.text,HORIZONTAL_ALIGNMENT_CENTER,b.size.x-box.x,size)
+						var widest=0.0
+						for word in b.text.split(" ",false):
+							for part in word.split("\n",false):widest=maxf(widest,font.get_string_size(part,HORIZONTAL_ALIGNMENT_LEFT,-1,size).x)
+						var label="%s on %s page of craft %d at %s: %s"%[b.get_meta("action"),page,who,stamp,b.text.replace("\n"," / ")]
+						check(widest<=b.size.x-box.x+.5,"no word crosses its segment: "+label)
+						check(inner.y<=b.size.y-box.y+.5,"the words fit the segment's height with room for the state line: "+label+" "+str(inner.y)+" of "+str(b.size.y-box.y))
+						if not hud.order_dock.visible:check(safe.encloses(b.get_rect()),"the segment keeps the screen-edge margin: "+label)
+						var line:Label=b.get_node_or_null("StateLine")
+						if line!=null and line.visible:
+							var small=line.get_theme_font_size("font_size")
+							check(font.get_string_size(line.text,HORIZONTAL_ALIGNMENT_LEFT,-1,small).x<=b.size.x-box.x+.5,"the state line fits its width: "+label)
+					if page=="route" and who==0:
+						var stop:Button=hud.extra.all_stop
+						check(stop.text=="ALL STOP" and "costs" not in stop.text,"ALL STOP keeps only its name on the segment: "+stop.text)
+					if page=="craft":
+						check(hud.extra.depth_menu.text=="DEPTH AND\nSONAR","DEPTH AND SONAR is on two lines: "+hud.extra.depth_menu.text)
+			game.queue_free();await settle()
+const UiStyleRef=preload("res://src/presentation/ui_style.gd")
+func slot_key(buttons:Array)->Dictionary:
+	var out={}
+	for i in buttons.size():out[str(buttons[i].get_meta("action"))]=i
+	return out
+# WP-52: an action keeps its place in the ring whether or not a drone is aboard.
+func slot_case():
+	var game=await make(Vector2i(2520,1080),1.0)
+	var s=game.sim;var hud=game.mission_hud
+	s.selected=0;game._refresh();hud.open("craft");await settle()
+	var aboard=slot_key(hud.ring_buttons)
+	check(aboard.has("deploy") and not aboard.has("program") and aboard.deploy==3 and hud.ring_buttons.size()==8,"with a drone aboard DEPLOY takes PLAN ROUTE's place in the ring: "+str(aboard))
+	hud.dismiss();await settle()
+	for n in 2:
+		game._order("select",{"unit":0});ReleaseControls.activate_deploy(hud);await settle()
+	game._order("select",{"unit":0});game._refresh();hud.open("craft");await settle()
+	var out=slot_key(hud.ring_buttons)
+	check(out.has("recall") and out.recall==3 and not out.has("deploy") and hud.ring_buttons.size()==8,"with both drones out RECALL ALL takes the same place: "+str(out))
+	for key in aboard:
+		if key in ["deploy","recall","program"]:continue
+		check(out.get(key,-1)==aboard[key],"%s keeps its angle with the drones in or out (%s then %s)"%[key,str(aboard[key]),str(out.get(key,-1))])
+	s.selected=1;game._refresh();hud.open("craft",{"kind":"craft","unit":1,"pos":s.units[1].pos});await settle()
+	var drone=slot_key(hud.ring_buttons)
+	check(drone.get("recall",-1)==3,"a deployed drone's RECALL sits in the same place: "+str(drone))
+	game.queue_free();await settle()
+const ReleaseControls=preload("res://src/presentation/release_controls.gd")
+const HandPilot=preload("res://src/simulation/hand_pilot/hand_pilot.gd")
+# A water point whose straight leg from the craft crosses charted rock without ending in it.
+func rock_point(s)->Variant:
+	var from:Vector2=s.units[0].pos
+	for distance in [160.0,240.0,320.0,420.0,540.0,700.0,900.0]:
+		for i in 32:
+			var p:Vector2=from+Vector2.from_angle(TAU*i/32.0)*distance
+			if Rect2(Vector2.ONE*24,s.world_size()-Vector2.ONE*48).has_point(p) and not HandPilot.rock_at(s,p) and HandPilot.crosses_rock(s,from,p):return p
+	return null
+# WP-52: a route across charted rock needs a second tap; the neutral note keeps its own colour.
+func rock_case():
+	var game=await make(Vector2i(2520,1080),1.0)
+	var s=game.sim;var guard=game.mission_hud.guard
+	s.paused=true;s.selected=0;game._refresh()
+	var p=rock_point(s)
+	check(p!=null,"the opening chart has a water point behind charted rock to test with")
+	if p!=null:
+		guard.tap_water(p);await settle()
+		check(s.units[0].route.is_empty() and not guard.pending.is_empty() and s.message==Words.TEXT.rock_route,"a red leg is not ordered by the first tap and the status line says why: "+s.message)
+		check(guard.panel.visible and guard.prompt.text==Words.TEXT.rock_route,"the pending dialog names the rock: "+guard.prompt.text)
+		guard.tap_water(p);await settle()
+		check(not s.units[0].route.is_empty() and guard.pending.is_empty(),"the second tap on the marker sends it anyway")
+		# Open water elsewhere moves the marker without ordering.
+		s.command("order_undo",{"goals":[],"hold":""});game._refresh()
+		guard.reset();guard.tap_water(p);await settle()
+		var clear:Vector2=s.units[0].pos+Vector2(50,0)
+		var safe=not HandPilot.crosses_rock(s,s.units[0].pos,clear)
+		guard.tap_water(clear);await settle()
+		check(not safe or (guard.pending.is_empty() and not s.units[0].route.is_empty()),"a tap on open water orders a clear leg at once")
+	check(ReleaseControls.is_warning({"reason":HandPilot.ROCK_REASON}) and not ReleaseControls.is_warning({"reason":"Passes QUIETUS"}),"only a rock leg is a warning; passing another craft is a neutral note")
+	check(UiStyleRef.NOTE_COLOR!=ReleaseControls.WARNING,"the note colour is not the warning red")
+	check(Words.point_row(1,{"mode":"inherit","stop":true},false)=="Point 1: same speed, stops here" and Words.point_row(2,{"mode":"cruise","stop":false},true)=="Point 2: transit drive, passes through","the status panel's point row reads in plain words")
+	game.queue_free();await settle()
+# The route planner holds a point whose leg crosses charted rock for a second tap on the same point.
+func planner_case():
+	var game=await make(Vector2i(2520,1080),1.0)
+	var s=game.sim
+	s.paused=true;s.selected=0;game._refresh()
+	var p=rock_point(s)
+	if p==null:check(false,"a rock point exists for the planner");return
+	game.route_editor.open(game);await settle()
+	game.route_editor.choose_point(p);await settle()
+	check(s.route_goals().is_empty() and game.route_editor.preview.pending_point!=null and game.route_editor.point_info.text==Words.TEXT.rock_route,"the planner does not place a red point on the first tap and says why: "+game.route_editor.point_info.text)
+	game.route_editor.choose_point(p);await settle()
+	check(not s.route_goals().is_empty() and game.route_editor.preview.pending_point==null,"the second tap on the same point places it")
 	game.queue_free();await settle()
 func route_end_case():
 	var game=await make(Vector2i(2520,1080),1.0)

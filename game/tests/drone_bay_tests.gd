@@ -164,7 +164,7 @@ func wheel_cases():
  # Quietus: DEPLOY leads the main page while a drone is aboard, naming the next one.
  h.open("craft");await settle()
  var controls=h.command_controls()
- check(controls[0]==h.extra.deploy and h.extra.deploy.text=="DEPLOY\nDRONE A" and h.extra.deploy.is_visible_in_tree(),"Quietus's wheel offers DEPLOY DRONE A first: "+h.extra.deploy.text.replace("\n"," "))
+ check(controls[3]==h.extra.deploy and h.extra.deploy.text=="DEPLOY\nDRONE A" and h.extra.deploy.is_visible_in_tree(),"Quietus's wheel offers DEPLOY DRONE A in PLAN ROUTE's place (WP-52): "+h.extra.deploy.text.replace("\n"," "))
  check(not (h.extra.recall in controls),"no RECALL ALL on the main page with both drones aboard")
  check(controls.size()==8 and not (game.order_buttons.program in controls),"the main page keeps eight segments, PLAN ROUTE stepping off it (%d)"%controls.size())
  await press(h.extra.deploy)
@@ -172,7 +172,7 @@ func wheel_cases():
  check(s.units[1].pos.distance_to(s.units[0].pos)<=Bay.CLEARANCE+.01 and not game.advanced_orders,"the drone is beside Quietus and the wheel closes")
  check("DRONE A" in s.message and "deployed" in s.message and s.selected==1,"the message line says what happened and the drone is selected: "+s.message)
  game._order("select",{"unit":0});h.open("craft");await settle();controls=h.command_controls()
- check(controls[0]==h.extra.deploy and h.extra.deploy.text=="DEPLOY\nDRONE B","DEPLOY now names DRONE B")
+ check(controls[3]==h.extra.deploy and h.extra.deploy.text=="DEPLOY\nDRONE B","DEPLOY now names DRONE B")
  check(not (h.extra.recall in controls) and controls.size()==8,"with DEPLOY on the main page RECALL ALL stays on the ROUTE page (%d segments)"%controls.size())
  h.dismiss();h.open("route");await settle()
  check(h.extra.recall in h.command_controls() and game.order_buttons.program in h.command_controls(),"RECALL ALL and PLAN ROUTE are on the ROUTE page")
@@ -199,7 +199,7 @@ func wheel_cases():
  game._start_mission(0);await settle();game._refresh();await settle();s=game.sim;h=game.mission_hud
  game._order("select",{"unit":2});await settle();h.open("craft");await settle()
  controls=h.command_controls()
- check(s.selected==2 and controls[0]==h.extra.deploy and h.extra.deploy.text=="DEPLOY\nDRONE B" and not (h.extra.recall in controls),"an aboard drone's wheel offers its own DEPLOY first")
+ check(s.selected==2 and controls[3]==h.extra.deploy and h.extra.deploy.text=="DEPLOY\nDRONE B" and not (h.extra.recall in controls),"an aboard drone's wheel offers its own DEPLOY in the same place")
  await press(h.extra.deploy)
  check(s.units[2].alive and not Bay.aboard(s.units[2]) and Bay.aboard(s.units[1]) and s.selected==2,"it deploys that drone, which stays selected")
  # A refused deploy changes nothing and says why.

@@ -200,3 +200,12 @@ const THREAT_WEDGE_LENGTH=0.3
 const THREAT_NUMBER_BOOST=8
 const THREAT_NUMBER_PAD=5.0
 const LOCK_CARD_WIDTH=5.0
+# Command wheel (WP-52): the small state line under a segment's name is this fraction of the segment's type size
+# (never below STATE_LINE_MIN), and a segment's neutral note (such as "Passes Quietus") uses the label colour.
+const STATE_LINE_SCALE=0.72
+const STATE_LINE_MIN=10
+const NOTE_COLOR=LABEL_TEXT
+# The fill and text colour a role gives a button, for wedges the wheel draws itself.
+static func role_colors(role:String)->Dictionary:
+	var look:=_look(role,Palette.high_contrast())
+	return {"fill":look.get("fill",BUTTON_FILL),"text":look.get("text",TEXT)}

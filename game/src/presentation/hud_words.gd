@@ -10,6 +10,7 @@ extends RefCounted
 const Pricing=preload("res://src/simulation/photo_pricing/photo_pricing_table.gd")
 const RuleTable=preload("res://src/photo_rules/rule_table.gd")
 const CraftUpgrades=preload("res://src/equipment/craft_upgrades.gd")
+const AllStop=preload("res://src/simulation/all_stop/all_stop.gd")
 const TEXT={
 	"paused": "PAUSED",
 	"running": "RUNNING",
@@ -17,14 +18,25 @@ const TEXT={
 	"tap_pause": "TAP TO PAUSE",
 	"route_prompt": "ANSWER ROUTE PROMPT",
 	"join": " · ",
+	# A toggle segment names the action a tap performs (first line) and the state it is in now (small second line).
 	"silent_off": "GO SILENT",
-	"silent_on": "SILENT IS ON",
+	"silent_on": "GO LOUD",
+	"silent_state_off": "running loud",
+	"silent_state_on": "silent is on",
 	"silent_off_line": "%s\nslower (%d m/s) · seen from %d m",
-	"silent_on_line": "%s\ntap for full speed (%d m/s) · seen from %d m",
-	"profile_low": "LOW\nPROFILE",
-	"profile_open": "OPEN\nPROFILE",
-	"profile_low_line": "LOW PROFILE\nSirens see this drone from %d m, not %d m\nIts speed is unchanged",
-	"profile_open_line": "OPEN PROFILE\nSirens see this drone from %d m\nTap: from %d m instead. Speed is unchanged",
+	"silent_on_line": "%s\nfull speed (%d m/s) · seen from %d m",
+	"profile_low": "GO LOW PROFILE",
+	"profile_open": "GO OPEN",
+	"profile_state_low": "low profile is on",
+	"profile_state_open": "open profile",
+	"profile_low_line": "%s\nSirens see this drone from %d m, not %d m\nIts speed is unchanged",
+	"profile_open_line": "%s\nSirens see this drone from %d m, not %d m\nIts speed is unchanged",
+	"confirm": "Tap again to confirm",
+	"depth_menu": "DEPTH AND\nSONAR",
+	"all_stop": "ALL STOP",
+	"audio_log_empty": "No sounds logged yet",
+	"rock_route": "This route crosses charted rock. Tap the marker again to send it anyway, or tap open water.",
+	"send_anyway": "SEND ANYWAY",
 	"ping": "PING SONAR\nuses %s reserve",
 	"ping_free": "PING SONAR\nuses no reserve",
 	"ping_caption": "Sirens hear every ping",
@@ -63,16 +75,40 @@ static func plate_action(sim,dialog_open:bool)->String:
 	if dialog_open and not sim.paused:return TEXT.route_prompt
 	return TEXT.tap_resume if sim.paused else TEXT.tap_pause
 
-# Quietus: the segment names the state; its caption says what the next tap does and what it costs.
+# The segments whose tap costs something that cannot be read before it lands: the first tap arms the segment and
+# shows its cost in the wheel's centre, the second tap on the same segment performs it. Keys are the segments'
+# "action" meta. Segments that only open a page, or are harmless, stay one tap.
+const TWO_TAP=["silent","all_stop"]
+static func needs_confirm(key:String,sim)->bool:
+	if key=="all_stop":
+		var u:Dictionary=sim.units[0]
+		return not AllStop.stopped(u) and not AllStop.restarting(u)
+	return key in TWO_TAP
+
+# A toggle segment: the name says what the tap does, a small second line says how things stand now.
 static func silent_label(sim)->String:
 	if sim.selected>0:
-		return TEXT.profile_low if sim.units[sim.selected].silent else TEXT.profile_open
+		return TEXT.profile_low if not sim.units[sim.selected].silent else TEXT.profile_open
 	return TEXT.silent_on if sim.units[0].silent else TEXT.silent_off
+static func silent_state(sim)->String:
+	if sim.selected>0:
+		return TEXT.profile_state_low if sim.units[sim.selected].silent else TEXT.profile_state_open
+	return TEXT.silent_state_on if sim.units[0].silent else TEXT.silent_state_off
+# The small second line of a segment, by its action key. Empty for a segment that has none.
+static func state_line(key:String,sim)->String:
+	return silent_state(sim) if key=="silent" else ""
+# The cost lines shown in the wheel's centre for a segment, by its action key: while a finger is on it, and once
+# a two-tap segment is armed. Empty for a segment without a cost to show.
+static func cost_lines(key:String,sim)->Array:
+	if key=="silent":return silent_caption(sim)
+	if key=="all_stop" and needs_confirm(key,sim):
+		return [TEXT.all_stop,AllStop.label(sim).get_slice("\n",1)]
+	return []
 static func silent_caption(sim)->Array:
 	var sight:=sights()
 	if sim.selected>0:
-		if sim.units[sim.selected].silent:return (TEXT.profile_low_line%[roundi(sight.silent),roundi(sight.open)]).split("\n")
-		return (TEXT.profile_open_line%[roundi(sight.open),roundi(sight.silent)]).split("\n")
+		if sim.units[sim.selected].silent:return (TEXT.profile_open_line%[TEXT.profile_open,roundi(sight.open),roundi(sight.silent)]).split("\n")
+		return (TEXT.profile_low_line%[TEXT.profile_low,roundi(sight.silent),roundi(sight.open)]).split("\n")
 	var speed:=speeds(sim)
 	if sim.units[0].silent:return (TEXT.silent_on_line%[TEXT.silent_on,roundi(speed.cruise),roundi(sight.open)]).split("\n")
 	return (TEXT.silent_off_line%[TEXT.silent_off,roundi(speed.silent),roundi(sight.silent)]).split("\n")
@@ -84,6 +120,16 @@ static func arc_label(sector:String)->String:
 	return TEXT.ping_arc%(TEXT.arc_all if sector=="all" else TEXT.arc_forward)
 static func power_label(power:String)->String:
 	return TEXT.ping_power%power.to_upper()
+
+# The status panel's row for a route point, in plain words: "Point 1: same speed, stops here". A drone names its
+# drive, Quietus its speed; the key is the route program's mode ("inherit", "silent", "cruise").
+const POINT_ROW="Point %d: %s, %s"
+const POINT_MODES={"inherit": "same speed", "silent": "silent running", "cruise": "cruise speed"}
+const POINT_MODES_DRONE={"inherit": "same drive", "silent": "quiet drive", "cruise": "transit drive"}
+const POINT_STOPS={true: "stops here", false: "passes through"}
+static func point_row(number:int,goal:Dictionary,drone:bool)->String:
+	var modes:Dictionary=POINT_MODES_DRONE if drone else POINT_MODES
+	return POINT_ROW%[number,modes.get(str(goal.get("mode","inherit")),"same speed"),POINT_STOPS[bool(goal.get("stop",true))]]
 
 # Why the dive is held, when something other than the player held it. Empty when the player paused,
 # or when the held state already shows a card that states its reason.
