@@ -6,7 +6,7 @@
   "base_ref": "origin/claude/integration",
   "base_sha": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
   "run_branch": "fable/overhaul-20261111",
-  "run_head": "d832ec6b27e9955fe5771d28158f477c1421bb5e",
+  "run_head": "3a99c3fb6bd28190e1f10d1f462deb0e8d40cde6",
   "shared_tips": {
     "claude/integration": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
     "main": "f5b66a198e3878950325f8c45a0bc6bc29dcba84",
@@ -63,5 +63,5 @@
   },
   "decisions_open": 0,
   "last_checkpoint": "Paused at Pat's request on 2026-11-13, in phase 9, at a clean point: WP-31 to WP-39 merged, looked at in the kit and pushed; nothing in flight. Everyday set on the merged head: 37 of 39 passed, the 2 failures (a stray argument when the hub is rebuilt on resize; one test expecting the old briefing wording) were fixed and rerun green with their neighbours and the menu and briefing suites.",
-  "updated": "2026-11-13 10:33:56"
+  "updated": "2026-11-13 10:40:36"
 }
