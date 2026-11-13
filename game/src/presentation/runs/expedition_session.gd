@@ -21,10 +21,7 @@ var save_failed=false
 var active_envelope:Dictionary={}
 var pinned_path=""
 func freeze_campaign()->void:
-	prior_mode=campaign_host.process_mode;prior_sound_suspended=campaign_host.sound.system_suspended
-	for child in campaign_host.get_children():
-		if child is CanvasItem:prior_visibility.append({"node":child,"visible":child.visible});child.hide()
-	campaign_host.sound.suspend();campaign_host.process_mode=Node.PROCESS_MODE_DISABLED
+	preload("res://src/presentation/mode_host_freeze.gd").freeze(self)
 func _ready()->void:
 	pinned_path=campaign_host.store.path
 	if DevState.marked(self):set_meta("dev_profile",true)
@@ -177,10 +174,4 @@ func _refresh()->void:
 	status_label.position=Vector2(12,top);status_label.size=Vector2(minf(room,ceilf(text_size.x+pad.x+8.)),ceilf(text_size.y+pad.y))
 func _return()->void:
 	if not is_inside_tree():return
-	for item in prior_visibility:
-		if is_instance_valid(item.node):item.node.visible=item.visible
-	campaign_host.process_mode=prior_mode
-	if not prior_sound_suspended:campaign_host.sound.resume()
-	get_parent().remove_child(self)
-	if return_to_list.is_valid():return_to_list.call()
-	queue_free()
+	preload("res://src/presentation/mode_host_freeze.gd").leave(self)
