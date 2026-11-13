@@ -15,6 +15,8 @@ var prior_mode=Node.PROCESS_MODE_INHERIT
 var prior_visibility:Array=[]
 var prior_sound_suspended=false
 var result_pending=false
+var dive_record=false
+var dive_abandoned=false
 var save_failed=false
 var snapshot_ready=false
 var active_envelope:Dictionary={}
@@ -103,16 +105,17 @@ func _debrief(abandoned:bool=false)->void:
 	if not career_state.in_flight:return
 	sim.paused=true
 	career_state=Career.settle(career_state,{"outcome":"won" if not abandoned and sim.outcome=="won" else "lost","hull":sim.hull,"alive":[sim.DroneBay.home(sim.units[1]),sim.DroneBay.home(sim.units[2])],"mission":sim.mission,"rider":sim.rider_result()})
-	_bind_state();result_pending=true;_save_archive();_result_menu()
+	_bind_state();result_pending=true;dive_record=true;dive_abandoned=abandoned;_save_archive();_result_menu()
 func _result_menu()->void:
 	sim.paused=true;screen="career_result";_clear_menu()
 	_menu_text("CONTRACT RESULT",30);_menu_text("\n".join(CareerBoard.ResultText.career_lines(career_state.report)),18)
+	if dive_record:preload("res://src/presentation/career/career_result.gd").show(self,dive_abandoned)
 	_show_photo_grade(sim.mission.objectives)
 	if save_failed:
 		preload("res://src/presentation/frontend/save_error_view.gd").menu_retry(self,"RESULT NOT SAVED · "+str(campaign_host.get_meta("career_save_error","")),17,"RETRY SAVE",func():_save_archive();_result_menu(),"career_retry")
 	else:
 		_button(panel_box,"BACK TO CONTRACT BOARD",func():
-			result_pending=false;active_started=false;CareerBoard.show(self)
+			result_pending=false;dive_record=false;active_started=false;CareerBoard.show(self)
 		,"career_board")
 	call_deferred("_layout")
 func _show_economy()->void:CareerBoard.supplies(self)
