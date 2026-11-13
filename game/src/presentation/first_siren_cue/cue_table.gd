@@ -6,6 +6,8 @@ const OPERATIONS=[0,1,2,3]
 # One-time type note: shown the first time a Siren kind appears in a notice, on any operation.
 # Keys are the sim's existing `type` strings; an absent type shows nothing.
 const TYPE_NAMES={Names.ROLE_PATROLLER:"PATROLLER",Names.ROLE_SWEEPER:"SWEEPER",Names.ROLE_HUNTER:"HUNTER",Names.ROLE_SENTINEL:"SENTINEL",Names.ROLE_WARDEN:"WARDEN",Names.ROLE_INTERCEPTOR:"INTERCEPTOR",Names.ROLE_BUOY:"BUOY",Names.ROLE_RELAY:"RELAY"}
+# Chip text: direction word, craft letter, bearing (the one compass convention, compass.gd).
+const NOTICE_LABEL="SIREN TO THE %s NOTICED %s · %03d°"
 const NOTE_PREFIX="NEW SIREN TYPE: "
 const NOTE_DURATION=2.5
 const NOTE_LIMIT=16

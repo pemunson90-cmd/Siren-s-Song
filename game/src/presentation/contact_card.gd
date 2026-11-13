@@ -11,6 +11,7 @@ const Identity=preload("res://src/simulation/contact_identity.gd")
 const Dossier=preload("res://src/presentation/siren_dossier/dossier_table.gd")
 const UiStyle=preload("res://src/presentation/ui_style.gd")
 const Palette=preload("res://src/presentation/accessibility/palette.gd")
+const Compass=preload("res://src/presentation/compass.gd")
 const FEED=preload("res://src/presentation/contact_feedback.gd")
 var host
 var key:=-1
@@ -51,7 +52,7 @@ static func describe(sim,id:int)->Dictionary:
 	if entry.is_empty() or not sim.contacts.has(id):return {}
 	var c=sim.contacts[id];var from=sim.units[sim.selected].pos;var across=c.pos-from
 	var age=maxf(0.,sim.elapsed-float(c.time));var distance=roundi(from.distance_to(c.pos))
-	var bearing=roundi(fposmod(rad_to_deg(atan2(across.x,-across.y)),360.))%360
+	var bearing=Compass.bearing(across)
 	var seen="SEEN NOW" if entry.fresh else "SEEN %ds AGO"%int(age)
 	var result={"key":id,"title":entry.text,"fresh":entry.fresh,"range":distance,"bearing":bearing,"age":age,"facts":"RANGE %dm · BEARING %03d° · %s"%[distance,bearing,seen],"tell":"","counter":""}
 	# The dossier's lines, only for a role the player has identified in this dive.

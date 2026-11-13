@@ -29,13 +29,15 @@ const Pricing=preload("res://src/simulation/photo_pricing/photo_pricing.gd")
 const BandPhoto=preload("res://src/photo_depth/band_photo.gd")
 const Identity=preload("res://src/simulation/contact_identity.gd")
 const Stun=preload("res://src/simulation/observed_stun.gd")
+const Compass=preload("res://src/presentation/compass.gd")
+const ThreatLine=preload("res://src/presentation/threat_read/threat_line.gd")
 
 # Loss observer state for the one live dive: sim instance, mission, clock, last
 # alive flags and the recent loss rows. Never saved; a restore primes it again.
 static var _state:Dictionary={}
 # Read-only record of the last chart draw, for tests: shutter radius drawn,
 # loss marks drawn, and the screen chips placed ({"rect","text"}).
-static var last_draw:Dictionary={"reach":0.0,"losses":0,"chips":[]}
+static var last_draw:Dictionary={"reach":0.0,"losses":0,"chips":[],"lines":0}
 
 static func pause_wanted()->bool:
 	return Table.enabled and Settings.current.get(Table.SETTING,false)
@@ -72,12 +74,14 @@ static func lock_rows(sim)->Array:
 		var remaining:float=Table.LOCK_SECONDS-float(c.lock)
 		var row:Dictionary=by_craft.get(target,{})
 		var count:int=int(row.get("count",0))+1
-		if row.is_empty() or remaining<float(row.remaining):row={"craft":target,"source":int(id),"remaining":remaining}
+		if row.is_empty() or remaining<float(row.remaining):row={"craft":target,"source":int(id),"remaining":remaining,"siren_pos":c.pos}
 		row["count"]=count;by_craft[target]=row
 	var result:Array=[]
 	for target in by_craft:
 		var row:Dictionary=by_craft[target]
 		row["text"]=Table.TEXT.lock_one%[row.source+1,row.remaining] if row.count==1 else Table.TEXT.lock_many%[row.count,row.remaining]
+		row["bearing"]=Compass.degrees(row.siren_pos-sim.units[target].pos)
+		row["sentence"]=Table.TEXT.lock_sentence%[Compass.point(row.bearing),str(sim.units[target].get("name","CRAFT")),row.remaining]
 		row["progress"]=clampf(1.0-float(row.remaining)/Table.LOCK_SECONDS,0.0,1.0)
 		result.append(row)
 	result.sort_custom(func(a,b):return a.craft<b.craft)
@@ -123,7 +127,7 @@ static func loss_row(sim,unit:int)->Dictionary:
 	var bearing:=-1.0
 	if siren>=0 and siren<sim.sirens.size():
 		var d:Vector2=sim.sirens[siren].pos-u.pos
-		bearing=fposmod(rad_to_deg(atan2(d.x,-d.y)),360.0)
+		bearing=Compass.degrees(d)
 		text+=Table.TEXT.beam%(roundi(bearing)%360)+source_label(sim,siren)
 	elif float(u.get("battery",100.0))<=0.0:text+=Table.TEXT.battery
 	return {"unit":unit,"time":sim.elapsed,"pos":u.pos,"bearing":bearing,"siren":siren,"text":text}
@@ -185,12 +189,17 @@ static func draw_world(view,sim)->void:
 # Screen space (ocean_view, after FeatureViews.draw_screen): lock and loss chips.
 static func draw_screen(view,sim)->void:
 	if not Table.enabled or sim==null or not view.presenting_mission or not sim.outcome.is_empty():return
-	last_draw["chips"]=[]
+	last_draw["chips"]=[];last_draw["lines"]=0
+	var rows:Array=lock_rows(sim)
+	# THREAT LINE: first, so the chips and the interface sit above it.
+	var edge:=Rect2(Vector2.ZERO,view.size).grow(-Table.EDGE)
+	for row in rows:
+		if ThreatLine.line(view,view.screen_position(sim.units[row.craft].pos),view.screen_position(row.siren_pos),"%.1f"%row.remaining,view.feedback_font_size,edge):last_draw["lines"]+=1
 	var occupied:Array=view.ui_blocked_rects+view.contact_readout_rects()+view.world_label_rects+view.own_craft_rects()+view.ship_instrument_rects()
 	if view.optical_feed!=null and view.optical_feed.is_visible_in_tree():occupied.append(view.optical_feed.get_rect().grow(6))
 	var fs:int=view.feedback_font_size
 	var warning:Color=Palette.color("warning",Color("ffb18b"))
-	for row in lock_rows(sim):
+	for row in rows:
 		var anchor:Vector2=view.screen_position(sim.units[row.craft].pos)
 		var box:Rect2=chip(view,anchor,row.text,fs,occupied)
 		if box.size==Vector2.ZERO:continue

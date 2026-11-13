@@ -56,6 +56,7 @@ func run():
 	pause_checks()
 	settings_checks()
 	chip_checks()
+	threat_line_checks()
 	disabled_checks()
 	TR.reset();Settings.apply(Store.sanitize({}))
 	print("THREAT READ CHECKS ",checks," FAILURES ",failures)
@@ -210,6 +211,70 @@ func chip_checks():
 	check(Rect2(Vector2(TT.EDGE,view.instrument_top+TT.EDGE),view.size-Vector2(TT.EDGE*2,view.instrument_top+TT.EDGE*2)).encloses(box),"a chip stays inside the chart below the instruments")
 	check(TR.chip(view,Vector2(-50,300),"S1 LOCK · 2.0s",18,[]).size==Vector2.ZERO,"a craft off the chart gets no chip")
 	check(TR.chip(view,anchor,"S1 LOCK · 2.0s",18,[Rect2(Vector2.ZERO,view.size)]).size==Vector2.ZERO,"a chip with no free room is not drawn")
+
+class DrawView extends RefCounted:
+	var presenting_mission=true
+	var ui_blocked_rects=[]
+	var world_label_rects=[]
+	var optical_feed=null
+	var feedback_font_size=18
+	var instrument_top=64.0
+	var size=Vector2(1280,720)
+	var offset=Vector2.ZERO
+	func screen_position(p:Vector2)->Vector2:return p*0.5+offset
+	func contact_readout_rects()->Array:return []
+	func own_craft_rects()->Array:return []
+	func ship_instrument_rects()->Array:return []
+	func draw_line(_a,_b,_c,_w=1.0,_aa=false)->void:pass
+	func draw_rect(_r,_c,_f=true,_w=1.0)->void:pass
+	func draw_arc(_a,_b,_c,_d,_e,_f,_g=1.0,_h=false)->void:pass
+	func draw_string(_f,_p,_t,_al=0,_w=-1,_fs=16,_c=Color.WHITE)->void:pass
+
+func threat_line_checks():
+	# Compass: one convention, eight points.
+	var C=preload("res://src/presentation/compass.gd")
+	check(C.point(0.)=="NORTH" and C.point(90.)=="EAST" and C.point(180.)=="SOUTH" and C.point(270.)=="WEST" and C.point(45.)=="NORTH-EAST" and C.point(359.)=="NORTH","compass points follow clockwise-from-north bearings")
+	check(C.word(Vector2(1,-1))=="NORTH-EAST" and C.bearing(Vector2(0,100))==180 and C.bearing(Vector2(-100,0))==270,"chart up is north, +x is east, +y is south")
+	# A lock on drone A with the Siren east of it: a line while the lock is active, none otherwise.
+	var s=beam_fixture()
+	for n in 90:s.advance(Sim.STEP)
+	var view=DrawView.new()
+	TR.draw_screen(view,s)
+	check(TR.last_draw.lines==1,"one threat line is drawn while a received lock is active")
+	var rows=TR.lock_rows(s)
+	var row={}
+	for r in rows:
+		if r.craft==1:row=r
+	check(not row.is_empty() and row.sentence.begins_with("A Siren to the EAST has noticed DRONE A. It locks in ") and row.sentence.ends_with(" s."),"the card names the direction that matches the bearing: %s"%str(row.get("sentence")))
+	check(not row.is_empty() and row.siren_pos==s.contacts[row.source].pos and roundi(row.bearing)==90,"the line and the words use the contact's known position")
+	var card=Warning.new();card.update_state(s,true)
+	check(card.visible and "to the EAST has noticed DRONE A" in card.card_text and TT.TEXT.lock_exit in card.card_text,"the lock card carries the direction and the way out for a drone")
+	card.free()
+	# The Siren is off the chart: the line is cut at the chart edge, not dropped.
+	view.size=Vector2(500,720);TR.draw_screen(view,s)
+	check(TR.last_draw.lines==1,"a Siren beyond the chart edge still gets a clipped line")
+	# No lock, no line.
+	for id in s.contacts:s.contacts[id].time=s.elapsed-1.0
+	view.size=Vector2(1280,720);TR.draw_screen(view,s)
+	check(TR.last_draw.lines==0,"no threat line without a live received lock")
+	var idle=Warning.new();idle.update_state(s,true);check(not idle.visible and idle.card_text=="","no card without a lock");idle.free()
+	# Loss lines appear only when the simulation recorded the data.
+	var Summary=preload("res://src/presentation/loss_summary.gd")
+	var lost=FakeLoss.new()
+	lost.contacts={0:{"pos":Vector2(0,123),"time":5.0,"target":0,"mode":"BEAM"}}
+	check(Summary.line(lost)=="The Siren that caught Quietus was to the SOUTH, about 120 m away.","a recorded contact gives direction and rounded range: "+Summary.line(lost))
+	lost.contacts={}
+	var bare=Summary.line(lost)
+	check(bare=="A Siren beam hit Quietus before it could break contact." and not ("to the" in bare),"no recorded contact: the cause only, no invented direction")
+
+class FakeLoss extends RefCounted:
+	var outcome="lost"
+	var message="VAPORIZED · Siren beam struck Quietus."
+	var contacts:Dictionary={}
+	var units:Array=[{"pos":Vector2.ZERO}]
+	var elapsed=5.0
+	var oxygen=80.0
+	var hull=100.0
 
 func disabled_checks():
 	TT.enabled=false

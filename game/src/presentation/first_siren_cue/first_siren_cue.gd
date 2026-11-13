@@ -7,6 +7,10 @@ const Palette=preload("res://src/presentation/accessibility/palette.gd")
 const Table=preload("res://src/presentation/first_siren_cue/cue_table.gd")
 const Tracker=preload("res://src/presentation/first_siren_cue/notice_tracker.gd")
 const Sound=preload("res://src/audio/soundscape.gd")
+const Compass=preload("res://src/presentation/compass.gd")
+const UiStyle=preload("res://src/presentation/ui_style.gd")
+const ThreatRead=preload("res://src/presentation/threat_read/threat_read.gd")
+const ThreatLine=preload("res://src/presentation/threat_read/threat_line.gd")
 var host
 var tracker=Tracker.new()
 var frames:Array=[]
@@ -61,6 +65,11 @@ func refresh()->void:
  voice.stream_paused=host.sim.paused or suspended or host.sound.system_suspended
  queue_redraw()
 func _draw()->void:
+ # Bearing wedge from the craft that was noticed, unless a lock line already points at the Siren.
+ if not frames.is_empty():
+  var row=frames.back()
+  var locked=ThreatRead.lock_rows(host.sim).any(func(lock):return lock.craft==row.unit)
+  if not locked:ThreatLine.wedge(self,host.ocean.screen_position(host.sim.units[row.unit].pos),row.bearing,minf(size.x,size.y)*UiStyle.THREAT_WEDGE_LENGTH)
  var panel=StyleBoxFlat.new();panel.bg_color=Color("102c39");panel.border_color=Palette.chart_color("evidence",Color("a9d9df"));panel.set_border_width_all(int(Palette.stroke(2)));panel.set_corner_radius_all(8)
  if not frames.is_empty():
   draw_style_box(panel,chip_rect)
@@ -91,7 +100,8 @@ func note_text()->String:
  return "" if note_frames.is_empty() else note_frames.back().text
 func label_text()->String:
  if frames.is_empty():return ""
- return "NOTICE · FROM %s · %03d°"%[Names.UNIT_LETTERS[frames.back().unit],roundi(frames.back().bearing)%360]
+ var row=frames.back()
+ return Table.NOTICE_LABEL%[Compass.point(row.bearing),Names.UNIT_LETTERS[row.unit],roundi(row.bearing)%360]
 func _notification(what:int)->void:
  if what in [NOTIFICATION_APPLICATION_PAUSED,NOTIFICATION_APPLICATION_FOCUS_OUT,NOTIFICATION_WM_WINDOW_FOCUS_OUT]:
   suspended=true

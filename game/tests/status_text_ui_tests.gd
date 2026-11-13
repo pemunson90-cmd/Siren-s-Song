@@ -6,7 +6,7 @@ const Table=preload("res://src/presentation/status_text/status_table.gd")
 const Settings=preload("res://src/presentation/frontend/frontend_settings.gd")
 const Store=preload("res://src/persistence/settings_store.gd")
 const EXPECTED={
- 0:"UNKNOWN SIGNAL SOURCE · search the marked area · the camera reaches 240m",
+ 0:"UNKNOWN SIGNAL SOURCE · Search the dashed area first: the camera reaches 240 m",
  6:"SOURCE SEARCH · listen elsewhere or spend local RECON",
  7:"Locate the rendezvous hull or use local Survey",
  9:"RETURN RECEIVER · listen elsewhere or spend local RECON",

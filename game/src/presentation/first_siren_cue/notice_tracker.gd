@@ -30,7 +30,7 @@ func _notice(id:int,source:Vector2)->void:
  if not listed:return
  var direction=(source-sim.units[sim.selected].pos).normalized()
  seen[id]=true
- var row={"id":id,"unit":sim.selected,"time":sim.elapsed,"direction":direction,"bearing":fposmod(rad_to_deg(atan2(direction.x,-direction.y)),360.)}
+ var row={"id":id,"unit":sim.selected,"time":sim.elapsed,"direction":direction,"bearing":preload("res://src/presentation/compass.gd").degrees(direction)}
  records.append(row);noticed.emit(row)
 # One-time kind note: reads only the public sirens[id].type, adds no sim field.
 func _note_type(id:int)->void:
