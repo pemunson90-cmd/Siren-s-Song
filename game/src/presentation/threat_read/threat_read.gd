@@ -31,6 +31,10 @@ const Identity=preload("res://src/simulation/contact_identity.gd")
 const Stun=preload("res://src/simulation/observed_stun.gd")
 const Compass=preload("res://src/presentation/compass.gd")
 const ThreatLine=preload("res://src/presentation/threat_read/threat_line.gd")
+const HudWords=preload("res://src/presentation/hud_words.gd")
+const Racks=preload("res://src/equipment/tool_racks.gd")
+const Tuning=preload("res://src/simulation/tuning.gd")
+const UiStyle=preload("res://src/presentation/ui_style.gd")
 
 # Loss observer state for the one live dive: sim instance, mission, clock, last
 # alive flags and the recent loss rows. Never saved; a restore primes it again.
@@ -85,11 +89,29 @@ static func lock_rows(sim)->Array:
 		var kind:String=Identity.contact_type(sim.contacts[row.source])
 		var word:String=Table.SIREN_WORD if kind in Table.COARSE_KINDS else Table.ROLE_WORDS.get(kind,Table.SIREN_WORD)
 		row["sentence"]=Table.TEXT.lock_sentence%[word,Compass.point(row.bearing),str(sim.units[target].get("name","CRAFT")),row.remaining]
-		row["advice"]=Table.TEXT.lock_exit if target==0 else Table.TEXT.lock_exit_drone
+		var moves:String=counter_moves(sim,target,row.siren_pos)
+		row["advice"]=(Table.TEXT.lock_exit if target==0 else Table.TEXT.lock_exit_drone)+("" if moves.is_empty() else "\n"+moves)
 		row["progress"]=clampf(1.0-float(row.remaining)/seconds,0.0,1.0)
 		result.append(row)
 	result.sort_custom(func(a,b):return a.craft<b.craft)
 	return result
+
+# The moves the locked craft can make now, one line, or "" when none applies. Silent uses the
+# silent segment's own words; a tool counts when the craft's rack holds a charge (the buttons'
+# own gate, main.gd) and, for the EMP, when the locking Siren's known position is within its
+# pulse radius (weapon_orders.gd keeps the charge when no Siren is in range).
+static func counter_moves(sim,craft:int,siren_pos:Vector2)->String:
+	var u=sim.units[craft];var moves:Array=[]
+	if not u.get("silent",false):moves.append(HudWords.TEXT.silent_off if craft==0 else HudWords.TEXT.profile_low)
+	var decoys:int=_charges(sim,craft,"decoy")
+	if decoys>0:moves.append(Table.TEXT.move_count%[Table.MOVE_DECOY,decoys])
+	var pulses:int=_charges(sim,craft,"emp")
+	if pulses>0 and u.pos.distance_to(siren_pos)<=Tuning.EMP_RADIUS:moves.append(Table.TEXT.move_count%[Table.MOVE_EMP,pulses])
+	return "" if moves.is_empty() else Table.TEXT.moves%Table.TEXT.move_join.join(moves)
+# The charges one craft carries: its own rack when the dive has racks, else the shared stock.
+static func _charges(sim,craft:int,id:String)->int:
+	if sim.mission.has("tool_racks"):return int(sim.mission.tool_racks[Racks.UNITS[craft]].get(id,0))
+	return Racks.count(sim,id)
 
 # --- 3. drone loss ---------------------------------------------------------------
 static func _alive(sim)->Array:
@@ -128,13 +150,42 @@ static func loss_row(sim,unit:int)->Dictionary:
 	var u=sim.units[unit];var text:String=Table.TEXT.lost%str(u.get("name","DRONE"))
 	var event=_loss_event(sim,u.pos)
 	var siren:int=int(event.get("siren",-1)) if event!=null else -1
-	var bearing:=-1.0
+	var bearing:=-1.0;var cause:=""
 	if siren>=0 and siren<sim.sirens.size():
 		var d:Vector2=sim.sirens[siren].pos-u.pos
 		bearing=Compass.degrees(d)
 		text+=Table.TEXT.beam%(roundi(bearing)%360)+source_label(sim,siren)
-	elif float(u.get("battery",100.0))<=0.0:text+=Table.TEXT.battery
-	return {"unit":unit,"time":sim.elapsed,"pos":u.pos,"bearing":bearing,"siren":siren,"text":text}
+		cause=Table.TEXT.loss_beam%[roundi(bearing)%360,Compass.point(bearing)]
+	elif float(u.get("battery",100.0))<=0.0:
+		text+=Table.TEXT.battery;cause=Table.TEXT.loss_battery
+	return {"unit":unit,"time":sim.elapsed,"pos":u.pos,"bearing":bearing,"siren":siren,"text":text,"cause":cause}
+
+# --- loss card: where the lock card sits, for a few dive seconds after a craft is lost ----
+# The loss card's lines for the newest loss in the last LOSS_CARD_SECONDS, or "" for none: the
+# craft LOST, the cause with direction, and the cost this dive's rules give it (no cost line when none is known).
+static func loss_card(sim)->String:
+	var newest:Dictionary={}
+	for row in loss_rows(sim):
+		if sim.elapsed-float(row.time)<=Table.LOSS_CARD_SECONDS and (newest.is_empty() or float(row.time)>=float(newest.time)):newest=row
+	if newest.is_empty():return ""
+	var lines:Array=[Table.TEXT.lost%str(sim.units[newest.unit].get("name","DRONE"))]
+	if not str(newest.cause).is_empty():lines.append(newest.cause)
+	var cost:String=_loss_cost(sim)
+	if not cost.is_empty():lines.append(cost)
+	return "\n".join(lines)
+static func _loss_cost(sim)->String:
+	# Challenge and Career rider dives carry a policy; "max_lost" is the every-craft-home rule.
+	var policy=sim.get("policy")
+	if policy is Dictionary and int(policy.get("max_lost",-1))==0:return Table.TEXT.loss_run
+	return ""
+# The card rectangle: the lock card's width, position and text size (lock_warning.gd refresh), tall enough for the text.
+static func loss_card_rect(view,text:String,touch:float)->Rect2:
+	var width:float=minf(view.size.x-32.0,touch*UiStyle.LOCK_CARD_WIDTH)
+	var inner:float=maxf(1.0,width-touch*Table.LOSS_CARD_LEFT-12.0)
+	var tall:float=maxf(touch*.85,ThemeDB.fallback_font.get_multiline_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,inner,_card_font(touch)).y+touch*.25)
+	return Rect2(Vector2((view.size.x-width)/2.0,touch+24.0),Vector2(width,tall))
+static func _card_font(touch:float)->int:
+	return maxi(18,roundi(touch*.25))
 # Only what the chart already shows for a held contact: its display class
 # (coarse until identified, then the role); with no held contact, UNSEEN SIREN.
 static func source_label(sim,id:int)->String:
@@ -209,6 +260,23 @@ static func draw_screen(view,sim)->void:
 		if box.size==Vector2.ZERO:continue
 		occupied.append(box);last_draw.chips.append({"rect":box,"text":row.text})
 		_draw_chip(view,box,anchor,row.text,fs,Palette.color("ink",Color("e9f1ef")),-1.0)
+	_draw_loss_card(view,sim,rows.is_empty())
+# The loss card gives way to any lock card (lock_warning.gd owns that place).
+static func _draw_loss_card(view,sim,free:bool)->void:
+	last_draw["card"]=Rect2()
+	var text:String=loss_card(sim) if free else ""
+	if text.is_empty():return
+	var touch:float=float(view.optical_feed.touch_height) if view.optical_feed!=null else float(view.feedback_font_size)*3.0
+	var box:Rect2=loss_card_rect(view,text,touch)
+	last_draw["card"]=box;last_draw["card_text"]=text
+	var warning:Color=Palette.color("warning",Color("ffb18b"))
+	var panel:=StyleBoxFlat.new();panel.bg_color=Color(.06,.015,.025,.97);panel.border_color=warning;panel.set_border_width_all(int(Palette.stroke(2)));panel.set_corner_radius_all(10)
+	view.draw_style_box(panel,box)
+	var font:=ThemeDB.fallback_font;var fs:int=_card_font(touch)
+	var at:=box.position+Vector2(touch*.45,touch*.42);var r:float=touch*.18
+	view.draw_line(at-Vector2(r,r),at+Vector2(r,r),warning,Palette.stroke(5.0))
+	view.draw_line(at-Vector2(r,-r),at+Vector2(r,-r),warning,Palette.stroke(5.0))
+	view.draw_multiline_string(font,box.position+Vector2(touch*Table.LOSS_CARD_LEFT,touch*.2+font.get_ascent(fs)),text,HORIZONTAL_ALIGNMENT_LEFT,maxf(1.0,box.size.x-touch*Table.LOSS_CARD_LEFT-12.0),fs,-1,Color.WHITE)
 # A chip rect beside the anchor inside the chart (below the instruments, inside
 # the safe content area) that avoids every occupied rect, or a zero rect.
 static func chip(view,anchor:Vector2,text:String,fs:int,occupied:Array)->Rect2:

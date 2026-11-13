@@ -22,6 +22,8 @@ const LOSS_SECONDS=10.0   # sim seconds the wreck mark and loss label stay on th
 const RAY_METRES=110.0    # fixed length of the bearing ray, so it gives a direction and never a range
 const WRECK_METRES=14.0   # half size of the wreck cross
 const EVENT_MATCH=1.0     # metres between a loss event and the craft's last position
+const LOSS_CARD_SECONDS=6.0   # dive seconds the loss card stays where the lock card sits (frozen while paused)
+const LOSS_CARD_LEFT=0.9      # text indent in touch heights: the same as the lock card's gauge column
 
 # Shutter reach ring.
 const RING_WIDTH=2.4      # screen pixels, before high contrast thickening
@@ -42,6 +44,9 @@ const ROLE_WORDS={Names.ROLE_HUNTER:"HUNTER",Names.ROLE_SENTINEL:"GUARD",Names.R
 # Display classes that name no role: the card says SIREN for these instead of a type word.
 const COARSE_KINDS=["unknown","STATIC","PATROLLER","UNCLASSIFIED"]
 const SIREN_WORD="SIREN"
+# Names of the tools on the lock card, the same words as their buttons (main.gd); the silent word is hud_words.gd's.
+const MOVE_DECOY="DECOY"
+const MOVE_EMP="EMP"
 
 const TEXT={
 	"shutter":"SHUTTER HEARD %dm",
@@ -55,6 +60,14 @@ const TEXT={
 	"lost":"%s LOST",
 	"beam":" · SIREN BEAM FROM %03d°",
 	"battery":" · BATTERY EXHAUSTED",
+	# The loss card (one line each): the cause with the direction in words, then what the loss costs.
+	"loss_beam":"SIREN BEAM FROM %03d° · TO THE %s",
+	"loss_battery":"BATTERY EXHAUSTED",
+	"loss_run":"The run fails: every craft had to get home",
+	# The counter-moves line on the lock card: the moves this craft can make now.
+	"moves":"Or: %s",
+	"move_count":"%s ×%d",
+	"move_join":" · ",
 	"source":" · S%d %s",
 	"unseen":" · UNSEEN SIREN",
 	"pause":"AUTO PAUSE: %s",

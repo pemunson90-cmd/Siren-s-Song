@@ -6,6 +6,7 @@ const WarningChain=preload("res://src/presentation/warning_chain_view.gd")
 const Delivery=preload("res://src/presentation/blackwater_delivery_view.gd")
 const Witness=preload("res://src/presentation/witness_evacuation_view.gd")
 const Ring=preload("res://src/presentation/fleet_ring.gd")
+const PROFILE_WORDS={true:"SILENT",false:"LOUD"}
 # Craft-anchored status; only offscreen craft acquire bounded edge handles.
 var host
 var buttons:Array=[]
@@ -110,7 +111,8 @@ func _ordinary_task(id:int)->String:
  if u.has("chart_stop"):return "CHART STOP · REPLAN"
  if not u.hold.is_empty():return "FLEET GUARD" if u.hold=="CONTACT" else "HOLD · ROUTE KEPT"
  var state="ROUTE %d"%u.route.size() if not u.route.is_empty() else "BRAKING" if u.vel.length()>2 else "READY"
- if id==0:return state+" · MOTION ~%dm"%roundi(sim.motion_radius(id)) if id==sim.selected else state+" · "+("SILENT" if u.silent else "CRUISE")
+ # Quietus states its profile on every chip: SILENT or LOUD (the silent segment's GO SILENT / GO LOUD toggles it).
+ if id==0:return state+" · "+PROFILE_WORDS[bool(u.silent)]+(" · MOTION ~%dm"%roundi(sim.motion_radius(id)) if id==sim.selected else "")
  return state+" · "+("LOW" if u.silent else "OPEN")+" · "+("QUIET42" if u.get("drone_drive","")=="quiet" else "TRANSIT96")
 func _layout_commands():
  var hud=host.mission_hud

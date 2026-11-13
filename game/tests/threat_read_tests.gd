@@ -137,7 +137,17 @@ func loss_checks():
 	check(row.text.ends_with(expected),"the loss line names only the earned identity (%s, expected %s)"%[row.text,expected])
 	check(str(s.message).begins_with(row.text+" · ") and str(s.message).ends_with("submarine camera remains available"),"the status message leads with the cause and keeps its advice: %s"%s.message)
 	check(TR.loss_rows(s).size()==1,"the loss stays on the chart")
-	var at=s.elapsed
+	var card:String=TR.loss_card(s)
+	check(card.begins_with("DRONE A LOST
+SIREN BEAM FROM 090° · TO THE EAST"),"the loss card names the craft, the cause and the direction in words: "+card)
+	check(card.count("
+")==1,"with no cost rule known the card has no cost line")
+	var view=DrawView.new();view.size=Vector2(1280,720);TR.draw_screen(view,s)
+	check(TR.last_draw.card.size.x==minf(1280-32,view.feedback_font_size*3.0*preload("res://src/presentation/ui_style.gd").LOCK_CARD_WIDTH) and TR.last_draw.card.position.y==view.feedback_font_size*3.0+24,"the loss card sits where the lock card sits, at its width")
+	var then=s.elapsed
+	for n in roundi((TT.LOSS_CARD_SECONDS+0.5)*60):s.advance(Sim.STEP)
+	check(TR.loss_card(s)=="" and TR.loss_rows(s).size()==1,"the card gives way after its seconds while the wreck mark stays")
+	var at=then
 	for n in roundi((TT.LOSS_SECONDS+1.0)*60):s.advance(Sim.STEP)
 	TR.observe(s)
 	check(TR.loss_rows(s).is_empty() and s.elapsed>at+TT.LOSS_SECONDS,"the loss mark expires after its table time")
@@ -231,6 +241,30 @@ class DrawView extends RefCounted:
 	func draw_rect(_r,_c,_f=true,_w=1.0)->void:pass
 	func draw_arc(_a,_b,_c,_d,_e,_f,_g=1.0,_h=false)->void:pass
 	func draw_string(_f,_p,_t,_al=0,_w=-1,_fs=16,_c=Color.WHITE)->void:pass
+	func draw_style_box(_s,_r)->void:pass
+	func draw_multiline_string(_f,_p,_t,_al=0,_w=-1,_fs=16,_ml=-1,_c=Color.WHITE)->void:pass
+
+func moves_checks(s):
+	# The lock card names the moves the locked craft can make now, from live state.
+	var drone=preload("res://src/equipment/tool_racks.gd").UNITS[1]
+	s.units[1].silent=false
+	if s.mission.has("tool_racks"):
+		s.mission.tool_racks[drone]={"decoy":3,"emp":2}
+	else:
+		s.tools.decoy=3;s.tools.emp=2
+	var line=TR.counter_moves(s,1,s.units[1].pos+Vector2(100,0))
+	check(line=="Or: GO LOW PROFILE · DECOY ×3 · EMP ×2","a drone that is open, with decoys and EMP in reach, lists all three: "+line)
+	s.units[0].silent=false
+	check(TR.counter_moves(s,0,s.units[0].pos+Vector2(100,0)).begins_with("Or: GO SILENT"),"Quietus reads GO SILENT while it runs loud")
+	check(TR.counter_moves(s,1,s.units[1].pos+Vector2(2000,0)).find("EMP")<0,"an EMP is not offered when the locking Siren is outside its pulse")
+	s.units[1].silent=true
+	if s.mission.has("tool_racks"):s.mission.tool_racks[drone]={"decoy":0,"emp":0}
+	else:s.tools.decoy=0;s.tools.emp=0
+	check(TR.counter_moves(s,1,s.units[1].pos+Vector2(100,0))=="","a silent craft with nothing to throw gets no line")
+	if s.mission.has("tool_racks"):s.mission.tool_racks[drone]={"decoy":1}
+	else:s.tools.decoy=1
+	check(TR.counter_moves(s,1,s.units[1].pos+Vector2(100,0))=="Or: DECOY ×1","only the moves that exist are listed")
+	s.units[1].silent=false
 
 func threat_line_checks():
 	# Compass: one convention, eight points.
@@ -249,11 +283,12 @@ func threat_line_checks():
 		if r.craft==1:row=r
 	check(TR.last_draw.chips.is_empty(),"a lock draws no chip at the craft: the line's countdown and the card state it once")
 	check(not row.is_empty() and row.sentence.begins_with("GUARD TO THE EAST") and "locks DRONE A in " in row.sentence and row.sentence.ends_with(" s"),"the card names the Siren's type and the direction that matches the bearing: %s"%str(row.get("sentence")))
-	check(not row.is_empty() and row.advice==TT.TEXT.lock_exit_drone and TT.TEXT.lock_exit_drone=="Move it behind rock, or let it go.","a lock on a drone gets the drone's advice")
+	check(not row.is_empty() and row.advice.begins_with(TT.TEXT.lock_exit_drone) and TT.TEXT.lock_exit_drone=="Move it behind rock, or let it go.","a lock on a drone gets the drone's advice")
 	check(not row.is_empty() and row.siren_pos==s.contacts[row.source].pos and roundi(row.bearing)==90,"the line and the words use the contact's known position")
 	var card=Warning.new();card.update_state(s,true)
-	check(card.visible and "GUARD TO THE EAST" in card.card_text and "locks DRONE A in " in card.card_text and card.card_text.ends_with(TT.TEXT.lock_exit_drone),"the lock card carries the type, direction, craft and way out for a drone")
+	check(card.visible and "GUARD TO THE EAST" in card.card_text and "locks DRONE A in " in card.card_text and TT.TEXT.lock_exit_drone in card.card_text,"the lock card carries the type, direction, craft and way out for a drone")
 	card.free()
+	moves_checks(s)
 	# The Siren is off the chart: the line is cut at the chart edge, not dropped.
 	view.size=Vector2(500,720);TR.draw_screen(view,s)
 	check(TR.last_draw.lines==1,"a Siren beyond the chart edge still gets a clipped line")
