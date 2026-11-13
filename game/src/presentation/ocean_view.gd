@@ -168,13 +168,19 @@ func contexts_at(point:Vector2,touch:float)->Array:
 	var seen=contact_choice(point,touch)
 	if not seen.is_empty():candidates.append(seen)
 	for context in candidates:
-		if context.is_empty() or context.kind=="fleet":continue
+		if context.is_empty() or context.kind in ["fleet","extraction"]:continue
 		if context.get("subkind","").is_empty():context.erase("subkind")
 		var station=WarningChain.station_subject(sim,context)
 		if not station.is_empty():context=station
 		if result.any(func(c):return c.kind==context.kind and c.get("unit",-1)==context.get("unit",-1) and c.get("index",-1)==context.get("index",-1) and c.get("subkind","")==context.get("subkind","") and c.get("seat","")==context.get("seat","") and c.get("site","")==context.get("site","") and c.get("station","")==context.get("station","") and c.get("target_id","")==context.get("target_id","") and c.get("item","")==context.get("item","") and c.get("route","")==context.get("route","") and c.pos==context.pos):continue
 		result.append(context)
 	return result
+# WP-45: the plain extraction circle (an operation outside the expedition arc) and its label are one tap target;
+# the tap sends the selected craft there (order_guard.tap_extraction). The label is found where it was placed.
+func extraction_at(point:Vector2,touch:float)->bool:
+	if sim==null or Expedition.active(sim):return false
+	if point.distance_to(screen_position(sim.mission.extraction))<=maxf(touch*.5,64*world_scale):return true
+	return label_targets.any(func(l):return l.context.kind=="extraction" and l.rect.has_point(point))
 func information_at(point:Vector2)->bool:
 	return world_label_rects.any(func(r):return r.has_point(point)) or contact_readout_rects().any(func(r):return r.has_point(point)) or (goal_marker.visible and not goal_marker.info.is_empty() and goal_marker.info.rect.has_point(point))
 func pick_context(point:Vector2,touch:float) -> Dictionary:
@@ -476,7 +482,7 @@ func _draw() -> void:
 	var ex=sim.mission.extraction
 	if not Expedition.active(sim) or Expedition.entry(sim):
 		draw_arc(ex,64,0,TAU,64,Color(CYAN,0.42),2)
-		_label(ex+Vector2(-120 if ex.y>830 else -66,84 if ex.y>830 else 90),"WITHDRAWAL" if Expedition.entry(sim) else "EXTRACTION",CYAN,18)
+		_label(ex+Vector2(-120 if ex.y>830 else -66,84 if ex.y>830 else 90),"WITHDRAWAL" if Expedition.entry(sim) else "EXTRACTION",CYAN,18,{} if Expedition.entry(sim) else {"kind":"extraction"})
 	FeatureViews.draw_detail(self)
 	_draw_observed_paths()
 	_draw_findings()

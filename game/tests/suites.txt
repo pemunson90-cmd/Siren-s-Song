@@ -246,3 +246,4 @@ parity_rules_tests|PARITY RULES|4|1421
 legacy_observe_equivalence_tests|LEGACY OBSERVE|8|1422
 chart_cache_tests|CHART CACHE|9|1423
 names_registry_tests|NAMES REGISTRY|3|1424
+tap_ownership_ui_tests|TAP OWNERSHIP UI|-|1425

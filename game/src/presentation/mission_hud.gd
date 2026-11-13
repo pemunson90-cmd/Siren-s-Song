@@ -369,6 +369,10 @@ func _outside(event):
  if event is InputEventScreenTouch or event is InputEventMouseButton:
   var point=event.position+blocker.global_position
   if label_at(point) or sector_at(point)!=null:return
+ # WP-45: a finger arrives as the engine's emulated mouse press first and the touch press second. Only the touch
+ # press may close the surface: it has already registered the finger in owned_touches, so dismiss() keeps the rest
+ # of this same tap away from the chart. Closing on the emulated press let the touch half order the craft.
+ if event is InputEventMouseButton and event.device==InputEvent.DEVICE_ID_EMULATION:return
  if event is InputEventMouseButton and event.button_index in [MOUSE_BUTTON_WHEEL_UP,MOUSE_BUTTON_WHEEL_DOWN]:dismiss();accept_event();return
  if (event is InputEventScreenTouch and event.pressed) or (event is InputEventMouseButton and event.pressed):dismiss();accept_event()
 func command_controls() -> Array:

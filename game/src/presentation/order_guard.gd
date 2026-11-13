@@ -6,6 +6,7 @@ extends Control
 # again also replaces. Main holds dive time while this dialog is open.
 const UiStyle := preload("res://src/presentation/ui_style.gd")
 const UNDO_MS := 10000
+const EXTRACTION_TEXT := "%s: heading to extraction."
 # C8: the switch stays on one line and names its state; ON stops at each added point, OFF keeps moving through it.
 const POINTS_TEXT := "STOP AT EACH NEW POINT · %s"
 var host
@@ -79,6 +80,12 @@ func tap_water(world: Vector2) -> void:
 		sim.message = "Marker set · REPLACE ROUTE replaces %s's orders%s · tap elsewhere to move the marker" % [sim.units[sim.selected].name, ", ADD TO ROUTE extends its route" if not sim.units[sim.selected].route.is_empty() else ""]
 		host._refresh(); return
 	host._order("route", {"point": world}) # TRAVEL:water_leg
+# WP-45: a tap on the extraction circle or its label is a water tap on the extraction point, with its own status line.
+func tap_extraction() -> void:
+	var sim = host.sim
+	tap_water(sim.mission.extraction)
+	if pending.is_empty() and not sim.units[sim.selected].route.is_empty():
+		sim.message = EXTRACTION_TEXT % sim.units[sim.selected].name.to_upper(); host._refresh()
 func confirm(append: bool) -> void:
 	if pending.is_empty(): return
 	var sim = host.sim; var point: Vector2 = pending.point; var unit: int = pending.unit
