@@ -12,6 +12,7 @@ const Depth = preload("res://src/presentation/frontend/settings_depth.gd")
 const ReachTable=preload("res://src/presentation/frontend/menu_reach_table.gd")
 const UiStyle=preload("res://src/presentation/ui_style.gd")
 const TITLE_ART=preload("res://assets/title/splash.svg")
+const TitleBackdrop=preload("res://src/presentation/frontend/title_backdrop.gd")
 enum Profile { NONE, OK, RECOVERED, UNREADABLE }
 var profile_picker = preload("res://src/persistence/profiles/profile_picker.gd").new()
 var host: Control
@@ -25,6 +26,7 @@ var screen := "title"
 var save_timer: Timer
 var drift := 0.0
 var title_label: Label
+var title_backdrop: Control
 # MENU REACH contexts share this settings builder and its single values store.
 # Embedded settings keep Operations' sticky Back and archive warning region.
 var embedded_settings=false
@@ -73,7 +75,8 @@ func setup(main: Control, use_live_values:=false) -> bool:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	var backdrop := ColorRect.new(); backdrop.color = Color("04101a"); backdrop.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT); backdrop.mouse_filter = Control.MOUSE_FILTER_IGNORE; add_child(backdrop)
-	scroll = ScrollContainer.new(); scroll.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT); scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED; add_child(scroll)
+	title_backdrop = TitleBackdrop.new(); add_child(title_backdrop) # C4: the dive's own chart look behind the title
+	scroll =ScrollContainer.new(); scroll.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT); scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED; add_child(scroll)
 	var margin := MarginContainer.new(); margin.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	for side in ["left", "right", "top", "bottom"]: margin.add_theme_constant_override("margin_" + side, 32)
 	scroll.add_child(margin)
@@ -113,6 +116,7 @@ func _fit_column() -> void:
 	column.custom_minimum_size.x = clampf(size.x - 64.0, 240.0, 620.0)
 func _reset(next: String) -> void:
 	screen = next; title_label = null
+	if title_backdrop != null: title_backdrop.visible = next == "title" # hidden screens stop its processing
 	if embedded_settings:
 		host._clear_menu();host.screen="settings"
 	for child in column.get_children(): column.remove_child(child); child.queue_free()
@@ -144,7 +148,8 @@ func _title_screen() -> void:
 	_reset("title")
 	title_label = _text("SIREN'S SONG", 42, Color("80d9cf"))
 	_text("ONE PILOT. TWO DRONES. AN OCEAN THAT LISTENS.", 14)
-	var key_art=TextureRect.new();key_art.texture=TITLE_ART;key_art.expand_mode=TextureRect.EXPAND_IGNORE_SIZE;key_art.custom_minimum_size=Vector2(0,148);key_art.size_flags_horizontal=Control.SIZE_EXPAND_FILL;key_art.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED;key_art.mouse_filter=Control.MOUSE_FILTER_IGNORE;column.add_child(key_art)
+	if title_backdrop==null: # the small picture is only the fallback now; the backdrop carries the Quietus
+		var key_art=TextureRect.new();key_art.texture=TITLE_ART;key_art.expand_mode=TextureRect.EXPAND_IGNORE_SIZE;key_art.custom_minimum_size=Vector2(0,148);key_art.size_flags_horizontal=Control.SIZE_EXPAND_FILL;key_art.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED;key_art.mouse_filter=Control.MOUSE_FILTER_IGNORE;column.add_child(key_art)
 	_text("QUIETUS · PHOTOGRAPHIC RECONNAISSANCE", 11, Color("82916c"))
 	if not profile_message.is_empty():
 		var notice := _text(profile_message, 16, Color("efc28d")); notice.name = "ProfileNotice"
