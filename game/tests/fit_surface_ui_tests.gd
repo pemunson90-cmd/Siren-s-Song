@@ -29,6 +29,23 @@ func data_checks():
    var after=Model.after_budget(context,row)
    if not after.is_empty() and Model.delta_text(context,row).begins_with("POWER %d→%d"%[0,after.power]):deltas+=1
  check(deltas>0,"fit delta names the resulting power budget")
+# Every meter bar is drawn to the value its caption prints; NOISE and ENDURANCE carry a stock tick at 100%.
+func bar_checks(game,label:String):
+ var bars=game.panel_box.find_children("*","Control",true,false).filter(func(c):return c.has_meta("bar_label"))
+ var scaled=0
+ check(bars.size()>=4,"the budget meters are drawn "+label)
+ for bar in bars:
+  var caption=bar.get_parent().get_child(0).text
+  var named=bar.get_meta("bar_label")
+  if named in ["NOISE","ENDURANCE"]:
+   scaled+=1
+   var printed=float(caption.split(" ")[-1].trim_suffix("%"))
+   check(absf(bar.fraction()*bar.scale_max*100.0-printed)<0.51,"%s bar is drawn to the %s printed (%.1f) %s"%[named,caption,bar.fraction()*bar.scale_max*100.0,label])
+   check(bar.stock_fraction()>=0.0 and absf(bar.stock_fraction()*bar.scale_max-1.0)<0.001,"%s bar marks the stock value at 100%% %s"%[named,label])
+   check((bar.fraction()>bar.stock_fraction())==(printed>100.0) and (bar.fraction()<bar.stock_fraction())==(printed<100.0),"%s bar runs past the tick only above stock %s"%[named,label])
+  else:
+   check(bar.stock_fraction()<0.0 and absf(bar.fraction()-(bar.value/bar.scale_max if bar.scale_max>0.0 else 0.0))<0.001,"%s bar is drawn full at its limit %s"%[named,label])
+ check(scaled>=2,"NOISE and ENDURANCE bars are present "+label)
 func shape_case(shape):
  root.size=shape;await settle()
  Settings.apply({"text_scale":1.5})
@@ -47,12 +64,13 @@ func shape_case(shape):
   if await press(game,"fit_tab_drone_a"):
    var row=fit_for(game,"drone_a","drone_deep_cells")
    check(row!=null and not row.disabled and game.fitted_equipment==before,"switching tab shows the drone rows and saves nothing "+label)
-   check("POWER" in row.text and "BARE → FIT" in row.text,"row shows the legacy action and its budget change "+label)
+   check("POWER" in row.text and "Tap to fit it" in row.text and not "CHOSEN" in row.text,"card shows what a tap does and its budget change "+label)
+   bar_checks(game,label)
    if row!=null:
     await tap_control(game,row)
     check(game.fitted_equipment.drone_a=="drone_deep_cells" or "drone_deep_cells" in game.fitted_equipment.values(),"one tap fits the module "+label)
     row=fit_for(game,"drone_a","drone_deep_cells")
-    check(row!=null and "→ BARE" in row.text and button(game,"fit_tab_drone_a").disabled,"fit keeps the same craft tab and offers BARE "+label)
+    check(row!=null and row.text.begins_with("CHOSEN") and "Tap to remove it" in row.text and not row.disabled and button(game,"fit_tab_drone_a").disabled,"fit keeps the same craft tab; the card is marked CHOSEN and offers removal "+label)
     if row!=null:
      await tap_control(game,row)
      check(not "drone_deep_cells" in game.fitted_equipment.values(),"one tap unfits the module "+label)

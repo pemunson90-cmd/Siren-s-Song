@@ -41,6 +41,22 @@ const HC_QUIET_TEXT=Color("e6f2f2")
 const HC_QUIET_BORDER=Color("8fb0b3")
 const HC_DANGER_TEXT=Color("ffb4a3")
 const HC_BORDER=Color("ffffff")
+# Fitting cards (UI review C7): a chosen card has a filled accent edge and the word CHOSEN; a locked card
+# has a warning edge and a lock line. Colour never carries the state alone.
+const CARD_CHOSEN_FILL=Color("14403f")
+const CARD_CHOSEN_WIDTH=4
+const CARD_LOCK_BORDER=Color("efc28d")
+const CARD_MARGIN_X=14
+const CARD_MARGIN_Y=12
+# Meter bars drawn to true scale: the bar is as long as the value it shows, out of BAR_SCALE_MAX times
+# the stock value, and a tick marks the stock value. Sizes are in touch-height units (touch height / 48).
+const BAR_BACK=Color("17323a")
+const BAR_FILL=Color("6bd5cb")
+const BAR_OVER=Color("e08a5c")
+const BAR_TICK=Color("ffffff")
+const BAR_SCALE_MAX=2.0
+const BAR_TICK_WIDTH=2.0
+const BAR_LABEL_SIZE=12
 # Sizes.
 # Action id -> role. Anything missing is NORMAL. ids shared by two screens are not listed
 # here but decided in apply_for (retry, next_operation, continuations).
@@ -90,6 +106,26 @@ static func role_of(button:Button,action_id:String)->String:
 	return role
 static func apply_for(button:Button,action_id:String)->void:
 	apply(button,role_of(button,action_id))
+# Look of one fitting card, a Button that keeps its tap behaviour. Chosen cards stay readable when disabled.
+static func apply_card(button:Button,chosen:bool,locked:bool)->void:
+	var hc:=Palette.high_contrast()
+	var width:=CARD_CHOSEN_WIDTH if chosen else (2 if hc else 1)
+	var border:=BUTTON_BORDER
+	if chosen:border=HC_ACCENT if hc else ACCENT
+	elif locked:border=CARD_LOCK_BORDER
+	var fill:=CARD_CHOSEN_FILL if chosen else BUTTON_FILL
+	var normal:=_box(fill,border,width)
+	var hover:=_box(CARD_CHOSEN_FILL if chosen else HOVER_FILL,border if (chosen or locked) else HOVER_BORDER,width)
+	var pressed:=_box(PRESSED_FILL,border if (chosen or locked) else HOVER_BORDER,width)
+	for box in [normal,hover,pressed]:
+		box.content_margin_left=CARD_MARGIN_X;box.content_margin_right=CARD_MARGIN_X;box.content_margin_top=CARD_MARGIN_Y;box.content_margin_bottom=CARD_MARGIN_Y
+	var disabled:=normal.duplicate() if chosen else _box(DISABLED_FILL,DISABLED_BORDER,1)
+	if not chosen:
+		disabled.content_margin_left=CARD_MARGIN_X;disabled.content_margin_right=CARD_MARGIN_X;disabled.content_margin_top=CARD_MARGIN_Y;disabled.content_margin_bottom=CARD_MARGIN_Y
+	button.alignment=HORIZONTAL_ALIGNMENT_LEFT
+	button.add_theme_stylebox_override("normal",normal);button.add_theme_stylebox_override("hover",hover);button.add_theme_stylebox_override("pressed",pressed)
+	button.add_theme_stylebox_override("focus",hover);button.add_theme_stylebox_override("disabled",disabled)
+	button.add_theme_color_override("font_disabled_color",TEXT_HOVER if chosen else DISABLED_TEXT)
 static func theme()->Theme:
 	var t:=Theme.new();t.default_font_size=17
 	var normal:=_box(BUTTON_FILL,BUTTON_BORDER,1);normal.content_margin_left=12;normal.content_margin_right=12;normal.content_margin_top=10;normal.content_margin_bottom=10
