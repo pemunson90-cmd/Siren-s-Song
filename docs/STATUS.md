@@ -11,7 +11,7 @@ Updated: 2026-11-13
 
 ## Active work
 
-- Chartered overhaul run `overhaul-20261111` on branch `fable/overhaul-20261111`, in phase 9: UI and UX repair, every audit item approved by Pat on Claude's judgement. Plan, merged work, packages in flight and queue: `.fable/PHASE9.md`. Pull request 262 is a draft (report `.fable/FINAL_REPORT.md`).
+- Chartered overhaul run `overhaul-20261111` on branch `fable/overhaul-20261111`, in phase 9: UI and UX repair by Claude's judgement, paused on 2026-11-13 16:40. Merged and pushed: work packages WP-31 to WP-55 (report rows 57 to 85), two blind critic rounds, and six trial rules Pat approved "for testing" (`game/src/trial_rules.gd`). No helper is running. Plan, rankings, what is unseen and the queue: `.fable/PHASE9.md`. Pull request 262 is a draft (report `.fable/FINAL_REPORT.md`).
 - Parked: item 134, route flow (superseded by the release controls of item 127; reopen only if a critic finds route stops again).
 
 ## Top weaknesses
@@ -39,6 +39,6 @@ Nothing blocks the work. For his play, when he gets to it: the items under "Open
 
 ## Next action
 
-Resume the run with `/siren-s-start-fable` and continue `.fable/PHASE9.md`: land the packages in flight, then the queue (Career and Expedition briefings and results, fittings cards, title backdrop, route dialog switch, a fresh blind critic round).
+Resume the run with `/siren-s-start-fable` and continue `.fable/PHASE9.md`: read the second full sweep of every registered suite (started 2026-11-13 16:18; the head is not known to be clean until it is read) and fix what it finds; then a third blind critic round; then the items left from the second round's ranking.
 
 Testing rule (Pat, 2026-11-12): the bare minimum, locally. Per change, the suites that test what changed; the everyday set (39 suites, `scripts\toolchain\win\test-suite.ps1 -All -Profile local`) before a merge of size. No GitHub Actions run without Pat asking for it; every push carries `[skip ci]`.

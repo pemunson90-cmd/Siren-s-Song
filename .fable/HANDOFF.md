@@ -1,7 +1,7 @@
 # Handoff guide: resume the overhaul run from a cold start
 
 Status: LIVE GUIDE (root updates it at every phase boundary and whenever in-flight work changes)
-Verified: 2026-11-13 at the pause in phase 9 (sections 1, 2, 3, 6 and 7 rewritten by root)
+Verified: 2026-11-13 16:40 at the second pause in phase 9 (sections 2, 3 and 7 rewritten by root)
 
 This guide lets a session with an empty context resume run `overhaul-20261111` from the documents alone.
 
@@ -11,19 +11,19 @@ This guide lets a session with an empty context resume run `overhaul-20261111` f
 2. **Read** `.fable/RUN_STATE.json`, `.fable/NOW.md`, `.fable/PHASE9.md` and the last 25 lines of `.fable/RUN_LOG.md`. `PHASE9.md` holds what Pat asked for, the working loop with its commands, what is merged, what was in flight, the queue and what is open for Pat.
 3. **Check and go:** `python scripts/repo/handoff_check.py`, `git status --short`, then `next_action`. Do not start any GitHub run to check anything. Record each step with `python scripts/repo/run_state.py --now "..."`.
 
-## 2. Where the run stands (pause of 2026-11-13, in phase 9)
+## 2. Where the run stands (pause of 2026-11-13 16:40, in phase 9)
 
-Phases 0 to 8 are finished. Phase 9, the UI and UX repair, is under way on `fable/overhaul-20261111`; pull request 262 is a draft whose body is `.fable/FINAL_REPORT.md`.
+Paused because Pat's weekly usage on the model was about to run out; he may continue with another model. Branch `fable/overhaul-20261111`, pushed; pull request 262 is a draft.
 
-Pat approved every item of `.fable/UX_AUDIT.md` by Claude's judgement. Merged so far (behavior rows 57 to 64): the plain defects, the button roles (`presentation/ui_style.gd`), the lost screen with its photographs and Pat's photo rule by difficulty, two confirmations, DEPLOY DRONE and RECALL on the wheel, the route dialog kept off the craft, the pause and FLEET controls drawn as buttons with a life support bar, status lines that stay current. `.fable/PHASE9.md` has the table, the packages in flight at the pause and the queue.
+Pat approved every item of `.fable/UX_AUDIT.md` by Claude's judgement, and on 13 November six trial rules with the words "Yes for testing". Merged and pushed: work packages WP-31 to WP-55, behavior rows 57 to 85 of `.fable/FINAL_REPORT.md`. Two blind critic rounds were run on 13 November; in the second a critic finished operation 1 for the first time. `.fable/PHASE9.md` lists every package, the two rankings, what root has not yet seen in a capture, and the queue.
 
-**GitHub Actions are off.** Pat's allowance for the month is spent. No workflow run is started; every push carries `[skip ci]`; all testing is local. The last full pass (run 43349293662 on 395c1b2a, before the test trim) was green.
+The head is NOT yet known to be clean: the proof is the second full sweep of every registered suite (section 3).
 
 ## 3. In-flight work and how to recover it
 
-`.fable/PHASE9.md`, section "In flight at the pause", lists the packages that were running, their branches and what each was told to build, and `.fable/NOW.md` says which were already merged. A helper commits to a local branch in its own worktree under `.claude/worktrees/`; `git log --oneline -3 <branch>` shows what it finished. A branch with commits is a report that never arrived: read the diff, run its suites, look at it in the kit, merge. A branch without commits: dispatch the package again.
+No helper is running. One background job was started at 16:18 on 13 November: the second full sweep (every registered suite, about 85 minutes), on merge commit 345dfe8e. Its record is the per-suite logs in `%USERPROFILE%\.cache\sirens-song-toolchain\artifacts\fable-root\`: read each `*.log` newer than 2026-11-13 16:18 for its last "CHECKS n FAILURES m" line. If the job did not finish, run it again: `scripts\toolchain\win\full-sweep.ps1` (command in `.fable/PHASE9.md`). `cold_review_archive_tests` and `art_render_measurements` do not run on this PC.
 
-Worktrees and branches of finished packages stay on disk; nothing is deleted. Isolated worktrees are created at `main`, so every brief tells the helper to `git fetch origin fable/overhaul-20261111` and `git switch -c <name> origin/fable/overhaul-20261111` first; push the run branch (with `[skip ci]`) before dispatching. Branch `wp-28` holds one commit left unmerged on purpose.
+Incident of 13 November: one helper (WP-55) was created in the other clone, `repos\Siren-s-Song`, because the session's working directory had fallen back to it. That clone gained a worktree folder under `.claude\worktrees\` and a local branch `wp-55`; nothing else changed there and nothing was removed. Before every Agent dispatch, run a shell command that starts with `cd` into the run clone.
 
 ## 4. Working rules a new session must know
 
@@ -51,4 +51,4 @@ Listed in `.fable/PHASE9.md`, "Open for Pat": three things to judge in play, thr
 
 ## 7. What comes next
 
-The queue in `.fable/PHASE9.md`: land the packages in flight, then the Career and Expedition briefings and results, fittings cards, the title backdrop, the route dialog switch, a fresh blind critic round, and the loop again. Testing is local only; no GitHub run without Pat asking for it in the conversation.
+The queue in `.fable/PHASE9.md`: read the second full sweep and fix what it finds; a third blind critic round that captures what root has not seen (the Siren warning after WP-51, Fittings on the inner screen, the fitting cards, the trial pauses in play); the items left from the second round's ranking; then the everyday set, a full sweep, the pull request body and `docs/STATUS.md`. Ask Pat about the six trial rules again after he has played.

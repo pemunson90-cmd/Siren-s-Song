@@ -1,6 +1,6 @@
 # Phase 9: UI and UX repair
 
-Status: LIVE PLAN (rewritten 2026-11-13 for the pause Pat asked for; root updates it as items finish). This file plus `.fable/RUN_STATE.json` and `.fable/NOW.md` is enough to continue. You do not need to reread the repository.
+Status: LIVE PLAN (rewritten 2026-11-13 16:40 for a pause: Pat's weekly usage on this model was about to run out and he may continue with another model). This file plus `.fable/RUN_STATE.json` and `.fable/NOW.md` is enough to continue. You do not need to reread the repository or the session transcript.
 
 ## What Pat asked for (verbatim, 12 and 13 November 2026)
 
@@ -11,16 +11,19 @@ Status: LIVE PLAN (rewritten 2026-11-13 for the pause Pat asked for; root update
 - On photographs after a lost dive: "On easy mode you keep them, everything higher you don't.."
 - On GitHub: "This is why we need to trim the tests and why we need to test local right now. I'm literally out" and "do the rest of the work yourself because we don't have another choice"
 - "Good job Keel, keep up the good work. Fable the fuck out of this game. Make codex jealous."
+- On six rule questions from the critics (13 November): "Yes for testing"
 
-So: every item in `.fable/UX_AUDIT.md` (Part A defects, Part B B1 to B19, Part C C1 to C10) is approved by Claude's judgement. Claude decides layout, plain wording and names, builds, and lists every changed text in `.fable/FINAL_REPORT.md` so Pat can personalize it later. Story, game rules and prototype mechanics stay Pat's.
+So: every interface item is decided by Claude's judgement. Claude decides layout, plain wording and names, builds, and lists every changed text in `.fable/FINAL_REPORT.md` so Pat can personalize it later. Story, game rules and prototype mechanics stay Pat's: ask one yes or no line with a recommendation.
 
 ## How the work is done (the loop that has been working)
 
-1. Root designs the package and writes a brief for ONE Sonnet `implementer` agent per package (`isolation: worktree`), at most three at once, on disjoint files named in the brief. Briefs that worked are in the session transcripts; the fixed parts are: branch from `origin/fable/overhaul-20261111` (worktrees start at `main`), the files it owns and must not touch, no deletions, no amend, no push, no GitHub runs, private temp folder, Edit tool for anything with backslashes, the exact local test commands, one report when nothing is still running.
-2. When it reports: root reads the diff (`git diff <base> <branch> -- game/src`), judges it (reject what is wrong: so far a 6 second timeout on status messages, removal of the top TITLE button Pat asked for, a button height boost that broke a layout), merges with `git merge --no-ff --no-edit <branch>`, reverts a bad commit with `git revert --no-edit <sha>`.
-3. Root runs the touched suites locally (commands below) and core if `game/src/simulation` changed.
-4. **Root looks at it in the real game before calling it done.** Build a kit from the head and capture the changed screens on the cover screen (and the inner screen for menu work). Layout suites did not catch the one bad break so far; a capture did.
-5. Root sends Pat the captures (SendUserFile), adds behavior rows to `.fable/FINAL_REPORT.md` naming every changed text, a row in `docs/MODULES.md` for a new module, updates state with `python scripts/repo/run_state.py`, commits and pushes with `[skip ci]`.
+1. Root designs a package and writes a brief for ONE Sonnet `implementer` agent per package (`isolation: worktree`), at most three at once, on disjoint files named in the brief. Fixed parts of every brief: branch from `origin/fable/overhaul-20261111` (worktrees start at `main`; staged `.claude` files may block the checkout: unstage, never commit them), the files it owns and must not touch, no deletions, no amend, no stash, no push, no GitHub runs, a private `ARTIFACT_DIR`, the Edit or Write tool for anything with backslashes, the exact local test commands, "REPORT ONCE, then STOP".
+2. **Before every Agent dispatch run a shell command that starts with `cd` into the run clone.** The session's working directory falls back to the other clone (`repos\Siren-s-Song`), and a helper dispatched then is created THERE (it happened once: see "Incident").
+3. **Stop each helper with TaskStop as soon as its first report arrives.** Finished helpers re-send the same report many times and burn usage.
+4. Root reads the diff (`git diff <base>...<branch> -- game/src`), judges it, merges with `git merge --no-ff --no-edit <branch>`, reverts a bad commit with `git revert --no-edit <sha>`. Merge one dive-HUD package at a time and rerun `radial_hud_tests` and `hud_words_ui_tests` after each: these packages interact.
+5. Root runs the touched suites, Core when `game/src/simulation` or campaign rules changed, and after a batch of merges **every registered suite** (see "Full sweep"): the 39-suite everyday set does not cover the guard suites, and with GitHub off nothing else runs them. Root reported "green" twice on the everyday set alone while eight guard suites were failing.
+6. **Root looks at it in the real game** (critic kit, cover screen; inner screen for menus) before calling it done, and says plainly what it has not seen.
+7. Root sends Pat the captures (SendUserFile), adds a behavior row to `.fable/FINAL_REPORT.md` naming every changed text, a row in `docs/MODULES.md` for a new module, updates state with `python scripts/repo/run_state.py`, commits and pushes with `[skip ci]`.
 
 ### Commands
 
@@ -29,11 +32,19 @@ cd "C:\Users\Archi\Documents\Claude Cowork Homebase C\repos\_fable\Siren-s-Song"
 $env:ARTIFACT_DIR="$env:USERPROFILE\.cache\sirens-song-toolchain\artifacts\fable-root"
 scripts\toolchain\win\headless.ps1 -Action Import -Isolate
 scripts\toolchain\win\headless.ps1 -Action Core                                  (856 checks, about 100 s)
-scripts\toolchain\win\headless.ps1 -Action Script -Script <suite> -Prefix "<PREFIX>"
-scripts\toolchain\win\test-suite.ps1 -Suite a,b,c -SkipCore                      (several suites; it SKIPS render-flagged ones: run those with headless.ps1)
+scripts\toolchain\win\headless.ps1 -Action Script -Script <suite> -Prefix "<words before CHECKS>"   (render-flagged suites)
+scripts\toolchain\win\test-suite.ps1 -Suite a,b,c -SkipCore                      (it SKIPS render-flagged suites)
 scripts\toolchain\win\test-suite.ps1 -All -Profile local                         (the everyday set, 39 suites, about 20 min)
 python scripts/toolchain/select-suites.py --minimum --changed <paths>
 ```
+
+Full sweep (every registered suite, about 85 minutes, run it in the background; do not edit game source in that worktree while it runs):
+
+```
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts\toolchain\win\full-sweep.ps1 -Repo "<run clone>" -Out "<a result file>"
+```
+
+Its result file ends with "FAILURES FROM LOGS": the per-suite logs in `%USERPROFILE%\.cache\sirens-song-toolchain\artifacts\fable-root\<suite>.log` are the record (each ends with "... CHECKS n FAILURES m" and lists its "FAIL ..." lines). `cold_review_archive_tests` (cannot start child processes here) and `art_render_measurements` (no summary) do not run on this PC: not findings.
 
 Looking at the game (Windows, needs the GPU; opens a game window on Pat's PC):
 
@@ -41,108 +52,77 @@ Looking at the game (Windows, needs the GPU; opens a game window on Pat's PC):
 K=%USERPROFILE%\.cache\sirens-song-toolchain\artifacts\fable-criticNN-<date>
 python scripts/critic/kit.py new --ref HEAD --out K           (build from a commit; commit first)
 python scripts/critic/kit.py launch --kit K --slot a --view cover --session root-look     (inner = 2184x1968)
-python scripts/critic/kit.py send --kit K --slot a '<json>'   (click, wait, screenshot, labels, batch; see scripts/critic/OPERATE.md)
-python scripts/critic/kit.py quit --kit K --slot a            (always quit)
+python scripts/critic/kit.py send --kit K --slot a '<json>'   (click, hold, drag, wheel, wait, screenshot, labels, back, batch; scripts/critic/OPERATE.md)
+python scripts/critic/kit.py quit --kit K --slot a            (always quit; wait 3 s before launching again)
 ```
 
-Coordinates are native pixels (cover 2520x1080). A screenshot saved at scale 0.5 must be doubled. Path to a dive on a fresh profile, cover screen, as of 12 November (use the `labels` command to find rectangles if these move): START GAME (1260,531), CAMPAIGN (1260,283), operation 01 card (593,196), CONTINUE TO BRIEFING (1260,1002), ENTER WATER (976,960), Quietus on the chart (230,790), wheel BACK (272,538), pause control (100,60).
+Coordinates are native pixels (cover 2520x1080). A screenshot saved at scale 0.5 must be doubled. Menus do not scroll by finger `drag` on this PC (Godot scrolls by finger only where a touchscreen exists): use `wheel` (`{"command":"wheel","x":..,"y":..,"notches":9}`). Each kit session name and view has its own fresh profile; `labels` can list labels of a screen underneath: trust the screenshot. Path to a dive on a fresh profile, cover: START GAME (1260,290), CAMPAIGN (1260,283), NEXT OPERATION (1850,202), CONTINUE TO BRIEFING (1260,1002), ENTER WATER (664,960), Quietus on the chart (230,790), pause plate (83,60), FLEET (2436,60). Hub on cover: FITTINGS (1851,342).
 
-## Done in phase 9 (all merged and pushed; behavior rows 57 to 70 in `.fable/FINAL_REPORT.md`)
+## Done in phase 9 (all merged and pushed; behavior rows 57 to 85 in `.fable/FINAL_REPORT.md`)
 
-| Package | What | Audit items |
+Before the pause of 13 November 01:37 (rows 57 to 70): WP-31 to WP-39: plain defects, button roles, lost-dive photographs by preset, DEPLOY and RECALL on the wheel, pause and FLEET as buttons, the Campaign hub as cards, the contact card, plain wording and back labels.
+
+Since the resume of 13 November (rows 71 to 85):
+
+| Package | What | Row |
 |---|---|---|
-| WP-31, WP-32 | Plain defects: wheel centre no longer truncates, "MORE TOOLS" title, SONOBUOY whole, route dialog counts stops ahead, chart labels clamp when zoomed, Expedition lost screen and Supplies page truthful, archive tabs | A1 to A5, A7, A9 |
-| WP-33 | Button roles in `game/src/presentation/ui_style.gd` (MAIN filled, NORMAL, QUIET, DANGER), chosen by action id; colours only, sizes stay with the layout | C1 |
-| WP-34 | Lost screen lists photographs; lost-dive photographs kept only on the Accessible preset (`photo_review.gd` `keeps_photos_after_loss`); confirms on Expedition END DIVE and Challenge END ATTEMPT | B3, B4 |
-| WP-35 | DEPLOY DRONE on the wheel (order "deploy" through `Simulation.command`), deployed drone becomes selected, RECALL on the first wheel page, "deploy" wording, route dialog placed off the craft and marker | B2, B5 |
-| WP-36 | Pause and FLEET drawn as buttons in their old rectangles, life support reading and gauge bar while paused too, status lines cleared at the next order, wheel centre fits the disc, wheel edge margin | C2, C3, A6 |
-| WP-37 | Campaign hub as Continue, Operations cards with lock reasons, Prepare and review grid, Difficulty; two columns on wide screens; briefing with one LOADOUT entry; plain labels (`ops_home/`, `flow/campaign_flow.gd`, `layout_metrics.gd` `hub_wide`) | C5, C6, B14 |
-| WP-38 | Tapping a contact opens a card of observed facts (`presentation/contact_card.gd`) and sets no route; chart labels on backing plates in priority order | B6, C10 |
-| WP-39 | Plain wording for jargon, "BACK TO ..." labels, Android Back on Naval Career, credits filtered of engineering notes | B7, B9, B15 |
+| WP-43 (root) | Route dialog: REPLACE ROUTE as the main button, a real switch | 71 |
+| WP-42 (redrawn by root) | Title backdrop from the dive's rock through one shared painter (`art/rock_painter.gd`) | 72 |
+| WP-40 | Career and Expedition briefings as GOAL, DANGER, rules; results in sentences | 73 |
+| WP-41 | Fittings as cards, bars drawn to scale; B17 "signal spire"; seed and list wording | 74 |
+| WP-44 | Tools on Fittings: carry sentences, quick fills, bars, one row per tool | 75 |
+| WP-47 | Field Manual as topic cards (`field_manual_view.gd`, `field_manual_table.gd`); primer in the first briefing | 76 |
+| WP-45 | A closing tap gives no order; EXTRACTION label and circle send the craft home | 77 |
+| WP-46 | First-run menus: named NEXT OPERATION, chosen difficulty, region entry, Route Map header, REWARD wording, seed start, carried damage line | 78 |
+| WP-49 | Threat line and wedge, direction in words, where the Siren was on the loss screen, one compass helper | 79 |
+| WP-48, WP-50 | PAUSED or RUNNING plate, plain wheel words in `hud_words.gd`, route-end and pause-reason lines; wheel layout under a lock card | 80 |
+| WP-51 | One statement of a lock, one tip card in a fixed place that takes its taps, no self-opening viewfinder, labels cleared around the Siren | 81 |
+| WP-52 | A segment names its action; silent, profile and ALL STOP take two taps; segments keep their place; a red route needs a second tap | 82 |
+| WP-53 | Fittings in two columns on a wide screen (`prep_columns.gd`, `layout_metrics.gd` `prep_wide`); what each tool does; reasons on greyed buttons; currency line | 83 |
+| WP-54 | Six trial rules in `game/src/trial_rules.gd`, one auto-pause path `presentation/auto_pause.gd` | 84 |
+| WP-55 | Eight guard suites repaired (two source defects, six stale suites) | 85 |
 
-Already in the game, no work needed (the critics missed them): B1, B10, B11, B12, B18. Not a defect: A10, the DEVELOPER button (debug builds only). A8 left: the top TITLE button is Pat's request.
+Two blind critic rounds on 13 November (kits `fable-critic26-20261113` and `fable-critic33-20261113`; journals and captures under `<kit>/audit/critic-a|b|c/` and `<kit>/evidence/critic-a|b|c/`). In the first, critic A lost operation 1 three times; in the second, critic A finished it.
 
 ## In flight at the pause
 
-**Since the resume of 13 November: WP-40 (B8, B13), WP-41 (C7) and WP-42 (C4) are with implementers on branches `wp-40`, `wp-41`, `wp-42`; `.fable/NOW.md` has the table.** At the pause itself nothing was in flight: WP-37 (hub and briefing), WP-38 (contact card, label plates) and WP-39 (plain wording, back pattern, credits) are all merged, looked at in the kit and pushed: behavior rows 65 to 70. No helper, game or test is running. `.fable/NOW.md` records the result of the last everyday set.
+**No helper is running.** One background job was started by root at 16:18 on 13 November: the second full sweep, on merge commit 345dfe8e (head bef1876b differs only in `.fable` files). If the session ended before it finished, its logs are still valid up to where it got: read every `*.log` newer than 2026-11-13 16:18 in `%USERPROFILE%\.cache\sirens-song-toolchain\artifacts\fable-root\` for its last "CHECKS n FAILURES m" line, and rerun the suites that have no newer log (or simply run the full sweep again).
 
-Seen in the kit and not yet fixed (small; fold into the next dive-screen or menu package):
+The first sweep (on b352f808) found eight failing suites; WP-55 fixed all eight and they were rerun green with 18 neighbours. The second sweep is the proof for the whole registry and for WP-54 and WP-55 together: **until it is read, the head is not known to be clean.**
 
-- On the cover screen the goal chip at the top ("SEARCH · 511m") can sit over the objective label "UNKNOWN SIGNAL SOURCE · AREA · BRG ..." when the chart scrolls.
-- The first-dive PAUSE tip card shows again while paused.
-- The contact card has not been seen in a capture yet (no Siren came into view in the minute root played). Look at it the next time a kit is open: operation 1, near the spire.
-- On the hub the right column on the cover screen still scrolls on a fresh campaign because the difficulty picker with its Ironman note is long; the six operation cards fit.
-- In the operation 1 briefing "HIDE LOADOUT DETAILS" shows with nothing under it (the fold is open and empty).
-- Two slash-built headings remain: "HULL AND DRONE FRAMES / NEXT LAUNCH" (`presentation/equipment_context.gd`) and "RECOVERED FITTINGS / NEXT LAUNCH" (`presentation/fit_surface/`): fix with C7.
-- The contact card bearing is a compass bearing; the "BRG" on lead areas uses another convention: make them one.
+## Incident (13 November): the other clone was touched
 
-Added 13 November after the resume:
+The WP-55 helper was created in `repos\Siren-s-Song` (the clone that must not be touched) because the session's working directory had fallen back to it before the dispatch. That clone gained a worktree folder under its `.claude\worktrees\` and a local branch `wp-55`; its own files and checked-out branch are unchanged. Root fetched the branch from it read-only and removed nothing. Pat was told and has not asked for the leftovers to be moved. Guard: item 2 of the loop.
 
-- The fitting cards and true-scale bars of WP-41 have NOT been seen in a capture: a new campaign shows no frames or fittings until operation 1 is recovered. Look at them on a profile that has recovered operation 1 (play it in the kit, or find a test fixture save).
-- The Fittings screen ends with two slash buttons, "SUPPLIES / COSTS" and "RESEARCH / ARCHIVE / FIELD LOG"; the Career heading reads "CAREER / SHELF SIGNAL"; the Career balance row is raw ("BALANCE · SCRAP 8 · CELLS 10 · ALLOY 0"); the rider line ("OPTIONAL RIDER · ... Bonus +1 CLIENT STANDING. Failure forfeits only this bonus.") is built in `campaign/career/riders.gd`.
-- The Expedition operation menu (GOAL, DANGER, rules) has not been captured: starting a seed returns to the Expeditions list; tap CONTINUE EXPEDITION there.
-- The empty LOADOUT fold in the operation 1 briefing: cause is `presentation/flow/campaign_flow.gd` lines 130 to 150 (the fold is made whenever any node follows `fit_start`, and the FIT SUMMARY toggle is always added). Fix: make the fold only when a visible content node follows.
-- The status line after the switch reads "Queued waypoints STOP before continuing" (a simulation message): plain words wanted.
-- Kit: a finger `drag` does not scroll menus on this PC (Godot scrolls by finger only where a touchscreen exists). Use the new `wheel` command. Whether menus drag on the phone is still B19 for Pat.
-- `loadout_frames_tests` failed on the head before WP-41 (its helpers looked only at direct children of the panel); WP-41 fixed the helpers.
+## Not yet seen by root in a capture
+
+- The Siren warning after WP-51 (one card, tips parked, viewfinder closed). The capture Pat has (`fable-critic33-20261113/evidence/critic-a/018.png`) is from before WP-51.
+- FITTINGS in two columns on the inner screen (seen on cover in kit 35).
+- The fitting cards and scale bars of WP-41: a new campaign has none until operation 1 is recovered.
+- Trial rules 2 to 6 in play (rule 1 seen in kit 36); the widened pause plate at large text.
+- The Career board, the Expedition operation menu, the damaged-start briefing line, the "short by" lines on Supplies.
 
 ## Queue, in order
 
-Done since the resume (rows 71 to 74): item 1 (WP-40), item 2 cards and bars (WP-41), item 3 (WP-42, redrawn by root), item 4 (WP-43), B17 ("signal spire" everywhere the player reads it). In flight: WP-44, the tool racks part of the Fittings screen (`tool_racks_view.gd`, `mode_racks_view.gd`) on branch `wp-44`. Then items 5 to 7 below.
-
-1. **B8 and B13**: Career and Expedition briefings in the Campaign's GOAL and DANGER format (`presentation/career/career_board.gd`, `presentation/runs/`); results and fittings screens say what changed in words, not rows of raw numbers. Claude writes the plain lines; list them for Pat.
-2. **C7**: fittings as cards (name, what it changes, a chosen mark, a lock with its price; `presentation/equipment_context.gd`, `fittings_menu.gd`); the NOISE and ENDURANCE bars drawn to their true scale with the baseline marked.
-3. **C4**: title screen backdrop from the game's own chart art (rock, water, a drifting Quietus) behind the wordmark and menu (`presentation/frontend/frontend.gd`).
-4. **C8**: on the route dialog, REPLACE ROUTE as the MAIN button and the new-points switch drawn as a switch (`order_guard.gd`; in-dive buttons are not in the role table yet).
-5. **C9**: sentence case for descriptions and messages on the screens touched. **B17**: one name for the first mission's target ("signal spire" is the Campaign's; Career says "listening spire/station", the region card says "Corran Bank"): choose and list.
-6. **A fresh blind critic round** on the result: three critics through the kit as in `.fable/COLD_REVIEW_6.md` and the first UI round (briefs are `scripts/critic/CRITIC_BRIEF.md` and `OPERATE.md`; dispatch text must tell them to use native coordinates and to double anything read from a half-size screenshot). Rank what is still weak and continue the loop.
-7. Then the everyday set once, refresh the pull request 262 body from `.fable/FINAL_REPORT.md` (`gh pr edit 262 --body-file .fable/FINAL_REPORT.md`; editing the body starts no workflow), and update `docs/STATUS.md`.
-
-## Blind critic round of 13 November (kit `fable-critic26-20261113`, head 23ee8db5): ranking
-
-Three Sonnet critics: A first session on cover (operation 1 three times, never extracted), B every screen outside the dive on inner, C aggressive dive on cover. Journals and captures: `<kit>/audit/critic-a|b|c/`, `<kit>/evidence/critic-a|b|c/`. Ranked by root; "Pat" marks a game rule that is his.
-
-1. **Extraction is unreliable (C F1).** Taps on or beside the extraction circle (150,930; 170,890; 300,880) gave no route and no message; Quietus parked at the circle edge until oxygen ran out. Package WP-45.
-2. **A tap that closes a wheel or panel also orders the craft (C F2).** Closing the History panel, the Fleet VIEW wheel or the Silent toggle placed routes; one crossed rock and cost hull. WP-45.
-3. **Time runs while a wheel or panel is open (A F4, C F3)** and the pause control names the action, not the state. Root: show the state plainly now. Whether an open wheel holds time is Pat's rule.
-4. **Threats are not readable (A F1, F2; C F4).** No line or bearing to the Siren that has locked; the loss screen does not say where it was. Presentation is root's (WP-48 after WP-45); the length of the lock and how deadly the first dive is are Pat's.
-5. **Silent running, speed and noise are not quantified (A F3; C F8).** Wheel labels are jargon (EMIT 0.4 RESERVE, POWER LOW, SECTOR ALL360) and show a state where an action is expected. WP-48.
-6. **Field Manual is a wall of text; the briefing says too little about drones and silent running (A F7, B F1).** WP-47.
-7. **First-run path in the menus (B F2, F3, F6, F8, F11, F12):** NEXT OPERATION has no name; the region entry screen is nearly empty with text on the edge; the selected difficulty is dimmer than the others; the Route Map header is clipped; "PAY" reads as a cost; START THIS SEED drops back to the list; a Back label names the wrong place. WP-46.
-8. **Carried hull damage on a retry is not explained (A F8, C F5).** Show it on the briefing. WP-46.
-9. **A finished route leaves the craft idle with no word (C F7); the game re-pauses with no reason shown (A F9).** A status line is root's; pausing at a route's end is Pat's.
-10. Smaller: route dialog position jumps (A F5); PHOTO refusal gives no distance (C F6); a 12% frame counts as "Record secured" with no retake prompt (C F12); pale hard-edged patches in the water (B F7); hint "Send a drone ahead" shown right after the drone was lost (C F10); inner-screen menus sit in a phone-width column (B F10).
-
-Not defects: the DEVELOPER button (debug builds only); which operation an Expedition starts on (seeded, Pat's rule); a route across charted rock is warned and allowed (hand piloting, Pat's rule).
-
-## Second blind critic round of 13 November (kit `fable-critic33-20261113`, head f94858f0): ranking
-
-Built since the first round: WP-45 to WP-50 (rows 76 to 80). Critic A finished operation 1 this time (drone scout, photograph, EMP on a lock at 0.7 s, extraction by the EXTRACTION label); B covered the menus on inner; C lost two loud dives and tried an Expedition. Confirmed fixed: a closing tap gives no order; the lock warning names the craft, the direction and the seconds; the loss screen says where the Siren was; the retry briefing states carried damage; the Field Manual is read and used.
-
-1. **The warning moment is cluttered (A I1, I2; C F2, F3).** The same lock is stated four times (top-left banner, card, tag at the craft, number on the line); up to three tip cards arrive in a row, each needing its own tap, and a card that moves let a tap fall through onto the chart; the camera panel opens by itself and covers a third of the screen; chart labels overlap the Siren. WP-51.
-2. **A lock on a second craft, or a later lock, does not pause (A L2, C F1).** Presentation cannot fix it: Pat's rule (question below).
-3. **Wheel segments act on one tap and some names state the state, not the action (A I3, I7; C F4, F8, F9).** SILENT IS ON turns silent off at once; a drone's LOW PROFILE likewise; PING SONAR looks greyed but fires; "ALL STOP costs 1.0% O₂ · 6s to restart" overflows; segments move between states. WP-52.
-4. **The inner screen is wasted and Fittings gives no feedback near the control (B F1, F4, F7, F8).** One 1255 px column on a 2184 px screen; the bars scroll away while tool counts change; seven preparation entries with overlapping names. WP-53.
-5. **Routes through rock (A I5, C F7).** The EXTRACTION tap draws a straight red line through rock and it is accepted; a blocked craft holds for 25 s with no pause. A second tap to confirm a red route is presentation (WP-52); pausing when blocked is Pat's rule.
-6. **A grade C photograph ends the job with no word on what a better frame adds; the photograph is lost with the dive (A G3, C F11).** A result line is presentation (WP-54, later); keeping photographs is Pat's rule and already ruled (Accessible only).
-7. **Route Map reads as a developer tool (B F9)**; Career says "separate resources" and shows the Campaign's balance, and does not say how standing is gained (B F10); Expedition rider is ON by default (C F15, B F11: Pat's rule); "PHOTOGRAPHS" breaks across lines on its manual tab (B F2); greyed UNLOCK buttons on Supplies give no reason (B F6); tool rows do not say what a tool does (B F12); Hunt meter moves with no explanation (C F12); long unattended legs (A G4, C); no FIT button in the dive (A X1); status jargon "TO 1: INHERIT / STOP" (C F10); "PASSES QUIETUS" in warning red (A I4).
+1. **Read the second full sweep** and fix every failure (see "In flight").
+2. **Third blind critic round** on a new kit from the head: three Sonnet critics (`general-purpose`), briefs `scripts/critic/CRITIC_BRIEF.md` and `OPERATE.md`, 70 commands each, "send the report ONCE and stop". Ask for full-scale captures of everything under "Not yet seen", and for play with the trial pauses on: does pausing on every lock and at a route's end feel right or interrupt too much. Rank the findings here and build the top ones.
+3. **Left from the second round's ranking:** a line after a photograph saying what a better frame would add (C G3, F11); the Route Map reads as a developer tool ("UNKNOWN / LOCKED", raw numbers, node 39); Naval Career says "separate resources" and shows the Campaign's balance, and does not say how standing is gained; SUPPLIES AND COSTS is still one column; long unattended legs; no FIT button in the dive; Hunt meter moves with no explanation, and its help text still says the lock is 4 s (`presentation/meter_table.gd`); the mode picker and the other front-end screens are plain black behind a narrow column on the inner screen.
+4. **Loose ends from the packages:** "first dive" for trial rule 2 is recognised as the plain Campaign simulation running operation 01 (a mode flag would be sturdier); `onboarding_hints.gd` still sets `sim.paused` itself (outside the one auto-pause path); a route pending because of rock is not re-checked when the player presses ADD TO ROUTE; mission-context wheel extras still shift segment angles; Career's pending-save reason text; `tap_ownership_ui_tests`, `hud_words_ui_tests` and `trial_rules_tests` are registered but not in the local everyday profile: add them when the profile is next edited; the career report is rewritten from saved text by regular expressions (`mode_result_text.gd`): plain text at the source would be sturdier.
+5. Then the everyday set and a full sweep, refresh the pull request 262 body from `.fable/FINAL_REPORT.md` (`gh pr edit 262 --body-file .fable/FINAL_REPORT.md`; editing the body starts no workflow), and update `docs/STATUS.md`.
 
 ## Open for Pat (do not decide these)
 
-- **Answered 13 November: "Yes for testing"** to all six questions below (verbatim in docs/USER_DIRECTIVES.md). Build them as trial rules, each switchable in one place, list them in docs/V7_TO_GODOT_PARITY.md, and ask Pat again after he has played.
-- **From the second critic round (yes or no each):** should the game pause on every new Siren lock, on any craft (today only the first notice pauses); should a craft that is blocked by rock pause the game; should an Expedition's optional rider start switched off.
-
-- **From the critic round of 13 November (yes or no each):** should an open command wheel or panel hold dive time; should the first dive give a longer warning before a Siren's lock kills; should the game pause itself when a route ends.
-
-- **For his play:** PLAN ROUTE leaves the wheel's first page while DEPLOY or RECALL shows (it stays under ROUTE). The field records gallery opened during a dive no longer shows that dive's own frames until the dive ends. Whether Credits, the hub and the briefing scroll by finger drag on the phone (B19).
-- **From his rules** (`docs/V7_TO_GODOT_PARITY.md`, "Tests that still fly on the older rules"): the tender door photo with quiet drones, the scout-ahead opening, operations 17 and 30 on discovered charts.
+- **The six trial rules** ("Yes for testing", verbatim in `docs/USER_DIRECTIVES.md`): ask him again after he has played; each switches back in `game/src/trial_rules.gd`. Rule 2 changed the protected record of the 4 second lock (SIREN-010) so that it pins the standard length as a constant: he was told; confirm he is content.
+- **The leftovers in the other clone** (a worktree folder and a branch `wp-55`): move to scrap only if he asks.
+- **For his play:** whether menus scroll by finger drag on the phone (B19: cannot be checked on this PC); PLAN ROUTE sits under ROUTE while a deploy or recall segment shows; the field records gallery during a dive does not show that dive's frames until it ends.
+- **From his rules** (`docs/V7_TO_GODOT_PARITY.md`, "Tests that still fly on the older rules"): the tender door photo with quiet drones, the scout-ahead opening, operations 17 and 30 on discovered charts. Which operation an Expedition starts on (a critic met the Campaign's finale as operation 1 of a seed).
 - **A phone build** needs GitHub Actions. Do not start one. If he asks, tell him it costs minutes and ask whether to wait for the monthly reset.
 - N-1 to N-7 in `.fable/FINAL_REPORT.md` section 9, and his playtest feedback. When he says his rulings are done: mark pull request 262 ready (that starts a check run: ask first) and set status DONE.
 
 ## Leftovers from the code audit (after the UI work, or when they block it)
 
-One `DroneBay` question for "in the water, aboard or lost" in place of about 30 direct reads of `alive`; state moved out of `main.gd` (about 765 lines) for its helper modules; drawing cost (A1) needs a real screen; autosave interval to 15 s only if Pat sees a stutter; branch `wp-28` holds one unmerged commit (screenshots and target report) left out on purpose.
+One `DroneBay` question for "in the water, aboard or lost" in place of about 30 direct reads of `alive`; state moved out of `main.gd` for its helper modules; drawing cost (A1) needs a real screen; autosave interval to 15 s only if Pat sees a stutter; branch `wp-28` holds one unmerged commit (screenshots and target report) left out on purpose.
 
 ## Rules that changed this week (the start command has the full list)
 
-No GitHub Actions run of any kind; every push carries `[skip ci]`. Local tests only. Nothing is deleted: scrap is `_scrap-20261111/`. Retired tests live in `_scrap-20261111/tests-retired/`. Decide where Pat delegated; ask one yes or no line only for game design, story, or spending. Never write backslashes or `\n` escapes through a shell heredoc or inline Python: use the Edit or Write tool.
+No GitHub Actions run of any kind; every push carries `[skip ci]`. Local tests only, and the whole registry after a batch of merges. Nothing is deleted: scrap is `_scrap-20261111/`. Retired tests live in `_scrap-20261111/tests-retired/`. Decide where Pat delegated; ask one yes or no line only for game design, story, or spending, and record qualifiers such as "for testing". Never write backslashes or `\n` escapes through a shell heredoc or inline Python: use the Edit or Write tool.
