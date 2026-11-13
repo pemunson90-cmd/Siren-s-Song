@@ -35,6 +35,30 @@ static func fit_lines(lines:Array,font:Font,font_size:int,max_width:float)->Arra
     continue
   out.append(ellipsize(text,font,font_size,max_width))
  return out
+# WP-31: centre lines are never cut. Every line wraps at word breaks; when a word is
+# still too wide or the stack is too tall, the type shrinks (never below MIN_SIZE).
+# Returns {"lines":Array,"size":int}.
+const MIN_SIZE=10
+static func wrap_line(text:String,font:Font,font_size:int,max_width:float)->Array:
+ if font.get_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x<=max_width:return [text]
+ var out=[];var current=""
+ for word in text.split(" ",false):
+  var trial=(current+" "+word).strip_edges()
+  if current.is_empty() or font.get_string_size(trial,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x<=max_width:current=trial
+  else:out.append(current);current=word
+ if not current.is_empty():out.append(current)
+ return out
+static func fit_wrapped(lines:Array,font:Font,font_size:int,max_width:float,max_height:float)->Dictionary:
+ var size=font_size
+ while true:
+  var out=[];var widest=0.
+  for line in lines:
+   for part in wrap_line(str(line),font,size,max_width):
+    out.append(part);widest=maxf(widest,font.get_string_size(part,HORIZONTAL_ALIGNMENT_LEFT,-1,size).x)
+  var height=out.size()*(size+STYLE.line_gap)
+  if (widest<=max_width+.5 and height<=max_height) or size<=MIN_SIZE:return {"lines":out,"size":size}
+  size-=1
+ return {"lines":lines,"size":font_size}
 static func ellipsize(text:String,font:Font,font_size:int,max_width:float)->String:
  if font.get_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x<=max_width:return text
  var cut=text.length()

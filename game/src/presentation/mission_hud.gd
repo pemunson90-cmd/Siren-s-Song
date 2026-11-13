@@ -448,7 +448,8 @@ func layout(bounds:Vector2,h:float):
  ring_radius=h*2.25*text_scale
  var edge=Vector2(h*3.1,h*2.9)*text_scale
  var minimum=Vector2(edge.x,minf(h*3.85*text_scale+20,bounds.y-edge.y))
- center=anchor.clamp(minimum,bounds-edge)
+ # WP-31: the whole wheel stays inside the safe area even when the area is narrower than the wheel.
+ center=anchor.clamp(minimum,Vector2(maxf(minimum.x,bounds.x-edge.x),maxf(minimum.y,bounds.y-edge.y)))
  if page in ["inspect","signals","recovery","order_help"]:center=Vector2(bounds.x*.5,bounds.y*.5)
  if host.advanced_orders:
   for i in ring_buttons.size():
@@ -597,7 +598,8 @@ func refresh():
  _fit_pause_button()
  host.advanced_button.text="FLEET"
  focus_button.text="FOLLOW" if host.ocean.chart_camera.mode=="follow" else "FOCUS"
- intent.text="%s · %s · %s"%[sim.units[sim.selected].name+" · "+sim.Depth.NAMES[sim.units[sim.selected].band],"QUEUE" if sim.queue_mode else "REPLACE",(host.targeting_feedback if not host.targeting_feedback.is_empty() else "DECOY · TAP CLEAR WATER ≤160m · TAP CANCEL" if host.decoy_armed else "TORPEDO · TAP FRESH CONTACT · TAP CANCEL" if host.knock_armed else sim.message)]
+ var status_tail=host.targeting_feedback if not host.targeting_feedback.is_empty() else "DECOY · TAP CLEAR WATER ≤160m · TAP CANCEL" if host.decoy_armed else "TORPEDO · TAP FRESH CONTACT · TAP CANCEL" if host.knock_armed else _current("message",sim.message)
+ intent.text="%s · %s"%[sim.units[sim.selected].name+" · "+sim.Depth.NAMES[sim.units[sim.selected].band],"QUEUE" if sim.queue_mode else "REPLACE"]+(" · "+status_tail if not status_tail.is_empty() else "")
  host.title_label.visible=page not in ["signals","recovery","order_help"];host.detail_label.visible=page not in ["signals","recovery","order_help"]
  host.order_buttons.home.text="WITHDRAW" if Expedition.entry(sim) else "EXTRACT"
  extra.route_here.text="PLOT ROUTE" if subject.has("subkind") else "ROUTE HERE"
@@ -686,13 +688,14 @@ func refresh():
  alarm.size=Vector2(maxf(1,size.x-touch_height*6.*text_scale-64),touch_height) if host.advanced_orders else Vector2(minf(size.x-touch_height*3.1*text_scale-56,ThemeDB.fallback_font.get_string_size(alarm.text,HORIZONTAL_ALIGNMENT_LEFT,-1,alert_font).x+22),ThemeDB.fallback_font.get_height(alert_font)+8)
  fleet.visible=not host.advanced_orders and not host.decoy_armed and not host.knock_armed
  if not host.decoy_armed and not host.knock_armed:
-  for task_text in [WorkTask.line(sim,task),WorkTask.result_line(task_result),WorkTask.load_status(sim)]:
+  for task_text in [WorkTask.line(sim,task),_current("task_result",WorkTask.result_line(task_result)),WorkTask.load_status(sim)]:
    if not task_text.is_empty():intent.text+="\n"+task_text
   intent.text+="\n"+sim.Depth.context(sim)
  Truthful.apply(self)
  _place_threat_stack()
  host.ocean.threat_bottom=threat_floor()
  StatusView.apply(self)
+ _fit_wheel_words()
  _fit_intent()
  var aid_font=maxi(14,roundi(touch_height*.26*text_scale))
  guard.refresh(Vector2(host.ocean.chart_width(),size.y),touch_height,aid_font,intent.position.y if intent.visible else size.y)
@@ -733,6 +736,32 @@ func refresh():
  HuntMeter.sync(self)
  if has_meta(StatusView.GRID):StatusView.fit_dock(self)
 
+# WP-31: the simulation keeps its last message (and the HUD its last task result) until
+# something overwrites it, so an old line outlived later actions. A line is shown only
+# for STATUS_FRESH_MS after it first changes; an unchanged line is then dropped.
+const STATUS_FRESH_MS=6000
+var _status_seen:Dictionary={}
+func _current(key:String,text:String)->String:
+ if text.is_empty():_status_seen.erase(key);return ""
+ var record=_status_seen.get(key)
+ if record==null or record[0]!=text:record=[text,Time.get_ticks_msec()];_status_seen[key]=record
+ return text if Time.get_ticks_msec()-record[1]<STATUS_FRESH_MS else ""
+# WP-31: a wheel segment never breaks one word across lines. The type shrinks until the
+# longest word fits the segment's text width (floor 10 px); docked rows are left alone.
+func _fit_wheel_words():
+ if touch_height<=0. or has_meta(StatusView.GRID):return
+ var base=maxi(14,roundi(touch_height*.26*text_scale))
+ for b in command_controls():
+  if b==null or b.get_parent()!=self:continue
+  var font=b.get_theme_font("font");var avail=b.size.x-b.get_theme_stylebox("normal").get_minimum_size().x-2.
+  var px=base
+  while px>10:
+   var widest=0.
+   for word in b.text.split(" ",false):
+    for part in word.split("\n",false):widest=maxf(widest,font.get_string_size(part,HORIZONTAL_ALIGNMENT_LEFT,-1,px).x)
+   if widest<=avail:break
+   px-=1
+  b.add_theme_font_size_override("font_size",px)
 # The pause control's hit area always covers its whole wrapped label, so a tap on the
 # visible RESUME line is never lost to the chart below it.
 func _fit_pause_button():
@@ -765,7 +794,7 @@ func _draw():
   draw_line(center+inner,center+outer,Color(.3,.72,.74,.4),1)
  var title=subject.get("name","SITE") if subject.get("kind","") in ["objective","salvage","plant","habitat"] else host.sim.units[host.sim.selected].name
  var command_sites=host.ocean.observable_sites() if page=="craft" else []
- var caption=page.to_upper() if page!="craft" else ("COMMAND · SITES %d"%command_sites.size() if Expedition.active(host.sim) else "COMMAND · %d/%d"%[command_sites.filter(func(o):return o.captured).size(),command_sites.size()])
+ var caption=("MORE TOOLS" if page=="field_tools" else page.to_upper().replace("_"," ")) if page!="craft" else ("COMMAND · SITES %d"%command_sites.size() if Expedition.active(host.sim) else "COMMAND · %d/%d"%[command_sites.filter(func(o):return o.captured).size(),command_sites.size()])
  if page=="acoustics":
   var body=host.sim.units[host.sim.selected];caption=host.sim.Depth.NAMES[body.band]
   if not body.transition.is_empty():caption+=" → "+host.sim.Depth.NAMES[body.transition.to]+" %.1fs"%body.transition.remaining
@@ -789,7 +818,9 @@ func _draw():
  if page in ["object","salvage","plant","habitat"]:lines.append_array(WorkTask.captions(host.sim,subject))
  if page=="choose":lines.append("CRAFT OR OBJECT?")
  lines=StatusView.captions(self,lines)
- lines=CenterLayout.fit_lines(lines,font,text_size,CenterLayout.text_width(ring_radius,h))
+ var disc_top=center.y-(ring_radius-h*.7)*(get_meta(StatusView.AXES).y/ring_radius if has_meta(StatusView.AXES) else 1.)+4.
+ var fitted=CenterLayout.fit_wrapped(lines,font,text_size,CenterLayout.text_width(ring_radius,h),close_button.position.y-maxf(CenterLayout.STYLE.min_gap,h*text_scale*CenterLayout.STYLE.caption_gap)-disc_top)
+ lines=fitted["lines"];text_size=fitted["size"]
  caption_texts=lines.duplicate()
  var first_y=CenterLayout.first_baseline(center.y,close_button.get_rect(),h,text_scale,lines.size(),font,text_size)
  for n in lines.size():

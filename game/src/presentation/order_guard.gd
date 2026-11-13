@@ -40,16 +40,22 @@ func _button(parent: Node, text: String, action: Callable, id: String) -> Button
 func replaces_plan() -> bool:
 	var sim = host.sim; var u = sim.units[sim.selected]
 	if sim.queue_mode: return false
-	return not u.route.is_empty() or u.hold != "" or sim.capture_feedback(sim.selected).unit >= 0
+	return stops_count() > 0 or u.hold != "" or sim.capture_feedback(sim.selected).unit >= 0
+# Stops still ahead. The last route node stays queued while the craft brakes onto it, so a
+# craft already on its final stop has none ahead and no route to replace.
 func stops_count() -> int:
-	return host.sim.route_goals().size()
+	var sim = host.sim; var u = sim.units[sim.selected]
+	if u.route.is_empty(): return 0
+	var count: int = sim.route_goals().size(); var node: Dictionary = u.route[0]
+	var reached: bool = u.pos.distance_to(node.pos) < (9.0 if node.stop else 11.0) and (node.get("goal", false) or not u.has("route_plan"))
+	return maxi(0, count - (1 if reached else 0))
 const HOLD_NAMES := {"HOLD": "HOLD", "CONTACT": "IF CONTACT hold", "DRONE": "WAIT DRONE hold", "SCOUT": "SCOUT guard", "SCOUT_STOP": "SCOUT stop"}
 static func stops_text(count: int) -> String:
 	return "%d stop%s" % [count, "" if count == 1 else "s"]
 # What the selected craft is doing now, read from live state each refresh.
 func orders_text() -> String:
 	var sim = host.sim; var u = sim.units[sim.selected]; var parts := []
-	if not u.route.is_empty(): parts.append("has a route (%s)" % stops_text(stops_count()))
+	if stops_count() > 0: parts.append("has a route (%s)" % stops_text(stops_count()))
 	if u.hold != "": parts.append("is on %s" % HOLD_NAMES.get(u.hold, u.hold))
 	if sim.capture_feedback(sim.selected).unit >= 0: parts.append("has camera work under way")
 	return " and ".join(parts) if not parts.is_empty() else "has no orders now"

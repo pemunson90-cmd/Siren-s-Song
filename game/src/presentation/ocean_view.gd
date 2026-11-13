@@ -312,7 +312,7 @@ func knock_aim_targets() -> Array:
 		var anchor=screen_position(objective.pos)
 		blocked.append(Rect2(anchor-Vector2.ONE*43*world_scale,Vector2.ONE*86*world_scale).grow(4))
 		if not objective.captured:
-			var font=maxi(17,int(12/world_scale));var width=ThemeDB.fallback_font.get_string_size(objective.name,HORIZONTAL_ALIGNMENT_LEFT,-1,font).x*world_scale
+			var font=label_font(17);var width=ThemeDB.fallback_font.get_string_size(objective.name,HORIZONTAL_ALIGNMENT_LEFT,-1,font).x*world_scale
 			blocked.append(Rect2(screen_position(objective.pos+Vector2(50,-5))-Vector2(0,font*world_scale),Vector2(width,font*world_scale+6)).grow(4))
 	for u in sim.units:
 		var previous=screen_position(u.pos)
@@ -449,7 +449,7 @@ func _draw() -> void:
 	var ex=sim.mission.extraction
 	if not Expedition.active(sim) or Expedition.entry(sim):
 		draw_arc(ex,64,0,TAU,64,Color(CYAN,0.42),2)
-		_label(ex+Vector2(-120 if ex.y>830 else -66,66 if ex.y>830 else 90),"WITHDRAWAL" if Expedition.entry(sim) else "EXTRACTION",CYAN,18)
+		_label(ex+Vector2(-120 if ex.y>830 else -66,84 if ex.y>830 else 90),"WITHDRAWAL" if Expedition.entry(sim) else "EXTRACTION",CYAN,18)
 	FeatureViews.draw_detail(self)
 	_draw_observed_paths()
 	_draw_findings()
@@ -822,7 +822,7 @@ func own_craft_rects() -> Array:
 		result.append(Rect2(screen_position(sim.units[id].pos)-half,half*2))
 	return result
 func world_label_position(p:Vector2,text:String,font_size:int) -> Vector2:
-	var font=ThemeDB.fallback_font;var actual=maxi(font_size,int(12./world_scale));var extent=font.get_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,-1,actual)*world_scale
+	var font=ThemeDB.fallback_font;var actual=label_font(font_size);var extent=font.get_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,-1,actual)*world_scale
 	var origin=chart_camera.to_screen(p);var height=extent.y+6
 	var blocked=ui_blocked_rects+ship_instrument_rects()+own_craft_rects()+world_label_rects
 	if optical_feed!=null and optical_feed.is_visible_in_tree():blocked.append(optical_feed.get_rect().grow(6))
@@ -840,8 +840,12 @@ func world_label_position(p:Vector2,text:String,font_size:int) -> Vector2:
 			var area=Rect2(point-Vector2(0,font.get_ascent(actual)*world_scale),extent)
 			if Rect2(Vector2.ZERO,size).encloses(area) and not blocked.any(func(r):return r.intersects(area.grow(3))):return chart_camera.to_world(point)
 	return Vector2.INF
+# WP-31: a chart label keeps a constant readable on-screen size. Zooming out never goes
+# below 12 px; zooming in never grows it past its nominal size.
+func label_font(font_size:int)->int:
+	return maxi(1,roundi(maxf(12.,minf(font_size*world_scale,float(font_size)))/world_scale))
 func world_label_rect(p:Vector2,text:String,font_size:int)->Rect2:
-	var font=ThemeDB.fallback_font;var actual=maxi(font_size,int(12./world_scale))
+	var font=ThemeDB.fallback_font;var actual=label_font(font_size)
 	return Rect2(chart_camera.to_screen(p)-Vector2(0,font.get_ascent(actual)*world_scale),font.get_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,-1,actual)*world_scale)
 func reserve_world_label(p:Vector2,text:String,font_size:int)->void:
 	world_label_rects.append(world_label_rect(p,text,font_size))
@@ -851,8 +855,8 @@ func _label(p:Vector2,text:String,color:Color,font_size:int,context:Dictionary={
 		reserve_world_label(placed,text,font_size)
 		if not context.is_empty():label_targets.append({"rect":world_label_rect(placed,text,font_size),"context":context})
 		if placed.distance_to(p)*world_scale>feedback_font_size*2:draw_line(p,placed,Color(color,.35),1./world_scale)
-		draw_string_outline(ThemeDB.fallback_font,placed,text,HORIZONTAL_ALIGNMENT_LEFT,-1,maxi(font_size,int(12./world_scale)),maxi(1,int(3./world_scale)),Color(.01,.03,.04,.95))
-		draw_string(ThemeDB.fallback_font,placed,text,HORIZONTAL_ALIGNMENT_LEFT,-1,maxi(font_size,int(12./world_scale)),color)
+		draw_string_outline(ThemeDB.fallback_font,placed,text,HORIZONTAL_ALIGNMENT_LEFT,-1,label_font(font_size),maxi(1,int(3./world_scale)),Color(.01,.03,.04,.95))
+		draw_string(ThemeDB.fallback_font,placed,text,HORIZONTAL_ALIGNMENT_LEFT,-1,label_font(font_size),color)
 
 func _draw_departure() -> void:
 	var report=sim.departure_feedback()

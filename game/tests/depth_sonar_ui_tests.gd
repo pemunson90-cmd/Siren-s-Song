@@ -81,7 +81,8 @@ func run():
   check(h.acoustics_carry_caption()=="ASCENT 8s / SETTLE 6s","depth radial previews carried ascent and settle duration")
   await click(h.extra.depth_up);h.open("acoustics");await settle()
   check(h.acoustics_carry_caption()=="SURVIVOR ASCENT 8.0s","visible radial reports the carried ascent countdown")
-  check(h.caption_rects.size()==3 and h.caption_rects.all(func(r):return Rect2(Vector2.ZERO,h.size).encloses(r) and not r.intersects(h.close_button.get_rect())),"carried radial captions fit the safe area and clear BACK")
+  # WP-31: a caption too wide for the disc now wraps onto another line instead of ending in an ellipsis.
+  check(h.caption_rects.size()>=3 and h.caption_texts.all(func(t):return not str(t).ends_with("…")) and h.caption_rects.all(func(r):return Rect2(Vector2.ZERO,h.size).encloses(r) and not r.intersects(h.close_button.get_rect())),"carried radial captions fit the safe area and clear BACK")
   check(h.caption_rects.all(func(r):return not h.command_controls().any(func(b):return r.intersects(b.get_rect()))),"carried captions clear every depth radial control")
   for control in h.command_controls():
    check(control.size.x>=h.touch_height and control.size.y>=h.touch_height,"survivor guidance preserves full depth touch targets")

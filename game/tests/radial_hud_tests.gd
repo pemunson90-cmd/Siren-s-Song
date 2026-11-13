@@ -46,6 +46,14 @@ func run():
   var scale=Vector2(dimensions)/root.get_visible_rect().size
   for b in h.ring_buttons:
    check(g.get_global_rect().encloses(b.get_global_rect()) and b.size.x*scale.x>=125.99 and b.size.y*scale.y>=125.99,"clamped edge menu retains full48dp labels")
+  # WP-31: centre lines are whole (no ellipsis), no ring word is split, the wheel stays on screen.
+  check(h.caption_texts.all(func(t):return not str(t).ends_with("…")),"wheel centre text wraps instead of truncating")
+  check(h.caption_rects.all(func(r):return Rect2(Vector2.ZERO,h.size).encloses(r)),"wheel centre lines stay inside the safe area")
+  var wheel=Rect2(h.center-Vector2.ONE*h.ring_radius,Vector2.ONE*h.ring_radius*2)
+  check(Rect2(Vector2.ZERO,h.size).encloses(wheel),"whole wheel sits inside the safe area")
+  var zoomed=g.ocean.world_scale;g.ocean.world_scale=4.
+  check(g.ocean.label_font(18)*4.<=18.+4. and g.ocean.label_font(18)*4.>=12.,"zoomed-in chart label keeps a constant readable on-screen size")
+  g.ocean.world_scale=zoomed
   await capture(name+"-commands")
   await click(h.extra.tools_menu);check(h.page=="tools" and g.sim.snapshot()==before,"tools projection changes no tactical state")
   var sector=h.global_position+h.center+Vector2.from_angle(-PI/3)*h.ring_radius
