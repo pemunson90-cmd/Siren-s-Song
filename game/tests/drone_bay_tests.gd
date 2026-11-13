@@ -109,7 +109,7 @@ func deploy_cases():
  check(s.snapshot().units==before.units,"a refused DEPLOY changes no unit")
  var r=dive(0);r.sirens=[];r.units[0].transition={"remaining":2.0,"to":2}
  var held:Array=r.snapshot().units.duplicate(true)
- check(not r.command("deploy",{"unit":2}) and "cannot launch" in r.message,"a launch the bay refuses is refused with its reason: "+r.message)
+ check(not r.command("deploy",{"unit":2}) and "cannot deploy" in r.message,"a launch the bay refuses is refused with its reason: "+r.message)
  check(r.snapshot().units==held and Bay.aboard(r.units[2]),"and nothing changes")
  var lost=dive(0);lost.units[0].alive=false
  check(not lost.command("deploy",{"unit":1}) and Bay.aboard(lost.units[1]),"DEPLOY with Quietus lost is refused")
@@ -206,5 +206,5 @@ func wheel_cases():
  game._order("select",{"unit":0});s.units[0].transition={"remaining":2.0,"to":2};h.open("craft");await settle()
  var units_before:Array=s.snapshot().units.duplicate(true)
  await press(h.extra.deploy)
- check(Bay.aboard(s.units[1]) and s.snapshot().units==units_before and "cannot launch" in s.message,"a refused DEPLOY changes no unit and shows the reason: "+s.message)
+ check(Bay.aboard(s.units[1]) and s.snapshot().units==units_before and "cannot deploy" in s.message,"a refused DEPLOY changes no unit and shows the reason: "+s.message)
  game.queue_free();await settle()

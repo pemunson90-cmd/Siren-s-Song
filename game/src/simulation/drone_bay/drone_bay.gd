@@ -71,14 +71,14 @@ static func any_aboard(sim)->bool:
 static func before_order(sim,id:int,order:String)->String:
  var u=sim.units[id]
  if order in PASS_ORDERS:return ""
- if order not in LAUNCH_ORDERS:return "%s is aboard Quietus · tap water to launch it"%u.name
+ if order not in LAUNCH_ORDERS:return "%s is aboard Quietus · tap water to deploy it"%u.name
  return launch(sim,id)
 # Puts the drone in the water beside Quietus. Returns "" on success, else the reason.
 static func launch(sim,id:int)->String:
  var u=sim.units[id];var q=sim.units[0]
  if not aboard(u):return ""
- if not q.alive or not sim.outcome.is_empty():return "%s cannot launch"%u.name
- if not q.get("transition",{}).is_empty():return "%s cannot launch while Quietus changes depth"%u.name
+ if not q.alive or not sim.outcome.is_empty():return "%s cannot deploy"%u.name
+ if not q.get("transition",{}).is_empty():return "%s cannot deploy while Quietus changes depth"%u.name
  var forward=Vector2.from_angle(float(q.angle))
  var at:Vector2=q.pos
  for turn in [0.,PI/4,-PI/4,PI/2,-PI/2,PI*.75,-PI*.75,PI]:
