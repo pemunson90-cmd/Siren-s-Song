@@ -64,10 +64,46 @@ static func filter(hud,controls:Array)->Array:
   var at=result.find(hud.extra.inspect)
   if at<0:at=result.size()
   result.insert(at,hud.extra.depth_down);result.insert(at,hud.extra.depth_up)
+ if hud.page=="craft":
+  # WP-35: DEPLOY leads the main page while a drone is aboard; RECALL joins a deployed drone's page,
+  # and RECALL ALL joins Quietus's only while a drone is in the water and the wheel has room.
+  # A ninth segment would send the wheel into the crowded-wheel re-fit (BACK leaves the centre and can leave the
+  # screen), so the main page stays at eight: PLAN ROUTE, which the ROUTE page also lists, steps off the main page
+  # for the one added segment. A second added segment (RECALL ALL beside DEPLOY) stays on the ROUTE page.
+  var sim=hud.host.sim;var made_room=false
+  for key in ["deploy","recall"]:
+   if key=="deploy" and deploy_target(sim)<0:continue
+   if key=="recall" and not (sim.units[sim.selected].alive if sim.selected>0 else in_water(sim)>0):continue
+   if result.size()>=MAIN_PAGE_ROOM:
+    var program=hud.host.order_buttons.program
+    if not made_room and program in result:result.erase(program);made_room=true
+    elif key=="recall" and sim.selected==0:continue
+   if key=="deploy":result.push_front(hud.extra.deploy)
+   else:result.insert(result.find(hud.extra.route_menu)+1,hud.extra.recall)
  return result
+
+# The wheel is a clean circle up to this many segments on the main page.
+const MAIN_PAGE_ROOM=8
+# The drone DEPLOY would put in the water: Quietus offers the next one aboard, an aboard drone offers itself.
+static func deploy_target(sim)->int:
+ if sim.selected>0:return sim.selected if sim.DroneBay.aboard(sim.units[sim.selected]) else -1
+ for id in [1,2]:
+  if sim.DroneBay.aboard(sim.units[id]):return id
+ return -1
+static func in_water(sim)->int:
+ var count=0
+ for id in [1,2]:
+  if sim.units[id].alive and not sim.DroneBay.aboard(sim.units[id]):count+=1
+ return count
+
+static func activate_deploy(hud)->void:
+ var id=deploy_target(hud.host.sim)
+ if id>0:hud.host._order("deploy",{"unit":id})
 
 static func refresh(hud)->void:
  var sim=hud.host.sim;var b=hud.extra.recall
+ var next=deploy_target(sim)
+ hud.extra.deploy.text="DEPLOY\n"+(sim.units[next].name if next>0 else "DRONE")
  if sim.selected==0:
   b.text="RECALL\nALL"
   var reasons=[];var ready=0
@@ -103,4 +139,4 @@ static func draw_reason(view,sim)->void:
  view.draw_rect(Rect2(at-Vector2(3,size),Vector2(width+6,size+5)),Color(0.12,0.025,0.015,0.94))
  view.draw_string(font,at,text,HORIZONTAL_ALIGNMENT_LEFT,-1,size,WARNING)
 
-const CONTROLS_TEXT:="MOVE: pause, then tap water to place a straight leg. QUEUE adds legs. The craft does not steer around rock: a red leg crosses charted rock and can crash.\nDEPTH: craft → DEPTH, or the depth pair on a work page.\nWORK: craft → REACH WORK lists the jobs in reach here; a grey job says why.\nRECALL: drone → ROUTE → RECALL brings it back to Quietus by straight legs. Quietus has RECALL ALL."
+const CONTROLS_TEXT:="MOVE: pause, then tap water to place a straight leg. QUEUE adds legs. The craft does not steer around rock: a red leg crosses charted rock and can crash.\nDEPTH: craft → DEPTH, or the depth pair on a work page.\nWORK: craft → REACH WORK lists the jobs in reach here; a grey job says why.\nDEPLOY: Quietus or an aboard drone → DEPLOY puts the drone in the water beside Quietus. A deployed drone stays out.\nRECALL: drone → RECALL (also under ROUTE) brings it back to stand beside Quietus by straight legs. Quietus has RECALL ALL."

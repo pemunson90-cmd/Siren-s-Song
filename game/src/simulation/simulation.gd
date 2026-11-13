@@ -147,7 +147,7 @@ func start(index: int, upgrade: String = Names.LOADOUT_ENDURANCE, launch:Diction
 	elapsed=0.0; oxygen=100.0; hull=100.0; paused=true; selected=0; queue_mode=false; pass_through=true; outcome=""
 	message="Chart loaded. Tap a craft for DEPTH / SONAR; tap water to plot a route."
 	# One line on the cover screen: a longer hint wraps the message plate to a third line and covers more water than the HUD allows.
-	if DroneBay.any_aboard(self):message="Drones aboard. Tap a craft for DEPTH / SONAR; tap water to route or launch."
+	if DroneBay.any_aboard(self):message="Drones aboard. Tap a craft for DEPTH / SONAR; tap water to route or deploy."
 	ping_time=0.0; recon_time=0.0; captures=[{},{},{}]; accumulator=0.0
 	tools={"emp":2,"decoy":3,"recon":2,"knock":2}
 	if upgrade==Names.LOADOUT_EMP: tools.emp += 1
@@ -527,6 +527,7 @@ func _near_wall_recovery(origin: Vector2,destination: Vector2,player_course:bool
 func command(order: String,args: Dictionary={}) -> bool:
 	if not outcome.is_empty(): return false
 	if order=="depart":return Orders.TABLE[order][0].command(self,order,args)
+	if order=="deploy":return _deploy(int(args.get("unit",-1)))
 	var u=units[selected]
 	_use_band(u.band)
 	if DroneBay.aboard(u):
@@ -545,6 +546,14 @@ func command(order: String,args: Dictionary={}) -> bool:
 	var accepted:bool=handler[0].command(self,order,args)
 	if accepted:preload("res://src/equipment/tool_racks.gd").sync_legacy(self)
 	return _finish_command(u,order) if accepted and handler[1] else accepted
+# WP-35: DEPLOY puts an aboard drone in the water beside Quietus with the same launch a water tap reaches, and no route.
+func _deploy(id:int)->bool:
+	if id<1 or id>=units.size() or not DroneBay.aboard(units[id]):return false
+	DroneBay.carry(self)
+	var refusal:String=DroneBay.launch(self,id)
+	if not refusal.is_empty():message=refusal;return false
+	message="%s deployed beside Quietus · tap water to route it"%units[id].name
+	return true
 func _finish_command(u:Dictionary,order:String)->bool:
 	if order=="emp":preload("res://src/simulation/observed_stun.gd").record(self)
 	JobRelease.cancel(self,selected,order)
