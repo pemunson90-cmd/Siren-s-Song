@@ -73,8 +73,7 @@ func _show_campaign()->void:
 	_menu_text("%s LOADOUT · %s · OPERATION START HUNT %d\nThe expedition Hunt modifier is capped for this operation. The in-dive meter shows current pressure.\nTools carry across recovered operations. Film and oxygen replenish for each dive."%[preload("res://src/equipment/field_tools.gd").loadout_label(run_state.loadout),RunTable.SCARCITY[run_state.scarcity].to_upper(),RunState.starting_hunt(run_state,RunState.current_operation(run_state))],17)
 	if active_started:
 		if save_failed:
-			_menu_text("SAVE PENDING · "+str(campaign_host.get_meta("runs_save_error","")),17)
-			_button(panel_box,"RETRY SAVE",func():_save_archive();_show_campaign(),"run_retry_save")
+			preload("res://src/presentation/frontend/save_error_view.gd").menu_retry(self,"SAVE PENDING · "+str(campaign_host.get_meta("runs_save_error","")),17,"RETRY SAVE",func():_save_archive();_show_campaign(),"run_retry_save")
 		_menu_text(sim.rider_status(),17)
 		_button(panel_box,"RESUME DIVE",_enter_water,"run_resume")
 		_button(panel_box,"END DIVE · LOSE RUN",func():_debrief(true),"run_abandon")
@@ -126,8 +125,7 @@ func _result_menu()->void:
 	else:_show_photo_grade(sim.mission.objectives)
 	save_failed=not _persist_state(run_state)
 	if save_failed:
-		_menu_text("RESULT NOT SAVED · "+str(campaign_host.get_meta("runs_save_error","")),17)
-		_button(panel_box,"RETRY SAVE",_result_menu,"run_retry_save")
+		preload("res://src/presentation/frontend/save_error_view.gd").menu_retry(self,"RESULT NOT SAVED · "+str(campaign_host.get_meta("runs_save_error","")),17,"RETRY SAVE",_result_menu,"run_retry_save")
 		call_deferred("_layout");return
 	if run_state.status=="active":
 		_button(panel_box,"NEXT OPERATION",func():

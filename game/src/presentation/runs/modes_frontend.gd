@@ -3,6 +3,7 @@ extends RefCounted
 # Revert: remove frontend/menu-reach registrations; retain .runs sidecars.
 const State=preload("res://src/campaign/runs/run_state.gd")
 const Archive=preload("res://src/campaign/runs/run_archive.gd")
+const SaveErrorView=preload("res://src/presentation/frontend/save_error_view.gd")
 const Records=preload("res://src/campaign/runs/run_records.gd")
 const Summary=preload("res://src/presentation/runs/run_summary_view.gd")
 const SeedEntry=preload("res://src/presentation/runs/seed_entry.gd")
@@ -25,12 +26,9 @@ static func expeditions(front)->void:
 	front._button("BACK",func():show(front),"frontend_back")
 	front._text("EXPEDITIONS",32,Color("80d9cf"))
 	front._text("Separate fleet, resources and records. Campaign saves, hard saves and Ironman progress stay in their own timeline. Returning between operations keeps this run; ending a dive loses it.",16)
-	var notice=str(front.host.get_meta("runs_recovery_notice",""))
-	if not notice.is_empty():front._text(notice,16,Color("efc28d"))
-	var error=str(front.host.get_meta("runs_save_error",""))
-	if not error.is_empty():front._text(error,16,Color("efc28d"))
+	SaveErrorView.notices(front,"runs_",16)
 	if front.host.get_meta("runs_archive_dirty",false):
-		front._button("RETRY SAVE",func():expeditions(front),"run_retry_save")
+		SaveErrorView.front_retry(front,"",16,"RETRY SAVE",func():expeditions(front),"run_retry_save")
 		return
 	if not state.is_empty():
 		front._text("SEED %d · %s · %d / %d RECOVERED"%[state.seed,state.status.to_upper(),state.cursor,state.operations.size()],20)

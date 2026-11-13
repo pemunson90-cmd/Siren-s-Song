@@ -87,8 +87,7 @@ func _result_menu()->void:
 	if result.loss:_menu_text(sim.rule_failure if not sim.rule_failure.is_empty() else ("Attempt ended." if abandoned else sim.message),17)
 	else:_menu_text("PARS %d / 3"%ChallengeRecords.pars(sim.definition,result),20)
 	if not str(campaign_host.get_meta("challenge_save_error","")).is_empty():
-		_menu_text("PROGRESS NOT SAVED\nResults are held in this session.\n"+str(campaign_host.get_meta("challenge_save_error","")),17)
-		_button(panel_box,"RETRY SAVE",func():Archive.persist(campaign_host);_result_menu(),"challenge_retry_save")
+		preload("res://src/presentation/frontend/save_error_view.gd").menu_retry(self,"PROGRESS NOT SAVED\nResults are held in this session.\n"+str(campaign_host.get_meta("challenge_save_error","")),17,"RETRY SAVE",func():Archive.persist(campaign_host);_result_menu(),"challenge_retry_save")
 	_button(panel_box,"RETRY CHALLENGE",func():_start_mission(int(sim.definition.op));_enter_water(),"challenge_retry")
 	_button(panel_box,"BACK TO CHALLENGES",_return,"challenge_return")
 	call_deferred("_layout")

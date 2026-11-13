@@ -109,8 +109,7 @@ func _result_menu()->void:
 	_menu_text("CONTRACT RESULT",30);_menu_text(career_state.report,18)
 	_show_photo_grade(sim.mission.objectives)
 	if save_failed:
-		_menu_text("RESULT NOT SAVED · "+str(campaign_host.get_meta("career_save_error","")),17)
-		_button(panel_box,"RETRY SAVE",func():_save_archive();_result_menu(),"career_retry")
+		preload("res://src/presentation/frontend/save_error_view.gd").menu_retry(self,"RESULT NOT SAVED · "+str(campaign_host.get_meta("career_save_error","")),17,"RETRY SAVE",func():_save_archive();_result_menu(),"career_retry")
 	else:
 		_button(panel_box,"RETURN TO CONTRACT BOARD",func():
 			result_pending=false;active_started=false;CareerBoard.show(self)

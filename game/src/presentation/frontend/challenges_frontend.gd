@@ -5,6 +5,7 @@ const Archive=preload("res://src/campaign/challenges/challenge_archive.gd")
 const Catalog=preload("res://src/campaign/challenges/challenge_catalog.gd")
 const Records=preload("res://src/campaign/challenges/challenge_records.gd")
 const Session=preload("res://src/presentation/frontend/challenge_session.gd")
+const SaveErrorView=preload("res://src/presentation/frontend/save_error_view.gd")
 static func completed(front)->Array:
 	return front.host._campaign_completed() if front.host.has_method("_campaign_completed") else []
 static func history(front)->Dictionary:
@@ -19,8 +20,7 @@ static func show(front)->void:
 	var saved=history(front);var recovered=completed(front)
 	var error=front.host.get_meta("challenge_save_error","")
 	if error is String and not error.is_empty():
-		front._text("PROGRESS NOT SAVED\n"+error+"\nResults are held in this session.",16,Color("efc28d"))
-		front._button("RETRY SAVE",func():Archive.persist(front.host);show(front),"challenge_retry_save")
+		SaveErrorView.front_retry(front,"PROGRESS NOT SAVED\n"+error+"\nResults are held in this session.",16,"RETRY SAVE",func():Archive.persist(front.host);show(front),"challenge_retry_save")
 	for row in Catalog.all():
 		var id:String=row.id;var available=Catalog.unlocked(row,recovered)
 		var best=saved.get(id,{}).get("best",{})
