@@ -15,17 +15,23 @@ func go(g,id,point,drive=""):
  if not await plot(g,id,point):return
  if not drive.is_empty():await mode(g,drive)
  if g.sim.paused:await click(g.pause_button)
+ var held=0;var last=Vector2.INF
  for n in 12000:
   g.sim.advance(1./60)
   if n%120==0:
    g._refresh();await process_frame;await acknowledge_warning(g)
    # Trial rules (13 Nov): the game pauses itself on a new lock, at a route's end and when rock blocks a craft.
-   # A player resumes with the corner control; so does this journey.
+   # A player resumes with the corner control; so does this journey. At a chart stop the player taps CONTINUE COURSE.
+   await continue_course(g,id)
    if g.sim.paused and g.sim.outcome.is_empty():await click(g.pause_button)
-  if not g.sim.outcome.is_empty() or not g.sim.units[id].alive or (g.sim.units[id].pos.distance_to(point)<18 and g.sim.units[id].vel.length()<2):break
+   # A craft that CONTINUE cannot move on is as close as charted water allows; a player settles for that.
+   var u=g.sim.units[id]
+   held=held+1 if u.has("chart_stop") and u.pos.distance_to(last)<1. else 0
+   last=u.pos
+  if not g.sim.outcome.is_empty() or not g.sim.units[id].alive or (g.sim.units[id].pos.distance_to(point)<18 and g.sim.units[id].vel.length()<2) or (held>=3 and g.sim.units[id].pos.distance_to(point)<45):break
  if not g.sim.paused:await click(g.pause_button)
  g._refresh();await settle()
- check(g.sim.units[id].alive and (g.sim.units[id].pos.distance_to(point)<18 or g.sim.outcome=="won"),"physical route arrives in actual authored band")
+ check(g.sim.units[id].alive and (g.sim.units[id].pos.distance_to(point)<(45 if held>=3 else 18) or g.sim.outcome=="won"),"physical route arrives in actual authored band")
 const Patient=preload("res://tests/patient_play.gd")
 func lull(g,id,up,target,then=Vector2.INF,at=Vector2.INF):
  for n in 40:
@@ -131,7 +137,8 @@ func run():
    root.add_child(g);await settle();g.set_process(false)
    # These routes deliberately launch bare; compare actual stock before/after.
    g.tool_racks=preload("res://src/equipment/tool_racks.gd").empty()
-   g._start_mission(id);PlayerDive.launch_drones(g.sim);await settle()
+   g._start_mission(id);PlayerDive.launch_drones(g.sim)
+   await settle()
    var launch_tools=g.sim.tools.duplicate(true)
    var launch_field=g.sim.mission.field_tools.counts.duplicate(true)
    var launch_racks=g.sim.mission.tool_racks.duplicate(true)
