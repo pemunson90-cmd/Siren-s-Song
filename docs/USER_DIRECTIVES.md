@@ -624,3 +624,9 @@ Asked whether a recalled drone should be able to go back aboard, and which rule 
 Also what's this UI audit I also want you to like you know actually look at how it looks compare it to professional Android games and similar top-down games and make some evaluations and judgment calls"
 
 How it is applied (Claude's reading): (1) A launched drone never goes back aboard during a dive; RECALL brings it beside Quietus and it is counted home at recovery, as now. Player-facing text should speak of deploying, not of a bay. (2) A lost or abandoned dive keeps its photographs only on the easiest preset; on every other preset they are lost with the dive, the gallery must not keep them by accident, and the hub text must say what is true for the preset in use. (3) The UI audit so far judged use, not looks. Claude looks at the real screens itself, compares them with professional Android games and top-down games, writes its evaluation and makes the calls, then builds them.
+
+## 2026-11-13: six trial rules from the blind critic rounds
+
+Claude asked six yes or no questions, recommending yes to each: (1) should an open command wheel or panel hold dive time; (2) should the first dive give a longer warning before a Siren's lock kills; (3) should the game pause itself when a route ends; (4) should the game pause on every new Siren lock, on any craft; (5) should a craft that is blocked by rock pause the game; (6) should an Expedition's optional rider start switched off. Pat said, verbatim: "Yes for testing"
+
+How it is applied (Claude's reading): yes to all six, as trial rules. Each is built so it can be switched back in one place, is listed in docs/V7_TO_GODOT_PARITY.md as a trial difference from the prototype, and is put to Pat again after he has played. Nothing here is final until he says so.

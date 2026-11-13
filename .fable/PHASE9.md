@@ -129,6 +129,7 @@ Built since the first round: WP-45 to WP-50 (rows 76 to 80). Critic A finished o
 
 ## Open for Pat (do not decide these)
 
+- **Answered 13 November: "Yes for testing"** to all six questions below (verbatim in docs/USER_DIRECTIVES.md). Build them as trial rules, each switchable in one place, list them in docs/V7_TO_GODOT_PARITY.md, and ask Pat again after he has played.
 - **From the second critic round (yes or no each):** should the game pause on every new Siren lock, on any craft (today only the first notice pauses); should a craft that is blocked by rock pause the game; should an Expedition's optional rider start switched off.
 
 - **From the critic round of 13 November (yes or no each):** should an open command wheel or panel hold dive time; should the first dive give a longer warning before a Siren's lock kills; should the game pause itself when a route ends.
