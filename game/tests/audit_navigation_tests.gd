@@ -164,7 +164,7 @@ func damage_case()->void:
  rows=log.events()
  check(rows.size()==2 and rows[1].kind=="COLLISION" and rows[1].note=="terrain at 9m/s","collision is attributed only from the collision ledger and strike text")
  var text=log.summary()
- check(text.contains("HULL -36%") and text.contains("00:12") and not text.contains("COLLISION"),"debrief record states what, when and how much, and does not call it a collision")
+ check(text.contains("HULL -36%") and text.contains("00:12") and text.contains("HULL -30% to 60% · a cause the game does not record"),"debrief record states what, when and how much, and names an unrecorded cause plainly")
  check(not text.contains("—"),"damage record has no em dash")
  PlayerDive.launch_drones(s);s.elapsed+=1.;log.sample() # a drone aboard Quietus is not lost; launch it, then lose it in the water
  s.units[1].alive=false;s.elapsed+=1.;log.sample()
