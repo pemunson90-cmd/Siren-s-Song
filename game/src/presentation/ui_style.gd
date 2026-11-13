@@ -178,3 +178,8 @@ const TITLE_WATER=Color("050f17")
 const TITLE_DEEP=Color("020a10")
 const TITLE_SCRIM=Color("03090e")
 const TITLE_RING=Color("72d9d3")
+# Tool racks (WP-44): text sizes at 48 touch height, and the marks on the tool rows.
+const RACK_TEXT_SIZE=15
+const RACK_DETAIL_SIZE=13
+const RACK_MINUS="−"
+const RACK_PLUS="+"

@@ -13,7 +13,7 @@ static func show(main)->void:
   Equipment.loadout(main,context.slots,func(key,id):main._choose_equipment(key,id,-1))
  else:main._menu_text("Recover the first operation to choose hull and drone frames.",16)
  FitSurface.fitting(main,context,func(key,id):main._choose_equipment(key,id,-1),main._show_fittings)
- main._menu_text(preload("res://src/presentation/truthful_commands.gd").brief_stock(main.tool_racks),15)
+ main._menu_text(preload("res://src/presentation/tool_racks_view.gd").carry_text(main.tool_racks),15)
  preload("res://src/presentation/field_tool_view.gd").fittings(main)
  if preload("res://src/campaign/economy_table.gd").enabled:main._button(main.panel_box,"SUPPLIES / COSTS",main._show_economy,"economy")
  preload("res://src/presentation/archive/archive_nav.gd").entry(main)
