@@ -34,7 +34,7 @@ static var SAVED_HINT_IDS=HINTS.keys()+["priced_gone"]
 static func goal(index: int) -> String:
 	return GOALS.get(index, "")
 # Operation 01 only, until it is recovered: what the opening briefing leaves out (drones, silent running, what kills you).
-const PRIMER := "Quietus is slow and quiet when SILENT is on, fast and loud when it is off.\nDrones scout ahead for you. Once deployed they stay out.\nSirens hunt by sound: when one notices you, stop or put rock between you."
+const PRIMER := "Quietus is slow and quiet when SILENT is on, fast and loud when it is off.\nDrones scout ahead for you. Once deployed they stay out.\nWhen a Siren notices you, time pauses: stop, or put rock between you."
 static func primer(index: int, completed: Array) -> String:
 	return PRIMER if index == 0 and not 0 in completed else ""
 static func hint_text(id: String) -> String:
