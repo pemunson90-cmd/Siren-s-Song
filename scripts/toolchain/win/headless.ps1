@@ -15,6 +15,7 @@ param(
     [string]$Prefix = '',
     [string[]]$GodotArgs = @(),
     [switch]$Isolate,
+    [switch]$RealUserData,
     [string]$UserDataRoot = '',
     [string]$Log = '',
     [int]$TimeoutSec = 480,
@@ -40,7 +41,10 @@ switch ($Action) {
 if ($Action -ne 'Raw' -and $GodotArgs.Count -gt 0) { $args2 += $GodotArgs }
 if (-not $Log) { $Log = Join-Path $script:ArtifactDir "$name.log" }
 $iso = ''
-if ($Isolate) { $iso = New-IsolatedRoot $UserDataRoot }
+# Test runs never write into the game's real save folder: Script and Core are
+# always isolated, and so is anything given -Isolate or -UserDataRoot. Pass
+# -RealUserData to opt out on purpose.
+if (-not $RealUserData -and ($Isolate -or $UserDataRoot -or $Action -in @('Script', 'Core'))) { $iso = New-IsolatedRoot $UserDataRoot }
 
 $sw = [Diagnostics.Stopwatch]::StartNew()
 $code = Invoke-GodotLogged -GodotArgs $args2 -Log $Log -TimeoutSec $TimeoutSec -IsolatedRoot $iso
