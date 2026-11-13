@@ -25,6 +25,7 @@ static func _command(sim, order: String, args: Dictionary) -> bool:
 		"queue": sim.queue_mode=not sim.queue_mode; sim.message="QUEUE: tap to add" if sim.queue_mode else "REPLACE: tap to set route"
 		"route", "emergency":
 			var append=sim.queue_mode and order!="emergency"
+			var had_route=not u.route.is_empty()
 			var plan=sim.route_goals() if append else []
 			if append and not plan.is_empty() and not plan.back().get("arrival_set",false): plan.back().stop=not sim.pass_through
 			plan.append({"pos":args.get("point",u.pos),"stop":true,"mode":"inherit"})
@@ -35,7 +36,7 @@ static func _command(sim, order: String, args: Dictionary) -> bool:
 			if order=="emergency":
 				sim.queue_mode=false; u.silent=false; u.erase("route_undo")
 				if sim.selected>0 and u.has("drone_drive"):u.drone_drive="transit"
-			sim.message="%s · %s route" % [u.name,"queued" if append else "replaced"]
+			sim.message="%s · %s route" % [u.name,"queued" if append else ("replaced" if had_route else "set")]
 		"route_edit", "route_insert", "route_delete", "route_undo":
 			if not sim._edit_program(order,args): return false
 		"order_undo":

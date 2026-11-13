@@ -38,6 +38,7 @@ func run():
 	await slot_case()
 	await fit_case()
 	await rock_case()
+	await prompt_case()
 	await planner_case()
 	await route_end_case()
 	Settings.current=saved
@@ -197,6 +198,46 @@ func slot_case():
 	s.selected=1;game._refresh();hud.open("craft",{"kind":"craft","unit":1,"pos":s.units[1].pos});await settle()
 	var drone=slot_key(hud.ring_buttons)
 	check(drone.get("recall",-1)==3,"a deployed drone's RECALL sits in the same place: "+str(drone))
+	game.queue_free();await settle()
+# WP-58: the route prompt keeps its layout, rock is checked along the route actually flown, and a first route reads as set.
+func prompt_case():
+	var game=await make(Vector2i(2520,1080),1.0)
+	var s=game.sim;var guard=game.mission_hud.guard
+	s.paused=true;s.selected=0;game._refresh()
+	var first:Vector2=s.units[0].pos+Vector2(60,0)
+	if HandPilot.crosses_rock(s,s.units[0].pos,first):first=s.units[0].pos+Vector2(-60,0)
+	guard.tap_water(first);await settle()
+	check(not s.units[0].route.is_empty() and "set route" in s.message and not ("replaced" in s.message),"a first route reads as set, not replaced: "+s.message)
+	# Layout: the action buttons keep their places inside the dialog on every opening and the switch is apart.
+	var offsets:Array=[]
+	var points:Array[Vector2]=[first+Vector2(0,70),first+Vector2(40,-90),first+Vector2(-80,40)]
+	var rp=rock_point(s)
+	if rp!=null:points.append(rp)
+	for p in points:
+		guard.reset();guard.pending={"unit":0,"point":p};game._refresh();await settle()
+		var origin:Vector2=guard.panel.get_global_rect().position
+		var row:Array=[]
+		for b in [guard.go_button,guard.add_button,guard.cancel_button]:row.append(b.get_global_rect().position-origin)
+		row.append(guard.panel.size)
+		row=row.map(func(v):return Vector2(roundf(v.x),roundf(v.y)))
+		offsets.append(row)
+		var switch_rect:Rect2=guard.points_button.get_global_rect()
+		check(guard.points_button.visible and not switch_rect.intersects(guard.go_button.get_global_rect()) and not switch_rect.intersects(guard.add_button.get_global_rect()) and not switch_rect.intersects(guard.cancel_button.get_global_rect()),"the STOP AT EACH NEW POINT switch sits apart from the actions")
+	for i in range(1,offsets.size()):check(offsets[i]==offsets[0],"the prompt's buttons and size are identical on opening %d: %s vs %s"%[i,str(offsets[i]),str(offsets[0])])
+	# Rock is read from the end of the queued route when adding, from the craft when replacing.
+	var end:Vector2=s.units[0].route.back().pos;var found:Variant=null
+	for distance in [200.0,320.0,480.0,700.0]:
+		for i in 48:
+			var q:Vector2=end+Vector2.from_angle(TAU*i/48.0)*distance
+			if Rect2(Vector2.ONE*24,s.world_size()-Vector2.ONE*48).has_point(q) and not HandPilot.rock_at(s,q) and HandPilot.crosses_rock(s,end,q)!=HandPilot.crosses_rock(s,s.units[0].pos,q):
+				found=q;break
+		if found!=null:break
+	if found!=null:
+		var adds:bool=HandPilot.crosses_rock(s,end,found)
+		var text:String=guard.rock_text(found)
+		check(text==(Words.TEXT.rock_route_add if adds else Words.TEXT.rock_route_replace),"the rock sentence names the choice that crosses rock: "+text)
+		guard.reset();guard.pending={"unit":0,"point":found};game._refresh();await settle()
+		check(guard.prompt.text==text,"the prompt shows the same rock check: "+guard.prompt.text)
 	game.queue_free();await settle()
 const ReleaseControls=preload("res://src/presentation/release_controls.gd")
 const HandPilot=preload("res://src/simulation/hand_pilot/hand_pilot.gd")

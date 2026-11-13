@@ -21,17 +21,27 @@ var add_button: Button
 var cancel_button: Button
 var points_button: CheckButton
 var undo_button: Button
+var switch_row: HBoxContainer
+var add_slot: Control
+# Lines the prompt text always reserves, so a longer sentence never moves the buttons.
+const PROMPT_LINES := 3
 func setup(owner) -> void:
 	host = owner; mouse_filter = Control.MOUSE_FILTER_IGNORE
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	panel = PanelContainer.new(); panel.mouse_filter = Control.MOUSE_FILTER_STOP; add_child(panel)
 	var box := VBoxContainer.new(); box.add_theme_constant_override("separation", 6); panel.add_child(box)
 	prompt = Label.new(); prompt.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART; prompt.mouse_filter = Control.MOUSE_FILTER_IGNORE; box.add_child(prompt)
-	var row := HFlowContainer.new(); row.add_theme_constant_override("h_separation", 8); row.add_theme_constant_override("v_separation", 8); box.add_child(row)
+	# WP-58: the prompt is the same size and its buttons sit in the same places on every opening. The switch has a row
+	# of its own above the actions (reserved even when hidden); the three actions share equal slots and a spacer holds
+	# ADD TO ROUTE's slot when there is no route to add to.
+	switch_row = HBoxContainer.new(); box.add_child(switch_row)
+	points_button = _button(switch_row, POINTS_TEXT % "ON", func(): host._order("waypoint_mode"), "order_points", CheckButton.new())
+	var row := HBoxContainer.new(); row.add_theme_constant_override("separation", 8); box.add_child(row)
 	go_button = _button(row, "REPLACE ROUTE", func(): confirm(false), "order_go")
 	add_button = _button(row, "ADD TO ROUTE", func(): confirm(true), "order_add")
-	points_button = _button(row, POINTS_TEXT % "ON", func(): host._order("waypoint_mode"), "order_points", CheckButton.new())
+	add_slot = Control.new(); add_slot.mouse_filter = Control.MOUSE_FILTER_IGNORE; row.add_child(add_slot)
 	cancel_button = _button(row, "CANCEL", cancel, "order_cancel")
+	for slot in [go_button, add_button, add_slot, cancel_button]: slot.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	undo_button = _button(self, "UNDO", do_undo, "order_undo")
 	var chip := StyleBoxFlat.new(); chip.bg_color = Color(.018, .055, .075, .94); chip.border_color = Color("6bd5cb"); chip.set_border_width_all(1); chip.set_corner_radius_all(6)
 	chip.content_margin_left = 12; chip.content_margin_right = 12; chip.content_margin_top = 8; chip.content_margin_bottom = 8
@@ -74,22 +84,37 @@ static func restore_text(record: Dictionary) -> String:
 # WP-52: true when the straight leg this tap would plot (from the craft, or from the end of its route when the
 # tap would add to it) crosses charted rock. Hand piloting through a risk stays the player's right; it only takes
 # a second tap on the marker. Dev dives path-find around rock, so they never warn.
-func leg_crosses_rock(world: Vector2) -> bool:
+func leg_crosses_rock(world: Vector2, append: bool) -> bool:
 	var sim = host.sim; var u = sim.units[sim.selected]
 	if not HandPilot.release(sim): return false
-	var origin: Vector2 = u.route.back().pos if sim.queue_mode and not u.route.is_empty() else u.pos
+	# A leg added to a route starts where the queued route ends; a replacing leg starts at the craft.
+	var origin: Vector2 = u.route.back().pos if append and not u.route.is_empty() else u.pos
 	sim._use_band(u.band)
 	return HandPilot.crosses_rock(sim, origin, world)
+# ADD TO ROUTE is offered only while stops are still ahead.
+func can_add() -> bool:
+	return stops_count() > 0 and not host.sim.units[host.sim.selected].route.is_empty()
+# The rock sentence that fits the choices the dialog offers for this point ("" when no offered choice crosses rock).
+# Read live from the pending point, so pressing either button acts on the same check the prompt showed.
+func rock_text(world: Vector2) -> String:
+	var replace_rock := leg_crosses_rock(world, false)
+	var add_rock := can_add() and leg_crosses_rock(world, true)
+	if not can_add(): return Words.TEXT.rock_route if replace_rock else ""
+	if replace_rock and add_rock: return Words.TEXT.rock_route
+	if replace_rock: return Words.TEXT.rock_route_replace
+	return Words.TEXT.rock_route_add if add_rock else ""
 func tap_water(world: Vector2) -> void:
 	var sim = host.sim
 	if not pending.is_empty() and pending.unit == sim.selected:
 		var near: float = host.ui_touch_height
 		if host.ocean.screen_position(world).distance_to(host.ocean.screen_position(pending.point)) <= near:
 			confirm(false); return
-	var rock := leg_crosses_rock(world)
-	if replaces_plan() or rock:
-		pending = {"unit": sim.selected, "point": world, "rock": rock}; undo = {}
-		if rock: sim.message = Words.TEXT.rock_route
+	var rock := rock_text(world)
+	# With the queue switch on, a plain tap adds: only the added leg matters then.
+	if sim.queue_mode and can_add(): rock = Words.TEXT.rock_route if leg_crosses_rock(world, true) else ""
+	if replaces_plan() or rock != "":
+		pending = {"unit": sim.selected, "point": world}; undo = {}
+		if rock != "": sim.message = rock
 		else: sim.message = "Marker set · REPLACE ROUTE replaces %s's orders%s · tap elsewhere to move the marker" % [sim.units[sim.selected].name, ", ADD TO ROUTE extends its route" if not sim.units[sim.selected].route.is_empty() else ""]
 		host._refresh(); return
 	pending = {}
@@ -140,12 +165,13 @@ func refresh(bounds: Vector2, h: float, font: int, floor_y: float) -> void:
 		prompt.text = "%s %s. New route to the marker? Dive time is held until you choose." % [sim.units[sim.selected].name, orders_text()]
 		go_button.text = "REPLACE ROUTE"; add_button.text = "ADD TO ROUTE"
 		# A red leg is deliberate: the dialog names the rock and offers the same send as the second tap on the marker.
-		if pending.get("rock", false):
-			prompt.text = Words.TEXT.rock_route
-			if stops_count() == 0 and sim.units[sim.selected].hold == "": go_button.text = Words.TEXT.send_anyway
-		# ADD and its pass/stop choice exist only when there is a route to add to.
-		var can_add: bool = stops > 0 and not sim.units[sim.selected].route.is_empty()
-		add_button.visible = can_add; add_button.disabled = not can_add; points_button.visible = can_add
+		var rock := rock_text(pending.point)
+		if rock != "":
+			prompt.text = rock
+			if rock == Words.TEXT.rock_route and stops == 0 and sim.units[sim.selected].hold == "": go_button.text = Words.TEXT.send_anyway
+		# ADD and its pass/stop choice exist only when there is a route to add to; the switch row and ADD's slot stay reserved.
+		var offer_add := can_add()
+		add_button.visible = offer_add; add_button.disabled = not offer_add; points_button.visible = offer_add; add_slot.visible = not offer_add
 		points_button.set_pressed_no_signal(not sim.pass_through); points_button.text = POINTS_TEXT % ("OFF" if sim.pass_through else "ON"); points_button.autowrap_mode = TextServer.AUTOWRAP_OFF
 		for b in [go_button, add_button, points_button, cancel_button, prompt]:
 			b.add_theme_font_size_override("font_size", font)
@@ -154,6 +180,11 @@ func refresh(bounds: Vector2, h: float, font: int, floor_y: float) -> void:
 				for word in ([b.text] if b is CheckButton else b.text.split(" ", false)): widest = maxf(widest, b.get_theme_font("font").get_string_size(word, HORIZONTAL_ALIGNMENT_LEFT, -1, font).x)
 				var mark: float = b.get_theme_icon("checked").get_width() + b.get_theme_constant("h_separation") if b is CheckButton else 0.0
 				b.custom_minimum_size = Vector2(maxf(h * 1.55, widest + mark + b.get_theme_stylebox("normal").get_minimum_size().x + 2), h)
+		# Equal action slots, a reserved switch row and a reserved prompt height keep every opening the same size.
+		var slot_width := maxf(go_button.custom_minimum_size.x, maxf(add_button.custom_minimum_size.x, cancel_button.custom_minimum_size.x))
+		for slot in [go_button, add_button, add_slot, cancel_button]: slot.custom_minimum_size = Vector2(slot_width, h)
+		switch_row.custom_minimum_size.y = h
+		prompt.custom_minimum_size.y = prompt.get_theme_font("font").get_height(font) * PROMPT_LINES
 		panel.custom_minimum_size = Vector2(width, 0); panel.reset_size()
 		place(bounds.x, floor_y, h)
 	if undo_button.visible:
