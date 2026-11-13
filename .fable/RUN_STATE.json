@@ -2,11 +2,11 @@
   "run_id": "overhaul-20261111",
   "status": "RUNNING",
   "phase": "9-ux-repair",
-  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: WP-48 (wheel wording, pause state; branch wp-48) and WP-49 (threat readability; branch wp-49) are with implementers: as each reports, review the diff, merge --no-ff, run touched suites, replay in the kit on cover, send Pat captures, add rows from 79; stop each helper with TaskStop once its report is in. Then the everyday set, a look at the WP-41 fitting cards on a profile with operation 1 recovered and at the Career board and damaged-start briefing line, then another blind critic round. Three yes or no questions are open for Pat (PHASE9.md 'Open for Pat').",
+  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: WP-48 (wheel wording, pause state; branch wp-48) is with an implementer: when it reports, review the diff (it shares ui_style.gd and may touch field_manual_table.gd), merge --no-ff, run touched suites, replay in the kit on cover, send Pat captures, add row 80; stop the helper with TaskStop once its report is in. Then the everyday set and another blind critic round whose briefs ask for captures of: a Siren lock (the red line and the banner of WP-49, unseen by root), the fitting cards after recovering operation 1 (WP-41, unseen), the Career board, the Expedition operation menu, the damaged-start briefing line. Three yes or no questions are open for Pat (PHASE9.md 'Open for Pat'). Also seen: the first-dive PAUSE tip card stays up while the dive runs and its GOT IT did not answer a tap at 868,189 in kit 30: check.",
   "base_ref": "origin/claude/integration",
   "base_sha": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
   "run_branch": "fable/overhaul-20261111",
-  "run_head": "0982a9703c3b5861b6a5a90e27977993a3a70d8a",
+  "run_head": "09e0ed7169bbe60a0beb560d84b51df5403c5d3b",
   "shared_tips": {
     "claude/integration": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
     "main": "f5b66a198e3878950325f8c45a0bc6bc29dcba84",
@@ -64,9 +64,9 @@
     "WP-46": "merged",
     "WP-47": "merged",
     "WP-48": "building",
-    "WP-49": "building"
+    "WP-49": "merged"
   },
   "decisions_open": 0,
   "last_checkpoint": "Everyday set 39 of 39 on head 23ee8db5 (13 Nov, after WP-40 to WP-44). WP-47 merged on top and its suites green.",
-  "updated": "2026-11-13 11:53:02"
+  "updated": "2026-11-13 12:00:18"
 }
