@@ -20,10 +20,7 @@ var snapshot_ready=false
 var active_envelope:Dictionary={}
 var pinned_path=""
 func freeze_campaign()->void:
-	prior_mode=campaign_host.process_mode;prior_sound_suspended=campaign_host.sound.system_suspended
-	for child in campaign_host.get_children():
-		if child is CanvasItem:prior_visibility.append({"node":child,"visible":child.visible});child.hide()
-	campaign_host.sound.suspend();campaign_host.process_mode=Node.PROCESS_MODE_DISABLED
+	preload("res://src/presentation/mode_host_freeze.gd").freeze(self)
 func _bind_state()->void:
 	economy=career_state.economy;expedition=career_state.progress;fitted_equipment=career_state.fitted
 	tool_racks=career_state.get("tool_racks",preload("res://src/equipment/tool_racks.gd").template(Names.LOADOUT_ENDURANCE)).duplicate(true)
@@ -112,8 +109,7 @@ func _result_menu()->void:
 	_menu_text("CONTRACT RESULT",30);_menu_text(career_state.report,18)
 	_show_photo_grade(sim.mission.objectives)
 	if save_failed:
-		_menu_text("RESULT NOT SAVED · "+str(campaign_host.get_meta("career_save_error","")),17)
-		_button(panel_box,"RETRY SAVE",func():_save_archive();_result_menu(),"career_retry")
+		preload("res://src/presentation/frontend/save_error_view.gd").menu_retry(self,"RESULT NOT SAVED · "+str(campaign_host.get_meta("career_save_error","")),17,"RETRY SAVE",func():_save_archive();_result_menu(),"career_retry")
 	else:
 		_button(panel_box,"RETURN TO CONTRACT BOARD",func():
 			result_pending=false;active_started=false;CareerBoard.show(self)
@@ -173,10 +169,4 @@ func _return()->void:
 	if not DevState.marked(self):
 		_save_archive()
 		if save_failed:CareerBoard.show(self);return
-	for item in prior_visibility:
-		if is_instance_valid(item.node):item.node.visible=item.visible
-	campaign_host.process_mode=prior_mode
-	if not prior_sound_suspended:campaign_host.sound.resume()
-	get_parent().remove_child(self)
-	if return_to_list.is_valid():return_to_list.call()
-	queue_free()
+	preload("res://src/presentation/mode_host_freeze.gd").leave(self)

@@ -17,11 +17,7 @@ var prior_sound_suspended=false
 var recorded=false
 var abandoned=false
 func freeze_campaign()->void:
-	prior_mode=campaign_host.process_mode
-	prior_sound_suspended=campaign_host.sound.system_suspended
-	for child in campaign_host.get_children():
-		if child is CanvasItem:prior_visibility.append({"node":child,"visible":child.visible});child.hide()
-	campaign_host.sound.suspend();campaign_host.process_mode=Node.PROCESS_MODE_DISABLED
+	preload("res://src/presentation/mode_host_freeze.gd").freeze(self)
 func _ready()->void:
 	sim=ChallengeRun.new();sim.configure(challenge_id)
 	upgrade=str(sim.definition.loadout);fitted_equipment=Challenges.fitting(sim.definition)
@@ -91,17 +87,10 @@ func _result_menu()->void:
 	if result.loss:_menu_text(sim.rule_failure if not sim.rule_failure.is_empty() else ("Attempt ended." if abandoned else sim.message),17)
 	else:_menu_text("PARS %d / 3"%ChallengeRecords.pars(sim.definition,result),20)
 	if not str(campaign_host.get_meta("challenge_save_error","")).is_empty():
-		_menu_text("PROGRESS NOT SAVED\nResults are held in this session.\n"+str(campaign_host.get_meta("challenge_save_error","")),17)
-		_button(panel_box,"RETRY SAVE",func():Archive.persist(campaign_host);_result_menu(),"challenge_retry_save")
+		preload("res://src/presentation/frontend/save_error_view.gd").menu_retry(self,"PROGRESS NOT SAVED\nResults are held in this session.\n"+str(campaign_host.get_meta("challenge_save_error","")),17,"RETRY SAVE",func():Archive.persist(campaign_host);_result_menu(),"challenge_retry_save")
 	_button(panel_box,"RETRY CHALLENGE",func():_start_mission(int(sim.definition.op));_enter_water(),"challenge_retry")
 	_button(panel_box,"BACK TO CHALLENGES",_return,"challenge_return")
 	call_deferred("_layout")
 func _return()->void:
 	if not recorded:abandoned=true;_record_result()
-	for item in prior_visibility:
-		if is_instance_valid(item.node):item.node.visible=item.visible
-	campaign_host.process_mode=prior_mode
-	if not prior_sound_suspended:campaign_host.sound.resume()
-	get_parent().remove_child(self)
-	if return_to_list.is_valid():return_to_list.call()
-	queue_free()
+	preload("res://src/presentation/mode_host_freeze.gd").leave(self)

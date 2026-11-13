@@ -5,6 +5,7 @@ const Archive=preload("res://src/campaign/challenges/challenge_archive.gd")
 const Catalog=preload("res://src/campaign/challenges/challenge_catalog.gd")
 const Records=preload("res://src/campaign/challenges/challenge_records.gd")
 const Session=preload("res://src/presentation/frontend/challenge_session.gd")
+const SaveErrorView=preload("res://src/presentation/frontend/save_error_view.gd")
 static func completed(front)->Array:
 	return front.host._campaign_completed() if front.host.has_method("_campaign_completed") else []
 static func history(front)->Dictionary:
@@ -19,8 +20,7 @@ static func show(front)->void:
 	var saved=history(front);var recovered=completed(front)
 	var error=front.host.get_meta("challenge_save_error","")
 	if error is String and not error.is_empty():
-		front._text("PROGRESS NOT SAVED\n"+error+"\nResults are held in this session.",16,Color("efc28d"))
-		front._button("RETRY SAVE",func():Archive.persist(front.host);show(front),"challenge_retry_save")
+		SaveErrorView.front_retry(front,"PROGRESS NOT SAVED\n"+error+"\nResults are held in this session.",16,"RETRY SAVE",func():Archive.persist(front.host);show(front),"challenge_retry_save")
 	for row in Catalog.all():
 		var id:String=row.id;var available=Catalog.unlocked(row,recovered)
 		var best=saved.get(id,{}).get("best",{})
@@ -44,10 +44,4 @@ static func details(front,id:String)->void:
 static func start(front,id:String)->void:
 	var row=Catalog.get_challenge(id)
 	if row.is_empty() or not Catalog.unlocked(row,completed(front)):return
-	var session=load("res://scenes/main.tscn").instantiate()
-	session.set_script(Session);session.name="ChallengeSession"
-	session.campaign_host=front.host;session.challenge_id=id
-	session.return_to_list=func():show(front)
-	session.process_mode=Node.PROCESS_MODE_ALWAYS
-	session.freeze_campaign()
-	front.host.add_child(session)
+	load("res://src/presentation/frontend/mode_launcher.gd").launch(front,Session,"ChallengeSession",{"challenge_id":id,"return_to_list":func():show(front)})
