@@ -614,3 +614,13 @@ Asked for his answers to `.fable/UX_AUDIT.md` Part B (B1 to B19), Pat said, verb
  Youre here to fix the game. I can personalize it later"
 
 How it is applied (Claude's reading): every Part B item is approved as recommended, and where an item needs a choice (layout, plain wording for jargon, one name for a place) Claude makes it and records it, without bringing tables to Pat first. Pat will adjust wording and names to his taste afterwards, so every text Claude writes or changes is listed in `.fable/FINAL_REPORT.md` where he can find it. Still Pat's and not touched: story content, game rules, prototype mechanics.
+
+## 2026-11-12: drones stay out once deployed; photographs on a lost dive; look at the game
+
+Asked whether a recalled drone should be able to go back aboard, and which rule applies to photographs on a lost dive, Pat said, verbatim: "1. I prefer the idea that wants deployed they had to stay out. They are torpedo deployed deep sea drones, I don't really think a recovery Bay makes sense on an experimental stealth sub.
+
+2. On easy mode you keep them, everything higher you don't..
+
+Also what's this UI audit I also want you to like you know actually look at how it looks compare it to professional Android games and similar top-down games and make some evaluations and judgment calls"
+
+How it is applied (Claude's reading): (1) A launched drone never goes back aboard during a dive; RECALL brings it beside Quietus and it is counted home at recovery, as now. Player-facing text should speak of deploying, not of a bay. (2) A lost or abandoned dive keeps its photographs only on the easiest preset; on every other preset they are lost with the dive, the gallery must not keep them by accident, and the hub text must say what is true for the preset in use. (3) The UI audit so far judged use, not looks. Claude looks at the real screens itself, compares them with professional Android games and top-down games, writes its evaluation and makes the calls, then builds them.
