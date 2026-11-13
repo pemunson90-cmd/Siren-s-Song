@@ -21,7 +21,7 @@ func run():
  check(log.summary().contains("began at Hull 60%"),"a dive that began damaged says so")
  # A Siren beam kill names the beam.
  s.elapsed+=1.;s.hull=0.;s.outcome="lost";s.message=Sim.VAPORIZED_TEXT;log.sample()
- check(log.summary().contains("NOT A COLLISION · a Siren beam"),"beam loss names the beam")
+ check(log.summary().contains("· a Siren beam"),"beam loss names the beam")
  # A loss with no recorded source says so instead of guessing.
  var t=Sim.new();t.start(0);t.paused=false
  var other=Log.new();other.bind(t)

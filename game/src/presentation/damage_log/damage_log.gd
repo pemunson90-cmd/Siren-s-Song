@@ -123,5 +123,5 @@ func summary()->String:
   match row.kind:
    "LOST":lines.append("%s · %s LOST"%[when,row.craft])
    "COLLISION":lines.append("%s · QUIETUS HULL -%d%% to %d%% · COLLISION%s"%[when,roundi(row.loss),roundi(row.after)," against "+row.note if not row.note.is_empty() else ""])
-   _:lines.append("%s · QUIETUS HULL -%d%% to %d%% · NOT A COLLISION · %s"%[when,roundi(row.loss),roundi(row.after),row.note if not row.note.is_empty() else CAUSE_UNKNOWN])
+   _:lines.append("%s · QUIETUS HULL -%d%% to %d%% · %s"%[when,roundi(row.loss),roundi(row.after),row.note if not row.note.is_empty() else CAUSE_UNKNOWN])
  return "\n".join(lines)
