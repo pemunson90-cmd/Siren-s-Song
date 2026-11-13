@@ -13,7 +13,7 @@ const PROFILES={
   },
   "threats":{1:{"band":2}},
   "hint":"Southern shelf: DEEP crossing · northern saddle: SHALLOW · LINK in MIDDLE.",
-  "brief":"Split two receivers across the branching trench. Photograph WEST and EAST, then Quietus must LINK six seconds at the UPLINK and return. DEEP opens the southern shelf crossing; SHALLOW opens the northern saddle but closes the uplink mouth. The eastern patrol works DEEP. Separate drones can earn independent bearings while Quietus stages. Use craft → DEPTH / SONAR for soundings and layers; local work needs MIDDLE."
+  "brief":"Split two receivers across the branching trench. Photograph WEST and EAST, then Quietus must LINK six seconds at the UPLINK and return. DEEP opens the southern shelf crossing; SHALLOW opens the northern saddle but closes the uplink mouth. The eastern patrol works DEEP. Separate drones can earn independent bearings while Quietus stages. Use craft → DEPTH AND SONAR for soundings and layers; local work needs MIDDLE."
  },
  "blackwater_custody":{
   "source":2,
@@ -22,14 +22,14 @@ const PROFILES={
   "sweepers":[{"pos":Vector2(1120,570),"band":2}],
   "posts":[{"pos":Vector2(257,346),"band":2}],
   "hint":"Buffers stay on craft · DECODE in MIDDLE · TRANSFER at same depth within 60m.",
-  "brief":"DECODE REQUEST and REPLY, then bring both raw buffers aboard Quietus and return. DEEP opens the western underpass; SHALLOW opens the northern reply approach but blocks the southern glider lane. A shallow patrol and deep sweeper guard different waters. DECODE in MIDDLE; meet in the same settled band within 60m to TRANSFER drone buffers. Quietus can sample directly. Craft → DEPTH / SONAR shows received bearings, not promised positions."
+  "brief":"DECODE REQUEST and REPLY, then bring both raw buffers aboard Quietus and return. DEEP opens the western underpass; SHALLOW opens the northern reply approach but blocks the southern glider lane. A shallow patrol and deep sweeper guard different waters. DECODE in MIDDLE; meet in the same settled band within 60m to TRANSFER drone buffers. Quietus can sample directly. Craft → DEPTH AND SONAR shows received bearings, not promised positions."
  },
  "foundry_layers":{
   "source":3,
   "bands":{0:{"remove":[3],"add":[Rect2(1020,720,100,120)]},2:{"remove":[2,4],"add":[]}},
   "threats":{1:{"band":2}},
   "hint":"Cold front weakens sound · plant solid at all depths · deep motor gives no cover.",
-  "brief":"Photograph FURNACE, then LAUNCH CRADLE; recover Quietus past the southern wall. DEEP passes beneath the central spine, but the plant stays solid. The furnace sentinel holds MIDDLE; the recovery sentinel and the plant's deep motor work DEEP. The cold front masks MIDDLE sound only; DEEP does not share that cover. Wait quietly for a crossing, or coordinate a drone sounding while Quietus moves. Use craft → DEPTH / SONAR; image and recover in MIDDLE."
+  "brief":"Photograph FURNACE, then LAUNCH CRADLE; recover Quietus past the southern wall. DEEP passes beneath the central spine, but the plant stays solid. The furnace sentinel holds MIDDLE; the recovery sentinel and the plant's deep motor work DEEP. The cold front masks MIDDLE sound only; DEEP does not share that cover. Wait quietly for a crossing, or coordinate a drone sounding while Quietus moves. Use craft → DEPTH AND SONAR; image and recover in MIDDLE."
  },
  "well_interpretation":{
   "source":4,
@@ -37,7 +37,7 @@ const PROFILES={
   "threats":{0:{"band":0,"pos":Vector2(420,180),"home":Vector2(420,180),"goal":Vector2(420,180),"patrol_points":[Vector2(420,180),Vector2(460,200),Vector2(420,260),Vector2(360,200)]},1:{"pos":Vector2(1480,860),"home":Vector2(1480,860),"goal":Vector2(1480,860)}},
   "sweepers":[{"pos":Vector2(1380,820),"band":2}],
   "hint":"Optional comparison: moving Quietus at MIDDLE aperture, then local MIDDLE receiver.",
-  "brief":"Recover three perimeter records and return. SHALLOW clears western basalt but closes the southern record; DEEP clears the eastern wall under a sweeper. The fast hunter holds MIDDLE. An unverified archive is valid. Optional comparison: cruise Quietus past PROFILE APERTURE in MIDDLE after PATTERN, then receive near RETURN ARCHIVE in MIDDLE. A deep pass is no engine reference. Craft → DEPTH / SONAR compares received bearing history."
+  "brief":"Recover three perimeter records and return. SHALLOW clears western basalt but closes the southern record; DEEP clears the eastern wall under a sweeper. The fast hunter holds MIDDLE. An unverified archive is valid. Optional comparison: cruise Quietus past PROFILE APERTURE in MIDDLE after PATTERN, then receive near RETURN ARCHIVE in MIDDLE. A deep pass is no engine reference. Craft → DEPTH AND SONAR compares received bearing history."
  },
  "song_convergence":{
   "source":5,

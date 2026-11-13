@@ -149,7 +149,7 @@ static func context(sim)->String:
  if rows.any(func(row):return sim.elapsed-row.time<3 and row.classification==preload("res://src/simulation/sweeper_senses.gd").WARNING):return "Investigation heard locally · it is walking to the last noise it heard; go quiet or leave, or drop a decoy."
  if sim.Sonar.feedback(sim,sim.selected).listening>0:return "Listening for returns · moving160m or leaving the emitter band can lose your return."
  if sim.motion_radius(sim.selected)>180:return "Your engines drown out heard directions · slow down or listen from an independent craft."
- return sim.mission.get("depth_hint","Craft → DEPTH / SONAR · bearings need movement or a second receiver; depth costs time.")
+ return sim.mission.get("depth_hint","Craft → DEPTH AND SONAR · bearings need movement or a second receiver; depth costs time.")
 static func valid(data)->bool:
  if data.mission.has("depth_hint") and not data.mission.depth_hint is String:return false
  if not data.get("noises") is Array:return false

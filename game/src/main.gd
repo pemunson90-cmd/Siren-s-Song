@@ -450,7 +450,7 @@ func _refresh() -> void:
 	order_buttons.wait_drone.text="WAIT\nDRONE"
 	var mode="ADD TO ROUTE" if sim.queue_mode else "REPLACE ROUTE"
 	var goals=sim.route_goals(); var intent=""
-	if not goals.is_empty(): intent="TO 1: %s / %s · "%[route_editor.mode_label(goals[0].mode,sim.selected>0),"STOP" if goals[0].stop else "PASS"]
+	if not goals.is_empty(): intent=HudWords.point_row(1,goals[0],sim.selected>0)+" · "
 	if sim.selected>0:intent="DRIVE %s · "%["QUIET42" if sim.units[sim.selected].get("drone_drive","transit")=="quiet" else "TRANSIT96"]+intent
 	var context=camera_hint.text
 	if scout.state=="armed":context="SCOUT: own passive contact stops · route kept"
