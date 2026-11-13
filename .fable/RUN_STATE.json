@@ -2,11 +2,11 @@
   "run_id": "overhaul-20261111",
   "status": "RUNNING",
   "phase": "8-audit",
-  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: WP-28 (A8 steps 3 and 4; branch wp-28 from 0886d487) is building. When it reports: review that subclass dispatch is preserved, merge, report row 55, MODULES row. Then A2 part 2 with numbers first, A1 drawing probe, A10 autosave measure. Then the fresh eight-heading review of the whole audit set (diff since 247e0582), fixes, one full GitHub matrix. Then the UI and UX audit (.fable/UX_AUDIT.md, yes/no list to Pat first).",
+  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: A8 steps 1 to 3 are merged (main.gd 931 to 757 lines). Step 4 was NOT merged: the second commit of branch wp-28 (2605793a: _observation_diagnostics, _take_capture, _report_targets) changed coroutine behavior (await no longer waits, freed-host guards added) for about 60 lines of gain; root judged it not worth the risk; the branch is kept. Remaining before the review: A2 part 2 (per-step caches and HUD refresh rate): decide with numbers whether it is still needed after A4 (worst step 2.5 to 4 ms) and WP-21 hoists; A1 drawing probe needs a screen (GitHub render run or the phone). Then: the fresh eight-heading review of the whole audit set (diff 247e0582..HEAD), root fixes findings, one full GitHub matrix, refresh PR 262. Then the UI and UX audit (.fable/UX_AUDIT.md; yes/no list to Pat first; include A9).",
   "base_ref": "origin/claude/integration",
   "base_sha": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
   "run_branch": "fable/overhaul-20261111",
-  "run_head": "d8781fcacac0fb6b675cadb3cee54093f507c004",
+  "run_head": "3f63a1348da1f0b88977dc42520ffb060dbc93bd",
   "shared_tips": {
     "claude/integration": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
     "main": "f5b66a198e3878950325f8c45a0bc6bc29dcba84",
@@ -43,9 +43,9 @@
     "WP-25": "merged",
     "WP-26": "merged",
     "WP-27": "merged",
-    "WP-28": "building"
+    "WP-28": "merged"
   },
   "decisions_open": 0,
   "last_checkpoint": "A5: core green under the player rules on wp-23-player-rules; enumeration run 43301827177 in progress",
-  "updated": "2026-11-12 20:23:10"
+  "updated": "2026-11-12 20:45:14"
 }
