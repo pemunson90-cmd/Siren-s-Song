@@ -32,7 +32,7 @@ const CHANGED_META="rack_changed"
 const LOCKER_BAR="LOCKER"
 const CARGO_BAR="CARGO"
 # Plain sentences for the load_reason codes (the codes stay internal).
-const REASONS={"SAVE PENDING":"Save the expedition first.","RACK FULL":"This craft already carries the most allowed.","CARGO FULL":"Locker and cargo are full.","NONE ASHORE":"None left in expedition stock."}
+const REASONS={"SAVE PENDING":"Save first: the last change has not been saved.","RACK FULL":"You are carrying the most of this tool allowed.","CARGO FULL":"Locker and cargo are full.","NONE ASHORE":"None left in expedition stock."}
 # Wording that is not the field_tools name: singular noun, plural noun.
 const NOUNS={"recon":"survey charge"}
 const PLURALS={"knock":"torpedoes"}

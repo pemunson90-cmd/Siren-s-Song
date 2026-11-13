@@ -2,11 +2,11 @@
   "run_id": "overhaul-20261111",
   "status": "RUNNING",
   "phase": "9-ux-repair",
-  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: 1) When the full sweep ends (background task; result file sweep_result.txt in the session scratchpad, or rerun: test-suite.ps1 -All -Profile ci, then each render-flagged suite of game/tests/suites.txt through headless.ps1 -Action Script), fix every failure. Known before the sweep: depth_policy_ui_tests 64 failures (ROUTE PROGRAM button not on the craft wheel page), density_scenarios 21 (PAUSED/RUNNING plate text under 14 dp), fit_surface_ui_tests 3 (briefing supplies line), photo_pricing_ui_tests 1 (opening briefing length), photo_range_caption_tests 1 (camera reach refusal wording). 2) Write FINAL_REPORT rows 81 (WP-51 warning moment), 82 (WP-52 wheel: texts in the WP-52 entry of RUN_LOG and hud_words.gd), 83 (WP-53 wide Fittings); reword the fleet-cap reason for torpedoes and hull patches. 3) When WP-54 reports: stop it with TaskStop, review carefully (rule change), merge, Core plus everyday set, replay in the kit, row 84, tell Pat how to switch each rule back. 4) Third blind critic round (must capture: a Siren lock after WP-51; Fittings on inner; the trial pauses).",
+  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: 1) WP-55 (branch wp-55) fixes the eight guard suites that fail on b352f808 (density_scenarios 21, depth_policy_ui_tests 64, fit_surface_ui_tests 3, photo_pricing_ui_tests 1, photo_range_caption_tests 1, rendezvous_ui_tests 2, stable_board_ui_tests 2, tactical_aids_tests 1); WP-54 (branch wp-54) builds the six trial rules. As each reports: stop it with TaskStop, review (WP-54 carefully: rules), merge one at a time, rerun radial_hud_tests, hud_words_ui_tests and the suites it names, replay in the kit, send Pat captures, add rows from 84. 2) After both: rerun every registered suite locally (244 ran in 84 minutes; read results from the per-suite logs in the artifact folder: the sweep script in the session scratchpad did not capture them; cold_review_archive_tests and art_render_measurements do not run on this PC). 3) Third blind critic round (capture a Siren lock after WP-51, Fittings on inner, the trial pauses).",
   "base_ref": "origin/claude/integration",
   "base_sha": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
   "run_branch": "fable/overhaul-20261111",
-  "run_head": "577af3fc843ee60ac99eadb5a88fc7a0bc5e3aa0",
+  "run_head": "916414e222dc19f08456f6aaf468f2dac4d4dc5f",
   "shared_tips": {
     "claude/integration": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
     "main": "f5b66a198e3878950325f8c45a0bc6bc29dcba84",
@@ -69,9 +69,10 @@
     "WP-51": "merged",
     "WP-52": "merged",
     "WP-53": "merged",
-    "WP-54": "building"
+    "WP-54": "building",
+    "WP-55": "building"
   },
   "decisions_open": 0,
   "last_checkpoint": "Everyday set on 853b09ab (13 Nov, after WP-40 to WP-50): 38 of 39; the one failure (runtime_tests: the Blackwater manual must name DECODE, hidden behind the last topic since WP-47) fixed and rerun green with onboarding, depth sonar, radial hud, HUD WORDS UI, tap ownership, threat read, lock warning.",
-  "updated": "2026-11-13 14:43:00"
+  "updated": "2026-11-13 15:43:15"
 }
