@@ -4,6 +4,7 @@ const BriefRows029=preload("res://src/campaign/onboarding2/briefing_rows.gd")
 const ReleaseControls=preload("res://src/presentation/release_controls.gd")
 const EconomyPanel=preload("res://src/presentation/economy_panel.gd")
 const Economy=preload("res://src/campaign/economy.gd")
+const PhotoReview=preload("res://src/presentation/flow/photo_review.gd")
 const FitSurface=preload("res://src/presentation/fit_surface/fit_surface_view.gd")
 const FitSurfaceModel=preload("res://src/presentation/fit_surface/fit_surface.gd")
 # Campaign/menu flow extracted verbatim from main. Main keeps its existing
@@ -39,7 +40,7 @@ static func show_campaign(host) -> void:
 	preload("res://src/persistence/save_states/save2_controller.gd").entry(host)
 	if not preload("res://src/presentation/ops_home/ops_home_table.gd").enabled and not host._campaign_pristine():host._button(host.panel_box,"ERASE PROGRESS · NEW CAMPAIGN",host._confirm_new_campaign,"new_campaign")
 	if not host.recovered_evidence.is_empty(): host._button(host.panel_box,"REVIEW FIELD RECORDS",func(): host._evidence_gallery(0),"evidence")
-	host._menu_text("Field records remain reviewable after loss or abandonment. Only successful extraction advances the campaign.",14)
+	host._menu_text(PhotoReview.loss_note(host,false),14)
 	var copy=preload("res://src/presentation/truthful_commands.gd")
 	host._menu_text(copy.launch_stock(host),15)
 	var rows=["COMPARE: O₂ / EMP / SURVEY"]
@@ -151,6 +152,7 @@ static func briefing(host, index: int) -> void:
 	host.call_deferred("_layout")
 
 static func launch_now(host,index:int)->void:
+	PhotoReview.retain_abandoned(host)
 	EconomyPanel.begin(host,index)
 	if host.screen=="mission" and host.active_started:host._enter_water()
 	elif host.screen=="launch_guard":host._briefing(index) # a blocked launch returns to the briefing it came from
@@ -254,8 +256,8 @@ static func debrief(host) -> void:
 	for loss in Economy.Losses.lines(host.economy,true):host._menu_text(loss,17)
 	host.fitted_equipment=host.FleetInventory.reconcile_fitting(host.fitted_equipment,host.FleetInventory.available(host._equipment_entitlements(),host.fleet,host.economy))
 	ReleaseControls.debug_print(["SS_DEBRIEF outcome=",host.sim.outcome," mission=",host.mission_index])
+	host._retain_evidence() # WP-34: a loss keeps its photographs only where PhotoReview.keeps_photos_after_loss says so
 	if host.sim.outcome=="won":
-		host._retain_evidence()
 		host.photo_intel=host.PhotoIntel.recover(host.photo_intel,host.sim.mission)
 	if host.ExpeditionOperations.debrief(host):
 		expedition_stats(host)
@@ -287,7 +289,8 @@ static func debrief(host) -> void:
 			if 6 in host.ExpeditionCampaign.available(host.completed,host.expedition):host._button(host.panel_box,"BEYOND THE WARNING / THE DIVERGENCE",func():host._briefing(6),"expedition6")
 		else: host._button(host.panel_box,"NEXT DIVE",func(): host._briefing(host.mission_index+1),"next_dive")
 	else:
-		host._menu_text("SIGNAL LOST",32); host._menu_text(host.sim.message,22); lift_at=host.panel_box.get_child_count(); host._menu_text(preload("res://src/presentation/loss_summary.gd").line(host.sim),17); host._menu_text(stats_line(host.sim),17); preload("res://src/presentation/death_cause/cause_log.gd").debrief(host); preload("res://src/presentation/damage_log/damage_log.gd").debrief(host); host._menu_text("Field records remain reviewable after loss or abandonment. Only successful extraction advances the campaign.",17)
+		host._menu_text("SIGNAL LOST",32); host._menu_text(host.sim.message,22); lift_at=host.panel_box.get_child_count(); host._menu_text(preload("res://src/presentation/loss_summary.gd").line(host.sim),17); host._menu_text(stats_line(host.sim),17); preload("res://src/presentation/death_cause/cause_log.gd").debrief(host); preload("res://src/presentation/damage_log/damage_log.gd").debrief(host); var shots_text:String=PhotoReview.loss_photo_lines(host); if not shots_text.is_empty():host._menu_text(shots_text,17)
+		host._menu_text(PhotoReview.loss_note(host,not shots_text.is_empty()),17)
 		host.BlackwaterDelivery.debrief(host)
 		host.ModuleRecovery.debrief(host)
 	host._button(host.panel_box,"RETRY DIVE",func(): host._briefing(host.mission_index),"retry")

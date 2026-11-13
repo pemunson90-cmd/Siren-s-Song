@@ -67,7 +67,15 @@ func _show_campaign()->void:
 	sim.paused=true;screen="challenge_menu";_clear_menu()
 	_menu_text(sim.definition.title,30);_menu_text(Challenges.description(sim.definition),20)
 	_button(panel_box,"RESUME ATTEMPT",_enter_water,"challenge_resume")
-	_button(panel_box,"END ATTEMPT",func():abandoned=true;_debrief(),"challenge_abandon")
+	_button(panel_box,"END ATTEMPT",_confirm_end,"challenge_abandon")
+	call_deferred("_layout")
+# WP-34: ending a live attempt asks first. KEEP returns to the paused menu untouched.
+func _confirm_end()->void:
+	sim.paused=true;screen="challenge_confirm_end";_clear_menu()
+	_menu_text("END THIS ATTEMPT?",30)
+	_menu_text("The attempt will be recorded as lost.",17)
+	_button(panel_box,"KEEP ATTEMPT",_show_campaign,"challenge_attempt_keep")
+	_button(panel_box,"END ATTEMPT",func():abandoned=true;_debrief(),"challenge_attempt_confirm_end")
 	call_deferred("_layout")
 func _record_result()->void:
 	if DevState.block_debrief(self):return
