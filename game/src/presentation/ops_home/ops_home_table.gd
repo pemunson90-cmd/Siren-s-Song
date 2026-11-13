@@ -5,6 +5,6 @@ static var enabled=true
 const TOP_TITLE=true
 const FOLD_THRESHOLD=3
 const GAP=12
-const HEADING_SIZE=18
+const HEADING_SIZE=15
 const NEXT_STRETCH=1.5
 const TEXT={"next":"NEXT OPERATION", "complete":"ALL RECOVERED", "resume":"RESUME DIVE", "idle":"RESUME DIVE", "fold":"RECOVERED (%d)"}

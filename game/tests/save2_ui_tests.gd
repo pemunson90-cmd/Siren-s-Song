@@ -16,7 +16,9 @@ func target_visible(node,id,host,label)->void:
 	while parent!=null and not parent is ScrollContainer:parent=parent.get_parent()
 	if parent!=null:parent.ensure_control_visible(b);await settle()
 	var rect=b.get_global_rect();var viewport=host.get_viewport_rect()
-	check(rect.size.y>=host.ui_touch_height-1.0 and rect.position.y>=0 and rect.end.y<=viewport.size.y,label+" retains the 48 dp touch target inside the viewport")
+	# Hub rows (marked dense_height) are 48dp touch targets; every other screen keeps the full touch height.
+	var needed=preload("res://src/presentation/layout_metrics.gd").dense_height(host.ui_touch_height) if b.has_meta("dense_height") else host.ui_touch_height
+	check(rect.size.y>=needed-1.0 and rect.position.y>=0 and rect.end.y<=viewport.size.y,label+" retains the 48 dp touch target inside the viewport")
 
 func metadata_text(node):
 	var text=""

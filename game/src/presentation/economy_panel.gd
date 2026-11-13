@@ -36,9 +36,9 @@ static func entry(host)->void:
 static func _easier_picker(host,redraw:Callable)->void:
 	var e=host.economy
 	var pending=Options.state(e).pending
-	if not pending.is_empty():host._menu_text("%s queued / effective at the next dock after a dive. Current dive keeps its rules."%Table.PRESETS[pending].name,14)
+	if not pending.is_empty():host._menu_text("%s is queued. It takes effect at the next dock after a dive; the current dive keeps its rules."%Table.PRESETS[pending].name.capitalize(),14)
 	for id in Options.choices(e):
-		host._button(host.panel_box,"EASIER PRESET / %s / NEXT DOCK"%Table.PRESETS[id].name,func():
+		host._button(host.panel_box,"MAKE IT EASIER: %s, FROM THE NEXT DOCK"%Table.PRESETS[id].name,func():
 			if Options.request(e,id):host._save_archive();redraw.call()
 		,"eco_easier_"+id)
 

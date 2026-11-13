@@ -139,7 +139,7 @@ func shape_case(shape):
 				game.scroll.ensure_control_visible(settings_entry);await settle()
 				for id in ["settings","menu_title","menu_challenges","menu_credits"]:
 					var entry=button(game,id)
-					check(entry!=null and entry.size.x>=game.ui_touch_height and entry.size.y>=game.ui_touch_height and game.scroll.get_global_rect().encloses(entry.get_global_rect()),"large-text bottom navigation stays fully reachable: "+id)
+					check(entry!=null and entry.size.x>=game.ui_touch_height and entry.size.y>=preload("res://src/presentation/layout_metrics.gd").dense_height(game.ui_touch_height)-1. and game.scroll.get_global_rect().encloses(entry.get_global_rect()),"large-text bottom navigation stays fully reachable: "+id)
 				await capture("operations-nav150")
 			await press(game,"settings")
 			await press(game,"settings_page_display")
@@ -222,7 +222,7 @@ func shape_case(shape):
 		check(persisted.load_settings().reduced_motion==chosen,"Back flushes a pending setting without waiting for debounce")
 	for b in game.find_children("*","Button",true,false):
 		if b.is_visible_in_tree() and b.get_meta("ui_action","") in ["settings","menu_title","menu_challenges","menu_credits"]:
-			check(b.get_global_rect().size.y>=game.ui_touch_height-1,"Operations control meets host density touch target: "+str(b.get_meta("ui_action")))
+			check(b.get_global_rect().size.y>=preload("res://src/presentation/layout_metrics.gd").dense_height(game.ui_touch_height)-1,"Operations control meets the 48dp touch target: "+str(b.get_meta("ui_action")))
 	game.queue_free();await settle();clean(archive);clean(settings_path);clean(archive+".challenges")
 func focusables(scroll):
 	var out=[]

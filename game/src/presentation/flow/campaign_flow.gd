@@ -4,6 +4,7 @@ const BriefRows029=preload("res://src/campaign/onboarding2/briefing_rows.gd")
 const ReleaseControls=preload("res://src/presentation/release_controls.gd")
 const EconomyPanel=preload("res://src/presentation/economy_panel.gd")
 const Economy=preload("res://src/campaign/economy.gd")
+const OpsHome=preload("res://src/presentation/ops_home/ops_home.gd")
 const PhotoReview=preload("res://src/presentation/flow/photo_review.gd")
 const FitSurface=preload("res://src/presentation/fit_surface/fit_surface_view.gd")
 const FitSurfaceModel=preload("res://src/presentation/fit_surface/fit_surface.gd")
@@ -13,6 +14,12 @@ const FitSurfaceModel=preload("res://src/presentation/fit_surface/fit_surface.gd
 # and width/folding helpers revert with BriefRows029.enabled=false. No saved fields.
 static func loadout_stock(host, choice: String) -> Array:
 	return {Names.LOADOUT_ENDURANCE:[120,2,2],Names.LOADOUT_EMP:[100,3,2],Names.LOADOUT_SURVEY:[100,2,3]}.get(choice,[100,2,2])
+
+# The stock line without its slash-built heading: "Loadout: Endurance (next dive or retry)" plus the unchanged stock figures.
+static func plain_stock(host,index:int=-1) -> String:
+	var lines=preload("res://src/presentation/truthful_commands.gd").launch_stock(host,index).split("\n")
+	lines[0]="Loadout: %s (next dive or retry)"%preload("res://src/equipment/field_tools.gd").loadout_label(host.upgrade).capitalize()
+	return "\n".join(lines)
 
 static func show_campaign(host) -> void:
 	host.screen="menu"; host._clear_menu()
@@ -30,30 +37,35 @@ static func show_campaign(host) -> void:
 		host._button(host.panel_box,"RESUME DIVE · %02d %s"%[host.mission_index+1,host.sim.mission.title.to_upper()],host._enter_water,"resume")
 	# Keep the helper row stable too, so Resume cannot introduce a scrollbar
 	# and shift the menu horizontally at large text sizes.
-	if not host._campaign_pristine() and (preload("res://src/presentation/ops_home/ops_home_table.gd").enabled or (host.active_started and host.sim.outcome.is_empty())):host._menu_text("Resuming keeps this dive's equipment and its place in time.",14)
-	host._button(host.panel_box,"FITTINGS / NEXT LAUNCH",host._show_fittings,"fittings")
+	if not host._campaign_pristine() and (preload("res://src/presentation/ops_home/ops_home_table.gd").enabled or (host.active_started and host.sim.outcome.is_empty())):host._menu_text("Resuming keeps this dive's equipment and its place in time.",14).set_meta(OpsHome.GROUP_META,"continue")
+	host._button(host.panel_box,"FITTINGS",host._show_fittings,"fittings")
+	var difficulty_from=host.panel_box.get_child_count()
 	EconomyPanel.entry(host)
+	# The supplies button comes first; whatever follows it (preset queue, easier button) is the difficulty group.
+	OpsHome.mark(host,difficulty_from+1,"difficulty")
+	difficulty_from=host.panel_box.get_child_count()
 	EconomyPanel.pristine_picker(host)
+	OpsHome.mark(host,difficulty_from,"difficulty")
 	if not host.Endings.campaign_resolve(host.expedition).is_empty():host._button(host.panel_box,"VIEW CAMPAIGN ENDING",host._show_ending,"ending")
 	elif not host.Endings.course_line(host.expedition).is_empty():host._menu_text(host.Endings.course_line(host.expedition),17)
 	preload("res://src/presentation/finale/finale.gd").entry(host)
 	preload("res://src/persistence/save_states/save2_controller.gd").entry(host)
 	if not preload("res://src/presentation/ops_home/ops_home_table.gd").enabled and not host._campaign_pristine():host._button(host.panel_box,"ERASE PROGRESS · NEW CAMPAIGN",host._confirm_new_campaign,"new_campaign")
 	if not host.recovered_evidence.is_empty(): host._button(host.panel_box,"REVIEW FIELD RECORDS",func(): host._evidence_gallery(0),"evidence")
-	host._menu_text(PhotoReview.loss_note(host,false),14)
-	var copy=preload("res://src/presentation/truthful_commands.gd")
-	host._menu_text(copy.launch_stock(host),15)
-	var rows=["COMPARE: O₂ / EMP / SURVEY"]
+	host._menu_text(PhotoReview.loss_note(host,false),14).set_meta(OpsHome.GROUP_META,"note")
+	host._menu_text(plain_stock(host),15)
+	var rows=["COMPARE STOCK (O₂, EMP, SURVEY)"]
 	for choice in Names.LOADOUTS:
 		var supplies=host._loadout_stock(choice)
-		rows.append("%s · %d%% / %d / %d"%[preload("res://src/equipment/field_tools.gd").loadout_label(choice),supplies[0],supplies[1],supplies[2]])
+		rows.append("%s: O₂ %d%%, EMP %d, SURVEY %d"%[preload("res://src/equipment/field_tools.gd").loadout_label(choice),supplies[0],supplies[1],supplies[2]])
 	host._menu_text("\n".join(rows),14)
-	host._menu_text("TOOLS: "+FitSurfaceModel.stock_text(host.tool_racks)+"\nEMP: 12s / SURVEY: 8s, audible",14)
-	host._button(host.panel_box,"CYCLE LOADOUT · endurance / EMP / survey",host._cycle_loadout,"loadout")
-	host._button(host.panel_box,"AUDIO / SETTINGS",host._settings_menu,"settings")
-	preload("res://src/presentation/ops_home/ops_home.gd").arrange(host)
-	preload("res://src/presentation/arcs/arc_card.gd").group_rows(host,host.panel_box)
+	host._menu_text("TOOLS: "+FitSurfaceModel.stock_text(host.tool_racks)+"\nEMP lasts 12s. SURVEY takes 8s and is audible.",14)
+	host._button(host.panel_box,"CYCLE LOADOUT: ENDURANCE, EMP, SURVEY",host._cycle_loadout,"loadout")
+	host._button(host.panel_box,"SETTINGS",host._settings_menu,"settings")
+	# The reach row (Settings, Game Modes, Title, Challenges, Credits) is built before the hub is arranged around it.
 	preload("res://src/presentation/frontend/menu_reach.gd").entries(host)
+	OpsHome.arrange(host)
+	if not preload("res://src/presentation/ops_home/ops_home_table.gd").enabled:preload("res://src/presentation/arcs/arc_card.gd").group_rows(host,host.panel_box)
 	ReleaseControls.debug_print(["SS_SCREEN operations window=",host.get_window().size," viewport=",host.get_viewport_rect().size," root=",host.size," unlocked=",host.unlocked," active_time=",snappedf(host.sim.elapsed,0.01)])
 	host.call_deferred("_layout")
 
@@ -87,7 +99,7 @@ static func briefing(host, index: int) -> void:
 	host.set_meta("onboard2_fit_index",index)
 	host.screen="briefing"; host.sim.paused=true; host._clear_menu()
 	var briefing=host.Simulation.Missions.make(index,host._launch_context(index))
-	host._menu_text("%02d / %s"%[index+1,briefing.title.to_upper()],BriefRows029.STYLE.title if compact else 30)
+	host._menu_text("%02d  %s"%[index+1,briefing.title.to_upper()],BriefRows029.STYLE.title if compact else 30)
 	var goal=BriefRows029.goal(index,host.OnboardingText.goal(index))
 	var photo_problems:String=preload("res://src/simulation/photo_pricing/photo_pricing_briefing.gd").line(index,host.fitted_equipment)
 	var manual_control:Button=null
@@ -112,25 +124,30 @@ static func briefing(host, index: int) -> void:
 	preload("res://src/presentation/crew/crew_view.gd").briefing(host,index)
 	# The opening brief confirms Quietus stock; its FITTINGS entry owns the full per-craft list.
 	var copy=preload("res://src/presentation/truthful_commands.gd")
-	host._menu_text(copy.launch_stock(host,index),17)
+	host._menu_text(plain_stock(host,index),17)
 	if index>=3:host._menu_text(copy.brief_stock(host.tool_racks),14)
-	# Frames open after the first dive; recovered fittings appear once earned. A toggle folds them away.
+	# Frames open after the first dive; recovered fittings appear once earned. One fold hides them.
 	if not compact:fit_start=host.panel_box.get_child_count()
-	# Keep the first briefing focused; fit details stay available in its existing optional fold.
-	host._button(host.panel_box,"EDIT TOOL RACKS / FITTINGS",host._show_fittings,"edit_racks")
+	# Keep the first briefing focused; fit details stay available in the optional fold below LOADOUT.
 	FitSurface.summary(host,host._equipment_context(),copy.brief_stock(host.tool_racks) if index<3 else "")
+	# The summary toggle keeps its id; its label says what it does and follows its state.
+	var summary_toggle=host.panel_box.get_child(host.panel_box.get_child_count()-1)
+	if summary_toggle is Button and summary_toggle.get_meta("action","")=="fit_summary":
+		summary_toggle.text="SHOW FIT SUMMARY"
+		summary_toggle.pressed.connect(func():summary_toggle.text="HIDE FIT SUMMARY" if summary_toggle.text.begins_with("SHOW") else "SHOW FIT SUMMARY",CONNECT_DEFERRED)
 	var fold_control:Button=null
 	if 0 in host.completed or not host._equipment_entitlements().is_empty():preload("res://src/presentation/equipment_context.gd").loadout(host,host._equipment_context().slots,func(key,id):host._choose_equipment(key,id,index))
 	if not host._equipment_entitlements().is_empty():FitSurface.fitting(host,host._equipment_context(),func(slot,item):host._choose_equipment(slot,item,index),func():host._briefing(index))
+	# One clearly named entry opens the fittings screen; it sits above the fold and is never folded away.
+	var loadout_entry=host._button(host.panel_box,"LOADOUT",host._show_fittings,"edit_racks")
+	host.panel_box.move_child(loadout_entry,fit_start);fit_start+=1
 	if host.panel_box.get_child_count()>fit_start:
 		var fit_nodes=host.panel_box.get_children().slice(fit_start)
 		var holder=[]
-		var fold=host._button(host.panel_box,"HIDE FRAMES AND FITTINGS",host._fold_fit.bind(fit_nodes,holder),"fit_fold")
+		var fold=host._button(host.panel_box,fold_text(false,true),host._fold_fit.bind(fit_nodes,holder),"fit_fold")
 		holder.append(fold);host.panel_box.move_child(fold,fit_start)
 		fold_control=fold
-		if compact:
-			fold.text=BriefRows029.FOLD_LABELS.hide
-			if not host.get_meta("onboard2_fit_open",false):host._fold_fit(fit_nodes,holder)
+		if compact and not host.get_meta("onboard2_fit_open",false):host._fold_fit(fit_nodes,holder)
 	var begin=host._button(host.menu_footer,EconomyPanel.begin_text(host),func():
 		if host.active_started and host.sim.outcome.is_empty():confirm_launch(host,index);return
 		launch_now(host,index)
@@ -139,14 +156,23 @@ static func briefing(host, index: int) -> void:
 	if compact:
 		if not begin.disabled:begin.text="DIVE\nPAUSED"
 		manual_control.text="FIELD\nMANUAL"
-		if fold_control!=null:fold_control.text="FIT\n"+("HIDE" if host.get_meta("onboard2_fit_open",false) else "SHOW")
+		if fold_control!=null:fold_control.text=fold_text(true,host.get_meta("onboard2_fit_open",false))
 		for control in [manual_control,fold_control]:
 			if control==null:continue
 			host.panel_box.remove_child(control);host.menu_footer.add_child(control)
 			control.size_flags_horizontal=Control.SIZE_EXPAND_FILL;control.mouse_filter=Control.MOUSE_FILTER_STOP
 	host._button(host.menu_footer,"BACK TO\nOPS" if compact else "BACK TO\nOPERATIONS",host._show_campaign,"back")
-	if index>0 and not host._campaign_pristine() and not EconomyPanel.briefing_line(host).is_empty():host._button(host.menu_footer,"COSTS /\nRETRY",func():preload("res://src/presentation/launch_summary.gd").show(host,index),"launch_costs")
+	if index>0 and not host._campaign_pristine() and not EconomyPanel.briefing_line(host).is_empty():host._button(host.menu_footer,"COSTS AND\nRETRY",func():preload("res://src/presentation/launch_summary.gd").show(host,index),"launch_costs")
 	host.menu_footer.show()
+	# Wide landscape screens: facts and orders on the left, loadout controls on the right.
+	var wide=preload("res://src/presentation/layout_metrics.gd").hub_wide(host.size,host.ui_touch_height)
+	host.set_meta("hub_wide",wide)
+	# The compact (029) briefings already run full width on the cover screen; only the opening briefings split.
+	if wide and not compact:
+		var split=loadout_entry.get_index();var nodes=host.panel_box.get_children()
+		var columns=HBoxContainer.new();columns.add_theme_constant_override("separation",int(preload("res://src/presentation/layout_metrics.gd").MENU_COLUMN_GAP));host.panel_box.add_child(columns)
+		var left=OpsHome.column(14);var right=OpsHome.column(14);columns.add_child(left);columns.add_child(right)
+		for i in nodes.size():nodes[i].reparent(left if i<split else right)
 	if compact:preload("res://src/campaign/onboarding2/briefing_layout.gd").attach(host)
 	preload("res://src/presentation/arcs/arc_card.gd").intro(host,index)
 	host.call_deferred("_layout")
@@ -173,13 +199,18 @@ static func confirm_launch(host,index:int)->void:
 	host.menu_footer.show()
 	host.call_deferred("_layout")
 
+# The one fold's label: the compact footer button takes two short lines.
+static func fold_text(compact:bool,open:bool) -> String:
+	if compact:return "HIDE LOADOUT\nDETAILS" if open else "SHOW LOADOUT\nDETAILS"
+	return "HIDE LOADOUT DETAILS" if open else "SHOW LOADOUT DETAILS"
+
 static func fold_fit(host, nodes:Array,holder:Array) -> void:
 	var show=not nodes[0].visible
 	for node in nodes:node.visible=show
 	if host.screen=="briefing" and BriefRows029.applies(int(host.get_meta("onboard2_fit_index",-1))):
 		host.set_meta("onboard2_fit_open",show)
-		holder[0].text="FIT\nHIDE" if show else "FIT\nSHOW"
-	else:holder[0].text="HIDE FRAMES AND FITTINGS" if show else "SHOW FRAMES AND FITTINGS"
+		holder[0].text=fold_text(true,show)
+	else:holder[0].text=fold_text(false,show)
 	host.call_deferred("_layout")
 
 static func show_reference(host, index:int) -> void:

@@ -90,9 +90,9 @@ func briefing_case():
 	game.upgrade="endurance";game._briefing(1);await settle()
 	var found=""
 	for c in game.panel_box.find_children("*","Label",true,false):
-		if c.text.begins_with("NEXT DIVE / RETRY"):found=c.text
+		if c.text.begins_with("Loadout:"):found=c.text
 	var s=load("res://src/simulation/simulation.gd").new();s.start(1,"endurance")
 	var seconds=int(s.oxygen/preload("res://src/simulation/operation_endurance.gd").oxygen_drain(s.mission,1.0))
 	check(("LIFE SUPPORT %d:%02d"%[seconds/60,seconds%60]) in found,"the briefing states the operation's life-support limit %d s: %s"%[seconds,found])
-	check(found.begins_with("NEXT DIVE / RETRY") and "O₂" in found,"the existing stock line is unchanged ahead of it")
+	check(found.begins_with("Loadout:") and "O₂" in found,"the existing stock line is unchanged ahead of it")
 	game.queue_free();await settle()
