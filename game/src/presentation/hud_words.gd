@@ -37,6 +37,8 @@ const TEXT={
 	"all_stop": "ALL STOP",
 	"audio_log_empty": "No sounds logged yet",
 	"rock_route": "This route crosses charted rock. Tap the marker again to send it anyway, or tap open water.",
+	"rock_route_replace": "REPLACE ROUTE would cross charted rock; ADD TO ROUTE would not. Tap open water to move the marker.",
+	"rock_route_add": "ADD TO ROUTE would cross charted rock; REPLACE ROUTE would not. Tap open water to move the marker.",
 	"send_anyway": "SEND ANYWAY",
 	"ping": "PING SONAR\nuses %s reserve",
 	"ping_free": "PING SONAR\nuses no reserve",
