@@ -14,18 +14,18 @@ const GOALS := {
 	5: "GOAL: photograph the crown and wakes, then LISTEN at the lee receiver and return home.\nDANGER: Quietus must collect the six-second listening record. Use the southern rocks for cover."
 }
 const HINTS := {
-	"move": {"text": "Tap QUIETUS or a drone, then tap open water to plan a route. Nothing moves until you press RESUME.", "ops": [0]},
-	"pause": {"text": "PAUSE is the top corner button: top left, or top right with the mirrored HUD. Time stops, and you can plan, inspect and change orders as long as you like.", "ops": [0]},
+	"move": {"text": "Tap QUIETUS or a drone, then tap open water to plan a route. Nothing moves until you tap the PAUSED control to resume.", "ops": [0]},
+	"pause": {"text": "The top corner control says RUNNING or PAUSED: tap it to stop time, then plan, inspect and change orders for as long as you like.", "ops": [0]},
 	"drone": {"text": "Send a drone ahead to look. Drones are expendable. Quietus is not.", "ops": [0]},
 	"sweep": {"text": "A Siren heard noise and is walking to that spot. The cue gives its bearing and seconds. Time is paused. Slow down or go SILENT, and keep rock between you and it.", "ops": [0, 1, 2, 3]},
-	"warning": {"text": "A Siren has noticed you, so time is paused. Its warning shows the bearing and seconds left. Break line of sight, slow down or go SILENT, then press RESUME.", "ops": [0, 1, 2, 3]},
+	"warning": {"text": "A Siren has noticed you, so time is paused. Its warning shows the bearing and seconds left. Break line of sight, slow down or GO SILENT, then tap the PAUSED control to resume.", "ops": [0, 1, 2, 3]},
 	"noise": {"text": "Speed makes noise. Fast movement is heard from farther away. SILENT running is slower and quieter.", "ops": [0, 1, 2]},
 	"priced_reach": Priced.HINTS.priced_reach,
 	"priced_light": Priced.HINTS.priced_light,
 	"priced_window": Priced.HINTS.priced_window,
 	"priced_film": Priced.HINTS.priced_film,
 	"first_depth": {"text": "Depth changes hold the craft still and expose it in both bands. A normal crossing takes four seconds; the pressure sleeve shortens it.", "ops": []},
-	"first_emit": {"text": "EMIT spends reserve and makes noise. Returns take time; SECTOR and POWER set the next pulse's coverage and reach.", "ops": []},
+	"first_emit": {"text": "PING SONAR spends reserve and makes noise. Returns take time; PING ARC and PING POWER set the next ping's coverage and reach.", "ops": []},
 	"first_research": {"text": "Recovered material and its regional account unlock research. Check RESEARCH or SUPPLIES for the project and its cost before choosing it.", "ops": []},
 	"first_field_tool": {"text": "Field tools spend finite stock. Hold a tool button for its rules; SUPPLIES prepares the next launch, while RESUME keeps this dive's stock.", "ops": []}
 }
