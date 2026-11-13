@@ -101,8 +101,8 @@ Every dive now starts on the player rules, in tests as in play. 137 test suites 
 
 | Test | What it still uses | Why | What Pat may want to check |
 |---|---|---|---|
-| `photo_row_tender_door_journey_tests` | all older rules | The route relied on the older, louder drone drawing a guard away. With quiet drones the guard stays and the drone is lost at its depth change. | Can the tender door (operation 7) be photographed by a quiet drone? |
-| `depth_policy_journeys`, `depth_policy_ui_tests` | all older rules | The "active scout" opening plan loses Quietus at about 48 seconds on the player rules; it wins on the older ones. Likely because a calm Siren no longer turns toward the scout drone. | Is sending a scout ahead still a sound opening? |
+| `photo_row_tender_door_journey_tests` (retired) | all older rules | The route relied on the older, louder drone drawing a guard away. With quiet drones the guard stays and the drone is lost at its depth change. | Can the tender door (operation 7) be photographed by a quiet drone? |
+| `depth_policy_journeys` (retired), `depth_policy_ui_tests` | all older rules | The "active scout" opening plan loses Quietus at about 48 seconds on the player rules; it wins on the older ones. Likely because a calm Siren no longer turns toward the scout drone. | Is sending a scout ahead still a sound opening? |
 | `hand_pilot_journeys`, `bare_contact_tests` (operations 17 and 30 only) | known charts | The careful scripted pilot is destroyed on the first legs when it has to discover the chart. | Can operations 17 (Silt Archive) and 30 be finished by hand on discovered charts? |
-| `calder_fleet_journey_tests` | drones start in the water | Its controller orders drone depths before a drone can be launched. | Nothing; test plumbing. |
+| `calder_fleet_journey_tests` (retired) | drones start in the water | Its controller orders drone depths before a drone can be launched. | Nothing; test plumbing. |
 | `loadout_frames_tests` (power bus cost checks) | sonar cost | Quietus sonar is free on the player rules, which hides the cost these checks measure. | Nothing; the drone cost is still tested. |

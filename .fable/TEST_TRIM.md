@@ -1,4 +1,8 @@
-# Test suite trim: proposed keep and retire list
+# Test suite trim
+
+Status: APPLIED, 2026-11-12 (Pat: "You got access to my whole PC you can figure it out"). Final numbers: **238 suites kept** (39 in the everyday set, the rest guards that run when their module changes), **152 retired** to `_scrap-20261111/tests-retired/` with their registry rows in `suites-retired.txt` there, 4 measurement tools kept. The keep set grew from the first proposal because every protected capability in `.fable/PROTECTED_CAPABILITIES.md` keeps at least one verifying suite (85 suites added for that), kept files keep the suites they load (8), and suites named as an oracle in source, a guide or a script stay (7). Run the everyday set with `scripts\toolchain\win\test-suite.ps1 -All -Profile local`. The lists below are the first proposal, kept for the reasoning; the applied lists are the registry and the scrap folder.
+
+## First proposal (for the record)
 
 Status: PROPOSED, 2026-11-12. Nothing has been moved. Pat approves or changes this list first. Retired suites move to `_scrap-20261111/tests-retired/`; nothing is deleted, and any suite can be put back by moving its file and its line in `game/tests/suites.txt`.
 
