@@ -226,6 +226,6 @@ func run():
  recovery_case();camera_snapshot_case()
  check("Counterweight Grave observation" in Copy.present("Observed choir_27"),"observations name recovered operation")
  check(not "AI-DESIGNED" in Copy.present("AI-DESIGNED optional CAMERA work"),"manual copy removes author label")
- check("Expedition Hunt stage: 2" inSeed.setup_context(preload("res://src/campaign/runs/run_state.gd").new_run(166421881)),"seed context distinguishes expedition Hunt modifier")
+ check("Expedition Hunt stage: 2" in Seed.setup_context(preload("res://src/campaign/runs/run_state.gd").new_run(166421881)),"seed context distinguishes expedition Hunt modifier")
  for shape in [Vector2i(2520,1080),Vector2i(2184,1968)]:await shape_case(shape)
  print("AUDIT READABILITY UI CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)
