@@ -4,7 +4,10 @@ extends Control
 # a route, hold or exposure under way, the tap sets a pending marker. REPLACE ROUTE replaces,
 # ADD TO ROUTE extends (offered only when there is a route), CANCEL drops it. Tapping the marker
 # again also replaces. Main holds dive time while this dialog is open.
+const UiStyle := preload("res://src/presentation/ui_style.gd")
 const UNDO_MS := 10000
+# C8: one line for the switch; ON stops at each added point, OFF keeps moving through it.
+const POINTS_TEXT := "STOP AT EACH NEW POINT"
 var host
 var pending := {}
 var undo := {}
@@ -13,7 +16,7 @@ var prompt: Label
 var go_button: Button
 var add_button: Button
 var cancel_button: Button
-var points_button: Button
+var points_button: CheckButton
 var undo_button: Button
 func setup(owner) -> void:
 	host = owner; mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -24,7 +27,7 @@ func setup(owner) -> void:
 	var row := HFlowContainer.new(); row.add_theme_constant_override("h_separation", 8); row.add_theme_constant_override("v_separation", 8); box.add_child(row)
 	go_button = _button(row, "REPLACE ROUTE", func(): confirm(false), "order_go")
 	add_button = _button(row, "ADD TO ROUTE", func(): confirm(true), "order_add")
-	points_button = _button(row, "POINTS: PASS", func(): host._order("waypoint_mode"), "order_points")
+	points_button = _button(row, POINTS_TEXT, func(): host._order("waypoint_mode"), "order_points", CheckButton.new())
 	cancel_button = _button(row, "CANCEL", cancel, "order_cancel")
 	undo_button = _button(self, "UNDO", do_undo, "order_undo")
 	var chip := StyleBoxFlat.new(); chip.bg_color = Color(.018, .055, .075, .94); chip.border_color = Color("6bd5cb"); chip.set_border_width_all(1); chip.set_corner_radius_all(6)
@@ -33,9 +36,9 @@ func setup(owner) -> void:
 	undo_button.add_theme_stylebox_override("normal", chip)
 	panel.hide(); undo_button.hide()
 	panel.minimum_size_changed.connect(func():call_deferred("_fit_panel"))
-func _button(parent: Node, text: String, action: Callable, id: String) -> Button:
-	var b := Button.new(); b.text = text; b.focus_mode = Control.FOCUS_NONE; b.autowrap_mode = TextServer.AUTOWRAP_WORD
-	b.pressed.connect(action, CONNECT_DEFERRED); b.set_meta("action", id); b.set_meta("ui_action", id); parent.add_child(b); return b
+func _button(parent: Node, text: String, action: Callable, id: String, b: Button = Button.new()) -> Button:
+	b.text = text; b.focus_mode = Control.FOCUS_NONE; b.autowrap_mode = TextServer.AUTOWRAP_WORD
+	b.pressed.connect(action, CONNECT_DEFERRED); b.set_meta("action", id); b.set_meta("ui_action", id); parent.add_child(b); UiStyle.apply_for(b, id); return b
 # True when a plain tap would discard something the player may still want.
 func replaces_plan() -> bool:
 	var sim = host.sim; var u = sim.units[sim.selected]
@@ -118,13 +121,14 @@ func refresh(bounds: Vector2, h: float, font: int, floor_y: float) -> void:
 		# ADD and its pass/stop choice exist only when there is a route to add to.
 		var can_add: bool = stops > 0 and not sim.units[sim.selected].route.is_empty()
 		add_button.visible = can_add; add_button.disabled = not can_add; points_button.visible = can_add
-		points_button.text = "AT NEW POINTS: KEEP MOVING" if sim.pass_through else "AT NEW POINTS: STOP"
+		points_button.set_pressed_no_signal(not sim.pass_through)
 		for b in [go_button, add_button, points_button, cancel_button, prompt]:
 			b.add_theme_font_size_override("font_size", font)
 			if b is Button:
 				var widest := 0.0
 				for word in b.text.split(" ", false): widest = maxf(widest, b.get_theme_font("font").get_string_size(word, HORIZONTAL_ALIGNMENT_LEFT, -1, font).x)
-				b.custom_minimum_size = Vector2(maxf(h * 1.55, widest + b.get_theme_stylebox("normal").get_minimum_size().x + 2), h)
+				var mark: float = b.get_theme_icon("checked").get_width() + b.get_theme_constant("h_separation") if b is CheckButton else 0.0
+				b.custom_minimum_size = Vector2(maxf(h * 1.55, widest + mark + b.get_theme_stylebox("normal").get_minimum_size().x + 2), h)
 		panel.custom_minimum_size = Vector2(width, 0); panel.reset_size()
 		place(bounds.x, floor_y, h)
 	if undo_button.visible:
