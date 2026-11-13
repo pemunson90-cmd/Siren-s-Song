@@ -13,7 +13,6 @@ RUNNING. WP-46 (first-run menus), WP-48 (wheel wording, pause state) and WP-49 (
 
 | Package | Branch | From the critic ranking | Owns |
 |---|---|---|---|
-| WP-46 | `wp-46` | 7, 8: first-run menus (hub button names the operation, chosen difficulty, region entry screen, Route Map header, REWARD wording, seed start, carried damage and carry sentence in the briefing) | `ops_home/`, `arcs/`, `route_map/`, `career_board.gd`, `runs/`, briefing in `campaign_flow.gd`, `fittings_menu.gd` |
 | WP-48 | `wp-48` | 3, 5, 9: pause control states PAUSED or RUNNING; SILENT says what it costs with real numbers; plain wheel labels; a line when a route ends; a reason when the game pauses itself | `mission_hud.gd`, `release_controls.gd`, `radial_layout/`, `fleet_ring.gd`, `status_text/` |
 | WP-49 | `wp-49` | 4, 10: a red line or wedge from the threatened craft toward the Siren with the countdown; direction in words on the warning card; where the Siren was on the loss screen; PHOTO refusal with distance | `lock_warning.gd`, `threat_read/`, `death_cause/`, `loss_summary.gd`, `contact_card.gd`, one draw call in `ocean_view.gd` |
 
