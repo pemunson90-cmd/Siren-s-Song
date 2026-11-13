@@ -55,12 +55,12 @@ const ROLES={
 	"challenge_start":"MAIN","challenge_resume":"MAIN","continue_choir":"MAIN","continue_glass":"MAIN","next_expedition":"MAIN",
 	# QUIET: back, cancel, close, keep, return, title.
 	"frontend_back":"QUIET","back":"QUIET","profiles_back":"QUIET","profiles_cancel":"QUIET","save2_back":"QUIET","save2_cancel":"QUIET",
-	"career_return":"QUIET","career_keep":"QUIET","launch_guard_keep":"QUIET","run_keep":"QUIET","run_return":"QUIET",
+	"career_return":"QUIET","career_keep":"QUIET","launch_guard_keep":"QUIET","run_keep":"QUIET","run_dive_keep":"QUIET","challenge_attempt_keep":"QUIET","run_return":"QUIET",
 	"challenge_back":"QUIET","challenge_return":"QUIET","route_map_back":"QUIET","siren_dossier_back":"QUIET","ops_title":"QUIET",
 	"menu_title":"QUIET","dev_return":"QUIET","keep_recovering":"QUIET","hint_dismiss":"QUIET","ack_archive_warning":"QUIET",
 	# DANGER: throwing away a dive, a run or progress, and their confirm buttons.
 	"career_abandon":"DANGER","career_confirm_abandon":"DANGER","run_abandon":"DANGER","run_end":"DANGER","run_confirm_end":"DANGER",
-	"challenge_abandon":"DANGER","new_campaign":"DANGER","confirm_new_campaign":"DANGER","launch_guard_abandon":"DANGER",
+	"challenge_abandon":"DANGER","run_dive_confirm_end":"DANGER","challenge_attempt_confirm_end":"DANGER","new_campaign":"DANGER","confirm_new_campaign":"DANGER","launch_guard_abandon":"DANGER",
 	"abandon_modules":"DANGER","profile_clear":"DANGER","profiles_confirm":"DANGER","save2_confirm":"DANGER",
 }
 # Forward actions that can appear together on one result screen: if two are present, neither is MAIN.
