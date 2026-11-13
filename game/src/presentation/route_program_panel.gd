@@ -89,7 +89,7 @@ func refresh():
  var goals=host.sim.route_goals();selected_goal=clampi(selected_goal,0,maxi(0,goals.size()-1))
  var legacy=goals.any(func(goal):return goal.get("legacy",false))
  var drone=host.sim.selected>0;var unit=host.sim.units[host.sim.selected]
- info.text=unit.name+(" · DRIVE %s · %s PROFILE\nTO sets incoming drive; INHERIT keeps current. STOP settles, then continues."%["QUIET42" if unit.get("drone_drive","transit")=="quiet" else "TRANSIT96","LOW" if unit.silent else "OPEN"] if drone else " · TO sets incoming propulsion. INHERIT keeps manual. STOP settles, then continues.")+("\nLegacy course retained; editing rebuilds to its final goal." if legacy else "")
+ info.text=unit.name+(" · DRIVE %s · %s PROFILE\nTO sets how the drone travels to this point. SAME keeps its current setting. STOP halts at the point, then goes on."%["QUIET42" if unit.get("drone_drive","transit")=="quiet" else "TRANSIT96","LOW" if unit.silent else "OPEN"] if drone else " · TO sets how the craft travels to this point. SAME keeps its current setting. STOP halts at the point, then goes on.")+("\nLegacy course retained; editing rebuilds to its final goal." if legacy else "")
  for c in rows.get_children():rows.remove_child(c);c.queue_free()
  selected_row=null
  for n in goals.size():
@@ -103,7 +103,7 @@ func refresh():
  point_info.text=error_text if not error_text.is_empty() else ("Tap preview to add the first destination." if empty else "POINT %d / %d · tap preview to move"%[selected_goal+1,goals.size()])
  preview.selected_goal=selected_goal;preview.queue_redraw();call_deferred("configure",host.size,host.ui_touch_height);call_deferred("show_selected_row")
 func mode_label(mode:String,drone:bool) -> String:
- return ("QUIET42" if mode=="silent" else "TRANSIT96" if mode=="cruise" else "INHERIT") if drone else mode.to_upper()
+ return ("QUIET42" if mode=="silent" else "TRANSIT96" if mode=="cruise" else "SAME") if drone else mode.to_upper()
 func show_selected_row():
  if is_instance_valid(selected_row):row_scroll.ensure_control_visible(selected_row)
 func apply(order:String,args:Dictionary):

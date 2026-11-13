@@ -40,7 +40,7 @@ const TEXT := {
 	"refused_craft": "Only Quietus can all stop",
 	"refused_depth": "Settle at depth before shutting the engines down",
 	"button": "ALL STOP",
-	"button_cost": "ALL STOP\n%.1f%% O2 · %ds restart",
+	"button_cost": "ALL STOP\ncosts %.1f%% O₂ · %ds to restart",
 	"button_restart": "ENGINES\nRESTART",
 	"button_spinup": "ENGINES\n%ds",
 }

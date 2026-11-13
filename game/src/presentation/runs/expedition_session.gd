@@ -81,13 +81,13 @@ func _show_campaign()->void:
 		var rider=RunState.rider_offer(run_state)
 		_menu_text(RunState.Riders.description(rider,RunState.rider_bonus_text(rider)),17)
 		if not rider.is_empty():
-			_button(panel_box,"RIDER · "+("ACCEPTED" if accept_rider else "DECLINED"),preload("res://src/presentation/rider_choice.gd").toggle.bind(self,_show_campaign),"run_rider")
+			_button(panel_box,"RIDER: ON · TAP TO REMOVE" if accept_rider else "RIDER: OFF · TAP TO ACCEPT",preload("res://src/presentation/rider_choice.gd").toggle.bind(self,_show_campaign),"run_rider")
 		tool_racks=run_state.get("tool_racks",preload("res://src/equipment/tool_racks.gd").from_stock(run_state.stock)).duplicate(true)
 		preload("res://src/presentation/mode_racks_view.gd").show(self,true)
 		# WP-11 (I6): the launch and return actions sit in the pinned footer, not
 		# at the end of a page several screens tall.
 		_button(menu_footer,"BEGIN OPERATION · START PAUSED",_begin,"run_begin")
-		_button(menu_footer,"RETURN TO MODES",_return,"run_return")
+		_button(menu_footer,"BACK TO GAME MODES",_return,"run_return")
 		menu_footer.show()
 	call_deferred("_layout")
 # WP-34: ending a live dive asks first. KEEP returns to the paused menu untouched.
@@ -143,7 +143,7 @@ func _result_menu()->void:
 			# The saved result is consumed only when explicitly preparing the next dive.
 			recorded=false;_show_campaign()
 		,"run_next")
-	_button(panel_box,"RETURN TO EXPEDITIONS",_return,"run_return")
+	_button(panel_box,"BACK TO EXPEDITIONS",_return,"run_return")
 	call_deferred("_layout")
 func _pick_offer(id:String)->void:
 	if not RunState.valid(run_state) or not RunOffers.pending(run_state):return

@@ -118,7 +118,7 @@ func refresh(bounds: Vector2, h: float, font: int, floor_y: float) -> void:
 		# ADD and its pass/stop choice exist only when there is a route to add to.
 		var can_add: bool = stops > 0 and not sim.units[sim.selected].route.is_empty()
 		add_button.visible = can_add; add_button.disabled = not can_add; points_button.visible = can_add
-		points_button.text = "ADDED POINTS: PASS THROUGH" if sim.pass_through else "ADDED POINTS: STOP AT EACH"
+		points_button.text = "AT NEW POINTS: KEEP MOVING" if sim.pass_through else "AT NEW POINTS: STOP"
 		for b in [go_button, add_button, points_button, cancel_button, prompt]:
 			b.add_theme_font_size_override("font_size", font)
 			if b is Button:
