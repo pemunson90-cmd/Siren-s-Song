@@ -88,6 +88,7 @@ func run():
 	await resume_checks(g)
 	await order_text_checks(g)
 	await hold_checks(g)
+	await status_checks(g)
 	await dialog_place_checks(g)
 	Settings.current["mirrored_hud"]=true
 	await mirrored_resume_check(g)
@@ -102,6 +103,28 @@ func run():
 	Settings.current["mirrored_hud"]=false
 	g.queue_free();await settle()
 	print("PLANNING ORDER FLOW UI CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)
+
+# 5. WP-36: the bottom status shows what is current. The LAST result belongs to the previous order;
+# the next order to any craft (or selecting another craft) clears it, and an accepted order replaces a
+# stale cancelled message. Nothing here waits on a timer: a paused plan keeps its message.
+func status_checks(g)->void:
+	await fresh(g)
+	var hud=g.mission_hud
+	hud.task_result={"owner":"QUIETUS","ok":true,"text":"Camera exposure · hold 4 seconds"};g.sim.message="Marker cancelled · orders unchanged";g._refresh();await settle()
+	check("LAST ·" in hud.intent.text and "Marker cancelled" in hud.intent.text,"before the next order the result and the message are shown")
+	for n in 120:await process_frame
+	check("LAST ·" in hud.intent.text and "Marker cancelled" in hud.intent.text,"waiting while paused does not remove them")
+	g._order("select",{"unit":0});g._refresh();await settle()
+	check("LAST ·" in hud.intent.text,"selecting the craft that is already selected keeps the result")
+	g._order("hold");g._refresh();await settle()
+	check(hud.task_result.is_empty() and "LAST ·" not in hud.intent.text,"the next order clears the LAST result")
+	check("Marker cancelled" not in hud.intent.text and "Marker cancelled" not in g.sim.message,"an accepted order replaces the cancelled message")
+	check(hud.intent.text.split("\n").size()<=2,"at rest the status is the current line and the standing hint: "+hud.intent.text)
+	hud.task_result={"owner":"QUIETUS","ok":false,"text":"Camera refused"};g._refresh();await settle()
+	g._order("select",{"unit":1});g._refresh();await settle()
+	check(hud.task_result.is_empty(),"selecting another craft clears the LAST result")
+	g.sim.message="Marker cancelled · orders unchanged";g._order("select",{"unit":99});g._refresh();await settle()
+	check(g.sim.message=="Marker cancelled · orders unchanged","a refused order keeps the message it reports")
 
 # 1. Planning camera.
 func camera_checks(g)->void:

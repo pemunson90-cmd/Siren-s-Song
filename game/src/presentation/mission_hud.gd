@@ -603,7 +603,8 @@ func refresh():
  _fit_pause_button()
  host.advanced_button.text="FLEET";plate(host.advanced_button,UiStyle.NORMAL)
  focus_button.text="FOLLOW" if host.ocean.chart_camera.mode=="follow" else "FOCUS"
- intent.text="%s · %s · %s"%[sim.units[sim.selected].name+" · "+sim.Depth.NAMES[sim.units[sim.selected].band],"QUEUE" if sim.queue_mode else "REPLACE",(host.targeting_feedback if not host.targeting_feedback.is_empty() else "DECOY · TAP CLEAR WATER ≤160m · TAP CANCEL" if host.decoy_armed else "TORPEDO · TAP FRESH CONTACT · TAP CANCEL" if host.knock_armed else sim.message)]
+ var current=host.targeting_feedback if not host.targeting_feedback.is_empty() else "DECOY · TAP CLEAR WATER ≤160m · TAP CANCEL" if host.decoy_armed else "TORPEDO · TAP FRESH CONTACT · TAP CANCEL" if host.knock_armed else sim.message
+ intent.text="%s · %s"%[sim.units[sim.selected].name+" · "+sim.Depth.NAMES[sim.units[sim.selected].band],"QUEUE" if sim.queue_mode else "REPLACE"]+(" · "+current if not current.is_empty() else "")
  host.title_label.visible=page not in ["signals","recovery","order_help"];host.detail_label.visible=page not in ["signals","recovery","order_help"]
  host.order_buttons.home.text="WITHDRAW" if Expedition.entry(sim) else "EXTRACT"
  extra.route_here.text="PLOT ROUTE" if subject.has("subkind") else "ROUTE HERE"
@@ -692,7 +693,8 @@ func refresh():
  alarm.size=Vector2(maxf(1,size.x-touch_height*6.*text_scale-64),touch_height) if host.advanced_orders else Vector2(minf(size.x-touch_height*3.1*text_scale-56,ThemeDB.fallback_font.get_string_size(alarm.text,HORIZONTAL_ALIGNMENT_LEFT,-1,alert_font).x+22),ThemeDB.fallback_font.get_height(alert_font)+8)
  fleet.visible=not host.advanced_orders and not host.decoy_armed and not host.knock_armed
  if not host.decoy_armed and not host.knock_armed:
-  for task_text in [WorkTask.line(sim,task),WorkTask.result_line(task_result),WorkTask.load_status(sim)]:
+  # WP-36: the TASK line only while its work is actually under way; at rest the status is the current line and the standing hint.
+  for task_text in [WorkTask.line(sim,task) if WorkTask.working(sim,task) else "",WorkTask.result_line(task_result),WorkTask.load_status(sim)]:
    if not task_text.is_empty():intent.text+="\n"+task_text
   intent.text+="\n"+sim.Depth.context(sim)
  Truthful.apply(self)

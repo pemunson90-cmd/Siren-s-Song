@@ -338,7 +338,14 @@ func _order(order: String,args: Dictionary={}) -> void:
 	if order=="route" and sim.outcome.is_empty() and mission_hud!=null and mission_hud.guard!=null:undo_record=mission_hud.guard.capture()
 	var worker=sim.selected
 	if order=="select" and sim.paused and int(args.get("unit",-1))!=sim.selected:_hold_view()
+	# WP-36: the LAST result belongs to the previous order. Any next order, or selecting another craft, clears it
+	# (selecting the same craft leaves it); a work order below then reports its own. The message is cleared the same
+	# way: an accepted order replaces a stale cancelled/refused message, a refused one keeps what it reports.
+	var earlier_message=sim.message
+	if mission_hud!=null and (order!="select" or int(args.get("unit",-1))!=sim.selected):mission_hud.task_result={}
+	sim.message=""
 	var accepted=sim.command(order,args)
+	if sim.message.is_empty():sim.message=earlier_message if not accepted else ""
 	if mission_hud!=null and (order=="camera" or order.ends_with("_action") or order in WORK_ORDERS):
 		mission_hud.task_result={"owner":WorkTaskView.NAMES[worker],"ok":accepted,"text":sim.message}
 	if accepted and not undo_record.is_empty():mission_hud.guard.arm_undo(undo_record)
