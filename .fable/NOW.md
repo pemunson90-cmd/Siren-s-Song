@@ -1,13 +1,13 @@
 # NOW: what the root session is doing
 
 Status: LIVE NOTE (rewritten before every step; if a session died, this is the step it died in)
-Updated: 2026-11-13 09:56
+Updated: 2026-11-13 10:33
 
 **To resume after a context clear or a new session:** open this folder as the project and run `/siren-s-start-fable`. Read `.fable/PHASE9.md` first: it is the whole handoff. The `next_action` field in the state file always starts by sending the session to `.fable/HANDOFF.md` and to this file.
 
 ## Doing right now
 
-RUNNING. Three Sonnet implementers dispatched from head 3384eec4, each in its own worktree, on disjoint files. Root waits for their reports, then reviews each diff, merges, runs the touched suites, looks at the result in the critic kit and sends Pat captures.
+RUNNING. WP-44 (tool racks part of Fittings, branch wp-44) is with one Sonnet implementer. Root waits for its report, then reviews, merges, tests, looks at Fittings on cover and inner with the kit's wheel command, sends Pat captures, adds row 75.
 
 ## In flight
 

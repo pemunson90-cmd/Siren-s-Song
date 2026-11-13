@@ -76,7 +76,19 @@ Seen in the kit and not yet fixed (small; fold into the next dive-screen or menu
 - Two slash-built headings remain: "HULL AND DRONE FRAMES / NEXT LAUNCH" (`presentation/equipment_context.gd`) and "RECOVERED FITTINGS / NEXT LAUNCH" (`presentation/fit_surface/`): fix with C7.
 - The contact card bearing is a compass bearing; the "BRG" on lead areas uses another convention: make them one.
 
+Added 13 November after the resume:
+
+- The fitting cards and true-scale bars of WP-41 have NOT been seen in a capture: a new campaign shows no frames or fittings until operation 1 is recovered. Look at them on a profile that has recovered operation 1 (play it in the kit, or find a test fixture save).
+- The Fittings screen ends with two slash buttons, "SUPPLIES / COSTS" and "RESEARCH / ARCHIVE / FIELD LOG"; the Career heading reads "CAREER / SHELF SIGNAL"; the Career balance row is raw ("BALANCE · SCRAP 8 · CELLS 10 · ALLOY 0"); the rider line ("OPTIONAL RIDER · ... Bonus +1 CLIENT STANDING. Failure forfeits only this bonus.") is built in `campaign/career/riders.gd`.
+- The Expedition operation menu (GOAL, DANGER, rules) has not been captured: starting a seed returns to the Expeditions list; tap CONTINUE EXPEDITION there.
+- The empty LOADOUT fold in the operation 1 briefing: cause is `presentation/flow/campaign_flow.gd` lines 130 to 150 (the fold is made whenever any node follows `fit_start`, and the FIT SUMMARY toggle is always added). Fix: make the fold only when a visible content node follows.
+- The status line after the switch reads "Queued waypoints STOP before continuing" (a simulation message): plain words wanted.
+- Kit: a finger `drag` does not scroll menus on this PC (Godot scrolls by finger only where a touchscreen exists). Use the new `wheel` command. Whether menus drag on the phone is still B19 for Pat.
+- `loadout_frames_tests` failed on the head before WP-41 (its helpers looked only at direct children of the panel); WP-41 fixed the helpers.
+
 ## Queue, in order
+
+Done since the resume (rows 71 to 74): item 1 (WP-40), item 2 cards and bars (WP-41), item 3 (WP-42, redrawn by root), item 4 (WP-43), B17 ("signal spire" everywhere the player reads it). In flight: WP-44, the tool racks part of the Fittings screen (`tool_racks_view.gd`, `mode_racks_view.gd`) on branch `wp-44`. Then items 5 to 7 below.
 
 1. **B8 and B13**: Career and Expedition briefings in the Campaign's GOAL and DANGER format (`presentation/career/career_board.gd`, `presentation/runs/`); results and fittings screens say what changed in words, not rows of raw numbers. Claude writes the plain lines; list them for Pat.
 2. **C7**: fittings as cards (name, what it changes, a chosen mark, a lock with its price; `presentation/equipment_context.gd`, `fittings_menu.gd`); the NOISE and ENDURANCE bars drawn to their true scale with the baseline marked.

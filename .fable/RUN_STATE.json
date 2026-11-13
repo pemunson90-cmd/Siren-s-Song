@@ -2,11 +2,11 @@
   "run_id": "overhaul-20261111",
   "status": "RUNNING",
   "phase": "9-ux-repair",
-  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: WP-41 (C7 fittings cards, branch wp-41) is with an implementer: when it reports, review the diff, merge --no-ff, run touched suites, look at it in the kit on cover and inner, send Pat captures, add a behavior row (next number 74). Then one small package for the leftovers: seed entry line, 'SEED n \u00b7 ACTIVE \u00b7 0 / 6 RECOVERED', 'RUN RECORDS / BEST DEPTH 0', locker rows in tool_racks_view.gd and mode_racks_view.gd, hub line about lost photographs (wrong on Accessible), B17 one name for the first target (signal spire), C9, and the small dive-screen items in PHASE9.md. Then a blind critic round.",
+  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: WP-44 (tool racks screen, branch wp-44) is with an implementer: when it reports, review the diff, merge --no-ff, run touched suites, look at Fittings in the kit on cover and inner (use the wheel command to scroll), send Pat captures, add behavior row 75. Then the small items in PHASE9.md 'Seen in the kit and not yet fixed' (both lists), C9, a look at the WP-41 cards on a profile with operation 1 recovered, then a fresh blind critic round (tell critics about wheel).",
   "base_ref": "origin/claude/integration",
   "base_sha": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
   "run_branch": "fable/overhaul-20261111",
-  "run_head": "3a56c5a4e047212a87bf5704f6f3f22a83e27828",
+  "run_head": "d832ec6b27e9955fe5771d28158f477c1421bb5e",
   "shared_tips": {
     "claude/integration": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
     "main": "f5b66a198e3878950325f8c45a0bc6bc29dcba84",
@@ -56,11 +56,12 @@
     "WP-38": "merged",
     "WP-39": "merged",
     "WP-40": "merged",
-    "WP-41": "building",
+    "WP-41": "merged",
     "WP-42": "merged",
-    "WP-43": "merged"
+    "WP-43": "merged",
+    "WP-44": "building"
   },
   "decisions_open": 0,
   "last_checkpoint": "Paused at Pat's request on 2026-11-13, in phase 9, at a clean point: WP-31 to WP-39 merged, looked at in the kit and pushed; nothing in flight. Everyday set on the merged head: 37 of 39 passed, the 2 failures (a stray argument when the hub is rebuilt on resize; one test expecting the old briefing wording) were fixed and rerun green with their neighbours and the menu and briefing suites.",
-  "updated": "2026-11-13 10:24:09"
+  "updated": "2026-11-13 10:33:56"
 }
