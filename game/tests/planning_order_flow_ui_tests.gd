@@ -88,6 +88,7 @@ func run():
 	await resume_checks(g)
 	await order_text_checks(g)
 	await hold_checks(g)
+	await dialog_place_checks(g)
 	Settings.current["mirrored_hud"]=true
 	await mirrored_resume_check(g)
 	Settings.current["mirrored_hud"]=false
@@ -95,6 +96,7 @@ func run():
 	root.size=Vector2i(2184,1968);await settle()
 	g=load("res://scenes/main.tscn").instantiate();g.capture_scenario="planning-order-flow-tests";root.add_child(g);await settle();g.set_process(false)
 	await planner_resume_check(g)
+	await dialog_place_checks(g)
 	Settings.current["mirrored_hud"]=true
 	await planner_resume_check(g)
 	Settings.current["mirrored_hud"]=false
@@ -267,6 +269,26 @@ func order_text_checks(g)->void:
 	check(not (hint.visible and hint.get_global_rect().intersects(guard.panel.get_global_rect())),"a tip card never overlaps the order dialog")
 	await click(guard.add_button)
 	check(not guard.panel.visible and g.sim.route_goals().size()==2,"the first ADD TO ROUTE press acts")
+
+# 5. WP-35: the route dialog covers neither the selected craft nor the pending marker, and stays on screen.
+func dialog_place_checks(g)->void:
+	var shape="%dx%d"%[root.size.x,root.size.y]
+	for pan in [Vector2.ZERO,Vector2(0,300),Vector2(0,-300)]:
+		for target in ["top","bottom","corner"]:
+			await fresh(g)
+			var guard=g.mission_hud.guard;var h:float=g.ui_touch_height
+			if pan!=Vector2.ZERO:g.ocean.pan_chart(pan)
+			var at:Vector2=g.ocean.get_global_rect().size*(Vector2(.5,.2) if target=="top" else Vector2(.5,.82) if target=="bottom" else Vector2(.08,.85))
+			var craft:Vector2=g.ocean.screen_position(g.sim.units[0].pos)
+			var point:Vector2=g.sim.units[0].pos+(at-craft)/g.ocean.world_scale
+			guard.pending={"unit":0,"point":point};g._refresh();await settle()
+			var tag="%s pan %d marker %s"%[shape,int(pan.y),target]
+			check(guard.panel.visible and g.ocean.screen_position(point).distance_to(at)<2.,"%s: the dialog is open over a marker placed where intended"%tag)
+			var panel:Rect2=guard.panel.get_rect()
+			check(Rect2(Vector2.ZERO,g.mission_hud.size).encloses(panel),"%s: the dialog stays inside the safe area %s in %s"%[tag,panel,g.mission_hud.size])
+			check(not panel.intersects(guard.craft_rect(h)),"%s: the dialog does not cover the selected craft"%tag)
+			check(not panel.intersects(guard.marker_rect(h)),"%s: the dialog does not cover the marker"%tag)
+			guard.cancel();await settle()
 
 # 4. The dialog holds the dive.
 func hold_checks(g)->void:

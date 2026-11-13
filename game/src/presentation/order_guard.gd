@@ -126,7 +126,7 @@ func refresh(bounds: Vector2, h: float, font: int, floor_y: float) -> void:
 				for word in b.text.split(" ", false): widest = maxf(widest, b.get_theme_font("font").get_string_size(word, HORIZONTAL_ALIGNMENT_LEFT, -1, font).x)
 				b.custom_minimum_size = Vector2(maxf(h * 1.55, widest + b.get_theme_stylebox("normal").get_minimum_size().x + 2), h)
 		panel.custom_minimum_size = Vector2(width, 0); panel.reset_size()
-		panel.position = Vector2((bounds.x - panel.size.x) / 2, maxf(host.mission_hud.threat_floor(), maxf(h * 2, floor_y - panel.size.y - 10)))
+		place(bounds.x, floor_y, h)
 	if undo_button.visible:
 		undo_button.text = "UNDO  ·  %s back to %s" % [undo.name, restore_text(undo)]
 		undo_button.add_theme_font_size_override("font_size", font)
@@ -139,7 +139,32 @@ func _fit_panel() -> void:
 	panel.reset_size()
 	var hud = host.mission_hud
 	var floor_y: float = hud.intent.position.y if hud.intent.visible else host.size.y
-	panel.position = Vector2((host.ocean.chart_width() - panel.size.x) / 2, maxf(hud.threat_floor(), maxf(host.ui_touch_height * 2, floor_y - panel.size.y - 10)))
+	place(host.ocean.chart_width(), floor_y, host.ui_touch_height)
+	# The deferred fit can move the dialog after mission_hud's own overlap check; the tip card yields as it does there.
+	if hud.hints.panel.visible and hud.hints.panel.get_global_rect().intersects(panel.get_global_rect()): hud.hints.panel.hide()
+# WP-35: the dialog covers neither the selected craft nor the pending marker. The bottom centre comes first;
+# then the top centre (below PAUSE and any threat banner); then the same two rows at the left or right edge.
+func craft_rect(h: float) -> Rect2:
+	var at: Vector2 = host.ocean.screen_position(host.sim.units[host.sim.selected].pos)
+	return Rect2(at - Vector2.ONE * h * .6, Vector2.ONE * h * 1.2)
+func marker_rect(h: float) -> Rect2:
+	if pending.is_empty(): return Rect2()
+	var at: Vector2 = host.ocean.screen_position(pending.point)
+	return Rect2(at - Vector2.ONE * h * .55, Vector2.ONE * h * 1.1)
+func place(width: float, floor_y: float, h: float) -> void:
+	var dims := panel.size; var top := maxf(host.mission_hud.threat_floor(), h * 2)
+	var bottom := maxf(top, floor_y - dims.y - 10)
+	var left := clampf(12.0, 0.0, maxf(0.0, width - dims.x)); var centre := clampf((width - dims.x) / 2, 0.0, maxf(0.0, width - dims.x)); var right := maxf(0.0, width - dims.x - 12.0)
+	var avoid: Array[Rect2] = [craft_rect(h).grow(h * .25)]
+	if not pending.is_empty(): avoid.append(marker_rect(h).grow(h * .25))
+	var best := Vector2(centre, bottom); var least := INF
+	for at in [Vector2(centre, bottom), Vector2(centre, top), Vector2(left, bottom), Vector2(right, bottom), Vector2(left, top), Vector2(right, top)]:
+		var rect := Rect2(at, dims); var covered := 0.0
+		for area in avoid:
+			var over := rect.intersection(area); covered += over.size.x * over.size.y
+		if covered < least: least = covered; best = at
+		if covered == 0.0: break
+	panel.position = best
 func _draw() -> void:
 	if pending.is_empty() or host == null or not panel.visible: return
 	var unit = host.sim.units[pending.unit]
