@@ -1,12 +1,12 @@
 {
   "run_id": "overhaul-20261111",
-  "status": "PAUSED",
+  "status": "RUNNING",
   "phase": "9-ux-repair",
-  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: RESUME: read .fable/PHASE9.md (it is the whole handoff), set status RUNNING, then start the queue in PHASE9.md 'Queue, in order': (1) B8 and B13: Career and Expedition briefings in the Campaign's GOAL and DANGER format and results in words (presentation/career/career_board.gd, presentation/runs/); (2) C7 fittings as cards with true-scale bars (presentation/equipment_context.gd, fittings_menu.gd, fit_surface/; also the two slash headings left there); (3) C4 title backdrop from the game's chart art (presentation/frontend/frontend.gd); (4) C8 route dialog: REPLACE ROUTE as MAIN, the new-points switch drawn as a switch (order_guard.gd). These four touch disjoint files: dispatch up to three Sonnet implementers at once from origin/fable/overhaul-20261111, review each diff, run touched suites, LOOK at each in the kit on cover and inner, send Pat captures, add behavior rows. Fold in the small items listed under 'Seen in the kit and not yet fixed'. Then a fresh blind critic round. No GitHub runs; pushes carry [skip ci]. First command: cd into the run clone; python scripts/repo/handoff_check.py; git status --short.",
+  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: WP-40 (B8,B13 on wp-40), WP-41 (C7 on wp-41), WP-42 (C4 on wp-42) are with implementers: when each reports, review its diff, merge --no-ff, run touched suites, look at it in the kit on cover and inner, send Pat captures, add behavior rows. Then C8 with the small dive-screen items, C9/B17, a blind critic round. See .fable/NOW.md table and PHASE9.md.",
   "base_ref": "origin/claude/integration",
   "base_sha": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
   "run_branch": "fable/overhaul-20261111",
-  "run_head": "cf33f627754de18847ee8399e4cc5dc802c8442f",
+  "run_head": "3384eec4dd5ea2e1c529e3a89c07561e6f079a83",
   "shared_tips": {
     "claude/integration": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
     "main": "f5b66a198e3878950325f8c45a0bc6bc29dcba84",
@@ -54,9 +54,12 @@
     "WP-36": "merged",
     "WP-37": "merged",
     "WP-38": "merged",
-    "WP-39": "merged"
+    "WP-39": "merged",
+    "WP-40": "building",
+    "WP-41": "building",
+    "WP-42": "building"
   },
   "decisions_open": 0,
   "last_checkpoint": "Paused at Pat's request on 2026-11-13, in phase 9, at a clean point: WP-31 to WP-39 merged, looked at in the kit and pushed; nothing in flight. Everyday set on the merged head: 37 of 39 passed, the 2 failures (a stray argument when the hub is rebuilt on resize; one test expecting the old briefing wording) were fixed and rerun green with their neighbours and the menu and briefing suites.",
-  "updated": "2026-11-13 01:37:53"
+  "updated": "2026-11-13 09:58:36"
 }

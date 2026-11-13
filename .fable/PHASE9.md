@@ -64,7 +64,7 @@ Already in the game, no work needed (the critics missed them): B1, B10, B11, B12
 
 ## In flight at the pause
 
-**Nothing.** WP-37 (hub and briefing), WP-38 (contact card, label plates) and WP-39 (plain wording, back pattern, credits) are all merged, looked at in the kit and pushed: behavior rows 65 to 70. No helper, game or test is running. `.fable/NOW.md` records the result of the last everyday set.
+**Since the resume of 13 November: WP-40 (B8, B13), WP-41 (C7) and WP-42 (C4) are with implementers on branches `wp-40`, `wp-41`, `wp-42`; `.fable/NOW.md` has the table.** At the pause itself nothing was in flight: WP-37 (hub and briefing), WP-38 (contact card, label plates) and WP-39 (plain wording, back pattern, credits) are all merged, looked at in the kit and pushed: behavior rows 65 to 70. No helper, game or test is running. `.fable/NOW.md` records the result of the last everyday set.
 
 Seen in the kit and not yet fixed (small; fold into the next dive-screen or menu package):
 
