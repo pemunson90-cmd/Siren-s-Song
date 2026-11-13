@@ -2,11 +2,11 @@
   "run_id": "overhaul-20261111",
   "status": "RUNNING",
   "phase": "9-ux-repair",
-  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: WP-51 (warning moment), WP-52 (wheel actions and labels, red route second tap), WP-53 (wide Fittings layout) are with implementers on branches wp-51, wp-52, wp-53: as each reports, stop it with TaskStop, review the diff, merge --no-ff, run touched suites (radial_hud_tests and hud_words_ui_tests after every dive-HUD merge: packages interact), look in the kit on cover (and inner for WP-53; wheel scrolls menus), send Pat captures, add rows from 81. WP-51 and WP-52 both edit mission_hud.gd in different regions: merge one, rerun the wheel suites, then the other. Then the everyday set and a third critic round. Six yes or no questions are open for Pat (PHASE9.md 'Open for Pat').",
+  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: 1) When the full sweep ends (background task; result file sweep_result.txt in the session scratchpad, or rerun: test-suite.ps1 -All -Profile ci, then each render-flagged suite of game/tests/suites.txt through headless.ps1 -Action Script), fix every failure. Known before the sweep: depth_policy_ui_tests 64 failures (ROUTE PROGRAM button not on the craft wheel page), density_scenarios 21 (PAUSED/RUNNING plate text under 14 dp), fit_surface_ui_tests 3 (briefing supplies line), photo_pricing_ui_tests 1 (opening briefing length), photo_range_caption_tests 1 (camera reach refusal wording). 2) Write FINAL_REPORT rows 81 (WP-51 warning moment), 82 (WP-52 wheel: texts in the WP-52 entry of RUN_LOG and hud_words.gd), 83 (WP-53 wide Fittings); reword the fleet-cap reason for torpedoes and hull patches. 3) When WP-54 reports: stop it with TaskStop, review carefully (rule change), merge, Core plus everyday set, replay in the kit, row 84, tell Pat how to switch each rule back. 4) Third blind critic round (must capture: a Siren lock after WP-51; Fittings on inner; the trial pauses).",
   "base_ref": "origin/claude/integration",
   "base_sha": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
   "run_branch": "fable/overhaul-20261111",
-  "run_head": "f94858f06537341682665b876a661b59692d26f4",
+  "run_head": "577af3fc843ee60ac99eadb5a88fc7a0bc5e3aa0",
   "shared_tips": {
     "claude/integration": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
     "main": "f5b66a198e3878950325f8c45a0bc6bc29dcba84",
@@ -66,11 +66,12 @@
     "WP-48": "merged",
     "WP-49": "merged",
     "WP-50": "merged",
-    "WP-51": "building",
-    "WP-52": "building",
-    "WP-53": "building"
+    "WP-51": "merged",
+    "WP-52": "merged",
+    "WP-53": "merged",
+    "WP-54": "building"
   },
   "decisions_open": 0,
   "last_checkpoint": "Everyday set on 853b09ab (13 Nov, after WP-40 to WP-50): 38 of 39; the one failure (runtime_tests: the Blackwater manual must name DECODE, hidden behind the last topic since WP-47) fixed and rerun green with onboarding, depth sonar, radial hud, HUD WORDS UI, tap ownership, threat read, lock warning.",
-  "updated": "2026-11-13 13:27:40"
+  "updated": "2026-11-13 14:43:00"
 }
