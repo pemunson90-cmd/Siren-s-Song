@@ -44,10 +44,4 @@ static func details(front,id:String)->void:
 static func start(front,id:String)->void:
 	var row=Catalog.get_challenge(id)
 	if row.is_empty() or not Catalog.unlocked(row,completed(front)):return
-	var session=load("res://scenes/main.tscn").instantiate()
-	session.set_script(Session);session.name="ChallengeSession"
-	session.campaign_host=front.host;session.challenge_id=id
-	session.return_to_list=func():show(front)
-	session.process_mode=Node.PROCESS_MODE_ALWAYS
-	session.freeze_campaign()
-	front.host.add_child(session)
+	load("res://src/presentation/frontend/mode_launcher.gd").launch(front,Session,"ChallengeSession",{"challenge_id":id,"return_to_list":func():show(front)})

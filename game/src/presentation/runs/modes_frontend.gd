@@ -76,8 +76,4 @@ static func confirm_end(front,state:Dictionary)->void:
 static func start(front)->void:
 	var state=Archive.restore(front.host)
 	if state.is_empty() or state.status!="active" or front.host.get_meta("runs_archive_dirty",false):return
-	var session=load("res://scenes/main.tscn").instantiate()
-	session.set_script(load("res://src/presentation/runs/expedition_session.gd"));session.name="ExpeditionSession"
-	session.campaign_host=front.host;session.run_state=state.duplicate(true)
-	session.return_to_list=func():expeditions(front)
-	session.process_mode=Node.PROCESS_MODE_ALWAYS;session.freeze_campaign();front.host.add_child(session)
+	load("res://src/presentation/frontend/mode_launcher.gd").launch(front,load("res://src/presentation/runs/expedition_session.gd"),"ExpeditionSession",{"run_state":state.duplicate(true),"return_to_list":func():expeditions(front)})

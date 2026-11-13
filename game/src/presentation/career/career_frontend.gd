@@ -28,8 +28,4 @@ static func show(front)->void:
 static func start(front)->void:
 	var state=Archive.restore(front.host)
 	if state.is_empty() or front.host.get_meta("career_archive_dirty",false):show(front);return
-	var session=load("res://scenes/main.tscn").instantiate()
-	session.set_script(load("res://src/presentation/career/career_session.gd"));session.name="CareerSession"
-	session.campaign_host=front.host;session.career_state=state.duplicate(true)
-	session.return_to_list=func():show(front)
-	session.process_mode=Node.PROCESS_MODE_ALWAYS;session.freeze_campaign();front.host.add_child(session)
+	load("res://src/presentation/frontend/mode_launcher.gd").launch(front,load("res://src/presentation/career/career_session.gd"),"CareerSession",{"career_state":state.duplicate(true),"return_to_list":func():show(front)})
