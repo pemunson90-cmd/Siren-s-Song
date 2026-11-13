@@ -25,6 +25,7 @@ Base: `claude/integration` at `cabd5bd5`. The complete account, including every 
 
 ### Tests
 
+- Tests run the player rules by default (code audit fix A5): 137 suites written for the older game were converted, and a shared fixture (`game/tests/fixtures/player_dive.gd`) launches drones or switches on known charts. A restored dive keeps the saved sensor beat.
 - The protected-rules golden pins 23 more protected numbers (Disrupt, torpedo, decoy, the Hunt table, radio reports, survivor ascent, passive reach, silt screen). A new suite states as one rule that no player tool permanently disables a Siren, for all eight roles. New suites also cover the release build gate and operation metadata parity.
 
 ### Tools
