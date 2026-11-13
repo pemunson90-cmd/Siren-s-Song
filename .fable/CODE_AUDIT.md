@@ -151,3 +151,20 @@ The slow group is exactly the opening operations a new player meets first (opera
 - Duplication and dead code: one read-only Sonnet agent with scripts (function bodies hashed, same-named functions compared, references searched by path and by name).
 - Run-time cost: one read-only Sonnet agent reading `_tick`, the draw functions and `_process` and every function they call.
 - Root added the two-rule-set finding and checked the Hunt weight tables, the flag sites and the stale tests.
+
+## A10 measured (2026-11-12): autosave
+
+Measured on this PC with a live dive (operations 0 and 3, drones launched, 20 saves each): one campaign autosave takes about 16 ms (worst 21 ms). It runs every 5 seconds while the dive runs, and on every order and pause.
+
+| Part | Time |
+|---|---|
+| Build the save data | 1.9 ms |
+| Check it is valid | 0.8 ms |
+| Encode and hash | 0.3 ms |
+| Read back the new file, and the old one before it becomes the backup | 1.5 ms each |
+| Recover check | 0.5 ms |
+| The rest: Windows file operations (write, flush, remove, two renames) | about 9 ms |
+
+Reading: our own code is about 7 ms; the larger part is the operating system's file work, which a phone's storage will price differently. A trial change that skipped re-reading the old file saved nothing measurable and was taken back out (kept as `_scrap-20261111/a10-save-stamp.diff`). The probe is `_scrap-20261111/autosave_probe.gd`.
+
+Not changed. The two real fixes (save less often than every 5 seconds, or write on a background thread) both trade save safety for smoothness, which is Pat's call. Whether the save hitch is visible is a phone question: if Pat sees a small regular stutter in play, the first step is the 15 second interval.

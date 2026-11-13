@@ -2,11 +2,11 @@
   "run_id": "overhaul-20261111",
   "status": "RUNNING",
   "phase": "8-audit",
-  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: WP-28 (A8 steps 3 and 4: campaign save handling, evidence and metrics helpers out of main.gd; branch wp-28 from 0886d487) is building. When it reports: review that subclass dispatch is preserved, merge, report row 55, MODULES row. Then A2 part 2 (per-step caches, HUD refresh rate) with numbers first, A1 drawing probe, A10 autosave measure. Then the fresh eight-heading review of the whole audit set (diff since 247e0582), fixes, one full GitHub matrix. Then the UI and UX audit (.fable/UX_AUDIT.md, yes/no list to Pat first). Open with Pat: whether a PC save in the real Godot folder mattered (incident in RUN_LOG).",
+  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: WP-28 (A8 steps 3 and 4; branch wp-28 from 0886d487) is building. When it reports: review that subclass dispatch is preserved, merge, report row 55, MODULES row. Then A2 part 2 with numbers first, A1 drawing probe, A10 autosave measure. Then the fresh eight-heading review of the whole audit set (diff since 247e0582), fixes, one full GitHub matrix. Then the UI and UX audit (.fable/UX_AUDIT.md, yes/no list to Pat first).",
   "base_ref": "origin/claude/integration",
   "base_sha": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
   "run_branch": "fable/overhaul-20261111",
-  "run_head": "0886d487b5863b606d79b6431ba5146ddef0fa25",
+  "run_head": "d8781fcacac0fb6b675cadb3cee54093f507c004",
   "shared_tips": {
     "claude/integration": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
     "main": "f5b66a198e3878950325f8c45a0bc6bc29dcba84",
@@ -47,5 +47,5 @@
   },
   "decisions_open": 0,
   "last_checkpoint": "A5: core green under the player rules on wp-23-player-rules; enumeration run 43301827177 in progress",
-  "updated": "2026-11-12 20:17:26"
+  "updated": "2026-11-12 20:23:10"
 }
