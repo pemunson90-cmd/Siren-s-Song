@@ -552,6 +552,7 @@ func _deploy(id:int)->bool:
 	DroneBay.carry(self)
 	var refusal:String=DroneBay.launch(self,id)
 	if not refusal.is_empty():message=refusal;return false
+	selected=id # the deployed drone is the craft the next water tap routes, as the message says
 	message="%s deployed beside Quietus · tap water to route it"%units[id].name
 	return true
 func _finish_command(u:Dictionary,order:String)->bool:
