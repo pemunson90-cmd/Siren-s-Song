@@ -6,6 +6,7 @@ const Model=preload("res://src/presentation/fit_surface/fit_surface.gd")
 const Equipment=preload("res://src/presentation/equipment_context.gd")
 const Catalog=preload("res://src/equipment/equipment_catalog.gd")
 const Economy=preload("res://src/campaign/economy.gd")
+const PrepColumns=preload("res://src/presentation/prep_columns.gd")
 const META="fit_surface_tab"
 static func tab_of(main)->String:
  var tab=main.get_meta(META,Table.TABS[0])
@@ -13,12 +14,13 @@ static func tab_of(main)->String:
 # Switch the shown craft, rebuild the screen and keep the reading position.
 static func _pick_tab(main,slot:String,rebuild:Callable)->void:
  main.set_meta(META,slot)
- var position=main.scroll.scroll_vertical
+ var position=main.scroll.scroll_vertical;var column=PrepColumns.column_position(main)
  rebuild.call()
  var heading=main.panel_box.get_child(0)
  (func():
   await main.get_tree().process_frame
-  if is_instance_valid(heading) and heading.get_parent()==main.panel_box:main.scroll.scroll_vertical=position
+  if is_instance_valid(heading) and heading.get_parent()==main.panel_box:
+   main.scroll.scroll_vertical=position;PrepColumns.restore_column(main,column)
  ).call_deferred()
 # Tabs, frame line, budget bars and grouped rows. Returns the fit buttons (as Equipment.fitting does).
 static func fitting(main,context:Dictionary,choose:Callable,rebuild:Callable)->Array:
@@ -29,7 +31,7 @@ static func fitting(main,context:Dictionary,choose:Callable,rebuild:Callable)->A
  main._menu_text("BARE remains available. A launch fixes its equipment; resuming keeps the active dive’s fit.",15)
  main._menu_text("Pick a craft, then a mount: each row shows what the tap changes.",15)
  var strip=HBoxContainer.new();strip.mouse_filter=Control.MOUSE_FILTER_PASS;strip.add_theme_constant_override("separation",8)
- strip.custom_minimum_size.x=minf(610,main.size.x-120);main.panel_box.add_child(strip)
+ strip.custom_minimum_size.x=PrepColumns.strip_width(main);main.panel_box.add_child(strip)
  for slot in Table.TABS:
   var tab=main._button(strip,("[%s]" if slot==shown else "%s")%Equipment.SLOTS[slot],_pick_tab.bind(main,slot,rebuild),"fit_tab_"+slot)
   tab.size_flags_horizontal=Control.SIZE_EXPAND_FILL;tab.mouse_filter=Control.MOUSE_FILTER_PASS;tab.disabled=slot==shown

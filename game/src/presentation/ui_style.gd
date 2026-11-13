@@ -209,3 +209,11 @@ const NOTE_COLOR=LABEL_TEXT
 static func role_colors(role:String)->Dictionary:
 	var look:=_look(role,Palette.high_contrast())
 	return {"fill":look.get("fill",BUTTON_FILL),"text":look.get("text",TEXT)}
+# Preparation columns (WP-53): side inset of a note that must clear the panel edge, and the shortest the
+# right-hand column may be drawn, in touch heights.
+const PREP_TEXT_INSET=12
+const PREP_SCROLL_MIN_TOUCHES=4.0
+const PREP_SCROLLBAR_ALLOWANCE=24.0
+const PREP_SUMMARY_SEPARATION=4
+const PREP_CONTROLS_SEPARATION=14
+const PREP_BACK_TOUCHES=3.0

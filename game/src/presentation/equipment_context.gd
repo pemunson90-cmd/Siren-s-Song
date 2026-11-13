@@ -7,6 +7,7 @@ const Economy=preload("res://src/campaign/economy.gd")
 const Card=preload("res://src/presentation/fit_surface/fit_card.gd")
 const Bar=preload("res://src/presentation/fit_surface/fit_bar.gd")
 const UiStyle=preload("res://src/presentation/ui_style.gd")
+const PrepColumns=preload("res://src/presentation/prep_columns.gd")
 const NEXT_LAUNCH_NOTE="Applies from your next launch."
 const SLOTS={Names.CRAFT_QUIETUS:Names.UNIT_QUIETUS,Names.CRAFT_DRONE_A:Names.UNIT_DRONE_A,Names.CRAFT_DRONE_B:Names.UNIT_DRONE_B}
 # A locked frame is bought with alloy when tapped, then chosen like any other.
@@ -68,18 +69,20 @@ static func _choose_fitting(main,key:String,id:String,module_id:String,choose:Ca
  for n in 2:await main.get_tree().process_frame
  if not is_instance_valid(heading) or heading.get_parent()!=main.panel_box:return
  var group=Rect2();var found=false
- for control in main.panel_box.get_children():
-  if control is Button and control.get_meta("fitting_id","")==module_id:
+ # On a wide Fittings screen the cards sit in the right-hand column, which scrolls on its own.
+ for control in main.panel_box.find_children("*","Button",true,false):
+  if control.get_meta("fitting_id","")==module_id:
    group=group.merge(control.get_global_rect()) if found else control.get_global_rect();found=true
- var area=main.scroll.get_global_rect()
+ var scroller=PrepColumns.scroller(main)
+ var area=scroller.get_global_rect()
  if not found or group.size.y>area.size.y:return
- if group.position.y<area.position.y:main.scroll.scroll_vertical-=ceili(area.position.y-group.position.y)
- elif group.end.y>area.end.y:main.scroll.scroll_vertical+=ceili(group.end.y-area.end.y)
+ if group.position.y<area.position.y:scroller.scroll_vertical-=ceili(area.position.y-group.position.y)
+ elif group.end.y>area.end.y:scroller.scroll_vertical+=ceili(group.end.y-area.end.y)
 # Hull and chassis frames with typed mounts and budget bars. Returns frame buttons.
 # The four budget bars of one craft in one row. POWER and CARGO fill to their limit; NOISE and ENDURANCE
 # are drawn to true scale with the stock value (100%) marked by a tick. Returns the bars.
 static func budget_bars(main,b:Dictionary)->Array:
- var strip=HBoxContainer.new();strip.mouse_filter=Control.MOUSE_FILTER_PASS;strip.custom_minimum_size.x=minf(610,main.size.x-120);strip.add_theme_constant_override("separation",12);main.panel_box.add_child(strip)
+ var strip=HBoxContainer.new();strip.mouse_filter=Control.MOUSE_FILTER_PASS;strip.custom_minimum_size.x=PrepColumns.strip_width(main);strip.add_theme_constant_override("separation",12);main.panel_box.add_child(strip)
  var scale=UiStyle.BAR_SCALE_MAX
  return [
   Bar.add(main,strip,"POWER",b.power,b.power_cap,"%d / %d"%[b.power,b.power_cap],b.power>=b.power_cap and b.power>0),

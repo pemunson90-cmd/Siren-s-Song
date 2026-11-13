@@ -21,6 +21,19 @@ const MENU_PANEL_PADDING=56.
 static func hub_wide(viewport_size: Vector2,touch_h: float) -> bool:
 	var column_min=maxf(640.,touch_h*7.)
 	return viewport_size.x>=viewport_size.y*1.6 and viewport_size.x-MENU_MARGIN>=2.*column_min+MENU_COLUMN_GAP+MENU_PANEL_PADDING
+# Preparation screens (Fittings, Career and Expedition tools) use two columns in any orientation once each
+# column can hold a tool row (name, count and two touch buttons) at the current touch height and text scale.
+# The canvas is at least 1280 wide, so this is true on the tablet-shaped inner screen (1280 wide, touch 87)
+# and the cover screen (1680 wide, touch 98), and false on a portrait phone, where touch rows are taller.
+const PREP_COLUMN_MIN=480.
+const PREP_COLUMN_TOUCHES=6.
+static func prep_wide(viewport_size: Vector2,touch_h: float,text_scale: float) -> bool:
+	var column_min=maxf(PREP_COLUMN_MIN,touch_h*PREP_COLUMN_TOUCHES)*maxf(1.,text_scale)
+	return viewport_size.x-MENU_MARGIN>=2.*column_min+MENU_COLUMN_GAP+MENU_PANEL_PADDING
+# Width of one text column inside the menu panel (the whole inner width when not wide).
+static func menu_column_width(viewport_size: Vector2,wide: bool) -> float:
+	var inner=menu_width(viewport_size,wide)-MENU_PANEL_PADDING
+	return (inner-MENU_COLUMN_GAP)/2. if wide else inner
 static func menu_width(viewport_size: Vector2,wide: bool) -> float:
 	if wide: return minf(2.*MENU_COLUMN+MENU_COLUMN_GAP+MENU_PANEL_PADDING,viewport_size.x-MENU_MARGIN)
 	return minf(MENU_COLUMN,viewport_size.x-MENU_MARGIN)
