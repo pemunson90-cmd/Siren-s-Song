@@ -116,11 +116,12 @@ func saves():
  check(not store.valid(unearned),"unrecovered items in an extra mount are rejected")
  for suffix in ["",".tmp",".bak"]:DirAccess.remove_absolute(path+suffix)
 func frame_button(unit:String,id:String="quiet") :
- for control in game.panel_box.get_children():
-  if control is Button and control.get_meta("action","")=="frame_"+unit+"_"+id:return control
+ # The wide briefing moves its rows into two columns, so search below the panel, not only its children.
+ for control in game.panel_box.find_children("*","Button",true,false):
+  if control.get_meta("action","")=="frame_"+unit+"_"+id:return control
  return null
 func fit_button(slot:String,name:String):
- for control in game.panel_box.get_children():
+ for control in game.panel_box.find_children("*","Button",true,false):
   if control is Button and control.get_meta("action","")=="fit_"+slot and name in control.text:return control
  return null
 func tap(control):
@@ -141,17 +142,19 @@ func ui():
   game.completed=[0];game.unlocked=1;game.expedition={"completed":[],"entitlements":["quietus_prism","quietus_decoder"]}
   game._briefing(1);await settle()
   var hull=frame_button("quietus")
-  check(hull!=null and "LOW NOISE HULL" in hull.text,"briefing lists the low noise hull directly")
+  check(hull!=null and "Low noise hull" in hull.text and not "CHOSEN" in hull.text,"briefing lists the low noise hull directly")
   var width=game.scroll.get_global_rect()
   check(game.panel_box.get_children().all(func(c):return not c is Control or c.get_global_rect().size.x<=width.size.x+1),"frame rows and budget bars fit the briefing width")
   await tap(hull)
   check(game.fitted_equipment.hull=="quiet" and game.screen=="briefing","tapping the hull row selects the low noise hull")
+  hull=frame_button("quietus")
+  check(hull.text.begins_with("CHOSEN · Low noise hull") and hull.disabled and not frame_button("quietus","standard").text.begins_with("CHOSEN"),"the selected hull card is marked CHOSEN and the others are not")
   await tap(fit_button("quietus","Reach directional prism"))
   check(Kit.has(game.fitted_equipment,0,"quietus_prism"),"prism fits the low noise hull sensor mount")
   var decoder=fit_button("quietus","Range service decoder")
-  check(decoder.disabled and "REFUSED" in decoder.text and "POWER" in decoder.text,"over budget decoder row is refused with its power reason: "+decoder.text)
+  check(decoder.disabled and "LOCKED · Cannot fit" in decoder.text and "POWER" in decoder.text,"over budget decoder card is locked with its power reason: "+decoder.text)
   hull=frame_button("quietus","fast")
-  check(hull!=null and not hull.disabled and "FAST TRANSIT HULL" in hull.text,"the legal fast hull stays available as a named choice")
+  check(hull!=null and not hull.disabled and "Fast transit hull" in hull.text,"the legal fast hull stays available as a named choice")
   await tap(frame_button("drone_a","scout"))
   check(game.fitted_equipment.chassis_a=="scout","drone A chassis selects scout directly")
   game._start_mission(1);await settle()

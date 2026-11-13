@@ -4,6 +4,10 @@ const Names=preload("res://src/names.gd")
 # uniqueness, persistence and the launch snapshot; this view grants nothing.
 const Catalog=preload("res://src/equipment/equipment_catalog.gd")
 const Economy=preload("res://src/campaign/economy.gd")
+const Card=preload("res://src/presentation/fit_surface/fit_card.gd")
+const Bar=preload("res://src/presentation/fit_surface/fit_bar.gd")
+const UiStyle=preload("res://src/presentation/ui_style.gd")
+const NEXT_LAUNCH_NOTE="Applies from your next launch."
 const SLOTS={Names.CRAFT_QUIETUS:Names.UNIT_QUIETUS,Names.CRAFT_DRONE_A:Names.UNIT_DRONE_A,Names.CRAFT_DRONE_B:Names.UNIT_DRONE_B}
 # A locked frame is bought with alloy when tapped, then chosen like any other.
 static func _pick_frame(main,locked:bool,unit:int,id:String,key:String,choose:Callable)->void:
@@ -31,24 +35,32 @@ static func rows(context:Dictionary)->Array:
 static func fitting(main,context:Dictionary,choose:Callable)->Array:
  var options=rows(context);var buttons=[]
  if options.is_empty():return buttons
- main._menu_text("RECOVERED FITTINGS / NEXT LAUNCH",19)
+ heading(main,"RECOVERED FITTINGS")
  main._menu_text("BARE remains available. A launch fixes its equipment; resuming keeps the active dive’s fit. Each fitting takes a typed mount and draws power from its craft.",15)
- var described=[]
  for row in options:
-  if row.id not in described:
-   var needs="%s MOUNT · %d POWER"%[row.mount,row.power]+(" · %d CARGO"%row.cargo if row.cargo>0 else "") if not row.mount.is_empty() else ""
-   main._menu_text("%s\n%s\nCOST · %s"%[row.name,row.benefit,row.cost]+("\n"+needs if not needs.is_empty() else ""),16);described.append(row.id)
-  var fitted=row.current==row.id
-  var title="%s · %s → BARE"%[row.station,row.name] if fitted else ("%s · BARE → FIT %s"%[row.station,row.name] if row.replaces.is_empty() else "%s · FIT %s · REPLACES %s"%[row.station,row.name,row.replaces])
-  var blocked=row.unavailable or (not fitted and (not row.blocked_by.is_empty() or not row.refused.is_empty()))
-  if not fitted and not row.refused.is_empty():title="%s · %s REFUSED · %s"%[row.station,row.name,row.refused.to_upper()]
-  if not fitted and not row.blocked_by.is_empty():title="%s · %s ON %s"%[row.station,row.name,row.blocked_by]
-  if row.unavailable:title="%s · %s UNAVAILABLE · LEFT BEHIND"%[row.station,row.name]
-  var key=row.key;var id="" if fitted else row.id
-  var button=main._button(main.panel_box,title,_choose_fitting.bind(main,key,id,row.id,choose),"fit_"+row.slot)
-  button.set_meta("fitting_id",row.id)
-  button.disabled=blocked;buttons.append(button)
+  var needs="%s MOUNT · %d POWER"%[row.mount,row.power]+(" · %d CARGO"%row.cargo if row.cargo>0 else "") if not row.mount.is_empty() else ""
+  buttons.append(fitting_card(main,row,needs,choose,true))
  return buttons
+# A section heading with one small sub-line under it.
+static func heading(main,title:String,note:String=NEXT_LAUNCH_NOTE)->void:
+ main._menu_text(title,19)
+ main._menu_text(note,14)
+# The card for one fitting row. `detail` is an extra line (budget change or mount needs). The craft name is
+# added when the card is not already under a craft tab. Tapping behaves as the old row did.
+static func fitting_card(main,row:Dictionary,detail:String,choose:Callable,with_craft:bool)->Button:
+ var fitted=row.current==row.id
+ var spec={"name":("%s · %s"%[row.station,row.name]) if with_craft else row.name,"line":row.benefit,"chosen":fitted,"lock":"","extra":[]}
+ if row.unavailable:spec.lock="Left behind. It is not in your stores."
+ elif fitted:spec.extra.append("Tap to remove it.")
+ elif not row.blocked_by.is_empty():spec.lock="Fitted on %s. Remove it there first."%row.blocked_by
+ elif not row.refused.is_empty():spec.lock="Cannot fit: %s"%row.refused
+ else:spec.extra.append("Tap to fit it." if row.replaces.is_empty() else "Tap to fit it. It replaces %s."%row.replaces)
+ spec.extra.append(detail);spec.extra.append("COST · %s"%row.cost)
+ var key=row.key;var id="" if fitted else row.id
+ var button=Card.add(main,spec,_choose_fitting.bind(main,key,id,row.id,choose),"fit_"+row.slot)
+ button.set_meta("fitting_id",row.id)
+ button.disabled=row.unavailable or (not fitted and (not row.blocked_by.is_empty() or not row.refused.is_empty()))
+ return button
 # Keep the selected module and its alternative carriers in view after rebuilding.
 static func _choose_fitting(main,key:String,id:String,module_id:String,choose:Callable)->void:
  choose.call(key,id)
@@ -64,39 +76,44 @@ static func _choose_fitting(main,key:String,id:String,module_id:String,choose:Ca
  if group.position.y<area.position.y:main.scroll.scroll_vertical-=ceili(area.position.y-group.position.y)
  elif group.end.y>area.end.y:main.scroll.scroll_vertical+=ceili(group.end.y-area.end.y)
 # Hull and chassis frames with typed mounts and budget bars. Returns frame buttons.
-static func _bar(main,parent:Node,label:String,value:float,cap:float,text:String,over:bool)->void:
- var column=VBoxContainer.new();column.size_flags_horizontal=Control.SIZE_EXPAND_FILL;column.mouse_filter=Control.MOUSE_FILTER_PASS;parent.add_child(column)
- var caption=Label.new();caption.text="%s %s"%[label,text];caption.add_theme_font_size_override("font_size",roundi(13*main.ui_touch_height/48.0));column.add_child(caption)
- var bar=ProgressBar.new();bar.show_percentage=false;bar.max_value=maxf(cap,0.001);bar.value=minf(value,cap);bar.mouse_filter=Control.MOUSE_FILTER_PASS
- bar.custom_minimum_size=Vector2(0,maxf(8,main.ui_touch_height*0.18))
- var fill=StyleBoxFlat.new();fill.bg_color=Color("e08a5c") if over else Color("6bd5cb");var back=StyleBoxFlat.new();back.bg_color=Color("17323a")
- bar.add_theme_stylebox_override("fill",fill);bar.add_theme_stylebox_override("background",back);column.add_child(bar)
+# The four budget bars of one craft in one row. POWER and CARGO fill to their limit; NOISE and ENDURANCE
+# are drawn to true scale with the stock value (100%) marked by a tick. Returns the bars.
+static func budget_bars(main,b:Dictionary)->Array:
+ var strip=HBoxContainer.new();strip.mouse_filter=Control.MOUSE_FILTER_PASS;strip.custom_minimum_size.x=minf(610,main.size.x-120);strip.add_theme_constant_override("separation",12);main.panel_box.add_child(strip)
+ var scale=UiStyle.BAR_SCALE_MAX
+ return [
+  Bar.add(main,strip,"POWER",b.power,b.power_cap,"%d / %d"%[b.power,b.power_cap],b.power>=b.power_cap and b.power>0),
+  Bar.add(main,strip,"CARGO",b.cargo,b.cargo_cap,"%d / %d"%[b.cargo,b.cargo_cap],b.cargo_cap>0 and b.cargo>=b.cargo_cap),
+  Bar.add(main,strip,"NOISE",b.noise,scale,"%d%%"%roundi(b.noise*100),b.noise>1.0,1.0),
+  Bar.add(main,strip,"ENDURANCE",b.endurance,scale,"%d%%"%roundi(b.endurance*100),b.endurance<1.0,1.0)]
+# The craft name and its current mounts; the frame itself is described by the cards under it.
 static func frame_summary(fit:Dictionary,unit:int)->String:
  var b=Catalog.budget(fit,unit);var parts=[]
  for mount in b.mounts:parts.append("%s %s"%[mount.type,Catalog.ITEMS[mount.item].name if not mount.item.is_empty() else "empty"])
- return "%s · %s\n%s\nMOUNTS · %s"%[SLOTS[Catalog.SLOTS[unit]],b.name.to_upper(),Catalog.frame(fit,unit).summary," · ".join(parts)]
+ return "%s\nMOUNTS · %s"%[SLOTS[Catalog.SLOTS[unit]]," · ".join(parts)]
+# What choosing a frame costs or why it cannot be chosen, as the lock line of its card.
+static func frame_lock(main,unit:int,id:String,attempt:Dictionary)->String:
+ if Economy.frame_locked(main.economy,main.expedition,unit,id):
+  var price=Economy.unlock_cost(main.economy,Economy.unlock_of(unit,id))
+  var line="Tap to buy it for %s."%Economy.fmt(price)
+  return line if Economy.can_pay(main.economy,price) else "Costs %s. You are short by %s."%[Economy.fmt(price),Economy.shortfall(main.economy,price)]
+ return "" if attempt.ok else "Cannot choose: %s"%attempt.reason
 static func loadout(main,fit:Dictionary,choose:Callable)->Array:
  var buttons=[]
- main._menu_text("HULL AND DRONE FRAMES / NEXT LAUNCH",19)
+ heading(main,"HULL AND DRONE FRAMES")
  main._menu_text("POWER and CARGO are hard limits. NOISE scales motion sound, ENDURANCE scales life support or battery. A bus drawn to capacity makes SONAR pulses cost half again as much.",15)
  for unit in 3:
   var b=Catalog.budget(fit,unit)
   main._menu_text(frame_summary(fit,unit),16)
-  var strip=HBoxContainer.new();strip.mouse_filter=Control.MOUSE_FILTER_PASS;strip.custom_minimum_size.x=minf(610,main.size.x-120);strip.add_theme_constant_override("separation",12);main.panel_box.add_child(strip)
-  _bar(main,strip,"POWER",b.power,b.power_cap,"%d / %d"%[b.power,b.power_cap],b.power>=b.power_cap and b.power>0)
-  _bar(main,strip,"CARGO",b.cargo,b.cargo_cap,"%d / %d"%[b.cargo,b.cargo_cap],b.cargo_cap>0 and b.cargo>=b.cargo_cap)
-  _bar(main,strip,"NOISE",b.noise,1.5,"%d%%"%roundi(b.noise*100),b.noise>1.0)
-  _bar(main,strip,"ENDURANCE",b.endurance,2.0,"%d%%"%roundi(b.endurance*100),b.endurance<1.0)
+  budget_bars(main,b)
   for id in Catalog.frames(unit):
    var key=Catalog.FRAME_KEYS[Catalog.SLOTS[unit]]
    var attempt=Catalog.choose(fit,key,id,[])
    var selected=Catalog.frame_id(fit,unit)==id
-   var title="%s · %s%s"%[SLOTS[Catalog.SLOTS[unit]],Catalog.frames(unit)[id].name.to_upper()," · SELECTED" if selected else ""]
-   if not attempt.ok:title+=" · REFUSED · "+attempt.reason.to_upper()
    var locked=Economy.frame_locked(main.economy,main.expedition,unit,id)
    var price=Economy.unlock_cost(main.economy,Economy.unlock_of(unit,id))
-   if locked:title="%s · %s · LOCKED · BUY %s"%[SLOTS[Catalog.SLOTS[unit]],Catalog.frames(unit)[id].name.to_upper(),Economy.fmt(price)]
-   var button=main._button(main.panel_box,title,_pick_frame.bind(main,locked,unit,id,key,choose),"frame_"+Catalog.SLOTS[unit]+"_"+id)
+   var spec={"name":Catalog.frames(unit)[id].name,"line":Catalog.frames(unit)[id].summary,"chosen":selected,"lock":frame_lock(main,unit,id,attempt)}
+   var button=Card.add(main,spec,_pick_frame.bind(main,locked,unit,id,key,choose),"frame_"+Catalog.SLOTS[unit]+"_"+id)
    button.disabled=selected or not attempt.ok or (locked and not Economy.can_pay(main.economy,price));buttons.append(button)
  return buttons
 static func status(sim)->String:

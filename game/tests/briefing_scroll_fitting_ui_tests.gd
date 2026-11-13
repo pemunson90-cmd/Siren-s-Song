@@ -90,7 +90,7 @@ func change_fit(slot:String,item:String,label:String):
  await tap(before_rect.get_center())
  control=fitting(slot)
  print("FIT_SCROLL ",label," before=",before," after=",game.scroll.scroll_vertical," row_before=",before_rect," row_after=",control.get_global_rect())
- check(game.fitted_equipment[slot]==item and (("→ BARE" in control.text)==not item.is_empty()),"separate fitting tap updates the selected next-launch equipment for "+label)
+ check(game.fitted_equipment[slot]==item and (control.text.begins_with("CHOSEN")==not item.is_empty()),"separate fitting tap updates the selected next-launch equipment for "+label)
  check(game.scroll.scroll_vertical>0 and absf(game.scroll.scroll_vertical-before)<=game.ui_touch_height,"fitting retains the current briefing reading location for "+label)
  check(game.scroll.get_global_rect().encloses(control.get_global_rect()),"changed fitting remains fully readable and immediately tappable for "+label)
  check(game.screen=="briefing" and game.sim.snapshot()==active,"fitting preserves the paused active dive and keeps the briefing for "+label)
