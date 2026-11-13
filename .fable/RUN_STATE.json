@@ -6,7 +6,7 @@
   "base_ref": "origin/claude/integration",
   "base_sha": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
   "run_branch": "fable/overhaul-20261111",
-  "run_head": "1dadecd7f6a6a8fcb195813502725b2360f92675",
+  "run_head": "3cf92378fd0d962a5a443f5e91e4dfdf9f74eac9",
   "shared_tips": {
     "claude/integration": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
     "main": "f5b66a198e3878950325f8c45a0bc6bc29dcba84",
@@ -48,5 +48,5 @@
   },
   "decisions_open": 0,
   "last_checkpoint": "A5: core green under the player rules on wp-23-player-rules; enumeration run 43301827177 in progress",
-  "updated": "2026-11-12 21:06:46"
+  "updated": "2026-11-12 21:11:22"
 }

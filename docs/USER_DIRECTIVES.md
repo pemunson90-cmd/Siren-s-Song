@@ -601,3 +601,9 @@ How it is applied (Claude's reading, not Pat's words): when the approved code au
 Pat asked, verbatim: "Genuinely do we need 856 tests?" Claude answered no: the core suite earns its keep, the roughly 390 suites around it mostly do not, and recommended preparing a keep list (core, save and resume, one journey per mission arc, one suite per screen layout; probably 60 to 90 suites) with the rest moved to the scrap folder, after the UI audit. Pat, verbatim: "Yes"
 
 How it is applied (Claude's reading): after the UI and UX audit list is delivered, prepare the list of suites to keep and to retire, with the reason for each group, for Pat's approval. Nothing is moved before he approves the list. Retired suites go to the scrap folder, never deleted.
+
+## 2026-11-12: GitHub Actions allowance is spent; test locally
+
+Pat sent his GitHub metered usage page (Actions compute $12.00 used of $12.00 included, storage 0.5 GB of 0.5 GB, resets in 18 days; Siren-s-Song $55.84 of $68.99 gross this month) and said, verbatim: "This is why we need to trim the tests and why we need to test local right now. I'm literally out"
+
+How it is applied (Claude's reading): no GitHub Actions run is started by this run until Pat says otherwise: no manual dispatch, and every push carries `[skip ci]` in its head commit message so the pull request checks do not start. All testing is local. Cause found: every push to the pull request branch started a pull request check (49 on 12 November), on top of 6 manual full passes; the frequent state commits were the main drain. The test-suite trim moves ahead of the UI repairs.
