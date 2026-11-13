@@ -90,6 +90,8 @@ func run():
 	await hold_checks(g)
 	await status_checks(g)
 	await dialog_place_checks(g)
+	await contact_card_checks(g)
+	await label_checks(g)
 	Settings.current["mirrored_hud"]=true
 	await mirrored_resume_check(g)
 	Settings.current["mirrored_hud"]=false
@@ -98,6 +100,7 @@ func run():
 	g=load("res://scenes/main.tscn").instantiate();g.capture_scenario="planning-order-flow-tests";root.add_child(g);await settle();g.set_process(false)
 	await planner_resume_check(g)
 	await dialog_place_checks(g)
+	await contact_card_checks(g)
 	Settings.current["mirrored_hud"]=true
 	await planner_resume_check(g)
 	Settings.current["mirrored_hud"]=false
@@ -337,3 +340,95 @@ func hold_checks(g)->void:
 			check(not guard.panel.visible and g.sim.paused==start_paused,"closing with %s returns the dive to its earlier state"%finish.to_upper())
 			held=g.sim.elapsed;g._process(.2)
 			check((g.sim.elapsed>held)!=start_paused,"after %s time runs only if it ran before"%finish.to_upper())
+
+# 6. UI review B6: a tap on a drawn contact opens its card and sets no route and no marker.
+func plant_contact(g,id:int,pos:Vector2,known:bool=false)->void:
+	g.sim.contacts[id]={"pos":pos,"time":g.sim.elapsed,"mode":"INVESTIGATE","lock":0.0,"angle":0.0,"target":-1,"type":"hunter","display_type":"hunter" if known else "PATROLLER","band":1,"transition":{},"source":"optical","confidence":1.0,"seen_by":[]}
+	if known:g.sim.sonar["identified"]={id:"hunter"}
+	elif g.sim.sonar.has("identified"):g.sim.sonar.identified.erase(id)
+	g._refresh();await settle()
+func nothing_ordered(g)->bool:
+	return g.sim.route_goals().is_empty() and g.mission_hud.guard.pending.is_empty() and not g.advanced_orders
+func card_area(g)->Rect2:
+	return Rect2(Vector2.ZERO,Vector2(g.ocean.chart_width(),g.mission_hud.size.y))
+func contact_card_checks(g)->void:
+	var shape="%dx%d"%[root.size.x,root.size.y]
+	await fresh(g)
+	var hud=g.mission_hud;var card=hud.contact_card
+	var spot=water(g,g.sim.units[0].pos,[g.sim.units[1].pos,g.sim.units[2].pos])
+	var elsewhere=water(g,spot,[spot,g.sim.units[0].pos,g.sim.units[1].pos,g.sim.units[2].pos])
+	check(spot!=Vector2.INF and elsewhere!=Vector2.INF,shape+": the card fixture found two clear water points")
+	await plant_contact(g,9,spot)
+	check(not card.is_open(),shape+": a drawn contact alone opens no card")
+	await tap(screen(g,spot))
+	check(card.is_open() and card.key==9 and g.ocean.selected_contact==9,shape+": tapping a drawn contact opens its card and marks it")
+	check(nothing_ordered(g) and g.sim.paused,shape+": the contact tap sets no route and no marker, and leaves the dive paused")
+	var c=g.sim.contacts[9];var u=g.sim.units[0];var d=card.shown
+	var entry=card.entry_for(g.sim,9)
+	check(d.title==entry.text and "S10" in d.title,shape+": the card title is the readout label of that contact")
+	check(d.range==roundi(u.pos.distance_to(c.pos)) and d.facts=="RANGE %dm · BEARING %03d° · SEEN NOW"%[d.range,d.bearing],shape+": range, bearing and age come from the observed contact: "+d.facts)
+	check(d.tell.is_empty() and d.counter.is_empty(),shape+": an unidentified role shows no dossier lines")
+	var live=g.sim.sirens;g.sim.sirens=[]
+	check(card.describe(g.sim,9)==d,shape+": the card reads no hidden Siren state")
+	g.sim.sirens=live
+	var shown_rect:Rect2=card.panel.get_rect();var h:float=hud.touch_height
+	check(card_area(g).encloses(shown_rect),shape+": the card stays inside the safe area %s"%shown_rect)
+	check(not shown_rect.intersects(card.contact_rect(h)) and not shown_rect.intersects(card.craft_rect(h)),shape+": the card covers neither the contact nor the selected craft")
+	g.sim.paused=false;g._refresh();var held=g.sim.elapsed;g._process(.2)
+	check(g.sim.elapsed>held and card.is_open(),shape+": a running dive keeps running with the card open")
+	g.sim.paused=true;g._refresh()
+	await tap(screen(g,elsewhere))
+	check(not card.is_open() and g.ocean.selected_contact==-1 and nothing_ordered(g),shape+": a tap elsewhere closes the card and does nothing else")
+	await tap(screen(g,spot))
+	await click(card.close_button)
+	check(not card.is_open() and nothing_ordered(g),shape+": CLOSE closes the card and orders nothing")
+	# A stale contact keeps its last observed place and says how old it is.
+	g.sim.contacts[9].time=g.sim.elapsed-8.;g._refresh();await settle()
+	await tap(screen(g,spot))
+	check(card.is_open() and "SEEN 8s AGO" in card.shown.facts and "LAST SEEN 8s" in card.shown.title and card.shown.range==d.range,shape+": a stale contact says how old it is: "+card.shown.facts)
+	card.close();await settle()
+	# An identified role adds the dossier's tell and counterplay lines.
+	await plant_contact(g,9,spot,true)
+	await tap(screen(g,spot))
+	var role:Dictionary={}
+	for row in preload("res://src/presentation/siren_dossier/dossier_table.gd").ROLES:
+		if row.id=="hunter":role=row
+	check(card.is_open() and card.shown.tell=="OBSERVABLE TELL · "+role.tell and card.shown.counter=="COUNTERPLAY · "+role.counter,shape+": an identified role shows its dossier tell and counterplay")
+	check(card.tell_label.visible and card.counter_label.visible and card_area(g).encloses(card.panel.get_rect()),shape+": the longer card stays inside the safe area %s"%card.panel.get_rect())
+	check(not card.panel.get_rect().intersects(card.contact_rect(h)) and not card.panel.get_rect().intersects(card.craft_rect(h)),shape+": the longer card covers neither the contact nor the craft")
+	card.close();await settle()
+	# With a torpedo armed the tap is a target pick, never a card.
+	g.knock_armed=true;g._refresh()
+	await tap(screen(g,spot))
+	check(not card.is_open() and g.sim.route_goals().is_empty(),shape+": with a torpedo armed a contact tap opens no card")
+	g.knock_armed=false;g.decoy_armed=false;g._refresh();await settle()
+	# A craft under the same finger: the contact joins the choice list.
+	await plant_contact(g,9,g.sim.units[1].pos+Vector2(10,0))
+	await tap(screen(g,g.sim.units[1].pos))
+	check(hud.page=="choose" and hud.target_buttons.any(func(b):return b.text.begins_with("S10")),shape+": a craft and a contact under the finger give a choice list that names the contact")
+	var pick=null
+	for b in hud.target_buttons:
+		if b.text.begins_with("S10"):pick=b
+	if pick!=null:await click(pick)
+	check(card.is_open() and not g.advanced_orders and nothing_ordered(g),shape+": choosing the contact opens its card and orders nothing")
+	card.close();await settle()
+	# A Siren the player has not observed has no card: the tap sets a route as before.
+	g.sim.contacts.erase(9);g._refresh();await settle()
+	await tap(screen(g,spot))
+	check(not card.is_open() and not g.sim.route_goals().is_empty(),shape+": an unobserved Siren has no card and the tap plots a route")
+
+# 7. UI review C10: chart labels sit on plates and never overlap each other.
+func label_checks(g)->void:
+	await fresh(g)
+	var o=g.ocean;o.world_label_rects.clear()
+	var at=g.sim.units[0].pos+Vector2(200,-150)
+	var first="UNKNOWN SIGNAL SOURCE · AREA · BRG 276";var second="EXTRACTION"
+	var a=o.world_label_position(at,first,16);o.reserve_world_label(a,first,16)
+	var b=o.world_label_position(at,second,18);o.reserve_world_label(b,second,18)
+	check(a.is_finite() and b.is_finite() and not o.label_plate(a,first,16).intersects(o.label_plate(b,second,18)),"two labels made to coincide end up with separate plates")
+	check(o.world_label_rects.size()==2 and o.world_label_rects[0]==o.label_plate(a,first,16),"a placed label reserves its whole plate")
+	check(o.label_priority("S1 SIGHT ~300m",{})<o.label_priority("EXTRACTION",{}) and o.label_priority("EXTRACTION",{})<o.label_priority("OWN SHUTTER",{}) and o.label_priority("OWN SHUTTER",{})<o.label_priority("PRESSURE / 3s",{}),"labels rank threat, objective, own craft, landmark")
+	check(o.label_plate_colour().a<1.,"the plate is translucent in the standard palette")
+	Settings.current["high_contrast"]=true
+	check(o.label_plate_colour().a==1.,"the plate is fully opaque in high contrast")
+	Settings.current["high_contrast"]=false
