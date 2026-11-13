@@ -46,7 +46,8 @@ static func arrange(host)->void:
  primary.mouse_filter=Control.MOUSE_FILTER_PASS
  # Default disabled padding differs from the game's active button style.
  # Match their geometry so changing Resume availability cannot rewrap the row.
- for control in [resume,primary]:control.add_theme_stylebox_override("disabled",control.get_theme_stylebox("normal"))
+ for control in [resume,primary]:
+  if control.get_meta("ui_role","NORMAL")!="MAIN":control.add_theme_stylebox_override("disabled",control.get_theme_stylebox("normal"))
  # Audit 091 F9: when the first open row is older optional work, also offer the operation
  # that continues the most recently advanced branch. Both rows remain in the list.
  var shortcut_at=4

@@ -192,14 +192,7 @@ func _boot_frontend() -> void:
 	front.settings_store.path=settings_path
 	if not front.setup(self): remove_child(front); front.queue_free()
 func _theme() -> void:
-	var t=Theme.new(); t.default_font_size=17
-	var normal=StyleBoxFlat.new(); normal.bg_color=Color("102831"); normal.border_color=Color("36545d"); normal.set_border_width_all(1); normal.set_corner_radius_all(5); normal.content_margin_left=12; normal.content_margin_right=12; normal.content_margin_top=10; normal.content_margin_bottom=10
-	var hover=normal.duplicate(); hover.bg_color=Color("20444c"); hover.border_color=Color("6bd5cb")
-	var pressed=normal.duplicate(); pressed.bg_color=Color("37605e")
-	t.set_stylebox("normal","Button",normal); t.set_stylebox("hover","Button",hover); t.set_stylebox("pressed","Button",pressed); t.set_stylebox("focus","Button",hover)
-	t.set_color("font_color","Button",Color("d0e0df")); t.set_color("font_hover_color","Button",Color("ffffff")); t.set_color("font_color","Label",Color("c3d5d6"))
-	var p=StyleBoxFlat.new(); p.bg_color=Color("0a1b25"); p.border_color=Color("47636a"); p.set_border_width_all(1); p.content_margin_left=28; p.content_margin_right=28; p.content_margin_top=22; p.content_margin_bottom=22
-	t.set_stylebox("panel","PanelContainer",p); theme=t
+	theme=preload("res://src/presentation/ui_style.gd").theme()
 func _label(parent: Node,text: String,font_size: int) -> Label:
 	var l=Label.new(); l.text=text; l.add_theme_font_size_override("font_size",font_size); parent.add_child(l); return l
 func _button(parent: Node,text: String,action: Callable,action_id: String="") -> Button:
@@ -208,7 +201,7 @@ func _button(parent: Node,text: String,action: Callable,action_id: String="") ->
 	# Let ScrollContainer observe touch-emulated drags begun on menu rows.
 	# Its scroll-begin notification cancels the button click; taps still activate.
 	if parent==panel_box: b.mouse_filter=Control.MOUSE_FILTER_PASS
-	if not action_id.is_empty(): b.set_meta("action",action_id); b.set_meta("ui_action",action_id)
+	if not action_id.is_empty(): b.set_meta("action",action_id); b.set_meta("ui_action",action_id); preload("res://src/presentation/ui_style.gd").apply_for(b,action_id)
 	return b
 func ui_density_dpi() -> float:
 	return DisplayServer.screen_get_dpi()
