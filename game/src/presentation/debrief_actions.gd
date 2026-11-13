@@ -1,6 +1,6 @@
 extends RefCounted
 # WP-11 (cold review 6, I6): on a loss or withdrawal debrief the action row
-# (REVIEW FIELD RECORDS, RETRY, OPERATIONS ARCHIVE) moves up to sit under the
+# (PHOTO GALLERY, RETRY, OPERATIONS ARCHIVE) moves up to sit under the
 # loss heading and message, so it is on the first screen without scrolling.
 # The cause, damage and recovery lines follow it. The buttons stay the same
 # nodes in the same scroll content, with the same actions and order.

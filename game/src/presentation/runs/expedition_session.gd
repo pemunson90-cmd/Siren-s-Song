@@ -170,20 +170,9 @@ func _unhandled_key_input(event:InputEvent)->void:
 func _refresh()->void:
 	super._refresh()
 	if status_label==null:return
-	status_label.visible=screen=="mission"
-	if not status_label.visible:return
-	status_label.text="EXPEDITION · %d / %d · SEED %d"%[run_state.cursor+1,run_state.operations.size(),run_state.seed]
-	if not sim.rider_status().is_empty():status_label.text+="\n"+sim.rider_status()
-	status_label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;status_label.mouse_filter=Control.MOUSE_FILTER_IGNORE
-	# WP-11 (I2): the banner sits below the header controls and threat stack and
-	# is only as wide as its text, so the Hunt chip and other chips can clear it.
-	var top=ui_touch_height+24.
-	if mission_hud!=null:top=maxf(top,mission_hud.threat_floor())
-	var font=status_label.get_theme_font("font");var font_size=status_label.get_theme_font_size("font_size")
-	var room=maxf(1.,size.x-24.)
-	var text_size=font.get_multiline_string_size(status_label.text,HORIZONTAL_ALIGNMENT_LEFT,room,font_size)
-	var pad=status_label.get_theme_stylebox("normal").get_minimum_size()
-	status_label.position=Vector2(12,top);status_label.size=Vector2(minf(room,ceilf(text_size.x+pad.x+8.)),ceilf(text_size.y+pad.y))
+	var text="EXPEDITION · %d / %d · SEED %d"%[run_state.cursor+1,run_state.operations.size(),run_state.seed]
+	if not sim.rider_status().is_empty():text+="\n"+sim.rider_status()
+	preload("res://src/presentation/mode_banner.gd").place(self,text)
 func _return()->void:
 	if not is_inside_tree():return
 	preload("res://src/presentation/mode_host_freeze.gd").leave(self)

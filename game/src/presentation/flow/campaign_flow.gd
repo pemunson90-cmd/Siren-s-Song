@@ -59,7 +59,7 @@ static func show_campaign(host) -> void:
 	preload("res://src/presentation/finale/finale.gd").entry(host)
 	preload("res://src/persistence/save_states/save2_controller.gd").entry(host)
 	if not preload("res://src/presentation/ops_home/ops_home_table.gd").enabled and not host._campaign_pristine():host._button(host.panel_box,"ERASE PROGRESS · NEW CAMPAIGN",host._confirm_new_campaign,"new_campaign")
-	if not host.recovered_evidence.is_empty(): host._button(host.panel_box,"REVIEW FIELD RECORDS",func(): host._evidence_gallery(0),"evidence")
+	if not host.recovered_evidence.is_empty(): host._button(host.panel_box,PhotoReview.GALLERY_BUTTON,func(): host._evidence_gallery(0),"evidence")
 	host._menu_text(PhotoReview.loss_note(host,false),14).set_meta(OpsHome.GROUP_META,"note")
 	host._menu_text(plain_stock(host),15)
 	var rows=["COMPARE STOCK (O₂, EMP, SURVEY)"]
@@ -319,7 +319,7 @@ static func debrief(host) -> void:
 		if host.mission_index==5:
 			host._menu_text("YOUR FIELD RECORD · ACROSS DIVES",14)
 			host._menu_text(preload("res://src/campaign/archive_recap.gd").summary(host.recovered_evidence),14)
-		if not host.recovered_evidence.is_empty(): host._button(host.panel_box,"REVIEW FIELD RECORDS",func(): host._evidence_gallery(0),"evidence")
+		if not host.recovered_evidence.is_empty(): host._button(host.panel_box,PhotoReview.GALLERY_BUTTON,func(): host._evidence_gallery(0),"evidence")
 		if host.mission_index==5:
 			var discovery="The crown is still sending its list: a bearing for every loud site on this coast. Two of them still answer. South down the trench, the drillship Tessaly. West on the shelf, the sonar station at Port Ardent.\n\n" if host.sim.mission.get("finale_revision",0)==1 else ""
 			host._menu_text("THE SONG CONTINUES\n\n"+discovery+"Okafor, on Brannock: \"Two bearings. People at both, and air running down at both. Quietus can reach one first.\" Below, the plant lights go out one by one.\n\nIntroductory arc complete. Every dive remains replayable.",20)

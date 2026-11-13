@@ -91,7 +91,7 @@ static func debrief(main)->bool:
   preload("res://src/presentation/damage_log/damage_log.gd").debrief(main)
   main._menu_text("Field observations remain in the archive. This operation grants no new recovered fitting, continuation or committed history.",17)
   preload("res://src/presentation/module_recovery_view.gd").debrief(main)
- if not main.recovered_evidence.is_empty():main._button(main.panel_box,"REVIEW FIELD RECORDS",func():main._evidence_gallery(0),"evidence")
+ if not main.recovered_evidence.is_empty():main._button(main.panel_box,preload("res://src/presentation/flow/photo_review.gd").GALLERY_BUTTON,func():main._evidence_gallery(0),"evidence")
  main._button(main.panel_box,"RETRY OPERATION",func():main._briefing(mission.id),"retry")
  main._button(main.panel_box,"OPERATIONS ARCHIVE",main._show_campaign,"back")
  preload("res://src/presentation/debrief_actions.gd").lift(main,lift_at)
