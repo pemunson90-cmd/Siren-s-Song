@@ -143,7 +143,10 @@ static func show(host)->void:
 	host._button(host.panel_box,"BACK TO OPERATIONS",host._show_campaign,"back")
 	host._menu_text("SUPPLIES / COSTS",30)
 	host._menu_text("%s\nPRESET · %s · %s%s"%[Economy.balance_text(e),Options.label(e),Economy.preset(e).note," · IRONMAN" if e.ironman else ""],16)
-	host._menu_text(e.report,14)
+	# A dive that can be resumed is the current state; the default "No dive yet" report would be false.
+	var diving=host.active_started and host.sim.outcome.is_empty()
+	if diving:host._menu_text(host.CampaignFlow.in_progress_line(host),14)
+	if not (diving and e.report.begins_with("No dive yet")):host._menu_text(e.report,14)
 	preload("res://src/presentation/crew/crew_view.gd").supplies(host)
 	if e.ironman:
 		host._button(host.panel_box,"PRESET LOCKED · IRONMAN",func():pass,"eco_preset").disabled=true
