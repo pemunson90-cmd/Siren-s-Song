@@ -19,6 +19,9 @@ func go(g,id,point,drive=""):
   g.sim.advance(1./60)
   if n%120==0:
    g._refresh();await process_frame;await acknowledge_warning(g)
+   # Trial rules (13 Nov): the game pauses itself on a new lock, at a route's end and when rock blocks a craft.
+   # A player resumes with the corner control; so does this journey.
+   if g.sim.paused and g.sim.outcome.is_empty():await click(g.pause_button)
   if not g.sim.outcome.is_empty() or not g.sim.units[id].alive or (g.sim.units[id].pos.distance_to(point)<18 and g.sim.units[id].vel.length()<2):break
  if not g.sim.paused:await click(g.pause_button)
  g._refresh();await settle()
