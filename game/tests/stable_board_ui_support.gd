@@ -147,7 +147,12 @@ func repair_threat_case(shape:Vector2i,mirrored:bool):
   await picture(tag+"-threats")
   var received=hud.get("contact_scroll")
   if received!=null and received.visible:
-   check(hud.contact_list.get_child_count()>=game.ocean.contact_entries().size()+1,tag+" every received row retained")
+   # WP-51 (row 79): the lock row of the Siren the lock card already states is shown by the
+   # card, not repeated in the list. Every other row must stay, so only that one row may be missing.
+   var raw=game.ocean.contact_entries()
+   var stated=raw.filter(func(entry):return entry.get("locking",false) and entry.key==game.ocean.lock_card_source and entry.get("report","").is_empty()).size()
+   check(stated<=1,tag+" at most the one stated lock row is left to the card")
+   check(hud.contact_list.get_child_count()>=raw.size()-stated+1,tag+" every received row retained")
    var before=sim.snapshot();await swipe_region(received.get_global_rect())
    check(received.scroll_vertical>0 and sim.snapshot()==before,tag+" received list scroll owns touch without orders")
   # Each stack proves every craft-page action; the extreme stack also exercises every menu.

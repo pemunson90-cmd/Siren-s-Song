@@ -184,5 +184,8 @@ func refresh(bounds: Vector2, h: float, font: int, top: float) -> void:
 	label.add_theme_font_size_override("font_size", font); dismiss_button.add_theme_font_size_override("font_size", font)
 	dismiss_button.custom_minimum_size = Vector2(h * 1.4, h)
 	panel.custom_minimum_size = Vector2(width, 0); panel.reset_size()
-	if placed_top < 0.0: placed_top = top
+	# The card keeps its place while it is up, but never above the floor under the pause and FLEET plates: a plate
+	# that grows after the card was first placed (its wording or text size changed) would otherwise sit under the
+	# card's tap area and lose its taps.
+	placed_top = maxf(placed_top, top)
 	panel.position = Vector2(12, placed_top); panel.show(); move_to_front()

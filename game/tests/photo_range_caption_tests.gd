@@ -27,7 +27,7 @@ func run():
 	var reach:int=roundi(Photo.reach(s,0))
 	game._refresh()
 	var context=s.camera_context()
-	check(not context.get("ready",true) and ("reaches %dm"%reach) in str(context.text),"the simulation refuses with the camera reach (setup)")
+	check(not context.get("ready",true) and ("the camera reaches %d m"%reach) in str(context.text),"the simulation refuses with the camera reach (setup)")
 	var caption:Array=game.mission_hud.camera_caption()
 	var line:String=str(caption[2]) if caption.size()>2 else ""
 	check(line.begins_with("NOT READY"),"caption still says NOT READY before the tap")

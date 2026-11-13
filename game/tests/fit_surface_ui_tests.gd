@@ -82,7 +82,9 @@ func shape_case(shape):
  if await press(game,"fit_summary"):
   texts=game.panel_box.find_children("*","Label",true,false).map(func(l):return l.text)
   check(texts.any(func(t):return "FITTED" in t and "POWER" in t),"fit summary help reveals current craft details "+label)
- check(texts.any(func(t):return "DECOYS" in t and "TORPEDOES" in t),"briefing supplies line comes from the tool table "+label)
+ # Row 78: the count line became sentences from tool_racks_view.carry_text, built from the same tool table values.
+ var carry:String=preload("res://src/presentation/tool_racks_view.gd").carry_text(game.tool_racks)
+ check("decoys" in carry and "torpedoes" in carry and texts.any(func(t):return carry in t),"briefing supplies line comes from the tool table "+label)
  game.queue_free();await settle()
  Settings.apply({})
 func run():
