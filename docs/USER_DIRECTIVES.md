@@ -595,3 +595,9 @@ You should be using the absolute bare minimum amount of tests always."
 Pat, verbatim: "Once you're done and your work is checked for not just accuracy, but also necessarity, functionality, complexity, scalability, interoperability, stability, bend overall code-based health; I want to perform another comprehensive audit and repair of the UI and ux, please and thank you"
 
 How it is applied (Claude's reading, not Pat's words): when the approved code audit fixes are built, the whole set is reviewed once by a fresh reviewer against each of those headings (is it correct, was it needed, does it work, is it simpler or more complex than before, will it scale, does it fit with the rest, is it stable, is the code base healthier). Findings are fixed. Then a full UI and UX audit starts: a plain-English list with yes/no recommendations first, repairs after Pat's answers, as with the code audit.
+
+## 2026-11-12: cut the test suites down
+
+Pat asked, verbatim: "Genuinely do we need 856 tests?" Claude answered no: the core suite earns its keep, the roughly 390 suites around it mostly do not, and recommended preparing a keep list (core, save and resume, one journey per mission arc, one suite per screen layout; probably 60 to 90 suites) with the rest moved to the scrap folder, after the UI audit. Pat, verbatim: "Yes"
+
+How it is applied (Claude's reading): after the UI and UX audit list is delivered, prepare the list of suites to keep and to retire, with the reason for each group, for Pat's approval. Nothing is moved before he approves the list. Retired suites go to the scrap folder, never deleted.
