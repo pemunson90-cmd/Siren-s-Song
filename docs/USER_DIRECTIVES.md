@@ -607,3 +607,10 @@ How it is applied (Claude's reading): after the UI and UX audit list is delivere
 Pat sent his GitHub metered usage page (Actions compute $12.00 used of $12.00 included, storage 0.5 GB of 0.5 GB, resets in 18 days; Siren-s-Song $55.84 of $68.99 gross this month) and said, verbatim: "This is why we need to trim the tests and why we need to test local right now. I'm literally out"
 
 How it is applied (Claude's reading): no GitHub Actions run is started by this run until Pat says otherwise: no manual dispatch, and every push carries `[skip ci]` in its head commit message so the pull request checks do not start. All testing is local. Cause found: every push to the pull request branch started a pull request check (49 on 12 November), on top of 6 manual full passes; the frequent state commits were the main drain. The test-suite trim moves ahead of the UI repairs.
+
+## 2026-11-12: UI and UX audit items approved by Claude's judgement
+
+Asked for his answers to `.fable/UX_AUDIT.md` Part B (B1 to B19), Pat said, verbatim: "Yes to all by your judgement
+ Youre here to fix the game. I can personalize it later"
+
+How it is applied (Claude's reading): every Part B item is approved as recommended, and where an item needs a choice (layout, plain wording for jargon, one name for a place) Claude makes it and records it, without bringing tables to Pat first. Pat will adjust wording and names to his taste afterwards, so every text Claude writes or changes is listed in `.fable/FINAL_REPORT.md` where he can find it. Still Pat's and not touched: story content, game rules, prototype mechanics.

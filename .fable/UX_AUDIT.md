@@ -74,3 +74,23 @@ Ranked by how much each costs a player. "Rec" is Claude's recommendation.
 ## What this audit cannot tell you
 
 Whether the game is fun, how it sounds, and how it feels in the hand. Three critics, one operation each in the dive: late-game screens were not seen.
+
+## After Pat's answer (2026-11-12): what the code map changed
+
+Pat approved every Part B item by Claude's judgement ("Youre here to fix the game. I can personalize it later"). Before building, a read-only survey mapped each item to its code. Five items turned out to describe behavior the game already has; the critics missed it or mis-tapped. They need no work:
+
+| # | What the code already does |
+|---|---|
+| B1 | A tap outside an open wheel closes the wheel and is swallowed; it cannot reach the chart (`mission_hud.gd` blocker and `blocks()`). The stray markers the critics saw were second taps on open water. |
+| B10 | FLEET already opens a wheel of all three craft with their state (READY, ROUTE, ABOARD, LOST) plus ARRIVALS, VIEW, OPERATIONS and AUDIO LOG. |
+| B11 | STATUS opens a status sheet. The route program is PLAN ROUTE. |
+| B12 | A depth change shows "MIDDLE to DEEP 3.2s" on the craft badge and in the wheel centre, and the depth buttons are disabled while it runs. |
+| B18 | Ironman is already a two-step arm: the first tap changes the button to "CONFIRM IRONMAN · CANNOT BE UNDONE". |
+
+Narrowed by the map:
+
+- **B2:** RECALL exists, but two levels down (wheel, ROUTE, RECALL). LAUNCH has no button at all. Work: a LAUNCH entry for an aboard drone and RECALL on the drone's first wheel page. A recalled drone waits beside Quietus; it cannot go back aboard. Whether it should is a game rule for Pat (question for his playtest).
+- **B3:** a lost dive drops its photographs, while the hub says "Field records remain reviewable after loss or abandonment", and opening the gallery after a loss keeps them anyway. Work: the lost screen lists the photographs taken with their grades. Which of the two rules is meant is a question for Pat.
+- **B4:** the Campaign already asks "ABANDON THE CURRENT DIVE?" before launching over a dive, and Android Back only pauses. Missing confirms: Expedition "END DIVE · LOSE RUN" and Challenge "END ATTEMPT".
+
+Build order: (1) B2 and B5 on the dive screen; (2) B3 and B4 on the end screens; (3) B6 tapping a contact; (4) B7, B14, B15 and the B9 wording pass in the menus; (5) B8 and B13 briefing and results layout; (6) B16 full-width layout; B17 names with the wording pass. B19 waits for Pat's phone.

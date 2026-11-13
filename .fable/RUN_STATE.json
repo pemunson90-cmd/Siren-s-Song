@@ -2,11 +2,11 @@
   "run_id": "overhaul-20261111",
   "status": "RUNNING",
   "phase": "9-ux-repair",
-  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: Phase 9.2 in flight: WP-31 (dive screen defects A1, A2, A5, A6, A9; branch wp-31) and WP-32 (menu defects A3, A4, A7, A8; branch wp-32), both from 91181931, one Sonnet implementer each on disjoint files. When each reports: root reads the diff, merges, adds behavior rows, runs the touched suites locally. A10 checked: the loss screen's FLEET RECOVERY block (module_recovery_view.gd:131) read ABOARD for both drones; the critic had restarted the dive, so the lost dive likely never launched a drone; not treated as a defect. Waiting on Pat for UX_AUDIT Part B answers (asked on resume). Then 9.3. No GitHub runs; pushes carry [skip ci].",
+  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: Phase 9: WP-31 (dive screen defects) and WP-32 (menu defects) are building from 91181931. When each reports: root reads the diff, merges, behavior rows, touched suites locally. Then Part B in the build order at the end of .fable/UX_AUDIT.md ('After Pat's answer'): WP-33 = B2 (LAUNCH entry for an aboard drone; RECALL on the drone's first wheel page: mission_hud.gd _page_controls L369-413, release_controls.gd filter L56-67, route_orders.gd) and B5 (route dialog placed away from the craft: order_guard.gd refresh L101-129 and _fit_panel); WP-34 = B3 (lost screen lists photographs taken with grades: campaign_flow.gd debrief L248-296, photo_capture shots_for, photo_pay.debrief_text) and B4 (confirm on Expedition END DIVE \u00b7 LOSE RUN expedition_session.gd L79 and Challenge END ATTEMPT challenge_session.gd L68, reuse the END THIS EXPEDITION? pattern in modes_frontend.gd L64-76); WP-35 = B6 (tap a contact selects it and shows what is known: ocean_view.gd contexts_at L115-160, contact_feedback.gd, threat_read); WP-36 = B7, B14, B15 and the B9 wording pass. B1, B10, B11, B12, B18 need no work (already in the game). No GitHub runs; pushes carry [skip ci].",
   "base_ref": "origin/claude/integration",
   "base_sha": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
   "run_branch": "fable/overhaul-20261111",
-  "run_head": "91181931aa1f2f192665e41e7f11c26bea6f8daf",
+  "run_head": "4a04193707ca5e78cd27ff93a78271660bd2f9df",
   "shared_tips": {
     "claude/integration": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
     "main": "f5b66a198e3878950325f8c45a0bc6bc29dcba84",
@@ -51,5 +51,5 @@
   },
   "decisions_open": 0,
   "last_checkpoint": "Paused at Pat's request on 2026-11-12 after phase 8 and the UI and UX audit. Everything committed and pushed with [skip ci]. Everyday set: 39 of 39 suites pass locally after the trim.",
-  "updated": "2026-11-12 21:54:50"
+  "updated": "2026-11-12 22:03:28"
 }
