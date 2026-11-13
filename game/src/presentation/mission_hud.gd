@@ -449,7 +449,8 @@ func layout(bounds:Vector2,h:float):
  var edge=Vector2(h*3.1,h*2.9)*text_scale
  var minimum=Vector2(edge.x,minf(h*3.85*text_scale+20,bounds.y-edge.y))
  # WP-31: the whole wheel stays inside the safe area even when the area is narrower than the wheel.
- center=anchor.clamp(minimum,Vector2(maxf(minimum.x,bounds.x-edge.x),maxf(minimum.y,bounds.y-edge.y))) if page in ["inspect","signals","recovery","order_help"]:center=Vector2(bounds.x*.5,bounds.y*.5)
+ center=anchor.clamp(minimum,Vector2(maxf(minimum.x,bounds.x-edge.x),maxf(minimum.y,bounds.y-edge.y)))
+ if page in ["inspect","signals","recovery","order_help"]:center=Vector2(bounds.x*.5,bounds.y*.5)
  if host.advanced_orders:
   for i in ring_buttons.size():
    var b=ring_buttons[i];var a=-PI/2+TAU*i/ring_buttons.size()
@@ -753,14 +754,14 @@ func _fit_wheel_words():
  for b in command_controls():
   if b==null or b.get_parent()!=self:continue
   var font=b.get_theme_font("font");var avail=b.size.x-b.get_theme_stylebox("normal").get_minimum_size().x-2.
-  var size=base
-  while size>10:
+  var px=base
+  while px>10:
    var widest=0.
    for word in b.text.split(" ",false):
-    for part in word.split("\n",false):widest=maxf(widest,font.get_string_size(part,HORIZONTAL_ALIGNMENT_LEFT,-1,size).x)
+    for part in word.split("\n",false):widest=maxf(widest,font.get_string_size(part,HORIZONTAL_ALIGNMENT_LEFT,-1,px).x)
    if widest<=avail:break
-   size-=1
-  b.add_theme_font_size_override("font_size",size)
+   px-=1
+  b.add_theme_font_size_override("font_size",px)
 # The pause control's hit area always covers its whole wrapped label, so a tap on the
 # visible RESUME line is never lost to the chart below it.
 func _fit_pause_button():
@@ -819,7 +820,7 @@ func _draw():
  lines=StatusView.captions(self,lines)
  var disc_top=center.y-(ring_radius-h*.7)*(get_meta(StatusView.AXES).y/ring_radius if has_meta(StatusView.AXES) else 1.)+4.
  var fitted=CenterLayout.fit_wrapped(lines,font,text_size,CenterLayout.text_width(ring_radius,h),close_button.position.y-maxf(CenterLayout.STYLE.min_gap,h*text_scale*CenterLayout.STYLE.caption_gap)-disc_top)
- lines=fitted.lines;text_size=fitted.size
+ lines=fitted["lines"];text_size=fitted["size"]
  caption_texts=lines.duplicate()
  var first_y=CenterLayout.first_baseline(center.y,close_button.get_rect(),h,text_scale,lines.size(),font,text_size)
  for n in lines.size():
