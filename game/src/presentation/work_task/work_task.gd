@@ -61,6 +61,10 @@ static func object_reason(sim,index:int)->String:
 	if target>=0 and target<sites.size():return "%s aims at %s · turn or move toward %s"%[action_verb(o),label(sim,sites[target]),label(sim,o)]
 	return str(context.get("text","Not ready"))
 
+# WP-36: true only while some craft is actually working the chosen task (its capture clock runs).
+static func working(sim,task:Dictionary)->bool:
+	return not site(sim,task).is_empty() and sim.capture_at_target(int(task.index)).unit>=0
+
 static func state(sim,task:Dictionary)->String:
 	var o=site(sim,task)
 	if o.is_empty():return ""

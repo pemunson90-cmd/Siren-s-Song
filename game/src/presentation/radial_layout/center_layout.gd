@@ -59,6 +59,51 @@ static func fit_wrapped(lines:Array,font:Font,font_size:int,max_width:float,max_
   if (widest<=max_width+.5 and height<=max_height) or size<=MIN_SIZE:return {"lines":out,"size":size}
   size-=1
  return {"lines":lines,"size":font_size}
+# WP-36 (visual review C3): fit_wrapped checked one width for every line, but the disc is
+# narrower away from its middle, so a long line near the top or bottom ("▸ UNKNOWN SIGNAL SOURCE")
+# was cut at the disc edge. fit_disc wraps each line to the chord at its own height and
+# shrinks the type (floor MIN_SIZE) until every line's text rectangle lies inside the disc
+# (an ellipse when the status table reshapes it). first_y.call(count,size) gives the first
+# baseline for a stack of that many lines. Returns {"lines","size","first_y"}.
+const EDGE_PAD=2.
+static func line_rect(text:String,font:Font,font_size:int,center_x:float,baseline:float)->Rect2:
+ var width=font.get_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x
+ return Rect2(Vector2(center_x-width/2,baseline-font.get_ascent(font_size)),Vector2(width,font.get_height(font_size)))
+static func inside(rect:Rect2,center:Vector2,radii:Vector2)->bool:
+ for corner in [rect.position,Vector2(rect.end.x,rect.position.y),Vector2(rect.position.x,rect.end.y),rect.end]:
+  if ((corner-center)/radii).length_squared()>1.:return false
+ return true
+static func chord_room(font:Font,font_size:int,center:Vector2,radii:Vector2,baseline:float)->float:
+ var top=baseline-font.get_ascent(font_size)
+ var dy=maxf(absf(top-center.y),absf(top+font.get_height(font_size)-center.y))
+ var ry=radii.y-EDGE_PAD
+ if dy>=ry:return 0.
+ return 2.*(radii.x-EDGE_PAD)*sqrt(1.-(dy/ry)*(dy/ry))*DISC_FILL
+static func wrap_disc(lines:Array,font:Font,font_size:int,center:Vector2,radii:Vector2,first:float)->Array:
+ var out=[];var step=font_size+STYLE.line_gap
+ for line in lines:
+  var current=""
+  for word in str(line).split(" ",false):
+   var trial=(current+" "+word).strip_edges()
+   if current.is_empty() or font.get_string_size(trial,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x<=chord_room(font,font_size,center,radii,first+out.size()*step):current=trial
+   else:out.append(current);current=word
+  if not current.is_empty() or str(line).strip_edges().is_empty():out.append(current)
+ return out
+static func fit_disc(lines:Array,font:Font,font_size:int,center:Vector2,radii:Vector2,max_height:float,first_y:Callable)->Dictionary:
+ var size=font_size
+ while true:
+  var count=lines.size();var out=[];var first=0.
+  for attempt in 4:
+   first=first_y.call(count,size);out=wrap_disc(lines,font,size,center,radii,first)
+   if out.size()==count:break
+   count=out.size()
+  first=first_y.call(out.size(),size)
+  var fits=out.size()*(size+STYLE.line_gap)<=max_height
+  for n in out.size():
+   if not inside(line_rect(out[n],font,size,center.x,first+n*(size+STYLE.line_gap)),center,radii):fits=false;break
+  if fits or size<=MIN_SIZE:return {"lines":out,"size":size,"first_y":first}
+  size-=1
+ return {"lines":lines,"size":font_size,"first_y":first_y.call(lines.size(),font_size)}
 static func ellipsize(text:String,font:Font,font_size:int,max_width:float)->String:
  if font.get_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x<=max_width:return text
  var cut=text.length()

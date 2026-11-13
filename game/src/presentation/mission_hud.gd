@@ -22,6 +22,8 @@ const Truthful=preload("res://src/presentation/truthful_commands.gd")
 const WorkTask=preload("res://src/presentation/work_task/work_task.gd")
 const ReleaseControls=preload("res://src/presentation/release_controls.gd")
 const LifeChip=preload("res://src/presentation/life_support_chip.gd")
+const UiStyle=preload("res://src/presentation/ui_style.gd")
+const Palette=preload("res://src/presentation/accessibility/palette.gd")
 # A tap opens an object-owned projection. A separate tap chooses an action.
 var host
 var blocker:Control
@@ -430,6 +432,7 @@ func layout(bounds:Vector2,h:float):
   var hover=normal.duplicate();hover.bg_color=Color(.2,.62,.65,.14)
   b.add_theme_stylebox_override("normal",normal);b.add_theme_stylebox_override("hover",hover);b.add_theme_stylebox_override("pressed",hover);b.add_theme_stylebox_override("disabled",normal)
   b.add_theme_color_override("font_outline_color",Color("041019"));b.add_theme_constant_override("outline_size",3)
+  if b.has_meta(PLATE_KEY):b.remove_meta(PLATE_KEY)
  host.status_label.hide();host.log_label.hide()
  host.pause_button.show();host.pause_button.position=Vector2(12,12);host.pause_button.size=Vector2(bw,bh)
  host.advanced_button.visible=not host.advanced_orders;host.advanced_button.position=Vector2(bounds.x-bw-12,12);host.advanced_button.size=Vector2(bw,bh)
@@ -447,7 +450,8 @@ func layout(bounds:Vector2,h:float):
   var sides=ring_buttons.slice(1);sides.reverse();ring_buttons=[ring_buttons[0]]+sides
  anchor=host.ocean.screen_position(subject.get("pos",host.sim.units[host.sim.selected].pos))
  ring_radius=h*2.25*text_scale
- var edge=Vector2(h*3.1,h*2.9)*text_scale
+ # WP-36: the outermost label rectangles keep EDGE_MARGIN (12 px at 1080p, scaled with the touch height) from the safe area; the wheel moves, the labels do not shrink.
+ var edge=Vector2(ring_radius+bw/2.,ring_radius+bh/2.)+Vector2.ONE*edge_margin(h)
  var minimum=Vector2(edge.x,minf(h*3.85*text_scale+20,bounds.y-edge.y))
  # WP-31: the whole wheel stays inside the safe area even when the area is narrower than the wheel.
  center=anchor.clamp(minimum,Vector2(maxf(minimum.x,bounds.x-edge.x),maxf(minimum.y,bounds.y-edge.y)))
@@ -594,12 +598,14 @@ func refresh():
  extra.sonar_power.text="POWER\n"+sim.sonar.power.to_upper()
  extra.sonar_emit.text="EMIT\n"+("%s RESERVE"%String.num(snappedf(sim.Sonar.pulse_cost(sim,sim.selected),0.01)) if sim.Sonar.pulse_cost(sim,sim.selected)>0. else "NO COST");extra.sonar_emit.disabled=sim.ping_time>0 or not transition.is_empty()
  subject=Concealed.refresh_subject(sim,Recipient.refresh_subject(sim,Rendezvous.refresh_subject(sim,subject)))
- host.pause_button.text="PAUSED\n▶ RESUME" if sim.paused else "Ⅱ\nPAUSE"
+ host.pause_button.text="▶\nRESUME" if sim.paused else "Ⅱ\nPAUSE"
+ plate(host.pause_button,UiStyle.MAIN if sim.paused else UiStyle.NORMAL)
  LifeChip.sync(self)
  _fit_pause_button()
- host.advanced_button.text="FLEET"
+ host.advanced_button.text="FLEET";plate(host.advanced_button,UiStyle.NORMAL)
  focus_button.text="FOLLOW" if host.ocean.chart_camera.mode=="follow" else "FOCUS"
- intent.text="%s · %s · %s"%[sim.units[sim.selected].name+" · "+sim.Depth.NAMES[sim.units[sim.selected].band],"QUEUE" if sim.queue_mode else "REPLACE",(host.targeting_feedback if not host.targeting_feedback.is_empty() else "DECOY · TAP CLEAR WATER ≤160m · TAP CANCEL" if host.decoy_armed else "TORPEDO · TAP FRESH CONTACT · TAP CANCEL" if host.knock_armed else sim.message)]
+ var current=host.targeting_feedback if not host.targeting_feedback.is_empty() else "DECOY · TAP CLEAR WATER ≤160m · TAP CANCEL" if host.decoy_armed else "TORPEDO · TAP FRESH CONTACT · TAP CANCEL" if host.knock_armed else sim.message
+ intent.text="%s · %s"%[sim.units[sim.selected].name+" · "+sim.Depth.NAMES[sim.units[sim.selected].band],"QUEUE" if sim.queue_mode else "REPLACE"]+(" · "+current if not current.is_empty() else "")
  host.title_label.visible=page not in ["signals","recovery","order_help"];host.detail_label.visible=page not in ["signals","recovery","order_help"]
  host.order_buttons.home.text="WITHDRAW" if Expedition.entry(sim) else "EXTRACT"
  extra.route_here.text="PLOT ROUTE" if subject.has("subkind") else "ROUTE HERE"
@@ -688,7 +694,8 @@ func refresh():
  alarm.size=Vector2(maxf(1,size.x-touch_height*6.*text_scale-64),touch_height) if host.advanced_orders else Vector2(minf(size.x-touch_height*3.1*text_scale-56,ThemeDB.fallback_font.get_string_size(alarm.text,HORIZONTAL_ALIGNMENT_LEFT,-1,alert_font).x+22),ThemeDB.fallback_font.get_height(alert_font)+8)
  fleet.visible=not host.advanced_orders and not host.decoy_armed and not host.knock_armed
  if not host.decoy_armed and not host.knock_armed:
-  for task_text in [WorkTask.line(sim,task),WorkTask.result_line(task_result),WorkTask.load_status(sim)]:
+  # WP-36: the TASK line only while its work is actually under way; at rest the status is the current line and the standing hint.
+  for task_text in [WorkTask.line(sim,task) if WorkTask.working(sim,task) else "",WorkTask.result_line(task_result),WorkTask.load_status(sim)]:
    if not task_text.is_empty():intent.text+="\n"+task_text
   intent.text+="\n"+sim.Depth.context(sim)
  Truthful.apply(self)
@@ -752,6 +759,21 @@ func _fit_wheel_words():
    if widest<=avail:break
    px-=1
   b.add_theme_font_size_override("font_size",px)
+# WP-36 (visual review C2): the pause and FLEET controls were drawn flat by the transparent
+# boxes layout() gives every HUD button. They keep their rectangles but get a role plate (filled,
+# bordered, rounded) from UiStyle: MAIN while paused (the forward action), NORMAL otherwise.
+# The plate's content margins stay at the flat look's 2 px, so no rectangle or label fit moves.
+const PLATE_KEY="plate_key"
+func edge_margin(h:float)->float:
+ return maxf(8.,h*12./98.)
+func plate(b:Button,role:String):
+ var key=role+str(Palette.high_contrast())
+ if b.get_meta(PLATE_KEY,"")==key:return
+ b.set_meta(PLATE_KEY,key);UiStyle.apply(b,role)
+ if b.has_meta(LifeChip.META):b.remove_meta(LifeChip.META)
+ for state in ["normal","hover","pressed","focus","disabled"]:
+  var box:StyleBox=b.get_theme_stylebox(state).duplicate();box.set_content_margin_all(2);b.add_theme_stylebox_override(state,box)
+ b.add_theme_constant_override("outline_size",0 if role==UiStyle.MAIN else 3)
 # The pause control's hit area always covers its whole wrapped label, so a tap on the
 # visible RESUME line is never lost to the chart below it.
 func _fit_pause_button():
@@ -808,11 +830,13 @@ func _draw():
  if page in ["object","salvage","plant","habitat"]:lines.append_array(WorkTask.captions(host.sim,subject))
  if page=="choose":lines.append("CRAFT OR OBJECT?")
  lines=StatusView.captions(self,lines)
- var disc_top=center.y-(ring_radius-h*.7)*(get_meta(StatusView.AXES).y/ring_radius if has_meta(StatusView.AXES) else 1.)+4.
- var fitted=CenterLayout.fit_wrapped(lines,font,text_size,CenterLayout.text_width(ring_radius,h),close_button.position.y-maxf(CenterLayout.STYLE.min_gap,h*text_scale*CenterLayout.STYLE.caption_gap)-disc_top)
+ # WP-36: each line wraps to the disc's chord at its own height, then the type shrinks until every line lies inside the disc.
+ var radii=(ring_radius-h*.7)*(get_meta(StatusView.AXES)/ring_radius if has_meta(StatusView.AXES) else Vector2.ONE)
+ var disc_top=center.y-radii.y+4.
+ var fitted=CenterLayout.fit_disc(lines,font,text_size,center,radii,close_button.position.y-maxf(CenterLayout.STYLE.min_gap,h*text_scale*CenterLayout.STYLE.caption_gap)-disc_top,func(count,size_):return CenterLayout.first_baseline(center.y,close_button.get_rect(),h,text_scale,count,font,size_))
  lines=fitted["lines"];text_size=fitted["size"]
  caption_texts=lines.duplicate()
- var first_y=CenterLayout.first_baseline(center.y,close_button.get_rect(),h,text_scale,lines.size(),font,text_size)
+ var first_y=fitted["first_y"]
  for n in lines.size():
   var text=lines[n];var width=font.get_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,-1,text_size).x
   var baseline=Vector2(center.x-width/2,first_y+n*(text_size+CenterLayout.STYLE.line_gap))
@@ -826,12 +850,12 @@ func camera_caption() -> Array:
  var sim=host.sim;var button=host.order_buttons.camera
  var verb=button.text.replace("\n"," ")
  var held=WorkTask.held_reason(sim,task)
- if not held.is_empty():return [verb,"▸ TASK "+WorkTask.label(sim,WorkTask.site(sim,task)).substr(0,16),"HELD · OPEN THE OTHER JOB"]
+ if not held.is_empty():return [verb,"▸ TASK "+WorkTask.label(sim,WorkTask.site(sim,task)),"HELD · OPEN THE OTHER JOB"]
  var context=sim.camera_context();var target=int(context.get("target",-1))
  if target==-2:return [verb,"▸ SIREN S%d"%(int(context.get("siren",0))+1)]
  if target>=0 and target<sim.mission.objectives.size():
   var site=sim.mission.objectives[target]
-  return [verb,"▸ %s"%sim.Photo.label(site).to_upper().substr(0,18),preload("res://src/presentation/photo_shutter/range_caption.gd").line(sim,site,context.get("ready",false))]
+  return [verb,"▸ %s"%sim.Photo.label(site).to_upper(),preload("res://src/presentation/photo_shutter/range_caption.gd").line(sim,site,context.get("ready",false))]
  return [verb,"▸ NO SITE IN RANGE"]
 func action_controls() -> Dictionary:
  var result={}

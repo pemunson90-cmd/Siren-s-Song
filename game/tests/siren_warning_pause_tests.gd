@@ -39,7 +39,7 @@ func run() -> void:
 	check(game.sim.sirens[0].lock>0.0,"a real Siren lock is building")
 	check(hints.current=="warning" and hints.panel.visible and game.sim.paused,"the first lock warning pauses the game and shows the prompt")
 	check("warning" in game.hints_seen,"the shown prompt is recorded in the saved hint flags")
-	check(game.pause_button.text.begins_with("PAUSED"),"the pause control reads paused")
+	check(game.pause_button.text.begins_with("▶ RESUME") or game.pause_button.text.begins_with("▶\nRESUME"),"the pause control reads paused (WP-36: it begins with RESUME now, not PAUSED)")
 	check(hints.dismiss_button.text=="GOT IT" and hints.dismiss_button.visible,"the prompt offers GOT IT")
 	var snapshot=game._archive_data() if game.has_method("_archive_data") else {}
 	# Unpausing stays one tap, and the prompt does not pause again.
