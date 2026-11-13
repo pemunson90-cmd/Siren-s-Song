@@ -185,13 +185,21 @@ func game_cases():
 	before=sim.elapsed
 	game._process(0.5);game._process(0.5)
 	check(is_equal_approx(sim.elapsed,before) and not sim.paused,"rule 1 on: an open wheel holds dive time and leaves sim.paused alone")
-	check(Words.pause_reason(game)==Words.TEXT.paused_menu and game.pause_button.text.begins_with("PAUSED"),"the plate reads PAUSED with the reason a menu is open: "+game.pause_button.text)
+	# Critic 13 Nov: the plate read PAUSED while only the wheel held time, so closing the wheel "unpaused" the dive.
+	check(Words.pause_reason(game)==Words.TEXT.held_menu and game.pause_button.text.begins_with(Words.TEXT.held),"the plate reads HELD, not PAUSED, while only a menu holds time: "+game.pause_button.text)
 	game.mission_hud.dismiss();game._refresh()
 	game._process(0.5)
 	check(sim.elapsed>before and not sim.paused and Words.pause_reason(game)=="","closing the menu lets time run again")
 	# The player's own pause stays the player's.
 	game.mission_hud.open("craft");game._pause();game.mission_hud.dismiss();game._refresh()
 	check(sim.paused,"a pause the player made stays after the menu closes")
+	check(game.pause_button.text.begins_with(Words.TEXT.paused),"a dive the player paused reads PAUSED: "+game.pause_button.text)
+	game._pause()
+	# An automatic pause (a new lock, a route's end) stays when the wheel is opened and closed over it.
+	game.request_auto_pause("lock");game.mission_hud.open("craft");game._refresh()
+	check(game.pause_button.text.begins_with(Words.TEXT.paused),"the wheel over an automatic pause still reads PAUSED: "+game.pause_button.text)
+	game.mission_hud.dismiss();game._refresh();before=sim.elapsed;game._process(0.5)
+	check(sim.paused and is_equal_approx(sim.elapsed,before),"closing the wheel does not release an automatic pause")
 	game._pause()
 	# Rule 1 off.
 	TrialRules.override("WHEEL_HOLDS_TIME",false)

@@ -24,7 +24,8 @@ func process(host, _dt:float)->void:
 		host.ocean.quality_gesture_active=host.map_gesture.active()
 	if not governor.suggestion().is_empty() and not is_instance_valid(notice):_build_notice(host)
 	if is_instance_valid(notice):
-		notice.visible=host.screen=="mission" and not governor.suggestion().is_empty()
+		# Critic 13 Nov: the offer appeared mid-action, just after a photograph. It waits for a paused dive.
+		notice.visible=host.screen=="mission" and host.sim.paused and not governor.suggestion().is_empty()
 		notice.position=Vector2(12,host.ocean.instrument_top+host.ui_touch_height*2.8)
 		# Shrink back to the current minimum after width-driven text wrapping.
 		notice.size=Vector2(maxf(1,host.size.x-24),0)
