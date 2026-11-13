@@ -92,7 +92,7 @@ func touch_shape(shape:Vector2i):
  if button!=null:await tap(button.get_global_rect().get_center())
  check(hud.page=="order_help" and game.advanced_orders and game.sim.paused,label+" actual basic Hunt touch opens paused explanation")
  check(not chip(hud).is_visible_in_tree(),label+" explanation sheet is clear of its opener")
- check(hud.instrument_info.is_visible_in_tree() and "sight" in hud.instrument_info.text.to_lower() and "hearing" in hud.instrument_info.text.to_lower() and "local" in hud.instrument_info.text.to_lower(),label+" visible explanation identifies sight-only global factor and local alert")
+ check(hud.instrument_info.is_visible_in_tree() and "sight" in hud.instrument_info.text.to_lower() and "hearing" in hud.instrument_info.text.to_lower() and "heard you" in hud.instrument_info.text.to_lower(),label+" visible explanation identifies sight-only global factor and local alert")
  await picture("hunt-%d-help"%shape.x)
  if shape.x==960:await compact_help(game,label)
  same_dive_except_pause(before,game.sim.snapshot(),label+" basic help")
