@@ -1,12 +1,12 @@
 {
   "run_id": "overhaul-20261111",
-  "status": "PAUSED",
+  "status": "RUNNING",
   "phase": "9-ux-repair",
   "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: RESUME with /siren-s-start-opus (or /siren-s-start-fable): read .fable/PHASE9.md (it is the whole handoff), set status RUNNING. 1) Read the second full sweep: every *.log newer than 2026-11-13 16:18 in %USERPROFILE%/.cache/sirens-song-toolchain/artifacts/fable-root ends with 'CHECKS n FAILURES m' (cold_review_archive_tests and art_render_measurements do not run on this PC); if it did not finish, rerun it (scripts/toolchain/win/full-sweep.ps1). Known so far: depth_policy_ui_tests 2 failures, fix committed but not yet run (PHASE9.md 'In flight'). Fix every failure. 2) Third blind critic round on a new kit, capturing what root has not seen (PHASE9.md 'Not yet seen by root'). 3) PHASE9.md 'Queue' items 3 to 5. Before every Agent dispatch run a shell command starting with cd into the run clone; stop each helper with TaskStop at its first report. No GitHub runs; pushes carry [skip ci]. First command: cd into the run clone; python scripts/repo/handoff_check.py; git status --short.",
   "base_ref": "origin/claude/integration",
   "base_sha": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
   "run_branch": "fable/overhaul-20261111",
-  "run_head": "0204f326fd44df7e28eada9467ecb476ef3753cc",
+  "run_head": "eac44a78db0e5615b76043351a7872bd71efbb3a",
   "shared_tips": {
     "claude/integration": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
     "main": "f5b66a198e3878950325f8c45a0bc6bc29dcba84",
@@ -74,5 +74,5 @@
   },
   "decisions_open": 0,
   "last_checkpoint": "Paused at Pat's request on 2026-11-13 16:40 (weekly usage on the model about to run out; he may continue with another model). WP-31 to WP-55 merged and pushed, behavior rows 57 to 85. First full sweep (b352f808): 244 suites, 8 failing, all 8 fixed by WP-55 and rerun green with 18 neighbours; WP-54 on top: Core 856/0 and 15 suites green. Second full sweep started 16:18 on 345dfe8e and NOT yet read: the head is not known to be clean.",
-  "updated": "2026-11-13 16:49:07"
+  "updated": "2026-11-13 16:51:02"
 }
