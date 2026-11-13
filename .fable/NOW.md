@@ -1,13 +1,13 @@
 # NOW: what the root session is doing
 
 Status: LIVE NOTE (rewritten before every step; if a session died, this is the step it died in)
-Updated: 2026-11-13 16:03
+Updated: 2026-11-13 16:18
 
 **To resume after a context clear or a new session:** open this folder as the project and run `/siren-s-start-fable`. Read `.fable/PHASE9.md` first: it is the whole handoff. The `next_action` field in the state file always starts by sending the session to `.fable/HANDOFF.md` and to this file.
 
 ## Doing right now
 
-RUNNING. WP-54 (six trial rules) merged and pushed. WP-55 (eight failing guard suites) is with one Sonnet implementer. After it: full local sweep again, then the third critic round.
+RUNNING. WP-40 to WP-55 merged. Second full local sweep of every registered suite started on the merged head (background; about 85 minutes; read results from the per-suite logs in the artifact folder fable-root, files newer than the start time). Do not edit game source in the root worktree until it ends.
 
 ## In flight
 

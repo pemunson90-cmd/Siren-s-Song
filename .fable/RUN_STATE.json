@@ -2,11 +2,11 @@
   "run_id": "overhaul-20261111",
   "status": "RUNNING",
   "phase": "9-ux-repair",
-  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: WP-55 (branch wp-55) fixes the eight guard suites that fail on b352f808; it was told not to edit the trial-rules files. When it reports: stop it with TaskStop, review, merge (expect conflicts with WP-54 in life_support_chip.gd, mission_hud.gd, hud_words.gd, tactical_aids_tests.gd: resolve keeping both), rerun the eight suites plus radial_hud_tests, hud_words_ui_tests, trial_rules_tests, Core. Then rerun EVERY registered suite locally (test-suite.ps1 -All -Profile ci, then each render-flagged row of game/tests/suites.txt with headless.ps1 -Action Script; read results from the per-suite logs in the artifact folder) and fix what fails. Then the third blind critic round (capture a Siren lock after WP-51, Fittings on inner, the trial pauses, the two-tap wheel). Report rows continue at 85.",
+  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: When the second full sweep ends: list failures from the per-suite logs (grep the last 'CHECKS n FAILURES m' line of each *.log newer than the sweep start in %USERPROFILE%/.cache/sirens-song-toolchain/artifacts/fable-root; cold_review_archive_tests and art_render_measurements cannot run on this PC), fix them, add row 85 (WP-55: pause plate text never below the layout size and widens instead; tip card never above the plates; six suites brought up to date), push. Then the third blind critic round on a new kit (capture a Siren lock after WP-51, Fittings on inner, the trial pauses, the two-tap wheel). INCIDENT to keep in mind: the WP-55 helper was created in the OTHER clone (repos/Siren-s-Song) because the session's working directory had fallen back to it; that clone gained a worktree under .claude/worktrees and a local branch wp-55, nothing else; Pat has been told. Before every Agent dispatch run a shell command that starts with cd into the run clone.",
   "base_ref": "origin/claude/integration",
   "base_sha": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
   "run_branch": "fable/overhaul-20261111",
-  "run_head": "8c65ced54518a0f40c01895e3103d22c71e69a87",
+  "run_head": "345dfe8e3da2dadebb46d57978343215cf00badd",
   "shared_tips": {
     "claude/integration": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
     "main": "f5b66a198e3878950325f8c45a0bc6bc29dcba84",
@@ -70,9 +70,9 @@
     "WP-52": "merged",
     "WP-53": "merged",
     "WP-54": "merged",
-    "WP-55": "building"
+    "WP-55": "merged"
   },
   "decisions_open": 0,
   "last_checkpoint": "Everyday set on 853b09ab (13 Nov, after WP-40 to WP-50): 38 of 39; the one failure (runtime_tests: the Blackwater manual must name DECODE, hidden behind the last topic since WP-47) fixed and rerun green with onboarding, depth sonar, radial hud, HUD WORDS UI, tap ownership, threat read, lock warning.",
-  "updated": "2026-11-13 16:03:57"
+  "updated": "2026-11-13 16:18:54"
 }
