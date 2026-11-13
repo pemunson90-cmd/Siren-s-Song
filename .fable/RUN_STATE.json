@@ -2,11 +2,11 @@
   "run_id": "overhaul-20261111",
   "status": "RUNNING",
   "phase": "9-ux-repair",
-  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: Phase 9 in flight, two Sonnet implementers from c5d97642 on disjoint files: WP-36 (branch wp-36: pause and FLEET get button shapes inside their existing rectangles, life support reading and a thin bar on the pause control while paused too, last-result and cancelled-message lines cleared at the next order, wheel centre never clips, wheel labels keep an edge margin; C2, C3) and WP-37 (branch wp-37: Campaign hub as Continue / Operations cards / Prepare and review, two columns on the wide cover screen, briefing with one LOADOUT entry, plain labels; C5, C6, B14). When each reports: root reads the diff, merges, runs the touched suites locally, builds a critic kit from the head (python scripts/critic/kit.py new --ref HEAD --out %USERPROFILE%/.cache/sirens-song-toolchain/artifacts/fable-criticNN-20261112; launch --slot a --view cover|inner) and LOOKS at the changed screens on both shapes before calling it done (WP-33 broke the briefing footer on the cover screen and only a capture showed it), then adds behavior rows listing every changed text. Then, in order: B6 (tap a contact shows what is known; ocean_view.gd contexts_at) with C10 (label backing plates), B7 back labels and Android Back level, B15 credits, B9 jargon pass, B8 and B13 (Career and Expedition briefings, results as words), C7 fittings cards, C4 title backdrop, C8 route dialog switch, C9 sentence case as touched. Open for Pat's play: PLAN ROUTE leaves the wheel's first page while DEPLOY or RECALL shows. No GitHub runs; pushes carry [skip ci].",
+  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: Phase 9 in flight, three Sonnet implementers on disjoint files: WP-37 (branch wp-37 from c5d97642: Campaign hub as cards, two columns on the cover screen, briefing with one LOADOUT entry, plain labels), WP-38 (branch wp-38 from 59a37d8b: tapping a contact opens a contact card of observed facts and sets no route; chart labels get backing plates and a push-apart pass), WP-39 (branch wp-39 from 59a37d8b: plain wording for jargon, BACK TO labels, Android Back goes up one level, credits filtered of engineering notes). When each reports: root reads the diff, merges, runs the touched suites locally, builds a critic kit from the head and LOOKS at the changed screens on cover and inner before calling it done, sends Pat captures, adds behavior rows listing every changed text. Then: B8 and B13 (Career and Expedition briefings in goal and danger format, results as words), C7 fittings cards, C4 title backdrop, C8 route dialog switch drawn as a switch, C9 sentence case as touched; then a fresh blind critic round on the result (three critics, kit, native coordinates) and the everyday set. Open for Pat's play: PLAN ROUTE leaves the wheel's first page while DEPLOY or RECALL shows; gallery during a dive does not show that dive's frames. No GitHub runs; pushes carry [skip ci].",
   "base_ref": "origin/claude/integration",
   "base_sha": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
   "run_branch": "fable/overhaul-20261111",
-  "run_head": "1d04e2ccbfe151e1972952fed8b491de060d7392",
+  "run_head": "59a37d8b0a2aae394c4c1a41d37aa592a58eb82b",
   "shared_tips": {
     "claude/integration": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
     "main": "f5b66a198e3878950325f8c45a0bc6bc29dcba84",
@@ -52,9 +52,11 @@
     "WP-34": "merged",
     "WP-35": "merged",
     "WP-36": "merged",
-    "WP-37": "building"
+    "WP-37": "building",
+    "WP-38": "building",
+    "WP-39": "building"
   },
   "decisions_open": 0,
   "last_checkpoint": "Paused at Pat's request on 2026-11-12 after phase 8 and the UI and UX audit. Everything committed and pushed with [skip ci]. Everyday set: 39 of 39 suites pass locally after the trim.",
-  "updated": "2026-11-13 00:03:57"
+  "updated": "2026-11-13 00:07:26"
 }
