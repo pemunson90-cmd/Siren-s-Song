@@ -75,7 +75,7 @@ func silent_case():
 	# The sonar segments use the plain words.
 	s.selected=0;game._refresh();hud.open("acoustics");await settle()
 	check(hud.extra.sonar_emit.text.begins_with("PING SONAR\nuses ") and hud.extra.sonar_history.text=="PAST PINGS","the sonar segments say PING SONAR and PAST PINGS")
-	check(hud.extra.sonar_sector.text=="PING ARC\nALL ROUND" and hud.extra.sonar_power.text=="PING POWER\nLOW","the arc and power segments say what they set: "+hud.extra.sonar_sector.text+" / "+hud.extra.sonar_power.text)
+	check(hud.extra.sonar_sector.text=="PING ARC\nALL" and hud.extra.sonar_power.text=="PING POWER\nLOW","the arc and power segments say what they set: "+hud.extra.sonar_sector.text+" / "+hud.extra.sonar_power.text)
 	game.queue_free();await settle()
 func route_end_case():
 	var game=await make(Vector2i(2520,1080),1.0)

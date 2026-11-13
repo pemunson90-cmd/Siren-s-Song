@@ -9,8 +9,8 @@ static func run(t,game):
 	t.check("DECODE" in copy and not "Use CAMERA within 240m" in copy,"Blackwater briefing explains local reception without generic optical range instructions")
 	game._reference(2);await t.process_frame
 	copy=""
-	for child in game.panel_box.get_children():
-		if child is Label:copy+=child.text+"\n"
+	# The manual is a card inside the panel: read every label under it. It opens on this operation's own orders.
+	for child in game.panel_box.find_children("*","Label",true,false):copy+=child.text+"\n"
 	t.check("DECODE" in copy and not "SAMPLE" in copy,"Blackwater manual names its actual DECODE action")
 	var brief=game.Simulation.Missions.make(2)
 	t.check("DECODE" in brief.depth_hint and not "SAMPLE" in brief.depth_hint and brief.objectives.all(func(o):return "DECODE" in o.get("evidence","") and not "SAMPLE" in o.get("evidence","")),"Blackwater hint and earned packet instructions name DECODE")

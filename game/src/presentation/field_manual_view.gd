@@ -22,7 +22,9 @@ static func show(host,index:int,topic_id:String="")->void:
 		var button:Button=host._button(row,entry.title,func():open(host,briefing,buttons,holder,topic_id_now),ACTION_PREFIX+topic_id_now)
 		button.custom_minimum_size.x=host.ui_touch_height*Style.MANUAL_TOPIC_WIDTH
 		buttons[topic_id_now]=button
-	open(host,briefing,buttons,holder,topic_id if buttons.has(topic_id) else Table.TOPICS[0].id)
+	# The first operation opens on the basics; every later one opens on its own orders, which differ per operation.
+	var first:String=Table.TOPICS[0].id if index==0 else Table.OPERATION_ID
+	open(host,briefing,buttons,holder,topic_id if buttons.has(topic_id) else first)
 	if briefing_has_work_rows(host,index):host.ExpeditionOperations.briefing(host,index)
 	host._button(host.menu_footer,"BACK TO BRIEFING",func():host._briefing(index),"back"); host.menu_footer.show()
 	host.call_deferred("_layout")

@@ -30,7 +30,7 @@ const TEXT={
 	"ping_caption": "Sirens hear every ping",
 	"ping_arc": "PING ARC\n%s",	# two lines: one long line ran past the wheel's rim
 	"ping_power": "PING POWER\n%s",
-	"arc_all": "ALL ROUND",
+	"arc_all": "ALL",	# "ALL ROUND" wrapped to a third line and ran past the wheel's rim
 	"arc_forward": "AHEAD",
 	"history": "PAST PINGS",
 	"history_heading": "PAST PINGS · %s",
