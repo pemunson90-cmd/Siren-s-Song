@@ -63,7 +63,6 @@ const TEXT={
 	# The loss card (one line each): the cause with the direction in words, then what the loss costs.
 	"loss_beam":"SIREN BEAM FROM %03d° · TO THE %s",
 	"loss_battery":"BATTERY EXHAUSTED",
-	"loss_ironman":"IRONMAN: gone for good unless recovered",
 	"loss_run":"The run fails: every craft had to get home",
 	# The counter-moves line on the lock card: the moves this craft can make now.
 	"moves":"Or: %s",

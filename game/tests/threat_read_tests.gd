@@ -142,9 +142,6 @@ func loss_checks():
 SIREN BEAM FROM 090° · TO THE EAST"),"the loss card names the craft, the cause and the direction in words: "+card)
 	check(card.count("
 ")==1,"with no cost rule known the card has no cost line")
-	TR.ironman=true
-	check(TR.loss_card(s).ends_with(TT.TEXT.loss_ironman),"Ironman adds its cost line")
-	TR.ironman=false
 	var view=DrawView.new();view.size=Vector2(1280,720);TR.draw_screen(view,s)
 	check(TR.last_draw.card.size.x==minf(1280-32,view.feedback_font_size*3.0*preload("res://src/presentation/ui_style.gd").LOCK_CARD_WIDTH) and TR.last_draw.card.position.y==view.feedback_font_size*3.0+24,"the loss card sits where the lock card sits, at its width")
 	var then=s.elapsed

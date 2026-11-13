@@ -161,8 +161,6 @@ static func loss_row(sim,unit:int)->Dictionary:
 	return {"unit":unit,"time":sim.elapsed,"pos":u.pos,"bearing":bearing,"siren":siren,"text":text,"cause":cause}
 
 # --- loss card: where the lock card sits, for a few dive seconds after a craft is lost ----
-# Set by the host that knows the profile's economy (Ironman keeps a lost drone lost); false by default.
-static var ironman:=false
 # The loss card's lines for the newest loss in the last LOSS_CARD_SECONDS, or "" for none: the
 # craft LOST, the cause with direction, and the cost this dive's rules give it (no cost line when none is known).
 static func loss_card(sim)->String:
@@ -179,7 +177,7 @@ static func _loss_cost(sim)->String:
 	# Challenge and Career rider dives carry a policy; "max_lost" is the every-craft-home rule.
 	var policy=sim.get("policy")
 	if policy is Dictionary and int(policy.get("max_lost",-1))==0:return Table.TEXT.loss_run
-	return Table.TEXT.loss_ironman if ironman else ""
+	return ""
 # The card rectangle: the lock card's width, position and text size (lock_warning.gd refresh), tall enough for the text.
 static func loss_card_rect(view,text:String,touch:float)->Rect2:
 	var width:float=minf(view.size.x-32.0,touch*UiStyle.LOCK_CARD_WIDTH)
