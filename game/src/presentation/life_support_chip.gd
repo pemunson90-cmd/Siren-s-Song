@@ -10,8 +10,8 @@ extends RefCounted
 # under the pause control; that took a strip of the header lane and broke the
 # rendezvous, knockdown, sonar history and Hunt help layouts on small screens
 # (full matrix run 43229665195), so it was replaced. The paused control keeps
-# its place and size while paused too (WP-36, visual review C3): the paused control reads
-# "▶ RESUME" over the same reading, and a thin gauge along its inside bottom edge shows the
+# its place and size while paused too (WP-36, visual review C3). WP-48: the control now names the state first
+# ("PAUSED" / "RUNNING"), then the tap ("TAP TO RESUME · O₂ ~3:10"), see _plate_lines; a thin gauge along its inside bottom edge shows the
 # life support left (accent, amber below 50 percent, red below 25) so the limit never leaves
 # the screen. The gauge is a draw layer inside the pause control, not a panel or chip, so it
 # takes no space and no tap.
@@ -28,6 +28,7 @@ const AMBER=Color("ffc097")
 const META="life_support_amber"
 const GAUGE="LifeGauge"
 const UiStyle=preload("res://src/presentation/ui_style.gd")
+const Words=preload("res://src/presentation/hud_words.gd")
 const Palette=preload("res://src/presentation/accessibility/palette.gd")
 # Seconds left at the base life-support rate; SONAR pulses, the deep band and
 # ALL STOP spend extra, so the figure is shown as an estimate ("~").
@@ -41,6 +42,24 @@ static func clock(sim)->String:
 static func forms(sim)->Array:
  var percent=roundi(float(sim.oxygen))
  return ["O₂ %d%% %s"%[percent,clock(sim)],"O₂ %s"%clock(sim),"O₂ %d%%"%percent]
+# WP-48: the plate reads state, then action, then oxygen. Candidates run from the fullest wording to the
+# state and oxygen alone; each is tried at the layout's text size, then smaller down to MIN_SHRINK of it, and
+# the first whose every line fits the plate's width and height is used. Sets the font size it chose.
+const MIN_SHRINK=.7
+static func _plate_lines(hud,b:Button,first:String,action:String,readings:Array)->Array:
+ var candidates=[]
+ for reading in readings:candidates.append([first,action+Words.TEXT.join+reading])
+ for reading in readings:candidates.append([first,action,reading])
+ var base=maxi(14,roundi(hud.touch_height*.26*hud.text_scale))
+ var font=b.get_theme_font("font");var margin=b.get_theme_stylebox("normal").get_minimum_size()
+ var room=b.size.x-margin.x;var height=b.size.y-margin.y
+ for lines in candidates:
+  for size in range(base,maxi(10,floori(base*MIN_SHRINK))-1,-1):
+   var wide=lines.map(func(line):return font.get_string_size(line,HORIZONTAL_ALIGNMENT_LEFT,-1,size).x).max()
+   if wide<=room and font.get_height(size)*lines.size()<=height:
+    b.add_theme_font_size_override("font_size",size);return lines
+ b.add_theme_font_size_override("font_size",base)
+ return [first,readings.back()]
 static func active(hud)->bool:
  return ENABLED and hud.host.screen=="mission" and not hud.host.sim.mission.is_empty() and hud.host.pause_button.visible
 static func sync(hud)->void:
@@ -49,16 +68,15 @@ static func sync(hud)->void:
  var on=active(hud)
  if on:
   var sim=hud.host.sim
-  var first="▶ RESUME" if sim.paused else "Ⅱ PAUSE"
-  var font=b.get_theme_font("font");var font_size=b.get_theme_font_size("font_size")
-  var room=b.size.x-b.get_theme_stylebox("normal").get_minimum_size().x
-  var fits=func(line:String)->bool:return font.get_string_size(line,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x<=room
-  for form in forms(sim) if fits.call(first) else []:
-   if fits.call(form):
-    # Amber text only on the running plate; the paused plate is accent-filled, where the gauge carries the warning.
-    b.text=first+"\n"+form;amber=not sim.paused and float(sim.oxygen)<=CRITICAL;break
+  var held=sim.paused or hud.host._order_dialog_open()
+  var lines=_plate_lines(hud,b,Words.plate_state(held),Words.plate_action(sim,held),forms(sim))
+  if not lines.is_empty():
+   # Amber text only on the running plate; the paused plate is accent-filled, where the gauge carries the warning.
+   b.text="\n".join(lines);amber=not held and float(sim.oxygen)<=CRITICAL
  if amber:b.add_theme_color_override("font_color",AMBER);b.set_meta(META,true)
- elif b.has_meta(META):b.remove_theme_color_override("font_color");b.remove_meta(META)
+ elif b.has_meta(META):
+  # Amber ends: give the plate its own role colours back (plate() re-applies the role and drops the marker).
+  b.remove_meta(hud.PLATE_KEY);hud.plate(b,str(b.get_meta("ui_role",UiStyle.QUIET)))
  _gauge(hud,on)
 # The gauge: full width is 100 percent of capacity (an endurance loadout above 100 stays full).
 static func fraction(sim)->float:

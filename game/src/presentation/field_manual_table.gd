@@ -6,7 +6,7 @@ const BUTTON_TEXT="FIELD MANUAL\nHow to move, stay quiet, use drones and take ph
 const OPERATION_ID="operation"
 const TOPICS=[
 	{"id":"moving","title":"MOVING","lines":[
-		"Press PAUSE to plan for as long as you like. Tap Quietus or a drone, then tap open water to place a straight leg. Nothing moves until you press RESUME.",
+		"Tap the RUNNING control to pause and plan for as long as you like. Tap Quietus or a drone, then tap open water to place a straight leg. Nothing moves until you tap the PAUSED control to resume.",
 		"A craft does not steer around rock. A red leg crosses charted rock and can crash.",
 		"A craft that already has a route asks first: REPLACE ROUTE swaps it, ADD TO ROUTE extends it.",
 		"The switch STOP AT EACH NEW POINT decides whether the craft halts at added points or keeps moving through them.",
@@ -14,9 +14,9 @@ const TOPICS=[
 	]},
 	{"id":"quiet","title":"STAYING QUIET","lines":[
 		"Speed makes noise. Fast movement is heard from farther away.",
-		"SILENT running is slower and quieter. Sirens see Quietus from 290m, or from 180m when it runs SILENT.",
+		"GO SILENT is slower and quieter. Sirens see Quietus from 290m, or from 180m when it runs SILENT.",
 		"A Siren that hears noise goes to that spot, then searches. When one notices you, time pauses and shows its bearing and the seconds left.",
-		"Break line of sight, slow down or go SILENT, then press RESUME.",
+		"Break line of sight, slow down or GO SILENT, then tap the PAUSED control to resume.",
 		"Cover blocks sonar, enemy sight and torpedoes. Keep rock between you and a Siren.",
 	]},
 	{"id":"drones","title":"DRONES","lines":[
@@ -28,8 +28,8 @@ const TOPICS=[
 	{"id":"sonar","title":"SONAR AND DEPTH","lines":[
 		"Depth and sonar sit under DEPTH / SONAR on the wheel.",
 		"SHALLOWER and DEEPER change the layer. The craft holds still for 4 seconds and is exposed in both layers.",
-		"EMIT SONAR spends reserve and makes noise. Sirens hear every sonar ping.",
-		"SECTOR and POWER set the next pulse's coverage and reach. Returns take time.",
+		"PING SONAR spends reserve and makes noise. Sirens hear every sonar ping.",
+		"PING ARC and PING POWER set the next ping's coverage and reach. Returns take time. PAST PINGS lists what came back.",
 	]},
 	{"id":"photos","title":"PHOTOGRAPHS","lines":[
 		"CAMERA works within 240m of a gold record marker.",
@@ -48,7 +48,7 @@ const TOPICS=[
 	{"id":"home","title":"GOING HOME","lines":[
 		"Return Quietus to its extraction point once the records are secured.",
 		"Quietus carries limited life support (O₂), and some actions spend it. Plan your way back before you spend it.",
-		"PAUSE stays available all the way home.",
+		"The RUNNING / PAUSED control stays available all the way home.",
 	]},
 	{"id":OPERATION_ID,"title":"THIS OPERATION","lines":[]},
 ]
