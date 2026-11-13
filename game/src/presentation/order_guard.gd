@@ -7,6 +7,8 @@ extends Control
 const UiStyle := preload("res://src/presentation/ui_style.gd")
 const UNDO_MS := 10000
 const EXTRACTION_TEXT := "%s: heading to extraction."
+const Words := preload("res://src/presentation/hud_words.gd")
+const HandPilot := preload("res://src/simulation/hand_pilot/hand_pilot.gd")
 # C8: the switch stays on one line and names its state; ON stops at each added point, OFF keeps moving through it.
 const POINTS_TEXT := "STOP AT EACH NEW POINT · %s"
 var host
@@ -69,16 +71,28 @@ static func restore_text(record: Dictionary) -> String:
 	var text := "no route" if goals.is_empty() else stops_text(goals.size())
 	if hold != "": text += " + " + HOLD_NAMES.get(hold, hold)
 	return text
+# WP-52: true when the straight leg this tap would plot (from the craft, or from the end of its route when the
+# tap would add to it) crosses charted rock. Hand piloting through a risk stays the player's right; it only takes
+# a second tap on the marker. Dev dives path-find around rock, so they never warn.
+func leg_crosses_rock(world: Vector2) -> bool:
+	var sim = host.sim; var u = sim.units[sim.selected]
+	if not HandPilot.release(sim): return false
+	var origin: Vector2 = u.route.back().pos if sim.queue_mode and not u.route.is_empty() else u.pos
+	sim._use_band(u.band)
+	return HandPilot.crosses_rock(sim, origin, world)
 func tap_water(world: Vector2) -> void:
 	var sim = host.sim
 	if not pending.is_empty() and pending.unit == sim.selected:
 		var near: float = host.ui_touch_height
 		if host.ocean.screen_position(world).distance_to(host.ocean.screen_position(pending.point)) <= near:
 			confirm(false); return
-	if replaces_plan():
-		pending = {"unit": sim.selected, "point": world}; undo = {}
-		sim.message = "Marker set · REPLACE ROUTE replaces %s's orders%s · tap elsewhere to move the marker" % [sim.units[sim.selected].name, ", ADD TO ROUTE extends its route" if not sim.units[sim.selected].route.is_empty() else ""]
+	var rock := leg_crosses_rock(world)
+	if replaces_plan() or rock:
+		pending = {"unit": sim.selected, "point": world, "rock": rock}; undo = {}
+		if rock: sim.message = Words.TEXT.rock_route
+		else: sim.message = "Marker set · REPLACE ROUTE replaces %s's orders%s · tap elsewhere to move the marker" % [sim.units[sim.selected].name, ", ADD TO ROUTE extends its route" if not sim.units[sim.selected].route.is_empty() else ""]
 		host._refresh(); return
+	pending = {}
 	host._order("route", {"point": world}) # TRAVEL:water_leg
 # WP-45: a tap on the extraction circle or its label is a water tap on the extraction point, with its own status line.
 func tap_extraction() -> void:
@@ -125,6 +139,10 @@ func refresh(bounds: Vector2, h: float, font: int, floor_y: float) -> void:
 		var stops := stops_count()
 		prompt.text = "%s %s. New route to the marker? Dive time is held until you choose." % [sim.units[sim.selected].name, orders_text()]
 		go_button.text = "REPLACE ROUTE"; add_button.text = "ADD TO ROUTE"
+		# A red leg is deliberate: the dialog names the rock and offers the same send as the second tap on the marker.
+		if pending.get("rock", false):
+			prompt.text = Words.TEXT.rock_route
+			if stops_count() == 0 and sim.units[sim.selected].hold == "": go_button.text = Words.TEXT.send_anyway
 		# ADD and its pass/stop choice exist only when there is a route to add to.
 		var can_add: bool = stops > 0 and not sim.units[sim.selected].route.is_empty()
 		add_button.visible = can_add; add_button.disabled = not can_add; points_button.visible = can_add

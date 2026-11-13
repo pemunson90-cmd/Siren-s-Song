@@ -62,7 +62,7 @@ func run():
   await tap(ship)
   check(g.advanced_orders and g.sim.snapshot()==before,"tap craft opens contextual projection without route or spend")
   if not g.advanced_orders:g.queue_free();await settle();continue
-  check(h.page=="craft" and h.ring_buttons.size()==8 and h.ring_buttons[0]==h.extra.deploy and not (g.order_buttons.program in h.ring_buttons),"craft menu presents eight stable labelled choices, DEPLOY first while a drone is aboard and PLAN ROUTE on the ROUTE page (WP-35)")
+  check(h.page=="craft" and h.ring_buttons.size()==8 and h.ring_buttons[3]==h.extra.deploy and not (g.order_buttons.program in h.ring_buttons),"craft menu presents eight stable labelled choices, DEPLOY in PLAN ROUTE's place while a drone is aboard and PLAN ROUTE on the ROUTE page (WP-35, WP-52)")
   var scale=Vector2(dimensions)/root.get_visible_rect().size
   for b in h.ring_buttons:
    check(g.get_global_rect().encloses(b.get_global_rect()) and b.size.x*scale.x>=125.99 and b.size.y*scale.y>=125.99,"clamped edge menu retains full48dp labels")

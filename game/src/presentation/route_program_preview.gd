@@ -13,6 +13,14 @@ var navigation_font_size=14
 var view_report_pending=false
 # Presentation navigation intent, independent of layout-driven camera changes.
 var navigation_revision=0
+# WP-52: a point that waits for its second tap because its leg crosses charted rock (null when none waits).
+var pending_point=null
+const HandPilot=preload("res://src/simulation/hand_pilot/hand_pilot.gd")
+const UiStyle=preload("res://src/presentation/ui_style.gd")
+func leg_crosses_rock(a:Vector2,b:Vector2) -> bool:
+ if sim==null or not HandPilot.release(sim):return false
+ sim._use_band(sim.units[sim.selected].band)
+ return HandPilot.crosses_rock(sim,a,b)
 func _ready():
  mouse_filter=Control.MOUSE_FILTER_STOP;clip_contents=true
  for i in 3:
@@ -132,6 +140,9 @@ func _draw():
   draw_circle(p,8 if n==selected_goal else 5,color,false,2)
   draw_string(font,p+Vector2(10,0),str(n+1),HORIZONTAL_ALIGNMENT_LEFT,-1,16,color)
  draw_circle(chart_camera.to_screen(u.pos),5,Color.WHITE)
+ if pending_point!=null:
+  var marker=chart_camera.to_screen(pending_point);draw_arc(marker,touch_height*.42,0,TAU,40,UiStyle.WARNING,2.5)
+  draw_line(marker-Vector2(10,0),marker+Vector2(10,0),UiStyle.WARNING,2.);draw_line(marker-Vector2(0,10),marker+Vector2(0,10),UiStyle.WARNING,2.)
  draw_rect(chart_rect(),Color("40646b"),false,1)
  var hint="%.1f× · DRAG / PINCH"%chart_camera.zoom
  var width=font.get_string_size(hint,HORIZONTAL_ALIGNMENT_LEFT,-1,navigation_font_size).x+16

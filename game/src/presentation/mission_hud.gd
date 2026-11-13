@@ -26,6 +26,7 @@ const UiStyle=preload("res://src/presentation/ui_style.gd")
 const Palette=preload("res://src/presentation/accessibility/palette.gd")
 const Words=preload("res://src/presentation/hud_words.gd")
 const RouteEnd=preload("res://src/presentation/route_end_notice.gd")
+const SegmentState=preload("res://src/presentation/radial_layout/segment_state.gd")
 # A tap opens an object-owned projection. A separate tap chooses an action.
 var host
 var blocker:Control
@@ -60,6 +61,8 @@ var sector_press:Button
 # The wheel segment under the finger, or the last one touched: its caption may fill the wheel's centre.
 var wheel_focus:Button
 var route_end=RouteEnd.new()
+# WP-52: the two-tap rule's armed segment and the segments' state lines.
+var segments=SegmentState.new()
 var popup_gesture=preload("res://src/input/map_gesture.gd").new()
 var touch_height=48.
 var fleet
@@ -151,7 +154,7 @@ func setup(owner):
  extra.all_stop=host._button(self,"ALL STOP",func():host._order("all_stop");open("route"),"all_stop")
  extra.shelf_warn=host._button(self,"LOCAL WARNING\n100m / QUIETUS",func():host._order("shelf_warn",{"site":subject.get("site","")}),"shelf_warn")
  extra.shelf_alarm=host._button(self,"SOUND ALARM\n1200m / ONCE",func():host._order("shelf_alarm"),"shelf_alarm")
- for entry in [["depth_menu","DEPTH / SONAR"],["depth_up","SHALLOWER"],["depth_down","DEEPER"],["sonar_sector",Words.arc_label("all")],["sonar_power",Words.power_label("low")],["sonar_emit",Words.ping_label(0.)],["sonar_history",Words.TEXT.history]]:
+ for entry in [["depth_menu",Words.TEXT.depth_menu],["depth_up","SHALLOWER"],["depth_down","DEEPER"],["sonar_sector",Words.arc_label("all")],["sonar_power",Words.power_label("low")],["sonar_emit",Words.ping_label(0.)],["sonar_history",Words.TEXT.history]]:
   var key=entry[0];extra[key]=host._button(self,entry[1],func():_extra(key),key)
  for pair in [["work","REACH WORK"],["recover","RECOVER\nMATERIAL"],["transfer","TRANSFER\nTO QUIETUS"],["service","RESTORE\nSERVICE"],["sever","SEVER\nSPUR"],["vane","RELEASE\nVANE"],["gate","OPEN\nLOCAL GATE"],["withdraw","WITHDRAW\nRECOVERY"],["route","ROUTE TO\nREACH WORK"]]:
   var key="glass_"+pair[0];extra[key]=host._button(self,pair[1],func():_extra(key),key)
@@ -213,7 +216,7 @@ func open(next:String="craft",context:Dictionary={}):
  order_dock_scroll.scroll_vertical=0
  tool_help.cancel()
  for id in host.map_gesture.touches:owned_touches[id]=true
- host.map_gesture.cancel();host.knock_press.clear();popup_gesture.cancel();sheet_pointers.clear();sector_press=null;wheel_focus=null;host.knock_armed=false;host.decoy_armed=false
+ host.map_gesture.cancel();host.knock_press.clear();popup_gesture.cancel();sheet_pointers.clear();sector_press=null;wheel_focus=null;host.knock_armed=false;host.decoy_armed=false;segments.disarm()
  if not context.is_empty():subject=context
  elif subject.is_empty() or next=="fleet":subject={"kind":"craft","unit":host.sim.selected,"pos":host.sim.units[host.sim.selected].pos}
  var station=WarningChain.station_subject(host.sim,subject) if next=="object" else {}
@@ -230,7 +233,7 @@ func open(next:String="craft",context:Dictionary={}):
 func dismiss():
  tool_help.cancel()
  draining_popup=not owned_touches.is_empty()
- host.map_gesture.cancel();host.knock_press.clear();popup_gesture.cancel();sheet_pointers.clear();sector_press=null;host.advanced_orders=false;instruments_open=false;host._layout()
+ host.map_gesture.cancel();host.knock_press.clear();popup_gesture.cancel();sheet_pointers.clear();sector_press=null;segments.disarm();host.advanced_orders=false;instruments_open=false;host._layout()
 func _back():
  if page=="field_tools":open("tools");return
  if page=="order_help":
@@ -364,13 +367,13 @@ func popup_input(event) -> bool:
   var chosen=sector_press;sector_press=null
   var released=witness_button_at(point)
   if released==null:released=recovery_button_at(point) if page=="recovery" else plant_button_at(point) if page=="plant" else sector_at(point)
-  if chosen==released:Truthful.activate(self,chosen)
+  if chosen==released:segments.tap(self,chosen)
   return true
  return false
 func _dock_tap(start:Vector2,end:Vector2)->void:
  for b in ring_buttons:
   if b.is_visible_in_tree() and b.get_global_rect().has_point(start) and b.get_global_rect().has_point(end):
-   Truthful.activate(self,b);return
+   segments.tap(self,b);return
 func _outside(event):
  if event is InputEventScreenTouch or event is InputEventMouseButton:
   var point=event.position+blocker.global_position
@@ -403,7 +406,7 @@ func _page_controls() -> Array:
   "route":return [host.order_buttons.queue,host.order_buttons.hold,host.order_buttons.waypoint_mode,host.order_buttons.home,host.order_buttons.program]+([extra.all_stop] if AllStop.available(host.sim) else [])+([extra.guard_menu] if host.sim.selected==0 else [])
   "guard":return [host.order_buttons.contact_hold,host.order_buttons.wait_drone,host.order_buttons.hold]
   "view":return [focus_button,host.zoom_buttons[2],host.zoom_buttons[1],host.zoom_buttons[0]]
-  "fleet":return host.unit_buttons+([extra.arrivals] if Expedition.active(host.sim) else [])+[extra.view_menu,host.order_buttons.menu]+([extra.audio_log] if FrontendSettings.current.get("audio_captions",false) and not host.sound.accessibility.history.is_empty() else [])
+  "fleet":return host.unit_buttons+([extra.arrivals] if Expedition.active(host.sim) else [])+[extra.view_menu,host.order_buttons.menu]+([extra.audio_log] if FrontendSettings.current.get("audio_captions",false) else [])
   "object":
    if subject.get("subkind","")=="choir":return [extra.choir_work,extra.route_here,extra.inspect]
    if subject.get("subkind","")=="glass_work":return [extra.glass_work,extra.route_here,extra.inspect]
@@ -449,6 +452,8 @@ func layout(bounds:Vector2,h:float):
   var hover=normal.duplicate();hover.bg_color=Color(.2,.62,.65,.14)
   b.add_theme_stylebox_override("normal",normal);b.add_theme_stylebox_override("hover",hover);b.add_theme_stylebox_override("pressed",hover);b.add_theme_stylebox_override("disabled",normal)
   b.add_theme_color_override("font_outline_color",Color("041019"));b.add_theme_constant_override("outline_size",3)
+  # WP-52: a segment that cannot act reads as dim as the wedge behind it; one that can act keeps the full text colour.
+  b.add_theme_color_override("font_disabled_color",UiStyle.DISABLED_TEXT)
   if b.has_meta(PLATE_KEY):b.remove_meta(PLATE_KEY)
  host.status_label.hide();host.log_label.hide()
  host.pause_button.show();host.pause_button.position=Vector2(12,12);host.pause_button.size=Vector2(bw,bh)
@@ -615,12 +620,15 @@ func refresh():
  sonar_waterfall.sim=sim;sonar_waterfall.queue_redraw()
  var u=sim.units[sim.selected];var transition=u.transition
  route_end.observe(sim)
- extra.all_stop.text=AllStop.label(sim);extra.all_stop.disabled=sim.selected!=0 or not u.alive
+ # WP-52: ALL STOP keeps its name on the segment; its cost line shows in the wheel's centre once the segment is armed.
+ extra.all_stop.text=Words.TEXT.all_stop if Words.needs_confirm("all_stop",sim) else AllStop.label(sim);extra.all_stop.disabled=sim.selected!=0 or not u.alive
+ extra.audio_log.disabled=host.sound==null or host.sound.accessibility==null or host.sound.accessibility.history.is_empty();extra.audio_log.tooltip_text=Words.TEXT.audio_log_empty if extra.audio_log.disabled else ""
  extra.depth_up.text="↑ "+sim.Depth.NAMES[maxi(0,u.band-1)];extra.depth_up.disabled=u.band==0 or not transition.is_empty() or (sim.Depth.SurvivorAscent.count(sim.mission,sim.selected)>0 and u.get("ascent_settle",0.)>0)
  extra.depth_down.text="↓ "+sim.Depth.NAMES[mini(2,u.band+1)];extra.depth_down.disabled=u.band==2 or not transition.is_empty()
  extra.sonar_sector.text=Words.arc_label(sim.sonar.sector)
  extra.sonar_power.text=Words.power_label(sim.sonar.power)
  extra.sonar_emit.text=Words.ping_label(sim.Sonar.pulse_cost(sim,sim.selected));extra.sonar_emit.disabled=sim.ping_time>0 or not transition.is_empty()
+ # WP-52: a greyed ping says why in the centre when tapped (the reason is read by truthful_commands.gd).
  subject=Concealed.refresh_subject(sim,Recipient.refresh_subject(sim,Rendezvous.refresh_subject(sim,subject)))
  var time_held=sim.paused or host._order_dialog_open()
  # The state word alone first: LifeChip.sync below composes the full plate at a size that fits it, so no
@@ -735,6 +743,7 @@ func refresh():
  host.ocean.threat_bottom=threat_floor()
  StatusView.apply(self)
  _fit_wheel_words()
+ segments.sync(self)
  _fit_intent()
  var aid_font=maxi(14,roundi(touch_height*.26*text_scale))
  guard.refresh(Vector2(host.ocean.chart_width(),size.y),touch_height,aid_font,intent.position.y if intent.visible else size.y)
@@ -831,7 +840,9 @@ func _draw():
   var points=PackedVector2Array();var from=-PI/2+TAU*(i-.5)/ring_buttons.size()+.012;var until=-PI/2+TAU*(i+.5)/ring_buttons.size()-.012
   for j in 13:points.append(center+StatusView.radial_point(self,lerpf(from,until,j/12.),ring_radius-h*.65))
   for j in 13:points.append(center+StatusView.radial_point(self,lerpf(until,from,j/12.),ring_radius+h*.6))
-  draw_colored_polygon(points,Color(.025,.095,.12,.9) if not ring_buttons[i].disabled else Color(.025,.04,.05,.9))
+  var fill=Color(.025,.095,.12,.9) if not ring_buttons[i].disabled else Color(.025,.04,.05,.9)
+  if segments.is_armed(ring_buttons[i]):fill=UiStyle.role_colors(UiStyle.MAIN).fill
+  draw_colored_polygon(points,fill)
  StatusView.draw_outline(self,ring_radius-h*.65,Color(.3,.72,.74,.45),1.5)
  StatusView.draw_outline(self,ring_radius+h*.6,Color(.3,.72,.74,.6),1.5)
  for i in ring_buttons.size():
@@ -858,9 +869,18 @@ func _draw():
   var carry=acoustics_carry_caption()
   if not carry.is_empty():lines.append(carry)
  if page=="cache":lines.append_array(Cache.captions(host.sim))
+ # WP-52: an armed two-tap segment, or the segment under the finger, puts its cost in the centre; a greyed segment's reason follows a tap on it.
+ var focus_key:String=segments.armed
+ if focus_key.is_empty() and wheel_focus!=null and ring_buttons.has(wheel_focus):focus_key=SegmentState.key_of(wheel_focus)
+ var cost:Array=[]
+ if not focus_key.is_empty():cost=Words.cost_lines(focus_key,host.sim)
  if page=="plant":lines.append(WarningChain.radial_state(WarningChain.context(host.sim)))
- elif page=="craft" and wheel_focus==host.order_buttons.silent and wheel_focus in ring_buttons:lines.append_array(Words.silent_caption(host.sim))
+ elif not cost.is_empty():
+  lines.append_array(cost)
+  if segments.armed!="":lines.append(Words.TEXT.confirm)
  elif page=="craft" and host.order_buttons.camera in ring_buttons:lines.append_array(camera_caption())
+ var refusal=get_meta(SegmentState.FEEDBACK_META,{})
+ if refusal.get("reason","")==host.sim.message and refusal.get("page","")==page and refusal.get("unit",-1)==host.sim.selected and not refusal.get("reason","").is_empty():lines.append(refusal.reason)
  if page=="acoustics":lines.append(Words.TEXT.ping_caption)
  if page in ["object","salvage","plant","habitat"]:lines.append_array(WorkTask.captions(host.sim,subject))
  if page=="choose":lines.append("CRAFT OR OBJECT?")

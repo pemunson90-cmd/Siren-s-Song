@@ -9,6 +9,7 @@ extends RefCounted
 # debug_build below). Revert: make allowed() return true.
 const DevState=preload("res://src/debug/dev_state.gd")
 const HandPilot=preload("res://src/simulation/hand_pilot/hand_pilot.gd")
+const UiStyle=preload("res://src/presentation/ui_style.gd")
 const WARNING=Color("e0634f")
 const TRAVEL_SHORTCUTS={
  "water_leg":{"name":"Tap water: place a straight leg","dev_only":false},
@@ -65,25 +66,24 @@ static func filter(hud,controls:Array)->Array:
   if at<0:at=result.size()
   result.insert(at,hud.extra.depth_down);result.insert(at,hud.extra.depth_up)
  if hud.page=="craft":
-  # WP-35: DEPLOY leads the main page while a drone is aboard; RECALL joins a deployed drone's page,
-  # and RECALL ALL joins Quietus's only while a drone is in the water and the wheel has room.
-  # A ninth segment would send the wheel into the crowded-wheel re-fit (BACK leaves the centre and can leave the
-  # screen), so the main page stays at eight: PLAN ROUTE, which the ROUTE page also lists, steps off the main page
-  # for the one added segment. A second added segment (RECALL ALL beside DEPLOY) stays on the ROUTE page.
-  var sim=hud.host.sim;var made_room=false
-  for key in ["deploy","recall"]:
-   if key=="deploy" and deploy_target(sim)<0:continue
-   if key=="recall" and not (sim.units[sim.selected].alive if sim.selected>0 else in_water(sim)>0):continue
-   if result.size()>=MAIN_PAGE_ROOM:
-    var program=hud.host.order_buttons.program
-    if not made_room and program in result:result.erase(program);made_room=true
-    elif key=="recall" and sim.selected==0:continue
-   if key=="deploy":result.push_front(hud.extra.deploy)
-   else:result.insert(result.find(hud.extra.route_menu)+1,hud.extra.recall)
+  # WP-35: DEPLOY joins the main page while a drone is aboard; RECALL joins a deployed drone's page, and RECALL ALL
+  # joins Quietus's only while a drone is in the water and none is aboard. A ninth segment would send the wheel into
+  # the crowded-wheel re-fit (BACK leaves the centre and can leave the screen), so the main page stays at eight:
+  # PLAN ROUTE, which the ROUTE page also lists, gives its place to the added segment.
+  # WP-52: the added segment takes PLAN ROUTE's own place in the ring, so DEPLOY, RECALL and PLAN ROUTE each always
+  # sit at the same angle and every other segment keeps its angle whether or not a drone is aboard.
+  var at=result.find(hud.host.order_buttons.program)
+  var bay=bay_control(hud)
+  if bay!=null and at>=0:result[at]=bay
  return result
 
-# The wheel is a clean circle up to this many segments on the main page.
-const MAIN_PAGE_ROOM=8
+# The segment that shares PLAN ROUTE's place on the main page: DEPLOY while a drone can be put in the water,
+# else RECALL while one can be called back, else none.
+static func bay_control(hud):
+ if deploy_target(hud.host.sim)>=0:return hud.extra.deploy
+ var sim=hud.host.sim
+ if (sim.units[sim.selected].alive if sim.selected>0 else in_water(sim)>0):return hud.extra.recall
+ return null
 # The drone DEPLOY would put in the water: Quietus offers the next one aboard, an aboard drone offers itself.
 static func deploy_target(sim)->int:
  if sim.selected>0:return sim.selected if sim.DroneBay.aboard(sim.units[sim.selected]) else -1
@@ -122,21 +122,30 @@ static func refresh(hud)->void:
 static func activate_recall(hud)->void:
  hud.host._order("recall_all" if hud.host.sim.selected==0 else "recall")
 
-# Red over each leg that crosses measured rock. Called in world transform.
+# Only a leg across charted rock is a warning. Another craft on the leg ("Passes Quietus") is a neutral note.
+static func is_warning(w:Dictionary)->bool:
+ return w.reason==HandPilot.ROCK_REASON
+
+# Red over each leg that crosses measured rock; a leg that only passes another craft is drawn in the note colour.
+# Called in world transform.
 static func draw_legs(view,sim,unit:int,scale:float)->void:
  for w in HandPilot.warnings(sim,unit):
-  var color=WARNING if unit==sim.selected else Color(WARNING,.4)
+  var base=WARNING if is_warning(w) else UiStyle.NOTE_COLOR
+  var color=base if unit==sim.selected else Color(base,.4)
   view.draw_line(w.from,w.to,color,3./maxf(scale,.01))
 
-# Short reason beside the first warned leg of the selected craft. Screen space.
+# Short reason beside the first warned leg of the selected craft (a rock warning before a neutral note). Screen space.
 static func draw_reason(view,sim)->void:
  var warned=HandPilot.warnings(sim,sim.selected)
  if warned.is_empty():return
- var w=warned[0];var at=view.chart_camera.to_screen((w.from+w.to)*.5)+Vector2(12,-10)
+ var w=warned[0]
+ for candidate in warned:
+  if is_warning(candidate):w=candidate;break
+ var at=view.chart_camera.to_screen((w.from+w.to)*.5)+Vector2(12,-10)
  var font=ThemeDB.fallback_font;var size=view.feedback_font_size
  var text=w.reason.to_upper()
  var width=font.get_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,-1,size).x
  view.draw_rect(Rect2(at-Vector2(3,size),Vector2(width+6,size+5)),Color(0.12,0.025,0.015,0.94))
- view.draw_string(font,at,text,HORIZONTAL_ALIGNMENT_LEFT,-1,size,WARNING)
+ view.draw_string(font,at,text,HORIZONTAL_ALIGNMENT_LEFT,-1,size,WARNING if is_warning(w) else UiStyle.NOTE_COLOR)
 
 const CONTROLS_TEXT:="MOVE: pause, then tap water to place a straight leg. QUEUE adds legs. The craft does not steer around rock: a red leg crosses charted rock and can crash.\nDEPTH: craft → DEPTH, or the depth pair on a work page.\nWORK: craft → REACH WORK lists the jobs in reach here; a grey job says why.\nDEPLOY: Quietus or an aboard drone → DEPLOY puts the drone in the water beside Quietus. A deployed drone stays out.\nRECALL: drone → RECALL (also under ROUTE) brings it back to stand beside Quietus by straight legs. Quietus has RECALL ALL."

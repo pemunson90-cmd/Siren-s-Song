@@ -7,14 +7,14 @@ const OPERATION_ID="operation"
 const TOPICS=[
 	{"id":"moving","title":"MOVING","lines":[
 		"Tap the RUNNING control to pause and plan for as long as you like. Tap Quietus or a drone, then tap open water to place a straight leg. Nothing moves until you tap the PAUSED control to resume.",
-		"A craft does not steer around rock. A red leg crosses charted rock and can crash.",
+		"A craft does not steer around rock. A red leg crosses charted rock and can crash. Tap the marker a second time to send a route across rock anyway.",
 		"A craft that already has a route asks first: REPLACE ROUTE swaps it, ADD TO ROUTE extends it.",
 		"The switch STOP AT EACH NEW POINT decides whether the craft halts at added points or keeps moving through them.",
 		"Drag and pinch to look around. FOCUS follows the craft and FIT shows the region.",
 	]},
 	{"id":"quiet","title":"STAYING QUIET","lines":[
 		"Speed makes noise. Fast movement is heard from farther away.",
-		"GO SILENT is slower and quieter. Sirens see Quietus from 290m, or from 180m when it runs SILENT.",
+		"GO SILENT is slower and quieter: Sirens see Quietus from 290m, or from 180m when it runs silent. GO LOUD gives the speed back. The segment names what a tap does and its small line says how things stand; tap it once to read the cost, tap again to confirm.",
 		"A Siren that hears noise goes to that spot, then searches. When one notices you, time pauses and shows its bearing and the seconds left.",
 		"Break line of sight, slow down or GO SILENT, then tap the PAUSED control to resume.",
 		"Cover blocks sonar, enemy sight and torpedoes. Keep rock between you and a Siren.",
@@ -26,7 +26,7 @@ const TOPICS=[
 		"To bring a drone back, choose it and use RECALL. Quietus has RECALL ALL.",
 	]},
 	{"id":"sonar","title":"SONAR AND DEPTH","lines":[
-		"Depth and sonar sit under DEPTH / SONAR on the wheel.",
+		"Depth and sonar sit under DEPTH AND SONAR on the wheel.",
 		"SHALLOWER and DEEPER change the layer. The craft holds still for 4 seconds and is exposed in both layers.",
 		"PING SONAR spends reserve and makes noise. Sirens hear every sonar ping.",
 		"PING ARC and PING POWER set the next ping's coverage and reach. Returns take time. PAST PINGS lists what came back.",
