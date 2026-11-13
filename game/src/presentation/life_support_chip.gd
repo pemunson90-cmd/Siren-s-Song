@@ -71,8 +71,8 @@ static func sync(hud)->void:
  var on=active(hud)
  if on:
   var sim=hud.host.sim
-  var held=sim.paused or hud.host._order_dialog_open()
-  var lines=_plate_lines(hud,b,Words.plate_state(held),Words.plate_action(sim,held),forms(sim))
+  var held=sim.paused or hud.host._time_held()
+  var lines=_plate_lines(hud,b,Words.plate_state(held),Words.plate_action(sim,hud.host._order_dialog_open(),hud.host._menu_holds_time()),forms(sim))
   if not lines.is_empty():
    # Amber text only on the running plate; the paused plate is accent-filled, where the gauge carries the warning.
    b.text="\n".join(lines);amber=not held and float(sim.oxygen)<=CRITICAL

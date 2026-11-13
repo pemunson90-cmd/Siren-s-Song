@@ -374,8 +374,14 @@ func contact_card_checks(g)->void:
 	var shown_rect:Rect2=card.panel.get_rect();var h:float=hud.touch_height
 	check(card_area(g).encloses(shown_rect),shape+": the card stays inside the safe area %s"%shown_rect)
 	check(not shown_rect.intersects(card.contact_rect(h)) and not shown_rect.intersects(card.craft_rect(h)),shape+": the card covers neither the contact nor the selected craft")
+	# Trial rule 1 (trial_rules.gd): an open contact card holds dive time. Off, the old behaviour: the dive keeps running.
+	var rules=preload("res://src/trial_rules.gd")
 	g.sim.paused=false;g._refresh();var held=g.sim.elapsed;g._process(.2)
-	check(g.sim.elapsed>held and card.is_open(),shape+": a running dive keeps running with the card open")
+	check(is_equal_approx(g.sim.elapsed,held) and not g.sim.paused and card.is_open(),shape+": rule 1 on: the open card holds dive time without pausing")
+	rules.override("WHEEL_HOLDS_TIME",false)
+	g._process(.2)
+	check(g.sim.elapsed>held and card.is_open(),shape+": rule 1 off: a running dive keeps running with the card open")
+	rules.reset()
 	g.sim.paused=true;g._refresh()
 	await tap(screen(g,elsewhere))
 	check(not card.is_open() and g.ocean.selected_contact==-1 and nothing_ordered(g),shape+": a tap elsewhere closes the card and does nothing else")

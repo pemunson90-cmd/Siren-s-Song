@@ -15,7 +15,7 @@ const TOPICS=[
 	{"id":"quiet","title":"STAYING QUIET","lines":[
 		"Speed makes noise. Fast movement is heard from farther away.",
 		"GO SILENT is slower and quieter: Sirens see Quietus from 290m, or from 180m when it runs silent. GO LOUD gives the speed back. The segment names what a tap does and its small line says how things stand; tap it once to read the cost, tap again to confirm.",
-		"A Siren that hears noise goes to that spot, then searches. When one notices you, time pauses and shows its bearing and the seconds left.",
+		"A Siren that hears noise goes to that spot, then searches. When one notices you, or starts to lock on, time pauses and shows its bearing and the seconds left.",
 		"Break line of sight, slow down or GO SILENT, then tap the PAUSED control to resume.",
 		"Cover blocks sonar, enemy sight and torpedoes. Keep rock between you and a Siren.",
 	]},
@@ -49,6 +49,7 @@ const TOPICS=[
 		"Return Quietus to its extraction point once the records are secured.",
 		"Quietus carries limited life support (O₂), and some actions spend it. Plan your way back before you spend it.",
 		"The RUNNING / PAUSED control stays available all the way home.",
+		"The game also pauses when a craft reaches the end of its route, and time stands still while the command wheel, a status sheet or the FLEET panel is open.",
 	]},
 	{"id":OPERATION_ID,"title":"THIS OPERATION","lines":[]},
 ]

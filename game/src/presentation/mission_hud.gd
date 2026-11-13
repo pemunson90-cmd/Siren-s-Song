@@ -619,7 +619,7 @@ func refresh():
  sonar_waterfall.visible=page=="inspect" and subject.get("subkind","")=="sonar"
  sonar_waterfall.sim=sim;sonar_waterfall.queue_redraw()
  var u=sim.units[sim.selected];var transition=u.transition
- route_end.observe(sim)
+ route_end.observe(sim,host)
  # WP-52: ALL STOP keeps its name on the segment; its cost line shows in the wheel's centre once the segment is armed.
  extra.all_stop.text=Words.TEXT.all_stop if Words.needs_confirm("all_stop",sim) else AllStop.label(sim);extra.all_stop.disabled=sim.selected!=0 or not u.alive
  extra.audio_log.disabled=host.sound==null or host.sound.accessibility==null or host.sound.accessibility.history.is_empty();extra.audio_log.tooltip_text=Words.TEXT.audio_log_empty if extra.audio_log.disabled else ""
@@ -630,11 +630,11 @@ func refresh():
  extra.sonar_emit.text=Words.ping_label(sim.Sonar.pulse_cost(sim,sim.selected));extra.sonar_emit.disabled=sim.ping_time>0 or not transition.is_empty()
  # WP-52: a greyed ping says why in the centre when tapped (the reason is read by truthful_commands.gd).
  subject=Concealed.refresh_subject(sim,Recipient.refresh_subject(sim,Rendezvous.refresh_subject(sim,subject)))
- var time_held=sim.paused or host._order_dialog_open()
+ var time_held=sim.paused or host._time_held()
  # The state word alone first: LifeChip.sync below composes the full plate at a size that fits it, so no
  # frame ever wraps the longer wording at the layout's text size and grows the plate for good.
  host.pause_button.text=Words.plate_state(time_held)
- if not LifeChip.active(self):host.pause_button.text+="\n"+Words.plate_action(sim,time_held)
+ if not LifeChip.active(self):host.pause_button.text+="\n"+Words.plate_action(sim,host._order_dialog_open(),host._menu_holds_time())
  plate(host.pause_button,UiStyle.MAIN if time_held else UiStyle.QUIET)
  LifeChip.sync(self)
  _fit_pause_button()

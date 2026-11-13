@@ -1,5 +1,6 @@
 extends RefCounted
 const Names=preload("res://src/names.gd")
+const TrialRules=preload("res://src/trial_rules.gd")
 # Read-only D1 presentation seam. Existing acquisition decides when to publish.
 signal siren_notice(id:int, source_position:Vector2)
 const Orders=preload("res://src/simulation/orders/order_table.gd")
@@ -126,6 +127,13 @@ var navigation: AStarGrid2D
 var rock_shapes: Array=[]
 var rock_bounds:Array=[]
 var acoustic_paths=Acoustics.new()
+# Seconds a Siren must hold its lock before it fires. The one place the length is decided (trial rule 2,
+# trial_rules.gd): the first dive of the Campaign (operation 01 on the plain simulation, not a Challenge,
+# Career or Expedition run, which use subclasses) gives the longer warning; everything else keeps the standard.
+func lock_seconds() -> float:
+	var campaign:bool=get_script().resource_path=="res://src/simulation/simulation.gd"
+	if campaign and int(mission.get("id",-1))==0:return TrialRules.first_dive_lock_seconds()
+	return TrialRules.STANDARD_LOCK_SECONDS
 func start(index: int, upgrade: String = Names.LOADOUT_ENDURANCE, launch:Dictionary={}) -> void:
 	var operation=Missions.make(index,launch.get("context",{}))
 	if operation.is_empty():return
@@ -1224,9 +1232,9 @@ func _threats(dt: float) -> bool:
 			else: _visual_pursuit(s,victim.pos,dt)
 			if s.route.is_empty(): s.angle=rotate_toward(s.angle,s.pos.angle_to_point(victim.pos),1.8*dt)
 			var previous_lock:float=s.lock
-			s.target=detected; s.goal=victim.pos; s["last_known"]=s.goal; s["attention_time"]=Sweeper.attention(s); s["search_index"]=0; s.lock+=dt; s.suspicion=minf(1,s.suspicion+dt*0.3); s.mode="LOCKING" if s.lock<4 else "BEAM"
-			if s.lock>=4:
-				if previous_lock<4: events.append({"type":"beam","pos":victim.pos})
+			s.target=detected; s.goal=victim.pos; s["last_known"]=s.goal; s["attention_time"]=Sweeper.attention(s); s["search_index"]=0; s.lock+=dt; s.suspicion=minf(1,s.suspicion+dt*0.3); s.mode="LOCKING" if s.lock<lock_seconds() else "BEAM"
+			if s.lock>=lock_seconds():
+				if previous_lock<lock_seconds(): events.append({"type":"beam","pos":victim.pos})
 				if recipient_seen:
 					if Choir.applies(mission):Choir.damage(self,dt*18)
 					else:Recipient.damage(self,dt*18)

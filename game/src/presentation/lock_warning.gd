@@ -8,13 +8,14 @@ const ThreatRead=preload("res://src/presentation/threat_read/threat_read.gd")
 static func frames(sim)->Array:
  var result:Array=[]
  if sim.units.is_empty() or not sim.units[0].alive or not sim.outcome.is_empty():return result
+ var seconds:float=sim.lock_seconds()
  for id in sim.contacts:
   var c=sim.contacts[id];var age=sim.elapsed-float(c.time)
   if age<0 or age>=.3 or c.get("target",-1)!=0 or c.get("recipient_target",false):continue
   if preload("res://src/simulation/observed_stun.gd").remaining(c,sim.elapsed)>0:continue
-  if c.get("mode","")!="LOCKING" or c.get("lock",0)<=0 or c.lock>=4:continue
+  if c.get("mode","")!="LOCKING" or c.get("lock",0)<=0 or c.lock>=seconds:continue
   if not preload("res://src/simulation/depth_bands.gd").sight(sim,c,sim.units[0]):continue
-  result.append({"id":id,"pos":c.pos,"progress":c.lock/4.,"remaining":4.-c.lock})
+  result.append({"id":id,"pos":c.pos,"progress":c.lock/seconds,"remaining":seconds-c.lock})
  result.sort_custom(func(a,b):return a.progress>b.progress)
  return result
 var host

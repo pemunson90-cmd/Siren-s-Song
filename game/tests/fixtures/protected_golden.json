@@ -1,6 +1,7 @@
 {
  "about": "Protected rules golden, read by game/tests/protected_rules_tests.gd. Rulings live in docs/USER_DIRECTIVES.md; protected rows are listed in .fable/PROTECTED_CAPABILITIES.md. Change only with a commit message containing RULING: and the dated ruling line from docs/USER_DIRECTIVES.md.",
  "constants": [
+  {"rule": "lock warning 4 s (standard length; the first dive of the Campaign is longer on trial, trial_rules.gd)", "script": "res://src/trial_rules.gd", "const": "STANDARD_LOCK_SECONDS", "value": 4.0},
   {"rule": "collision", "script": "res://src/simulation/simulation.gd", "const": "COLLISION_SAFE_SPEED", "value": 12.0},
   {"rule": "collision", "script": "res://src/simulation/simulation.gd", "const": "COLLISION_DAMAGE_PER_SPEED", "value": 0.45},
   {"rule": "collision", "script": "res://src/simulation/simulation.gd", "const": "COLLISION_MAX_DAMAGE", "value": 35.0},
@@ -84,9 +85,8 @@
   {"rule": "silent sight 180 m, cruise sight 290 m (lock target and threat scan)", "file": "res://src/simulation/simulation.gd", "pattern": "\\(([0-9.]+) if \\w+\\.silent else ([0-9.]+)\\)\\*HuntPressure","values": ["180.0", "290.0", "180.0", "290.0"]},
   {"rule": "silent sight 180 m, cruise sight 290 m (industrial roles)", "file": "res://src/simulation/industrial_threats.gd", "pattern": "\\(([0-9.]+) if \\w+\\.silent else ([0-9.]+)\\)", "values": ["180.", "290."]},
   {"rule": "recipient sight", "file": "res://src/simulation/simulation.gd", "pattern": "recipient\\.pos\\)<([0-9.]+)\\*HuntPressure", "values": ["180."]},
-  {"rule": "lock warning 4 s (mode)", "file": "res://src/simulation/simulation.gd", "pattern": "s\\.mode=\"LOCKING\" if s\\.lock<([0-9.]+) else \"BEAM\"", "values": ["4"]},
-  {"rule": "lock warning 4 s (fire)", "file": "res://src/simulation/simulation.gd", "pattern": "if s\\.lock>=([0-9.]+):\\s+if previous_lock<([0-9.]+):", "values": ["4", "4"]},
-  {"rule": "lock warning 4 s (received cue)", "file": "res://src/presentation/lock_warning.gd", "pattern": "c\\.lock>=([0-9.]+):continue[\\s\\S]*\"progress\":c\\.lock/([0-9.]+),\"remaining\":([0-9.]+)-c\\.lock", "values": ["4", "4.", "4."]},
+  {"rule": "lock warning 4 s (mode)", "file": "res://src/simulation/simulation.gd", "pattern": "s\\.mode=\"LOCKING\" if s\\.lock<(lock_seconds\\(\\)) else \"BEAM\"", "values": ["lock_seconds()"]},
+  {"rule": "lock warning 4 s (fire)", "file": "res://src/simulation/simulation.gd", "pattern": "if s\\.lock>=(lock_seconds\\(\\)):\\s+if previous_lock<(lock_seconds\\(\\)):", "values": ["lock_seconds()", "lock_seconds()"]},  {"rule": "lock warning 4 s (received cue)", "file": "res://src/presentation/lock_warning.gd", "pattern": "c\\.lock>=(seconds):continue[\\s\\S]*\"progress\":c\\.lock/(seconds),\"remaining\":(seconds)-c\\.lock", "values": ["seconds", "seconds", "seconds"]},
   {"rule": "lock warning 4 s (accrues one second per sim second, every accrual site)", "file": "res://src/simulation/simulation.gd", "pattern": "\\.lock\\+=([^;\\n]+)", "values": ["dt"]},
   {"rule": "lock warning 4 s (threat step gets the unscaled tick)", "file": "res://src/simulation/simulation.gd", "pattern": "var vaporized=_threats\\(([^)]+)\\)", "values": ["dt"]},
   {"rule": "lock interruptible: decays when sight breaks", "file": "res://src/simulation/simulation.gd", "pattern": "s\\.target=-1; s\\.lock=maxf\\(0,s\\.lock-dt\\*([0-9.]+)\\)", "values": ["3"]},

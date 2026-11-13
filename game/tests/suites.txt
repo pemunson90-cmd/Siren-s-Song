@@ -248,3 +248,4 @@ chart_cache_tests|CHART CACHE|9|1423
 names_registry_tests|NAMES REGISTRY|3|1424
 tap_ownership_ui_tests|TAP OWNERSHIP UI|-|1425
 hud_words_ui_tests|HUD WORDS UI|-|1426|render
+trial_rules_tests|TRIAL RULES|-|1427

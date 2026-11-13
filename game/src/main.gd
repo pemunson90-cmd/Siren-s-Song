@@ -5,6 +5,7 @@ const PhotoReview=preload("res://src/presentation/flow/photo_review.gd")
 const CampaignFlow=preload("res://src/presentation/flow/campaign_flow.gd")
 const ReleaseControls=preload("res://src/presentation/release_controls.gd")
 const HudWords=preload("res://src/presentation/hud_words.gd")
+const TrialRules=preload("res://src/trial_rules.gd")
 const DiveInput=preload("res://src/presentation/dive_input.gd")
 const CampaignArchiveFlow=preload("res://src/persistence/campaign_archive_flow.gd")
 const Recon=preload("res://src/simulation/recon_consequences.gd")
@@ -368,7 +369,7 @@ func _pause() -> void:
 	if sim.paused and mission_hud!=null:
 		if not mission_hud.guard.pending.is_empty():mission_hud.guard.cancel()
 		if advanced_orders:mission_hud.dismiss()
-	sim.paused=not sim.paused; ReleaseControls.debug_print(["SS_PAUSE paused=",sim.paused]); _release_view(); _refresh(); _save_archive()
+	sim.paused=not sim.paused; tactical_aids.auto_pause.clear(); ReleaseControls.debug_print(["SS_PAUSE paused=",sim.paused]); _release_view(); _refresh(); _save_archive()
 # While paused, a selection keeps the view still: a follow view becomes a still view on the
 # same centre and scale. FOCUS recentres explicitly; running play keeps following.
 func _hold_view() -> void:
@@ -382,6 +383,19 @@ func _release_view() -> void:
 # The route confirm dialog holds dive time until the player answers it.
 func _order_dialog_open() -> bool:
 	return mission_hud!=null and mission_hud.guard!=null and mission_hud.guard.panel.is_visible_in_tree()
+# Trial rule 1 (trial_rules.gd): the command wheel, its pages, the status sheet, the PAST PINGS sheet and the
+# FLEET panel (all of them advanced_orders) and the contact card hold dive time like the route dialog does.
+# sim.paused is not touched: closing the surface lets time run again if the player had not paused.
+func _menu_holds_time() -> bool:
+	if not TrialRules.wheel_holds_time():return false
+	return advanced_orders or (mission_hud!=null and mission_hud.contact_card!=null and mission_hud.contact_card.is_open())
+# Everything that holds dive time without the player pausing.
+func _time_held() -> bool:
+	return _order_dialog_open() or _menu_holds_time()
+# The one door for pauses the game makes by itself (presentation/auto_pause.gd): trial rules 3 and 5, and the
+# accessibility aids through tactical_aids. key names the reason line; unit is the craft it names.
+func request_auto_pause(key:String,unit:int=-1)->bool:
+	return tactical_aids.auto_pause.request(self,key,unit)
 func _confirm_module_departure()->void:
 	ModuleRecovery.confirm_departure(self)
 func _process(dt: float) -> void:
@@ -394,7 +408,7 @@ func _process(dt: float) -> void:
 		if save_clock>5.0: _save_archive(); save_clock=0.0
 	if screen=="mission":
 		_release_view()
-		if not _order_dialog_open():preload("res://src/dive_clock.gd").advance(self,tactical_aids,dt)
+		if not _time_held():preload("res://src/dive_clock.gd").advance(self,tactical_aids,dt)
 		_observation_diagnostics()
 		if not sim.outcome.is_empty(): _debrief()
 		elif sim.has_method("departure_context") and sim.departure_context().get("pending",false): _confirm_module_departure()
@@ -563,7 +577,7 @@ func _scenario(name: String) -> void:
 			var beam=false
 			for c in sim.contacts.values():
 				if c.lock>0.1 and not anchored: sim.command("hold"); anchored=true
-				if c.lock>=4.15 and sim.elapsed-c.time<0.3: beam=true
+				if c.lock>=sim.lock_seconds()+0.15 and sim.elapsed-c.time<0.3: beam=true
 			if beam or not sim.outcome.is_empty(): break
 		sim.paused=true
 	if name=="split":

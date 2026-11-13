@@ -3,6 +3,8 @@ extends RefCounted
 # fresh received contacts; never changes sensing, lock accumulation or damage.
 const Settings=preload("res://src/presentation/frontend/frontend_settings.gd")
 const Stun=preload("res://src/simulation/observed_stun.gd")
+const TrialRules=preload("res://src/trial_rules.gd")
+const AutoPause=preload("res://src/presentation/auto_pause.gd")
 # THREAT READ seam: drone loss cause line and the optional craft-loss pause (threat_read/).
 const ThreatRead=preload("res://src/presentation/threat_read/threat_read.gd")
 # AI-DESIGNED UI episode rearm: brief contact/cover gaps must not demand
@@ -14,6 +16,8 @@ var clock=-1.
 var noticed:Dictionary={}
 var lock_seen:Dictionary={}
 var pending_notice=false
+# Every automatic pause goes through this one object (presentation/auto_pause.gd).
+var auto_pause=AutoPause.new()
 static func _pair_key(id:int,target:int)->String:return "%d:%d"%[id,target]
 func bind(owner)->void:
  host=owner
@@ -63,11 +67,11 @@ func restore_history(value=null)->void:
  for pair in warnings():
   noticed[pair[0]]=true;lock_seen[_pair_key(pair[0],pair[1])]=sim.elapsed
 func warnings()->Array:
- var sim=host.sim;var ids=[]
+ var sim=host.sim;var ids=[];var seconds:float=sim.lock_seconds()
  for id in sim.contacts:
   var c=sim.contacts[id];var target=int(c.get("target",-1));var age=sim.elapsed-float(c.time)
   if age<0 or age>=.3 or target<0 or target>=sim.units.size() or c.get("recipient_target",false):continue
-  if not sim.units[target].alive or c.get("mode","")!="LOCKING" or c.get("lock",0)<=0 or c.lock>=4:continue
+  if not sim.units[target].alive or c.get("mode","")!="LOCKING" or c.get("lock",0)<=0 or c.lock>=seconds:continue
   if Stun.remaining(c,sim.elapsed)>0 or not sim.Depth.sight(sim,c,sim.units[target]):continue
   ids.append([id,target])
  return ids
@@ -82,17 +86,21 @@ func observe()->void:
   if not lock_seen.has(key) or sim.elapsed-float(lock_seen[key])>=LOCK_CLEAR_SECONDS:new_lock=true
   lock_seen[key]=sim.elapsed
  var losses=ThreatRead.observe(sim);var lost=not losses.is_empty() and ThreatRead.pause_wanted()
- if pending_notice or (new_lock and Settings.current.get("auto_pause_lock",false)) or lost:
-  sim.paused=true
-  var reason="FIRST NOTICE" if pending_notice else "LOCK WARNING" if new_lock and Settings.current.get("auto_pause_lock",false) else ""
+ # Trial rule 4 (trial_rules.gd): a new lock pauses the dive whatever the accessibility setting says.
+ var pause_for_lock=new_lock and (Settings.current.get("auto_pause_lock",false) or TrialRules.pause_on_every_lock())
+ if pending_notice or pause_for_lock or lost:
+  var reason="FIRST NOTICE" if pending_notice else "LOCK WARNING" if pause_for_lock else ""
   # A loss in the same step keeps its cause line first (THREAT READ); otherwise the original text.
-  sim.message=ThreatRead.pause_message(sim,reason) if not losses.is_empty() else "AUTO PAUSE: "+reason
+  var message=ThreatRead.pause_message(sim,reason) if not losses.is_empty() else "AUTO PAUSE: "+reason
+  auto_pause.request(host,"notice" if pending_notice else "lock" if pause_for_lock else "",-1,message)
  pending_notice=false
+ # Trial rule 5: a craft held by rock pauses the dive once for that hold.
+ auto_pause.observe_blocked(host)
 # A8 step 1: the dive's clock lives in src/dive_clock.gd. The aids only say
 # whether they need to look after every fixed step, and look.
 func begin_frame()->void:_reset()
 func slices_steps()->bool:
- return Settings.current.get("auto_pause_notice",false) or Settings.current.get("auto_pause_lock",false) or ThreatRead.pause_wanted()
+ return Settings.current.get("auto_pause_notice",false) or Settings.current.get("auto_pause_lock",false) or ThreatRead.pause_wanted() or TrialRules.pause_on_every_lock()
 # Kept for callers that still advance a dive through the aids (tests).
 func advance(dt:float)->void:
  preload("res://src/dive_clock.gd").advance(host,self,dt)

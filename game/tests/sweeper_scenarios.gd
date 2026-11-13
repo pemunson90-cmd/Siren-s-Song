@@ -28,7 +28,7 @@ static func run(t):
  # Normal Siren route: line of sight, then the four second lock, then the beam.
  s=fixture("sweeper",200);listen(s,1.,0.)
  t.check(s.sirens[0].lock>0.5 and s.sirens[0].mode=="LOCKING" and s.hull==100,"sight builds a lock first")
- listen(s,3.5,0.)
+ listen(s,s.lock_seconds()-.5,0.) # 3.5 s on the standard lock; longer on the first dive (trial rule 2)
  t.check(s.sirens[0].mode=="BEAM" and s.hull==0 and s.outcome=="lost","lock completes into the normal beam")
  s=fixture("sweeper",200);listen(s,1.5,0.);s.units[0].pos=Vector2(150,150);listen(s,1.,0.)
  t.check(s.sirens[0].lock<1.0,"breaking sight decays the lock before the beam")

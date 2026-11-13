@@ -49,6 +49,8 @@ func host_for(s):
 	var h=Host.new();h.sim=s;return h
 
 func run():
+	# This suite tests the craft-loss pause aid alone; trial rules 4 and 5 (trial_rules.gd) are covered by trial_rules_tests.
+	preload("res://src/trial_rules.gd").override("PAUSE_ON_EVERY_LOCK",false);preload("res://src/trial_rules.gd").override("PAUSE_WHEN_BLOCKED",false)
 	Settings.apply(Store.sanitize({}))
 	shutter_checks()
 	lock_checks()

@@ -4,6 +4,7 @@ extends SceneTree
 # that runs out of route says so once without pausing the dive; a route dialog is named as the reason time is held.
 const Settings=preload("res://src/presentation/frontend/frontend_settings.gd")
 const Words=preload("res://src/presentation/hud_words.gd")
+const TrialRules=preload("res://src/trial_rules.gd")
 const Pricing=preload("res://src/simulation/photo_pricing/photo_pricing_table.gd")
 const CraftUpgrades=preload("res://src/equipment/craft_upgrades.gd")
 var checks=0
@@ -40,6 +41,7 @@ func run():
 	await planner_case()
 	await route_end_case()
 	Settings.current=saved
+	TrialRules.reset()
 	print("HUD WORDS UI CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)
 func plate_case(shape:Vector2i,scale:float):
 	var stamp="%dx%d %d%%"%[shape.x,shape.y,roundi(scale*100)]
@@ -244,6 +246,9 @@ func planner_case():
 	check(not s.route_goals().is_empty() and game.route_editor.preview.pending_point==null,"the second tap on the same point places it")
 	game.queue_free();await settle()
 func route_end_case():
+	# The wording and once-only behaviour of the line, with trial rule 3 (pause at route end) switched off through
+	# the test seam; the pausing itself is checked at the end and in trial_rules_tests.
+	TrialRules.override("PAUSE_AT_ROUTE_END",false)
 	var game=await make(Vector2i(2520,1080),1.0)
 	var s=game.sim;var hud=game.mission_hud
 	var end_line="QUIETUS has stopped: its route is finished."
@@ -268,6 +273,20 @@ func route_end_case():
 	other.sim.paused=false;for n in 20:other.sim.advance(0.1);other._refresh()
 	check("has stopped" not in other.mission_hud.intent.text,"an idle craft says nothing")
 	other.queue_free();await settle()
+	# Rule 3 on: the same moment pauses the dive and names the reason; the status line keeps its words.
+	TrialRules.reset()
+	var paused_end=await make(Vector2i(2520,1080),1.0)
+	var ps=paused_end.sim
+	ps.paused=true;ps.command("select",{"unit":0});ps.command("route",{"point":ps.units[0].pos+Vector2(60,0)})
+	ps.paused=false;paused_end._refresh()
+	var guard_frames=0
+	while not ps.units[0].route.is_empty() and guard_frames<400:
+		ps.advance(0.1);guard_frames+=1;paused_end._refresh()
+	check(ps.paused,"rule 3 on: the finished route paused the dive")
+	paused_end._refresh();await settle()
+	check(end_line in paused_end.mission_hud.intent.text and "PAUSED: QUIETUS finished its route" in paused_end.mission_hud.intent.text,"the status line keeps its words and adds the reason: "+paused_end.mission_hud.intent.text)
+	paused_end.queue_free();await settle()
+	TrialRules.override("PAUSE_AT_ROUTE_END",false)
 	# The route dialog holds time and is named as the reason.
 	var dialog=await make(Vector2i(2520,1080),1.0)
 	dialog.sim.paused=false;dialog._refresh()
