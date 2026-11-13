@@ -158,7 +158,7 @@ static func draw_world(view,sim)->void:
 	for row in sight_rows:
 		var ink:Color=Palette.chart_color("warning",Color("ffb18b"));ink.a=0.55
 		view.draw_arc(row.pos,row.radius,0,TAU,72,ink,width*0.75)
-		view._label(row.pos+Vector2.from_angle(-PI*0.25)*float(row.radius),row.label,ink,12)
+		view._label(row.pos+Vector2.from_angle(-PI*0.25)*float(row.radius),row.label,ink,12,{},0)
 	var reach:Dictionary=shutter_reach(sim)
 	last_draw["reach"]=float(reach.get("radius",0.0));last_draw["losses"]=loss_rows(sim).size()
 	if not reach.is_empty():
@@ -168,9 +168,9 @@ static func draw_world(view,sim)->void:
 		for k in Table.RING_TICKS:
 			var dir:=Vector2.from_angle(TAU*k/Table.RING_TICKS)
 			view.draw_line(reach.craft+dir*reach.radius,reach.craft+dir*(reach.radius-Table.TICK_PIXELS/scale),tint,width)
-		view._label(reach.craft+Vector2.from_angle(-PI*0.75)*float(reach.radius),reach.label,tint,14)
+		view._label(reach.craft+Vector2.from_angle(-PI*0.75)*float(reach.radius),reach.label,tint,14,{},0)
 		for id in reach.inside:
-			view._label(sim.contacts[id].pos+Vector2(0,44),Table.TEXT.in_reach,Palette.chart_color("warning",Color("ffb18b")),14)
+			view._label(sim.contacts[id].pos+Vector2(0,44),Table.TEXT.in_reach,Palette.chart_color("warning",Color("ffb18b")),14,{},0)
 	for row in loss_rows(sim):
 		var ink:Color=Palette.chart_color("warning",Color("ffb18b"))
 		var w:float=Table.WRECK_METRES

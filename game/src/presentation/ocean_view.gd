@@ -1,6 +1,7 @@
 extends Control
 const Names=preload("res://src/names.gd")
 const Palette=preload("res://src/presentation/accessibility/palette.gd")
+const UiStyle=preload("res://src/presentation/ui_style.gd")
 const ArtTable=preload("res://src/presentation/art/art_table.gd")
 const Art=preload("res://src/presentation/art/art_renderer.gd")
 const RegionTable=preload("res://src/presentation/art/region_table.gd")
@@ -59,6 +60,17 @@ var instrument_top:=64.0
 var ui_blocked_rects:Array=[]
 var world_label_rects:Array=[]
 var label_targets:Array=[]
+# UI review B6: the contact whose card is open (-1 none); drawn with a bracket.
+var selected_contact:=-1
+# UI review C10: chart labels queue during the world pass, then are placed in priority order and drawn on a backing plate.
+var _label_queue:Array=[]
+var _label_open:=false
+var _tag_rects:Array=[]
+const LABEL_PAD:=3.
+const PRIORITY_THREAT:=0
+const PRIORITY_OBJECTIVE:=1
+const PRIORITY_OWN:=2
+const PRIORITY_LANDMARK:=3
 var threat_bottom=0.
 var contact_top=0.
 var contacts_in_scroll=false
@@ -151,6 +163,9 @@ func contexts_at(point:Vector2,touch:float)->Array:
 		var goal=goal_marker.info.target
 		candidates.append(objective_context(screen_position(goal),touch))
 	for id in craft_at(point,touch):candidates.append({"kind":"craft","unit":id,"pos":sim.units[id].pos})
+	# UI review B6: a drawn observed contact is one more thing under the finger.
+	var seen=contact_choice(point,touch)
+	if not seen.is_empty():candidates.append(seen)
 	for context in candidates:
 		if context.is_empty() or context.kind=="fleet":continue
 		if context.get("subkind","").is_empty():context.erase("subkind")
@@ -270,7 +285,7 @@ func _process(dt: float) -> void:
 		optical_feed.position=Vector2(size.x-width-14.,top)
 		planning_size=Vector2(chart_width(),status_floor if status_floor>0. else size.y)
 
-	var visual_key=hash([world_scale,world_offset,size,presenting_mission,quality_tier,decoy_targeting,knock_targeting,sim.selected if sim!=null else -1])
+	var visual_key=hash([world_scale,world_offset,size,presenting_mission,quality_tier,decoy_targeting,knock_targeting,sim.selected if sim!=null else -1,selected_contact])
 	var changed=visual_key!=_quality_visual_key
 	_quality_visual_key=visual_key
 	var idle=not presenting_mission or sim==null or sim.paused
@@ -291,6 +306,15 @@ func contact_readout_rects(listed=null) -> Array:
 		result.append(Rect2(12,top,minf(width,size.x-24),feedback_font_size+6))
 		top+=feedback_font_size+8
 	return result
+# UI review B6: the observed contact nearest the point, within a touch radius of its drawn position, as a
+# choice entry for the target list ({} when none). Only drawn (observed, not expired) contacts count.
+func contact_choice(point:Vector2,touch:float)->Dictionary:
+	if sim==null:return {}
+	var best:={};var least:=INF
+	for entry in contact_entries():
+		var distance=screen_position(entry.pos).distance_to(point)
+		if distance<=maxf(touch*.5,43*world_scale) and distance<least:least=distance;best={"kind":"contact","key":entry.key,"name":str(entry.text).get_slice(" · ",0),"pos":entry.pos}
+	return best
 func knock_visible_targets() -> Array:
 	var targets=[]
 	if not knock_targeting or sim==null:return targets
@@ -344,9 +368,10 @@ func _depth_contours(extent: Vector2) -> Array:
 	_contour_extent=extent;_contour_points=lines
 	return lines
 func _draw() -> void:
-	world_label_rects.clear();label_targets.clear()
+	world_label_rects.clear();label_targets.clear();_label_queue.clear();_label_open=false;_tag_rects=[]
 	if sim==null or ocean==null: return
 	_sync_camera()
+	_label_open=true;_tag_rects=_contact_tag_rects()
 	draw_rect(Rect2(Vector2.ZERO,size),Color("050f17"))
 	draw_set_transform(world_offset,0,Vector2.ONE*world_scale)
 	var region=sim.world_size()
@@ -389,6 +414,7 @@ func _draw() -> void:
 	if ArtTable.enabled and not earned.is_empty() and presenting_mission and sim.outcome.is_empty() and optical_feed!=null and optical_feed.visible and optical_feed.art_lamp_current(sim):
 		Art.lamp_guide(self,optical_feed.art_lamp_pos,optical_feed.art_lamp_aim,optical_feed.art_lamp_fov,optical_feed.art_lamp_range)
 	if not presenting_mission or not sim.outcome.is_empty():
+		_flush_labels()
 		draw_set_transform(Vector2.ZERO)
 		return
 	for o in sim.mission.get("photo",{}).get("studies",[]):
@@ -488,6 +514,8 @@ func _draw() -> void:
 		draw_rect(Rect2(at-Vector2.ONE*20,Vector2.ONE*40),Color("d8c591"),false,2./world_scale)
 		draw_line(at-Vector2(30,0),at+Vector2(30,0),Color("d8c591"),1.5/world_scale)
 	FeatureViews.draw_activity(self)
+	# Every label queued so far is placed in priority order and drawn now, below the aim callouts and the contacts.
+	_flush_labels()
 	# Only own launcher range and legitimately cached targets; beams draw afterward.
 	if knock_targeting and sim.selected==0 and sim.units[0].alive:
 		draw_arc(sim.units[0].pos,sim.KNOCK_RANGE,0,TAU,64,Color(0.7,0.85,0.8,0.5),1.5/world_scale)
@@ -558,6 +586,7 @@ func _draw() -> void:
 		var tag_size=ThemeDB.fallback_font.get_string_size(entry.tag,HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size)
 		draw_rect(Rect2(anchor-Vector2(3,feedback_font_size),Vector2(tag_size.x+6,feedback_font_size+5)),Color(0.025,0.06,0.075,0.94))
 		draw_string(ThemeDB.fallback_font,anchor,entry.tag,HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size,Color("ed8e79") if entry.fresh else Color("b09a94"))
+		if entry.key==selected_contact:_selection_bracket(chart_camera.to_screen(entry.pos),Palette.chart_color("threat",Color("ed8e79") if entry.fresh else Color("b09a94")))
 	for n in acoustic.pulses:
 		if n.label==Names.NOISE_DECOY:
 			draw_string(ThemeDB.fallback_font,chart_camera.to_screen(n.pos)+Vector2(12,-12),"%ds"%ceili(n.time),HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size,Color("e1b66e"))
@@ -568,6 +597,22 @@ func _draw() -> void:
 		draw_rect(box,Color(0.04,0.07,0.09,0.94))
 		draw_string(ThemeDB.fallback_font,box.position+Vector2(8,feedback_font_size),entry.text,HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size,Palette.chart_color("warning" if entry.urgent else "threat",Color("ffac8c") if entry.urgent else Color("ed8e79") if entry.fresh else Color("b09a94")))
 
+# UI review B6: four corner brackets round the contact whose card is open (screen space).
+func _selection_bracket(at:Vector2,colour:Color)->void:
+	var half:=maxf(44.,feedback_font_size*3.);var arm:=half*.4;var width:=Palette.stroke(2.5)
+	for corner in [Vector2(-1,-1),Vector2(1,-1),Vector2(1,1),Vector2(-1,1)]:
+		var tip=at+corner*half
+		draw_polyline(PackedVector2Array([tip-Vector2(corner.x*arm,0),tip,tip-Vector2(0,corner.y*arm)]),Color("07131b"),width+3.)
+		draw_polyline(PackedVector2Array([tip-Vector2(corner.x*arm,0),tip,tip-Vector2(0,corner.y*arm)]),colour,width)
+# UI review C10: the on-screen rectangle of each observed contact's short tag (drawn after the world pass).
+func _contact_tag_rects()->Array:
+	var result=[]
+	if sim==null:return result
+	for entry in contact_entries():
+		var anchor=chart_camera.to_screen(entry.pos)+Vector2(12,-18)
+		var tag_size=ThemeDB.fallback_font.get_string_size(entry.tag,HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size)
+		result.append(Rect2(anchor-Vector2(3,feedback_font_size),Vector2(tag_size.x+6,feedback_font_size+5)))
+	return result
 # A Siren study keeps only where it was last photographed, never where it is.
 func _siren_mark(o:Dictionary)->void:
 	var c=Palette.chart_color("evidence",Color(0.9,0.42,0.34,0.7))
@@ -824,7 +869,7 @@ func own_craft_rects() -> Array:
 func world_label_position(p:Vector2,text:String,font_size:int) -> Vector2:
 	var font=ThemeDB.fallback_font;var actual=label_font(font_size);var extent=font.get_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,-1,actual)*world_scale
 	var origin=chart_camera.to_screen(p);var height=extent.y+6
-	var blocked=ui_blocked_rects+ship_instrument_rects()+own_craft_rects()+world_label_rects
+	var blocked=ui_blocked_rects+ship_instrument_rects()+own_craft_rects()+world_label_rects+_tag_rects
 	if optical_feed!=null and optical_feed.is_visible_in_tree():blocked.append(optical_feed.get_rect().grow(6))
 	for horizontal in [0,extent.x*.75,-extent.x*.75,extent.x*1.5,-extent.x*1.5]:
 		for step in [0,-1,-2,1,-3,2,-4,3]:
@@ -847,14 +892,42 @@ func label_font(font_size:int)->int:
 func world_label_rect(p:Vector2,text:String,font_size:int)->Rect2:
 	var font=ThemeDB.fallback_font;var actual=label_font(font_size)
 	return Rect2(chart_camera.to_screen(p)-Vector2(0,font.get_ascent(actual)*world_scale),font.get_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,-1,actual)*world_scale)
+# UI review C10: the backing plate of a placed label (screen space): its text rectangle plus a few pixels.
+func label_plate(p:Vector2,text:String,font_size:int)->Rect2:
+	return world_label_rect(p,text,font_size).grow(LABEL_PAD)
+func label_plate_colour()->Color:
+	return Color(UiStyle.PANEL_FILL,1. if Palette.high_contrast() else .75)
+# Placed labels reserve their whole plate, so two plates never overlap.
 func reserve_world_label(p:Vector2,text:String,font_size:int)->void:
-	world_label_rects.append(world_label_rect(p,text,font_size))
-func _label(p:Vector2,text:String,color:Color,font_size:int,context:Dictionary={}) -> void:
+	world_label_rects.append(label_plate(p,text,font_size))
+# Fixed priority order for placement: threat and warning labels, then objectives, then own-craft notes, then landmarks.
+# A caller may pass the priority; otherwise it is read from the label (a context means an objective).
+func label_priority(text:String,context:Dictionary,given:int=-1)->int:
+	if given>=0:return given
+	var upper=text.to_upper()
+	if "SIREN" in upper or "HEARD" in upper or "SIGHT" in upper:return PRIORITY_THREAT
+	if not context.is_empty() or "EXTRACTION" in upper or "WITHDRAWAL" in upper or "AREA" in upper:return PRIORITY_OBJECTIVE
+	if upper.begins_with("OWN") or upper.begins_with("MOTOR") or text.length()==1:return PRIORITY_OWN
+	return PRIORITY_LANDMARK
+func _label(p:Vector2,text:String,color:Color,font_size:int,context:Dictionary={},priority:int=-1) -> void:
+	if _label_open:_label_queue.append({"p":p,"text":text,"color":color,"font":font_size,"context":context,"priority":label_priority(text,context,priority),"order":_label_queue.size()});return
+	_place_label(p,text,color,font_size,context)
+# Place and draw the queued labels, most important first (call order within one priority).
+func _flush_labels()->void:
+	_label_open=false
+	var queue=_label_queue.duplicate();_label_queue.clear()
+	queue.sort_custom(func(a,b):return a.order<b.order if a.priority==b.priority else a.priority<b.priority)
+	for item in queue:_place_label(item.p,item.text,item.color,item.font,item.context)
+func _place_label(p:Vector2,text:String,color:Color,font_size:int,context:Dictionary) -> void:
 	var placed=world_label_position(p,text,font_size)
 	if placed.is_finite():
 		reserve_world_label(placed,text,font_size)
 		if not context.is_empty():label_targets.append({"rect":world_label_rect(placed,text,font_size),"context":context})
 		if placed.distance_to(p)*world_scale>feedback_font_size*2:draw_line(p,placed,Color(color,.35),1./world_scale)
+		# A dark plate behind the text keeps it readable over rings, routes and rock; opaque in high contrast.
+		var plate=label_plate(placed,text,font_size)
+		var box=StyleBoxFlat.new();box.bg_color=label_plate_colour();box.set_corner_radius_all(maxi(1,roundi(4./world_scale)))
+		draw_style_box(box,Rect2((plate.position-world_offset)/world_scale,plate.size/world_scale))
 		draw_string_outline(ThemeDB.fallback_font,placed,text,HORIZONTAL_ALIGNMENT_LEFT,-1,label_font(font_size),maxi(1,int(3./world_scale)),Color(.01,.03,.04,.95))
 		draw_string(ThemeDB.fallback_font,placed,text,HORIZONTAL_ALIGNMENT_LEFT,-1,label_font(font_size),color)
 

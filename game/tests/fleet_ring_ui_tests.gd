@@ -155,6 +155,9 @@ func run():
   # Measured centres of the old Q floating handle, inside charted clear water.
   # Replay the same world tap on baseline and challenger, not a new UI target.
   var water=Vector2(55.3334,578.4445) if dimensions.x==2520 else Vector2(234.6574,778.5394)
+  # WP-38: chart labels are placed in priority order and on plates, so a label may now sit over this point; a drawn label owns its tap. Step along the chart to the nearest point no label covers.
+  for step in [Vector2.ZERO,Vector2(0,70),Vector2(0,-70),Vector2(70,0),Vector2(0,140),Vector2(0,-140),Vector2(140,0)]:
+   if not ocean.information_at(ocean.screen_position(water+step)) and ocean.contexts_at(ocean.screen_position(water+step),game.ui_touch_height).is_empty():water+=step;break
   var saved=s.snapshot();await tap(ocean.global_position+ocean.screen_position(water))
   var goals=s.route_goals()
   check(not game.advanced_orders and not goals.is_empty() and goals[0].pos.distance_to(water)<1,"water beneath former detached handle plots the intended course")

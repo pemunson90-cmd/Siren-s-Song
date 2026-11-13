@@ -62,6 +62,7 @@ var recovery_box:VBoxContainer
 var recovery_buttons:Array=[]
 var guard
 var chart_choice
+var contact_card
 var hints
 var text_scale=1.0
 var caption_rects:Array=[]
@@ -105,6 +106,8 @@ func open_targets(choices:Array):
   target_buttons.append(b)
  open("choose",{"kind":"fleet","name":"CHOOSE TARGET","pos":choices[0].pos})
 func _open_target(context:Dictionary):
+ # UI review B6: a contact choice closes the list and opens the contact card; it is information, not an order.
+ if context.kind=="contact":dismiss();contact_card.open(int(context.key));return
  if context.kind=="craft" and context.unit!=host.sim.selected:host._order("select",{"unit":context.unit})
  var next="inspect" if context.get("subkind","")=="concealed" else "habitat" if context.kind=="habitat" else "plant" if context.kind=="plant" else "object" if context.kind=="objective" else "salvage" if context.kind=="salvage" else "fleet" if context.kind=="fleet" else "craft"
  open(next,context)
@@ -183,6 +186,7 @@ func setup(owner):
  fleet=preload("res://src/presentation/fleet_instruments.gd").new();add_child(fleet);fleet.setup(host);host.ocean.fleet_instruments=fleet
  guard=preload("res://src/presentation/order_guard.gd").new();add_child(guard);guard.setup(host)
  chart_choice=preload("res://src/presentation/chart_stop_choice.gd").new();add_child(chart_choice);chart_choice.setup(host)
+ contact_card=preload("res://src/presentation/contact_card.gd").new();add_child(contact_card);contact_card.setup(host)
  hints=preload("res://src/presentation/onboarding_hints.gd").new();add_child(hints);hints.setup(host)
 func _selected_craft():
  if host.advanced_orders:open("craft",{"kind":"craft","unit":host.sim.selected,"pos":host.sim.units[host.sim.selected].pos})
@@ -707,11 +711,12 @@ func refresh():
  var aid_font=maxi(14,roundi(touch_height*.26*text_scale))
  guard.refresh(Vector2(host.ocean.chart_width(),size.y),touch_height,aid_font,intent.position.y if intent.visible else size.y)
  chart_choice.refresh(Vector2(host.ocean.chart_width(),size.y),touch_height,aid_font,intent.position.y if intent.visible else size.y,not guard.panel.visible and not guard.undo_button.visible)
+ contact_card.refresh(Vector2(host.ocean.chart_width(),size.y),touch_height,aid_font,intent.position.y if intent.visible else size.y)
  hints.refresh(size,touch_height,aid_font,threat_floor())
  # A first-notice tutorial must not cover the very warning it explains.
  if hints.panel.visible and (not Rect2(Vector2.ZERO,size).encloses(hints.panel.get_rect()) or threat_rects().any(func(r):return r.intersects(hints.panel.get_rect())) or (order_dock.visible and hints.panel.get_rect().intersects(order_dock.get_rect()))):hints.panel.hide()
  # A tip card never sits over the order dialog or UNDO, where it would take their taps.
- for aid in [guard.panel,guard.undo_button]:
+ for aid in [guard.panel,guard.undo_button,contact_card.panel]:
   if hints.panel.visible and aid.visible and hints.panel.get_global_rect().intersects(aid.get_global_rect()):hints.panel.hide()
  preload("res://src/presentation/field_tool_view.gd").place_notice(self)
  var blocked=[]
@@ -719,7 +724,7 @@ func refresh():
   if button not in fleet.buttons:blocked.append(Rect2(button.global_position-global_position,button.size))
  for label in [intent,alarm]:
   if label.visible:blocked.append(label.get_rect())
- for aid in [guard.panel,guard.undo_button,hints.panel,chart_choice.panel]:
+ for aid in [guard.panel,guard.undo_button,hints.panel,chart_choice.panel,contact_card.panel]:
   if aid.visible:blocked.append(Rect2(aid.global_position-global_position,aid.size))
  for rect in threat_rects():blocked.append(rect)
  if host.lock_warning!=null and host.lock_warning.visible:blocked.append(host.lock_warning.banner)
@@ -865,7 +870,7 @@ func action_controls() -> Dictionary:
  return result
 func blocks(point:Vector2) -> bool:
  if host.advanced_orders:return true
- if guard!=null and (guard.blocks(point) or hints.blocks(point) or chart_choice.blocks(point)):return true
+ if guard!=null and (guard.blocks(point) or hints.blocks(point) or chart_choice.blocks(point) or (contact_card!=null and contact_card.blocks(point))):return true
  for b in action_controls().values():
   if b.get_global_rect().has_point(point):return true
  return host.ocean.optical_feed!=null and host.ocean.optical_feed.is_visible_in_tree() and host.ocean.optical_feed.get_global_rect().has_point(point)
