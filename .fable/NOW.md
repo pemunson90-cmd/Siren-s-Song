@@ -13,9 +13,7 @@ RUNNING. WP-44 (tool racks part of Fittings, branch wp-44) is with one Sonnet im
 
 | Package | Branch | Audit items | Owns |
 |---|---|---|---|
-| WP-40 | `wp-40` | B8, B13: Career and Expedition briefings as GOAL and DANGER; results in words | `presentation/career/`, `presentation/runs/` |
-| WP-41 | `wp-41` | C7: fittings as cards, true-scale NOISE and ENDURANCE bars, two slash headings, empty loadout fold | `presentation/equipment_context.gd`, `fittings_menu.gd`, `fit_surface/` |
-| WP-42 | `wp-42` | C4: title backdrop from the dive chart's own drawing | `presentation/frontend/frontend.gd`, new `title_backdrop.gd` |
+| WP-44 | `wp-44` | B13, C7: the tool racks part of the Fittings screen in words, bars and one row per tool | `presentation/tool_racks_view.gd`, `mode_racks_view.gd` |
 
 If the session died: the branches are local in the helpers' worktrees (`git worktree list`, `git branch --list "wp-4*"`). A branch with commits can be reviewed and merged as it stands; one without is redispatched from PHASE9.md "Queue".
 

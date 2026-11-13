@@ -141,8 +141,9 @@ static func briefing(host, index: int) -> void:
 	# One clearly named entry opens the fittings screen; it sits above the fold and is never folded away.
 	var loadout_entry=host._button(host.panel_box,"LOADOUT",host._show_fittings,"edit_racks")
 	host.panel_box.move_child(loadout_entry,fit_start);fit_start+=1
-	if host.panel_box.get_child_count()>fit_start:
-		var fit_nodes=host.panel_box.get_children().slice(fit_start)
+	var fit_nodes=host.panel_box.get_children().slice(fit_start)
+	# A fold with nothing to show under it is not offered (the first briefing has no frames or fittings yet).
+	if fit_nodes.any(func(node):return node is Control and node.visible):
 		var holder=[]
 		var fold=host._button(host.panel_box,fold_text(false,true),host._fold_fit.bind(fit_nodes,holder),"fit_fold")
 		holder.append(fold);host.panel_box.move_child(fold,fit_start)
