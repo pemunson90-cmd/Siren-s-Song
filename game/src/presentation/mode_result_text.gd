@@ -4,6 +4,7 @@ extends RefCounted
 # whose value is zero or unchanged is left out, and a result with no change says so.
 const NOTHING="Nothing lost, nothing gained."
 const NONE_WORD="NONE"
+const Records=preload("res://src/campaign/runs/run_records.gd")
 static var _career_head=RegEx.create_from_string("^(.+) · (RECOVERED|LOST)$")
 static var _career_standing=RegEx.create_from_string("^STANDING \\+?(-?\\d+) → (-?\\d+) · CONTRACT PAY (.+)$")
 static var _career_salvage=RegEx.create_from_string("^SALVAGE RECOVERED · (.+)$")
@@ -41,6 +42,8 @@ static func tool_change(name:String,spent:int,gained:int)->String:
 	if spent!=0:parts.append("used %d"%spent)
 	if gained!=0:parts.append("gained %d"%gained)
 	return "%s: %s"%[name,", ".join(parts)] if not parts.is_empty() else ""
+# The grade and percentage come from the run records rule, so the letter is decided in one place.
 static func photo_word(quality:float)->String:
 	if quality<0.:return "no photo"
-	return "photo %s (%d%%)"%["A" if quality>=.85 else "B" if quality>=.6 else "C",roundi(quality*100)]
+	var parts=Records.photo_text(quality).split(" / ")
+	return "photo %s (%s)"%[parts[0],parts[1]]
