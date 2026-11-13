@@ -46,8 +46,12 @@ func shape_case(shape:Vector2i,mirrored:bool,scale:float):
 	var hud=game.mission_hud;var pause:Button=game.pause_button
 	# Paused: the control reads as before and gives the size to compare with.
 	s.paused=true;game._refresh();await settle()
-	check(pause.text=="PAUSED
-▶ RESUME","the paused control keeps its text "+stamp)
+	# WP-36: the paused control reads "▶ RESUME" over the same life support reading (it was "PAUSED" over "▶ RESUME").
+	var paused_lines=pause.text.split("
+")
+	check(paused_lines.size()==2 and paused_lines[0]=="▶ RESUME" and paused_lines[1].begins_with("O₂"),"the paused control carries life support under RESUME "+stamp+" "+str(paused_lines))
+	check(pause.get_node_or_null(Chip.GAUGE)!=null and pause.get_node(Chip.GAUGE).visible and pause.get_node(Chip.GAUGE).mouse_filter==Control.MOUSE_FILTER_IGNORE,"a life support gauge lies inside the pause control and takes no tap "+stamp)
+	check(Chip.gauge_color(.8)==preload("res://src/presentation/ui_style.gd").ACCENT and Chip.gauge_color(.4)==preload("res://src/presentation/ui_style.gd").WARNING and Chip.gauge_color(.2)==preload("res://src/presentation/ui_style.gd").DANGER_RED,"the gauge is accent, amber below 50 percent and red below 25 "+stamp)
 	var paused_rect=pause.get_rect()
 	# Running, unselected detail window elapsed: the old plate would be hidden here.
 	s.paused=false
@@ -75,12 +79,11 @@ func shape_case(shape:Vector2i,mirrored:bool,scale:float):
 	# A command ring open while running: the reading stays.
 	hud.open("craft",{"kind":"craft","unit":0,"pos":s.units[0].pos});await settle();game._refresh();await settle()
 	if not s.paused:check("O₂" in pause.text,"life support stays on screen with the command ring open "+stamp)
-	else:check(pause.text.begins_with("PAUSED"),"a ring that pauses the dive shows the paused control "+stamp)
+	else:check(pause.text.begins_with("▶ RESUME"),"a ring that pauses the dive shows the paused control "+stamp)
 	check(not controls(game).any(func(r):return r!=pause.get_rect() and r.intersects(pause.get_rect())),"ring controls clear the pause control "+stamp)
 	hud.dismiss();await settle()
 	s.paused=true;game._refresh();await settle()
-	check(pause.text=="PAUSED
-▶ RESUME" and not pause.has_theme_color_override("font_color"),"pausing restores the paused text and colour "+stamp)
+	check(pause.text.begins_with("▶ RESUME\nO₂") and not pause.has_meta(Chip.META),"pausing restores the paused text, with the reading, and no amber "+stamp)
 	game.queue_free();await settle()
 func briefing_case():
 	root.size=Vector2i(2520,1080);await settle()

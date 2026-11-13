@@ -22,6 +22,8 @@ const Truthful=preload("res://src/presentation/truthful_commands.gd")
 const WorkTask=preload("res://src/presentation/work_task/work_task.gd")
 const ReleaseControls=preload("res://src/presentation/release_controls.gd")
 const LifeChip=preload("res://src/presentation/life_support_chip.gd")
+const UiStyle=preload("res://src/presentation/ui_style.gd")
+const Palette=preload("res://src/presentation/accessibility/palette.gd")
 # A tap opens an object-owned projection. A separate tap chooses an action.
 var host
 var blocker:Control
@@ -430,6 +432,7 @@ func layout(bounds:Vector2,h:float):
   var hover=normal.duplicate();hover.bg_color=Color(.2,.62,.65,.14)
   b.add_theme_stylebox_override("normal",normal);b.add_theme_stylebox_override("hover",hover);b.add_theme_stylebox_override("pressed",hover);b.add_theme_stylebox_override("disabled",normal)
   b.add_theme_color_override("font_outline_color",Color("041019"));b.add_theme_constant_override("outline_size",3)
+  if b.has_meta(PLATE_KEY):b.remove_meta(PLATE_KEY)
  host.status_label.hide();host.log_label.hide()
  host.pause_button.show();host.pause_button.position=Vector2(12,12);host.pause_button.size=Vector2(bw,bh)
  host.advanced_button.visible=not host.advanced_orders;host.advanced_button.position=Vector2(bounds.x-bw-12,12);host.advanced_button.size=Vector2(bw,bh)
@@ -594,10 +597,11 @@ func refresh():
  extra.sonar_power.text="POWER\n"+sim.sonar.power.to_upper()
  extra.sonar_emit.text="EMIT\n"+("%s RESERVE"%String.num(snappedf(sim.Sonar.pulse_cost(sim,sim.selected),0.01)) if sim.Sonar.pulse_cost(sim,sim.selected)>0. else "NO COST");extra.sonar_emit.disabled=sim.ping_time>0 or not transition.is_empty()
  subject=Concealed.refresh_subject(sim,Recipient.refresh_subject(sim,Rendezvous.refresh_subject(sim,subject)))
- host.pause_button.text="PAUSED\n▶ RESUME" if sim.paused else "Ⅱ\nPAUSE"
+ host.pause_button.text="▶\nRESUME" if sim.paused else "Ⅱ\nPAUSE"
+ plate(host.pause_button,UiStyle.MAIN if sim.paused else UiStyle.NORMAL)
  LifeChip.sync(self)
  _fit_pause_button()
- host.advanced_button.text="FLEET"
+ host.advanced_button.text="FLEET";plate(host.advanced_button,UiStyle.NORMAL)
  focus_button.text="FOLLOW" if host.ocean.chart_camera.mode=="follow" else "FOCUS"
  intent.text="%s · %s · %s"%[sim.units[sim.selected].name+" · "+sim.Depth.NAMES[sim.units[sim.selected].band],"QUEUE" if sim.queue_mode else "REPLACE",(host.targeting_feedback if not host.targeting_feedback.is_empty() else "DECOY · TAP CLEAR WATER ≤160m · TAP CANCEL" if host.decoy_armed else "TORPEDO · TAP FRESH CONTACT · TAP CANCEL" if host.knock_armed else sim.message)]
  host.title_label.visible=page not in ["signals","recovery","order_help"];host.detail_label.visible=page not in ["signals","recovery","order_help"]
@@ -755,6 +759,21 @@ func _fit_wheel_words():
 # The pause control's hit area always covers its whole wrapped label, so a tap on the
 # visible RESUME line is never lost to the chart below it.
 func _fit_pause_button():
+# WP-36 (visual review C2): the pause and FLEET controls were drawn flat by the transparent
+# boxes layout() gives every HUD button. They keep their rectangles but get a role plate (filled,
+# bordered, rounded) from UiStyle: MAIN while paused (the forward action), NORMAL otherwise.
+# The plate's content margins stay at the flat look's 2 px, so no rectangle or label fit moves.
+const PLATE_KEY="plate_key"
+func edge_margin(h:float)->float:
+ return maxf(8.,h*12./98.)
+func plate(b:Button,role:String):
+ var key=role+str(Palette.high_contrast())
+ if b.get_meta(PLATE_KEY,"")==key:return
+ b.set_meta(PLATE_KEY,key);UiStyle.apply(b,role)
+ if b.has_meta(LifeChip.META):b.remove_meta(LifeChip.META)
+ for state in ["normal","hover","pressed","focus","disabled"]:
+  var box:StyleBox=b.get_theme_stylebox(state).duplicate();box.set_content_margin_all(2);b.add_theme_stylebox_override(state,box)
+ b.add_theme_constant_override("outline_size",0 if role==UiStyle.MAIN else 3)
  var b:Button=host.pause_button
  var margin=b.get_theme_stylebox("normal").get_minimum_size()
  var text=b.get_theme_font("font").get_multiline_string_size(b.text,HORIZONTAL_ALIGNMENT_CENTER,maxf(1.,b.size.x-margin.x),b.get_theme_font_size("font_size")).y
