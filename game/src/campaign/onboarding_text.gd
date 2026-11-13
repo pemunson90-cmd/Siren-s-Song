@@ -3,6 +3,11 @@ extends RefCounted
 # Prompts are shown once per campaign (ids are saved); warnings pause for reading.
 const MAX_OPERATION := 4
 const FIRST_USE_HINTS := ["first_depth", "first_emit", "first_research", "first_field_tool"]
+# How long a tip's moment stays open (WP-51): a first-use tip queued behind a warning is dropped after this many
+# seconds of play, the pause tip after the first twelve, and the noise tip while Quietus is making more than this noise radius.
+const FIRST_USE_MOMENT := 6.0
+const PAUSE_MOMENT := 12.0
+const NOISE_RADIUS := 180.0
 const Priced = preload("res://src/simulation/photo_pricing/photo_pricing_table.gd")
 # Short briefing lines for the opening operations. The full rules stay in the field manual.
 const GOALS := {

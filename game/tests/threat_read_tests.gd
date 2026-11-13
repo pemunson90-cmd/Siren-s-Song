@@ -245,10 +245,12 @@ func threat_line_checks():
 	var row={}
 	for r in rows:
 		if r.craft==1:row=r
-	check(not row.is_empty() and row.sentence.begins_with("SIREN TO THE EAST") and "locks DRONE A in " in row.sentence and row.sentence.ends_with(" s"),"the card names the direction that matches the bearing: %s"%str(row.get("sentence")))
+	check(TR.last_draw.chips.is_empty(),"a lock draws no chip at the craft: the line's countdown and the card state it once")
+	check(not row.is_empty() and row.sentence.begins_with("GUARD TO THE EAST") and "locks DRONE A in " in row.sentence and row.sentence.ends_with(" s"),"the card names the Siren's type and the direction that matches the bearing: %s"%str(row.get("sentence")))
+	check(not row.is_empty() and row.advice==TT.TEXT.lock_exit_drone and TT.TEXT.lock_exit_drone=="Move it behind rock, or let it go.","a lock on a drone gets the drone's advice")
 	check(not row.is_empty() and row.siren_pos==s.contacts[row.source].pos and roundi(row.bearing)==90,"the line and the words use the contact's known position")
 	var card=Warning.new();card.update_state(s,true)
-	check(card.visible and "SIREN TO THE EAST" in card.card_text and "locks DRONE A in " in card.card_text,"the lock card carries the direction and the craft for a drone")
+	check(card.visible and "GUARD TO THE EAST" in card.card_text and "locks DRONE A in " in card.card_text and card.card_text.ends_with(TT.TEXT.lock_exit_drone),"the lock card carries the type, direction, craft and way out for a drone")
 	card.free()
 	# The Siren is off the chart: the line is cut at the chart edge, not dropped.
 	view.size=Vector2(500,720);TR.draw_screen(view,s)

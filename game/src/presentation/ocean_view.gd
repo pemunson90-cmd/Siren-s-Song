@@ -72,6 +72,21 @@ const PRIORITY_THREAT:=0
 const PRIORITY_OBJECTIVE:=1
 const PRIORITY_OWN:=2
 const PRIORITY_LANDMARK:=3
+# WP-51: what the warning cards say right now, set by lock_warning.gd and first_siren_cue.gd. While a lock card shows,
+# the contact id it states is read out nowhere else, and only the goal, the craft and the Siren keep chart labels.
+var lock_card_source:=-1
+var first_notice_showing:=false
+func warning_showing()->bool:
+	return lock_card_source>=0 or first_notice_showing
+# Contact readouts without the lock countdown the lock card already states.
+func unstated_entries(entries=null)->Array:
+	var result:Array=[]
+	for entry in (entries if entries!=null else contact_entries()):
+		if not (entry.get("locking",false) and entry.key==lock_card_source):result.append(entry);continue
+		if not entry.get("report","").is_empty():result.append(entry.merged({"text":entry.plain,"urgent":false,"locking":false},true))
+	return result
+func _kept_under_lock(text:String,context:Dictionary)->bool:
+	return not context.is_empty() or text.length()==1 or text in ["EXTRACTION","WITHDRAWAL"]
 var threat_bottom=0.
 var contact_top=0.
 var contacts_in_scroll=false
@@ -282,7 +297,10 @@ func fit_chart() -> void:
 func _process(dt: float) -> void:
 	phase+=dt; camera_flash=Palette.pulse(maxf(0,camera_flash-dt),minf(.08,maxf(0,camera_flash-dt)));_sync_camera()
 	if optical_feed!=null:
-		optical_feed.sim=sim; optical_feed.visible=not optical_suppressed and presenting_mission and sim!=null and sim.outcome.is_empty() and optical_feed.viewfinder_visible(sim)
+		optical_feed.sim=sim; var viewfinder:bool=not optical_suppressed and presenting_mission and sim!=null and sim.outcome.is_empty() and optical_feed.viewfinder_visible(sim)
+		# A warning never opens the viewfinder by itself (a Siren coming into view makes it a subject); it waits, unless a shot is live.
+		if viewfinder and warning_showing() and not optical_feed.visible and sim.capture_unit<0:viewfinder=false
+		optical_feed.visible=viewfinder
 		# Reserve an optical dock beside the chart, above the reflowing status.
 		var width=minf(size.x*.52,optical_feed.preferred_width())
 		var top=maxf(instrument_top+4.,threat_bottom)
@@ -303,7 +321,7 @@ func acoustic_rows() -> Array:
 func contact_entries() -> Array:
 	return preload("res://src/presentation/contact_feedback.gd").entries(sim.contacts,sim.elapsed,sim.units,sim.line_clear,sim.contact_target) if sim!=null else []
 func contact_readout_entries(entries=null) -> Array:
-	return (entries if entries!=null else contact_entries()).filter(func(entry):return not warnings_in_hud or not (entry.urgent or (entry.fresh and ("REPORT" in entry.text or "STUNNED" in entry.text))))
+	return unstated_entries(entries).filter(func(entry):return not warnings_in_hud or not (entry.urgent or (entry.fresh and ("REPORT" in entry.text or "STUNNED" in entry.text))))
 func contact_readout_rects(listed=null) -> Array:
 	var result: Array=[]
 	if contacts_in_scroll:return result
@@ -904,6 +922,7 @@ func label_priority(text:String,context:Dictionary,given:int=-1)->int:
 	if upper.begins_with("OWN") or upper.begins_with("MOTOR") or text.length()==1:return PRIORITY_OWN
 	return PRIORITY_LANDMARK
 func _label(p:Vector2,text:String,color:Color,font_size:int,context:Dictionary={},priority:int=-1) -> void:
+	if lock_card_source>=0 and not _kept_under_lock(text,context):return
 	if _label_open:_label_queue.append({"p":p,"text":text,"color":color,"font":font_size,"context":context,"priority":label_priority(text,context,priority),"order":_label_queue.size()});return
 	_place_label(p,text,color,font_size,context)
 # Place and draw the queued labels, most important first (call order within one priority).

@@ -162,7 +162,7 @@ func observed_lock_fixture(shape:Vector2i):
  var label="observed lock "+str(shape)
  var banner=Rect2(warning.global_position+warning.banner.position,warning.banner.size)
  var button=visible_chip(game,label+" basic")
- check(warning.visible and warning.locks.size()==1 and warning.show_hint,label+" earned countdown and break-sight hint are visible")
+ check(warning.visible and warning.locks.size()==1 and "Put rock between you." in warning.card_text,label+" earned countdown and the way out are on the lock card")
  check(Rect2(game.global_position,game.size).encloses(banner) and banner.has_area(),label+" lock banner fits the safe viewport")
  check(button!=null and not button.get_global_rect().intersects(banner),label+" Hunt chip clears the live lock banner")
  check(not banner.intersects(game.pause_button.get_global_rect()),label+" lock banner preserves Pause")

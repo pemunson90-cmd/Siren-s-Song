@@ -70,6 +70,8 @@ func run():
 	var g=load("res://scenes/main.tscn").instantiate();g.capture_scenario="tap-ownership-tests";root.add_child(g);await settle();g.set_process(false)
 	await extraction_checks(g)
 	await closing_tap_checks(g)
+	await tip_card_tap_checks(g)
+	await warning_card_checks(g)
 	g.queue_free();await settle()
 	print("TAP OWNERSHIP UI CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)
 
@@ -116,6 +118,83 @@ func extraction_checks(g)->void:
 	check(g.mission_hud.guard.panel.visible and g.mission_hud.guard.pending.point.distance_to(home)<1.,"with a route under way the extraction tap asks to replace it, marker on the extraction point")
 	await click(g.mission_hud.guard.go_button)
 	check(g.sim.route_goals().size()==1 and g.sim.route_goals()[0].pos.distance_to(home)<1.,"REPLACE ROUTE then sends the craft to extraction")
+
+# WP-51: the tip card owns every tap on it and within one touch height of GOT IT, in the engine's real event order
+# (emulated mouse press, then the touch press, in one frame). A tap there neither dismisses the card nor reaches the chart.
+func tip_card_tap_checks(g)->void:
+	await fresh(g)
+	var hints=g.mission_hud.hints
+	hints.show_hint("pause");g._refresh();await settle()
+	check(hints.panel.visible and hints.current=="pause","a tip card is up")
+	if not hints.panel.visible:return
+	var h:float=g.ui_touch_height
+	var card:Rect2=hints.panel.get_global_rect()
+	var button:Rect2=hints.dismiss_button.get_global_rect()
+	var spots:Array=[card.get_center(),Vector2(card.end.x+h*.3,button.get_center().y),Vector2(button.get_center().x,card.end.y+h*.4),Vector2(button.get_center().x,button.position.y-h*.3)]
+	for spot in spots:
+		g.sim.message=""
+		await tap(spot)
+		var tag="tip card tap at "+str(spot)
+		check(hints.panel.visible and hints.current=="pause",tag+": the card stays up and keeps its place")
+		check(hints.panel.get_global_rect()==card,tag+": the card did not move")
+		check(g.sim.route_goals().is_empty() and not g.mission_hud.guard.panel.visible and g.sim.message=="",tag+": nothing reached the chart ("+g.sim.message+")")
+	await click(hints.dismiss_button)
+	check(not hints.panel.visible and hints.current=="" and g.sim.route_goals().is_empty(),"GOT IT dismisses the card and gives no order")
+	var leg:Vector2=water(g,g.sim.units[0].pos,[g.sim.units[1].pos,g.sim.units[2].pos])
+	await tap(screen(g,leg))
+	check(g.sim.route_goals().size()==1,"after the card is gone the next water tap orders as usual")
+
+# A received lock on a craft: Siren 1 east of it, two seconds into its four.
+func lock_on(g,craft:int)->void:
+	g.sim.contacts={0:{"pos":g.sim.units[craft].pos+Vector2(80,0),"time":g.sim.elapsed,"mode":"LOCKING","lock":2.0,"target":craft,"type":"patroller","source":"optical","angle":0.0,"band":1}}
+	g._refresh();await settle()
+# WP-51: a lock is stated once; one tip at a time; no tip over a warning but its own; the viewfinder does not open by itself.
+func warning_card_checks(g)->void:
+	await fresh(g)
+	var hints=g.mission_hud.hints
+	g.hints_seen=["move","pause","drone","noise","sweep"]
+	# The parked tip: a tip is up, a lock starts, the tip steps aside, and comes back in the same place.
+	hints.show_hint("pause");g._refresh();await settle()
+	var place:Vector2=hints.panel.position
+	await lock_on(g,1)
+	var warning=g.lock_warning
+	check(warning.visible and g.ocean.lock_card_source==0,"a lock on a drone shows the lock card")
+	check("locks DRONE A in " in warning.card_text and warning.card_text.contains("Move it behind rock, or let it go."),"the card for a drone gives its own advice: "+warning.card_text)
+	check(place!=Vector2.ZERO and hints.current=="warning" and hints.panel.visible,"the first lock's own tip replaces the tip that was up: one card at a time")
+	check(not g.ocean.contact_readout_entries().any(func(e):return e.locking) and not ("BEAM" in g.mission_hud.alarm.text),"the top-left readout does not repeat the lock")
+	check(preload("res://src/presentation/threat_read/threat_read.gd").last_draw.chips.is_empty(),"no tag at the craft repeats the lock")
+	for kept in [["EXTRACTION",{}],["A",{}],["SIGNAL SPIRE",{"kind":"objective"}]]:check(g.ocean._kept_under_lock(kept[0],kept[1]),"a "+kept[0]+" label stays while a lock shows")
+	for dropped in ["SHUTTER HEARD 40m","OBSERVED SIREN","UNKNOWN SIGNAL · AREA · BRG 055"]:check(not g.ocean._kept_under_lock(dropped,{}),"the label "+dropped+" is hidden while a lock shows")
+	# Only the explaining tip: queued tips wait while the warning shows and are dropped when their moment has passed.
+	await click(hints.dismiss_button)
+	hints._queue_first_use("first_depth");hints.current="";g._refresh();await settle()
+	check(not hints.panel.visible and hints.current=="","a queued first-use tip waits while the lock card shows")
+	g.sim.elapsed+=8.0;g.sim.contacts={};g._refresh();await settle()
+	check(not hints.panel.visible and hints.current=="" and hints.pending_first_use.is_empty(),"a queued tip whose moment passed is dropped, not shown late")
+	# Warning tips only; GOT IT never leaves a second card behind.
+	await fresh(g)
+	check(not hints._drone_moment(),"once the drones are launched the 'send a drone ahead' tip's moment is over")
+	hints.drones_aboard_at_start=false
+	check(hints._drone_moment(),"drones in the water with no orders and none lost: the tip's moment is open")
+	g.sim.units[1].alive=false
+	check(not hints._drone_moment(),"a lost drone ends it too")
+	g.sim.units[1].alive=true
+	# The viewfinder: not opened by a warning, opened again when the warning is over.
+	await fresh(g)
+	g.sim.contacts={};g._refresh();await settle()
+	var feed=g.ocean.optical_feed
+	feed.hide()
+	var spire=g.sim.mission.objectives[0]
+	g.sim.units[0].pos=spire.pos+Vector2(-50,0)
+	g._refresh();await settle()
+	var opens:bool=feed.viewfinder_visible(g.sim)
+	check(opens,"Quietus beside the first photo subject has a viewfinder subject")
+	if opens:
+		check(feed.visible,"without a warning the viewfinder opens when a subject is near")
+		feed.hide();await lock_on(g,0);await settle()
+		check(g.ocean.warning_showing() and not feed.visible,"a lock does not open the viewfinder by itself")
+		g.sim.contacts={};g._refresh();await settle()
+		check(feed.visible,"the viewfinder comes back once the warning is over")
 
 # 2. A tap that closes something only closes it.
 func opened(g,how:String)->void:

@@ -4,7 +4,7 @@ extends RefCounted
 #     radius the camera panel prints ("SHUTTER heard to Nm") is drawn around the
 #     craft with metres, ticks and a label, and known contacts inside it are named.
 #  2. Lock countdown: each living craft under a fresh received lock warning gets
-#     a chip beside it with the same remaining time the lock card shows.
+#     the threat line with its remaining time; lock_warning.gd's card states the rest.
 #  3. Drone loss: the cause the simulation recorded (Siren beam or battery), the
 #     bearing from the wreck to the Siren that fired, and only the Siren identity
 #     the chart already shows (coarse class, identified role, or UNSEEN SIREN).
@@ -81,7 +81,10 @@ static func lock_rows(sim)->Array:
 		var row:Dictionary=by_craft[target]
 		row["text"]=Table.TEXT.lock_one%[row.source+1,row.remaining] if row.count==1 else Table.TEXT.lock_many%[row.count,row.remaining]
 		row["bearing"]=Compass.degrees(row.siren_pos-sim.units[target].pos)
-		row["sentence"]=Table.TEXT.lock_sentence%[Compass.point(row.bearing),str(sim.units[target].get("name","CRAFT")),row.remaining]
+		var kind:String=Identity.contact_type(sim.contacts[row.source])
+		var word:String=Table.SIREN_WORD if kind in Table.COARSE_KINDS else Table.ROLE_WORDS.get(kind,Table.SIREN_WORD)
+		row["sentence"]=Table.TEXT.lock_sentence%[word,Compass.point(row.bearing),str(sim.units[target].get("name","CRAFT")),row.remaining]
+		row["advice"]=Table.TEXT.lock_exit if target==0 else Table.TEXT.lock_exit_drone
 		row["progress"]=clampf(1.0-float(row.remaining)/Table.LOCK_SECONDS,0.0,1.0)
 		result.append(row)
 	result.sort_custom(func(a,b):return a.craft<b.craft)
@@ -198,13 +201,7 @@ static func draw_screen(view,sim)->void:
 	var occupied:Array=view.ui_blocked_rects+view.contact_readout_rects()+view.world_label_rects+view.own_craft_rects()+view.ship_instrument_rects()
 	if view.optical_feed!=null and view.optical_feed.is_visible_in_tree():occupied.append(view.optical_feed.get_rect().grow(6))
 	var fs:int=view.feedback_font_size
-	var warning:Color=Palette.color("warning",Color("ffb18b"))
-	for row in rows:
-		var anchor:Vector2=view.screen_position(sim.units[row.craft].pos)
-		var box:Rect2=chip(view,anchor,row.text,fs,occupied)
-		if box.size==Vector2.ZERO:continue
-		occupied.append(box);last_draw.chips.append({"rect":box,"text":row.text})
-		_draw_chip(view,box,anchor,row.text,fs,warning,float(row.progress))
+	# A lock is stated once: by lock_warning.gd's card and this line's countdown, with no chip at the craft.
 	for row in loss_rows(sim):
 		var anchor:Vector2=view.screen_position(row.pos)
 		var box:Rect2=chip(view,anchor,row.text,fs,occupied)

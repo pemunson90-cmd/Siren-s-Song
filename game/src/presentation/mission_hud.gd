@@ -586,7 +586,7 @@ func _place_threat_stack():
   alarm.hide();host.ocean.contact_top=header_bottom;bottom=header_bottom
   contact_scroll.position=Vector2(12,bottom)
   contact_scroll.size=Vector2(size.x-36.-(warning.banner.size.x if warning!=null and warning.visible else 0.),minf(size.y*.22,maxf(host.ocean.feedback_font_size+16.,size.y-bottom-command_room)))
-  var entries=host.ocean.contact_entries()
+  var entries=host.ocean.unstated_entries()
   var lines=entries.map(func(entry):return entry.text)
   # Sonar's received warning or our own pressure estimate is separate from contacts.
   for line in alarm_text.split("\n"):
@@ -710,7 +710,7 @@ func refresh():
  # projection. The quiet top instrument owns only our operation estimate.
  var pressure=sim.recon_feedback()
  var warnings=[]
- for entry in host.ocean.contact_entries():
+ for entry in host.ocean.unstated_entries():
   if entry.urgent or (entry.fresh and ("REPORT" in entry.text or "STUNNED" in entry.text)):warnings.append(entry.text)
  host.ocean.warnings_in_hud=host.advanced_orders
  host.ocean.optical_suppressed=host.advanced_orders
@@ -763,6 +763,8 @@ func refresh():
   if label.visible:blocked.append(label.get_rect())
  for aid in [guard.panel,guard.undo_button,hints.panel,chart_choice.panel,contact_card.panel]:
   if aid.visible:blocked.append(Rect2(aid.global_position-global_position,aid.size))
+ if hints.panel.visible:
+  for zone in hints.zones():blocked.append(Rect2(zone.position-global_position,zone.size))  # the tip card's tap area: no craft chip sits in it
  for rect in threat_rects():blocked.append(rect)
  if host.lock_warning!=null and host.lock_warning.visible:blocked.append(host.lock_warning.banner)
  if host.ocean.optical_feed.is_visible_in_tree():blocked.append(host.ocean.optical_feed.get_rect())
@@ -824,7 +826,7 @@ func _fit_pause_button():
  var text=b.get_theme_font("font").get_multiline_string_size(b.text,HORIZONTAL_ALIGNMENT_CENTER,maxf(1.,b.size.x-margin.x),b.get_theme_font_size("font_size")).y
  if b.size.y<ceilf(text+margin.y):b.size.y=ceilf(text+margin.y)
 func _clear_hint_overlap():
- if hints.panel.visible and (command_controls()+[close_button,sheet]).any(func(b):return b.is_visible_in_tree() and b.get_global_rect().intersects(hints.panel.get_global_rect())):hints.panel.hide()
+ if hints.panel.visible and (command_controls()+[close_button,sheet]).any(func(b):return b.is_visible_in_tree() and hints.overlaps(b.get_global_rect())):hints.panel.hide()  # the card's tap area never covers a command
 
 func _draw():
  caption_rects.clear()

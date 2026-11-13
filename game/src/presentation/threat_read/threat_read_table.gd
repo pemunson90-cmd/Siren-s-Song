@@ -40,15 +40,19 @@ const OFFSETS=[Vector2(1.2,-1.6),Vector2(1.2,0.6),Vector2(-1.2,-1.6),Vector2(-1.
 const Names=preload("res://src/names.gd")
 const ROLE_WORDS={Names.ROLE_HUNTER:"HUNTER",Names.ROLE_SENTINEL:"GUARD",Names.ROLE_SWEEPER:"SWEEPER",Names.ROLE_BUOY:"LISTENER",Names.ROLE_RELAY:"RELAY",Names.ROLE_INTERCEPTOR:"INTERCEPTOR",Names.ROLE_WARDEN:"WARDEN",Names.ROLE_PATROLLER:"PATROL","unknown":"UNCLASSIFIED","STATIC":"STATIC","PATROLLER":"PATROLLER","UNCLASSIFIED":"UNCLASSIFIED"}
 
+# Display classes that name no role: the card says SIREN for these instead of a type word.
+const COARSE_KINDS=["unknown","STATIC","PATROLLER","UNCLASSIFIED"]
+const SIREN_WORD="SIREN"
+
 const TEXT={
 	"shutter":"SHUTTER HEARD %dm",
 	"in_reach":"IN SHUTTER REACH",
 	"lock_one":"S%d LOCK · %.1fs",
 	"lock_many":"%d LOCKS · %.1fs",
-	# The warning card: direction word, craft name, seconds left, then the way out.
-	# Two short lines: the banner must stay the size of the old one, because the wheel and the tip card lay out around it.
-	"lock_sentence":"SIREN TO THE %s\nlocks %s in %.1f s",
-	"lock_exit":"Put rock between you.",	# what the lock rule answers to (was "Break sight with cover."); shown for the first three locks
+	# The one statement of a lock (lock_warning.gd): type word and direction, craft and seconds left, then the way out.
+	"lock_sentence":"%s TO THE %s\nlocks %s in %.1f s",
+	"lock_exit":"Put rock between you.",	# Quietus: a lock needs current sight of the craft, so cover breaks it
+	"lock_exit_drone":"Move it behind rock, or let it go.",	# a drone: the same cover rule, else the beam takes it at 4 s
 	"lost":"%s LOST",
 	"beam":" · SIREN BEAM FROM %03d°",
 	"battery":" · BATTERY EXHAUSTED",

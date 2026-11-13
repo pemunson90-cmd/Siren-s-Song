@@ -20,14 +20,16 @@ static func frames(sim)->Array:
 var host
 var locks:Array=[]
 var episodes=0
-var show_hint=false
 var previous_clock=-1.
 var previous_ids:Array=[]
 var banner=Rect2()
-# The warning card names the threatened craft (any of ours, not only Quietus), the direction of
-# the Siren and the way out, from the same received-lock rows the chart's threat line uses.
+# The ONE statement of a lock. The card names the Siren's type and direction, the threatened craft (any of
+# ours, not only Quietus), the seconds left and the way out, from the same received-lock rows the chart's
+# threat line uses. Nothing else says it: the contact readout, the craft tag and the notice chip stand down
+# while it shows (ocean_view.lock_card_source). A "NEW SIREN TYPE" note joins it as its last line.
 var rows:Array=[]
 var card_text=""
+var note=""
 func _init():mouse_filter=Control.MOUSE_FILTER_IGNORE
 func update_state(sim,active:bool):
  if sim.elapsed<previous_clock:previous_ids.clear()
@@ -35,19 +37,20 @@ func update_state(sim,active:bool):
  locks=frames(sim) if active else []
  rows=ThreatRead.lock_rows(sim) if active else []
  var ids=locks.map(func(frame):return frame.id)
- if ids.any(func(id):return id not in previous_ids):
-  episodes+=1;show_hint=episodes<=3
- if locks.is_empty() and rows.is_empty():show_hint=false
+ if ids.any(func(id):return id not in previous_ids):episodes+=1
  previous_ids=ids
  card_text=_card_text()
  visible=not locks.is_empty() or not rows.is_empty();queue_redraw()
 func _card_text()->String:
  if rows.is_empty():
   return "S%d LOCK · %.1fs"%[int(locks[0].id)+1,locks[0].remaining] if not locks.is_empty() else ""
- return rows[0].sentence+"\n"+ThreatRead.Table.TEXT.lock_exit+"\nEMP or a torpedo hit interrupts it." if show_hint else rows[0].sentence
+ return rows[0].sentence+"\n"+rows[0].advice+("\n"+note if not note.is_empty() else "")
 func refresh(owner):
  host=owner;position=Vector2.ZERO;size=host.size
+ var cue=host.hud.get_node_or_null("FirstSirenCue") if host.get("hud")!=null else null
+ note=cue.note_text() if cue!=null and host.screen=="mission" else ""
  update_state(host.sim,host.screen=="mission")
+ host.ocean.lock_card_source=int(rows[0].source) if not rows.is_empty() else -1
  var h=host.ui_touch_height
  var width=minf(size.x-32,h*UiStyle.LOCK_CARD_WIDTH)
  var tall=h*.85
@@ -80,9 +83,6 @@ func _draw():
  var font_size=_font_size(h)
  if rows.is_empty():
   draw_string(font,banner.position+Vector2(h*.9,h*.5),card_text,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size,warning)
-  if show_hint:
-   draw_string(font,banner.position+Vector2(12,h),"Break sight with cover.",HORIZONTAL_ALIGNMENT_LEFT,-1,font_size,Color.WHITE)
-   draw_string(font,banner.position+Vector2(12,h*1.35),"EMP or torpedo impact interrupts.",HORIZONTAL_ALIGNMENT_LEFT,-1,maxi(16,roundi(h*.21)),Color.WHITE)
   return
  draw_multiline_string(font,banner.position+Vector2(h*.9,h*.2+font.get_ascent(font_size)),card_text,HORIZONTAL_ALIGNMENT_LEFT,maxf(1.,banner.size.x-h*.9-12.),font_size,-1,Color.WHITE)
 func _panel()->StyleBoxFlat:
