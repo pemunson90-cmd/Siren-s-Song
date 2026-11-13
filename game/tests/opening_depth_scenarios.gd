@@ -85,9 +85,9 @@ static func reports(t):
  var moving=Sim.new();moving.start(0);moving.sirens=moving.sirens.slice(0,1)
  moving.units[0].pos=Vector2(760,650);moving.units[0].band=1
  moving.sirens[0].pos=Vector2(800,650);moving.sirens[0].band=1
- moving.sirens[0].transition={"to":2,"remaining":3.};moving.sirens[0].lock=4.5;moving.sirens[0].target=0
+ moving.sirens[0].transition={"to":2,"remaining":3.};moving.sirens[0].lock=moving.lock_seconds()+.5;moving.sirens[0].target=0
  tick(moving,.2)
- t.check(moving.outcome=="lost" and moving.hull==0 and moving.sirens[0].lock>4,"a visible shared-band target remains vulnerable while the enemy changes depth")
+ t.check(moving.outcome=="lost" and moving.hull==0 and moving.sirens[0].lock>moving.lock_seconds(),"a visible shared-band target remains vulnerable while the enemy changes depth")
 
 static func counterpolicies(t):
  # Matched source-known staged poses; ONLY pulse policy changes.

@@ -66,12 +66,13 @@ static func shutter_reach(sim)->Dictionary:
 static func lock_rows(sim)->Array:
 	if not Table.enabled or sim==null or not sim.outcome.is_empty():return []
 	var by_craft:Dictionary={}
+	var seconds:float=sim.lock_seconds()
 	for id in sim.contacts:
 		var c=sim.contacts[id];var target:int=int(c.get("target",-1));var age:float=sim.elapsed-float(c.time)
 		if age<0 or age>=Table.FRESH_AGE or target<0 or target>=sim.units.size() or c.get("recipient_target",false):continue
-		if not sim.units[target].alive or c.get("mode","")!="LOCKING" or c.get("lock",0)<=0 or c.lock>=Table.LOCK_SECONDS:continue
+		if not sim.units[target].alive or c.get("mode","")!="LOCKING" or c.get("lock",0)<=0 or c.lock>=seconds:continue
 		if Stun.remaining(c,sim.elapsed)>0 or not sim.Depth.sight(sim,c,sim.units[target]):continue
-		var remaining:float=Table.LOCK_SECONDS-float(c.lock)
+		var remaining:float=seconds-float(c.lock)
 		var row:Dictionary=by_craft.get(target,{})
 		var count:int=int(row.get("count",0))+1
 		if row.is_empty() or remaining<float(row.remaining):row={"craft":target,"source":int(id),"remaining":remaining,"siren_pos":c.pos}
@@ -85,7 +86,7 @@ static func lock_rows(sim)->Array:
 		var word:String=Table.SIREN_WORD if kind in Table.COARSE_KINDS else Table.ROLE_WORDS.get(kind,Table.SIREN_WORD)
 		row["sentence"]=Table.TEXT.lock_sentence%[word,Compass.point(row.bearing),str(sim.units[target].get("name","CRAFT")),row.remaining]
 		row["advice"]=Table.TEXT.lock_exit if target==0 else Table.TEXT.lock_exit_drone
-		row["progress"]=clampf(1.0-float(row.remaining)/Table.LOCK_SECONDS,0.0,1.0)
+		row["progress"]=clampf(1.0-float(row.remaining)/seconds,0.0,1.0)
 		result.append(row)
 	result.sort_custom(func(a,b):return a.craft<b.craft)
 	return result

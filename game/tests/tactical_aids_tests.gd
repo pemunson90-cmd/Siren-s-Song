@@ -75,6 +75,8 @@ func restored_aids():
  Settings.apply(Store.sanitize({"auto_pause_notice":true}));restored.sim.siren_notice.emit(0,Vector2.ZERO);next.observe()
  check(restored.sim.paused,"first new notice after a quiet restore still pauses")
 func run():
+ # This suite tests the accessibility settings alone; trial rules 4 and 5 (trial_rules.gd) are covered by trial_rules_tests.
+ preload("res://src/trial_rules.gd").override("PAUSE_ON_EVERY_LOCK",false);preload("res://src/trial_rules.gd").override("PAUSE_WHEN_BLOCKED",false)
  var previous=Settings.current.duplicate(true)
  for key in ["auto_pause_notice","auto_pause_lock","mirrored_hud"]:
   check(not Store.sanitize({})[key],"legacy default off: "+key)

@@ -319,7 +319,7 @@ func _process(dt: float) -> void:
 func acoustic_rows() -> Array:
 	return preload("res://src/presentation/acoustic_feedback.gd").rows(sim.acoustic_feedback()) if sim!=null else []
 func contact_entries() -> Array:
-	return preload("res://src/presentation/contact_feedback.gd").entries(sim.contacts,sim.elapsed,sim.units,sim.line_clear,sim.contact_target) if sim!=null else []
+	return preload("res://src/presentation/contact_feedback.gd").entries(sim.contacts,sim.elapsed,sim.units,sim.line_clear,sim.contact_target,sim.lock_seconds()) if sim!=null else []
 func contact_readout_entries(entries=null) -> Array:
 	return unstated_entries(entries).filter(func(entry):return not warnings_in_hud or not (entry.urgent or (entry.fresh and ("REPORT" in entry.text or "STUNNED" in entry.text))))
 func contact_readout_rects(listed=null) -> Array:
@@ -577,12 +577,12 @@ func _draw() -> void:
 			if not observed_target.is_empty() and observed_target.alive and sim.line_clear(c.pos,observed_target.pos):
 				var target:Vector2=observed_target.pos
 				var origin:Vector2=c.pos+Vector2.from_angle(aim)*62
-				if c.lock>=4:
+				if c.lock>=sim.lock_seconds():
 					draw_line(origin,target,Color(1,0.22,0.09,0.23),10)
 					draw_line(origin,target,Palette.chart_color("warning",Color("ff8a59")),3.5); draw_line(origin,target,Color("ffedc5"),1.2)
 					draw_arc(target,17+Palette.pulse(sin(phase*18)*5,0.),0,TAU,24,Palette.chart_color("warning",Color("ffbc83")),2)
 				else: _dash(origin,target,Palette.chart_color("warning",Color(1,0.37,0.24,0.32)),1.5)
-			draw_arc(c.pos,58,-PI/2,-PI/2+TAU*minf(1,c.lock/4),40,Palette.chart_color("warning",Color("fa7969")),3)
+			draw_arc(c.pos,58,-PI/2,-PI/2+TAU*minf(1,c.lock/sim.lock_seconds()),40,Palette.chart_color("warning",Color("fa7969")),3)
 	var acoustic=sim.acoustic_feedback()
 	for n in acoustic.responses:
 		if n.label=="FACTORY RESPONSE":

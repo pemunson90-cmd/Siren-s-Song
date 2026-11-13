@@ -17,6 +17,7 @@ const TEXT={
 	"tap_resume": "TAP TO RESUME",
 	"tap_pause": "TAP TO PAUSE",
 	"route_prompt": "ANSWER ROUTE PROMPT",
+	"close_to_resume": "CLOSE TO RESUME",
 	"join": " · ",
 	# A toggle segment names the action a tap performs (first line) and the state it is in now (small second line).
 	"silent_off": "GO SILENT",
@@ -49,6 +50,9 @@ const TEXT={
 	"paused_notice": "PAUSED: a Siren has noticed you",
 	"paused_lock": "PAUSED: a Siren is locking on",
 	"paused_route": "PAUSED: choose what to do with the route",
+	"paused_menu": "PAUSED: a menu is open",
+	"paused_route_end": "PAUSED: %s finished its route",
+	"paused_blocked": "PAUSED: rock blocks %s's route",
 	"route_end": "%s has stopped: its route is finished.",
 }
 # The status line for the route dialog's switch ("New points: the craft stops at each one." / "... keeps
@@ -56,6 +60,8 @@ const TEXT={
 # tactical_aids.gd words its own automatic pause "AUTO PAUSE: <reason>" in the status message.
 const AUTO_PAUSE_PREFIX="AUTO PAUSE: "
 const AUTO_PAUSE_REASONS={"FIRST NOTICE": "paused_notice", "LOCK WARNING": "paused_lock"}
+# The reason keys of presentation/auto_pause.gd, and the line each one shows. A %s takes the craft's name.
+const AUTO_PAUSE_KEYS={"notice": "paused_notice", "lock": "paused_lock", "route_end": "paused_route_end", "blocked": "paused_blocked"}
 # Seconds of dive time the "route finished" line stays on the status line.
 const ROUTE_END_SECONDS=8.0
 # A craft counts as moving above this speed (m/s) when its route runs out.
@@ -71,8 +77,9 @@ static func speeds(sim)->Dictionary:
 # The pause plate: state first, then what a tap does, then the oxygen reading when it fits.
 static func plate_state(held:bool)->String:
 	return TEXT.paused if held else TEXT.running
-static func plate_action(sim,dialog_open:bool)->String:
+static func plate_action(sim,dialog_open:bool,menu_open:bool=false)->String:
 	if dialog_open and not sim.paused:return TEXT.route_prompt
+	if menu_open and not sim.paused:return TEXT.close_to_resume
 	return TEXT.tap_resume if sim.paused else TEXT.tap_pause
 
 # The segments whose tap costs something that cannot be read before it lands: the first tap arms the segment and
@@ -131,12 +138,17 @@ static func point_row(number:int,goal:Dictionary,drone:bool)->String:
 	var modes:Dictionary=POINT_MODES_DRONE if drone else POINT_MODES
 	return POINT_ROW%[number,modes.get(str(goal.get("mode","inherit")),"same speed"),POINT_STOPS[bool(goal.get("stop",true))]]
 
+static func auto_pause_text(key:String,craft:String)->String:
+	var line:String=TEXT[AUTO_PAUSE_KEYS[key]]
+	return line%craft if "%s" in line else line
 # Why the dive is held, when something other than the player held it. Empty when the player paused,
 # or when the held state already shows a card that states its reason.
 static func pause_reason(host)->String:
 	var sim=host.sim
 	if host._order_dialog_open():return TEXT.paused_route
-	if not sim.paused:return ""
+	if not sim.paused:return TEXT.paused_menu if host._time_held() else ""
+	var automatic:String=host.tactical_aids.auto_pause.line(sim)
+	if not automatic.is_empty():return automatic
 	for key in AUTO_PAUSE_REASONS:
 		if sim.message==AUTO_PAUSE_PREFIX+key:return TEXT[AUTO_PAUSE_REASONS[key]]
 	return ""

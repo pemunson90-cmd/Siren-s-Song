@@ -24,6 +24,8 @@ func start(op: int) -> void:
 	game.hints_seen=[]; game._start_mission(op); await settle()
 	game.sim.paused=false
 func run() -> void:
+	# This suite tests the tutorial's own once-only pause; the trial pause rules are covered by trial_rules_tests.
+	for rule in ["PAUSE_ON_EVERY_LOCK","PAUSE_WHEN_BLOCKED","PAUSE_AT_ROUTE_END"]:preload("res://src/trial_rules.gd").override(rule,false)
 	root.size=Vector2i(1280,720); await process_frame; await process_frame
 	game=load("res://scenes/main.tscn").instantiate(); game.capture_scenario="runtime-test"; root.add_child(game)
 	await settle()

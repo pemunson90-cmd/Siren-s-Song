@@ -106,3 +106,18 @@ Every dive now starts on the player rules, in tests as in play. 137 test suites 
 | `hand_pilot_journeys`, `bare_contact_tests` (operations 17 and 30 only) | known charts | The careful scripted pilot is destroyed on the first legs when it has to discover the chart. | Can operations 17 (Silt Archive) and 30 be finished by hand on discovered charts? |
 | `calder_fleet_journey_tests` (retired) | drones start in the water | Its controller orders drone depths before a drone can be launched. | Nothing; test plumbing. |
 | `loadout_frames_tests` (power bus cost checks) | sonar cost | Quietus sonar is free on the player rules, which hides the cost these checks measure. | Nothing; the drone cost is still tested. |
+
+## Trial rules, 13 November 2026 (Pat: "Yes for testing")
+
+Six rules the prototype does not have, all on trial and put to Pat again after he has played. The table is `game/src/trial_rules.gd`; the constant in the last column switches each one back, and with it switched back the game behaves as before.
+
+| Rule | What it changes | Switch back |
+|---|---|---|
+| 1 | Dive time stands still while the wheel, a page, the status sheet, PAST PINGS, the contact card or FLEET is open (`sim.paused` is not changed). | `WHEEL_HOLDS_TIME=false` |
+| 2 | The first dive of the Campaign (operation 01; not Expedition, Career or Challenge) warns 6 seconds before a lock fires, not 4. Read through `sim.lock_seconds()`. | `FIRST_DIVE_LOCK_SECONDS=4.0` |
+| 3 | The game pauses when a moving craft reaches the end of its route (not ALL STOP, aboard, lost; intermediate stop points do not wait for the player). | `PAUSE_AT_ROUTE_END=false` |
+| 4 | The game pauses when a new Siren lock starts on any of the player's craft, whatever the accessibility setting says. | `PAUSE_ON_EVERY_LOCK=false` |
+| 5 | The game pauses once when rock blocks a craft's leg and it holds. | `PAUSE_WHEN_BLOCKED=false` |
+| 6 | An Expedition operation's rider starts switched off (Naval Career unchanged). | `EXPEDITION_RIDER_DEFAULT_ON=true` |
+
+Every automatic pause (these three and the accessibility aids) goes through `presentation/auto_pause.gd`.

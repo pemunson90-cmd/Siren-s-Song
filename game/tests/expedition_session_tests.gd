@@ -55,6 +55,7 @@ func run():
 		var begin=session.find_children("*","Button",true,false).filter(func(b):return b.get_meta("ui_action","")=="run_begin")
 		check(session.screen=="expedition_menu" and not session.recorded and not session.active_started and begin.size()==1,"NEXT clears the completed marker and exposes BEGIN for the next operation")
 		check(session.run_state==recovered and session.sim.mission.id==State.current_operation(recovered),"NEXT prepares the next operation while preserving recovered progress and supplies")
+		session.accept_rider=true # the rider starts off under trial rule 6; this check launches with it switched on, as a player may
 		if begin.size()==1:begin[0].emit_signal("pressed")
 		await settle()
 		var launched=State.launch(recovered,true)

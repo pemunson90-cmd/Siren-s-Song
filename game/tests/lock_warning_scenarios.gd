@@ -7,8 +7,9 @@ static func run(t):
  sim.contacts={0:c}
  var w=Warning.new()
  w.update_state(sim,true)
- t.check(w.visible and w.locks[0].remaining>3.9,"first lock observation starts the countdown")
- c.lock=3.9;w.update_state(sim,true)
+ # The first dive's lock is longer under trial rule 2: read the length from the simulation.
+ t.check(w.visible and w.locks[0].remaining>sim.lock_seconds()-.1,"first lock observation starts the countdown")
+ c.lock=sim.lock_seconds()-.1;w.update_state(sim,true)
  t.check(w.locks[0].remaining<.11 and w.episodes==1,"countdown advances without consuming extra hint episodes")
  for target in [-1,1,2]:
   c.target=target;t.check(Warning.frames(sim).is_empty(),"only a lock on Quietus starts the lethal warning")

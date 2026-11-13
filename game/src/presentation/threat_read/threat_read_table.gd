@@ -11,8 +11,7 @@ static var enabled=true
 
 # Settings key of the optional pause aid (validated in settings_store.gd).
 const SETTING="auto_pause_loss"
-# Mirrors simulation.gd: a Siren fires when its lock reaches 4 s.
-const LOCK_SECONDS=4.0
+# The lock length is not kept here: read sim.lock_seconds() (simulation.gd, trial_rules.gd).
 # Mirrors tactical_aids.gd / lock_warning.gd: a received contact older than this is not live.
 const FRESH_AGE=0.3
 # Mirrors photo_pricing_table.gd CONTACT_MAX_AGE: contacts older than this are not counted in shutter reach.

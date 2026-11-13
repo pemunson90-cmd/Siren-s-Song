@@ -18,7 +18,9 @@ var prior_mode=Node.PROCESS_MODE_INHERIT
 var prior_visibility:Array=[]
 var prior_sound_suspended=false
 var recorded=false
-var accept_rider=true
+# Trial rule 6 (trial_rules.gd): an Expedition operation's rider starts switched off; the player can switch it on.
+# Naval Career has its own variable (career_session.gd) and keeps accepting the rider by default.
+var accept_rider=TrialRules.expedition_rider_default_on()
 var snapshot_ready=false
 var save_failed=false
 var active_envelope:Dictionary={}

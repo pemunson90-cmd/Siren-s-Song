@@ -62,7 +62,7 @@ static func run(t):
  s.sirens[0].known_band=2;s.sirens[0].attention_time=10.;s.sirens[0].last_known=s.units[0].pos
  tick(s,1.)
  t.check(s.sirens[0].transition.get("to",-1)==2 and s.sirens[0].lock>0 and s.hull==100,"guard follows acquired depth and starts its shared-band warning before firing")
- tick(s,3.2)
+ tick(s,s.lock_seconds()-.8) # 3.2 s on the standard 4 s lock; the first dive's lock is longer (trial rule 2)
  t.check(s.outcome=="lost" and s.hull==0,"unbroken shared-band lock vaporizes during the depth pursuit")
  s=Sim.new();s.start(0)
  t.check(not Depth.clear(s,Vector2(560,480),Vector2(560,480),1,12) and Depth.clear(s,Vector2(560,480),Vector2(560,480),2,24),"authored deep passage passes beneath physically solid middle shelf")
