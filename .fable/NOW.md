@@ -1,13 +1,13 @@
 # NOW: what the root session is doing
 
 Status: LIVE NOTE (rewritten before every step; if a session died, this is the step it died in)
-Updated: 2026-11-13 16:51
+Updated: 2026-11-13 18:16
 
 **To resume after a context clear or a new session:** open this folder as the project and run `/siren-s-start-opus` (on an Opus model; `/siren-s-start-fable` is the same run on the Fable model). Read `.fable/PHASE9.md` first: it is the whole handoff. The `next_action` field in the state file always starts by sending the session to `.fable/HANDOFF.md` and to this file.
 
 ## Doing right now
 
-Resumed on Opus: reading the second full sweep
+Second sweep read: all 245 suites logged; only opening_depth_policy_ui_tests failing (stale planner tap; fix running). Third critic round (kit 37) ranked; WP-56, WP-57, WP-58 (helpers) and WP-59 (root) reviewed, ready to merge one at a time.
 
 ## In flight
 

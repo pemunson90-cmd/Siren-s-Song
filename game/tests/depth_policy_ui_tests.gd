@@ -78,14 +78,15 @@ func reveal(game,button):
    var drag=InputEventScreenDrag.new();drag.index=0;drag.position=point;drag.relative=point-previous;root.push_input(drag,true);previous=point;await process_frame
   touch=InputEventScreenTouch.new();touch.index=0;touch.position=finish;touch.pressed=false;root.push_input(touch,true);await settle()
  check(scroll.get_global_rect().encloses(button.get_global_rect()),"touch scrolling reveals "+str(button.get_meta("action","command")))
+# WP-35/WP-52: while a drone can be deployed or recalled that segment takes PLAN ROUTE's place on the main page;
+# PLAN ROUTE is then reached under ROUTE, as a player reaches it. Child suites open the planner through this too.
+func open_program(g):
+ if not g.order_buttons.program.is_visible_in_tree():await click(g.mission_hud.extra.route_menu)
+ await click(g.order_buttons.program)
 func plot(g,id,point):
  # FIT can overlap intended water with a craft's touch handle. The existing
  # paused planner exposes that same public route geometry through ordinary input.
- await craft(g,id)
- # WP-35/WP-52: while a drone can be deployed or recalled that segment takes PLAN ROUTE's place on the main page;
- # PLAN ROUTE is then reached under ROUTE, as a player reaches it.
- if not g.order_buttons.program.is_visible_in_tree():await click(g.mission_hud.extra.route_menu)
- await click(g.order_buttons.program)
+ await craft(g,id);await open_program(g)
  check(g.route_editor.visible,"public ROUTE PROGRAM action opens the physical planner")
  await preview_point(g,point)
  var goals=g.sim.route_goals(id)

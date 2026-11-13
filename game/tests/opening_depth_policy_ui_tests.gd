@@ -2,7 +2,7 @@ extends "res://tests/depth_policy_ui_tests.gd"
 # Source-known complete opening1–5 journeys. Commands enter through viewport
 # touch plus emulated releases; only simulation time is accelerated.
 func mode(g,wanted):
- await craft(g,g.sim.selected);await click(g.order_buttons.program)
+ await craft(g,g.sim.selected);await open_program(g)
  var panel=g.route_editor
  for n in 3:
   if g.sim.route_goals()[0].mode==wanted:break
@@ -37,7 +37,7 @@ func take(g,id,target):
 
  check(g.sim.mission.objectives[target].captured,"actual local input retains required record")
 func append_goals(g,id,points):
- await plot(g,id,points[0]);await craft(g,id);await click(g.order_buttons.program)
+ await plot(g,id,points[0]);await craft(g,id);await open_program(g)
  var panel=g.route_editor
  for point in points.slice(1):
   for button in panel.find_children("*","Button",true,false):
