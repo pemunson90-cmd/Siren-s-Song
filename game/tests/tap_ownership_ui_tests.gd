@@ -126,7 +126,8 @@ func opened(g,how:String)->void:
 		"history":
 			await click(g.mission_hud.extra.depth_menu);await click(g.mission_hud.extra.sonar_history)
 		"silent":
-			await click(g.order_buttons.silent)
+			# WP-52: the first tap arms SILENT and shows its cost; the second performs it (and closes the wheel).
+			await click(g.order_buttons.silent);await click(g.order_buttons.silent)
 # Open-water screen points clear of the open surface: outside its sheet, wheel, dock and every craft.
 func outside_spots(g)->Array:
 	var hud=g.mission_hud;var found=[]
@@ -169,5 +170,7 @@ func closing_tap_checks(g)->void:
 			check(g.sim.route_goals().is_empty() and g.sim.units[1].route.is_empty() and g.sim.units[2].route.is_empty(),tag+": the closing tap orders no route")
 			check(g.sim.hull==hull and g.sim.selected==0 and g.sim.snapshot()["units"]==snap["units"] or how=="silent",tag+": nothing else changed")
 			await tap(spot)
+			# WP-52: a leg across charted rock waits for a second tap on its marker; the player taps it again.
+			if g.sim.route_goals().is_empty() and not g.mission_hud.guard.pending.is_empty():await tap(spot)
 			check(g.sim.route_goals().size()==1,tag+": the next tap orders as usual")
 			index+=1
