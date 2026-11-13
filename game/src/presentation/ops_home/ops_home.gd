@@ -192,8 +192,9 @@ static func arrange(host)->void:
   title.custom_minimum_size=Vector2(maxf(title.custom_minimum_size.x,host.ui_touch_height*3.),title.custom_minimum_size.y)
  cont.add_child(top);cont.move_child(top,0)
  if branch!=null:cont.move_child(branch,1)
- # "Resuming keeps this dive's equipment..." speaks of a dive in progress: it shows only beside RESUME.
- if hint!=null:hint.reparent(cont);hint.visible=resume!=null
+ # "Resuming keeps this dive's equipment..." speaks of a dive in progress: it is read only beside RESUME. Without a
+ # dive it keeps its space (so RESUME appearing never moves the rows) but is not drawn.
+ if hint!=null:hint.reparent(cont);hint.modulate.a=1.0 if resume!=null else 0.0
  # --- Prepare and review ---
  var prep=column();prep.add_child(heading(host,"PREPARE AND REVIEW"))
  var column_width=(host.size.x-Metrics.MENU_MARGIN-Metrics.MENU_PANEL_PADDING-Metrics.MENU_COLUMN_GAP)/2. if wide else Metrics.menu_width(host.size,false)-Metrics.MENU_PANEL_PADDING
