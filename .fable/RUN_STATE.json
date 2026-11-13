@@ -2,11 +2,11 @@
   "run_id": "overhaul-20261111",
   "status": "RUNNING",
   "phase": "8-ux-audit",
-  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: Full GitHub matrix 43349293662 is running on the run branch at 395c1b2a (review fixes included); read it when it finishes and fix anything red. In parallel: the UI and UX audit (Pat, 2026-11-12). Method: capture the real screens (GitHub render captures or local headless captures of menu, briefing, dive HUD cover and inner screens, tactical pause, route editor, fleet, camera, debrief, Career, Expedition, Challenges, settings), have two or three cheap fresh agents each walk a different area (first-time player flow and wording; dive HUD and controls; menus and modes), root merges into .fable/UX_AUDIT.md as a plain-English ranked list with a yes/no recommendation per item (include A9 and the Sorley brief wording). No repairs before Pat answers, except plain defects (overlap, clipped text, dead buttons) which are fixed as found.",
+  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: Order now (Pat: GitHub allowance spent, test local, do the work yourself): (1) Test trim: .fable/TEST_TRIM.md is PROPOSED (39 everyday, 99 module guards, 252 retired, 4 tools); wait for Pat's yes, then move the retired suite files and their suites.txt rows to _scrap-20261111/tests-retired/, fix check-suites and the selector, run the everyday set locally. (2) UI and UX audit: critic B (menus) has reported; critics A and C still playing in kit fable-critic7-20261112; when all three are in, root writes .fable/UX_AUDIT.md (ranked plain-English list, yes/no per item, include A9, Sorley brief wording, DEVELOPER button, no confirm on Expedition END DIVE). (3) Repairs after Pat's answers, tested locally only. No GitHub runs; every push carries [skip ci]. GitHub run 43349293662 was left to finish; read its result once.",
   "base_ref": "origin/claude/integration",
   "base_sha": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
   "run_branch": "fable/overhaul-20261111",
-  "run_head": "3cf92378fd0d962a5a443f5e91e4dfdf9f74eac9",
+  "run_head": "825f579943a8f5918376eadb0f898826382dac3f",
   "shared_tips": {
     "claude/integration": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
     "main": "f5b66a198e3878950325f8c45a0bc6bc29dcba84",
@@ -48,5 +48,5 @@
   },
   "decisions_open": 0,
   "last_checkpoint": "A5: core green under the player rules on wp-23-player-rules; enumeration run 43301827177 in progress",
-  "updated": "2026-11-12 21:11:22"
+  "updated": "2026-11-12 21:15:03"
 }
