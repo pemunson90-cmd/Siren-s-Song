@@ -6,8 +6,8 @@ extends Control
 # again also replaces. Main holds dive time while this dialog is open.
 const UiStyle := preload("res://src/presentation/ui_style.gd")
 const UNDO_MS := 10000
-# C8: one line for the switch; ON stops at each added point, OFF keeps moving through it.
-const POINTS_TEXT := "STOP AT EACH NEW POINT"
+# C8: the switch stays on one line and names its state; ON stops at each added point, OFF keeps moving through it.
+const POINTS_TEXT := "STOP AT EACH NEW POINT · %s"
 var host
 var pending := {}
 var undo := {}
@@ -27,7 +27,7 @@ func setup(owner) -> void:
 	var row := HFlowContainer.new(); row.add_theme_constant_override("h_separation", 8); row.add_theme_constant_override("v_separation", 8); box.add_child(row)
 	go_button = _button(row, "REPLACE ROUTE", func(): confirm(false), "order_go")
 	add_button = _button(row, "ADD TO ROUTE", func(): confirm(true), "order_add")
-	points_button = _button(row, POINTS_TEXT, func(): host._order("waypoint_mode"), "order_points", CheckButton.new())
+	points_button = _button(row, POINTS_TEXT % "ON", func(): host._order("waypoint_mode"), "order_points", CheckButton.new())
 	cancel_button = _button(row, "CANCEL", cancel, "order_cancel")
 	undo_button = _button(self, "UNDO", do_undo, "order_undo")
 	var chip := StyleBoxFlat.new(); chip.bg_color = Color(.018, .055, .075, .94); chip.border_color = Color("6bd5cb"); chip.set_border_width_all(1); chip.set_corner_radius_all(6)
@@ -121,12 +121,12 @@ func refresh(bounds: Vector2, h: float, font: int, floor_y: float) -> void:
 		# ADD and its pass/stop choice exist only when there is a route to add to.
 		var can_add: bool = stops > 0 and not sim.units[sim.selected].route.is_empty()
 		add_button.visible = can_add; add_button.disabled = not can_add; points_button.visible = can_add
-		points_button.set_pressed_no_signal(not sim.pass_through)
+		points_button.set_pressed_no_signal(not sim.pass_through); points_button.text = POINTS_TEXT % ("OFF" if sim.pass_through else "ON"); points_button.autowrap_mode = TextServer.AUTOWRAP_OFF
 		for b in [go_button, add_button, points_button, cancel_button, prompt]:
 			b.add_theme_font_size_override("font_size", font)
 			if b is Button:
 				var widest := 0.0
-				for word in b.text.split(" ", false): widest = maxf(widest, b.get_theme_font("font").get_string_size(word, HORIZONTAL_ALIGNMENT_LEFT, -1, font).x)
+				for word in ([b.text] if b is CheckButton else b.text.split(" ", false)): widest = maxf(widest, b.get_theme_font("font").get_string_size(word, HORIZONTAL_ALIGNMENT_LEFT, -1, font).x)
 				var mark: float = b.get_theme_icon("checked").get_width() + b.get_theme_constant("h_separation") if b is CheckButton else 0.0
 				b.custom_minimum_size = Vector2(maxf(h * 1.55, widest + mark + b.get_theme_stylebox("normal").get_minimum_size().x + 2), h)
 		panel.custom_minimum_size = Vector2(width, 0); panel.reset_size()
