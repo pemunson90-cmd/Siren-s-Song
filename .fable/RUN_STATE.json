@@ -2,11 +2,11 @@
   "run_id": "overhaul-20261111",
   "status": "RUNNING",
   "phase": "8-audit",
-  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: A7 part 2 (WP-26): archive core. career_archive.gd and run_archive.gd are about 85 percent the same (_available, restore, persist, host meta keys); extract campaign/mode_archive.gd parametrized by prefix, suffix, payload key and notices; Career first, then Runs; records code stays in run_archive.gd; rule differences stay (runs converts a finished unrecorded run to a loss, career does not). Checks: mode_resume_tests, expedition_runs_tests, run_records_tests, career_tests, save_profiles_transfer_tests (use a fresh -UserDataRoot per run: career_tests fails on a stale isolated root). Then A8 next step (input routing out of main.gd). Known test-isolation flaw to fix: -Isolate reuses the isolated user-data folder.",
+  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: Two implementers running: WP-26 (A7 part 2, archive core, branch wp-26 from 638f704e) and WP-27 (A8 step 2, input routing out of main.gd into presentation/dive_input.gd, branch wp-27 from 56afd1dd). When each reports: root reviews the diff, merges into the run branch, adds a FINAL_REPORT row and MODULES row. Then A8 step 3 (archive/save functions of main.gd, lines about 672 to 754) and step 4 (evidence gallery and UI metrics), then A2 part 2 once a single refresh point exists.",
   "base_ref": "origin/claude/integration",
   "base_sha": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
   "run_branch": "fable/overhaul-20261111",
-  "run_head": "653939b42385ffa495891f52d1ed100fe8d59300",
+  "run_head": "56afd1ddbe298ea72f7ade8899e21b66d276b00e",
   "shared_tips": {
     "claude/integration": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
     "main": "f5b66a198e3878950325f8c45a0bc6bc29dcba84",
@@ -41,9 +41,10 @@
     "WP-23": "merged",
     "WP-24": "building",
     "WP-25": "merged",
-    "WP-26": "building"
+    "WP-26": "building",
+    "WP-27": "building"
   },
   "decisions_open": 0,
   "last_checkpoint": "A5: core green under the player rules on wp-23-player-rules; enumeration run 43301827177 in progress",
-  "updated": "2026-11-12 19:59:30"
+  "updated": "2026-11-12 20:02:49"
 }
