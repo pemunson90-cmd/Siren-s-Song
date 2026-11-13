@@ -3,8 +3,13 @@ extends "res://tests/fix2_menu_ui_tests.gd"
 const Prefs=preload("res://src/presentation/frontend/frontend_settings.gd")
 const HomeTable=preload("res://src/presentation/ops_home/ops_home_table.gd")
 const OperationCatalog=preload("res://src/campaign/operation_catalog.gd")
+const Metrics=preload("res://src/presentation/layout_metrics.gd")
 var case_label=""
 func check(ok,label):super.check(ok,label+" "+case_label)
+# Across the panel and inside the safe area (rows may sit below the visible scroll window; only the width is judged).
+func inside_panel(game,control):
+ var rect=control.get_global_rect();var panel=game.menu.get_global_rect();var safe=game.get_global_rect()
+ return rect.position.x>=panel.position.x and rect.end.x<=panel.end.x and rect.position.x>=safe.position.x and rect.end.x<=safe.end.x
 func home_case(shape, recovered, scale):
  case_label=str([shape,recovered,scale])
  root.size=shape;await settle()
@@ -26,17 +31,41 @@ func home_case(shape, recovered, scale):
  check(next!=null,"next operation exists "+str([shape,recovered]))
  if next!=null:
   check(game.scroll.get_global_rect().encloses(next.get_global_rect()),"next operation requires no scrolling")
-  check(next.size.y>=game.ui_touch_height,"next operation touch height")
+  check(next.size.y>=Metrics.dense_height(game.ui_touch_height)-1.,"next operation touch height (48dp row)")
+ var wide_shape=shape!=Vector2i(2184,1968)
+ check(game.get_meta("hub_wide",false)==wide_shape,"landscape shapes use two columns, the tall inner screen one")
+ check(wide_shape==game.panel_box.get_children().any(func(n):return n is HBoxContainer and n.get_child_count()==2 and n.get_child(0) is VBoxContainer and n.get_child(1) is VBoxContainer),"the hub builds a column pair only when wide")
+ # Shortcuts sit below Operations in one column; with two columns they are on the first screen.
  for id in ["route_map","fittings"]:
   var b=button(game,id)
-  check(b!=null and game.scroll.get_global_rect().encloses(b.get_global_rect()),id+" fits the first screen")
+  check(b!=null and (game.scroll.get_global_rect().encloses(b.get_global_rect()) or not wide_shape),id+" fits the first screen when wide")
+  check(b!=null and inside_panel(game,b),id+" is inside the panel")
+ # Two columns: the first arc's six operations are all on the first screen without scrolling at every wide shape.
+ if wide_shape and recovered in [0,2] and scale==1.:
+  for i in range(mini(recovered,6),6):
+   var visible_card=button(game,"mission%d"%i)
+   check(visible_card!=null and game.scroll.get_global_rect().encloses(visible_card.get_global_rect()),"operation card %d needs no scrolling on the wide hub"%i)
+ # On the plain desktop landscape shape the whole two-column hub fits one screen.
+ if shape==Vector2i(960,432) and recovered==2 and scale==1.:check(game.scroll.get_v_scroll_bar().max_value<=game.scroll.size.y+1.,"two-column hub needs no vertical scrolling at all on the desktop landscape shape")
+ if recovered<=2:
+  for i in 6:
+   var card=button(game,"mission%d"%i)
+   check(card!=null and inside_panel(game,card),"operation card %d lies inside the panel and the safe area"%i)
+ var main_buttons=game.panel_box.find_children("*","Button",true,false).filter(func(c):return c.is_visible_in_tree() and c.get_meta("ui_role","")=="MAIN")
+ check(main_buttons.size()==1,"the hub has exactly one MAIN button: "+str(main_buttons.map(func(c):return c.get_meta("ui_action",""))))
+ if recovered==0:
+  var locked=button(game,"mission1")
+  var reason=locked.get_parent().find_children("*","Label",true,false).filter(func(l):return l.text.begins_with("Recover"))
+  check(locked.disabled and reason.size()==1 and reason[0].text=="Recover 01 Shelf Signal first","a locked card states why it is locked")
+  var before_screen=game.screen
+  await press(game,"mission1");check(game.screen==before_screen,"tapping a locked card does nothing")
  var capture=OS.get_environment("SIRENS_038_CAPTURE_DIR")
  if recovered in [0,16,32,OperationCatalog.registered_ids().size()] and scale==1.5 and not capture.is_empty() and DisplayServer.get_name()!="headless":
   await RenderingServer.frame_post_draw
   check(root.get_texture().get_image().save_png(capture+"/home-%02d-%dx%d.png"%[recovered,shape.x,shape.y])==OK,"native large-text home captured")
  check(button(game,"new_campaign")==null,"erase is absent from Operations")
  for control in game.panel_box.find_children("*","Button",true,false):
-  check(control.size.x>=game.ui_touch_height and control.size.y>=game.ui_touch_height,"all home buttons retain touch bounds even while folded")
+  check(control.size.x>=game.ui_touch_height and control.size.y>=Metrics.dense_height(game.ui_touch_height)-1.,"all home buttons retain 48dp touch bounds even while folded")
  var fold=button(game,"recovered_fold")
  var shown_recovered=mini(recovered,6)
  for id in game.ExpeditionCampaign.available(game.completed,game.expedition):
@@ -55,7 +84,8 @@ func home_case(shape, recovered, scale):
  check(button(game,"resume")!=null,"active dive offers resume")
  if not button(game,"fittings").get_global_rect().position.is_equal_approx(anchor):
   print("HOME_RESUME_DIAG ",case_label," before=",anchor," after=",button(game,"fittings").get_global_rect()," scroll=",game.scroll.scroll_vertical," panel=",game.panel_box.size," bar=",game.scroll.get_v_scroll_bar().visible)
- check(button(game,"fittings").get_global_rect().position.is_equal_approx(anchor),"resume preserves row positions")
+ # Two columns may share the extra width a little differently once Resume is present; rows must not move vertically.
+ check(is_equal_approx(button(game,"fittings").get_global_rect().position.y,anchor.y) and absf(button(game,"fittings").get_global_rect().position.x-anchor.x)<=8.,"resume preserves row positions")
  if recovered==OperationCatalog.registered_ids().size() and shape==Vector2i(2520,1080):check(game.panel_box.size.y/game.scroll.size.y<3.,"all recovered home is under three screens")
  if recovered==0:
   await press(game,"next_operation");check(game.screen=="briefing" and game.get_meta("onboard2_fit_index",-1)==0,"next opens first available briefing by touch")

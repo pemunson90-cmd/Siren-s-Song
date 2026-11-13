@@ -238,11 +238,14 @@ func _layout(cancel_gesture:bool=true) -> void:
 		mission_hud.layout(size,h);mission_row_heights=_measured_mission_rows()
 		ocean.ui_blocked_rects=mission_hud.occupied_rects().map(func(r):return Rect2(r.position-ocean.global_position,r.size))
 	if menu!=null:
-		menu.position=Vector2(maxf(24,(size.x-800)/2),24); menu.size=Vector2(minf(800,size.x-48),size.y-48)
+		# A turned or resized screen rebuilds the hub when its one-or-two column choice changes.
+		if screen in ["menu","briefing"] and has_meta("hub_wide") and get_meta("hub_wide")!=preload("res://src/presentation/layout_metrics.gd").hub_wide(size,h): call_deferred("_show_campaign" if screen=="menu" else "_briefing",int(get_meta("onboard2_fit_index",0)))
+		var panel_width=preload("res://src/presentation/layout_metrics.gd").menu_width(size,get_meta("hub_wide",false))
+		menu.position=Vector2(maxf(24,(size.x-panel_width)/2),24); menu.size=Vector2(panel_width,size.y-48)
 		if screen=="reference" and get_meta("launch_costs_open",false):menu.position=Vector2(16,16);menu.size=size-Vector2(32,32)
 		if archive_status_text!=null:archive_status_text.add_theme_font_size_override("font_size",maxi(17,roundi(h*.26*FrontendSettings.text_scale())))
 		for button in menu.find_children("*","Button",true,false):
-			button.custom_minimum_size.y=h; button.add_theme_font_size_override("font_size",maxi(17,roundi(h*0.29*FrontendSettings.text_scale())))
+			button.custom_minimum_size.y=preload("res://src/presentation/layout_metrics.gd").dense_height(h) if button.has_meta("dense_height") else h; button.add_theme_font_size_override("font_size",maxi(17,roundi(h*0.29*FrontendSettings.text_scale())))
 		for slider in menu.find_children("*","Slider",true,false): slider.custom_minimum_size.y=h
 	if route_editor!=null and route_editor.visible: route_editor.configure(size,h)
 	if debug_console!=null:debug_console.badge_layout_key=0
@@ -468,6 +471,7 @@ func _view_changed() -> void:DiveInput.view_changed(self)
 func _unhandled_key_input(event: InputEvent) -> void:DiveInput.unhandled_key(self,event)
 func _clear_menu() -> void:
 	set_meta("launch_costs_open",false)
+	if has_meta("hub_wide"):remove_meta("hub_wide") # only the campaign hub sets it, once it is built
 	preload("res://src/presentation/arcs/arc_card.gd").back(self)
 	var resolution=get_node_or_null("ConfluenceResolution")
 	if resolution!=null:remove_child(resolution);resolution.queue_free()
@@ -666,7 +670,8 @@ func _report_targets() -> void:
 		for child in get_node("ConfluenceResolution").actions.get_children():
 			if child is Button and child.has_meta("action"):buttons[child.get_meta("action")]=child
 	else:
-		for child in panel_box.get_children()+menu_footer.get_children():
+		# Buttons inside hub columns, grids and cards sit below panel_box's own children; report the visible ones too.
+		for child in panel_box.get_children()+menu_footer.get_children()+panel_box.find_children("*","Button",true,false).filter(func(b):return b.is_visible_in_tree()):
 			if child is Button and child.has_meta("action"): buttons[child.get_meta("action")]=child
 	_emit_ui_metrics(_ui_metrics(capture_phase))
 	for key in buttons:

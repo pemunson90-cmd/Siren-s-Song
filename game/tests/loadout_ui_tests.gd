@@ -49,10 +49,10 @@ func run():
 		if not game.get_meta("ops_home_details_open",false):await click(button("launch_details"))
 		check(game.upgrade==choice,"genuine cycle input reaches "+choice)
 		var text=copy();var expected=stock(starts[choice])
-		check("NEXT DIVE / RETRY" in text and preload("res://src/equipment/field_tools.gd").loadout_label(choice) in text and expected in text,"selected "+choice+" starting stock is advertised before launch")
+		check("Loadout:" in text and preload("res://src/equipment/field_tools.gd").loadout_label(choice) in text and expected in text,"selected "+choice+" starting stock is advertised before launch")
 		for option in starts:
-			var s=starts[option];var row="%s · %d%% / %d / %d"%[preload("res://src/equipment/field_tools.gd").loadout_label(option),s.oxygen,s.tools.emp,s.tools.recon]
-			check("O₂ / EMP / SURVEY" in text and row in text,"comparison exposes actual "+option+" stock while "+choice+" selected")
+			var s=starts[option];var row="%s: O₂ %d%%, EMP %d, SURVEY %d"%[preload("res://src/equipment/field_tools.gd").loadout_label(option),s.oxygen,s.tools.emp,s.tools.recon]
+			check("COMPARE STOCK" in text and row in text,"comparison exposes actual "+option+" stock while "+choice+" selected")
 		var ordinary=starts[choice];var drones=ordinary.units.slice(1).filter(func(u):return u.alive or PlayerDive.Bay.aboard(u)).size() # drones aboard Quietus count: they are launched from it
 		check("TOOLS:" in text and ("%d DECOYS"%ordinary.tools.decoy) in text and ("%d DRONES"%drones) in text,"common equipment matches actual start while "+choice+" selected")
 		check(button("resume")!=null and button("resume").text.begins_with("RESUME DIVE") and game.sim.snapshot()==active,"selection explains active equipment preservation")
@@ -81,7 +81,7 @@ func run():
 		await settle()
 		check(game.get_node_or_null("ArcCard")==null,"real touch dismisses arc entry before launch stock checks")
 	var fresh=load("res://src/simulation/simulation.gd").new();fresh.start(0,"survey")
-	check("NEXT DIVE / RETRY" in copy() and "SURVEY" in copy() and stock(fresh) in copy(),"prelaunch briefing confirms the selected stock")
+	check("Loadout:" in copy() and "SURVEY" in copy() and stock(fresh) in copy(),"prelaunch briefing confirms the selected stock")
 	await click(button("begin"))
 	# Item 142: the live dive from the resume check above makes this launch ask first; answer ABANDON.
 	if game.screen=="launch_guard":await click(button("launch_guard_abandon"))
@@ -96,9 +96,16 @@ func run():
 		dense.scroll.scroll_vertical=100000;await settle()
 		var area=dense.scroll.get_global_rect();var selected=false;var comparison=false
 		for c in dense.panel_box.find_children("*","Control",true,false):
-			if c is Label and c.text.begins_with("NEXT DIVE / RETRY"):selected=area.encloses(c.get_global_rect())
-			if c is Label and c.text.begins_with("COMPARE:"):comparison=area.encloses(c.get_global_rect())
+			if c is Label and c.text.begins_with("Loadout:"):selected=area.encloses(c.get_global_rect())
+			if c is Label and c.text.begins_with("COMPARE STOCK"):comparison=area.encloses(c.get_global_rect())
 			if c is Button and c.get_meta("action","") in ["loadout","settings"]:check(area.encloses(c.get_global_rect()),"%s scrolled selector keeps %s reachable"%[dimensions,c.get_meta("action")])
+		# The two-column cover hub shows the opened details beside the other groups: the stock lines need not share
+		# the bottom scroll position with the selector, but must be readable together by scrolling to them.
+		if dimensions.x==2520 and not (selected and comparison):
+			for c in dense.panel_box.find_children("*","Label",true,false):
+				if c.text.begins_with("Loadout:"):dense.scroll.ensure_control_visible(c);await settle();selected=area.encloses(c.get_global_rect())
+			for c in dense.panel_box.find_children("*","Label",true,false):
+				if c.text.begins_with("COMPARE STOCK"):dense.scroll.ensure_control_visible(c);await settle();comparison=area.encloses(c.get_global_rect())
 		check(selected,"%s selected next-dive stock fits with bottom selector"%dimensions)
 		check(comparison,"%s all three comparison rows fit together"%dimensions)
 		dense.queue_free();await settle()

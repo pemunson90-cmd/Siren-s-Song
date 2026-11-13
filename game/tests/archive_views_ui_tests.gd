@@ -20,9 +20,9 @@ func shape_case(shape):
  game.photo_records={"3:0":{"photo_quality":0.8,"photo_craft":0,"photo_distance":60.0}}
  game._show_campaign();await settle()
  var entry=button(game,"archive")
- check(entry!=null and entry.size.y>=game.ui_touch_height,"Operations offers a full-height RESEARCH / ARCHIVE entry")
+ check(entry!=null and entry.size.y>=preload("res://src/presentation/layout_metrics.gd").dense_height(game.ui_touch_height)-1.,"Operations offers a 48dp FIELD RECORDS entry")
  var dossier_home=button(game,"siren_dossier")
- check(dossier_home!=null and dossier_home.size.y>=game.ui_touch_height,"Operations offers a full-height Siren dossier entry")
+ check(dossier_home!=null and dossier_home.size.y>=preload("res://src/presentation/layout_metrics.gd").dense_height(game.ui_touch_height)-1.,"Operations offers a 48dp Siren dossier entry")
  check(dossier_home!=null and game.scroll.get_global_rect().encloses(dossier_home.get_global_rect()),"Operations dossier entry remains visible in the scroll viewport")
  check(button(game,"next_operation")!=null and game.scroll.get_global_rect().encloses(button(game,"next_operation").get_global_rect()),"entry leaves the next operation on the first screen")
  await press(game,"siren_dossier");check(game.screen=="siren_dossier","Operations dossier entry opens the read-only dossier")
