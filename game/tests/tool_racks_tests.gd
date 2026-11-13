@@ -134,7 +134,17 @@ func shape_case(shape):
  var label=str(shape.x)
  var text=""
  for row in game.panel_box.find_children("*","Label",true,false):text+=row.text+"\n"
- check(RackView.summary(game) in text and text.count(" LOCKER ")==3 and "CARGO " in text and "SPACE EACH (LOCKER FIRST)" in text,"both viewports show separate locker and cargo used/left "+label)
+ var carry=RackView.carry_text(game.tool_racks)
+ check(carry in text and "carries" in carry and not " 0 " in carry and not "SPACE EACH" in text and not "LOCKER SPACE" in text,"carry sentences replace the spreadsheet rows "+label)
+ var bars=game.panel_box.find_children("*","Control",true,false).filter(func(n):return n.has_meta("bar_label"))
+ var locker_bars=bars.filter(func(n):return n.get_meta("bar_label")=="LOCKER")
+ check(locker_bars.size()==3 and bars.size()==6,"one locker bar and one cargo bar per craft "+label)
+ for unit in 3:
+  if locker_bars.size()>unit:check(is_equal_approx(locker_bars[unit].fraction(),float(Racks.locker_used_ticks(game.tool_racks,unit))/float(Racks.locker_ticks(unit))),"locker bar drawn fraction equals held over locker "+str(unit)+" "+label)
+ for id in Tools.ids():
+  if id in Tools.field_ids() and not Tools.is_enabled(id):continue
+  check(button(game,"rack_add_"+id)!=null and button(game,"rack_remove_"+id)!=null and (button(game,"rack_add_"+id).text==" +" or button(game,"rack_add_"+id).text=="+") and button(game,"rack_add_"+id).size.x>=game.ui_touch_height-.5,"tool row has one minus and one plus at touch size "+id+" "+label)
+ check(not "LOAD +1" in text and "TOOLS FOR THE NEXT DIVE" in text and "QUICK FILL" in text,"plain headings "+label)
  check(button(game,"rack_empty")!=null and button(game,"rack_add_emp").size.y>=game.ui_touch_height-.5,"rack controls keep touch size "+label)
  if await press(game,"rack_craft_drone_a"):
   check(button(game,"rack_add_knock")==null and button(game,"rack_add_hull_patch")==null,"unsupported tools absent from drone UI "+label)
