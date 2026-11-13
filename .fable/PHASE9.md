@@ -115,7 +115,21 @@ Three Sonnet critics: A first session on cover (operation 1 three times, never e
 
 Not defects: the DEVELOPER button (debug builds only); which operation an Expedition starts on (seeded, Pat's rule); a route across charted rock is warned and allowed (hand piloting, Pat's rule).
 
+## Second blind critic round of 13 November (kit `fable-critic33-20261113`, head f94858f0): ranking
+
+Built since the first round: WP-45 to WP-50 (rows 76 to 80). Critic A finished operation 1 this time (drone scout, photograph, EMP on a lock at 0.7 s, extraction by the EXTRACTION label); B covered the menus on inner; C lost two loud dives and tried an Expedition. Confirmed fixed: a closing tap gives no order; the lock warning names the craft, the direction and the seconds; the loss screen says where the Siren was; the retry briefing states carried damage; the Field Manual is read and used.
+
+1. **The warning moment is cluttered (A I1, I2; C F2, F3).** The same lock is stated four times (top-left banner, card, tag at the craft, number on the line); up to three tip cards arrive in a row, each needing its own tap, and a card that moves let a tap fall through onto the chart; the camera panel opens by itself and covers a third of the screen; chart labels overlap the Siren. WP-51.
+2. **A lock on a second craft, or a later lock, does not pause (A L2, C F1).** Presentation cannot fix it: Pat's rule (question below).
+3. **Wheel segments act on one tap and some names state the state, not the action (A I3, I7; C F4, F8, F9).** SILENT IS ON turns silent off at once; a drone's LOW PROFILE likewise; PING SONAR looks greyed but fires; "ALL STOP costs 1.0% O₂ · 6s to restart" overflows; segments move between states. WP-52.
+4. **The inner screen is wasted and Fittings gives no feedback near the control (B F1, F4, F7, F8).** One 1255 px column on a 2184 px screen; the bars scroll away while tool counts change; seven preparation entries with overlapping names. WP-53.
+5. **Routes through rock (A I5, C F7).** The EXTRACTION tap draws a straight red line through rock and it is accepted; a blocked craft holds for 25 s with no pause. A second tap to confirm a red route is presentation (WP-52); pausing when blocked is Pat's rule.
+6. **A grade C photograph ends the job with no word on what a better frame adds; the photograph is lost with the dive (A G3, C F11).** A result line is presentation (WP-54, later); keeping photographs is Pat's rule and already ruled (Accessible only).
+7. **Route Map reads as a developer tool (B F9)**; Career says "separate resources" and shows the Campaign's balance, and does not say how standing is gained (B F10); Expedition rider is ON by default (C F15, B F11: Pat's rule); "PHOTOGRAPHS" breaks across lines on its manual tab (B F2); greyed UNLOCK buttons on Supplies give no reason (B F6); tool rows do not say what a tool does (B F12); Hunt meter moves with no explanation (C F12); long unattended legs (A G4, C); no FIT button in the dive (A X1); status jargon "TO 1: INHERIT / STOP" (C F10); "PASSES QUIETUS" in warning red (A I4).
+
 ## Open for Pat (do not decide these)
+
+- **From the second critic round (yes or no each):** should the game pause on every new Siren lock, on any craft (today only the first notice pauses); should a craft that is blocked by rock pause the game; should an Expedition's optional rider start switched off.
 
 - **From the critic round of 13 November (yes or no each):** should an open command wheel or panel hold dive time; should the first dive give a longer warning before a Siren's lock kills; should the game pause itself when a route ends.
 
