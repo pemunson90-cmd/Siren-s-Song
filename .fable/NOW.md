@@ -1,13 +1,13 @@
 # NOW: what the root session is doing
 
 Status: LIVE NOTE (rewritten before every step; if a session died, this is the step it died in)
-Updated: 2026-11-13 00:52
+Updated: 2026-11-13 01:37
 
 **To resume after a context clear or a new session:** open this folder as the project and run `/siren-s-start-fable`. The command reads the charter, the target file, `.fable/RUN_STATE.json`, `.fable/RUN_LOG.md` and `.fable/DECISIONS.md`. The `next_action` field in the state file always starts by sending the session to `.fable/HANDOFF.md` and to this file.
 
 ## Doing right now
 
-All three packages merged and looked at in the kit. The everyday set and six guard suites are running on the merged head; when they pass, set PAUSED.
+PAUSED at Pat's request. Nothing is running: no helper, game or test. Everything is committed and pushed. Resume with /siren-s-start-fable.
 
 ## In flight
 

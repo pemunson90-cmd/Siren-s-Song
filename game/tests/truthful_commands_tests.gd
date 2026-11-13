@@ -99,9 +99,9 @@ func run():
  var stock_before=g.sim.snapshot().duplicate(true)
  g._briefing(0);await frames()
  var opening_copy=""
- for child in g.panel_box.get_children():
-  if child is Label:opening_copy+=child.text+"\n"
- check("QUIETUS\nO₂ 120% · EMP 3 · SURVEY 0" in opening_copy,"opening brief confirms actual selected Quietus stock")
+ # The briefing may lay its text out in columns (WP-37), so labels are found at any depth; the loadout line is plain words now.
+ for child in g.panel_box.find_children("*","Label",true,false):opening_copy+=child.text+"\n"
+ check("Loadout:" in opening_copy and "O₂ 120% · EMP 3 · SURVEY 0" in opening_copy,"opening brief confirms actual selected Quietus stock")
  check(g.sim.snapshot()==stock_before,"reading launch stock preserves the active dive")
  check(Work.action_verb({"site_id":"rendezvous","kind":"receiver"})=="DECODE","tender's receiver task keeps its authored decode verb")
  check(Work.action_verb({"kind":"receiver"})=="LISTEN","ordinary receiver keeps LISTEN distinct from exchange DECODE")

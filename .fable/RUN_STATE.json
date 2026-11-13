@@ -1,12 +1,12 @@
 {
   "run_id": "overhaul-20261111",
-  "status": "RUNNING",
+  "status": "PAUSED",
   "phase": "9-ux-repair",
-  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: PAUSE PREPARED, helpers still running. Pat asked (2026-11-13) for a safe pause that does not interrupt current work. The handoff is written: .claude/commands/siren-s-start-fable.md, .fable/PHASE9.md (what Pat asked, the loop and commands, merged work, in flight, queue, open for Pat), HANDOFF.md, docs/STATUS.md. In flight: WP-37 (wp-37 from c5d97642), WP-38 and WP-39 (from 59a37d8b); none had committed when this was written. If this session is still alive when they report: read each diff, merge, run touched suites, look in the kit, captures to Pat, behavior rows, then set PAUSED. If the session was cleared first: follow PHASE9.md 'In flight at the pause' (git log --oneline -3 wp-37 wp-38 wp-39; a branch with commits is a report that never arrived; a branch without commits is dispatched again). No GitHub runs; pushes carry [skip ci].",
+  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: RESUME: read .fable/PHASE9.md (it is the whole handoff), set status RUNNING, then start the queue in PHASE9.md 'Queue, in order': (1) B8 and B13: Career and Expedition briefings in the Campaign's GOAL and DANGER format and results in words (presentation/career/career_board.gd, presentation/runs/); (2) C7 fittings as cards with true-scale bars (presentation/equipment_context.gd, fittings_menu.gd, fit_surface/; also the two slash headings left there); (3) C4 title backdrop from the game's chart art (presentation/frontend/frontend.gd); (4) C8 route dialog: REPLACE ROUTE as MAIN, the new-points switch drawn as a switch (order_guard.gd). These four touch disjoint files: dispatch up to three Sonnet implementers at once from origin/fable/overhaul-20261111, review each diff, run touched suites, LOOK at each in the kit on cover and inner, send Pat captures, add behavior rows. Fold in the small items listed under 'Seen in the kit and not yet fixed'. Then a fresh blind critic round. No GitHub runs; pushes carry [skip ci]. First command: cd into the run clone; python scripts/repo/handoff_check.py; git status --short.",
   "base_ref": "origin/claude/integration",
   "base_sha": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
   "run_branch": "fable/overhaul-20261111",
-  "run_head": "f5944605d20041636a23988050357407f41211f6",
+  "run_head": "cf33f627754de18847ee8399e4cc5dc802c8442f",
   "shared_tips": {
     "claude/integration": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
     "main": "f5b66a198e3878950325f8c45a0bc6bc29dcba84",
@@ -57,6 +57,6 @@
     "WP-39": "merged"
   },
   "decisions_open": 0,
-  "last_checkpoint": "Paused at Pat's request on 2026-11-12 after phase 8 and the UI and UX audit. Everything committed and pushed with [skip ci]. Everyday set: 39 of 39 suites pass locally after the trim.",
-  "updated": "2026-11-13 00:52:07"
+  "last_checkpoint": "Paused at Pat's request on 2026-11-13, in phase 9, at a clean point: WP-31 to WP-39 merged, looked at in the kit and pushed; nothing in flight. Everyday set on the merged head: 37 of 39 passed, the 2 failures (a stray argument when the hub is rebuilt on resize; one test expecting the old briefing wording) were fixed and rerun green with their neighbours and the menu and briefing suites.",
+  "updated": "2026-11-13 01:37:53"
 }
