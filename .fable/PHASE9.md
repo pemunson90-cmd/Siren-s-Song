@@ -98,7 +98,26 @@ Done since the resume (rows 71 to 74): item 1 (WP-40), item 2 cards and bars (WP
 6. **A fresh blind critic round** on the result: three critics through the kit as in `.fable/COLD_REVIEW_6.md` and the first UI round (briefs are `scripts/critic/CRITIC_BRIEF.md` and `OPERATE.md`; dispatch text must tell them to use native coordinates and to double anything read from a half-size screenshot). Rank what is still weak and continue the loop.
 7. Then the everyday set once, refresh the pull request 262 body from `.fable/FINAL_REPORT.md` (`gh pr edit 262 --body-file .fable/FINAL_REPORT.md`; editing the body starts no workflow), and update `docs/STATUS.md`.
 
+## Blind critic round of 13 November (kit `fable-critic26-20261113`, head 23ee8db5): ranking
+
+Three Sonnet critics: A first session on cover (operation 1 three times, never extracted), B every screen outside the dive on inner, C aggressive dive on cover. Journals and captures: `<kit>/audit/critic-a|b|c/`, `<kit>/evidence/critic-a|b|c/`. Ranked by root; "Pat" marks a game rule that is his.
+
+1. **Extraction is unreliable (C F1).** Taps on or beside the extraction circle (150,930; 170,890; 300,880) gave no route and no message; Quietus parked at the circle edge until oxygen ran out. Package WP-45.
+2. **A tap that closes a wheel or panel also orders the craft (C F2).** Closing the History panel, the Fleet VIEW wheel or the Silent toggle placed routes; one crossed rock and cost hull. WP-45.
+3. **Time runs while a wheel or panel is open (A F4, C F3)** and the pause control names the action, not the state. Root: show the state plainly now. Whether an open wheel holds time is Pat's rule.
+4. **Threats are not readable (A F1, F2; C F4).** No line or bearing to the Siren that has locked; the loss screen does not say where it was. Presentation is root's (WP-48 after WP-45); the length of the lock and how deadly the first dive is are Pat's.
+5. **Silent running, speed and noise are not quantified (A F3; C F8).** Wheel labels are jargon (EMIT 0.4 RESERVE, POWER LOW, SECTOR ALL360) and show a state where an action is expected. WP-48.
+6. **Field Manual is a wall of text; the briefing says too little about drones and silent running (A F7, B F1).** WP-47.
+7. **First-run path in the menus (B F2, F3, F6, F8, F11, F12):** NEXT OPERATION has no name; the region entry screen is nearly empty with text on the edge; the selected difficulty is dimmer than the others; the Route Map header is clipped; "PAY" reads as a cost; START THIS SEED drops back to the list; a Back label names the wrong place. WP-46.
+8. **Carried hull damage on a retry is not explained (A F8, C F5).** Show it on the briefing. WP-46.
+9. **A finished route leaves the craft idle with no word (C F7); the game re-pauses with no reason shown (A F9).** A status line is root's; pausing at a route's end is Pat's.
+10. Smaller: route dialog position jumps (A F5); PHOTO refusal gives no distance (C F6); a 12% frame counts as "Record secured" with no retake prompt (C F12); pale hard-edged patches in the water (B F7); hint "Send a drone ahead" shown right after the drone was lost (C F10); inner-screen menus sit in a phone-width column (B F10).
+
+Not defects: the DEVELOPER button (debug builds only); which operation an Expedition starts on (seeded, Pat's rule); a route across charted rock is warned and allowed (hand piloting, Pat's rule).
+
 ## Open for Pat (do not decide these)
+
+- **From the critic round of 13 November (yes or no each):** should an open command wheel or panel hold dive time; should the first dive give a longer warning before a Siren's lock kills; should the game pause itself when a route ends.
 
 - **For his play:** PLAN ROUTE leaves the wheel's first page while DEPLOY or RECALL shows (it stays under ROUTE). The field records gallery opened during a dive no longer shows that dive's own frames until the dive ends. Whether Credits, the hub and the briefing scroll by finger drag on the phone (B19).
 - **From his rules** (`docs/V7_TO_GODOT_PARITY.md`, "Tests that still fly on the older rules"): the tender door photo with quiet drones, the scout-ahead opening, operations 17 and 30 on discovered charts.
