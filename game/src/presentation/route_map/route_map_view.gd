@@ -4,6 +4,12 @@ extends Control
 const Graph=preload("res://src/campaign/route_map/route_graph.gd")
 const Table=preload("res://src/campaign/route_map/route_graph_table.gd")
 const Preferences=preload("res://src/presentation/frontend/frontend_settings.gd")
+const OpsHome=preload("res://src/presentation/ops_home/ops_home.gd")
+# One line says what the node outlines mean (colors are Table.COLORS); each arc then gets one line of counts.
+const LEGEND_MARKS="Marks: green = recovered · pale blue = available · grey = locked · amber dashed = known from photos, route not open yet"
+const LEGEND_JOIN=" · "
+const LEGEND_GAP=4
+const LEGEND_LINE_PAD=4
 class Board extends Control:
  const Palette=preload("res://src/campaign/route_map/route_graph_table.gd")
  var graph:Dictionary={}
@@ -23,7 +29,7 @@ var buttons:Dictionary={}
 var chart:ScrollContainer
 var board:Board
 var header:HBoxContainer
-var legend:ScrollContainer
+var legend:VBoxContainer
 var detail:Label
 var zoom:float=Table.VIEW.zoom_min
 var fitted_size=Vector2.ZERO
@@ -44,19 +50,16 @@ func setup(main)->void:
  _button(header,"CURRENT",_focus_current,"route_map_current",Table.VIEW.current_width)
  _button(header,"−",func():_zoom(-1),"route_map_zoom_out")
  _button(header,"+",func():_zoom(1),"route_map_zoom_in")
- legend=ScrollContainer.new();legend.horizontal_scroll_mode=ScrollContainer.SCROLL_MODE_DISABLED;add_child(legend)
- var legend_rows=VBoxContainer.new();legend_rows.size_flags_horizontal=Control.SIZE_EXPAND_FILL;legend.add_child(legend_rows)
+ legend=VBoxContainer.new();legend.add_theme_constant_override("separation",LEGEND_GAP);add_child(legend)
+ var marks=Label.new();marks.text=LEGEND_MARKS;marks.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;legend.add_child(marks)
  var arcs=preload("res://src/campaign/arcs/arc_table.gd")
  if arcs.enabled:
   for arc in arcs.ARCS:
-   var arc_title=Label.new();arc_title.text=arcs.heading(arc,host._campaign_completed());arc_title.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;legend_rows.add_child(arc_title)
-   var states=[]
-   for state in ["RECOVERED","AVAILABLE","LOCKED","KNOWN FROM PHOTOS"]:
+   var states=[OpsHome.plain_arc_heading(arc,host._campaign_completed())]
+   for state in ["AVAILABLE","LOCKED","KNOWN FROM PHOTOS"]:
     var count=graph.nodes.filter(func(row):return row.id in arc.ids and row.state==state).size()
-    if count>0:states.append("%s %d"%[state,count])
-   var summary=Label.new();summary.text=" / ".join(states);summary.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;legend_rows.add_child(summary)
- else:
-  var label=Label.new();label.text="RECOVERED / AVAILABLE / LOCKED / KNOWN FROM PHOTOS";label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;legend_rows.add_child(label)
+    if count>0:states.append("%d %s"%[count,state.to_lower()])
+   var summary=Label.new();summary.text=LEGEND_JOIN.join(states);summary.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;legend.add_child(summary)
  chart=ScrollContainer.new();chart.name="ChartPan";add_child(chart)
  board=Board.new();board.mouse_filter=Control.MOUSE_FILTER_PASS;board.graph=graph;chart.add_child(board)
  detail=Label.new();detail.text="Drag to pan. + / − changes chart size. CURRENT finds the next available branch. Tap an available operation for its briefing.";detail.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;add_child(detail)
@@ -79,9 +82,15 @@ func _fit():
  for control in header.get_children():
   control.add_theme_font_size_override("font_size",_font(h,Table.VIEW.header_font))
   if control is Button:control.custom_minimum_size=Vector2(h*control.get_meta("width_touch"),h)
- legend.position=Vector2(margin,h+margin*Table.VIEW.legend_margin);legend.size=Vector2(size.x-margin*2,h*Table.VIEW.legend_height);legend.add_theme_font_size_override("font_size",_font(h,Table.VIEW.legend_font))
- for label in legend.find_children("*","Label",true,false):label.add_theme_font_size_override("font_size",_font(h,Table.VIEW.legend_font))
- chart.position=Vector2(margin,h*Table.VIEW.chart_top+margin);chart.size=Vector2(size.x-margin*2,maxf(h,size.y-h*Table.VIEW.chart_reserve-margin*2))
+ # The legend takes the height its wrapped lines need (measured, so nothing is cut); the chart gets the rest.
+ var width:float=size.x-margin*2;var legend_height:float=0.
+ for label in legend.find_children("*","Label",true,false):
+  var font_size:=_font(h,Table.VIEW.legend_font);label.add_theme_font_size_override("font_size",font_size)
+  label.custom_minimum_size.x=width
+  legend_height+=label.get_theme_font("font").get_multiline_string_size(label.text,HORIZONTAL_ALIGNMENT_LEFT,width,font_size,-1,TextServer.BREAK_WORD_BOUND|TextServer.BREAK_MANDATORY).y+LEGEND_LINE_PAD+LEGEND_GAP
+ legend.position=Vector2(margin,h+margin);legend.size=Vector2(width,legend_height)
+ chart.position=Vector2(margin,legend.position.y+legend_height+margin)
+ chart.size=Vector2(width,maxf(h,size.y-chart.position.y-h-margin*2))
  detail.add_theme_font_size_override("font_size",_font(h,Table.VIEW.detail_font));detail.position=Vector2(margin,chart.position.y+chart.size.y+margin);detail.size=Vector2(size.x-margin*2,h)
  # Wrapped Label minimum height is recomputed after its width/font changes.
  # Apply the bounded height after that deferred update, including first layout.

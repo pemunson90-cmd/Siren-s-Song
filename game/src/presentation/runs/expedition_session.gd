@@ -90,7 +90,7 @@ func _show_campaign()->void:
 		# WP-11 (I6): the launch and return actions sit in the pinned footer, not
 		# at the end of a page several screens tall.
 		_button(menu_footer,"BEGIN OPERATION · START PAUSED",_begin,"run_begin")
-		_button(menu_footer,"BACK TO GAME MODES",_return,"run_return")
+		_button(menu_footer,"BACK TO EXPEDITIONS",_return,"run_return")
 		menu_footer.show()
 	call_deferred("_layout")
 # WP-34: ending a live dive asks first. KEEP returns to the paused menu untouched.

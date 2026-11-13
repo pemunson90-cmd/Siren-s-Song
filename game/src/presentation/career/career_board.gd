@@ -10,6 +10,7 @@ const EquipmentView=preload("res://src/presentation/equipment_context.gd")
 const Riders=preload("res://src/campaign/career/riders.gd")
 const Briefing=preload("res://src/presentation/mode_briefing.gd")
 const ResultText=preload("res://src/presentation/mode_result_text.gd")
+const NAME="NAVAL CAREER"
 # The rules of a contract that are neither goal nor danger.
 const CONTRACT_RULES=["The dive starts paused. A dive you leave resumes paused.","Oxygen, film and field tools refill for every dive.","Hull damage stays with your boat until you repair it.","Giving up a contract counts as a loss."]
 static func heading(host,title:String,screen:String)->void:
@@ -20,7 +21,7 @@ static func heading(host,title:String,screen:String)->void:
 		host._button(host.panel_box,"RETRY SAVE",func():host._save_archive();host._show_campaign(),"career_retry")
 	host.call_deferred("_layout")
 static func show(host)->void:
-	heading(host,"NAVAL CAREER / CONTRACT BOARD","career_board")
+	heading(host,NAME+"\nCONTRACT BOARD","career_board")
 	if host.active_started:
 		host._button(host.panel_box,"RESUME CONTRACT DIVE",host._enter_water,"career_resume")
 		host._button(host.panel_box,"ABANDON CONTRACT · LOSE STANDING",func():confirm_abandon(host),"career_abandon")
@@ -37,7 +38,7 @@ static func show(host)->void:
 			if c.faction!=faction:continue
 			var available=State.open(host.career_state,id)
 			var title=host.Simulation.Missions.make(c.op,host._launch_context(c.op)).title
-			var button=host._button(host.panel_box,"%s\n%s · PAY %s"%[title.to_upper(),"OPEN" if available else "LOCKED · NEED STANDING %d"%c.get("standing",Table.MIN_STANDING),Economy.fmt(c.reward)],host._select_contract.bind(id),"career_contract_"+id)
+			var button=host._button(host.panel_box,"%s\n%s · REWARD %s"%[title.to_upper(),"OPEN" if available else "LOCKED · NEED STANDING %d"%c.get("standing",Table.MIN_STANDING),Economy.fmt(c.reward)],host._select_contract.bind(id),"career_contract_"+id)
 			button.disabled=not available or host.save_failed
 			host._menu_text(Riders.description(State.rider_offer(host.career_state,id)),16)
 	host._button(host.panel_box,"SUPPLIES / RESEARCH",host._show_economy,"career_supplies")
@@ -51,10 +52,10 @@ static func confirm_abandon(host)->void:
 static func briefing(host)->void:
 	var c=Table.CONTRACTS[host.selected_contract]
 	var mission=host.Simulation.Missions.make(c.op,host._launch_context(c.op))
-	heading(host,"CAREER / "+mission.title.to_upper(),"career_briefing")
+	heading(host,NAME+"\n"+mission.title.to_upper(),"career_briefing")
 	host._menu_text("%s: %s"%[Table.FACTIONS[c.faction],c.brief],18)
 	Briefing.show(host,c.op,c.brief,CONTRACT_RULES)
-	host._menu_text("Pay if you recover it: %s.\nStanding with %s: %d. Recover it for +%d, lose it for %d.\nNext launch costs: %s."%[Economy.fmt(c.reward).to_lower(),Table.FACTIONS[c.faction].capitalize(),host.career_state.standing[c.faction],Table.SUCCESS,Table.LOSS,Economy.fmt(preload("res://src/presentation/economy_panel.gd").launch_cost(host)).to_lower()],17)
+	host._menu_text("Reward if you recover it: %s.\nStanding with %s: %d. Recover it for +%d, lose it for %d.\nNext launch costs: %s."%[Economy.fmt(c.reward).to_lower(),Table.FACTIONS[c.faction].capitalize(),host.career_state.standing[c.faction],Table.SUCCESS,Table.LOSS,Economy.fmt(preload("res://src/presentation/economy_panel.gd").launch_cost(host)).to_lower()],17)
 	var rider=State.rider_offer(host.career_state,host.selected_contract)
 	host._menu_text(Riders.description(rider),17)
 	if not rider.is_empty():
@@ -68,7 +69,7 @@ static func spend(host,title:String,cost:Dictionary,action:Callable,id:String)->
 	button.disabled=host._mutations_blocked() or not Economy.can_pay(host.economy,cost)
 static func supplies(host)->void:
 	if host.active_started:return
-	heading(host,"CAREER / SUPPLIES AND RESEARCH","career_supplies")
+	heading(host,NAME+"\nSUPPLIES AND RESEARCH","career_supplies")
 	host._button(host.panel_box,"BACK TO CONTRACT BOARD",host._show_campaign,"career_board")
 	host._menu_text("Fleet condition and resources belong to this career. Research requires material physically recovered on a contract and its received record.",17)
 	for target in Economy.TARGETS:
@@ -85,7 +86,7 @@ static func supplies(host)->void:
 		spend(host,"BUILD "+Catalog.ITEMS[item].name,Economy.item_cost(item,host.economy),func():State.manufacture(host.career_state,item),"career_build_"+item)
 static func fittings(host)->void:
 	if host.active_started:return
-	heading(host,"CAREER / FLEET DEVELOPMENT","career_fittings")
+	heading(host,NAME+"\nFLEET DEVELOPMENT","career_fittings")
 	host._button(host.panel_box,"BACK TO CONTRACT BOARD",host._show_campaign,"career_board")
 	host._button(host.panel_box,"SUPPLIES / MANUFACTURE / RESEARCH",host._show_economy,"career_supplies")
 	host._menu_text("Unlock hulls and chassis with existing alloy prices. Manufacture conventional modules or research recovered alien material, then fit it for the next dive.",17)

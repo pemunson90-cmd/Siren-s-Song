@@ -155,9 +155,13 @@ static func arrange(host)->void:
  var cont=column()
  var top=HBoxContainer.new();top.add_theme_constant_override("separation",Table.GAP)
  if resume!=null:
-  resume.text=Table.TEXT.resume;resume.reparent(top);resume.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+  resume.text=Table.named(Table.TEXT.resume,"%02d"%(host.mission_index+1),str(host.sim.mission.title)) if host.sim!=null and host.sim.mission!=null else Table.TEXT.resume
+  resume.reparent(top);resume.size_flags_horizontal=Control.SIZE_EXPAND_FILL
  var target=next
- var primary=host._button(top,Table.TEXT.next if target!=null else Table.TEXT.complete,func():
+ var primary_text=Table.TEXT.complete+"\n"+Table.TEXT.complete_note
+ if target!=null:
+  var next_data=datas[target];primary_text=Table.named(Table.TEXT.next,next_data.num,next_data.name)
+ var primary=host._button(top,primary_text,func():
   if is_instance_valid(target):target.pressed.emit()
  ,"next_operation")
  primary.disabled=target==null;primary.size_flags_horizontal=Control.SIZE_EXPAND_FILL
@@ -166,6 +170,9 @@ static func arrange(host)->void:
  # Match disabled geometry to the active style so changing Resume availability cannot rewrap the row.
  for control in [resume,primary]:
   if control!=null and control.get_meta("ui_role","NORMAL")!="MAIN":control.add_theme_stylebox_override("disabled",control.get_theme_stylebox("normal"))
+  # Both buttons are exactly two lines (heading, then the operation) whatever the width: a long title is trimmed, never wrapped,
+  # so the row keeps one height with or without Resume.
+  if control!=null:control.autowrap_mode=TextServer.AUTOWRAP_OFF;control.text_overrun_behavior=TextServer.OVERRUN_TRIM_ELLIPSIS;control.clip_text=true
  var branch_id=preload("res://src/presentation/current_branch.gd").pick(completed,open_rows.keys())
  var branch=null
  if branch_id>=0 and open_rows[branch_id]!=next:

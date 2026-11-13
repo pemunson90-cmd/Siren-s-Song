@@ -43,7 +43,7 @@ func shape_case(shape):
   check(game.get_node_or_null("ArcCard")==null,"restored seen marker never repeats intro")
  var recap="\n".join(Recap.lines(game.expedition))
  for fact in ["deep","concealed","service","bypass","landed","reconnect"]:check(recap.contains(fact),"recap carries saved fact "+fact)
- check(Recap.lines({}).size()==2 and not "\n".join(Recap.lines({})).contains("deep"),"missing facts produce no invented choices")
+ check(Recap.lines({}).is_empty() and not "\n".join(Recap.lines({})).contains("deep"),"missing facts produce no invented choices")
  # Departure decorates the already-built result and restores it without settling twice.
  game._show_campaign();game.screen="debrief";game.sim.start(19);game.mission_index=19;game.sim.mission.recovered=true;game.sim.outcome="won"
  var before=game.expedition.duplicate(true)
