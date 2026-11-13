@@ -26,7 +26,8 @@ func run():
 	game._briefing(0);await settle()
 	var shown=labels(game.panel_box)
 	check(shown.contains("PHOTO PROBLEMS") and shown.contains("OPTICS"),"the briefing names the photo problems and the optics")
-	check(shown.length()<420,"the opening briefing stays short")
+	# Row 76 added a three-line primer to the opening briefing (582 characters now); 700 matches the other briefing suite.
+	check(shown.length()<700,"the opening briefing stays short")
 	game._briefing(2);await settle()
 	check(not labels(game.panel_box).contains("PHOTO PROBLEMS"),"an operation without photo subjects shows no line")
 	# Dive: viewfinder, chart rings and the reach prompt.

@@ -30,6 +30,8 @@ func recover_approach(game):
  game.mission_hud.dismiss();game._refresh();await settle()
  await tap(game.advanced_button.get_global_rect().get_center())
  await tap(game.unit_buttons[0].get_global_rect().get_center())
+ # WP-35/WP-52: RECALL ALL or DEPLOY takes PLAN ROUTE's place on the main page; PLAN ROUTE is under ROUTE then.
+ if not game.order_buttons.program.is_visible_in_tree():await tap(game.mission_hud.extra.route_menu.get_global_rect().get_center())
  await tap(game.order_buttons.program.get_global_rect().get_center())
  var preview=game.route_editor.preview;var point=game.sim.mission.extraction
  for attempt in 8:

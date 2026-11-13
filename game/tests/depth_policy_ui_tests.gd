@@ -78,7 +78,11 @@ func reveal(game,button):
 func plot(g,id,point):
  # FIT can overlap intended water with a craft's touch handle. The existing
  # paused planner exposes that same public route geometry through ordinary input.
- await craft(g,id);await click(g.order_buttons.program)
+ await craft(g,id)
+ # WP-35/WP-52: while a drone can be deployed or recalled that segment takes PLAN ROUTE's place on the main page;
+ # PLAN ROUTE is then reached under ROUTE, as a player reaches it.
+ if not g.order_buttons.program.is_visible_in_tree():await click(g.mission_hud.extra.route_menu)
+ await click(g.order_buttons.program)
  check(g.route_editor.visible,"public ROUTE PROGRAM action opens the physical planner")
  await preview_point(g,point)
  var goals=g.sim.route_goals(id)

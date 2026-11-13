@@ -55,13 +55,27 @@ static func _plate_lines(hud,b:Button,first:String,action:String,readings:Array)
  for reading in readings:candidates.append([first,action,reading])
  var base=maxi(14,roundi(hud.touch_height*.26*hud.text_scale))
  var font=b.get_theme_font("font");var margin=b.get_theme_stylebox("normal").get_minimum_size()
- var room=b.size.x-margin.x;var height=b.size.y-margin.y
- for lines in candidates:
-  for size in range(base,maxi(10,floori(base*MIN_SHRINK))-1,-1):
-   var wide=lines.map(func(line):return font.get_string_size(line,HORIZONTAL_ALIGNMENT_LEFT,-1,size).x).max()
-   if wide<=room and font.get_height(size)*lines.size()<=height:
-    b.add_theme_font_size_override("font_size",size);return lines
+ # The plate's text never drops below the layout's text size (the 14 dp reading minimum): it starts at the
+ # layout's own width and, when no wording fits, grows in width on its own outer-edge side instead.
+ var home:float=hud.touch_height*1.55*hud.text_scale
+ var mirrored:bool=b.position.x>hud.size.x/2.
+ var edge:float=b.position.x+b.size.x
+ b.size.x=home
+ if mirrored:b.position.x=edge-home
  b.add_theme_font_size_override("font_size",base)
+ var height=b.size.y-margin.y
+ var cap:float=maxf(home,hud.size.x*.4)
+ for lines in candidates:
+  var wide:float=lines.map(func(line):return font.get_string_size(line,HORIZONTAL_ALIGNMENT_LEFT,-1,base).x).max()
+  if font.get_height(base)*lines.size()<=height and wide<=home-margin.x:return lines
+ # Nothing fits the home width: the state word over the fullest oxygen reading that fits the cap, on a wider plate.
+ for reading in readings:
+  var lines=[first,reading]
+  var need:float=lines.map(func(line):return font.get_string_size(line,HORIZONTAL_ALIGNMENT_LEFT,-1,base).x).max()+margin.x+8.
+  if need<=cap:
+   b.size.x=maxf(home,need)
+   if mirrored:b.position.x=edge-b.size.x
+   return lines
  return [first,readings.back()]
 static func active(hud)->bool:
  return ENABLED and hud.host.screen=="mission" and not hud.host.sim.mission.is_empty() and hud.host.pause_button.visible
