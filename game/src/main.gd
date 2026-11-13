@@ -4,6 +4,7 @@ const UiMetrics=preload("res://src/presentation/flow/ui_metrics.gd")
 const PhotoReview=preload("res://src/presentation/flow/photo_review.gd")
 const CampaignFlow=preload("res://src/presentation/flow/campaign_flow.gd")
 const ReleaseControls=preload("res://src/presentation/release_controls.gd")
+const DiveInput=preload("res://src/presentation/dive_input.gd")
 const Recon=preload("res://src/simulation/recon_consequences.gd")
 const Endings=preload("res://src/campaign/endings.gd")
 const CraftUpgrades=preload("res://src/equipment/craft_upgrades.gd")
@@ -457,105 +458,13 @@ func _focus_craft() -> void:
 func _toggle_advanced() -> void:
 	if advanced_orders:mission_hud.dismiss()
 	else:mission_hud.open("craft",{"kind":"craft","unit":sim.selected,"pos":sim.units[sim.selected].pos})
-func _input(event:InputEvent) -> void:
-	if debug_console!=null and debug_console.input(event):get_viewport().set_input_as_handled();return
-	if debug_console!=null and debug_console.panel.visible:return
-	if screen!="mission":return
-	if ocean.optical_feed.route_input(event):get_viewport().set_input_as_handled();return
-	if mission_hud.contact_touch.feed(mission_hud.contact_scroll,event):get_viewport().set_input_as_handled();return
-	if mission_hud.owns_pointer(event):get_viewport().set_input_as_handled();return
-	if mission_hud.fleet.handle_input(event):get_viewport().set_input_as_handled();return
-	if advanced_orders:
-		map_gesture.cancel();knock_press.clear()
-		if mission_hud.popup_input(event):get_viewport().set_input_as_handled()
-		return
-	if not map_gesture.active():return
-	var pressed=(event is InputEventScreenTouch and event.pressed) or (event is InputEventMouseButton and event.pressed)
-	if pressed and (not ocean.get_global_rect().has_point(event.position) or mission_hud.blocks(event.position)):
-		map_gesture.cancel();return
-	if _map_event(event):get_viewport().set_input_as_handled()
-func _gui_input(event: InputEvent) -> void:
-	if screen!="mission": return
-	if event is InputEventMouse or event is InputEventScreenTouch or event is InputEventScreenDrag:
-		if mission_hud.blocks(event.position+global_position):return
-	if event is InputEventMouseButton and event.button_index in [MOUSE_BUTTON_WHEEL_UP,MOUSE_BUTTON_WHEEL_DOWN] and event.pressed and Rect2(ocean.position,ocean.size).has_point(event.position):
-		map_gesture.cancel(); ocean.zoom_at(1.2 if event.button_index==MOUSE_BUTTON_WHEEL_UP else 1.0/1.2,event.position-ocean.position); _view_changed(); accept_event(); return
-	var pressed=(event is InputEventScreenTouch and event.pressed) or (event is InputEventMouseButton and event.pressed and event.button_index==MOUSE_BUTTON_LEFT)
-	if pressed and Rect2(ocean.position,ocean.size).has_point(event.position) and _map_event(event,true): accept_event()
-func _map_event(event: InputEvent,local_event: bool=false) -> bool:
-	if event.device==InputEvent.DEVICE_ID_EMULATION: return false
-	if event is InputEventScreenTouch and event.canceled: map_gesture.cancel(); knock_press.clear(); return true
-	var kind=""; var index=-1; var point=Vector2.ZERO
-	if event is InputEventScreenTouch:
-		kind="press" if event.pressed else "release"; index=event.index; point=event.position
-	elif event is InputEventScreenDrag:
-		kind="move"; index=event.index; point=event.position
-	elif event is InputEventMouseButton and event.button_index==MOUSE_BUTTON_LEFT:
-		kind="press" if event.pressed else "release"; point=event.position
-	elif event is InputEventMouseMotion and map_gesture.active():
-		kind="move"; point=event.position
-	if kind.is_empty(): return false
-	if local_event: point+=global_position
-	if kind=="press" and not map_gesture.active():
-		knock_press={"armed":knock_armed,"decoy":decoy_armed,"unit":sim.selected,"key":ocean.knock_aim_key(point-ocean.global_position) if knock_armed else -1}
-	var action=map_gesture.feed(kind,index,point)
-	if action.has("zoom"): ocean.zoom_at(action.zoom,action.anchor-ocean.global_position)
-	if action.has("pan"): ocean.pan_chart(action.pan)
-	if action.get("navigation",false): _view_changed()
-	if action.has("tap") and ocean.get_global_rect().has_point(action.tap) and not mission_hud.blocks(action.tap):
-		if knock_armed or knock_press.get("armed",false):
-			if knock_armed and knock_press.get("armed",false):_target_knockdown(action.tap,knock_press.get("key",-1))
-			knock_press.clear(); return true
-		if decoy_armed or knock_press.get("decoy",false):
-			if decoy_armed and knock_press.get("decoy",false) and knock_press.get("unit",-1)==sim.selected:
-				_order("decoy",{"point":ocean.map_position(action.tap-ocean.global_position)})
-			knock_press.clear(); return true
-		var targets=ocean.contexts_at(action.tap-ocean.global_position,ui_touch_height)
-		if not targets.is_empty():
-			mission_hud.open_targets(targets);return true
-		# Drawn information owns its tap even when it has no command target.
-		if ocean.information_at(action.tap-ocean.global_position):return true
-		var world=ocean.map_position(action.tap-ocean.global_position)
-		if Rect2(Vector2.ZERO,ocean.world_size()).has_point(world): mission_hud.guard.tap_water(world)
-	if action.has("ended") or action.has("tap"):knock_press.clear()
-	return true
-func _target_knockdown(point: Vector2,intended:int=-2) -> void:
-	var chosen=ocean.knock_aim_key(point-ocean.global_position) if intended==-2 else intended
-	if chosen<0 or not ocean.knock_visible_targets().any(func(c):return c.key==chosen):
-		sim.message="Choose an S# FIRE box or a clear contact · no torpedo spent"
-		for id in sim.contacts:
-			var contact=sim.contacts[id]
-			if sim.elapsed-contact.time>=.3:continue
-			if ocean.screen_position(contact.pos).distance_to(point-ocean.global_position)>maxf(ui_touch_height/2,43*ocean.world_scale):continue
-			if contact.get("mode","") in ["DISRUPTED","PINNED"]:
-				sim.message="S%d %s · shot declined · no torpedo spent"%[int(id)+1,"stunned by EMP" if contact.mode=="DISRUPTED" else "already snared"]
-				break
-			var distance=sim.units[0].pos.distance_to(contact.pos)
-			if distance>sim.KNOCK_RANGE:
-				sim.message="S%d out of range · %dm / %dm · no torpedo spent"%[int(id)+1,ceili(distance),roundi(sim.KNOCK_RANGE)]
-				break
-		targeting_feedback=sim.message; _refresh(); return
-	_order("knock",{"target":chosen})
-func _chart_zoom(factor: float) -> void:
-	map_gesture.cancel(); ocean.zoom_at(factor,ocean.size/2); _view_changed()
-func _view_changed() -> void:
-	_refresh()
-	_save_archive()
-	ReleaseControls.debug_print(["SS_VIEW zoom=",snappedf(ocean.chart_camera.zoom,0.01)," center=",ocean.chart_camera.center])
-	call_deferred("_report_targets")
-func _unhandled_key_input(event: InputEvent) -> void:
-	if event is InputEventKey and event.pressed and not event.echo and event.keycode==KEY_ESCAPE:
-		if _frontend_back():get_viewport().set_input_as_handled();return
-	if screen=="program":
-		if event is InputEventKey and event.pressed and event.keycode==KEY_ESCAPE: route_editor.close()
-		return
-	if event is InputEventKey and event.pressed and not event.echo:
-		# SPACE pauses only live play; menus, briefing and settings never touch mission pause.
-		if event.keycode==KEY_SPACE and screen=="mission": _pause()
-		if event.keycode==KEY_ESCAPE:
-			if advanced_orders:mission_hud._back()
-			elif knock_armed or decoy_armed:_primary_action()
-			else:sim.paused=true;_show_campaign()
+func _input(event:InputEvent) -> void:DiveInput.input(self,event)
+func _gui_input(event: InputEvent) -> void:DiveInput.gui_input(self,event)
+func _map_event(event: InputEvent,local_event: bool=false) -> bool:return DiveInput.map_event(self,event,local_event)
+func _target_knockdown(point: Vector2,intended:int=-2) -> void:DiveInput.target_knockdown(self,point,intended)
+func _chart_zoom(factor: float) -> void:DiveInput.chart_zoom(self,factor)
+func _view_changed() -> void:DiveInput.view_changed(self)
+func _unhandled_key_input(event: InputEvent) -> void:DiveInput.unhandled_key(self,event)
 func _clear_menu() -> void:
 	set_meta("launch_costs_open",false)
 	preload("res://src/presentation/arcs/arc_card.gd").back(self)
