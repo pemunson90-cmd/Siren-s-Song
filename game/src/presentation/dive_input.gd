@@ -73,6 +73,8 @@ static func map_event(host,event: InputEvent,local_event: bool=false) -> bool:
 			targets=[]
 		if not targets.is_empty():
 			host.mission_hud.open_targets(targets);return true
+		# WP-45: the extraction circle and its label send the selected craft there, never a silent tap.
+		if host.ocean.extraction_at(action.tap-host.ocean.global_position,host.ui_touch_height):host.mission_hud.guard.tap_extraction();return true
 		# Drawn information owns its tap even when it has no command target.
 		if host.ocean.information_at(action.tap-host.ocean.global_position):return true
 		var world=host.ocean.map_position(action.tap-host.ocean.global_position)
