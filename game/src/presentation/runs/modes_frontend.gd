@@ -59,7 +59,10 @@ static func seed_screen(front,seed_value:int)->void:
 		# Recheck at mutation time so a stale screen cannot replace a live run.
 		var latest=Archive.restore(front.host)
 		if latest.is_empty() or latest.status!="active":Archive.persist(front.host,State.new_run(chosen))
-		expeditions(front)
+		# The new expedition opens its operation menu, the screen CONTINUE EXPEDITION opens; a failed save stays on the list with its notice.
+		var made=Archive.restore(front.host)
+		if not made.is_empty() and made.status=="active" and not front.host.get_meta("runs_archive_dirty",false):start(front)
+		else:expeditions(front)
 	)
 
 static func confirm_end(front,state:Dictionary)->void:

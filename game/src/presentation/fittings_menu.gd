@@ -3,6 +3,8 @@ extends RefCounted
 # Seam: Main._show_fittings. Revert: remove entry, method and this view.
 const Equipment=preload("res://src/presentation/equipment_context.gd")
 const FitSurface=preload("res://src/presentation/fit_surface/fit_surface_view.gd")
+const SUPPLIES_BUTTON="SUPPLIES AND COSTS"
+const RECORDS_BUTTON="RESEARCH AND RECORDS"
 static func show(main)->void:
  main.screen="fittings";main.sim.paused=true;main._clear_menu()
  main._button(main.panel_box,"BACK TO OPERATIONS",main._show_campaign,"back")
@@ -15,7 +17,10 @@ static func show(main)->void:
  FitSurface.fitting(main,context,func(key,id):main._choose_equipment(key,id,-1),main._show_fittings)
  main._menu_text(preload("res://src/presentation/tool_racks_view.gd").carry_text(main.tool_racks),15)
  preload("res://src/presentation/field_tool_view.gd").fittings(main)
- if preload("res://src/campaign/economy_table.gd").enabled:main._button(main.panel_box,"SUPPLIES / COSTS",main._show_economy,"economy")
+ if preload("res://src/campaign/economy_table.gd").enabled:main._button(main.panel_box,SUPPLIES_BUTTON,main._show_economy,"economy")
  preload("res://src/presentation/archive/archive_nav.gd").entry(main)
+ # The archive entry is the button just added; the fittings screen words it plainly.
+ var records_button=main.panel_box.get_child(main.panel_box.get_child_count()-1)
+ if records_button is Button and records_button.get_meta("action","")=="archive":records_button.text=RECORDS_BUTTON
  preload("res://src/campaign/early_reward/early_reward.gd").fittings(main)
  main.call_deferred("_layout")

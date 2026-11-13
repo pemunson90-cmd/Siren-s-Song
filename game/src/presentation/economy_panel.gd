@@ -1,5 +1,7 @@
 extends RefCounted
 const Names=preload("res://src/names.gd")
+const UiStyle=preload("res://src/presentation/ui_style.gd")
+const FitCard=preload("res://src/presentation/fit_surface/fit_card.gd")
 # Between-operation economy controls: balances, costs, preset, repair, manufacturing,
 # research and frame unlocks. Main owns state; every action saves and redraws so prices
 # stay current. Nothing here changes sensing, pause or combat.
@@ -52,9 +54,10 @@ static func picker(host,e:Dictionary,changed:Callable)->void:
 	host._menu_text("CAMPAIGN PRESET · %s%s"%[Options.label(e)," · IRONMAN" if e.ironman else ""],17)
 	for id in Table.ORDER:
 		var chosen=e.preset==id
-		var button=host._button(host.panel_box,"%s%s · %s"%[Table.PRESETS[id].name," · SELECTED" if chosen else "",Table.PRESETS[id].note],
+		var button=host._button(host.panel_box,"%s%s · %s"%[FitCard.CHOSEN+" · " if chosen else "",Table.PRESETS[id].name,Table.PRESETS[id].note],
 			func():changed.call(id,e.ironman,Options.state(e).custom),"eco_pick_"+id)
 		button.disabled=chosen
+		UiStyle.apply_card(button,chosen,false)
 	host._button(host.panel_box,"IRONMAN · ON (TAP TO TURN OFF)" if e.ironman else "IRONMAN · OFF (TAP TO TURN ON)",
 		func():changed.call(e.preset,not e.ironman,Options.state(e).custom),"eco_pick_ironman")
 	host._menu_text("Ironman permanently loses unrecovered drones and fittings. Replacements cost supplies. Empty bays can launch. Ironman charges every fitting on every launch and locks the preset once play begins.\n"+Save2Table.IRONMAN_LINE,14)

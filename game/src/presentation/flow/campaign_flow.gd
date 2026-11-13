@@ -21,6 +21,13 @@ static func plain_stock(host,index:int=-1) -> String:
 	lines[0]="Loadout: %s (next dive or retry)"%preload("res://src/equipment/field_tools.gd").loadout_label(host.upgrade).capitalize()
 	return "\n".join(lines)
 
+# The hull the next dive starts with (the launch applies the recorded condition); empty when it starts whole.
+const CARRIED_HULL="Quietus starts at hull %d%%: damage from the last dive is not repaired."
+static func carried_damage_line(host) -> String:
+	if not EconomyPanel.Table.enabled:return ""
+	var hull:int=int(host.economy.get("cond",{}).get(Names.CRAFT_QUIETUS,100))
+	return CARRIED_HULL%hull if hull<100 else ""
+
 static func show_campaign(host) -> void:
 	host.screen="menu"; host._clear_menu()
 	host._menu_text("SIREN'S SONG",38).add_theme_color_override("font_color",Color("80d9cf"))
@@ -123,13 +130,15 @@ static func briefing(host, index: int) -> void:
 	if index>0 and not compact and not host._campaign_pristine() and not EconomyPanel.briefing_line(host).is_empty():host._menu_text(preload("res://src/presentation/launch_summary.gd").text(host),14)
 	preload("res://src/presentation/crew/crew_view.gd").briefing(host,index)
 	# The opening brief confirms Quietus stock; its FITTINGS entry owns the full per-craft list.
-	var copy=preload("res://src/presentation/truthful_commands.gd")
 	host._menu_text(plain_stock(host,index),17)
-	if index>=3:host._menu_text(copy.brief_stock(host.tool_racks),14)
+	var carried_line=carried_damage_line(host)
+	if not carried_line.is_empty():host._menu_text(carried_line,17)
+	var carry=preload("res://src/presentation/tool_racks_view.gd").carry_text(host.tool_racks)
+	if index>=3:host._menu_text(carry,14)
 	# Frames open after the first dive; recovered fittings appear once earned. One fold hides them.
 	if not compact:fit_start=host.panel_box.get_child_count()
 	# Keep the first briefing focused; fit details stay available in the optional fold below LOADOUT.
-	FitSurface.summary(host,host._equipment_context(),copy.brief_stock(host.tool_racks) if index<3 else "")
+	FitSurface.summary(host,host._equipment_context(),carry if index<3 else "")
 	# The summary toggle keeps its id; its label says what it does and follows its state.
 	var summary_toggle=host.panel_box.get_child(host.panel_box.get_child_count()-1)
 	if summary_toggle is Button and summary_toggle.get_meta("action","")=="fit_summary":
