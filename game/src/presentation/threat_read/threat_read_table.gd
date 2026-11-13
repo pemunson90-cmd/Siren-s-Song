@@ -47,7 +47,7 @@ const TEXT={
 	"lock_many":"%d LOCKS · %.1fs",
 	# The warning card: direction word, craft name, seconds left, then the way out.
 	"lock_sentence":"A Siren to the %s has noticed %s. It locks in %.1f s.",
-	"lock_exit":"Stop, go SILENT, or put rock between you.",
+	"lock_exit":"Break its line of sight: put rock between you.",	# what the lock rule answers to (was "Break sight with cover.")
 	"lost":"%s LOST",
 	"beam":" · SIREN BEAM FROM %03d°",
 	"battery":" · BATTERY EXHAUSTED",
