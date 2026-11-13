@@ -1,4 +1,5 @@
 extends SceneTree
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd") # both drones start aboard; the camera fixtures use a drone in the water
 # Compare the retained pre-PHOTO1 illustration path with legacy-shaped records,
 # then verify the current photographic view separately at a fixed display clock.
 var game
@@ -29,7 +30,7 @@ func run():
 	if not folder.is_empty():DirAccess.make_dir_recursive_absolute(folder)
 	root.size=Vector2i(1280,720);await process_frame;await process_frame
 	game=load("res://scenes/main.tscn").instantiate();game.capture_scenario="well-render-key-fixture";root.add_child(game);await process_frame
-	game._start_mission(4);game.set_process(false)
+	game._start_mission(4);PlayerDive.launch_drones(game.sim);game.set_process(false)
 	for site in game.sim.mission.objectives:site.erase("subject")
 	check(preload("res://src/simulation/simulation.gd").valid_snapshot(game.sim.snapshot()),"compatibility renderer fixture is a valid legacy-shaped snapshot")
 	# Explicit local camera fixture, not an ordinary travel/win or received-match claim.
@@ -59,7 +60,7 @@ func run():
 	game.sim.sirens=enemies
 	check(game.sim.snapshot()==before,"rendering and temporary fixture metadata leave camera/simulation state unchanged")
 	for id in [1,2]:
-		game._start_mission(4)
+		game._start_mission(4);PlayerDive.launch_drones(game.sim)
 		game.sim.units[1].pos=[Vector2(1150,450),Vector2(780,850)][id-1];game.sim.units[1].vel=Vector2.ZERO
 		game.sim.command("select",{"unit":1});var starts=game.sim.command("camera");game._refresh()
 		var site=await picture("well-site-%d"%id)
@@ -68,7 +69,7 @@ func run():
 		var old=await picture("legacy-site-%d"%id)
 		check(starts and game.sim.capture_target==id and site!=old,"fresh Well site%d uses its own acquisition context while legacy keeps fallback"%id)
 	# Current PHOTO1 records retain their subject and render the live scene.
-	game._start_mission(4);game.sim.units[1].pos=Vector2(800,390);game.sim.units[1].vel=Vector2.ZERO
+	game._start_mission(4);PlayerDive.launch_drones(game.sim);game.sim.units[1].pos=Vector2(800,390);game.sim.units[1].vel=Vector2.ZERO
 	game.sim.command("select",{"unit":1});var live=game.sim.command("camera");game._refresh()
 	check(live and not game.ocean.optical_feed.subject_view().is_empty(),"current Well record uses the actual photographic view")
 	var live_before=game.sim.snapshot();var live_picture=await picture("current-photo")

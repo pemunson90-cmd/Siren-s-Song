@@ -94,3 +94,15 @@ The "Terrain discovery / chart knowledge" row and the "Earned terrain stage 1" t
 
 **Changed 2026-11-12 (WP-16, `parity_rules/parity_rules.gd`):** on a player dive every operation after 0, 1 and 2 starts with only a small window of known water around the launch point and earns the rest with the craft's own sensors, through the existing earned-chart system. A survey sweep's picture stays for 30 seconds and lapses unless a craft maps that water. Not verified by play: whether each of those operations is still finishable and fair on a discovered chart; their authored journeys were not rerun (Pat's minimum-testing rule).
 
+
+### Tests that still fly on the older rules (code audit fix A5, 2026-11-12)
+
+Every dive now starts on the player rules, in tests as in play. 137 test suites written for the older game were converted: most launch the drones first, or switch on known charts for a scripted route. The ones below still use an older rule, each for a stated reason. Each is a question for Pat's play, not a decision made here.
+
+| Test | What it still uses | Why | What Pat may want to check |
+|---|---|---|---|
+| `photo_row_tender_door_journey_tests` | all older rules | The route relied on the older, louder drone drawing a guard away. With quiet drones the guard stays and the drone is lost at its depth change. | Can the tender door (operation 7) be photographed by a quiet drone? |
+| `depth_policy_journeys`, `depth_policy_ui_tests` | all older rules | The "active scout" opening plan loses Quietus at about 48 seconds on the player rules; it wins on the older ones. Likely because a calm Siren no longer turns toward the scout drone. | Is sending a scout ahead still a sound opening? |
+| `hand_pilot_journeys`, `bare_contact_tests` (operations 17 and 30 only) | known charts | The careful scripted pilot is destroyed on the first legs when it has to discover the chart. | Can operations 17 (Silt Archive) and 30 be finished by hand on discovered charts? |
+| `calder_fleet_journey_tests` | drones start in the water | Its controller orders drone depths before a drone can be launched. | Nothing; test plumbing. |
+| `loadout_frames_tests` (power bus cost checks) | sonar cost | Quietus sonar is free on the player rules, which hides the cost these checks measure. | Nothing; the drone cost is still tested. |

@@ -2,6 +2,9 @@ extends SceneTree
 const Sim=preload("res://src/simulation/simulation.gd")
 const Store=preload("res://src/persistence/save_store.gd")
 const Campaign=preload("res://src/campaign/expedition_campaign.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
+# Scripted routes through authored water are not about discovery: known-charts switch (player rule: water hidden until charted).
+var charts_before=false
 var checks=0
 var failures=0
 func check(ok:bool,label:String)->void:
@@ -11,7 +14,7 @@ func advance(s,seconds:float)->void:
  s.paused=false
  for n in roundi(seconds*60):s.advance(Sim.STEP)
 func fresh():
- var s=Sim.new();s.start(7);s.sirens=[];return s
+ var s=Sim.new();s.start(7);PlayerDive.launch_drones(s);s.sirens=[];return s
 func packet(m:Dictionary)->Dictionary:
  for o in m.objectives:
   if o.get("site_id","")=="rendezvous":return o
@@ -31,7 +34,7 @@ func service_accounts(s):
  check(s.command("camera"),"fixed north mooring reception");advance(s,4.1)
  for point in [Vector2(600,300),Vector2(600,40),Vector2(180,40)]:check(local_leg(s,point),"clear physical berth withdrawal")
 func guard_choice()->void:
- var berth=Sim.new();berth.start(7);berth.units[0].pos=Vector2(380,760);berth.units[0].silent=true
+ var berth=Sim.new();berth.start(7);PlayerDive.launch_drones(berth);berth.units[0].pos=Vector2(380,760);berth.units[0].silent=true
  advance(berth,.8);check(berth.command("camera"),"quiet western berth stance still starts the existing local decode against actual guards")
  advance(berth,4.1)
  service_accounts(berth)
@@ -40,7 +43,7 @@ func guard_choice()->void:
  check(berth.outcome=="won" and berth.hull==100 and berth.units[1].alive and berth.units[2].alive,"unreleased quiet route remains physically finishable with the real sentinel and no tool use")
  # Matched tactical fixture, not a deployment journey: both branches start with
  # the same legitimately acquired source, craft, guard and command state.
- var seed=Sim.new();seed.start(7)
+ var seed=Sim.new();seed.start(7);PlayerDive.launch_drones(seed)
  seed.units[0].pos=Vector2(580,360);seed.units[0].silent=true
  seed.units[1].pos=Vector2(650,1120);seed.units[1].silent=true
  seed.units[2].pos=Vector2(380,760);advance(seed,.8)
@@ -112,8 +115,10 @@ func save_integrity(snap:Dictionary)->void:
  bad=snap.duplicate(true);packet(bad.mission).pos+=Vector2(10,0)
  check(not Sim.valid_snapshot(bad),"saved gold objective must retain the last actual measured hull position")
 func finish()->void:
+ PlayerDive.known_water(charts_before)
  print("RENDEZVOUS TRANSPORT CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)
 func _initialize():
+ charts_before=PlayerDive.known_water(true)
  var s=fresh()
  check(s.has_method("rendezvous_context"),"Deep7 has a physical mobile receiver with a permitted observation authority")
  if not s.has_method("rendezvous_context"):finish();return

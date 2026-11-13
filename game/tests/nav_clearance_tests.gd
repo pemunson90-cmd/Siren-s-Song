@@ -1,6 +1,7 @@
 extends SceneTree
 # Source-known Cold Foundry corner. The safe AStar entry must not be cut from the course.
 const Sim=preload("res://src/simulation/simulation.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 const Measure=preload("res://tests/nav_clearance_measure.gd")
 var checks=0
 var failures=0
@@ -8,6 +9,8 @@ func check(ok,label):
  checks+=1
  if not ok:failures+=1;printerr("FAIL ",label)
 func _initialize():
+ # Navigation geometry over authored water, not a discovery test: known-charts developer switch (the player rules leave this water uncharted).
+ var charts_before=PlayerDive.known_water(true)
  var s=Sim.new();s.start(3,"endurance");s.mission["dev"]=true # 127: the pathfinder route is the dev/test path (Pat 2026-10-30).
  var origin=Vector2(889.6,800);var target=s.mission.extraction
  check(Measure.leg_clearance(s,origin,origin)>=24.,"the staged near-corner start has the full requested planning margin")
@@ -27,4 +30,5 @@ func _initialize():
   if not s.outcome.is_empty() or (s.units[0].route.is_empty() and s.units[0].vel.length()<2):break
  check(s.units[0].pos.distance_to(target)<20 and s.units[0].vel.length()<2,"fixed-step bare Quietus reaches the accepted destination without a safety-stop dead end")
  check(s.hull==100.,"the route does not consume collision hull")
+ PlayerDive.known_water(charts_before)
  print("NAV CLEARANCE CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)

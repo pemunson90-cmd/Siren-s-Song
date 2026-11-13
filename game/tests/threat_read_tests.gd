@@ -5,6 +5,7 @@ extends SceneTree
 # unearned role, the optional pause aid pauses once per loss, and with the
 # module switched off the readouts, message and pause are as before.
 const Sim=preload("res://src/simulation/simulation.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 const Store=preload("res://src/persistence/settings_store.gd")
 const Settings=preload("res://src/presentation/frontend/frontend_settings.gd")
 const Aids=preload("res://src/presentation/accessibility/tactical_aids.gd")
@@ -37,9 +38,11 @@ func photo_fixture(band:int):
 # The combat_rules_tests beam fixture: one Siren east of drone A, Quietus far away.
 func beam_fixture():
 	var s=Sim.new();s.start(2);s.mission.rocks=[];s.mission.structures=[];s._build_navigation()
-	s.units[0].pos=Vector2(400,2000);s.units[1].alive=true;s.units[1].pos=Vector2(900,840);s.units[2].alive=false
+	s.units[0].pos=Vector2(400,2000);PlayerDive.launch_drones(s);s.units[1].pos=Vector2(900,840);s.units[2].alive=false
 	s.sirens=[s.sirens[0]];var e=s.sirens[0]
 	e.pos=Vector2(1060,840);e.home=e.pos;e.goal=e.pos;e.route=[];e.stun=0.;e.lock=0.;e.target=-1
+	# A calm Siren ignores a drone in its sight (Pat, 2026-11-12). The drone-loss cases are a Siren already searching.
+	e.mode="SEARCH"
 	s.contacts={};s.known={};s.paused=false
 	return s
 func host_for(s):

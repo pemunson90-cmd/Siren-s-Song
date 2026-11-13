@@ -1,6 +1,7 @@
 extends RefCounted
 const Simulation=preload("res://src/simulation/simulation.gd")
 const SaveStore=preload("res://src/persistence/save_store.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 static func run(t) -> void:
 	var s=Simulation.new(); s.start(5,"disruption")
 	var receiver=s.mission.objectives[2]
@@ -16,6 +17,7 @@ static func run(t) -> void:
 	s.mission.objectives[0].captured=true
 	t.check(not s.command("camera"),"one observation cannot be mistaken for the final warning")
 	s.mission.objectives[1].captured=true
+	PlayerDive.launch_drones(s)
 	s.units[1].pos=s.units[0].pos; s.command("select",{"unit":1})
 	t.check(not s.command("camera") and "hydrophones" in s.message,"small drone cannot replace the explained shipborne receiver")
 	s.command("select",{"unit":0})
@@ -34,7 +36,7 @@ static func run(t) -> void:
 	var store=SaveStore.new(); store.path="user://test-finale.save"
 	t.check(store.save(data) and store.load_game()==data,"new warning evidence and partially returned mission survive actual archive roundtrip")
 	for suffix in ["",".tmp",".bak"]: DirAccess.remove_absolute(store.path+suffix)
-	var early=Simulation.new(); early.start(0); early.command("select",{"unit":1}); early.units[1].pos=Vector2(1300,510)
+	var early=Simulation.new(); early.start(0); PlayerDive.launch_drones(early); early.command("select",{"unit":1}); early.units[1].pos=Vector2(1300,510)
 	t.check(early.camera_context().ready and "READY" in early.camera_context().text,"a legitimate first-mission camera vantage explains readiness to the player")
 
 	var legacy_store=SaveStore.new(); legacy_store.path="res://tests/fixtures/accepted-finale.archive"

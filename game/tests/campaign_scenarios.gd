@@ -1,6 +1,7 @@
 extends RefCounted
 const HandLegs=preload("res://tests/hand_legs.gd") # 127: journeys place their own straight legs.
 const Simulation=preload("res://src/simulation/simulation.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 static func move(s, point: Vector2) -> bool:
 	if not HandLegs.route(s,point): return false
 	s.paused=false
@@ -13,7 +14,10 @@ static func move(s, point: Vector2) -> bool:
 		if s.units[0].route.is_empty() and s.units[0].vel.length()<2: return false
 	return false
 static func run(t) -> void:
+	var charts_before=PlayerDive.known_water(false)
 	for id in 6:
+		# The finale's scripted solo flight crosses authored water the player rules leave uncharted; it is about the finale, not discovery, so it uses the developer known-charts switch.
+		PlayerDive.known_water(id==5)
 		var s=Simulation.new(); s.start(id,"disruption")
 		# The fallback suite deliberately starts after both drones are lost.
 		s.units[1].alive=false; s.units[2].alive=false
@@ -43,3 +47,4 @@ static func run(t) -> void:
 		if success: success=move(s,s.mission.extraction)
 		t.check(success and s.outcome=="won","mission %d completes via routes, camera, extraction with drone-loss fallback"%(id+1))
 		print("CAMPAIGN ",id+1," outcome=",s.outcome," time=",snappedf(s.elapsed,0.1)," hull=",snappedf(s.hull,0.1)," oxygen=",snappedf(s.oxygen,0.1)," last=",s.message)
+	PlayerDive.known_water(charts_before)

@@ -1,6 +1,7 @@
 extends SceneTree
 # Item 141: a leg within hull clearance of another of your craft warns and names it.
 const Sim=preload("res://src/simulation/simulation.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 const Pilot=preload("res://src/simulation/hand_pilot/hand_pilot.gd")
 var checks=0
 var failures=0
@@ -10,7 +11,9 @@ func check(ok:bool,label:String):
 func _initialize():call_deferred("run")
 
 func run():
- var s=Sim.new();s.start(39);s.sirens=[];s.paused=true
+ # The rock warning needs the rock charted; the player rules hide uncharted water, and this suite is about own-craft warnings, not discovery, so it uses the developer known-charts switch.
+ var charts_before=PlayerDive.known_water(true)
+ var s=Sim.new();s.start(39);PlayerDive.launch_drones(s);s.sirens=[];s.paused=true
  var q=s.units[0];var b=s.units[2]
  s.units[1].pos=Vector2(-5000,-5000)
  q.pos=Vector2(300,500);q.vel=Vector2.ZERO;q.band=b.band;q.transition={};q.route=[]
@@ -46,4 +49,5 @@ func run():
  q.pos=Vector2(300,500);q.route=[];b.pos=Vector2(400,500);s.selected=0
  check(s.command("route",{"point":Vector2(500,500)}) and not q.route.is_empty(),"warned leg can still be placed")
  check(Pilot.warnings(s,0).any(func(x):return x.reason=="Passes DRONE B"),"placed leg shows the warning")
+ PlayerDive.known_water(charts_before)
  print("OWN CRAFT LEG WARNING CHECKS %d FAILURES %d"%[checks,failures]);quit(1 if failures else 0)

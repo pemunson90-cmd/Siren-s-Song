@@ -51,7 +51,7 @@ func run():
   root.size=dimensions;await settle()
   var game=load("res://scenes/main.tscn").instantiate();game.set_script(load("res://tests/density_main.gd"));game.capture_scenario="blackwater-delivery-runtime-fixture"
   if dimensions.x==2520:game.fixture_safe_area=Rect2(136,0,2384,1080)
-  root.add_child(game);await settle();game.set_process(false);game.completed=[0,1];game.unlocked=2;game._start_mission(2);await settle()
+  root.add_child(game);await settle();game.set_process(false);game.completed=[0,1];game.unlocked=2;game._start_mission(2);await settle();preload("res://tests/fixtures/player_dive.gd").launch_drones(game.sim)
   var sim=game.sim;sim.sirens=[];var h=game.mission_hud;var label="cover" if dimensions.x==2520 else "inner"
   await sample(game,1,0);await sample(game,2,1)
   check(game.screen=="mission" and sim.outcome.is_empty() and sim.blackwater_delivery_status().cargo==[[],[0],[1]],"two real distant drone samples preserve the active return instead of winning at home Quietus")
@@ -65,7 +65,7 @@ func run():
   await advance(game,1./60.)
   check(game.screen=="debrief" and sim.outcome=="won" and game.panel_box.find_children("*","Label",true,false).any(func(l):return "DELIVERED 2/2" in l.text),"normal recovery after actual carrier return shows only the exchange aboard Quietus")
   # Kit + data loss uses a single genuine own-wreck winch.
-  game.completed=[0,1,2,3,4,5];game.unlocked=5;game.fitted_equipment.drone_a="drone_deep_cells";game._start_mission(2);await settle();sim=game.sim;sim.sirens=[]
+  game.completed=[0,1,2,3,4,5];game.unlocked=5;game.fitted_equipment.drone_a="drone_deep_cells";game._start_mission(2);await settle();preload("res://tests/fixtures/player_dive.gd").launch_drones(game.sim);sim=game.sim;sim.sirens=[]
   await sample(game,1,0);var wreck=sim.units[1].pos;sim.units[1].battery=0;await advance(game,1./60.)
   var sites=sim.salvage_sites();check(sites.size()==1 and sites[0].packets==[0] and sites[0].item=="drone_deep_cells","real loss creates one combined kit and REQUEST buffer wreck")
   sim.units[0].pos=wreck+Vector2(0,40);sim.units[0].vel=Vector2.ZERO;sim.command("select",{"unit":0});game.ocean.focus_craft();game._refresh();await settle()
@@ -94,14 +94,14 @@ func run():
   check(Array(card.text.split("\n")).all(func(line):return card.get_theme_font("font").get_string_size(line,HORIZONTAL_ALIGNMENT_LEFT,-1,card.get_theme_font_size("font_size")).x<=available) and game.get_global_rect().encloses(card.get_global_rect()),"simultaneous data and inactive kit remain fully readable on each screen shape")
   await capture(label+"-combined-cargo")
   # Loss also remains recoverable by the original fixed-relay SAMPLE fallback.
-  game.fitted_equipment.drone_a="";game._start_mission(2);await settle();sim=game.sim;sim.sirens=[]
+  game.fitted_equipment.drone_a="";game._start_mission(2);await settle();preload("res://tests/fixtures/player_dive.gd").launch_drones(game.sim);sim=game.sim;sim.sirens=[]
   await sample(game,1,0);sim.units[1].battery=0;await advance(game,1./60.)
   check(sim.blackwater_delivery_status().packets[0].recorded and not sim.blackwater_delivery_status().packets[0].aboard,"lost raw buffer retains the actual field note without delivery")
   await sample(game,0,0)
   check(sim.blackwater_delivery_status().packets[0].aboard and sim.salvage_sites().is_empty(),"Quietus actual resample recovers needed data without a compulsory wreck retrieval")
   # Explicit own-position fixture isolates the existing module departure choice
   # from missing/complete raw data; physical carrier travel is checked above.
-  game.fitted_equipment.drone_b="drone_deep_cells";game._start_mission(2);await settle();sim=game.sim;sim.sirens=[]
+  game.fitted_equipment.drone_b="drone_deep_cells";game._start_mission(2);await settle();preload("res://tests/fixtures/player_dive.gd").launch_drones(game.sim);sim=game.sim;sim.sirens=[]
   await sample(game,1,0);await sample(game,0,1)
   sim.units[0].pos=sim.mission.extraction;sim.units[0].vel=Vector2.ZERO;sim.units[1].pos=sim.units[0].pos+Vector2(40,0);sim.units[1].vel=Vector2.ZERO;sim.units[2].pos=sim.units[0].pos+Vector2(300,0);sim.units[2].vel=Vector2.ZERO
   await advance(game,1./60.)

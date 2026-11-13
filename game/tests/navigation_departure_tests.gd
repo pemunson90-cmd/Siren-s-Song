@@ -1,13 +1,14 @@
 extends SceneTree
 const Sim=preload("res://src/simulation/simulation.gd")
 const Routes=preload("res://tests/campaign_scenarios.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 var checks=0
 var failures=0
 func check(ok:bool,label:String):
  checks+=1
  if not ok:failures+=1;print("FAIL ",label)
 func fresh_wall(side:int,velocity:float=0.0,unit_id:int=0):
- var s=Sim.new();s.start(0);s.sirens=[];s.mission.rocks=[];s.mission.structures=[Rect2(300,300,200,200)];s._build_navigation()
+ var s=Sim.new();s.start(0);PlayerDive.launch_drones(s);s.sirens=[];s.mission.rocks=[];s.mission.structures=[Rect2(300,300,200,200)];s._build_navigation()
  var u=s.units[unit_id];u.pos=Vector2(530 if side==1 else 270,350);u.angle=PI if side==1 else 0.0;u.vel=Vector2(-side*velocity,0);u.silent=unit_id==0
  s.selected=unit_id;s.paused=false
  return s
@@ -47,7 +48,7 @@ func _initialize():
  # A full reversal on either side of a wall must retain its clear planned route.
  for side in [-1,1]:
   for unit_id in [0,1]:
-   var w=Sim.new();w.start(0);w.sirens=[];w.mission.rocks=[];w.mission.structures=[Rect2(300,400 if side==1 else 200,200,100)];w._build_navigation()
+   var w=Sim.new();w.start(0);PlayerDive.launch_drones(w);w.sirens=[];w.mission.rocks=[];w.mission.structures=[Rect2(300,400 if side==1 else 200,200,100)];w._build_navigation()
    var u=w.units[unit_id];u.pos=Vector2(450,370 if side==1 else 330);u.angle=side*0.01;w.selected=unit_id;w.paused=false
    var target=Vector2(220,u.pos.y);check(w.command("route",{"point":target}),"reversal route is terrain-safe")
    drive(w);check(u.pos.distance_to(target)<20,"near-wall reversal completes turn%d unit%d"%[side,unit_id])
@@ -56,7 +57,7 @@ func _initialize():
  var open_trace=[]
  for unit_id in [0,1]:
   for silent in [true,false]:
-   var w=Sim.new();w.start(0);w.sirens=[];w.mission.rocks=[];w.mission.structures=[];w._build_navigation();w.selected=unit_id;w.paused=false
+   var w=Sim.new();w.start(0);PlayerDive.launch_drones(w);w.sirens=[];w.mission.rocks=[];w.mission.structures=[];w._build_navigation();w.selected=unit_id;w.paused=false
    var u=w.units[unit_id];u.pos=Vector2(800,480);u.angle=2.0;u.silent=silent;w.command("route",{"point":Vector2(1050,400)})
    for n in 80:w.advance(0.1);open_trace.append([u.pos.x,u.pos.y,u.vel.x,u.vel.y,u.angle,u.route.size()])
  print("OPEN_WATER_TRACE_SHA256 ",JSON.stringify(open_trace).sha256_text())

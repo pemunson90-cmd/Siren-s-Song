@@ -2,6 +2,7 @@ extends SceneTree
 const Sim=preload("res://src/simulation/simulation.gd")
 const Store=preload("res://src/persistence/save_store.gd")
 const Observed=preload("res://tests/fixtures/blackwater_first_extract.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 var checks=0
 var failures=0
 func check(ok:bool,label:String)->void:
@@ -22,7 +23,7 @@ func loss_and_resample()->void:
  check(lost.mission.objectives[0]==record and lost.mission.courier_launch==launch and lost.events.filter(func(e):return e.type=="record").size()==record_events,"resample preserves the first field evidence and glider launch without a duplicate archive event")
  check(lost.blackwater_delivery_status().packets[0].aboard and lost.salvage_sites().is_empty(),"real resample secures Q's packet while redundant wreck data no longer blocks the mission")
 func combined_wreck()->void:
- var sim=Sim.new();sim.start(2,"endurance",{"fitted":{"quietus":"","drone_a":"drone_sampler","drone_b":""}});sim.sirens=[]
+ var sim=Sim.new();sim.start(2,"endurance",{"fitted":{"quietus":"","drone_a":"drone_sampler","drone_b":""}});sim.sirens=[];PlayerDive.launch_drones(sim)
  sim.units[1].pos=Vector2(760,330);sim.command("select",{"unit":1});sim.command("camera");tick(sim,2.1)
  sim.units[1].alive=false;tick(sim,Sim.STEP)
  var sites=sim.salvage_sites()
@@ -32,7 +33,7 @@ func combined_wreck()->void:
  tick(sim,4.1)
  check(sim.blackwater_delivery_status().packets[0].aboard and sim.module_recovery_status().cargo[0]==["drone_sampler"] and sim.salvage_sites().is_empty(),"one4s winch recovers co-located inactive kit and exchange buffer to the same living carrier")
 func glider_buffer()->void:
- var sim=Sim.new();sim.start(2);sim.sirens=[];sim.units[0].pos=Vector2(760,330);sim.command("camera");tick(sim,2.1);tick(sim,12)
+ var sim=Sim.new();sim.start(2);PlayerDive.launch_drones(sim);sim.sirens=[];sim.units[0].pos=Vector2(760,330);sim.command("camera");tick(sim,2.1);tick(sim,12)
  sim.units[2].pos=Vector2(1120,620);sim.units[2].vel=Vector2.ZERO;sim.command("select",{"unit":2})
  check(sim.blackwater_context(1).get("source","")=="courier" and sim.command("camera"),"a real drone interception preserves the accepted moving glider receiver")
  tick(sim,2.1)
@@ -40,7 +41,7 @@ func glider_buffer()->void:
  sim.units[0].pos=Vector2(1120,650);sim.units[0].vel=Vector2.ZERO
  check(sim.command("blackwater_handoff",{"carrier":2}) and sim.all_records(),"local glider data handoff combines with Quietus's request without another objective")
 func data_winch_and_save()->void:
- var sim=Sim.new();sim.start(2);sim.sirens=[];sim.command("select",{"unit":1})
+ var sim=Sim.new();sim.start(2);PlayerDive.launch_drones(sim);sim.sirens=[];sim.command("select",{"unit":1})
  for site in [0,1]:
   sim.units[1].pos=sim.mission.objectives[site].pos+Vector2(0,130);sim.units[1].vel=Vector2.ZERO
   sim.command("camera");tick(sim,2.1)
@@ -104,7 +105,7 @@ func physical_return()->void:
  check(impacts>0 and sim.hull<100,"incoming docking carriers now incur collision damage without changing the return route")
  print("OBSERVED RETURN outcome=",sim.outcome," elapsed=",sim.elapsed," hull=",sim.hull," EMP=",sim.tools.emp)
 func handoff_guards()->void:
- var sim=Sim.new();sim.start(2);sim.mission.objectives[0].captured=true;sim.mission.blackwater_delivery.carriers[1]=[0];sim.units[1].pos=sim.units[0].pos+Vector2(30,0)
+ var sim=Sim.new();sim.start(2);PlayerDive.launch_drones(sim);sim.mission.objectives[0].captured=true;sim.mission.blackwater_delivery.carriers[1]=[0];sim.units[1].pos=sim.units[0].pos+Vector2(30,0)
  check(sim.blackwater_handoff_context(1).ready,"a local settled own-data carrier exposes handoff readiness")
  sim.units[1].vel=Vector2(2,0);check(not sim.blackwater_handoff_context(1).ready,"carrier ground motion blocks local data connection")
  sim.units[1].vel=Vector2.ZERO;sim.units[0].vel=Vector2(0,2);check(not sim.blackwater_handoff_context(1).ready,"Quietus ground motion also blocks local data connection")
@@ -120,7 +121,7 @@ func binary_roundtrip(sim)->bool:
  for suffix in ["",".bak",".tmp"]:DirAccess.remove_absolute(store.path+suffix)
  return valid
 func concurrent_samples():
- var sim=Sim.new();sim.start(2);sim.sirens=[]
+ var sim=Sim.new();sim.start(2);PlayerDive.launch_drones(sim);sim.sirens=[]
  sim.command("select",{"unit":1});sim.units[1].pos=Vector2(760,330);sim.command("camera");tick(sim,2.1)
  sim.command("select",{"unit":0});sim.units[0].pos=Vector2(1360,610);sim.command("camera");tick(sim,2.1)
  sim.command("select",{"unit":2});sim.units[2].pos=Vector2(760,330);sim.units[2].vel=Vector2.ZERO
@@ -137,7 +138,7 @@ func concurrent_delivery()->void:
  tick(sim,Sim.STEP)
  check(sim.outcome=="won" and binary_roundtrip(sim),"normal extraction after concurrent handoff remains a restorable finished archive")
  for fitted in [{"quietus":"","drone_a":"","drone_b":""},{"quietus":"","drone_a":"drone_deep_cells","drone_b":""}]:
-  var wreck=Sim.new();wreck.start(2,"endurance",{"fitted":fitted});wreck.sirens=[]
+  var wreck=Sim.new();wreck.start(2,"endurance",{"fitted":fitted});PlayerDive.launch_drones(wreck);wreck.sirens=[]
   wreck.command("select",{"unit":1});wreck.units[1].pos=Vector2(760,330);wreck.command("camera");tick(wreck,2.1)
   wreck.units[1].alive=false;tick(wreck,Sim.STEP)
   wreck.units[0].pos=Vector2(760,360);wreck.units[0].vel=Vector2.ZERO;wreck.command("select",{"unit":0})
@@ -146,7 +147,7 @@ func concurrent_delivery()->void:
   check(wreck.command("camera"),"peer resampling may start during an existing wreck winch")
   tick(wreck,.3);wreck.paused=true
   check(wreck.blackwater_delivery_status().packets[0].aboard and wreck.captures[2].is_empty() and wreck.units[2].hold=="" and binary_roundtrip(wreck),"data-only and combined-kit collection end redundant resampling before the same-tick binary save")
- var other=Sim.new();other.start(2);other.sirens=[]
+ var other=Sim.new();other.start(2);PlayerDive.launch_drones(other);other.sirens=[]
  other.command("select",{"unit":1});other.units[1].pos=Vector2(760,330);other.command("camera");tick(other,2.1)
  other.command("select",{"unit":2});other.units[2].pos=Vector2(1360,610);check(other.command("camera"),"a different packet may still be received during local REQUEST delivery")
  other.units[1].pos=other.units[0].pos+Vector2(30,0);other.units[1].vel=Vector2.ZERO;other.command("select",{"unit":1});other.paused=true

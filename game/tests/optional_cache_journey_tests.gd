@@ -12,6 +12,7 @@ func run():
   fit.quietus="quietus_vector_drive"
   if frame!="heavy":fit.quietus_2="quietus_scrubber_bed"
   var s=Sim.new();s.start(39,"endurance",{"fitted":fit})
+  if frame=="heavy":PlayerDive.launch_drones(s) # the Heavy drone is the carrier; it must be in the water before it is given a depth order
   s.command("silent")
   var stock=s.tools.duplicate(true)
   var carrier=1 if frame=="heavy" else 0

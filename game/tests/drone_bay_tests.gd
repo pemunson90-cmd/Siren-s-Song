@@ -30,7 +30,7 @@ func run():
  await main_case()
  print("DRONE BAY CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)
 func start_cases():
- var legacy=Sim.new();legacy.start(0,"endurance")
+ var legacy=Sim.new();legacy.start(0,"endurance",{Bay.FLAG:false})
  check(legacy.units[1].alive and legacy.units[2].alive and not Bay.any_aboard(legacy),"a start without the flag keeps both drones in the water")
  check(legacy.units[1].pos!=legacy.units[0].pos,"deployed drones keep their own positions")
  for operation in [0,1,15,22,41]:

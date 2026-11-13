@@ -1,6 +1,7 @@
 extends SceneTree
 const Fleet=preload("res://src/presentation/fleet_instruments.gd")
 const Equipment=preload("res://src/presentation/equipment_context.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 class RecoverySim:
  extends "res://src/simulation/simulation.gd"
  var recovery={"modules":[{"item":"drone_sampler","name":"FIELD SAMPLER","state":"salvage","unit":-1,"pos":Vector2(200,200)}],"cargo":[[],[],[]],"jobs":[{},{},{}],"result":{}}
@@ -59,7 +60,7 @@ func run():
   var game=load("res://scenes/main.tscn").instantiate();game.set_script(load("res://tests/density_main.gd"));game.capture_scenario="module-recovery-ui-fixture"
   if dimensions.x==2520:game.fixture_safe_area=Rect2(136,0,2384,1080)
   root.add_child(game);await settle();game.set_process(false);game.sim=RecoverySim.new();game._start_mission(0);await settle()
-  var s=game.sim;s.units[0].pos=Vector2(300,800);s.units[1].alive=false;s.recovery.modules[0].pos=Vector2(340,800);game.ocean.focus_craft();game._refresh();await settle()
+  var s=game.sim;PlayerDive.launch_drones(s);s.units[0].pos=Vector2(300,800);s.units[1].alive=false;s.recovery.modules[0].pos=Vector2(340,800);game.ocean.focus_craft();game._refresh();await settle()
   var marker=game.ocean.salvage_markers()[0].rect.get_center()
   await tap(game.ocean.global_position+marker)
   check(game.advanced_orders and game.mission_hud.page=="salvage","touching known module marker opens recovery context instead of plotting water route")
@@ -99,7 +100,7 @@ func run():
   await tap(action(game,"abandon_modules").get_global_rect().get_center())
   check(s.requests.size()==2 and s.requests[1]=={"order":"depart","args":{"confirm":true,"corridor":s.departure.corridor}},"explicit confirmed list sends one validated departure command bound to the viewed mouth")
   # Actual authored two-mouth geometry with isolated public departure state.
-  game._start_mission(11);await settle();s.requests.clear()
+  game._start_mission(11);PlayerDive.launch_drones(s);await settle();s.requests.clear()
   var mouth=s.extraction_corridors().filter(func(c):return c.route=="overt")[0]
   check(mouth.pos!=s.mission.extraction,"two-mouth fixture distinguishes selected overt exit from default extraction")
   s.departure.merge({"available":true,"pending":true,"confirmation_required":true,"corridor":mouth,"left":[{"item":"drone_sampler","name":"FIELD SAMPLER","state":"cargo","unit":2,"pos":s.units[2].pos,"reason":"Carrier outside this recovery mouth"}]},true)

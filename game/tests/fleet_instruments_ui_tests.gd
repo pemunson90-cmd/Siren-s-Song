@@ -1,4 +1,5 @@
 extends SceneTree
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 # Isolated multi-craft control fixtures, not an earned campaign journey.
 var checks=0
 var failures=0
@@ -30,7 +31,7 @@ func run():
   root.size=dimensions;await settle()
   var game=load("res://scenes/main.tscn").instantiate();game.set_script(load("res://tests/density_main.gd"));game.capture_scenario="fleet-instruments"
   if dimensions.x==2520:game.fixture_safe_area=Rect2(136,0,2384,1080)
-  root.add_child(game);await settle();game.set_process(false);game._start_mission(1);await settle()
+  root.add_child(game);await settle();game.set_process(false);game._start_mission(1);PlayerDive.launch_drones(game.sim);game._refresh();await settle()
   var s=game.sim;var hud=game.mission_hud;var name="cover" if dimensions.x==2520 else "inner"
   for enemy in s.sirens:enemy.stun=100.
   for pair in [[1,0],[2,1]]:
@@ -97,7 +98,7 @@ func run():
   s.captures[2]={};game._refresh();await settle()
   check(not fleet.telemetry[0].visible,"idle peer keeps its spatial gauge without a permanent detail plate")
   for fixture in [{"mission":12,"unit":0,"verb":"ACTUATE","fitted":{}},{"mission":12,"unit":1,"verb":"FIELD SAMPLE","fitted":{"quietus":"","drone_a":"drone_sampler","drone_b":""}},{"mission":13,"unit":0,"verb":"TRANSMIT","fitted":{}}]:
-   s.start(fixture.mission,"endurance",{"fitted":fixture.fitted});s.sirens=[]
+   s.start(fixture.mission,"endurance",{"fitted":fixture.fitted});PlayerDive.launch_drones(s);s.sirens=[]
    s.units[fixture.unit].pos=Vector2(1830,1080) if fixture.mission==13 else s.mission.objectives[0].pos+Vector2(0,80)
    s.command("select",{"unit":fixture.unit});check(s.command("camera"),"actual "+fixture.verb+" fixture begins")
    game._refresh();await settle()

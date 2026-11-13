@@ -38,7 +38,7 @@ static func audit(text:String,file:String)->Array:
 # HOLD work, so the checkpoint written before unpause still validates.
 func recall_releases_jobs():
  var Sim=load("res://src/simulation/simulation.gd")
- var s=Sim.new();s.start(39);s.sirens=[];s.paused=true
+ var s=Sim.new();s.start(39);preload("res://tests/fixtures/player_dive.gd").launch_drones(s);s.sirens=[];s.paused=true # the drone winches in the water, so it is launched first
  var item=s.Cache.IDS[0];var p=s.Cache.pieces(s)[item];var d=s.units[1]
  d.pos=p.pos;d.band=p.band;d.vel=Vector2.ZERO;d.transition={};s.selected=1
  check(s.command("salvage",{"item":item}) and s.Cache.busy(s,1) and d.hold=="HOLD","drone cache winch starts under HOLD")

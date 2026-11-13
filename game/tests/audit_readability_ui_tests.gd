@@ -1,5 +1,6 @@
 extends "res://tests/challenges_ui_tests.gd"
 const Settings=preload("res://src/presentation/frontend/frontend_settings.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 const Recovery=preload("res://src/presentation/module_recovery_view.gd")
 const Copy=preload("res://src/presentation/public_copy.gd")
 const Seed=preload("res://src/presentation/runs/seed_entry.gd")
@@ -109,6 +110,7 @@ func departure_touch_case(game,label):
  var fitting=preload("res://src/equipment/equipment_catalog.gd").default_loadout();fitting.drone_a="drone_deep_cells"
  game.sim.start(0,"endurance",{"fitted":fitting,"fleet_commit":false})
  var sim=game.sim
+ PlayerDive.launch_drones(sim) # the fitted carrier is a launched drone; one aboard is already home
  for o in sim.mission.objectives:o.captured=true
  sim.units[0].pos=sim.mission.extraction;sim.units[0].vel=Vector2.ZERO
  sim.units[1].pos=sim.mission.extraction;sim.units[1].vel=Vector2.ZERO;sim.units[1].band=0

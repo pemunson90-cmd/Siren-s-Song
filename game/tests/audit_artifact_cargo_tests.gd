@@ -1,13 +1,14 @@
 extends SceneTree
 const Sim=preload("res://src/simulation/simulation.gd")
 const Gear=preload("res://src/equipment/equipment_catalog.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 var checks=0
 var failures=0
 func check(ok,label):
 	checks+=1
 	if not ok:failures+=1;printerr("FAIL ",label)
 func fresh(op:int,chassis:String="standard"):
-	var s=Sim.new();s.start(op,"endurance",{"fitted":Gear.canonical({"chassis_a":chassis})});s.selected=1
+	var s=Sim.new();s.start(op,"endurance",{"fitted":Gear.canonical({"chassis_a":chassis})});PlayerDive.launch_drones(s);s.selected=1
 	var a=s.mission.glass_reach.artifact if op<22 else s.mission.iron_choir.artifact
 	s.units[1].pos=a.pos;s.units[1].vel=Vector2.ZERO;s.units[1].band=a.band;s._use_band(a.band)
 	return s

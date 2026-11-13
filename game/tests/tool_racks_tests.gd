@@ -1,4 +1,5 @@
 extends "res://tests/fix2_menu_ui_tests.gd"
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 const Racks=preload("res://src/equipment/tool_racks.gd")
 const Tools=preload("res://src/equipment/field_tools.gd")
 const Effects=preload("res://src/simulation/field_tool_effects.gd")
@@ -62,7 +63,7 @@ func data_checks():
  var s=Sim.new();s.start(0,"endurance",{"tool_racks":Racks.empty()})
  check(s.tools.values().all(func(n):return n==0) and Effects.state(s).counts.values().all(func(n):return n==0),"empty rack really launches with no finite stock")
  var survey=Racks.empty();survey.drone_a.sonobuoy=3
- s.start(0,"survey",{"tool_racks":survey});s.sirens=[]
+ s.start(0,"survey",{"tool_racks":survey});PlayerDive.launch_drones(s);s.sirens=[] # drones start aboard; the drone-carried tool is deployed from the water
  s.mission.structures=[];s.rock_shapes=[];s.rock_bounds=[];s._build_navigation()
  check(not s.command("sonobuoy") and Effects.count(s,"sonobuoy")==3,"Quietus cannot spend a drone's carried tool")
  s.selected=1;var origin=s.units[1].pos
@@ -71,7 +72,9 @@ func data_checks():
  var restored=Sim.new();check(restored.restore(s.snapshot()) and Racks.count(restored,"sonobuoy")==2,"restore preserves selected owner stock")
  var broken=s.snapshot();broken.mission.tool_racks.drone_a.sonobuoy=9
  check(not Sim.valid_snapshot(broken),"corrupt aggregate versus owner stock rejected")
- var owned=Racks.empty();owned.drone_b.emp=1;s.start(0,"endurance",{"tool_racks":owned});s.sirens=[]
+ var owned=Racks.empty();owned.drone_b.emp=1;s.start(0,"endurance",{"tool_racks":owned});PlayerDive.launch_drones(s)
+ # EMP needs a Siren inside its radius (Pat, 2026-11-12); one is placed beside drone B, which owns the charge.
+ s.sirens=s.sirens.slice(0,1);s.sirens[0].pos=s.units[2].pos+Vector2(60,0)
  check(not s.command("emp") and s.tools.emp==1,"legacy tool refuses another craft's charge")
  s.selected=2
  check(s.command("emp") and s.tools.emp==0 and s.mission.tool_racks.drone_b.emp==0,"selected-craft legacy effect spends owner charge")

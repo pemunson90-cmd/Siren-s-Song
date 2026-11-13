@@ -128,7 +128,7 @@ func run():
    root.add_child(g);await settle();g.set_process(false)
    # These routes deliberately launch bare; compare actual stock before/after.
    g.tool_racks=preload("res://src/equipment/tool_racks.gd").empty()
-   g._start_mission(id);await settle()
+   g._start_mission(id);PlayerDive.launch_drones(g.sim);await settle()
    var launch_tools=g.sim.tools.duplicate(true)
    var launch_field=g.sim.mission.field_tools.counts.duplicate(true)
    var launch_racks=g.sim.mission.tool_racks.duplicate(true)

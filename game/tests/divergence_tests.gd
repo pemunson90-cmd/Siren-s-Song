@@ -1,12 +1,13 @@
 extends SceneTree
 const Sim=preload("res://src/simulation/simulation.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 var failures=0
 var checks=0
 func check(ok:bool,label:String):
  checks+=1
  if not ok:failures+=1;print("FAIL ",label)
 func _initialize():
- var s=Sim.new();s.start(6)
+ var s=Sim.new();s.start(6);PlayerDive.launch_drones(s)
  check(s.mission.id==6,"Divergence has a stable post-tutorial mission ID")
  if s.mission.id!=6:quit(1);return
  check(s.has_method("observable_sites") and s.observable_sites().is_empty(),"unlocated sources create no exact initial objective marks")

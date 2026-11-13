@@ -10,6 +10,7 @@ extends SceneTree
 # HANDPILOT JSON row; dev rows fly the same plan through the test-only
 # pathfinder for comparison and are not gated.
 const Sim=preload("res://src/simulation/simulation.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 const Glass=preload("res://tests/glass_reach_journeys.gd")
 const Calder=preload("res://tests/calder_trench_journey_tests.gd")
 const HandPilot=preload("res://src/simulation/hand_pilot/hand_pilot.gd")
@@ -246,8 +247,11 @@ func fly(id:int,preset:String,hand:bool)->Dictionary:
  var history={"version":2,"history":[],"notes":{},"references":{},"entitlements":[],"route":"deep","routes":["deep"],"selected_thread":"deep","facts":{"deep":"Recovered branch account","confluence_route":"concealed","resolution":"concealed_recovery"},"completed":[6,7,9,11,12,14,15,16,17,18,19,22,23,24,25]}
  var s=HandRun.new();s.hand=hand
  seed(127)
+ # Ops 17 and 30 are flown from the public chart here; under the player rules they discover their own chart and the pilot is shot on its first legs (suspected finishability gap, reported). Known-charts developer switch restores the older chart for those two.
+ var charts_before=PlayerDive.known_water(id in [17,30])
  s.start(id,"endurance",{"context":history,"tool_racks":Racks.empty()})
  Economy.apply_launch(Economy.new_state(preset),s)
+ PlayerDive.launch_drones(s) # player dive: the drones start aboard; the pilot launches them
  s.mission["dev"]=not hand
  var bare=s.mission.launch_equipment.values().all(func(item):return str(item).is_empty() or str(item)=="standard")
  var empty=s.tools.values().all(func(n):return n==0) and s.mission.tool_racks==Racks.empty()
@@ -256,6 +260,7 @@ func fly(id:int,preset:String,hand:bool)->Dictionary:
  elif id in [15,16,17,18,20,21]:ok=glass(s,id)
  elif id==22:ok=hammerwake(s)
  else:ok=survey(s,id)
+ PlayerDive.known_water(charts_before)
  var recovered=s.outcome=="won" and s.events.any(func(e):return e.type=="extraction")
  if id==2:recovered=recovered and s.mission.blackwater_delivery.aboard.has(0) and s.mission.blackwater_delivery.aboard.has(1)
  var drones=s.mission.get("module_recovery",{}).get("result",{}).get("recovered_drones",[]).size()

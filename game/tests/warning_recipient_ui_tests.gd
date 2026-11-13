@@ -1,4 +1,5 @@
 extends SceneTree
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd") # both drones start aboard; the remote-craft checks use drones in the water
 # Staged source-known touch fixtures, not a campaign preference/play report.
 const BERTH=Vector2(1840,440)
 const PANEL=Vector2(1840,380)
@@ -179,7 +180,7 @@ func run():
   if dimensions.x==2520:g.fixture_safe_area=Rect2(136,0,2384,1080)
   root.add_child(g);await settle();g.set_process(false)
   g.completed=[0,1,2,3,4,5];g.unlocked=5;g.expedition={"version":2,"route":"shelf","routes":["shelf"],"facts":{"shelf":"Recovered branch","confluence_route":"overt"},"completed":[6,8,10,11],"notes":{},"references":{},"entitlements":[],"history":[],"selected_thread":"shelf"}
-  g._start_mission(13);g.sim.sirens=[];var s=g.sim;var h=g.mission_hud;var label="cover" if dimensions.x==2520 else "inner"
+  g._start_mission(13);g.sim.sirens=[];PlayerDive.launch_drones(g.sim);var s=g.sim;var h=g.mission_hud;var label="cover" if dimensions.x==2520 else "inner"
   check(h.extra.has("warning_exposed") and h.extra.has("warning_sheltered") and h.extra.has("warning_gate"),"physical recipient has deliberate contextual route/release controls "+label)
   if not h.extra.has("warning_exposed"):g.queue_free();await settle();continue
   var before=s.snapshot();g.ocean.fit_chart();await sync(g)

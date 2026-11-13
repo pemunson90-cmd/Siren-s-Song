@@ -1,4 +1,5 @@
 extends SceneTree
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 var checks=0
 var failures=0
 var captures=""
@@ -31,7 +32,7 @@ func run():
   check(buttons.size()==1,"provisional Operations offers available Glass Reach operation")
   if buttons.size()==1:
    g.scroll.ensure_control_visible(buttons[0]);await frames();await tap(buttons[0]);check(g.screen=="briefing" and g.get_meta("onboard2_fit_index",-1)==14,"actual Operations touch opens Glass Reach briefing")
-  g.expedition.completed.append_array([14,15,16,17]);g._start_mission(18);g._enter_water();g.sim.sirens=[];g.sim.units[0].pos=g.sim.mission.glass_reach.work_pos+Vector2(0,35);g.sim.units[0].vel=Vector2.ZERO;g._focus_craft();g.mission_hud.open("craft");g._refresh();await frames()
+  g.expedition.completed.append_array([14,15,16,17]);g._start_mission(18);g._enter_water();PlayerDive.launch_drones(g.sim);g.sim.sirens=[];g.sim.units[0].pos=g.sim.mission.glass_reach.work_pos+Vector2(0,35);g.sim.units[0].vel=Vector2.ZERO;g._focus_craft();g.mission_hud.open("craft");g._refresh();await frames()
   check(g.mission_hud.extra.has("glass_work"),"new craft-local work control exists")
   if g.mission_hud.extra.has("glass_work"):
    await tap(g.mission_hud.extra.glass_work)
@@ -42,7 +43,7 @@ func run():
    check(not g.sim.mission.glass_reach.job.is_empty() and g.sim.mission.glass_reach.job.action=="service","actual local action touch starts physical service work without issuing a route")
    if not captures.is_empty() and DisplayServer.get_name()!="headless":
     await RenderingServer.frame_post_draw;root.get_texture().get_image().save_png(captures.path_join("glass-service-"+str(dimensions.x)+".png"))
-  g._start_mission(20);g._enter_water();g.sim.sirens=[]
+  g._start_mission(20);g._enter_water();PlayerDive.launch_drones(g.sim);g.sim.sirens=[]
   var position=g.sim.mission.glass_reach.work_pos
   g.sim.units[1].pos=position+Vector2(0,35);g.sim.units[0].pos=position+Vector2(0,80);g._order("select",{"unit":1});g._focus_craft();g._refresh();await frames()
   var markers=g.ocean.salvage_markers()
@@ -58,7 +59,7 @@ func run():
    check(g.sim.mission.glass_reach.artifact.carrier==1 and not preload("res://src/presentation/module_recovery_view.gd").cargo(g.sim,1).is_empty(),"live carrier exposes its new physical material in fleet feedback")
    await tap(g.mission_hud.extra.glass_work);await tap(g.mission_hud.extra.glass_transfer)
    check(g.sim.mission.glass_reach.artifact.carrier==0,"actual local transfer touch puts physical material on Quietus")
-  g._start_mission(15);check(g.mission_hud.subject.get("kind","")!="salvage","new region launch clears previous material/object command subject");g._enter_water();g.sim.units[0].pos=Vector2(1150,1900);g.sim.units[0].angle=0;g.sim.units[1].pos=Vector2(1350,2050);g.sim.units[1].band=2;g.sim.contacts={};g.sim._observe();g._focus_craft();g._refresh();g.mission_hud.open("acoustics");await frames()
+  g._start_mission(15);check(g.mission_hud.subject.get("kind","")!="salvage","new region launch clears previous material/object command subject");g._enter_water();PlayerDive.launch_drones(g.sim);g.sim.units[0].pos=Vector2(1150,1900);g.sim.units[0].angle=0;g.sim.units[1].pos=Vector2(1350,2050);g.sim.units[1].band=2;g.sim.contacts={};g.sim._observe();g._focus_craft();g._refresh();g.mission_hud.open("acoustics");await frames()
   await tap(g.mission_hud.extra.sonar_emit)
   g.sim.paused=false
   for n in 45:g.sim.advance(g.sim.STEP)
@@ -67,6 +68,7 @@ func run():
   if not captures.is_empty() and DisplayServer.get_name()!="headless":
    await RenderingServer.frame_post_draw;root.get_texture().get_image().save_png(captures.path_join("glass-network-"+str(dimensions.x)+".png"))
   g.sim.mission.launch_equipment.quietus="quietus_prism";g.sim.sonar.sector="forward";g._refresh();await frames()
-  check("0.8 RESERVE" in g.mission_hud.extra.sonar_emit.text,"new prism fitting presents its actual directional reserve cost")
+  # Until 2026-11-12 (player rules, Pat: Quietus sonar "shouldn't cost oxygen") this asserted "0.8 RESERVE" in the text; the button now says NO COST for Quietus.
+  check("NO COST" in g.mission_hud.extra.sonar_emit.text,"new prism fitting presents its actual directional cost: none for Quietus")
   g.queue_free();await frames()
  print("GLASS REACH UI CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)

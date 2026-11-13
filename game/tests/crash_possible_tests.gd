@@ -148,7 +148,7 @@ func dev_path():
  else:check(true,"dev route refusal is the pathfinder's own")
 
 func recall_rules():
- var s=Sim.new();s.start(0);s.sirens=[]
+ var s=Sim.new();s.start(0);s.sirens=[];preload("res://tests/fixtures/player_dive.gd").launch_drones(s)
  var q=s.units[0];var a=s.units[1]
  a.pos=q.pos+Vector2(200,0)
  if s.blocked(a.pos,20):a.pos=q.pos+Vector2(0,-200)

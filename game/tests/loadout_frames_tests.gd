@@ -7,6 +7,7 @@ const Upgrades=preload("res://src/equipment/craft_upgrades.gd")
 const Store=preload("res://src/persistence/save_store.gd")
 const Sonar=preload("res://src/simulation/advanced_sonar.gd")
 const View=preload("res://src/presentation/equipment_context.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 var checks=0
 var failures=0
 var game
@@ -19,8 +20,10 @@ func settle():
 func advance(s,seconds:float)->void:
  s.paused=false
  for n in roundi(seconds*60):s.advance(Sim.STEP)
-func open(fitted:Dictionary,index:int=0):
- var s=Sim.new();s.start(index,"endurance",{"fitted":fitted});s.sirens=[];s.mission.rocks=[];s.mission.structures=[];s._build_navigation()
+func open(fitted:Dictionary,index:int=0,legacy_rules:bool=false):
+ var launch={"fitted":fitted}
+ if legacy_rules:launch[PlayerDive.Rules.KEY]=false
+ var s=Sim.new();s.start(index,"endurance",launch);PlayerDive.launch_drones(s);s.sirens=[];s.mission.rocks=[];s.mission.structures=[];s._build_navigation()
  return s
 func model():
  var all=Kit.ITEMS.keys()
@@ -74,10 +77,11 @@ func budgets():
  var scout=open({"chassis_b":"scout"});advance(scout,20)
  check(scout.units[2].battery<std.units[2].battery and scout.passive_range(2)>std.passive_range(2),"scout trades battery for passive reach")
  # POWER: a bus drawn to capacity makes each SONAR pulse cost more reserve.
- var spare=open({"quietus":"quietus_decoder"});var full=open({"quietus":"quietus_decoder","quietus_2":"quietus_correlator","quietus_3":"quietus_baffles"})
+ # Quietus sonar costs no life support under the player rules (Pat, 2026-11-12), which hides the power-bus cost this check measures, so it runs on the explicit legacy cost path.
+ var spare=open({"quietus":"quietus_decoder"},0,true);var full=open({"quietus":"quietus_decoder","quietus_2":"quietus_correlator","quietus_3":"quietus_baffles"},0,true)
  var before=[spare.oxygen,full.oxygen];Sonar.emit(spare,0);Sonar.emit(full,0)
  check(absf((before[1]-full.oxygen)-(before[0]-spare.oxygen)*1.5)<0.0001 and before[0]-spare.oxygen>0,"full power bus makes a SONAR pulse cost half again as much reserve")
- var cheap=open({"hull":"fast"});var o=cheap.oxygen;Sonar.emit(cheap,0)
+ var cheap=open({"hull":"fast"},0,true);var o=cheap.oxygen;Sonar.emit(cheap,0)
  check(o-cheap.oxygen<before[0]-spare.oxygen,"fast hull power makes pulses cheaper")
  # CARGO: winch places limit how many lost modules a craft carries home.
  var fitted={"hull":"quiet","drone_a":"drone_deep_cells","drone_b":"drone_survey_array"}

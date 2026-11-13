@@ -1,6 +1,7 @@
 extends SceneTree
 # Displayed SONAR reserve cost must equal what the simulation spends, for every
 # hull, drone chassis, pulse power and sector.
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 const Hulls=preload("res://src/equipment/hulls.gd")
 const Chassis=preload("res://src/equipment/chassis.gd")
 var checks=0
@@ -32,7 +33,7 @@ func run():
  for row in cases:
   for power in ["low","high"]:
    for sector in ["all","forward"]:
-    g._start_mission(0);g._enter_water();var sim=g.sim
+    g._start_mission(0);g._enter_water();var sim=g.sim;PlayerDive.launch_drones(sim) # a drone pulse needs the drone in the water
     sim.sirens=[];sim.mission.launch_equipment=row[1].duplicate(true)
     sim.sonar.power=power;sim.sonar.sector=sector
     sim.oxygen=100.0;sim.units[1].battery=100.0
@@ -41,11 +42,14 @@ func run():
     var cost=sim.Sonar.pulse_cost(sim,row[0])
     var paid=spent(sim,row[0])
     var label="%s %s %s"%[row[2],power,sector]
-    check(paid>0.0 and absf(shown-paid)<0.006,label+" label "+str(shown)+" equals spent "+str(paid))
+    if row[0]==0:
+     # Player rule (Pat, 2026-11-12): Quietus's sonar costs no life support, and its EMIT label says NO COST. A drone's pulse still costs battery.
+     check(paid==0.0 and g.mission_hud.extra.sonar_emit.text.begins_with("EMIT") and "NO COST" in g.mission_hud.extra.sonar_emit.text,label+" Quietus pulse is free and the label says so, label "+str(shown)+" spent "+str(paid))
+    else:check(paid>0.0 and absf(shown-paid)<0.006,label+" label "+str(shown)+" equals spent "+str(paid))
     check(absf(cost-paid)<0.0001,label+" single cost function equals spent")
  # The reported bug: low noise hull, low power, all-around pulse.
  g._start_mission(0);g._enter_water();g.sim.sirens=[];g.sim.mission.launch_equipment={"quietus":"","drone_a":"","drone_b":"","hull":"quiet"}
  g.sim.sonar.power="low";g.sim.sonar.sector="all";g.sim.command("select",{"unit":0});g._refresh();g.mission_hud.open("acoustics");await frames()
- check("0.5 RESERVE" in g.mission_hud.extra.sonar_emit.text,"low noise hull shows 0.5 reserve, not 0.4")
+ check("NO COST" in g.mission_hud.extra.sonar_emit.text,"low noise hull Quietus pulse shows NO COST under the player rule (it showed 0.5 reserve, not 0.4, before 2026-11-12)")
  g.queue_free();await frames()
  print("RULES SONAR COST CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)

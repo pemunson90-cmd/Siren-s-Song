@@ -1,4 +1,5 @@
 extends SceneTree
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 var failures:=0
 var checks:=0
 var game
@@ -33,7 +34,7 @@ func run() -> void:
 	pressed_mission.pressed.emit()
 	check(pressed_mission.is_inside_tree(),"menu selection keeps dispatching control inside the tree until input delivery completes")
 	await process_frame; await process_frame
-	game._start_mission(0); await process_frame
+	game._start_mission(0); PlayerDive.launch_drones(game.sim); await process_frame # both drones start aboard; this walk-through works with drone A in the water
 	print("UI root=",root.size," game=",game.size," drone=",game.unit_buttons[1].get_global_rect())
 	await select_craft(1)
 	check(game.sim.selected==1,"actual pointer input selects independent drone")
@@ -74,9 +75,12 @@ func run() -> void:
 	await preload("res://tests/acoustic_ui_scenarios.gd").run(self,game)
 	await preload("res://tests/touch_navigation_scenarios.gd").run(self,game)
 	await preload("res://tests/interface_scenarios.gd").run(self,game)
+	# The finale plan and the six-mission campaign walk fly authored water the player rules leave uncharted; this check is not about discovery, so it uses the developer known-charts switch.
+	var charts_before=PlayerDive.known_water(true)
 	await preload("res://tests/finale_ui_scenarios.gd").run(self,game)
 	await preload("res://tests/blackwater_ui_scenarios.gd").run(self,game)
 	await preload("res://tests/campaign_ui_scenarios.gd").run(self,game)
+	PlayerDive.known_water(charts_before)
 	# The recovery command emits this own-craft event; production audio must route it.
 	game.sound.resume(); game.sound.muted=false; game.sim.paused=false
 	for voice in game.sound.voices:voice.stop()

@@ -1,6 +1,7 @@
 extends RefCounted
 const Simulation=preload("res://src/simulation/simulation.gd")
 const Store=preload("res://src/persistence/save_store.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 static func make():
 	var s=Simulation.new();s.start(2)
 	# Rule fixture only. Actual ordinary threat/loss encounters are separate evidence.
@@ -26,7 +27,7 @@ static func run(t):
 	t.check(s.command("ping") and s.command("camera"),"accepted existing SONAR permits local clear standoff replay sampling")
 	t.check(s.ping_time==3.5 and s.noises.any(func(n):return n.label=="ACTIVE SONAR" and n.radius==750),"replay retains selected default low-power sonar cooldown and750m emission")
 	s.paused=false;tick(s,2.05);t.check(s.mission.objectives[0].captured,"audible standoff earns the same request in two settled seconds")
-	s=make();place(s,0,230,1);s.command("select",{"unit":1})
+	s=make();PlayerDive.launch_drones(s);place(s,0,230,1);s.command("select",{"unit":1})
 	t.check(not s.command("camera"),"drone230m is outside actual214.5m passive reach")
 	s.command("ping");t.check(s.command("camera"),"drone can use clear230m replay standoff")
 	s.paused=false;tick(s,2.05);t.check(s.mission.objectives[0].captured,"drone and Quietus share the locally earned replay path")
@@ -46,7 +47,7 @@ static func run(t):
 	restored.paused=false;tick(restored,1.05);t.check(restored.mission.objectives[0].captured,"restored partial sample finishes its remaining reception")
 	s=make();place(s,0);s.units[1].alive=false;s.units[2].alive=false;s.command("camera");s.paused=false;tick(s,2.05)
 	t.check(s.mission.objectives[0].captured,"slower Quietus remains valid after both drones are lost")
-	s=make();place(s,0,130,1);s.command("select",{"unit":1});s.command("camera");s.units[1].alive=false;s.paused=false;tick(s,0.05)
+	s=make();PlayerDive.launch_drones(s);place(s,0,130,1);s.command("select",{"unit":1});s.command("camera");s.units[1].alive=false;s.paused=false;tick(s,0.05)
 	t.check(s.selected==0 and "SAMPLE" in s.message,"lost Blackwater station names the actual Quietus SAMPLE fallback")
 	s=make();place(s,0,210);s.command("ping");s.paused=false;tick(s,0.4);s.paused=true
 	var data={"version":1,"unlocked":2,"completed":[0,1],"upgrade":"endurance","settings":{},"active":s.snapshot(),"evidence":{"blackwater_request":{"name":"REQUEST RELAY","caption":"Replay protocol","optical":"blackwater_request"}}}

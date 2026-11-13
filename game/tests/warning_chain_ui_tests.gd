@@ -1,6 +1,7 @@
 extends SceneTree
 # Source-known technical UI fixtures: own bodies are staged at local controls,
 # threats removed; each plant action and modal gesture uses raw screen input.
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 const WEST=Vector2(480,1000)
 const EAST=Vector2(1520,1000)
 var checks=0
@@ -26,7 +27,7 @@ func capture(name:String):
 func progress()->Dictionary:
  return {"version":2,"route":"shelf","routes":["shelf"],"facts":{"shelf":"Recovered shelf warning"},"completed":[6,8],"notes":{},"references":{},"entitlements":["drone_sampler"],"history":[],"selected_thread":""}
 func start(game):
- game.completed=[0,1,2,3,4,5];game.unlocked=5;game.expedition=progress();game._start_mission(10);await settle();game.sim.sirens=[]
+ game.completed=[0,1,2,3,4,5];game.unlocked=5;game.expedition=progress();game._start_mission(10);await settle();game.sim.sirens=[];PlayerDive.launch_drones(game.sim) # both drones start aboard; these fixtures work with craft in the water
 func at(game,unit:int,point:Vector2):
  game.mission_hud.dismiss();game.sim.units[unit].pos=point;game.sim.units[unit].vel=Vector2.ZERO;game.sim.command("select",{"unit":unit});game.ocean.focus_craft();game._refresh();await settle()
 func station(game,index:int):

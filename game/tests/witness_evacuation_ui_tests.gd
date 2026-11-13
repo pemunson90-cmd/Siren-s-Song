@@ -1,6 +1,7 @@
 extends SceneTree
 # Source-known own-position fixtures exercise the real model and ordinary touch.
 # This is not an earned campaign journey or a blind player preference test.
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 const BERTH=Vector2(1840,760)
 const HOME=Vector2(2260,2700)
 const Store=preload("res://src/persistence/save_store.gd")
@@ -37,7 +38,7 @@ func game_for(dimensions:Vector2i,fitted:bool=false,prior:Dictionary={}):
  root.add_child(g);await settle();g.set_process(false)
  g.completed=[0,1,2,3,4,5];g.unlocked=5;g.expedition=progress() if prior.is_empty() else prior.duplicate(true);g.upgrade="endurance"
  if fitted:g.fitted_equipment.drone_a="drone_deep_cells"
- g._start_mission(12);g.sim.sirens=[]
+ g._start_mission(12);g.sim.sirens=[];PlayerDive.launch_drones(g.sim) # both drones start aboard; these fixtures work with craft in the water
  # These source-known positions isolate local custody, not voyage finishability.
  g.sim.units[0].pos=HOME+Vector2(-200,-20);g.sim.units[0].vel=Vector2.ZERO
  g.sim.units[2].pos=HOME+Vector2(-260,0);g.sim.units[2].vel=Vector2.ZERO
@@ -191,6 +192,8 @@ func already_home(dimensions:Vector2i,label:String):
   await capture(label+"-already-home-arrival")
  g.queue_free();await settle()
 func optional_sluice(dimensions:Vector2i,label:String):
+ # The optional actuator is found by search under the player rules; this check is about its touch control, not discovery, so it uses the developer known-charts switch.
+ var charts_before=PlayerDive.known_water(true)
  var g=await game_for(dimensions);var s=g.sim;await measure(g)
  s.units[0].pos=Vector2(1780,2000);s.units[0].vel=Vector2.ZERO;s.command("select",{"unit":0})
  g.ocean.focus_craft();g._refresh();await settle()
@@ -201,6 +204,7 @@ func optional_sluice(dimensions:Vector2i,label:String):
   check(s.capture_feedback(0).unit==0 and s.witness_status().jobs==[{},{},{}],"sluice OPERATE touch cannot be intercepted by known witness berth "+label)
   advance(s,4.1);g._refresh();await settle()
   check(s.mission.physical_gates[0].opened and s.witness_status().capsule.state=="at_berth","real optional sluice operation opens physical passage without moving the witness "+label)
+ PlayerDive.known_water(charts_before)
  g.queue_free();await settle()
 func committed_quietus()->Dictionary:
  # Earn the first arrival through actual model loading, landing and recovery.

@@ -1,5 +1,6 @@
 extends SceneTree
 const Sim=preload("res://src/simulation/simulation.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 var checks=0
 var failures=0
 func check(ok,label):
@@ -10,7 +11,7 @@ func tick(s,t):
  for n in roundi(t*60):s.advance(Sim.STEP)
  s.paused=true
 func fixture(id=20):
- var s=Sim.new();s.start(id);s.sirens=[]
+ var s=Sim.new();s.start(id);PlayerDive.launch_drones(s);s.sirens=[]
  s.units[1].pos=s.mission.glass_reach.work_pos+Vector2(0,35);s.units[1].vel=Vector2.ZERO;s.command("select",{"unit":1})
  return s
 func _initialize():
@@ -47,7 +48,7 @@ func _initialize():
  decoder_locality()
  finish()
 func gate_fixture(fitted:bool,unit:int,distance:float):
- var s=Sim.new();s.start(19,"endurance",{"fitted":{"quietus":"quietus_decoder" if fitted else "","drone_a":"","drone_b":""}});s.sirens=[]
+ var s=Sim.new();s.start(19,"endurance",{"fitted":{"quietus":"quietus_decoder" if fitted else "","drone_a":"","drone_b":""}});PlayerDive.launch_drones(s);s.sirens=[]
  s.units[unit].pos=s.mission.glass_reach.work_pos-Vector2(0,distance);s.command("select",{"unit":unit})
  return s
 func decoder_locality():

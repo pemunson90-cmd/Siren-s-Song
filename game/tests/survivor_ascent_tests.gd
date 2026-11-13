@@ -1,5 +1,6 @@
 extends SceneTree
 const Sim=preload("res://src/simulation/simulation.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 var checks=0
 var failures=0
 func check(ok,label):
@@ -7,7 +8,7 @@ func check(ok,label):
  if not ok:failures+=1;printerr("FAIL ",label)
 func fresh(op:int,unit:int=0):
  var s=Sim.new();s.start(op,"endurance",{"fitted":{"quietus":"","drone_a":"","drone_b":""}})
- s.sirens=[];s.selected=unit
+ s.sirens=[];PlayerDive.launch_drones(s);s.selected=unit
  # Source-known custody fixture: receive the local source in MIDDLE before
  # staging the authored pod band. Ordinary observation owns source/fact/site state.
  s.units[unit].pos=s.Witness.berth(s.mission);s.units[unit].band=1

@@ -36,7 +36,7 @@ static func open_point(s,from:Vector2,reach:float)->Vector2:
  return from
 
 static func fresh(release:bool):
- var s=Sim.new();s.start(0);s.sirens=[];s.mission["dev"]=not release;s.paused=false
+ var s=Sim.new();s.start(0);s.sirens=[];preload("res://tests/fixtures/player_dive.gd").launch_drones(s);s.mission["dev"]=not release;s.paused=false
  return s
 
 func run_for(s,seconds:float,read:bool)->void:

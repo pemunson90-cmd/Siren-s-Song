@@ -1,6 +1,7 @@
 extends SceneTree
 const Plan=preload("res://tests/radio_operation_plan.gd")
 const Sim=preload("res://src/simulation/simulation.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 var checks=0
 var failures=0
 func check(ok:bool,label:String):
@@ -8,6 +9,8 @@ func check(ok:bool,label:String):
  if not ok:failures+=1;printerr("FAIL ",label)
 func _initialize():call_deferred("run")
 func run():
+ # Scripted voyage through authored water the player rules leave uncharted; this suite is not about discovery, so it uses the developer known-charts switch.
+ var charts_before=PlayerDive.known_water(true)
  for id in [31,33]:
   var before=Plan.play(id,"straight","standard",true)
   var after=Plan.play(id,"straight")
@@ -32,4 +35,5 @@ func run():
    check(Sim.valid_snapshot(s.snapshot()),"op%d %s current snapshot validates"%[id,row.policy])
    if row.policy!="equipped":check(s.tools.values().all(func(count):return count==0),"op%d bare has no field tools"%id)
    print("RADIO OP ",JSON.stringify(row))
+ PlayerDive.known_water(charts_before)
  print("RADIO OPERATION CHECKS %d FAILURES %d"%[checks,failures]);quit(1 if failures else 0)

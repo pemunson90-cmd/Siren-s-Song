@@ -2,6 +2,7 @@ extends SceneTree
 const Sim=preload("res://tests/iron_choir_pressure_sim.gd")
 const Campaign=preload("res://src/campaign/expedition_campaign.gd")
 const Racks=preload("res://src/equipment/tool_racks.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 var fleet_plans={}
 var fleet_ready=false
 var defense_until={}
@@ -115,7 +116,7 @@ func fleet_journey(id:int,p:Dictionary):
   27:racks.drone_b={"emp":2}
  check(Racks.reason(fitted,racks).is_empty(),"equipped carried racks fit real cargo budgets "+str(id))
  if id in [26,27]:check(Racks.winch_capacity({"launch_equipment":fitted,"tool_racks":racks},1)>=1,"artifact carrier retains a whole winch place "+str(id))
- var s=Sim.new();s.start(id,"endurance",{"context":Sim.Consequences.context(p),"fitted":fitted,"tool_racks":racks})
+ var s=Sim.new();s.start(id,"endurance",{"context":Sim.Consequences.context(p),"fitted":fitted,"tool_racks":racks});PlayerDive.launch_drones(s)
  if id in [24,26,28]:s.command("select",{"unit":1})
  fleet_plans[s.get_instance_id()]={};fleet_ready=false
  var plans=fleet_plans[s.get_instance_id()];var home=[Vector2(350,300),Vector2(300,2350)]
@@ -271,6 +272,8 @@ func journey(id:int,p:Dictionary,variant:String=""):
  print("IRON JOURNEY id=",id," outcome=",s.outcome," time=",s.elapsed," hull=",s.hull," oxygen=",s.oxygen," message=",s.message)
  return s
 func _initialize():
+ # Scripted journeys through authored water are not about discovery: use the known-charts switch (player rule: water hidden until charted).
+ var charts_before=PlayerDive.known_water(true)
  if "--fleet" in OS.get_cmdline_user_args():
   for id in range(22,30):
    var history=progress();history.completed.append_array([22,23,24]);history.facts.choir_choice="isolate";fleet_journey(id,history)
@@ -303,7 +306,7 @@ func _initialize():
  check(service.iron_choir.sites[1].done and service.has("currents") and service.sirens.size()>isolated.sirens.size() and not isolated.iron_choir.sites[1].done,"actual people/plant/ballast returns change later berth, current and powered threats")
  var sleeve=Sim.new();sleeve.start(23,"endurance",{"context":Sim.Consequences.context(p),"fitted":{"quietus":"quietus_pressure_sleeve","drone_a":"","drone_b":""}})
  check(sleeve.command("depth",{"band":0}) and sleeve.units[0].transition.remaining==2.5,"actual returned spindle entitlement has later physical pressure-lock use")
- var tow=Sim.new();tow.start(24,"endurance",{"context":Sim.Consequences.context(p),"fitted":{"quietus":"","drone_a":"drone_traction_yoke","drone_b":""}});tow.sirens=[]
+ var tow=Sim.new();tow.start(24,"endurance",{"context":Sim.Consequences.context(p),"fitted":{"quietus":"","drone_a":"drone_traction_yoke","drone_b":""}});tow.sirens=[];PlayerDive.launch_drones(tow)
  # Controlled later reward-use probe isolates the actual narrow physical envelope.
  tow.units[1].pos=tow.mission.iron_choir.load.pos+Vector2(0,35);tow.command("select",{"unit":1})
  check(tow.command("choir_action",{"action":"attach"}),"actual returned traction material enables later drone tow")
@@ -317,4 +320,5 @@ func _initialize():
  var store=load("res://src/persistence/save_store.gd").new();store.path="user://iron-completed-campaign.save"
  var envelope={"version":1,"unlocked":5,"completed":[0,1,2,3,4,5],"upgrade":"endurance","settings":{},"expedition":p,"active":null}
  check(store.save(envelope) and store.load_game()==envelope,"actual accumulated industrial campaign/material/people choices roundtrip checksummed save")
+ PlayerDive.known_water(charts_before)
  print("IRON JOURNEY CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)
