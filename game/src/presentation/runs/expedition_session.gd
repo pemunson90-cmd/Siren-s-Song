@@ -76,7 +76,7 @@ func _show_campaign()->void:
 			preload("res://src/presentation/frontend/save_error_view.gd").menu_retry(self,"SAVE PENDING · "+str(campaign_host.get_meta("runs_save_error","")),17,"RETRY SAVE",func():_save_archive();_show_campaign(),"run_retry_save")
 		_menu_text(sim.rider_status(),17)
 		_button(panel_box,"RESUME DIVE",_enter_water,"run_resume")
-		_button(panel_box,"END DIVE · LOSE RUN",func():_debrief(true),"run_abandon")
+		_button(panel_box,"END DIVE · LOSE RUN",_confirm_end,"run_abandon")
 	else:
 		var rider=RunState.rider_offer(run_state)
 		_menu_text(RunState.Riders.description(rider,RunState.rider_bonus_text(rider)),17)
@@ -89,6 +89,14 @@ func _show_campaign()->void:
 		_button(menu_footer,"BEGIN OPERATION · START PAUSED",_begin,"run_begin")
 		_button(menu_footer,"RETURN TO MODES",_return,"run_return")
 		menu_footer.show()
+	call_deferred("_layout")
+# WP-34: ending a live dive asks first. KEEP returns to the paused menu untouched.
+func _confirm_end()->void:
+	sim.paused=true;screen="expedition_confirm_end";_clear_menu()
+	_menu_text("END THIS EXPEDITION?",30)
+	_menu_text("The run will be recorded as lost. Campaign progress stays as it was.",17)
+	_button(panel_box,"KEEP EXPEDITION",_show_campaign,"run_dive_keep")
+	_button(panel_box,"END DIVE · LOSE RUN",func():_debrief(true),"run_dive_confirm_end")
 	call_deferred("_layout")
 func _begin()->void:
 	if active_started or run_state.in_flight or RunOffers.pending(run_state):return
