@@ -10,6 +10,7 @@ const CreditsText = preload("res://src/presentation/frontend/credits_text.gd")
 const Soundscape = preload("res://src/audio/soundscape.gd")
 const Depth = preload("res://src/presentation/frontend/settings_depth.gd")
 const ReachTable=preload("res://src/presentation/frontend/menu_reach_table.gd")
+const UiStyle=preload("res://src/presentation/ui_style.gd")
 const TITLE_ART=preload("res://assets/title/splash.svg")
 enum Profile { NONE, OK, RECOVERED, UNREADABLE }
 var profile_picker = preload("res://src/persistence/profiles/profile_picker.gd").new()
@@ -136,7 +137,9 @@ func _button(text: String, action: Callable, id: String, disabled := false) -> B
 	var b := Button.new(); b.text = text; b.custom_minimum_size = Vector2(0, touch_height()); b.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	b.focus_mode = Control.FOCUS_ALL; b.disabled = disabled; b.mouse_filter = Control.MOUSE_FILTER_PASS
 	b.set_meta("action", id); b.set_meta("ui_action", id)
-	b.pressed.connect(action, CONNECT_DEFERRED); column.add_child(b); return b
+	b.pressed.connect(action, CONNECT_DEFERRED); column.add_child(b)
+	if not id.is_empty(): UiStyle.apply_for(b, id)
+	return b
 func _title_screen() -> void:
 	_reset("title")
 	title_label = _text("SIREN'S SONG", 42, Color("80d9cf"))
@@ -197,7 +200,7 @@ func _settings_screen() -> void:
 		_button("SHOW FIRST-DIVE TIPS AGAIN",func():host.hints_seen=[];host._save_archive();_settings_screen(),"reset_tips")
 	_button("RESET TO DEFAULTS", func(): values = SettingsStore.DEFAULTS.duplicate(); _set_value("master", 1.0); _settings_screen(), "settings_reset")
 	if profile != Profile.NONE:
-		_button("ERASE PROGRESS · NEW CAMPAIGN", _new_campaign, "frontend_new_campaign")
+		UiStyle.apply(_button("ERASE PROGRESS · NEW CAMPAIGN", _new_campaign, "frontend_new_campaign"), UiStyle.DANGER)
 	if OS.is_debug_build() and host.get("debug_console")!=null:
 		_button("DEVELOPER",func():host.debug_console.open(),"developer")
 	if embedded_settings:host.call_deferred("_layout")
