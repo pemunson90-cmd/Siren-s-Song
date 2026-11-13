@@ -1,33 +1,39 @@
 # Handoff guide: resume the overhaul run from a cold start
 
 Status: LIVE GUIDE (root updates it at every phase boundary and whenever in-flight work changes)
-Verified: 2026-11-12 at the closeout (sections 2, 6 and 7 rewritten by root; earlier rewritten at the Phase 3 exit; the first version was written and cross-checked by two subagents on 2026-11-11)
+Verified: 2026-11-12 at the pause after phase 8 (sections 1, 2, 3, 4, 6 and 7 rewritten by root)
 
 This guide lets a session with an empty context resume run `overhaul-20261111` from the documents alone.
 
 ## 1. Resume in five steps
 
-1. **Open this folder as the project** (`repos\_fable\Siren-s-Song`), so the hooks in the tracked `.claude/settings.json` load: the command guard, the post-command restore check, the session-start hook and the stop gate. Two sessions so far were started in Pat's other clone and pointed here; in those the command guard did not load and its rules were applied by hand (decision D-01). The git-level hooks in `.git/hooks` work either way.
-2. **Run `/siren-s-start-fable`.** It sets the run parameters (`PLAN_GATE=off`, `APK_AT_END=yes`, `SUBAGENT_LIMIT=3`) and tells a resumed session to continue from `next_action`.
-3. **Read, in full and in this order:** `.fable/FABLE_RUN.md`, `.fable/TARGET.md`, `.fable/RUN_STATE.json`, the last 50 lines of `.fable/RUN_LOG.md`, `.fable/DECISIONS.md`, this guide, `.fable/PHASE8.md`, `.fable/NOW.md`, then `.fable/OVERHAUL_PLAN.md` and `AGENTS.md`.
-4. **Check for staleness:** `python scripts/repo/handoff_check.py`, `git status --short`, `git log --oneline -15`, `git worktree list`, `git ls-remote origin 'refs/heads/fable/*'`, and `gh pr view 262 --json state,isDraft,headRefOid`. Rerun the four guard self-test commands of charter Phase 0 step 5 and log the result.
-5. **Recover in-flight work (section 3), then continue** from `next_action`. Before each step record it with `python scripts/repo/run_state.py --now "..."`.
+1. **Open this folder as the project** (`repos\_fable\Siren-s-Song`), so the hooks in the tracked `.claude/settings.json` load. Sessions started in Pat's other clone and pointed here run without the command guard: apply charter section 4.3 by hand (decision D-01).
+2. **Run `/siren-s-start-fable`.** It names what to read and the standing rules, and tells a resumed session to continue from `next_action`.
+3. **Read what the command lists:** `.fable/RUN_STATE.json`, `.fable/NOW.md`, `.fable/PHASE9.md`, this guide, `.fable/UX_AUDIT.md`, the tail of `.fable/RUN_LOG.md`, the 2026-11-12 sections of `docs/USER_DIRECTIVES.md`, and charter sections 4 and 11.
+4. **Check for staleness:** `python scripts/repo/handoff_check.py`, `git status --short`, `git log --oneline -10`, `git worktree list`. Do not start any GitHub run to check anything.
+5. **Continue** from `next_action`. Before each step record it with `python scripts/repo/run_state.py --now "..."`.
 
-## 2. Where the run stands (pause of 2026-11-12, before phase 8)
+## 2. Where the run stands (pause of 2026-11-12, after phase 8)
 
-Phases 0 to 7 are finished and pushed. Phase 7 (the same day as the first closeout) restored the drone launch from the prototype, added a TITLE control, audited the prototype against the game, cut pull request testing to the bare minimum, and built the parity rules Pat ruled on (discovered charts, objective search areas, temporary survey sweeps, free Quietus sonar, the EMP name and refusal, factory sensors, calm Sirens ignoring drones, quieter drones, Siren sight rings). Pat has the debug package of run 43265277067 to playtest. Pull request 262 is a draft with `.fable/FINAL_REPORT.md` as its body.
+Phases 0 to 8 are finished and pushed on `fable/overhaul-20261111`. Pull request 262 is a draft; its body is `.fable/FINAL_REPORT.md` (behind the file by behavior rows 54 to 56).
 
-**Next is phase 8, defined in `.fable/PHASE8.md`:** rename the DISRUPTION loadout to EMP, audit the code base for tangle and inefficiency with small batches of cheap read-only agents, report to Pat in plain English, then build what he approves. Nothing is in flight; no code is uncommitted.
+Phase 8 on 12 November: the code base audit (`.fable/CODE_AUDIT.md`) and the fixes Pat approved. Names defined once (`game/src/names.gd`). Player rules are the default for every dive, tests included. `main.gd` went from 931 to 765 lines (`dive_clock.gd`, `presentation/dive_input.gd`, `persistence/campaign_archive_flow.gd`). Career, Expedition and Challenges share one base for hiding the campaign, launching and the save notice, and Career and Expedition share one save core (`campaign/mode_archive.gd`). An independent review on Pat's eight headings found two real defects, both fixed. The test suites were trimmed (`.fable/TEST_TRIM.md`): 238 kept, 39 of them the everyday set, 152 retired to `_scrap-20261111/tests-retired/`.
+
+**Next is phase 9, defined in `.fable/PHASE9.md`:** the UI and UX audit is delivered (`.fable/UX_AUDIT.md`); Pat has not answered its nineteen yes or no items. Ask him, fix the ten plain defects meanwhile, then build what he approves. Nothing is in flight; no code is uncommitted.
+
+**GitHub Actions are off.** Pat's allowance for the month is spent. No workflow run is started; every push carries `[skip ci]`; all testing is local.
 
 ## 3. In-flight work and how to recover it
 
-Read `.fable/NOW.md`: its "In flight" table has the exact recovery steps for WP-11 and the ordered list of what follows. Worktrees and branches of finished packages stay on disk (`git worktree list`); nothing is deleted. Isolated worktrees are created at `main`, not at the run head, so every implementer brief tells the subagent to make its branch first with `git switch -c <name> <run head>`.
+Nothing is in flight. Worktrees and branches of finished packages stay on disk (`git worktree list`, about a dozen under `.claude/worktrees/`); nothing is deleted. Branch `wp-28` holds one unmerged commit (2605793a, screenshots and target report moved out of `main.gd`) that root left out because it changed how a wait behaves.
 
-Merging a work package (charter 5.3): reviewer verdict, then `git merge --no-ff <branch> -m "merge(wp-NN): <title>"` naming the verdict, add the new suite rows to `game/tests/suites.txt` (root owns that file), run import, core, the new suites, the canaries and `python scripts/toolchain/check-suites.py`, update state and log, push.
+Isolated worktrees are created at `main`, not at the run head, so every implementer brief tells the subagent to `git fetch origin fable/overhaul-20261111` and `git switch -c <name> origin/fable/overhaul-20261111` first. Push the run branch before dispatching so the subagent finds the head.
+
+Merging a work package: root reads the diff (a separate reviewer only for risky code), `git merge --no-ff <branch>`, run the suites that test what changed, add a behavior row to `.fable/FINAL_REPORT.md` and a row to `docs/MODULES.md` for a new module, update state and log, push with `[skip ci]`.
 
 ## 4. Working rules a new session must know
 
-- **Local checks run natively on Windows:** set `$env:ARTIFACT_DIR` to a fresh folder under `%USERPROFILE%\.cache\sirens-song-toolchain\artifacts\`, then `powershell -NoProfile -ExecutionPolicy Bypass -File scripts\toolchain\win\headless.ps1 -Action Import -Isolate`, the same with `-Action Core` (about 180 s) and `-Action Script -Script <suite> -Prefix "<PREFIX>"`. Render suites run only on GitHub.
+- **Local checks run natively on Windows:** set `$env:ARTIFACT_DIR` to a fresh folder named `fable-*` under `%USERPROFILE%\.cache\sirens-song-toolchain\artifacts\`, then `scripts\toolchain\win\headless.ps1 -Action Import -Isolate`, `-Action Core` (about 100 s, 856 checks), `-Action Script -Script <suite> -Prefix "<PREFIX>"`. The everyday set is `scripts\toolchain\win\test-suite.ps1 -All -Profile local` (39 suites, about 20 minutes). Every test run gets its own fresh user-data folder and never touches the real save folder. To pass arguments to the game, call the script directly from PowerShell with `-GodotArgs @('--',...)`.
 - **Linux check of tool tests:** WSL distribution `Foundry-Ubuntu-24.04` has Python and keytool, no Godot. Test on a clean LF export (`git archive HEAD | tar -x`), not on the CRLF working copy.
 - **Never `cd` outside this clone in the Bash tool;** the other clone (`repos\Siren-s-Song`) must not be touched. Do not write backslash-heavy text through a shell heredoc: use the Write or Edit tool (two files were damaged that way and repaired).
 - **`git add` only what belongs to the commit.** On 2026-11-12 ten staged scrap moves went into the plan commit 894c0c70 by accident; the next commit repaired the links.
@@ -36,7 +42,7 @@ Merging a work package (charter 5.3): reviewer verdict, then `git merge --no-ff 
 - **Run one Godot process at a time.** Two test jobs at once pushed a 470 s suite past its 480 s limit. Run the combined local suite `opening_depth_policy_ui_tests` as its two partitions (`opening_depth_policy_cover_ui_tests`, `opening_depth_policy_inner_ui_tests`).
 - **Nothing is ever deleted** (Pat, 2026-11-12, verbatim in `docs/USER_DIRECTIVES.md`): move to scrap or leave in place. Put that sentence in every subagent brief.
 - **Pat's rulings for this run** are appended verbatim to `docs/USER_DIRECTIVES.md` ("Rulings recorded by the overhaul run"). The one that changes plans: save files are minor priority (2026-11-11).
-- **Critic kit:** `scripts/critic/`; kit instance at `%USERPROFILE%\.cache\sirens-song-toolchain\artifacts\critic6-fable-20261111` (built from the base). No critic game is running.
+- **Critic kit:** `scripts/critic/`; latest kit instance `%USERPROFILE%\.cache\sirens-song-toolchain\artifacts\fable-critic7-20261112` (built from 1dadecd7; evidence of the three UI critics and root's replay under `evidence/`). No critic game is running. Critics must use native pixel coordinates: two of them misread half-size screenshots.
 
 ## 5. Closeout routine after every task
 
@@ -47,8 +53,11 @@ Merging a work package (charter 5.3): reviewer verdict, then `git merge --no-ff 
 
 ## 6. Open decisions for Pat
 
-D-01 to D-15 are answered (`.fable/DECISIONS.md`). New yes or no questions N-1 to N-7 are in section 9 of `.fable/FINAL_REPORT.md`.
+- `.fable/UX_AUDIT.md` Part B: B1 to B19, each with a recommendation. Not answered yet.
+- Three play questions from his rules: `docs/V7_TO_GODOT_PARITY.md`, "Tests that still fly on the older rules".
+- N-1 to N-7 in section 9 of `.fable/FINAL_REPORT.md`, and his playtest feedback.
+- D-01 to D-15 are answered (`.fable/DECISIONS.md`).
 
 ## 7. What comes next
 
-Phase 8 (`.fable/PHASE8.md`), then Pat's playtest feedback and the items he approved for after it. Testing rule for all of it: the bare minimum (`docs/WORKFLOW.md`); the full matrix only by manual dispatch before a release package.
+Phase 9 (`.fable/PHASE9.md`): Part A defects, Pat's answers to Part B, the approved repairs, a replay through the critic kit, then the open items from phase 8 and Pat's playtest feedback. Testing is local only; no GitHub run without Pat asking for it in the conversation.

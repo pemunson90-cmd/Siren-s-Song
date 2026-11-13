@@ -1,6 +1,6 @@
 # Phase 8: code base audit and Pat's follow-up work
 
-Status: LIVE PLAN (written 2026-11-12 at Pat's request, before a context clear; root updates it as items finish)
+Status: FINISHED 2026-11-12 (8.1 to 8.3 done; 8.4 and the open items carried into `.fable/PHASE9.md`). Kept for the record.
 
 Pat, 2026-11-12 (chat, verbatim): "Yes I wanted disruption renamed to emp, the rest I will give feedback after play testing. In the meantime I want you to avoid it the code base and see if it could be made more efficient because it sounds like a tangled mess." ("avoid it" is read as "audit". My reading; confirm if a reply suggests otherwise.)
 

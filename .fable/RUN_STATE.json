@@ -1,12 +1,12 @@
 {
   "run_id": "overhaul-20261111",
-  "status": "RUNNING",
-  "phase": "8-ux-audit",
-  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: Order now (Pat: GitHub allowance spent, test local, do the work yourself): (1) Test trim: .fable/TEST_TRIM.md is PROPOSED (39 everyday, 99 module guards, 252 retired, 4 tools); wait for Pat's yes, then move the retired suite files and their suites.txt rows to _scrap-20261111/tests-retired/, fix check-suites and the selector, run the everyday set locally. (2) UI and UX audit: critic B (menus) has reported; critics A and C still playing in kit fable-critic7-20261112; when all three are in, root writes .fable/UX_AUDIT.md (ranked plain-English list, yes/no per item, include A9, Sorley brief wording, DEVELOPER button, no confirm on Expedition END DIVE). (3) Repairs after Pat's answers, tested locally only. No GitHub runs; every push carries [skip ci]. GitHub run 43349293662 was left to finish; read its result once.",
+  "status": "PAUSED",
+  "phase": "9-ux-repair",
+  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: RESUME: set status RUNNING. (1) Send Pat one short message asking for his answers to .fable/UX_AUDIT.md Part B (B1 to B19): name the top five (B1 stray tap only closes the wheel, B2 LAUNCH and RECALL on the wheels, B3 photos on the end-of-dive screen, B4 confirm before discarding a dive or run, B5 route dialog off the craft) and offer 'yes to all recommended'. (2) While he answers, start .fable/PHASE9.md item 9.2: check Part A item A10 first (grep the loss screen's drone status: presentation/loss_summary.gd, presentation/flow/campaign_flow.gd line with SIGNAL LOST, main.gd line with ABOARD/LOST), then fix A1 to A9 in small packages (one Sonnet implementer at a time, branch from origin/fable/overhaul-20261111, root reviews each diff), tested locally only. (3) Build the Part B items he approves in list order; wording tables to Pat before text changes. No GitHub Actions run of any kind; every push carries [skip ci]. First command: cd into the run clone, then python scripts/repo/handoff_check.py and git status --short.",
   "base_ref": "origin/claude/integration",
   "base_sha": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
   "run_branch": "fable/overhaul-20261111",
-  "run_head": "825f579943a8f5918376eadb0f898826382dac3f",
+  "run_head": "83df7b2100bc03f8e8e7e0e50dd45b5f90680fcb",
   "shared_tips": {
     "claude/integration": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
     "main": "f5b66a198e3878950325f8c45a0bc6bc29dcba84",
@@ -44,9 +44,10 @@
     "WP-26": "merged",
     "WP-27": "merged",
     "WP-28": "merged",
-    "WP-29": "merged"
+    "WP-29": "merged",
+    "WP-30": "merged"
   },
   "decisions_open": 0,
-  "last_checkpoint": "A5: core green under the player rules on wp-23-player-rules; enumeration run 43301827177 in progress",
-  "updated": "2026-11-12 21:15:03"
+  "last_checkpoint": "Paused at Pat's request on 2026-11-12 after phase 8 and the UI and UX audit. Everything committed and pushed with [skip ci]. Everyday set: 39 of 39 suites pass locally after the trim.",
+  "updated": "2026-11-12 21:45:19"
 }

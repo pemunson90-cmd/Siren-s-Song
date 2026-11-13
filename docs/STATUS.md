@@ -11,35 +11,34 @@ Updated: 2026-11-12
 
 ## Active work
 
-- Chartered overhaul run `overhaul-20261111` on branch `fable/overhaul-20261111`: finished, awaiting Pat's review in pull request 262 (report `.fable/FINAL_REPORT.md`). No writer is active.
+- Chartered overhaul run `overhaul-20261111` on branch `fable/overhaul-20261111`, paused on 2026-11-12 after phase 8 (code base audit, approved fixes, independent review, test trim). Pull request 262 is a draft (report `.fable/FINAL_REPORT.md`). Next is phase 9, UI and UX repair: `.fable/PHASE9.md`. No writer is active.
 - Parked: item 134, route flow (superseded by the release controls of item 127; reopen only if a critic finds route stops again).
 
 ## Top weaknesses
 
-Ranked in `.fable/SURVEY.md` section 7 and `.fable/COLD_REVIEW_6.md`. In short:
+Ranked in `.fable/UX_AUDIT.md` (interface, 12 November), `.fable/CODE_AUDIT.md` (code) and `.fable/COLD_REVIEW_6.md` (whole game). In short:
 
-1. Photo payoff: value favors distance and tools over photo quality.
-2. Late-operation variety and the branching route graph: forks mostly change approaches inside operations, not which operations the player gets.
-3. Touch interface defects on real screens: lists that do not scroll by dragging their content (HUD chips and the oxygen reading were addressed in the overhaul run; unverified on a phone).
-4. Expansion cost: operations, regions, Siren roles and fittings are keyed on literal IDs in many files.
-5. Look and sound have never been compared against reference games; audio has never been assessed. Art direction is Pat's call.
+1. Dive controls a new player cannot find or trust: no labelled drone launch or recall, a tap beside a menu sets a route, the route dialog covers the craft, discarding a dive is not confirmed.
+2. The end of a dive does not show the photographs taken; photo payoff still favors distance and tools over photo quality.
+3. Menus and side modes: five back patterns, briefings written as rules text in Career and Expedition, raw numbers on results and fittings screens, jargon on the route screens.
+4. Late-operation variety and the branching route graph.
+5. Code: `main.gd` still holds the state its helper modules reach into; drone state is read straight from `alive` in about 30 places.
+6. Look and sound have never been compared against reference games; audio has never been assessed. Art direction is Pat's call.
 
 ## Blockers
 
-- None for engineering work.
+- GitHub Actions: the monthly allowance is spent (12 November 2026). No workflow run, package build included, until Pat asks for one. Testing is local.
 - The nightly workflow cannot run until `nightly-integration.yml` is on `main` (next promotion, Pat's call).
-- Physical phone acceptance is Pat's: he plays the debug package after a run stops.
+- Physical phone acceptance is Pat's.
 
 ## Waiting on Pat
 
-The run's decisions D-01 to D-15 are answered. New questions N-1 to N-7 are in `.fable/FINAL_REPORT.md` section 9. Older open questions are in [QUESTIONS_FOR_PAT.md](QUESTIONS_FOR_PAT.md) (items 3 and 8).
+- His yes or no on `.fable/UX_AUDIT.md` items B1 to B19.
+- Three play questions from his rules (`docs/V7_TO_GODOT_PARITY.md`, "Tests that still fly on the older rules").
+- N-1 to N-7 in `.fable/FINAL_REPORT.md` section 9 and his playtest feedback. Older open questions are in [QUESTIONS_FOR_PAT.md](QUESTIONS_FOR_PAT.md) (items 3 and 8).
 
 ## Next action
 
-The overhaul run `overhaul-20261111` is finished (2026-11-12), including the repairs Pat approved the same day. Pull request 262 holds all of it. Next, in this order:
+Resume the run with `/siren-s-start-fable` and work through `.fable/PHASE9.md`: ask Pat for his Part B answers, fix the Part A defects, build what he approves, replay it through the critic kit.
 
-1. Pat plays the debug package (link and install steps in `.fable/FINAL_REPORT.md` section 11) and gives feedback.
-2. Pat answers the new yes or no questions N-1 to N-7 (report section 9) and merges pull request 262 into `claude/integration`.
-3. The next run builds what Pat approved for after the playtest (photo pay retune, fast-forward and a starter drone tool, late-campaign alternates), then the P2 backlog in `.fable/OVERHAUL_PLAN.md`, reordered by the playtest feedback.
-
-Testing rule (Pat, 2026-11-12): the bare minimum for every change; the full matrix only by manual dispatch before a release or near-release package.
+Testing rule (Pat, 2026-11-12): the bare minimum, locally. Per change, the suites that test what changed; the everyday set (39 suites, `scripts\toolchain\win\test-suite.ps1 -All -Profile local`) before a merge of size. No GitHub Actions run without Pat asking for it; every push carries `[skip ci]`.

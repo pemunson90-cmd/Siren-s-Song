@@ -1,5 +1,7 @@
 # Tests
 
+> **In force since 2026-11-12 (Pat):** GitHub Actions are not used: the monthly allowance is spent, and no run is started unless Pat asks for it. Every push carries `[skip ci]`. Testing is local. The registry holds 238 suites: the local profile is the everyday set (39 suites, `scripts\toolchain\win\test-suite.ps1 -All -Profile local`, about 20 minutes), run before a merge of size; the others are guards, run when the file they cover changes (`python scripts/toolchain/select-suites.py --minimum --changed <paths>`). 152 suites were retired to `_scrap-20261111/tests-retired/` (list and reasons in `.fable/TEST_TRIM.md`). Where the text below describes GitHub jobs as the gate, it describes how the workflows behave when they are run, not what is run today.
+
 `game/tests/suites.txt` is the single suite registry. Each row is
 `suite|summary prefix|local order|CI order`; the core prefix is empty.
 Ranks preserve the historical local and CI orders; `-` excludes a profile.
