@@ -94,7 +94,8 @@ func run():
  var fitting_copy=""
  for child in g.panel_box.get_children():
   if child is Label:fitting_copy+=child.text+"\n"
- check(brief in fitting_copy,"opening fittings entry shows all per-craft counts including zero")
+ # WP-44: the fittings page says what each craft carries in a sentence and leaves zeros out.
+ check(preload("res://src/presentation/tool_racks_view.gd").carry_text(racks) in fitting_copy,"opening fittings entry says what each craft carries")
  # The opening brief confirms actual Quietus stock without a text wall.
  var stock_before=g.sim.snapshot().duplicate(true)
  g._briefing(0);await frames()
