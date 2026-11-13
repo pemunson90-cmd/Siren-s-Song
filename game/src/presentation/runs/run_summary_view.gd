@@ -6,9 +6,11 @@ const Catalog=preload("res://src/campaign/operation_catalog.gd")
 const Tools=preload("res://src/equipment/field_tools.gd")
 static func lines(row:Dictionary)->Array:
 	var out=["SEED %d / %d OF %d OPERATIONS CLEARED"%[row.seed,row.depth,row.total],Records.modifiers(row).replace("STARTING HUNT","EXPEDITION HUNT")]
-	out.append("RESOURCES / CHARGES SPENT + GAINED")
+	# Only tools that were spent or gained are listed; an unused run has no block.
+	var used:Array=[]
 	for key in Records.Table.TOOLS:
-		out.append("%s: %d spent / %d gained"%[Tools.spec(key).name,row.spent[key],row.gained[key]])
+		if row.spent[key]!=0 or row.gained[key]!=0:used.append("%s: %d spent / %d gained"%[Tools.spec(key).name,row.spent[key],row.gained[key]])
+	if not used.is_empty():out.append("RESOURCES / CHARGES SPENT + GAINED");out.append_array(used)
 	out.append("BEST PHOTO PER OPERATION")
 	for op in row.operations:
 		out.append("%s / %s / %s"%[Catalog.make(op.op,{}).title,op.outcome.to_upper(),Records.photo_text(op.photo)])
@@ -16,7 +18,8 @@ static func lines(row:Dictionary)->Array:
 static func session(host)->void:
 	var row=Records.summary(host.run_state)
 	if row.is_empty():return
-	for line in lines(row):host._menu_text(line,17)
+	# The result header already states the seed and the recovered count; skip the repeat.
+	for line in lines(row).slice(1):host._menu_text(line,17)
 static func detail(front,row:Dictionary,back:Callable,replay:Callable)->void:
 	front._reset("run_record")
 	front._button("BACK",back,"frontend_back")

@@ -52,6 +52,7 @@ func shape_case(shape):
  await android_back();check(game.screen=="menu","Android Back returns from the gallery to Operations")
  await press(game,"archive");await press(game,"archive_tab_research")
  check(game.screen=="research","tab opens research")
+ check(button(game,"archive_tab_research").button_pressed and not button(game,"archive_tab_research").disabled and not button(game,"archive_tab_archive").button_pressed and not button(game,"archive_tab_archive").disabled,"the open tab is the pressed one and neither tab is disabled, as in Settings")
  text=texts(game)
  for material in ["PRESSURE SPINDLE","TRACTION CORE","PRISM CORE","KEEPER WAFER","TRENCH SEAL CORE","CHOIR REED","DEEP KEEL PLATE","TRAWLER SCREW"]:
   check(text.contains(material),"research lists "+material)

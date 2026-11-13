@@ -155,13 +155,17 @@ static func launch_now(host,index:int)->void:
 	if host.screen=="mission" and host.active_started:host._enter_water()
 	elif host.screen=="launch_guard":host._briefing(index) # a blocked launch returns to the briefing it came from
 
-# Item 142: a launch over a live dive asks first; KEEP leaves the dive and its briefing untouched.
-static func confirm_launch(host,index:int)->void:
+# The live state of a dive that can still be resumed; shared by the launch guard and the supplies page.
+static func in_progress_line(host)->String:
 	var sim=host.sim
 	var seconds:int=int(sim.elapsed)
+	return "%02d %s is in progress · time %02d:%02d · hull %d%% · life support %d%%."%[host.mission_index+1,sim.mission.title.to_upper(),seconds/60,seconds%60,roundi(sim.hull),roundi(sim.oxygen)]
+
+# Item 142: a launch over a live dive asks first; KEEP leaves the dive and its briefing untouched.
+static func confirm_launch(host,index:int)->void:
 	host.screen="launch_guard"; host._clear_menu()
 	host._menu_text("ABANDON THE CURRENT DIVE?",24)
-	host._menu_text("%02d %s is in progress · time %02d:%02d · hull %d%% · life support %d%%.\nLaunching replaces it."%[host.mission_index+1,sim.mission.title.to_upper(),seconds/60,seconds%60,roundi(sim.hull),roundi(sim.oxygen)],17)
+	host._menu_text(in_progress_line(host)+"\nLaunching replaces it.",17)
 	host._button(host.menu_footer,"KEEP DIVE",func():host._briefing(index),"launch_guard_keep")
 	host._button(host.menu_footer,"ABANDON DIVE\nAND LAUNCH",func():launch_now(host,index),"launch_guard_abandon")
 	host.menu_footer.show()
