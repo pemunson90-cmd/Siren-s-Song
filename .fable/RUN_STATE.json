@@ -1,12 +1,12 @@
 {
   "run_id": "overhaul-20261111",
-  "status": "PAUSED",
+  "status": "RUNNING",
   "phase": "9-ux-repair",
-  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: RESUME: set status RUNNING. (1) Send Pat one short message asking for his answers to .fable/UX_AUDIT.md Part B (B1 to B19): name the top five (B1 stray tap only closes the wheel, B2 LAUNCH and RECALL on the wheels, B3 photos on the end-of-dive screen, B4 confirm before discarding a dive or run, B5 route dialog off the craft) and offer 'yes to all recommended'. (2) While he answers, start .fable/PHASE9.md item 9.2: check Part A item A10 first (grep the loss screen's drone status: presentation/loss_summary.gd, presentation/flow/campaign_flow.gd line with SIGNAL LOST, main.gd line with ABOARD/LOST), then fix A1 to A9 in small packages (one Sonnet implementer at a time, branch from origin/fable/overhaul-20261111, root reviews each diff), tested locally only. (3) Build the Part B items he approves in list order; wording tables to Pat before text changes. No GitHub Actions run of any kind; every push carries [skip ci]. First command: cd into the run clone, then python scripts/repo/handoff_check.py and git status --short.",
+  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: Phase 9.2 in flight: WP-31 (dive screen defects A1, A2, A5, A6, A9; branch wp-31) and WP-32 (menu defects A3, A4, A7, A8; branch wp-32), both from 91181931, one Sonnet implementer each on disjoint files. When each reports: root reads the diff, merges, adds behavior rows, runs the touched suites locally. A10 checked: the loss screen's FLEET RECOVERY block (module_recovery_view.gd:131) read ABOARD for both drones; the critic had restarted the dive, so the lost dive likely never launched a drone; not treated as a defect. Waiting on Pat for UX_AUDIT Part B answers (asked on resume). Then 9.3. No GitHub runs; pushes carry [skip ci].",
   "base_ref": "origin/claude/integration",
   "base_sha": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
   "run_branch": "fable/overhaul-20261111",
-  "run_head": "f39fdf36c9aac8616e6e491c33861cd0e0a9a0d6",
+  "run_head": "91181931aa1f2f192665e41e7f11c26bea6f8daf",
   "shared_tips": {
     "claude/integration": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
     "main": "f5b66a198e3878950325f8c45a0bc6bc29dcba84",
@@ -45,9 +45,11 @@
     "WP-27": "merged",
     "WP-28": "merged",
     "WP-29": "merged",
-    "WP-30": "merged"
+    "WP-30": "merged",
+    "WP-31": "building",
+    "WP-32": "building"
   },
   "decisions_open": 0,
   "last_checkpoint": "Paused at Pat's request on 2026-11-12 after phase 8 and the UI and UX audit. Everything committed and pushed with [skip ci]. Everyday set: 39 of 39 suites pass locally after the trim.",
-  "updated": "2026-11-12 21:50:33"
+  "updated": "2026-11-12 21:54:50"
 }
