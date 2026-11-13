@@ -41,13 +41,33 @@ func run() -> void:
 	var shown=""
 	for c in game.panel_box.get_children():
 		if c is Label: shown+=c.text+"\n"
-	check(shown.length()<420 and "GOAL" in shown and "DANGER" in shown and "exposed" not in shown,"opening briefing is a goal and one danger")
+	check(shown.length()<700 and "GOAL" in shown and "DANGER" in shown and "exposed" not in shown,"opening briefing is a goal, one danger and the primer")
+	check("SILENT" in shown and "Drones scout ahead" in shown and "Sirens hunt by sound" in shown,"opening briefing carries the three-line primer until operation 01 is recovered")
+	check(buttons(game.panel_box,"manual").text.begins_with("FIELD MANUAL") and "take photographs" in buttons(game.panel_box,"manual").text,"the manual button names the topics it covers")
 	check(buttons(game.panel_box,"manual")!=null,"rules live behind a field manual button")
 	game._reference(0); await settle()
 	shown=""
 	for c in game.panel_box.get_children():
 		if c is Label: shown+=c.text+"\n"
-	check("stationary seconds" in shown and "FIELD MANUAL" in shown,"field manual keeps the full rules")
+	var Table=preload("res://src/presentation/field_manual_table.gd")
+	check(game.get_meta("field_manual_open","")==Table.TOPICS[0].id,"the first topic is open on entry")
+	for entry in Table.TOPICS:
+		var topic=buttons(game.panel_box,"manual_topic_"+entry.id)
+		check(topic!=null and topic.size.y>=game.ui_touch_height-1,"topic button "+entry.id+" is at least touch height")
+		topic.pressed.emit(); await settle()
+		var open_count=0
+		for other in Table.TOPICS:
+			if buttons(game.panel_box,"manual_topic_"+other.id).get_meta("chosen",false):open_count+=1
+		check(open_count==1 and game.get_meta("field_manual_open","")==entry.id and topic.get_meta("chosen",false),"exactly one topic is open: "+entry.id)
+		for c in game.panel_box.find_children("*","Label",true,false):
+			check(not c.is_visible_in_tree() or c.get_minimum_size().x<=game.size.x,"card text fits the width: "+entry.id)
+		if entry.id!=Table.OPERATION_ID:
+			check(entry.lines.size()<=5,"a card has at most five lines: "+entry.id)
+	var manual_text=""
+	for entry in Table.TOPICS:
+		for text in entry.lines:manual_text+=text+" "
+	check("SILENT" in manual_text and "DEPLOY DRONE" in manual_text and "RECALL" in manual_text and "EMP" in manual_text and "290m" in manual_text,"the cards keep the interface terms and numbers")
+	check(buttons(game.menu_footer,"back")!=null,"the manual offers its way back")
 	game._show_campaign(); await settle()
 	var resume=false; var erase=false
 	for c in game.panel_box.get_children():
