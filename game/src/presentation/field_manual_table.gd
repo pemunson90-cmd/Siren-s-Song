@@ -8,14 +8,14 @@ const TOPICS=[
 	{"id":"moving","title":"MOVING","lines":[
 		"Press PAUSE to plan for as long as you like. Tap Quietus or a drone, then tap open water to place a straight leg. Nothing moves until you press RESUME.",
 		"A craft does not steer around rock. A red leg crosses charted rock and can crash.",
-		"A craft that already has orders asks you to confirm. Under ROUTE, TAPS: REPLACE swaps the route and QUEUE adds to it.",
-		"PASS or STOP decides whether queued points are flown through or stopped at.",
+		"A craft that already has a route asks first: REPLACE ROUTE swaps it, ADD TO ROUTE extends it.",
+		"The switch STOP AT EACH NEW POINT decides whether the craft halts at added points or keeps moving through them.",
 		"Drag and pinch to look around. FOCUS follows the craft and FIT shows the region.",
 	]},
 	{"id":"quiet","title":"STAYING QUIET","lines":[
 		"Speed makes noise. Fast movement is heard from farther away.",
 		"SILENT running is slower and quieter. Sirens see Quietus from 290m, or from 180m when it runs SILENT.",
-		"A Siren that hears noise walks to that spot, then searches. When one notices you, time pauses and shows its bearing and the seconds left.",
+		"A Siren that hears noise goes to that spot, then searches. When one notices you, time pauses and shows its bearing and the seconds left.",
 		"Break line of sight, slow down or go SILENT, then press RESUME.",
 		"Cover blocks sonar, enemy sight and torpedoes. Keep rock between you and a Siren.",
 	]},
