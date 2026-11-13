@@ -1,13 +1,13 @@
 # NOW: what the root session is doing
 
 Status: LIVE NOTE (rewritten before every step; if a session died, this is the step it died in)
-Updated: 2026-11-13 11:36
+Updated: 2026-11-13 12:16
 
 **To resume after a context clear or a new session:** open this folder as the project and run `/siren-s-start-fable`. Read `.fable/PHASE9.md` first: it is the whole handoff. The `next_action` field in the state file always starts by sending the session to `.fable/HANDOFF.md` and to this file.
 
 ## Doing right now
 
-RUNNING. WP-46 (first-run menus), WP-48 (wheel wording, pause state) and WP-49 (threat readability) are with three Sonnet implementers on disjoint files (table below). Root waits for reports, reviews, merges, tests, looks in the kit, sends Pat captures.
+RUNNING. WP-45 to WP-49 merged. radial_hud_tests has 4 failures on the merged head (a disabled wheel segment's tap; outer labels past the edge margin at three craft positions): WP-50 dispatched to one Sonnet implementer to fix them without weakening the checks. Do not run the critic round until it is green.
 
 ## In flight
 
