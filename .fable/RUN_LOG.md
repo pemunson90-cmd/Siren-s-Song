@@ -84,3 +84,4 @@ Append only. One entry per meaningful event: date and time, phase, what happened
 - 2026-11-12 20:20:30 Pat: 'I have no saves. Carry on.' The real-folder incident lost nothing.
 - 2026-11-12 20:23:10 A10 measured: autosave 16 ms on PC, about 7 ms ours and 9 ms OS file work; trial micro-change gave nothing and was reversed; no change made; recorded in CODE_AUDIT.md.
 - 2026-11-12 20:45:14 WP-28 commit 1 merged (campaign_archive_flow.gd, main.gd 840 to 757); commit 2 left unmerged on wp-28 by root decision (non-exact coroutine move).
+- 2026-11-12 20:46:00 Decision (root): A2 part 2 (per-step caches, 10 Hz HUD) is not built now. After A4 the worst simulation step is 2.5 to 4 ms and WP-21 removed the repeated per-frame work; with no measured cost left it fails the necessity test. Reopen only if the drawing probe (A1, needs a screen) or Pat's phone shows a cost. Eight-heading review dispatched (reviewer, read-only, diff 247e0582..HEAD).
