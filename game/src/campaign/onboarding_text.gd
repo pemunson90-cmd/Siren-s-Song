@@ -33,6 +33,10 @@ const HINTS := {
 static var SAVED_HINT_IDS=HINTS.keys()+["priced_gone"]
 static func goal(index: int) -> String:
 	return GOALS.get(index, "")
+# Operation 01 only, until it is recovered: what the opening briefing leaves out (drones, silent running, what kills you).
+const PRIMER := "Quietus is slow and quiet when SILENT is on, fast and loud when it is off.\nDrones scout ahead for you. Once deployed they stay out.\nSirens hunt by sound: when one notices you, stop or put rock between you."
+static func primer(index: int, completed: Array) -> String:
+	return PRIMER if index == 0 and not 0 in completed else ""
 static func hint_text(id: String) -> String:
 	return HINTS.get(id, {}).get("text", "")
 static func applies(id: String, operation: int) -> bool:
@@ -46,5 +50,3 @@ static func valid_seen(value: Variant) -> bool:
 		if not id is String or not id in SAVED_HINT_IDS or id in unique: return false
 		unique.append(id)
 	return true
-static func reference_text(brief: String) -> String:
-	return "FIELD MANUAL\n\n" + brief + "\n\nORDERS\nTap a craft for its command ring; FLEET chooses a station. Both drones start aboard Quietus: tap Quietus and choose DEPLOY DRONE, or choose a drone under FLEET and tap water to deploy it on that route. A deployed drone stays out for the rest of the dive. A calm Siren ignores a drone; once it is alerted, or Hunt reaches SEARCHING, drones are targets. Tap empty water to mark a route, then confirm it if the craft already has orders. Craft → ROUTE → TAPS: REPLACE / QUEUE sets whether a water tap replaces the route or adds to it; PASS / STOP decides whether queued points are flown through or stopped at. PAUSE stays available. Drag / pinch inspects freely; FOCUS follows the craft and FIT shows the region.\n\nLAYERS AND NOISE\nPAUSE gives unlimited planning time. Silent running is slower and quieter. Changing depth layer takes 4 stationary seconds during which the craft is exposed in both layers. Sweeper Sirens hear farther than patrols and search longer, but follow only the last noise they heard; their cue shows direction and seconds since it was heard. An EMP pulse interrupts nearby Sirens for 12 seconds. Quietus torpedoes travel noisily up to 150m; impact pins one Siren for 8s. Cover blocks sonar, enemy sight and torpedoes."

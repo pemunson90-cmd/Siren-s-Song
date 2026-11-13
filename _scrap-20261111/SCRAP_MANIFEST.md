@@ -22,3 +22,5 @@ Reasons follow the run charter: **Carried** means every live statement now exist
 Also in this folder, as copies and not moves: `AGENTS.md`, `CLAUDE.md` and `README.md` hold the text of those three files as it stood on `claude/integration` at `cabd5bd5`, before they were rewritten in place. The files themselves stay at the repository root.
 
 Kept in place by Pat's decision D-02 A (2026-11-12): `docs/design/STEALTH_AI_ROADMAP.md` (still feeds the backlog) and `reports/2026-11-01-sirens-song-full-project-overview.md`.
+
+Copy, not a move (WP-47): `field-manual-old.txt` holds the one-page Field Manual text (`OnboardingText.reference_text` and the two `orders_text` strings) as it stood before the topic cards replaced it. `orders_text` itself stays in `campaign_flow.gd` for the Blackwater card.

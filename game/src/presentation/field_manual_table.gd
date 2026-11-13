@@ -1,0 +1,58 @@
+extends RefCounted
+# The Field Manual's content: one table, drawn by field_manual_view.gd. Every line restates a rule the game
+# already enforces (see the work package report for the source of each). Control names are spelled exactly as
+# the buttons show them. The OPERATION topic has no lines here: the view fills it from the open briefing.
+const BUTTON_TEXT="FIELD MANUAL\nHow to move, stay quiet, use drones and take photographs."
+const OPERATION_ID="operation"
+const TOPICS=[
+	{"id":"moving","title":"MOVING","lines":[
+		"Press PAUSE to plan for as long as you like. Tap Quietus or a drone, then tap open water to place a straight leg. Nothing moves until you press RESUME.",
+		"A craft does not steer around rock. A red leg crosses charted rock and can crash.",
+		"A craft that already has orders asks you to confirm. Under ROUTE, TAPS: REPLACE swaps the route and QUEUE adds to it.",
+		"PASS or STOP decides whether queued points are flown through or stopped at.",
+		"Drag and pinch to look around. FOCUS follows the craft and FIT shows the region.",
+	]},
+	{"id":"quiet","title":"STAYING QUIET","lines":[
+		"Speed makes noise. Fast movement is heard from farther away.",
+		"SILENT running is slower and quieter. Sirens see Quietus from 290m, or from 180m when it runs SILENT.",
+		"A Siren that hears noise walks to that spot, then searches. When one notices you, time pauses and shows its bearing and the seconds left.",
+		"Break line of sight, slow down or go SILENT, then press RESUME.",
+		"Cover blocks sonar, enemy sight and torpedoes. Keep rock between you and a Siren.",
+	]},
+	{"id":"drones","title":"DRONES","lines":[
+		"Both drones start aboard Quietus. Tap Quietus and choose DEPLOY DRONE, or choose a drone under FLEET and tap water to deploy it on that route.",
+		"A deployed drone stays out for the rest of the dive. Drones are expendable. Quietus is not.",
+		"A calm Siren ignores a drone. Once it is alerted, or Hunt reaches SEARCHING, drones are targets.",
+		"To bring a drone back, choose it and use RECALL. Quietus has RECALL ALL.",
+	]},
+	{"id":"sonar","title":"SONAR AND DEPTH","lines":[
+		"Depth and sonar sit under DEPTH / SONAR on the wheel.",
+		"SHALLOWER and DEEPER change the layer. The craft holds still for 4 seconds and is exposed in both layers.",
+		"EMIT SONAR spends reserve and makes noise. Sirens hear every sonar ping.",
+		"SECTOR and POWER set the next pulse's coverage and reach. Returns take time.",
+	]},
+	{"id":"photos","title":"PHOTOGRAPHS","lines":[
+		"CAMERA works within 240m of a gold record marker.",
+		"Closer is clearer. The rings show how near a detail resolves.",
+		"A dark subject needs you to close in, or to hold still for 8 seconds. Flash is loud and limited.",
+		"Some details show only in a cycle. The viewfinder counts down to the next opening.",
+		"Film is limited. Every exposure costs one, even a failed one.",
+	]},
+	{"id":"tools","title":"TOOLS","lines":[
+		"Field tools spend finite stock. SUPPLIES prepares the next launch; RESUME keeps this dive's stock.",
+		"EMP interrupts nearby Sirens for 12 seconds.",
+		"TORPEDO: tap a fresh contact. It travels noisily up to 150m, and impact pins one Siren for 8 seconds.",
+		"DECOY is placed by tapping clear water within 160m.",
+		"SURVEY takes 8 seconds and is audible.",
+	]},
+	{"id":"home","title":"GOING HOME","lines":[
+		"Return Quietus to its extraction point once the records are secured.",
+		"Quietus carries limited life support (O₂), and some actions spend it. Plan your way back before you spend it.",
+		"PAUSE stays available all the way home.",
+	]},
+	{"id":OPERATION_ID,"title":"THIS OPERATION","lines":[]},
+]
+static func topic(id:String)->Dictionary:
+	for entry in TOPICS:
+		if entry.id==id:return entry
+	return TOPICS[0]

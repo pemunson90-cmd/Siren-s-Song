@@ -8,6 +8,7 @@ const OpsHome=preload("res://src/presentation/ops_home/ops_home.gd")
 const PhotoReview=preload("res://src/presentation/flow/photo_review.gd")
 const FitSurface=preload("res://src/presentation/fit_surface/fit_surface_view.gd")
 const FitSurfaceModel=preload("res://src/presentation/fit_surface/fit_surface.gd")
+const FieldManualTable=preload("res://src/presentation/field_manual_table.gd")
 # Campaign/menu flow extracted verbatim from main. Main keeps its existing
 # entry points as forwarders; host owns state, callbacks and deferred layout.
 # Revert the original extraction to restore bodies in main. 029 display rows
@@ -106,13 +107,15 @@ static func briefing(host, index: int) -> void:
 	if not goal.is_empty():
 		# Short briefing facts; full rules remain in the optional field manual.
 		host._menu_text(goal,BriefRows029.STYLE.goal if compact else 20)
+		var primer:String=host.OnboardingText.primer(index,host.completed)
+		if not primer.is_empty():host._menu_text(primer,17)
 		if not photo_problems.is_empty():host._menu_text(photo_problems,BriefRows029.STYLE.photo if compact else 17)
-		manual_control=host._button(host.panel_box,"FIELD MANUAL · full rules and orders",func(): host._reference(index),"manual")
+		manual_control=host._button(host.panel_box,FieldManualTable.BUTTON_TEXT,func(): host._reference(index),"manual")
 	else:
 		host._menu_text(briefing.brief,20)
 		if not photo_problems.is_empty():host._menu_text(photo_problems,17)
 		if host.ExpeditionOperations.briefing(host,index):pass
-		manual_control=host._button(host.panel_box,"FIELD MANUAL · full rules and orders",func(): host._reference(index),"manual")
+		manual_control=host._button(host.panel_box,FieldManualTable.BUTTON_TEXT,func(): host._reference(index),"manual")
 	var thermal_line=preload("res://src/simulation/thermal_front.gd").briefing(briefing)
 	if not thermal_line.is_empty():host._menu_text(thermal_line,17)
 	preload("res://src/presentation/archive/voice_feed.gd").briefing(host,index)
@@ -216,15 +219,7 @@ static func fold_fit(host, nodes:Array,holder:Array) -> void:
 	host.call_deferred("_layout")
 
 static func show_reference(host, index:int) -> void:
-	host.screen="reference"; host._clear_menu()
-	var briefing=host.Simulation.Missions.make(index,host._launch_context(index))
-	var parts=host.OnboardingText.reference_text(briefing.brief).split("\n\n")
-	for n in parts.size():
-		host._menu_text(parts[n],24 if n==0 else 17)
-	if briefing.get("blackwater_revision",0)==1:host._menu_text(host._orders_text(briefing),17)
-	if BriefRows029.applies(index):host.ExpeditionOperations.briefing(host,index)
-	host._button(host.menu_footer,"BACK TO BRIEFING",func():host._briefing(index),"back"); host.menu_footer.show()
-	host.call_deferred("_layout")
+	preload("res://src/presentation/field_manual_view.gd").show(host,index)
 
 static func launch_context(host, index:int)->Dictionary:
 	var context=preload("res://src/campaign/campaign_consequences.gd").context(host.expedition)

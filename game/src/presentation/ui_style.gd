@@ -183,3 +183,8 @@ const RACK_TEXT_SIZE=15
 const RACK_DETAIL_SIZE=13
 const RACK_MINUS="−"
 const RACK_PLUS="+"
+# Field manual (WP-47): text sizes at 48 touch height, topic button width in touch heights.
+const MANUAL_HEADING_SIZE=24
+const MANUAL_TITLE_SIZE=20
+const MANUAL_BODY_SIZE=17
+const MANUAL_TOPIC_WIDTH=3.0
