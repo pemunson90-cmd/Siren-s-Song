@@ -70,7 +70,7 @@ static func summary(host)->String:
   var used=b.cargo+Racks.cargo(host.tool_racks,unit)
   var locker=Racks.locker_ticks(unit)/100.0
   var held=Racks.locker_used_ticks(host.tool_racks,unit)/100.0
-  lines.append("%s LOCKER %.2f / %.2f | %.2f LEFT\nCARGO %.2f / %d | %.2f LEFT"%[Catalog.NAMES[Racks.UNITS[unit]],held,locker,locker-held,used,b.cargo_cap,b.cargo_cap-used])
+  lines.append("%s LOCKER SPACE %.2f OF %.2f USED | %.2f LEFT\nCARGO %.2f / %d | %.2f LEFT"%[Catalog.NAMES[Racks.UNITS[unit]],held,locker,locker-held,used,b.cargo_cap,b.cargo_cap-used])
  return "\n".join(lines)
 static func stock(host)->String:
  var parts=[]

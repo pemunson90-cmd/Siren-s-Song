@@ -12,5 +12,5 @@ static func show(host)->void:
 		var row=Offers.describe(host.run_state,id)
 		host._menu_text(row.detail,17)
 		host._button(host.panel_box,row.title,func():host._pick_offer(id),"run_offer_"+id)
-	host._button(host.panel_box,"RETURN TO EXPEDITIONS",host._return,"run_return")
+	host._button(host.panel_box,"BACK TO EXPEDITIONS",host._return,"run_return")
 	host.call_deferred("_layout")

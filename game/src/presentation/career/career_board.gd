@@ -23,8 +23,9 @@ static func show(host)->void:
 		host._menu_text("Finish or abandon this contract before selecting another. Equipment changes apply between dives.",17)
 		host._menu_text(host.sim.rider_status(),17)
 		return
-	host._button(host.panel_box,"RETURN TO MODES",host._return,"career_return")
-	host._menu_text("RECOVERY: standing +%d and contract pay plus salvage. LOSS: standing %d and no contract pay. Recovery jobs remain open at every standing. Pay and tuning are provisional."%[Table.SUCCESS,Table.LOSS],16)
+	host._button(host.panel_box,"BACK TO GAME MODES",host._return,"career_return")
+	# Developer note, not shown to the player: pay and tuning are provisional.
+	host._menu_text("RECOVERY: standing +%d and contract pay plus salvage. LOSS: standing %d and no contract pay. Recovery jobs remain open at every standing."%[Table.SUCCESS,Table.LOSS],16)
 	for faction in Table.FACTIONS:
 		host._menu_text("%s · STANDING %d"%[Table.FACTIONS[faction],host.career_state.standing[faction]],22)
 		for id in Table.CONTRACTS:
@@ -53,7 +54,7 @@ static func briefing(host)->void:
 	var rider=State.rider_offer(host.career_state,host.selected_contract)
 	host._menu_text(Riders.description(rider),17)
 	if not rider.is_empty():
-		host._button(host.panel_box,"RIDER · "+("ACCEPTED" if host.accept_rider else "DECLINED"),preload("res://src/presentation/rider_choice.gd").toggle.bind(host,briefing.bind(host)),"career_rider")
+		host._button(host.panel_box,"RIDER: ON · TAP TO REMOVE" if host.accept_rider else "RIDER: OFF · TAP TO ACCEPT",preload("res://src/presentation/rider_choice.gd").toggle.bind(host,briefing.bind(host)),"career_rider")
 	var begin=host._button(host.panel_box,"ACCEPT CONTRACT · START PAUSED",host._begin,"career_begin")
 	begin.disabled=host.save_failed or not preload("res://src/presentation/economy_panel.gd").can_begin(host)
 	host._button(host.panel_box,"FLEET / FITTINGS",host._show_fittings,"career_fittings")

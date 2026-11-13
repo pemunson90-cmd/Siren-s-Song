@@ -36,7 +36,7 @@ func show_slot(index: int) -> void:
  front._button("SELECT PROFILE",func():mutate(func():return model.select(index)),"profile_select")
  front._button("RENAME",show_rename,"profile_rename")
  front._button("COPY FROM ANOTHER PROFILE",show_copy,"profile_copy")
- front._button("CLEAR PROFILE",func():confirm("Clear all campaign, backup and challenge files in " + model.state.names[target] + "? Undo lasts %d seconds." % Rules.UNDO_SECONDS,func():mutate(func():return model.clear(target,true))),"profile_clear")
+ front._button("CLEAR PROFILE",func():confirm("Clear all campaign, backup and challenge files in " + model.state.names[target] + "? Undo lasts %d seconds." % Rules.UNDO_SECONDS,func():mutate(func():return model.clear(target,true)),"CLEAR THIS PROFILE"),"profile_clear")
  front._button("EXPORT",do_export,"profile_export")
  front._button("IMPORT",show_import,"profile_import")
 func do_export() -> void:
@@ -82,11 +82,11 @@ func imported(files: Dictionary, message: String) -> void:
  confirm_import(files)
 func confirm_import(bytes: Dictionary) -> void:
  confirm("Replace " + model.state.names[target] + " with this imported progress and challenge results? Undo lasts %d seconds." % Rules.UNDO_SECONDS,func():mutate(func():return model.replace(target,bytes,true)))
-func confirm(message: String, action: Callable) -> void:
+func confirm(message: String, action: Callable, label: String = "CONFIRM REPLACEMENT") -> void:
  front._reset("profile_confirm")
  front._button("CANCEL",func():show_slot(target),"profiles_cancel")
  front._text(message,22)
- front._button("CONFIRM REPLACEMENT",action,"profiles_confirm")
+ front._button(label,action,"profiles_confirm")
 func mutate(action: Callable) -> void:
  load("res://src/persistence/profiles/profile_session.gd").handover(front,action)
 func back() -> void:

@@ -111,7 +111,7 @@ func _result_menu()->void:
 	if save_failed:
 		preload("res://src/presentation/frontend/save_error_view.gd").menu_retry(self,"RESULT NOT SAVED · "+str(campaign_host.get_meta("career_save_error","")),17,"RETRY SAVE",func():_save_archive();_result_menu(),"career_retry")
 	else:
-		_button(panel_box,"RETURN TO CONTRACT BOARD",func():
+		_button(panel_box,"BACK TO CONTRACT BOARD",func():
 			result_pending=false;active_started=false;CareerBoard.show(self)
 		,"career_board")
 	call_deferred("_layout")
