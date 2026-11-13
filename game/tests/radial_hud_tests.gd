@@ -20,6 +20,9 @@ func click(button):
 func capture(name:String):
  if not captures.is_empty() and DisplayServer.get_name()!="headless":
   await RenderingServer.frame_post_draw;root.get_texture().get_image().save_png(captures.path_join(name+".png"))
+func disc_holds(h,r:Rect2)->bool:
+ var radii=(h.ring_radius-h.touch_height*.7)*(h.get_meta("status_radial_axes")/h.ring_radius if h.has_meta("status_radial_axes") else Vector2.ONE)
+ return preload("res://src/presentation/radial_layout/center_layout.gd").inside(r,h.center,radii)
 func run():
  for arg in OS.get_cmdline_user_args():
   if arg.begins_with("--capture-dir="):captures=arg.trim_prefix("--capture-dir=")
@@ -34,6 +37,22 @@ func run():
   var name="cover" if dimensions.x==2520 else "inner";var h=g.mission_hud
   # Frame the chart before probing a world label or tapping a distant site.
   g.ocean.fit_chart();g._view_changed();await settle()
+  # WP-36: the pause and FLEET controls are plates (MAIN while paused, NORMAL running) in the rectangles they had as flat text.
+  var was=g.sim.paused
+  var old_pause=Rect2(12,12,151.9,98) if dimensions.x==2520 else Rect2(12,12,134.85,87)
+  var old_fleet=Rect2(1425.433,12,151.9,98) if dimensions.x==2520 else Rect2(1133.15,12,134.85,87)
+  for paused in [true,false]:
+   g.sim.paused=paused;g._refresh();await settle()
+   var label=name+(" paused" if paused else " running")
+   check(g.pause_button.get_meta("ui_role","")==("MAIN" if paused else "NORMAL"),"the pause control has the "+("MAIN" if paused else "NORMAL")+" role "+label)
+   check(g.advanced_button.get_meta("ui_role","")=="NORMAL","FLEET has the NORMAL role "+label)
+   check(g.pause_button.text.begins_with("▶ RESUME\nO₂") if paused else g.pause_button.text.begins_with("Ⅱ PAUSE\nO₂"),"the pause control keeps two lines with the life support reading "+label+": "+g.pause_button.text)
+   check(g.pause_button.get_rect().position.is_equal_approx(old_pause.position) and g.pause_button.get_rect().size.is_equal_approx(old_pause.size),"the pause rectangle is unchanged "+label+" "+str(g.pause_button.get_rect()))
+   check(g.advanced_button.get_rect().position.is_equal_approx(old_fleet.position) and g.advanced_button.get_rect().size.is_equal_approx(old_fleet.size),"the FLEET rectangle is unchanged "+label+" "+str(g.advanced_button.get_rect()))
+   var plate:StyleBoxFlat=g.pause_button.get_theme_stylebox("normal")
+   check(plate.bg_color.a>0.9 and plate.border_width_left>0 and plate.corner_radius_top_left>0,"the pause control is a filled, bordered, rounded plate "+label)
+   check((g.advanced_button.get_theme_stylebox("normal") as StyleBoxFlat).bg_color.a>0.9,"FLEET is a filled plate "+label)
+  g.sim.paused=was;g._refresh();await settle()
   var extraction=g.sim.mission.extraction;var label_origin=extraction+Vector2(-120,-66)
   check(g.ocean.world_label_position(label_origin,"EXTRACTION",18).is_finite(),"crowded recovery keeps its world label with safe relocated placement")
   await capture(name+"-water")
@@ -49,6 +68,7 @@ func run():
   # WP-31: centre lines are whole (no ellipsis), no ring word is split, the wheel stays on screen.
   check(h.caption_texts.all(func(t):return not str(t).ends_with("…")),"wheel centre text wraps instead of truncating")
   check(h.caption_rects.all(func(r):return Rect2(Vector2.ZERO,h.size).encloses(r)),"wheel centre lines stay inside the safe area")
+  check(not h.caption_rects.is_empty() and h.caption_rects.all(func(r):return disc_holds(h,r)),"no wheel centre line crosses the disc")
   var wheel=Rect2(h.center-Vector2.ONE*h.ring_radius,Vector2.ONE*h.ring_radius*2)
   check(Rect2(Vector2.ZERO,h.size).encloses(wheel),"whole wheel sits inside the safe area")
   var zoomed=g.ocean.world_scale;g.ocean.world_scale=4.
@@ -104,5 +124,15 @@ func run():
    h.open(edge_page,{"kind":"craft" if edge_page=="craft" else "objective","unit":g.sim.selected,"index":0,"name":"SITE","pos":g.ocean.map_position(Vector2.ZERO)});await settle()
    var radius=h.ring_radius+h.touch_height*.6;var annulus=Rect2(h.global_position+h.center-Vector2.ONE*radius,Vector2.ONE*radius*2)
    check(h.ring_buttons.all(func(b):return not b.get_global_rect().intersects(g.pause_button.get_global_rect())) and not annulus.intersects(g.pause_button.get_global_rect()),"top-edge craft/object projection keeps labels and full annulus clear of PAUSE")
+  # WP-36: a long single line wraps to the chord at its own height instead of being cut at the disc edge.
+  h.open("object",{"kind":"objective","unit":g.sim.selected,"index":0,"name":"UNKNOWN SIGNAL SOURCE AREA BEYOND THE SOUTHERN SHELF","pos":g.ocean.map_position(h.size*.5)});await settle()
+  check(not h.caption_rects.is_empty() and h.caption_rects.all(func(r):return disc_holds(h,r)),"a long site name stays inside the wheel centre disc")
+  check(h.caption_texts.any(func(t):return "SOURCE" in str(t)) and h.caption_texts.all(func(t):return not str(t).ends_with("…")),"a long site name keeps its whole words")
+  # WP-36: the outermost labels keep the safe-area margin at the left, right, top and bottom edges.
+  var margin=h.edge_margin(h.touch_height)
+  for spot in [Vector2(0,.5),Vector2(1,.5),Vector2(.5,0),Vector2(.5,1),Vector2(0,0),Vector2(1,1)]:
+   h.open("craft",{"kind":"craft","unit":g.sim.selected,"pos":g.ocean.map_position(h.size*spot)});await settle()
+   var safe=Rect2(Vector2.ZERO,h.size).grow(-margin+.5)
+   check(h.ring_buttons.all(func(b):return safe.encloses(b.get_rect())),"outer labels keep the edge margin with the craft at "+str(spot)+" "+name)
   h.dismiss();g.queue_free();await settle()
  print("RADIAL HUD CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)
