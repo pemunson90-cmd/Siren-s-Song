@@ -8,6 +8,10 @@ const Catalog=preload("res://src/equipment/equipment_catalog.gd")
 const Research=preload("res://src/campaign/glass_research.gd")
 const EquipmentView=preload("res://src/presentation/equipment_context.gd")
 const Riders=preload("res://src/campaign/career/riders.gd")
+const Briefing=preload("res://src/presentation/mode_briefing.gd")
+const ResultText=preload("res://src/presentation/mode_result_text.gd")
+# The rules of a contract that are neither goal nor danger.
+const CONTRACT_RULES=["The dive starts paused. A dive you leave resumes paused.","Oxygen, film and field tools refill for every dive.","Hull damage stays with your boat until you repair it.","Giving up a contract counts as a loss."]
 static func heading(host,title:String,screen:String)->void:
 	host.sim.paused=true;host.screen=screen;host._clear_menu();host._menu_text(title,30)
 	host._menu_text(Economy.balance_text(host.economy),17)
@@ -25,7 +29,7 @@ static func show(host)->void:
 		return
 	host._button(host.panel_box,"BACK TO GAME MODES",host._return,"career_return")
 	# Developer note, not shown to the player: pay and tuning are provisional.
-	host._menu_text("RECOVERY: standing +%d and contract pay plus salvage. LOSS: standing %d and no contract pay. Recovery jobs remain open at every standing."%[Table.SUCCESS,Table.LOSS],16)
+	host._menu_text("Recover a contract: standing +%d, contract pay and salvage. Lose one: standing %d and no pay. Recovery jobs are open at any standing."%[Table.SUCCESS,Table.LOSS],16)
 	for faction in Table.FACTIONS:
 		host._menu_text("%s · STANDING %d"%[Table.FACTIONS[faction],host.career_state.standing[faction]],22)
 		for id in Table.CONTRACTS:
@@ -38,7 +42,7 @@ static func show(host)->void:
 			host._menu_text(Riders.description(State.rider_offer(host.career_state,id)),16)
 	host._button(host.panel_box,"SUPPLIES / RESEARCH",host._show_economy,"career_supplies")
 	host._button(host.panel_box,"FLEET / FITTINGS",host._show_fittings,"career_fittings")
-	host._menu_text("%d RECOVERED · %d LOST\n%s"%[host.career_state.recovered,host.career_state.lost,host.career_state.report],17)
+	host._menu_text("%d RECOVERED · %d LOST\n%s"%[host.career_state.recovered,host.career_state.lost,"\n".join(ResultText.career_lines(host.career_state.report))],17)
 static func confirm_abandon(host)->void:
 	heading(host,"ABANDON THIS CONTRACT?","career_abandon")
 	host._menu_text("This records a loss, reduces the client's standing and forfeits contract pay. Your regional career continues.",17)
@@ -48,9 +52,9 @@ static func briefing(host)->void:
 	var c=Table.CONTRACTS[host.selected_contract]
 	var mission=host.Simulation.Missions.make(c.op,host._launch_context(c.op))
 	heading(host,"CAREER / "+mission.title.to_upper(),"career_briefing")
-	host._menu_text("%s\n%s\n%s"%[Table.FACTIONS[c.faction],c.brief,mission.brief],18)
-	host._menu_text("RECOVERY PAY · %s\nSTANDING %d · SUCCESS +%d / LOSS %d\nNEXT LAUNCH · %s"%[Economy.fmt(c.reward),host.career_state.standing[c.faction],Table.SUCCESS,Table.LOSS,Economy.fmt(preload("res://src/presentation/economy_panel.gd").launch_cost(host))],17)
-	host._menu_text("Paused physical operation. Oxygen, film and field tools replenish each dive. Damage persists through the existing economy; bare standard equipment always launches free. Interrupted dives resume paused; abandoning records a contract loss.",16)
+	host._menu_text("%s: %s"%[Table.FACTIONS[c.faction],c.brief],18)
+	Briefing.show(host,c.op,c.brief,CONTRACT_RULES)
+	host._menu_text("Pay if you recover it: %s.\nStanding with %s: %d. Recover it for +%d, lose it for %d.\nNext launch costs: %s."%[Economy.fmt(c.reward).to_lower(),Table.FACTIONS[c.faction].capitalize(),host.career_state.standing[c.faction],Table.SUCCESS,Table.LOSS,Economy.fmt(preload("res://src/presentation/economy_panel.gd").launch_cost(host)).to_lower()],17)
 	var rider=State.rider_offer(host.career_state,host.selected_contract)
 	host._menu_text(Riders.description(rider),17)
 	if not rider.is_empty():

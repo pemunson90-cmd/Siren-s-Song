@@ -4,16 +4,18 @@ extends RefCounted
 const Records=preload("res://src/campaign/runs/run_records.gd")
 const Catalog=preload("res://src/campaign/operation_catalog.gd")
 const Tools=preload("res://src/equipment/field_tools.gd")
+const ResultText=preload("res://src/presentation/mode_result_text.gd")
 static func lines(row:Dictionary)->Array:
-	var out=["SEED %d / %d OF %d OPERATIONS CLEARED"%[row.seed,row.depth,row.total],Records.modifiers(row).replace("STARTING HUNT","EXPEDITION HUNT")]
+	var out=["Seed %d: %d of %d operations cleared."%[row.seed,row.depth,row.total],"Loadout: %s. Supplies: %s. Hunt started at stage %d."%[Tools.loadout_label(row.loadout),Records.Table.SCARCITY[row.scarcity],row.hunt_stage]]
 	# Only tools that were spent or gained are listed; an unused run has no block.
 	var used:Array=[]
 	for key in Records.Table.TOOLS:
-		if row.spent[key]!=0 or row.gained[key]!=0:used.append("%s: %d spent / %d gained"%[Tools.spec(key).name,row.spent[key],row.gained[key]])
-	if not used.is_empty():out.append("RESOURCES / CHARGES SPENT + GAINED");out.append_array(used)
-	out.append("BEST PHOTO PER OPERATION")
+		var change=ResultText.tool_change(Tools.spec(key).name,row.spent[key],row.gained[key])
+		if not change.is_empty():used.append(change)
+	if not used.is_empty():out.append("Tools used and gained:");out.append_array(used)
+	out.append("Best photo in each operation:")
 	for op in row.operations:
-		out.append("%s / %s / %s"%[Catalog.make(op.op,{}).title,op.outcome.to_upper(),Records.photo_text(op.photo)])
+		out.append("%s: %s, %s."%[Catalog.make(op.op,{}).title,op.outcome,ResultText.photo_word(op.photo)])
 	return out
 static func session(host)->void:
 	var row=Records.summary(host.run_state)

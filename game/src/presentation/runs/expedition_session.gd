@@ -8,6 +8,9 @@ const RunTable=preload("res://src/campaign/runs/run_table.gd")
 const RunOffers=preload("res://src/campaign/runs/run_offers.gd")
 const SummaryView=preload("res://src/presentation/runs/run_summary_view.gd")
 const OfferView=preload("res://src/presentation/runs/offer_view.gd")
+const Briefing=preload("res://src/presentation/mode_briefing.gd")
+# The rules of an expedition that are neither goal nor danger.
+const EXPEDITION_RULES=["Tools you carry stay with you from one operation to the next.","Film and oxygen refill for every dive.","The Hunt meter in the dive shows the current pressure.","Lose a dive and the whole expedition ends."]
 var campaign_host
 var run_state:Dictionary={}
 var return_to_list:Callable
@@ -69,8 +72,8 @@ func _show_campaign()->void:
 	sim.paused=true;screen="expedition_menu";_clear_menu()
 	_menu_text("EXPEDITION · SEED %d"%run_state.seed,30)
 	_menu_text("OPERATION %d / %d · %s"%[run_state.cursor+1,run_state.operations.size(),sim.mission.title.to_upper()],20)
-	_menu_text(sim.mission.brief,17)
-	_menu_text("%s LOADOUT · %s · OPERATION START HUNT %d\nThe expedition Hunt modifier is capped for this operation. The in-dive meter shows current pressure.\nTools carry across recovered operations. Film and oxygen replenish for each dive."%[preload("res://src/equipment/field_tools.gd").loadout_label(run_state.loadout),RunTable.SCARCITY[run_state.scarcity].to_upper(),RunState.starting_hunt(run_state,RunState.current_operation(run_state))],17)
+	Briefing.show(self,RunState.current_operation(run_state),sim.mission.brief,EXPEDITION_RULES)
+	_menu_text("Loadout: %s. Supplies: %s. The Hunt meter starts at stage %d."%[preload("res://src/equipment/field_tools.gd").loadout_label(run_state.loadout),RunTable.SCARCITY[run_state.scarcity],RunState.starting_hunt(run_state,RunState.current_operation(run_state))],17)
 	if active_started:
 		if save_failed:
 			preload("res://src/presentation/frontend/save_error_view.gd").menu_retry(self,"SAVE PENDING · "+str(campaign_host.get_meta("runs_save_error","")),17,"RETRY SAVE",func():_save_archive();_show_campaign(),"run_retry_save")
@@ -122,14 +125,14 @@ func _debrief(abandoned:bool=false)->void:
 func _result_menu()->void:
 	screen="expedition_result";_clear_menu()
 	_menu_text("EXPEDITION LOST" if run_state.status=="lost" else "EXPEDITION RECOVERED" if run_state.status=="won" else "OPERATION RECOVERED",30)
-	_menu_text("SEED %d · %d / %d RECOVERED"%[run_state.seed,run_state.cursor,run_state.operations.size()],20)
+	_menu_text("Seed %d: %d of %d operations recovered."%[run_state.seed,run_state.cursor,run_state.operations.size()],20)
 	# Only a real outcome has a reason to state; an ended dive still holds the opening hint.
 	if not sim.outcome.is_empty():_menu_text(sim.message,17)
 	_menu_text(CampaignFlow.stats_line(sim),17)
 	if not run_state.results.is_empty():
 		var r:Dictionary=run_state.results.back().get("rider",{})
 		if not r.get("assignment",{}).is_empty():
-			_menu_text("RIDER %s · BONUS %s"%["PASSED" if r.passed else "FAILED",RunState.rider_bonus_text(r.assignment) if r.passed else "NONE"],17)
+			_menu_text("Rider passed. Bonus: %s."%RunState.rider_bonus_text(r.assignment).to_lower() if r.passed else "Rider failed. No bonus.",17)
 	if run_state.status!="active":SummaryView.session(self)
 	else:_show_photo_grade(sim.mission.objectives)
 	save_failed=not _persist_state(run_state)
