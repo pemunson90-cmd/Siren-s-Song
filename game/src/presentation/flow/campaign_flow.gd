@@ -142,8 +142,9 @@ static func briefing(host, index: int) -> void:
 	var loadout_entry=host._button(host.panel_box,"LOADOUT",host._show_fittings,"edit_racks")
 	host.panel_box.move_child(loadout_entry,fit_start);fit_start+=1
 	var fit_nodes=host.panel_box.get_children().slice(fit_start)
-	# A fold with nothing to show under it is not offered (the first briefing has no frames or fittings yet).
-	if fit_nodes.any(func(node):return node is Control and node.visible):
+	# A fold is offered only when it has frames or fittings to hide. The first briefing has none yet:
+	# a fold over nothing, or over the summary toggle alone, is one button too many.
+	if fit_nodes.any(func(node):return node is Control and node.visible and node.get_meta("action","")!="fit_summary"):
 		var holder=[]
 		var fold=host._button(host.panel_box,fold_text(false,true),host._fold_fit.bind(fit_nodes,holder),"fit_fold")
 		holder.append(fold);host.panel_box.move_child(fold,fit_start)
