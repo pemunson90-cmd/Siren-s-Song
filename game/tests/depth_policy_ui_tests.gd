@@ -23,6 +23,13 @@ func acknowledge_warning(g):
   await click(hints.dismiss_button);await settle()
   check(not hints.panel.visible and g.sim.paused,"real touch acknowledges warning without resuming")
   await click(g.pause_button);await settle()
+# A craft that holds at the edge of charted water (CHART STOP) shows CONTINUE COURSE for the selected craft;
+# a player selects it and taps that. The craft then sails on through water the chart has grown to cover.
+func continue_course(g,id):
+ if not g.sim.outcome.is_empty() or not g.sim.units[id].alive or not g.sim.units[id].has("chart_stop"):return
+ await craft(g,id);g.mission_hud.dismiss();g._refresh();await settle()
+ var choice=g.mission_hud.chart_choice
+ if choice.panel.visible:await click(choice.continue_button);await settle()
 func run_seconds(g,seconds):
  if g.sim.paused:await click(g.pause_button)
  for n in roundi(seconds*60):
