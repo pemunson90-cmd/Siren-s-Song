@@ -10,6 +10,7 @@ static func run(t,game) -> void:
 	t.check("LEE RECEIVER" in game.detail_label.text and "HYDROPHONES" not in game.order_buttons.camera.text and "LISTEN" in game.order_buttons.camera.text,"real passive exposure explains the operated receiver in player-facing controls")
 	game.sim.paused=false
 	for n in 35: game.sim.advance(0.1)
+	game.sim.outcome="won" # WP-34: records are retained when the dive ends
 	game._retain_evidence()
 	t.check(game.recovered_evidence.has("warning"),"earned warning enters actual operations evidence collection")
 	var index=game.recovered_evidence.keys().find("warning")
