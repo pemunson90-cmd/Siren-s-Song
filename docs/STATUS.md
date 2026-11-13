@@ -18,14 +18,14 @@ Updated: 2026-11-13
 
 From `.fable/UX_AUDIT.md` (interface and looks), `.fable/CODE_AUDIT.md` (code) and `.fable/COLD_REVIEW_6.md` (whole game). What is still open, most costly first:
 
-1. Menus still read as a settings app beside the dive: the Campaign hub and briefing are being rebuilt (mission cards, two columns on wide screens); Career and Expedition briefings are rules text; fittings and results are rows of numbers; the title screen has no art.
+1. Menus outside the Campaign still read as a settings app beside the dive: Career and Expedition briefings are rules text; fittings and results are rows of numbers; the title screen has no art. (The Campaign hub and briefing were rebuilt on 13 November: mission cards, two columns on wide screens.)
 2. Photo payoff still favors distance and tools over photo quality (waits for Pat's playtest and the pay retune he approved).
 3. Late-operation variety and the branching route graph.
 4. Three play questions raised by Pat's own rules (tender door with quiet drones, the scout-ahead opening, operations 17 and 30 on discovered charts).
 5. Code: `main.gd` still holds the state its helper modules reach into; drone state is read straight from `alive` in about 30 places.
 6. Sound has never been assessed; phone feel can only be judged by Pat.
 
-Fixed this week and no longer on the list: no visible drone deploy or recall, the dialog covering the craft, unconfirmed run endings, the lost screen hiding photographs, look-alike buttons, pause and life support not reading as controls, stale status lines.
+Fixed this week and no longer on the list: the hub as a wall of look-alike buttons, a tap on a Siren setting a route onto it, colliding chart labels, jargon on the route and wheel screens, mixed back labels, engineering notes in the credits, no visible drone deploy or recall, the dialog covering the craft, unconfirmed run endings, the lost screen hiding photographs, look-alike buttons, pause and life support not reading as controls, stale status lines.
 
 ## Blockers
 

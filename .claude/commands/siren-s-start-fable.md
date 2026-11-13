@@ -9,7 +9,7 @@ You are resuming the overhaul run of this repository as its lead ("Keel" to Pat)
 3. The last 25 lines of `.fable/RUN_LOG.md`.
 Open other files only when a step needs them: `.fable/UX_AUDIT.md` (the audit, Parts A, B, C), `.fable/FINAL_REPORT.md` (behavior rows; add to it), `docs/USER_DIRECTIVES.md` sections dated 2026-11-12 and later (Pat's words), `.fable/FABLE_RUN.md` sections 4 and 11 (approvals, the PAUSED procedure), `.fable/HANDOFF.md` (working rules of the machine).
 
-**First actions:** set status RUNNING (`python scripts/repo/run_state.py --status RUNNING --now "..."`); run `python scripts/repo/handoff_check.py` and `git status --short`; do what `next_action` says. If packages were in flight at the pause, `git log --oneline -3 wp-37 wp-38 wp-39` tells you what each helper finished (see PHASE9.md "In flight at the pause"). Say in one line what you are about to do, then begin. Pat does not need a recap.
+**First actions:** set status RUNNING (`python scripts/repo/run_state.py --status RUNNING --now "..."`); run `python scripts/repo/handoff_check.py` and `git status --short`; do what `next_action` says. PHASE9.md "In flight at the pause" says whether any helper package was still open and how to pick it up (at the pause of 13 November: nothing was). Say in one line what you are about to do, then begin. Pat does not need a recap.
 
 Run parameters: RUN_ID=overhaul-20261111, BASE_REF=origin/claude/integration, PLAN_GATE=off, APK_AT_END=no, SUBAGENT_LIMIT=3. Branch `fable/overhaul-20261111`; pull request 262 is a draft whose body is `.fable/FINAL_REPORT.md`.
 

@@ -45,9 +45,9 @@ python scripts/critic/kit.py send --kit K --slot a '<json>'   (click, wait, scre
 python scripts/critic/kit.py quit --kit K --slot a            (always quit)
 ```
 
-Coordinates are native pixels (cover 2520x1080). A screenshot saved at scale 0.5 must be doubled. Path to a dive on a fresh profile, cover screen, as of 12 November (the hub positions will move when WP-37 lands; use the `labels` command to find rectangles): START GAME (1260,531), CAMPAIGN (1260,283), operation 01 row (1254,631), CONTINUE TO BRIEFING (1260,1002), ENTER WATER (976,960), Quietus on the chart (230,790), wheel BACK (272,538), pause control (100,60).
+Coordinates are native pixels (cover 2520x1080). A screenshot saved at scale 0.5 must be doubled. Path to a dive on a fresh profile, cover screen, as of 12 November (use the `labels` command to find rectangles if these move): START GAME (1260,531), CAMPAIGN (1260,283), operation 01 card (593,196), CONTINUE TO BRIEFING (1260,1002), ENTER WATER (976,960), Quietus on the chart (230,790), wheel BACK (272,538), pause control (100,60).
 
-## Done in phase 9 (all merged and pushed; behavior rows 57 to 69 in `.fable/FINAL_REPORT.md`)
+## Done in phase 9 (all merged and pushed; behavior rows 57 to 70 in `.fable/FINAL_REPORT.md`)
 
 | Package | What | Audit items |
 |---|---|---|
@@ -56,24 +56,27 @@ Coordinates are native pixels (cover 2520x1080). A screenshot saved at scale 0.5
 | WP-34 | Lost screen lists photographs; lost-dive photographs kept only on the Accessible preset (`photo_review.gd` `keeps_photos_after_loss`); confirms on Expedition END DIVE and Challenge END ATTEMPT | B3, B4 |
 | WP-35 | DEPLOY DRONE on the wheel (order "deploy" through `Simulation.command`), deployed drone becomes selected, RECALL on the first wheel page, "deploy" wording, route dialog placed off the craft and marker | B2, B5 |
 | WP-36 | Pause and FLEET drawn as buttons in their old rectangles, life support reading and gauge bar while paused too, status lines cleared at the next order, wheel centre fits the disc, wheel edge margin | C2, C3, A6 |
+| WP-37 | Campaign hub as Continue, Operations cards with lock reasons, Prepare and review grid, Difficulty; two columns on wide screens; briefing with one LOADOUT entry; plain labels (`ops_home/`, `flow/campaign_flow.gd`, `layout_metrics.gd` `hub_wide`) | C5, C6, B14 |
+| WP-38 | Tapping a contact opens a card of observed facts (`presentation/contact_card.gd`) and sets no route; chart labels on backing plates in priority order | B6, C10 |
+| WP-39 | Plain wording for jargon, "BACK TO ..." labels, Android Back on Naval Career, credits filtered of engineering notes | B7, B9, B15 |
 
 Already in the game, no work needed (the critics missed them): B1, B10, B11, B12, B18. Not a defect: A10, the DEVELOPER button (debug builds only). A8 left: the top TITLE button is Pat's request.
 
 ## In flight at the pause
 
-WP-38 (contact card, label plates) and WP-39 (plain wording, back pattern, credits) are merged: behavior rows 65 to 69. **One package may still be open: WP-37.** `.fable/NOW.md` says whether root merged it before the pause.
+**Nothing.** WP-37 (hub and briefing), WP-38 (contact card, label plates) and WP-39 (plain wording, back pattern, credits) are all merged, looked at in the kit and pushed: behavior rows 65 to 70. No helper, game or test is running. `.fable/NOW.md` records the result of the last everyday set.
 
-If it is not merged: `git log --oneline -3 wp-37`. The helper commits to that local branch in its own worktree under `.claude/worktrees/`. Commits beyond c5d97642 mean it finished or partly finished: read `git diff c5d97642 wp-37 -- game/src`, run its suites yourself, look at the hub and the briefing in the kit on both screen shapes, then `git merge --no-ff --no-edit wp-37`. No commits: dispatch the package again from the row below.
+Seen in the kit and not yet fixed (small; fold into the next dive-screen or menu package):
 
-| Package | Branch, base | Brief in one paragraph |
-|---|---|---|
-| WP-37 | `wp-37` from c5d97642 | Campaign hub rebuilt in `presentation/ops_home/` and `flow/campaign_flow.gd`: groups Continue (RESUME DIVE, NEXT OPERATION), Operations as cards (number, name, state tag; a locked card says "Recover 01 Shelf Signal first" and does not act), Prepare and review (ROUTE MAP, FITTINGS, SUPPLIES, FIELD RECORDS, SIREN DOSSIER, HARD SAVES, LOADOUT), a DIFFICULTY line without slashes; two columns on the wide cover screen with no scrolling for six operations, one column on the inner screen; briefing with one LOADOUT entry and one fold, plain labels; nested buttons must still carry `action` meta and be found by `_report_targets`; sizes come from the layout code, never from `ui_style.gd`. C5, C6, B14. |
+- On the cover screen the goal chip at the top ("SEARCH · 511m") can sit over the objective label "UNKNOWN SIGNAL SOURCE · AREA · BRG ..." when the chart scrolls.
+- The first-dive PAUSE tip card shows again while paused.
+- The contact card has not been seen in a capture yet (no Siren came into view in the minute root played). Look at it the next time a kit is open: operation 1, near the spire.
+- On the hub the right column on the cover screen still scrolls on a fresh campaign because the difficulty picker with its Ironman note is long; the six operation cards fit.
+- In the operation 1 briefing "HIDE LOADOUT DETAILS" shows with nothing under it (the fold is open and empty).
+- Two slash-built headings remain: "HULL AND DRONE FRAMES / NEXT LAUNCH" (`presentation/equipment_context.gd`) and "RECOVERED FITTINGS / NEXT LAUNCH" (`presentation/fit_surface/`): fix with C7.
+- The contact card bearing is a compass bearing; the "BRG" on lead areas uses another convention: make them one.
 
-After merging WP-37 rerun `menu_reach_ui_tests`, `ops_home_ui_tests` (slow), `briefing_scroll_fitting_ui_tests`, `playfield_hud_tests`, `radial_hud_tests`, then the everyday set once, because six packages have landed since it last ran.
-
-Seen in the kit and not yet fixed: on the cover screen the goal chip at the top ("SEARCH · 511m") can sit over the objective label "UNKNOWN SIGNAL SOURCE · AREA · BRG ..." when the chart scrolls; the first-dive PAUSE tip card shows again while paused. The contact card has not been seen in a capture yet (no Siren was in view in the minute root played): look at it the next time a kit is open, in operation 1 near the spire.
-
-## Queue after those three, in order
+## Queue, in order
 
 1. **B8 and B13**: Career and Expedition briefings in the Campaign's GOAL and DANGER format (`presentation/career/career_board.gd`, `presentation/runs/`); results and fittings screens say what changed in words, not rows of raw numbers. Claude writes the plain lines; list them for Pat.
 2. **C7**: fittings as cards (name, what it changes, a chosen mark, a lock with its price; `presentation/equipment_context.gd`, `fittings_menu.gd`); the NOISE and ENDURANCE bars drawn to their true scale with the baseline marked.
