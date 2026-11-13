@@ -47,7 +47,7 @@ python scripts/critic/kit.py quit --kit K --slot a            (always quit)
 
 Coordinates are native pixels (cover 2520x1080). A screenshot saved at scale 0.5 must be doubled. Path to a dive on a fresh profile, cover screen, as of 12 November (the hub positions will move when WP-37 lands; use the `labels` command to find rectangles): START GAME (1260,531), CAMPAIGN (1260,283), operation 01 row (1254,631), CONTINUE TO BRIEFING (1260,1002), ENTER WATER (976,960), Quietus on the chart (230,790), wheel BACK (272,538), pause control (100,60).
 
-## Done in phase 9 (all merged and pushed; behavior rows 57 to 64 in `.fable/FINAL_REPORT.md`)
+## Done in phase 9 (all merged and pushed; behavior rows 57 to 69 in `.fable/FINAL_REPORT.md`)
 
 | Package | What | Audit items |
 |---|---|---|
@@ -61,15 +61,17 @@ Already in the game, no work needed (the critics missed them): B1, B10, B11, B12
 
 ## In flight at the pause
 
-Three implementers were running. Each commits to a local branch in its own worktree under `.claude/worktrees/`. **First thing on resume: `git branch --list "wp-3*"` and `git log --oneline -3 wp-37 wp-38 wp-39`.** If a branch has commits beyond its base, it finished or partly finished: read its diff, and treat it as a report that never arrived (run its suites yourself, look at it in the kit, then merge). If a branch has no commits, dispatch the package again from the brief below. `.fable/NOW.md` says which of the three root had already merged.
+WP-38 (contact card, label plates) and WP-39 (plain wording, back pattern, credits) are merged: behavior rows 65 to 69. **One package may still be open: WP-37.** `.fable/NOW.md` says whether root merged it before the pause.
+
+If it is not merged: `git log --oneline -3 wp-37`. The helper commits to that local branch in its own worktree under `.claude/worktrees/`. Commits beyond c5d97642 mean it finished or partly finished: read `git diff c5d97642 wp-37 -- game/src`, run its suites yourself, look at the hub and the briefing in the kit on both screen shapes, then `git merge --no-ff --no-edit wp-37`. No commits: dispatch the package again from the row below.
 
 | Package | Branch, base | Brief in one paragraph |
 |---|---|---|
 | WP-37 | `wp-37` from c5d97642 | Campaign hub rebuilt in `presentation/ops_home/` and `flow/campaign_flow.gd`: groups Continue (RESUME DIVE, NEXT OPERATION), Operations as cards (number, name, state tag; a locked card says "Recover 01 Shelf Signal first" and does not act), Prepare and review (ROUTE MAP, FITTINGS, SUPPLIES, FIELD RECORDS, SIREN DOSSIER, HARD SAVES, LOADOUT), a DIFFICULTY line without slashes; two columns on the wide cover screen with no scrolling for six operations, one column on the inner screen; briefing with one LOADOUT entry and one fold, plain labels; nested buttons must still carry `action` meta and be found by `_report_targets`; sizes come from the layout code, never from `ui_style.gd`. C5, C6, B14. |
-| WP-38 | `wp-38` from 59a37d8b | A tap on a drawn contact (`ocean_view.gd` `contexts_at`, `dive_input.gd`) opens a contact card of observed facts only (from `sim.contacts`, `contact_feedback.gd`, `threat_read/`, dossier lines for identified roles), sets no route, closes on a tap elsewhere; torpedo targeting unchanged; card placed off the contact and the selected craft. Chart labels get a dark backing plate and a push-apart pass. B6, C10. |
-| WP-39 | `wp-39` from 59a37d8b | Plain wording: "AT NEW POINTS: KEEP MOVING / STOP" (was "ADDED POINTS: PASS THROUGH / STOP AT EACH"), route program "SAME" for "INHERIT" (display only), "ALL STOP / costs 1.0% O₂ · 6s to restart", rider label, "CLEAR THIS PROFILE", drop "Pay and tuning are provisional.", "LOCKER SPACE 0.85 OF 1.00 USED", a description for NAVAL CAREER; "BACK TO ..." in place of "RETURN TO ..."; Android Back on every front-end screen does what that screen's back button does; credits screen filtered of file names, hashes and code names (attribution resource untouched). B7, B9, B15. |
 
-Merging order does not matter (disjoint files), but WP-37 was cut from an older head: expect a clean merge, then rerun `menu_reach_ui_tests`, `ops_home_ui_tests`, `briefing_scroll_fitting_ui_tests`, `playfield_hud_tests`, `radial_hud_tests`.
+After merging WP-37 rerun `menu_reach_ui_tests`, `ops_home_ui_tests` (slow), `briefing_scroll_fitting_ui_tests`, `playfield_hud_tests`, `radial_hud_tests`, then the everyday set once, because six packages have landed since it last ran.
+
+Seen in the kit and not yet fixed: on the cover screen the goal chip at the top ("SEARCH · 511m") can sit over the objective label "UNKNOWN SIGNAL SOURCE · AREA · BRG ..." when the chart scrolls; the first-dive PAUSE tip card shows again while paused. The contact card has not been seen in a capture yet (no Siren was in view in the minute root played): look at it the next time a kit is open, in operation 1 near the spire.
 
 ## Queue after those three, in order
 

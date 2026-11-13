@@ -1,13 +1,13 @@
 # NOW: what the root session is doing
 
 Status: LIVE NOTE (rewritten before every step; if a session died, this is the step it died in)
-Updated: 2026-11-13 00:27
+Updated: 2026-11-13 00:35
 
 **To resume after a context clear or a new session:** open this folder as the project and run `/siren-s-start-fable`. The command reads the charter, the target file, `.fable/RUN_STATE.json`, `.fable/RUN_LOG.md` and `.fable/DECISIONS.md`. The `next_action` field in the state file always starts by sending the session to `.fable/HANDOFF.md` and to this file.
 
 ## Doing right now
 
-Pause prepared. WP-39 merged. Waiting for WP-37 and WP-38 to report, then merge, look in the kit, and set PAUSED.
+Pause prepared. WP-38 and WP-39 merged. Waiting only for WP-37 (hub and briefing) to report; then merge, look in the kit, everyday set, set PAUSED.
 
 ## In flight
 
