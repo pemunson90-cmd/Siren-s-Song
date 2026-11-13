@@ -598,8 +598,7 @@ func refresh():
  _fit_pause_button()
  host.advanced_button.text="FLEET"
  focus_button.text="FOLLOW" if host.ocean.chart_camera.mode=="follow" else "FOCUS"
- var status_tail=host.targeting_feedback if not host.targeting_feedback.is_empty() else "DECOY · TAP CLEAR WATER ≤160m · TAP CANCEL" if host.decoy_armed else "TORPEDO · TAP FRESH CONTACT · TAP CANCEL" if host.knock_armed else _current("message",sim.message)
- intent.text="%s · %s"%[sim.units[sim.selected].name+" · "+sim.Depth.NAMES[sim.units[sim.selected].band],"QUEUE" if sim.queue_mode else "REPLACE"]+(" · "+status_tail if not status_tail.is_empty() else "")
+ intent.text="%s · %s · %s"%[sim.units[sim.selected].name+" · "+sim.Depth.NAMES[sim.units[sim.selected].band],"QUEUE" if sim.queue_mode else "REPLACE",(host.targeting_feedback if not host.targeting_feedback.is_empty() else "DECOY · TAP CLEAR WATER ≤160m · TAP CANCEL" if host.decoy_armed else "TORPEDO · TAP FRESH CONTACT · TAP CANCEL" if host.knock_armed else sim.message)]
  host.title_label.visible=page not in ["signals","recovery","order_help"];host.detail_label.visible=page not in ["signals","recovery","order_help"]
  host.order_buttons.home.text="WITHDRAW" if Expedition.entry(sim) else "EXTRACT"
  extra.route_here.text="PLOT ROUTE" if subject.has("subkind") else "ROUTE HERE"
@@ -688,7 +687,7 @@ func refresh():
  alarm.size=Vector2(maxf(1,size.x-touch_height*6.*text_scale-64),touch_height) if host.advanced_orders else Vector2(minf(size.x-touch_height*3.1*text_scale-56,ThemeDB.fallback_font.get_string_size(alarm.text,HORIZONTAL_ALIGNMENT_LEFT,-1,alert_font).x+22),ThemeDB.fallback_font.get_height(alert_font)+8)
  fleet.visible=not host.advanced_orders and not host.decoy_armed and not host.knock_armed
  if not host.decoy_armed and not host.knock_armed:
-  for task_text in [WorkTask.line(sim,task),_current("task_result",WorkTask.result_line(task_result)),WorkTask.load_status(sim)]:
+  for task_text in [WorkTask.line(sim,task),WorkTask.result_line(task_result),WorkTask.load_status(sim)]:
    if not task_text.is_empty():intent.text+="\n"+task_text
   intent.text+="\n"+sim.Depth.context(sim)
  Truthful.apply(self)
@@ -736,16 +735,6 @@ func refresh():
  HuntMeter.sync(self)
  if has_meta(StatusView.GRID):StatusView.fit_dock(self)
 
-# WP-31: the simulation keeps its last message (and the HUD its last task result) until
-# something overwrites it, so an old line outlived later actions. A line is shown only
-# for STATUS_FRESH_MS after it first changes; an unchanged line is then dropped.
-const STATUS_FRESH_MS=6000
-var _status_seen:Dictionary={}
-func _current(key:String,text:String)->String:
- if text.is_empty():_status_seen.erase(key);return ""
- var record=_status_seen.get(key)
- if record==null or record[0]!=text:record=[text,Time.get_ticks_msec()];_status_seen[key]=record
- return text if Time.get_ticks_msec()-record[1]<STATUS_FRESH_MS else ""
 # WP-31: a wheel segment never breaks one word across lines. The type shrinks until the
 # longest word fits the segment's text width (floor 10 px); docked rows are left alone.
 func _fit_wheel_words():
