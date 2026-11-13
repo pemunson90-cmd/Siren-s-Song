@@ -39,6 +39,6 @@ Nothing blocks the work. For his play, when he gets to it: the items under "Open
 
 ## Next action
 
-Resume the run with `/siren-s-start-fable` and continue `.fable/PHASE9.md`: read the second full sweep of every registered suite (started 2026-11-13 16:18; the head is not known to be clean until it is read) and fix what it finds; then a third blind critic round; then the items left from the second round's ranking.
+Resume the run with `/siren-s-start-opus` (or `/siren-s-start-fable` on the Fable model) and continue `.fable/PHASE9.md`: read the second full sweep of every registered suite (started 2026-11-13 16:18; the head is not known to be clean until it is read) and fix what it finds; then a third blind critic round; then the items left from the second round's ranking.
 
 Testing rule (Pat, 2026-11-12): the bare minimum, locally. Per change, the suites that test what changed; the everyday set (39 suites, `scripts\toolchain\win\test-suite.ps1 -All -Profile local`) before a merge of size. No GitHub Actions run without Pat asking for it; every push carries `[skip ci]`.

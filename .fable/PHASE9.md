@@ -88,6 +88,10 @@ Two blind critic rounds on 13 November (kits `fable-critic26-20261113` and `fabl
 
 **No helper is running.** One background job was started by root at 16:18 on 13 November: the second full sweep, on merge commit 345dfe8e (head bef1876b differs only in `.fable` files). If the session ended before it finished, its logs are still valid up to where it got: read every `*.log` newer than 2026-11-13 16:18 in `%USERPROFILE%\.cache\sirens-song-toolchain\artifacts\fable-root\` for its last "CHECKS n FAILURES m" line, and rerun the suites that have no newer log (or simply run the full sweep again).
 
+Already found by the second sweep (33 suites in): `depth_policy_ui_tests` 2 failures, "real route arrives through actual band geometry". Cause: the suite's journey advances the simulation with no player, and the trial pauses (new lock, route end) stop it, so the craft never arrives; the game is right. A resume step was added to its `travel` and `run_seconds` loops (committed, NOT yet run: the sweep held the engine). Run it first: `scripts\toolchain\win\headless.ps1 -Action Script -Script depth_policy_ui_tests -Prefix "DEPTH POLICY UI"`. Expect other journey suites that advance the simulation without a player to need the same step.
+
+The resume command for an Opus session is `/siren-s-start-opus` (tracked in `.claude/commands/`, with a pointer in the user's `~/.claude/commands/` so it works from any folder); `/siren-s-start-fable` is the same run on the Fable model.
+
 The first sweep (on b352f808) found eight failing suites; WP-55 fixed all eight and they were rerun green with 18 neighbours. The second sweep is the proof for the whole registry and for WP-54 and WP-55 together: **until it is read, the head is not known to be clean.**
 
 ## Incident (13 November): the other clone was touched

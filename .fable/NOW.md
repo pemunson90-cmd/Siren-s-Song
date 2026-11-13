@@ -3,11 +3,11 @@
 Status: LIVE NOTE (rewritten before every step; if a session died, this is the step it died in)
 Updated: 2026-11-13 16:40
 
-**To resume after a context clear or a new session:** open this folder as the project and run `/siren-s-start-fable`. Read `.fable/PHASE9.md` first: it is the whole handoff. The `next_action` field in the state file always starts by sending the session to `.fable/HANDOFF.md` and to this file.
+**To resume after a context clear or a new session:** open this folder as the project and run `/siren-s-start-opus` (on an Opus model; `/siren-s-start-fable` is the same run on the Fable model). Read `.fable/PHASE9.md` first: it is the whole handoff. The `next_action` field in the state file always starts by sending the session to `.fable/HANDOFF.md` and to this file.
 
 ## Doing right now
 
-PAUSED at Pat's request (weekly usage on the model about to run out; he may continue with another model). Everything is committed and pushed. Resume with /siren-s-start-fable.
+PAUSED at Pat's request (weekly usage on the model about to run out; he may continue with another model). Everything is committed and pushed. Resume with /siren-s-start-opus (or /siren-s-start-fable on the Fable model).
 
 ## In flight
 
