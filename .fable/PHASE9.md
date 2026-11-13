@@ -1,49 +1,97 @@
-# Phase 9: UI and UX repair, and the queue after it
+# Phase 9: UI and UX repair
 
-Status: LIVE PLAN (written 2026-11-12 at the pause Pat asked for; root updates it as items finish)
+Status: LIVE PLAN (rewritten 2026-11-13 for the pause Pat asked for; root updates it as items finish). This file plus `.fable/RUN_STATE.json` and `.fable/NOW.md` is enough to continue. You do not need to reread the repository.
 
-Pat, 2026-11-12 (chat, verbatim): "Once you're done and your work is checked for not just accuracy, but also necessarity, functionality, complexity, scalability, interoperability, stability, bend overall code-based health; I want to perform another comprehensive audit and repair of the UI and ux, please and thank you"
+## What Pat asked for (verbatim, 12 and 13 November 2026)
 
-Pat, 2026-11-12 (chat, verbatim): "Pause after this task, configure the siren-s-start-fable command, unstale your docs, prep your next queue and self context handoff, and we'll clear and restart fresh on the next task."
+- "I want to perform another comprehensive audit and repair of the UI and ux"
+- On the audit's yes or no list: "Yes to all by your judgement. Youre here to fix the game. I can personalize it later"
+- "actually look at how it looks compare it to professional Android games and similar top-down games and make some evaluations and judgment calls"
+- On drones: "I prefer the idea that wants deployed they had to stay out. They are torpedo deployed deep sea drones, I don't really think a recovery Bay makes sense on an experimental stealth sub."
+- On photographs after a lost dive: "On easy mode you keep them, everything higher you don't.."
+- On GitHub: "This is why we need to trim the tests and why we need to test local right now. I'm literally out" and "do the rest of the work yourself because we don't have another choice"
+- "Good job Keel, keep up the good work. Fable the fuck out of this game. Make codex jealous."
 
-## Where things stand
+So: every item in `.fable/UX_AUDIT.md` (Part A defects, Part B B1 to B19, Part C C1 to C10) is approved by Claude's judgement. Claude decides layout, plain wording and names, builds, and lists every changed text in `.fable/FINAL_REPORT.md` so Pat can personalize it later. Story, game rules and prototype mechanics stay Pat's.
 
-- Branch `fable/overhaul-20261111`, everything committed and pushed. Pull request 262 is a draft; its body is `.fable/FINAL_REPORT.md` (refreshed through behavior row 53; rows 54 to 56 are in the file and not yet in the pull request body).
-- Phase 8 is finished: the code base audit (`.fable/CODE_AUDIT.md`), the approved fixes (A3 to A8, A10 measured; A1 and the second half of A2 wait for a real screen; A9 is item B16 below; A11 and A12 refused by Pat), the independent eight-heading review and its fixes, and the test trim (`.fable/TEST_TRIM.md`: 238 suites kept, 39 of them the everyday set, 152 retired to `_scrap-20261111/tests-retired/`).
-- The UI and UX audit is delivered: `.fable/UX_AUDIT.md`. Part A is ten plain defects. Part B is nineteen yes or no items, B1 to B19, each with a recommendation. **Pat has not answered Part B yet.**
-- GitHub Actions: Pat's monthly allowance is spent (12 November 2026, resets in about 18 days). No run is started by this run. Every push carries `[skip ci]` in its head commit message. All testing is local.
+## How the work is done (the loop that has been working)
 
-## Work, in order
+1. Root designs the package and writes a brief for ONE Sonnet `implementer` agent per package (`isolation: worktree`), at most three at once, on disjoint files named in the brief. Briefs that worked are in the session transcripts; the fixed parts are: branch from `origin/fable/overhaul-20261111` (worktrees start at `main`), the files it owns and must not touch, no deletions, no amend, no push, no GitHub runs, private temp folder, Edit tool for anything with backslashes, the exact local test commands, one report when nothing is still running.
+2. When it reports: root reads the diff (`git diff <base> <branch> -- game/src`), judges it (reject what is wrong: so far a 6 second timeout on status messages, removal of the top TITLE button Pat asked for, a button height boost that broke a layout), merges with `git merge --no-ff --no-edit <branch>`, reverts a bad commit with `git revert --no-edit <sha>`.
+3. Root runs the touched suites locally (commands below) and core if `game/src/simulation` changed.
+4. **Root looks at it in the real game before calling it done.** Build a kit from the head and capture the changed screens on the cover screen (and the inner screen for menu work). Layout suites did not catch the one bad break so far; a capture did.
+5. Root sends Pat the captures (SendUserFile), adds behavior rows to `.fable/FINAL_REPORT.md` naming every changed text, a row in `docs/MODULES.md` for a new module, updates state with `python scripts/repo/run_state.py`, commits and pushes with `[skip ci]`.
 
-### 9.1 Ask Pat for his answers to Part B (first thing after the restart)
+### Commands
 
-One short message: the five that matter most (B1 stray taps close the wheel, B2 LAUNCH and RECALL on the wheels, B3 photos on the end-of-dive screen, B4 confirm before discarding a dive or run, B5 route dialog off the craft), then "yes to all recommended, or answer by number". Do not rebuild the list; point to `.fable/UX_AUDIT.md`.
+```
+cd "C:\Users\Archi\Documents\Claude Cowork Homebase C\repos\_fable\Siren-s-Song"     (every shell command starts here)
+$env:ARTIFACT_DIR="$env:USERPROFILE\.cache\sirens-song-toolchain\artifacts\fable-root"
+scripts\toolchain\win\headless.ps1 -Action Import -Isolate
+scripts\toolchain\win\headless.ps1 -Action Core                                  (856 checks, about 100 s)
+scripts\toolchain\win\headless.ps1 -Action Script -Script <suite> -Prefix "<PREFIX>"
+scripts\toolchain\win\test-suite.ps1 -Suite a,b,c -SkipCore                      (several suites; it SKIPS render-flagged ones: run those with headless.ps1)
+scripts\toolchain\win\test-suite.ps1 -All -Profile local                         (the everyday set, 39 suites, about 20 min)
+python scripts/toolchain/select-suites.py --minimum --changed <paths>
+```
 
-### 9.2 Part A: plain defects (no answer needed; start here while waiting)
+Looking at the game (Windows, needs the GPU; opens a game window on Pat's PC):
 
-A1 to A9 in `.fable/UX_AUDIT.md`. A10 (failure screen read "DRONE A · ABOARD") must be checked first: find where the loss screen writes drone status and whether a launched drone can read as aboard after the dive ends. Small packages, one Sonnet implementer at a time on disjoint files, root reviews each diff. Player-facing wording changes go in `.fable/FINAL_REPORT.md` as behavior rows. Where to look: the wheel is `game/src/presentation/` (radial HUD, `mission_hud.gd`, `truthful_commands.gd`), tools wheel label source is the `field_tools` key, the Expedition lost screen is `presentation/runs/` (`run_summary_view.gd`, `expedition_session.gd`), the Supplies page is `presentation/economy_panel.gd`, tabs are in `presentation/frontend/` and the archive views.
+```
+K=%USERPROFILE%\.cache\sirens-song-toolchain\artifacts\fable-criticNN-<date>
+python scripts/critic/kit.py new --ref HEAD --out K           (build from a commit; commit first)
+python scripts/critic/kit.py launch --kit K --slot a --view cover --session root-look     (inner = 2184x1968)
+python scripts/critic/kit.py send --kit K --slot a '<json>'   (click, wait, screenshot, labels, batch; see scripts/critic/OPERATE.md)
+python scripts/critic/kit.py quit --kit K --slot a            (always quit)
+```
 
-### 9.3 Part B: build what Pat approves
+Coordinates are native pixels (cover 2520x1080). A screenshot saved at scale 0.5 must be doubled. Path to a dive on a fresh profile, cover screen, as of 12 November (the hub positions will move when WP-37 lands; use the `labels` command to find rectangles): START GAME (1260,531), CAMPAIGN (1260,283), operation 01 row (1254,631), CONTINUE TO BRIEFING (1260,1002), ENTER WATER (976,960), Quietus on the chart (230,790), wheel BACK (272,538), pause control (100,60).
 
-One work package per approved item, in the order of the list (it is ranked by cost to the player). B8, B9 and B17 are wording: prepare a table of current text and proposed text for Pat before changing anything; story and mission text is his. B16 (use the full screen width; the old A9) is its own step after the others. Each change that alters what the player sees gets a behavior row and, where it touches a prototype mechanic, a line in `docs/V7_TO_GODOT_PARITY.md`.
+## Done in phase 9 (all merged and pushed; behavior rows 57 to 64 in `.fable/FINAL_REPORT.md`)
 
-### 9.4 Confirm on a screen
+| Package | What | Audit items |
+|---|---|---|
+| WP-31, WP-32 | Plain defects: wheel centre no longer truncates, "MORE TOOLS" title, SONOBUOY whole, route dialog counts stops ahead, chart labels clamp when zoomed, Expedition lost screen and Supplies page truthful, archive tabs | A1 to A5, A7, A9 |
+| WP-33 | Button roles in `game/src/presentation/ui_style.gd` (MAIN filled, NORMAL, QUIET, DANGER), chosen by action id; colours only, sizes stay with the layout | C1 |
+| WP-34 | Lost screen lists photographs; lost-dive photographs kept only on the Accessible preset (`photo_review.gd` `keeps_photos_after_loss`); confirms on Expedition END DIVE and Challenge END ATTEMPT | B3, B4 |
+| WP-35 | DEPLOY DRONE on the wheel (order "deploy" through `Simulation.command`), deployed drone becomes selected, RECALL on the first wheel page, "deploy" wording, route dialog placed off the craft and marker | B2, B5 |
+| WP-36 | Pause and FLEET drawn as buttons in their old rectangles, life support reading and gauge bar while paused too, status lines cleared at the next order, wheel centre fits the disc, wheel edge margin | C2, C3, A6 |
 
-After Part A and the first approved Part B items: replay the changed screens through the critic kit (`scripts/critic/`, build a new kit from the head with a name starting `fable-`) and look at the screenshots yourself. Use exact native coordinates: the two dive critics misread half-size screenshots and reported taps "leaking" to the chart, which root could not reproduce. Give any future critic this warning in the dispatch text, not in the brief files.
+Already in the game, no work needed (the critics missed them): B1, B10, B11, B12, B18. Not a defect: A10, the DEVELOPER button (debug builds only). A8 left: the top TITLE button is Pat's request.
 
-### 9.5 Still open from phase 8
+## In flight at the pause
 
-- **Three play questions from Pat's rules** (in `docs/V7_TO_GODOT_PARITY.md`, "Tests that still fly on the older rules"): the tender door photo with quiet drones, the scout-ahead opening, operations 17 and 30 on discovered charts. They wait for his playtest. The legacy rule path stays in the code until he rules.
-- **Drawing cost (A1)** needs a real screen: his phone, or a windowed local run. The chart cache still hashes the whole chart each draw; do nothing more to it without a measurement.
-- **Autosave:** 16 ms on this PC, about 7 ms ours. If Pat sees a regular small stutter on the phone, move the interval from 5 to 15 seconds.
-- **Next code cleanups, by value** (from the review): one `DroneBay` question for "in the water, aboard or lost" in place of about 30 direct reads of `alive`; state moved out of `main.gd` (765 lines) for its helper modules; the unmerged second commit of branch `wp-28` (screenshots and target report) stays unmerged unless its wait behavior is made exact.
-- **Pull request 262:** refresh its body from `.fable/FINAL_REPORT.md` (it is behind by rows 54 to 56). Editing the body starts no workflow.
-- **A debug package for Pat's phone** needs GitHub Actions (the Android validation workflow). Do not start one. When Pat asks for a build, tell him it costs Actions minutes and ask whether to wait for the reset.
+Three implementers were running. Each commits to a local branch in its own worktree under `.claude/worktrees/`. **First thing on resume: `git branch --list "wp-3*"` and `git log --oneline -3 wp-37 wp-38 wp-39`.** If a branch has commits beyond its base, it finished or partly finished: read its diff, and treat it as a report that never arrived (run its suites yourself, look at it in the kit, then merge). If a branch has no commits, dispatch the package again from the brief below. `.fable/NOW.md` says which of the three root had already merged.
 
-### 9.6 After Pat's playtest
+| Package | Branch, base | Brief in one paragraph |
+|---|---|---|
+| WP-37 | `wp-37` from c5d97642 | Campaign hub rebuilt in `presentation/ops_home/` and `flow/campaign_flow.gd`: groups Continue (RESUME DIVE, NEXT OPERATION), Operations as cards (number, name, state tag; a locked card says "Recover 01 Shelf Signal first" and does not act), Prepare and review (ROUTE MAP, FITTINGS, SUPPLIES, FIELD RECORDS, SIREN DOSSIER, HARD SAVES, LOADOUT), a DIFFICULTY line without slashes; two columns on the wide cover screen with no scrolling for six operations, one column on the inner screen; briefing with one LOADOUT entry and one fold, plain labels; nested buttons must still carry `action` meta and be found by `_report_targets`; sizes come from the layout code, never from `ui_style.gd`. C5, C6, B14. |
+| WP-38 | `wp-38` from 59a37d8b | A tap on a drawn contact (`ocean_view.gd` `contexts_at`, `dive_input.gd`) opens a contact card of observed facts only (from `sim.contacts`, `contact_feedback.gd`, `threat_read/`, dossier lines for identified roles), sets no route, closes on a tap elsewhere; torpedo targeting unchanged; card placed off the contact and the selected craft. Chart labels get a dark backing plate and a push-apart pass. B6, C10. |
+| WP-39 | `wp-39` from 59a37d8b | Plain wording: "AT NEW POINTS: KEEP MOVING / STOP" (was "ADDED POINTS: PASS THROUGH / STOP AT EACH"), route program "SAME" for "INHERIT" (display only), "ALL STOP / costs 1.0% O₂ · 6s to restart", rider label, "CLEAR THIS PROFILE", drop "Pay and tuning are provisional.", "LOCKER SPACE 0.85 OF 1.00 USED", a description for NAVAL CAREER; "BACK TO ..." in place of "RETURN TO ..."; Android Back on every front-end screen does what that screen's back button does; credits screen filtered of file names, hashes and code names (attribution resource untouched). B7, B9, B15. |
 
-His feedback and remaining answers (N-1 to N-7 in `.fable/FINAL_REPORT.md` section 9, the survey question), then the items approved for after the playtest: photo pay retune (numbers shown first), fast-forward and a starter drone tool, late-campaign alternates. When he says his rulings are done: mark pull request 262 ready (that starts one check run: ask first while the allowance is spent) and set status DONE.
+Merging order does not matter (disjoint files), but WP-37 was cut from an older head: expect a clean merge, then rerun `menu_reach_ui_tests`, `ops_home_ui_tests`, `briefing_scroll_fitting_ui_tests`, `playfield_hud_tests`, `radial_hud_tests`.
 
-## Rules for this phase
+## Queue after those three, in order
 
-The standing rules in `.claude/commands/siren-s-start-fable.md`. The ones that changed on 12 November: no GitHub Actions; local tests only, the everyday set before a merge of size; nothing deleted, retired tests go to scrap; decide without asking where Pat has delegated ("you can figure it out"), ask one yes or no line where the decision is his (game design, story, wording, spending).
+1. **B8 and B13**: Career and Expedition briefings in the Campaign's GOAL and DANGER format (`presentation/career/career_board.gd`, `presentation/runs/`); results and fittings screens say what changed in words, not rows of raw numbers. Claude writes the plain lines; list them for Pat.
+2. **C7**: fittings as cards (name, what it changes, a chosen mark, a lock with its price; `presentation/equipment_context.gd`, `fittings_menu.gd`); the NOISE and ENDURANCE bars drawn to their true scale with the baseline marked.
+3. **C4**: title screen backdrop from the game's own chart art (rock, water, a drifting Quietus) behind the wordmark and menu (`presentation/frontend/frontend.gd`).
+4. **C8**: on the route dialog, REPLACE ROUTE as the MAIN button and the new-points switch drawn as a switch (`order_guard.gd`; in-dive buttons are not in the role table yet).
+5. **C9**: sentence case for descriptions and messages on the screens touched. **B17**: one name for the first mission's target ("signal spire" is the Campaign's; Career says "listening spire/station", the region card says "Corran Bank"): choose and list.
+6. **A fresh blind critic round** on the result: three critics through the kit as in `.fable/COLD_REVIEW_6.md` and the first UI round (briefs are `scripts/critic/CRITIC_BRIEF.md` and `OPERATE.md`; dispatch text must tell them to use native coordinates and to double anything read from a half-size screenshot). Rank what is still weak and continue the loop.
+7. Then the everyday set once, refresh the pull request 262 body from `.fable/FINAL_REPORT.md` (`gh pr edit 262 --body-file .fable/FINAL_REPORT.md`; editing the body starts no workflow), and update `docs/STATUS.md`.
+
+## Open for Pat (do not decide these)
+
+- **For his play:** PLAN ROUTE leaves the wheel's first page while DEPLOY or RECALL shows (it stays under ROUTE). The field records gallery opened during a dive no longer shows that dive's own frames until the dive ends. Whether Credits, the hub and the briefing scroll by finger drag on the phone (B19).
+- **From his rules** (`docs/V7_TO_GODOT_PARITY.md`, "Tests that still fly on the older rules"): the tender door photo with quiet drones, the scout-ahead opening, operations 17 and 30 on discovered charts.
+- **A phone build** needs GitHub Actions. Do not start one. If he asks, tell him it costs minutes and ask whether to wait for the monthly reset.
+- N-1 to N-7 in `.fable/FINAL_REPORT.md` section 9, and his playtest feedback. When he says his rulings are done: mark pull request 262 ready (that starts a check run: ask first) and set status DONE.
+
+## Leftovers from the code audit (after the UI work, or when they block it)
+
+One `DroneBay` question for "in the water, aboard or lost" in place of about 30 direct reads of `alive`; state moved out of `main.gd` (about 765 lines) for its helper modules; drawing cost (A1) needs a real screen; autosave interval to 15 s only if Pat sees a stutter; branch `wp-28` holds one unmerged commit (screenshots and target report) left out on purpose.
+
+## Rules that changed this week (the start command has the full list)
+
+No GitHub Actions run of any kind; every push carries `[skip ci]`. Local tests only. Nothing is deleted: scrap is `_scrap-20261111/`. Retired tests live in `_scrap-20261111/tests-retired/`. Decide where Pat delegated; ask one yes or no line only for game design, story, or spending. Never write backslashes or `\n` escapes through a shell heredoc or inline Python: use the Edit or Write tool.

@@ -1,6 +1,6 @@
 # UI and UX audit: findings and yes/no list
 
-Status: FINDINGS DELIVERED, 2026-11-12. No repair has been made. Pat answers the yes/no items; plain defects in part A are fixed without asking.
+Status: APPROVED AND BEING BUILT (Pat, 2026-11-12: every item by Claude's judgement). What is built, in flight and queued is tracked in `.fable/PHASE9.md`; the lists below are the findings as delivered, with two later sections ("After Pat's answer", "Part C: how it looks").
 
 ## How it was done
 

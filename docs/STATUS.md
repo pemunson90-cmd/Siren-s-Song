@@ -2,7 +2,7 @@
 
 The one live status file. Keep it short. Update it in the change that alters the base, the active work, the top weaknesses, the blockers or the next action. History is in git and in [CHANGELOG.md](../CHANGELOG.md).
 
-Updated: 2026-11-12
+Updated: 2026-11-13
 
 ## Current integrated base
 
@@ -11,19 +11,21 @@ Updated: 2026-11-12
 
 ## Active work
 
-- Chartered overhaul run `overhaul-20261111` on branch `fable/overhaul-20261111`, paused on 2026-11-12 after phase 8 (code base audit, approved fixes, independent review, test trim). Pull request 262 is a draft (report `.fable/FINAL_REPORT.md`). Next is phase 9, UI and UX repair: `.fable/PHASE9.md`. No writer is active.
+- Chartered overhaul run `overhaul-20261111` on branch `fable/overhaul-20261111`, in phase 9: UI and UX repair, every audit item approved by Pat on Claude's judgement. Plan, merged work, packages in flight and queue: `.fable/PHASE9.md`. Pull request 262 is a draft (report `.fable/FINAL_REPORT.md`).
 - Parked: item 134, route flow (superseded by the release controls of item 127; reopen only if a critic finds route stops again).
 
 ## Top weaknesses
 
-Ranked in `.fable/UX_AUDIT.md` (interface, 12 November), `.fable/CODE_AUDIT.md` (code) and `.fable/COLD_REVIEW_6.md` (whole game). In short:
+From `.fable/UX_AUDIT.md` (interface and looks), `.fable/CODE_AUDIT.md` (code) and `.fable/COLD_REVIEW_6.md` (whole game). What is still open, most costly first:
 
-1. Dive controls a new player cannot find or trust: no labelled drone launch or recall, a tap beside a menu sets a route, the route dialog covers the craft, discarding a dive is not confirmed.
-2. The end of a dive does not show the photographs taken; photo payoff still favors distance and tools over photo quality.
-3. Menus and side modes: five back patterns, briefings written as rules text in Career and Expedition, raw numbers on results and fittings screens, jargon on the route screens.
-4. Late-operation variety and the branching route graph.
+1. Menus still read as a settings app beside the dive: the Campaign hub and briefing are being rebuilt (mission cards, two columns on wide screens); Career and Expedition briefings are rules text; fittings and results are rows of numbers; the title screen has no art.
+2. Photo payoff still favors distance and tools over photo quality (waits for Pat's playtest and the pay retune he approved).
+3. Late-operation variety and the branching route graph.
+4. Three play questions raised by Pat's own rules (tender door with quiet drones, the scout-ahead opening, operations 17 and 30 on discovered charts).
 5. Code: `main.gd` still holds the state its helper modules reach into; drone state is read straight from `alive` in about 30 places.
-6. Look and sound have never been compared against reference games; audio has never been assessed. Art direction is Pat's call.
+6. Sound has never been assessed; phone feel can only be judged by Pat.
+
+Fixed this week and no longer on the list: no visible drone deploy or recall, the dialog covering the craft, unconfirmed run endings, the lost screen hiding photographs, look-alike buttons, pause and life support not reading as controls, stale status lines.
 
 ## Blockers
 
@@ -33,12 +35,10 @@ Ranked in `.fable/UX_AUDIT.md` (interface, 12 November), `.fable/CODE_AUDIT.md` 
 
 ## Waiting on Pat
 
-- His yes or no on `.fable/UX_AUDIT.md` items B1 to B19.
-- Three play questions from his rules (`docs/V7_TO_GODOT_PARITY.md`, "Tests that still fly on the older rules").
-- N-1 to N-7 in `.fable/FINAL_REPORT.md` section 9 and his playtest feedback. Older open questions are in [QUESTIONS_FOR_PAT.md](QUESTIONS_FOR_PAT.md) (items 3 and 8).
+Nothing blocks the work. For his play, when he gets to it: the items under "Open for Pat" in `.fable/PHASE9.md`, N-1 to N-7 in `.fable/FINAL_REPORT.md` section 9, and the older open questions in [QUESTIONS_FOR_PAT.md](QUESTIONS_FOR_PAT.md) (items 3 and 8).
 
 ## Next action
 
-Resume the run with `/siren-s-start-fable` and work through `.fable/PHASE9.md`: ask Pat for his Part B answers, fix the Part A defects, build what he approves, replay it through the critic kit.
+Resume the run with `/siren-s-start-fable` and continue `.fable/PHASE9.md`: land the packages in flight, then the queue (Career and Expedition briefings and results, fittings cards, title backdrop, route dialog switch, a fresh blind critic round).
 
 Testing rule (Pat, 2026-11-12): the bare minimum, locally. Per change, the suites that test what changed; the everyday set (39 suites, `scripts\toolchain\win\test-suite.ps1 -All -Profile local`) before a merge of size. No GitHub Actions run without Pat asking for it; every push carries `[skip ci]`.

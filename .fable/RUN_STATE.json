@@ -2,11 +2,11 @@
   "run_id": "overhaul-20261111",
   "status": "RUNNING",
   "phase": "9-ux-repair",
-  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: Phase 9 in flight, three Sonnet implementers on disjoint files: WP-37 (branch wp-37 from c5d97642: Campaign hub as cards, two columns on the cover screen, briefing with one LOADOUT entry, plain labels), WP-38 (branch wp-38 from 59a37d8b: tapping a contact opens a contact card of observed facts and sets no route; chart labels get backing plates and a push-apart pass), WP-39 (branch wp-39 from 59a37d8b: plain wording for jargon, BACK TO labels, Android Back goes up one level, credits filtered of engineering notes). When each reports: root reads the diff, merges, runs the touched suites locally, builds a critic kit from the head and LOOKS at the changed screens on cover and inner before calling it done, sends Pat captures, adds behavior rows listing every changed text. Then: B8 and B13 (Career and Expedition briefings in goal and danger format, results as words), C7 fittings cards, C4 title backdrop, C8 route dialog switch drawn as a switch, C9 sentence case as touched; then a fresh blind critic round on the result (three critics, kit, native coordinates) and the everyday set. Open for Pat's play: PLAN ROUTE leaves the wheel's first page while DEPLOY or RECALL shows; gallery during a dive does not show that dive's frames. No GitHub runs; pushes carry [skip ci].",
+  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: PAUSE PREPARED, helpers still running. Pat asked (2026-11-13) for a safe pause that does not interrupt current work. The handoff is written: .claude/commands/siren-s-start-fable.md, .fable/PHASE9.md (what Pat asked, the loop and commands, merged work, in flight, queue, open for Pat), HANDOFF.md, docs/STATUS.md. In flight: WP-37 (wp-37 from c5d97642), WP-38 and WP-39 (from 59a37d8b); none had committed when this was written. If this session is still alive when they report: read each diff, merge, run touched suites, look in the kit, captures to Pat, behavior rows, then set PAUSED. If the session was cleared first: follow PHASE9.md 'In flight at the pause' (git log --oneline -3 wp-37 wp-38 wp-39; a branch with commits is a report that never arrived; a branch without commits is dispatched again). No GitHub runs; pushes carry [skip ci].",
   "base_ref": "origin/claude/integration",
   "base_sha": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
   "run_branch": "fable/overhaul-20261111",
-  "run_head": "59a37d8b0a2aae394c4c1a41d37aa592a58eb82b",
+  "run_head": "a3163823eece16b68728934ed14eb0425a371594",
   "shared_tips": {
     "claude/integration": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
     "main": "f5b66a198e3878950325f8c45a0bc6bc29dcba84",
@@ -58,5 +58,5 @@
   },
   "decisions_open": 0,
   "last_checkpoint": "Paused at Pat's request on 2026-11-12 after phase 8 and the UI and UX audit. Everything committed and pushed with [skip ci]. Everyday set: 39 of 39 suites pass locally after the trim.",
-  "updated": "2026-11-13 00:07:26"
+  "updated": "2026-11-13 00:16:27"
 }

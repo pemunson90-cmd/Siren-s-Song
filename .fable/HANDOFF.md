@@ -1,35 +1,29 @@
 # Handoff guide: resume the overhaul run from a cold start
 
 Status: LIVE GUIDE (root updates it at every phase boundary and whenever in-flight work changes)
-Verified: 2026-11-12 at the pause after phase 8 (sections 1, 2, 3, 4, 6 and 7 rewritten by root)
+Verified: 2026-11-13 at the pause in phase 9 (sections 1, 2, 3, 6 and 7 rewritten by root)
 
 This guide lets a session with an empty context resume run `overhaul-20261111` from the documents alone.
 
-## 1. Resume in five steps
+## 1. Resume in three reads
 
-1. **Open this folder as the project** (`repos\_fable\Siren-s-Song`), so the hooks in the tracked `.claude/settings.json` load. Sessions started in Pat's other clone and pointed here run without the command guard: apply charter section 4.3 by hand (decision D-01).
-2. **Run `/siren-s-start-fable`.** It names what to read and the standing rules, and tells a resumed session to continue from `next_action`.
-3. **Read what the command lists:** `.fable/RUN_STATE.json`, `.fable/NOW.md`, `.fable/PHASE9.md`, this guide, `.fable/UX_AUDIT.md`, the tail of `.fable/RUN_LOG.md`, the 2026-11-12 sections of `docs/USER_DIRECTIVES.md`, and charter sections 4 and 11.
-4. **Check for staleness:** `python scripts/repo/handoff_check.py`, `git status --short`, `git log --oneline -10`, `git worktree list`. Do not start any GitHub run to check anything.
-5. **Continue** from `next_action`. Before each step record it with `python scripts/repo/run_state.py --now "..."`.
+1. **Run `/siren-s-start-fable`** (best with this folder, `repos\_fable\Siren-s-Song`, open as the project so the hooks load; in a session started in Pat's other clone the command guard is not loaded: apply charter section 4.3 by hand, decision D-01).
+2. **Read** `.fable/RUN_STATE.json`, `.fable/NOW.md`, `.fable/PHASE9.md` and the last 25 lines of `.fable/RUN_LOG.md`. `PHASE9.md` holds what Pat asked for, the working loop with its commands, what is merged, what was in flight, the queue and what is open for Pat.
+3. **Check and go:** `python scripts/repo/handoff_check.py`, `git status --short`, then `next_action`. Do not start any GitHub run to check anything. Record each step with `python scripts/repo/run_state.py --now "..."`.
 
-## 2. Where the run stands (pause of 2026-11-12, after phase 8)
+## 2. Where the run stands (pause of 2026-11-13, in phase 9)
 
-Phases 0 to 8 are finished and pushed on `fable/overhaul-20261111`. Pull request 262 is a draft; its body is `.fable/FINAL_REPORT.md` (behind the file by behavior rows 54 to 56).
+Phases 0 to 8 are finished. Phase 9, the UI and UX repair, is under way on `fable/overhaul-20261111`; pull request 262 is a draft whose body is `.fable/FINAL_REPORT.md`.
 
-Phase 8 on 12 November: the code base audit (`.fable/CODE_AUDIT.md`) and the fixes Pat approved. Names defined once (`game/src/names.gd`). Player rules are the default for every dive, tests included. `main.gd` went from 931 to 765 lines (`dive_clock.gd`, `presentation/dive_input.gd`, `persistence/campaign_archive_flow.gd`). Career, Expedition and Challenges share one base for hiding the campaign, launching and the save notice, and Career and Expedition share one save core (`campaign/mode_archive.gd`). An independent review on Pat's eight headings found two real defects, both fixed. The test suites were trimmed (`.fable/TEST_TRIM.md`): 238 kept, 39 of them the everyday set, 152 retired to `_scrap-20261111/tests-retired/`.
+Pat approved every item of `.fable/UX_AUDIT.md` by Claude's judgement. Merged so far (behavior rows 57 to 64): the plain defects, the button roles (`presentation/ui_style.gd`), the lost screen with its photographs and Pat's photo rule by difficulty, two confirmations, DEPLOY DRONE and RECALL on the wheel, the route dialog kept off the craft, the pause and FLEET controls drawn as buttons with a life support bar, status lines that stay current. `.fable/PHASE9.md` has the table, the packages in flight at the pause and the queue.
 
-**Next is phase 9, defined in `.fable/PHASE9.md`:** the UI and UX audit is delivered (`.fable/UX_AUDIT.md`); Pat has not answered its nineteen yes or no items. Ask him, fix the ten plain defects meanwhile, then build what he approves. Nothing is in flight; no code is uncommitted.
-
-**GitHub Actions are off.** Pat's allowance for the month is spent. No workflow run is started; every push carries `[skip ci]`; all testing is local.
+**GitHub Actions are off.** Pat's allowance for the month is spent. No workflow run is started; every push carries `[skip ci]`; all testing is local. The last full pass (run 43349293662 on 395c1b2a, before the test trim) was green.
 
 ## 3. In-flight work and how to recover it
 
-Nothing is in flight. Worktrees and branches of finished packages stay on disk (`git worktree list`, about a dozen under `.claude/worktrees/`); nothing is deleted. Branch `wp-28` holds one unmerged commit (2605793a, screenshots and target report moved out of `main.gd`) that root left out because it changed how a wait behaves.
+`.fable/PHASE9.md`, section "In flight at the pause", lists the packages that were running, their branches and what each was told to build, and `.fable/NOW.md` says which were already merged. A helper commits to a local branch in its own worktree under `.claude/worktrees/`; `git log --oneline -3 <branch>` shows what it finished. A branch with commits is a report that never arrived: read the diff, run its suites, look at it in the kit, merge. A branch without commits: dispatch the package again.
 
-Isolated worktrees are created at `main`, not at the run head, so every implementer brief tells the subagent to `git fetch origin fable/overhaul-20261111` and `git switch -c <name> origin/fable/overhaul-20261111` first. Push the run branch before dispatching so the subagent finds the head.
-
-Merging a work package: root reads the diff (a separate reviewer only for risky code), `git merge --no-ff <branch>`, run the suites that test what changed, add a behavior row to `.fable/FINAL_REPORT.md` and a row to `docs/MODULES.md` for a new module, update state and log, push with `[skip ci]`.
+Worktrees and branches of finished packages stay on disk; nothing is deleted. Isolated worktrees are created at `main`, so every brief tells the helper to `git fetch origin fable/overhaul-20261111` and `git switch -c <name> origin/fable/overhaul-20261111` first; push the run branch (with `[skip ci]`) before dispatching. Branch `wp-28` holds one commit left unmerged on purpose.
 
 ## 4. Working rules a new session must know
 
@@ -53,11 +47,8 @@ Merging a work package: root reads the diff (a separate reviewer only for risky 
 
 ## 6. Open decisions for Pat
 
-- `.fable/UX_AUDIT.md` Part B: B1 to B19, each with a recommendation. Not answered yet.
-- Three play questions from his rules: `docs/V7_TO_GODOT_PARITY.md`, "Tests that still fly on the older rules".
-- N-1 to N-7 in section 9 of `.fable/FINAL_REPORT.md`, and his playtest feedback.
-- D-01 to D-15 are answered (`.fable/DECISIONS.md`).
+Listed in `.fable/PHASE9.md`, "Open for Pat": three things to judge in play, three questions from his rules, the phone build, and N-1 to N-7 in `.fable/FINAL_REPORT.md` section 9. D-01 to D-15 are answered (`.fable/DECISIONS.md`).
 
 ## 7. What comes next
 
-Phase 9 (`.fable/PHASE9.md`): Part A defects, Pat's answers to Part B, the approved repairs, a replay through the critic kit, then the open items from phase 8 and Pat's playtest feedback. Testing is local only; no GitHub run without Pat asking for it in the conversation.
+The queue in `.fable/PHASE9.md`: land the packages in flight, then the Career and Expedition briefings and results, fittings cards, the title backdrop, the route dialog switch, a fresh blind critic round, and the loop again. Testing is local only; no GitHub run without Pat asking for it in the conversation.
