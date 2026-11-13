@@ -6,7 +6,7 @@
   "base_ref": "origin/claude/integration",
   "base_sha": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
   "run_branch": "fable/overhaul-20261111",
-  "run_head": "c5d976426053be40aaf6d74fd8c8a95f9e76694a",
+  "run_head": "1d04e2ccbfe151e1972952fed8b491de060d7392",
   "shared_tips": {
     "claude/integration": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
     "main": "f5b66a198e3878950325f8c45a0bc6bc29dcba84",
@@ -51,10 +51,10 @@
     "WP-33": "merged",
     "WP-34": "merged",
     "WP-35": "merged",
-    "WP-36": "building",
+    "WP-36": "merged",
     "WP-37": "building"
   },
   "decisions_open": 0,
   "last_checkpoint": "Paused at Pat's request on 2026-11-12 after phase 8 and the UI and UX audit. Everything committed and pushed with [skip ci]. Everyday set: 39 of 39 suites pass locally after the trim.",
-  "updated": "2026-11-12 23:37:45"
+  "updated": "2026-11-13 00:03:57"
 }
