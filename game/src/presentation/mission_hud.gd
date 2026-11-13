@@ -438,6 +438,9 @@ func layout(bounds:Vector2,h:float):
  position=Vector2.ZERO;size=bounds;touch_height=h
  text_scale=FrontendSettings.text_scale()
  var font=maxi(14,roundi(h*.26*text_scale));var bw=h*1.55*text_scale;var bh=ceilf(h*maxf(1.,text_scale*.9))
+ # The plate's full wording was fitted at the previous size; at the new base size it would wrap and force the plate
+ # taller for good. Refresh composes the full plate again straight after this layout.
+ host.pause_button.text=Words.plate_state(host.sim.paused)
  for b in host.order_buttons.values()+host.unit_buttons+extra.values()+target_buttons+[close_button,focus_button,host.pause_button,host.advanced_button]+host.zoom_buttons:
   b.mouse_filter=Control.MOUSE_FILTER_IGNORE if b in command_controls() else Control.MOUSE_FILTER_STOP
   b.hide();b.custom_minimum_size=Vector2(bw,bh);b.size=Vector2(bw,bh);b.add_theme_font_size_override("font_size",font)
@@ -614,7 +617,10 @@ func refresh():
  extra.sonar_emit.text=Words.ping_label(sim.Sonar.pulse_cost(sim,sim.selected));extra.sonar_emit.disabled=sim.ping_time>0 or not transition.is_empty()
  subject=Concealed.refresh_subject(sim,Recipient.refresh_subject(sim,Rendezvous.refresh_subject(sim,subject)))
  var time_held=sim.paused or host._order_dialog_open()
- host.pause_button.text=Words.plate_state(time_held)+"\n"+Words.plate_action(sim,time_held)
+ # The state word alone first: LifeChip.sync below composes the full plate at a size that fits it, so no
+ # frame ever wraps the longer wording at the layout's text size and grows the plate for good.
+ host.pause_button.text=Words.plate_state(time_held)
+ if not LifeChip.active(self):host.pause_button.text+="\n"+Words.plate_action(sim,time_held)
  plate(host.pause_button,UiStyle.MAIN if time_held else UiStyle.QUIET)
  LifeChip.sync(self)
  _fit_pause_button()

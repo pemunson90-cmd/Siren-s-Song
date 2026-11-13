@@ -72,14 +72,15 @@ func shape_case(shape:Vector2i,mirrored:bool,scale:float):
 	check(pause.get_rect()==paused_rect,"the pause control keeps its place and size "+stamp)
 	check(Rect2(Vector2.ZERO,hud.size).encloses(pause.get_rect()),"the pause control lies inside the HUD area "+stamp)
 	check(not Chip.rect(hud).has_area(),"the reading reserves no space of its own "+stamp)
-	check(not pause.has_theme_color_override("font_color"),"the reading has the ordinary colour above 25 percent "+stamp)
+	# WP-48: the running plate is a QUIET role plate, which carries its own role text colour; only amber is the warning.
+	check(not pause.has_meta(Chip.META) and pause.get_theme_color("font_color")!=Chip.AMBER,"the reading has the ordinary colour above 25 percent "+stamp)
 	var oxygen_text=pause.text
 	s.oxygen=20.0;game._refresh();await settle()
 	check("20%" in pause.text or "~" in pause.text,"the reading follows a falling value "+stamp)
-	check(pause.text!=oxygen_text and pause.has_theme_color_override("font_color"),"the reading turns amber at 25 percent or below "+stamp)
+	check(pause.text!=oxygen_text and pause.has_meta(Chip.META) and pause.get_theme_color("font_color")==Chip.AMBER,"the reading turns amber at 25 percent or below "+stamp)
 	check(pause.get_rect()==paused_rect,"the pause control keeps its size when the reading changes "+stamp)
 	s.oxygen=80.0;game._refresh();await settle()
-	check(not pause.has_theme_color_override("font_color"),"the amber state clears above 25 percent "+stamp)
+	check(not pause.has_meta(Chip.META) and pause.get_theme_color("font_color")!=Chip.AMBER and pause.get_theme_color("font_color")==preload("res://src/presentation/ui_style.gd").QUIET_TEXT,"the amber state clears, and the plate's own role colour returns above 25 percent "+stamp)
 	# A command ring open while running: the reading stays.
 	hud.open("craft",{"kind":"craft","unit":0,"pos":s.units[0].pos});await settle();game._refresh();await settle()
 	if not s.paused:check("O₂" in pause.text,"life support stays on screen with the command ring open "+stamp)

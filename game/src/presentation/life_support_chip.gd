@@ -74,7 +74,9 @@ static func sync(hud)->void:
    # Amber text only on the running plate; the paused plate is accent-filled, where the gauge carries the warning.
    b.text="\n".join(lines);amber=not held and float(sim.oxygen)<=CRITICAL
  if amber:b.add_theme_color_override("font_color",AMBER);b.set_meta(META,true)
- elif b.has_meta(META):b.remove_theme_color_override("font_color");b.remove_meta(META)
+ elif b.has_meta(META):
+  # Amber ends: give the plate its own role colours back (plate() re-applies the role and drops the marker).
+  b.remove_meta(hud.PLATE_KEY);hud.plate(b,str(b.get_meta("ui_role",UiStyle.QUIET)))
  _gauge(hud,on)
 # The gauge: full width is 100 percent of capacity (an endurance loadout above 100 stays full).
 static func fraction(sim)->float:
