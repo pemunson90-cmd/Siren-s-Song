@@ -18,5 +18,6 @@ static func header(host,current:String)->void:
 	for tab in tabs:
 		var button=host._button(row,tab[1],tab[2],"archive_tab_"+tab[0])
 		button.size_flags_horizontal=Control.SIZE_EXPAND_FILL
-		button.disabled=tab[0]==current
+		# Same convention as the Settings tabs: the open page is the highlighted (pressed) tab.
+		button.toggle_mode=true;button.set_pressed_no_signal(tab[0]==current)
 		button.custom_minimum_size.x=maxf(button.custom_minimum_size.x,host.ui_touch_height)
