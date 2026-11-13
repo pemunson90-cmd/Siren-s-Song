@@ -32,7 +32,7 @@ static func expeditions(front)->void:
 		SaveErrorView.front_retry(front,"",16,"RETRY SAVE",func():expeditions(front),"run_retry_save")
 		return
 	if not state.is_empty():
-		front._text("SEED %d · %s · %d / %d RECOVERED"%[state.seed,state.status.to_upper(),state.cursor,state.operations.size()],20)
+		front._text("Seed %d, %s: %d of %d operations recovered."%[state.seed,state.status,state.cursor,state.operations.size()],20)
 		if state.status=="active":
 			front._button("RESUME DIVE" if state.in_flight else "CONTINUE EXPEDITION",func():start(front),"run_continue")
 			front._text("Finish or end this expedition before starting another.",16)
@@ -45,7 +45,7 @@ static func expeditions(front)->void:
 	history(front)
 static func history(front)->void:
 	var records=Archive.records(front.host)
-	front._text("RUN RECORDS / BEST DEPTH %d"%records.best_depth,22)
+	front._text("RUN RECORDS · BEST RUN: %d OPERATIONS"%records.best_depth,22)
 	if records.last.is_empty():front._text("No finished runs recorded yet.",16)
 	for i in records.last.size():
 		var row:Dictionary=records.last[i]
