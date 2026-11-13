@@ -28,8 +28,8 @@ const TEXT={
 	"ping": "PING SONAR\nuses %s reserve",
 	"ping_free": "PING SONAR\nuses no reserve",
 	"ping_caption": "Sirens hear every ping",
-	"ping_arc": "PING ARC: %s",
-	"ping_power": "PING POWER: %s",
+	"ping_arc": "PING ARC\n%s",	# two lines: one long line ran past the wheel's rim
+	"ping_power": "PING POWER\n%s",
 	"arc_all": "ALL ROUND",
 	"arc_forward": "AHEAD",
 	"history": "PAST PINGS",
