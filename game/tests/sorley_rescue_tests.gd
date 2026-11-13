@@ -1,5 +1,4 @@
 extends "res://tests/calder_trench_journey_tests.gd"
-const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 const S=preload("res://src/campaign/sorley_rescue.gd")
 const Catalog=preload("res://src/campaign/operation_catalog.gd")
 const C=preload("res://src/campaign/expedition_campaign.gd")

@@ -1,7 +1,6 @@
 extends "res://tests/calder_trench_journey_tests.gd"
 # 127 (Pat 2026-10-30): scripted journeys here fly the dev/test pathfinder route; hand_pilot_journeys covers release play.
 # Two source-known, bare Quietus voyages; no staged craft, threats or captures.
-const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 const Photo=preload("res://src/simulation/photo_capture.gd")
 const Layouts=preload("res://src/campaign/encounters/optional_layouts.gd")
 func run():

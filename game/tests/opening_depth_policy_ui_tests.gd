@@ -1,7 +1,6 @@
 extends "res://tests/depth_policy_ui_tests.gd"
 # Source-known complete opening1–5 journeys. Commands enter through viewport
 # touch plus emulated releases; only simulation time is accelerated.
-const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 func mode(g,wanted):
  await craft(g,g.sim.selected);await click(g.order_buttons.program)
  var panel=g.route_editor

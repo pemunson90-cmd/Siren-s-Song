@@ -1,7 +1,6 @@
 extends "res://tests/calder_trench_journey_tests.gd"
 # Source-known live-threat voyages. All travel, winching, receipt and film use
 # ordinary orders; no staged craft positions, cargo, captured records or threats.
-const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 const Cache=preload("res://src/simulation/optional_cache.gd")
 const Gear=preload("res://src/equipment/equipment_catalog.gd")
 const Campaign=preload("res://src/campaign/expedition_campaign.gd")
