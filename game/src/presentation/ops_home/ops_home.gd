@@ -37,7 +37,8 @@ static func heading(host,text:String)->Label:
 static func column(separation:int=SEPARATION)->VBoxContainer:
  var box=VBoxContainer.new();box.add_theme_constant_override("separation",separation);box.size_flags_horizontal=Control.SIZE_EXPAND_FILL
  return box
-static func plain_arc_heading(arc:Dictionary,completed:Array)->String:
+static func plain_arc_heading(arc:Dictionary,completed:Array,with_count:bool=true)->String:
+ if not with_count:return "ARC %d: %s"%[arc.number,arc.name]
  return "ARC %d: %s (%d of %d recovered)"%[arc.number,arc.name,arc.ids.filter(func(id):return id in completed).size(),arc.ids.size()]
 # What a card shows for an operation row: number, name, state tag and (when locked) the reason.
 static func card_data(host,button:Button)->Dictionary:
@@ -150,7 +151,8 @@ static func arrange(host)->void:
    if node.has_meta("arc_group"):
     var arc=ArcTable.ARCS[int(node.get_meta("arc_group"))-1];var label=node.get_child(0)
     if label is Label:
-     label.text=plain_arc_heading(arc,completed);label.add_theme_font_size_override("font_size",roundi(14*text_scale(host)))
+     # The count is stated once, over the open rows; the RECOVERED fold names the arc only (critic 13 Nov saw it twice).
+     label.text=plain_arc_heading(arc,completed,holder==ops);label.add_theme_font_size_override("font_size",roundi(14*text_scale(host)))
  # --- Continue ---
  var cont=column()
  var top=HBoxContainer.new();top.add_theme_constant_override("separation",Table.GAP)
@@ -190,7 +192,9 @@ static func arrange(host)->void:
   title.custom_minimum_size=Vector2(maxf(title.custom_minimum_size.x,host.ui_touch_height*3.),title.custom_minimum_size.y)
  cont.add_child(top);cont.move_child(top,0)
  if branch!=null:cont.move_child(branch,1)
- if hint!=null:hint.reparent(cont)
+ # "Resuming keeps this dive's equipment..." speaks of a dive in progress: it is read only beside RESUME. Without a
+ # dive it keeps its space (so RESUME appearing never moves the rows) but is not drawn.
+ if hint!=null:hint.reparent(cont);hint.modulate.a=1.0 if resume!=null else 0.0
  # --- Prepare and review ---
  var prep=column();prep.add_child(heading(host,"PREPARE AND REVIEW"))
  var column_width=(host.size.x-Metrics.MENU_MARGIN-Metrics.MENU_PANEL_PADDING-Metrics.MENU_COLUMN_GAP)/2. if wide else Metrics.menu_width(host.size,false)-Metrics.MENU_PANEL_PADDING

@@ -2,6 +2,9 @@ extends RefCounted
 # Photograph and archive review extracted from main. Main keeps its existing
 # entry points as forwarders; host owns state, callbacks and deferred layout.
 # Revert this PR to restore the bodies in main. No rules, text or save changes.
+# The one name of the button that opens evidence_gallery, everywhere it is offered. It was REVIEW FIELD RECORDS,
+# beside the hub's FIELD RECORDS (the archive by region): two names for two screens read as one (13 Nov).
+const GALLERY_BUTTON="PHOTO GALLERY"
 static func show_photo_grade(host, records:Array)->void:
 	var grade=host.Recon.grade(records)
 	if grade.photos>0:host._menu_text("INTEL PHOTO GRADE %s · %d %s · average %d%% of each record's best frame%s"%[grade.grade,grade.photos,"record" if grade.photos==1 else "records",roundi(grade.quality*100),"" if grade.photos==1 else " · sharpest record %d%%"%roundi(grade.best*100)],20)

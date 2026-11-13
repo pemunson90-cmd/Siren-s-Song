@@ -199,7 +199,12 @@ func _label(parent: Node,text: String,font_size: int) -> Label:
 	var l=Label.new(); l.text=text; l.add_theme_font_size_override("font_size",font_size); parent.add_child(l); return l
 func _button(parent: Node,text: String,action: Callable,action_id: String="") -> Button:
 	var b=Button.new(); b.text=text; b.custom_minimum_size=Vector2(0,ui_touch_height); b.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART; b.pressed.connect(action,CONNECT_DEFERRED); b.focus_mode=Control.FOCUS_ALL; parent.add_child(b)
-	if parent==menu_footer: b.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+	if parent==menu_footer:
+		b.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+		# A footer label that carries its own line breaks ("ENTER WATER\nSTART PAUSED") needs no automatic wrapping.
+		# Wrapped, its height was measured at the button's first narrow width: at 150% text the briefing's two
+		# footer buttons stood 1145 px tall on the inner screen and squeezed the briefing (critic 13 Nov).
+		if "\n" in text: b.autowrap_mode=TextServer.AUTOWRAP_OFF
 	# Let ScrollContainer observe touch-emulated drags begun on menu rows.
 	# Its scroll-begin notification cancels the button click; taps still activate.
 	if parent==panel_box: b.mouse_filter=Control.MOUSE_FILTER_PASS

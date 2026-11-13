@@ -332,5 +332,8 @@ func route_end_case():
 	var dialog=await make(Vector2i(2520,1080),1.0)
 	dialog.sim.paused=false;dialog._refresh()
 	dialog.mission_hud.guard.pending={"unit":0,"point":dialog.sim.units[0].pos+Vector2(80,0)};dialog._refresh();dialog._refresh();await settle()
-	check(dialog.pause_button.text.begins_with("PAUSED") and "choose what to do with the route" in dialog.mission_hud.intent.text,"a route dialog shows PAUSED and why: "+dialog.pause_button.text+" / "+dialog.mission_hud.intent.text)
+	# Running before the dialog: the dialog only holds time (CANCEL lets it run again), so the plate reads HELD.
+	check(dialog.pause_button.text.begins_with(Words.TEXT.held) and Words.TEXT.held_route in dialog.mission_hud.intent.text,"a route dialog over a running dive shows HELD and why: "+dialog.pause_button.text+" / "+dialog.mission_hud.intent.text)
+	dialog.sim.paused=true;dialog._refresh();dialog._refresh();await settle()
+	check(dialog.pause_button.text.begins_with(Words.TEXT.paused) and "choose what to do with the route" in dialog.mission_hud.intent.text,"a route dialog over a paused dive shows PAUSED and why: "+dialog.pause_button.text+" / "+dialog.mission_hud.intent.text)
 	dialog.queue_free();await settle()

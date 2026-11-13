@@ -28,7 +28,7 @@ static func tone(view:Dictionary,elapsed:float,hz:float=Table.PULSE_HZ)->Color:
 static func explanation(view:Dictionary)->String:
  var last=str(view.get("cause","")).replace("_"," ").strip_edges()
  if last.is_empty():last=Table.TEXT.no_rise
- return Table.TEXT.help%[str(view.stage),float(view.scale),last,float(view.floor),float(view.cap)]+Palette.legend()
+ return Table.TEXT.help%[str(view.stage),float(view.scale),float(view.cap),last,float(view.floor)]+Palette.legend()
 static func _open(hud)->void:
  var view=Pressure.view(hud.host.sim)
  if not view.active:return

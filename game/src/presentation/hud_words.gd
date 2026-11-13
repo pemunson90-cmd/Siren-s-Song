@@ -13,6 +13,8 @@ const CraftUpgrades=preload("res://src/equipment/craft_upgrades.gd")
 const AllStop=preload("res://src/simulation/all_stop/all_stop.gd")
 const TEXT={
 	"paused": "PAUSED",
+	# Time stands still only while a menu or the route prompt is open (trial rule 1); closing it lets time run.
+	"held": "HELD",
 	"running": "RUNNING",
 	"tap_resume": "TAP TO RESUME",
 	"tap_pause": "TAP TO PAUSE",
@@ -52,7 +54,8 @@ const TEXT={
 	"paused_notice": "PAUSED: a Siren has noticed you",
 	"paused_lock": "PAUSED: a Siren is locking on",
 	"paused_route": "PAUSED: choose what to do with the route",
-	"paused_menu": "PAUSED: a menu is open",
+	"held_menu": "HELD: time runs again when you close this menu",
+	"held_route": "HELD: time runs again once you answer the route prompt",
 	"paused_route_end": "PAUSED: %s finished its route",
 	"paused_blocked": "PAUSED: rock blocks %s's route",
 	"route_end": "%s has stopped: its route is finished.",
@@ -77,8 +80,10 @@ static func speeds(sim)->Dictionary:
 	return {"silent": CraftUpgrades.frame_speed(fitted,0,RuleTable.CRAFT_SPEED.silent), "cruise": CraftUpgrades.cruise_speed(fitted)}
 
 # The pause plate: state first, then what a tap does, then the oxygen reading when it fits.
-static func plate_state(held:bool)->String:
-	return TEXT.paused if held else TEXT.running
+# paused: the player or an automatic pause stopped the dive (it stays stopped until resumed). held: an open menu
+# or the route prompt holds time, which runs again when it closes; the plate says so, not PAUSED.
+static func plate_state(paused:bool,held:bool=false)->String:
+	return TEXT.paused if paused else TEXT.held if held else TEXT.running
 static func plate_action(sim,dialog_open:bool,menu_open:bool=false)->String:
 	if dialog_open and not sim.paused:return TEXT.route_prompt
 	if menu_open and not sim.paused:return TEXT.close_to_resume
@@ -147,8 +152,8 @@ static func auto_pause_text(key:String,craft:String)->String:
 # or when the held state already shows a card that states its reason.
 static func pause_reason(host)->String:
 	var sim=host.sim
-	if host._order_dialog_open():return TEXT.paused_route
-	if not sim.paused:return TEXT.paused_menu if host._time_held() else ""
+	if host._order_dialog_open():return TEXT.paused_route if sim.paused else TEXT.held_route
+	if not sim.paused:return TEXT.held_menu if host._time_held() else ""
 	var automatic:String=host.tactical_aids.auto_pause.line(sim)
 	if not automatic.is_empty():return automatic
 	for key in AUTO_PAUSE_REASONS:

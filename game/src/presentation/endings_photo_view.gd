@@ -30,7 +30,7 @@ static func present(host,legacy:Callable)->bool:
  host._menu_text("FORK OUTCOME / "+ending.title,20)
  host._button(host.panel_box,preload("res://src/persistence/save_states/save2_controller.gd").legacy_title(host,"VIEW FORK OUTCOME").replace("FIRST ENDING","VIEW FIRST ENDING"),legacy,"fork_ending")
  preload("res://src/persistence/save_states/save2_controller.gd").replay_entry(host,"ending")
- if not host.recovered_evidence.is_empty():host._button(host.panel_box,"REVIEW FIELD RECORDS",func():host._evidence_gallery(0),"evidence")
+ if not host.recovered_evidence.is_empty():host._button(host.panel_box,preload("res://src/presentation/flow/photo_review.gd").GALLERY_BUTTON,func():host._evidence_gallery(0),"evidence")
  if finale:Finale.credits_button(host)
  host._button(host.menu_footer,"OPERATIONS ARCHIVE",host._show_campaign,"back");host.menu_footer.show()
  host._save_archive();host.call_deferred("_layout")

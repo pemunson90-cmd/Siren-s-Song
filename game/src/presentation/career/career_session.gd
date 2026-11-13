@@ -122,13 +122,7 @@ func _show_economy()->void:CareerBoard.supplies(self)
 func _refresh()->void:
 	super._refresh()
 	if status_label==null:return
-	status_label.visible=screen=="mission" and not sim.rider_status().is_empty()
-	if status_label.visible:
-		status_label.text=sim.rider_status()
-		status_label.position=Vector2(12,ui_touch_height+24)
-		status_label.size=Vector2(maxf(1,size.x-24),ui_touch_height*2)
-		status_label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
-		status_label.mouse_filter=Control.MOUSE_FILTER_IGNORE
+	preload("res://src/presentation/mode_banner.gd").place(self,sim.rider_status())
 func _show_fittings()->void:CareerBoard.fittings(self)
 func _equipment_context()->Dictionary:
 	return {"slots":fitted_equipment,"available":_equipment_entitlements(),"catalog":preload("res://src/equipment/equipment_catalog.gd").public_catalog(_equipment_entitlements())}
