@@ -589,3 +589,9 @@ You should be using the absolute bare minimum amount of tests always."
 [PAT, chat, verbatim] "Yes to all of your recs. We should be building this as a professional video game code base, not a scrapped together prototype anymore. There's enough of a base here that it's worth expanding on and building this game but it needs a foundation that's not going to break every time we change a variable or a name"
 
 [AI note on effect] Fixes A1 to A8 and A10 are approved and are built one work package each (WP-19 onward), starting with A4 (the opening-operation sensing stutter), A3 and A2. A9 waits. A11 and A12 are not done. The standard for new and reworked code from here on is the one Pat states: names and numbers defined once, and changes that do not break distant files.
+
+## 2026-11-12: check the audit work in full, then a UI and UX audit and repair
+
+Pat, verbatim: "Once you're done and your work is checked for not just accuracy, but also necessarity, functionality, complexity, scalability, interoperability, stability, bend overall code-based health; I want to perform another comprehensive audit and repair of the UI and ux, please and thank you"
+
+How it is applied (Claude's reading, not Pat's words): when the approved code audit fixes are built, the whole set is reviewed once by a fresh reviewer against each of those headings (is it correct, was it needed, does it work, is it simpler or more complex than before, will it scale, does it fit with the rest, is it stable, is the code base healthier). Findings are fixed. Then a full UI and UX audit starts: a plain-English list with yes/no recommendations first, repairs after Pat's answers, as with the code audit.

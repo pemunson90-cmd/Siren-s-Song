@@ -2,11 +2,11 @@
   "run_id": "overhaul-20261111",
   "status": "RUNNING",
   "phase": "8-audit",
-  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: WP-26 (A7 part 2, archive core, branch wp-26 from 638f704e) is building. When it reports: review, merge, report row 54, MODULES row. Then A8 step 3: move the archive/save functions of main.gd (_archive, _save_archive, _retry_archive, _write_archive, _dismiss_archive_warning, _update_archive_status, _load_archive) into a module with forwards, after WP-26 lands (same area). Then step 4 (evidence gallery, UI metrics), then A2 part 2.",
+  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: Order of work (Pat, 2026-11-12, verbatim in docs/USER_DIRECTIVES.md): (1) finish the approved code audit fixes: WP-26 (A7 part 2) is building; then A8 step 3 (save functions out of main.gd) and step 4 (evidence gallery, UI metrics), A2 part 2, A1 drawing probe, A10 autosave measure. (2) One fresh reviewer checks the whole audit work set (run branch diff since 247e0582) for accuracy, necessity, functionality, complexity, scalability, interoperability, stability and overall code base health; root fixes findings; one full GitHub matrix. (3) Comprehensive UI and UX audit: plain-English findings with yes/no recommendations to Pat first (.fable/UX_AUDIT.md), repairs after his answers.",
   "base_ref": "origin/claude/integration",
   "base_sha": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
   "run_branch": "fable/overhaul-20261111",
-  "run_head": "626585a521b7611c47ca96157086134eac3f70f2",
+  "run_head": "9d5b2387983541222cb7042e3931a3cd611dabf1",
   "shared_tips": {
     "claude/integration": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
     "main": "f5b66a198e3878950325f8c45a0bc6bc29dcba84",
@@ -46,5 +46,5 @@
   },
   "decisions_open": 0,
   "last_checkpoint": "A5: core green under the player rules on wp-23-player-rules; enumeration run 43301827177 in progress",
-  "updated": "2026-11-12 20:11:02"
+  "updated": "2026-11-12 20:14:08"
 }
