@@ -137,3 +137,8 @@ static func apply(button:Button,role:String)->void:
 	button.add_theme_stylebox_override("focus",focus);button.add_theme_stylebox_override("disabled",disabled)
 	button.add_theme_color_override("font_color",look.text);button.add_theme_color_override("font_hover_color",look.hover_text);button.add_theme_color_override("font_pressed_color",look.hover_text)
 	button.add_theme_color_override("font_focus_color",look.hover_text);button.add_theme_color_override("font_hover_pressed_color",look.hover_text);button.add_theme_color_override("font_disabled_color",DISABLED_TEXT)
+# Title backdrop (C4): water, depth shading, plate behind the menu, sonar ring.
+const TITLE_WATER=Color("050f17")
+const TITLE_DEEP=Color("020a10")
+const TITLE_SCRIM=Color("03090e")
+const TITLE_RING=Color("72d9d3")
