@@ -92,10 +92,9 @@ func run():
  # Opening brief stays short; the existing fittings page carries every craft's stock.
  g.tool_racks=racks.duplicate(true);g._show_fittings();await frames()
  var fitting_copy=""
- for child in g.panel_box.get_children():
-  if child is Label:fitting_copy+=child.text+"\n"
+ for child in g.panel_box.find_children("*","Label",true,false):fitting_copy+=child.text+"\n"
  # WP-44: the fittings page says what each craft carries in a sentence and leaves zeros out.
- check(preload("res://src/presentation/tool_racks_view.gd").carry_text(racks) in fitting_copy,"opening fittings entry says what each craft carries")
+ check(Racks.UNITS.all(func(slot):return preload("res://src/presentation/tool_racks_view.gd").carry_line(racks,slot) in fitting_copy),"opening fittings entry says what each craft carries")
  # The opening brief confirms actual Quietus stock without a text wall.
  var stock_before=g.sim.snapshot().duplicate(true)
  g._briefing(0);await frames()

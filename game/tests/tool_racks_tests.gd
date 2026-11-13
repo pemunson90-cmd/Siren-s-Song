@@ -135,7 +135,9 @@ func shape_case(shape):
  var text=""
  for row in game.panel_box.find_children("*","Label",true,false):text+=row.text+"\n"
  var carry=RackView.carry_text(game.tool_racks)
- check(carry in text and "carries" in carry and not " 0 " in carry and not "SPACE EACH" in text and not "LOCKER SPACE" in text,"carry sentences replace the spreadsheet rows "+label)
+ # Wide screens print each craft's sentence over its bars; narrow screens print the three together.
+ var carried=Racks.UNITS.all(func(slot):return RackView.carry_line(game.tool_racks,slot) in text) if game.get_meta("prep_wide",false) else carry in text
+ check(carried and "carries" in carry and not " 0 " in carry and not "SPACE EACH" in text and not "LOCKER SPACE" in text,"carry sentences replace the spreadsheet rows "+label)
  var bars=game.panel_box.find_children("*","Control",true,false).filter(func(n):return n.has_meta("bar_label"))
  var locker_bars=bars.filter(func(n):return n.get_meta("bar_label")=="LOCKER")
  check(locker_bars.size()==3 and bars.size()==6,"one locker bar and one cargo bar per craft "+label)
@@ -183,8 +185,79 @@ func shape_case(shape):
  archive.tool_racks.drone_a.emp=-1;check(not game.store.valid(archive),"malformed profile racks rejected "+label)
  await android_back();check(game.screen=="menu","Android Back returns from racks "+label)
  game.queue_free();await settle()
+func labels_of(game)->String:
+ var text=""
+ for row in game.panel_box.find_children("*","Label",true,false):text+=row.text+"\n"
+ return text
+func bars_of(game,which:String)->Array:
+ return game.panel_box.find_children("*","Control",true,false).filter(func(n):return n.get_meta("bar_label","")==which)
+func locker_matches(game)->bool:
+ for unit in 3:
+  var bars=bars_of(game,"LOCKER")
+  if bars.size()!=3 or not is_equal_approx(bars[unit].fraction(),float(Racks.locker_used_ticks(game.tool_racks,unit))/float(Racks.locker_ticks(unit))):return false
+ return true
+# WP-53: the preparation layout. Wide on both Fold shapes (summary left, controls scrolling on their own right),
+# the old single column on a phone, and the same threshold for every screen.
+func layout_checks():
+ var Metrics=preload("res://src/presentation/layout_metrics.gd")
+ check(Metrics.prep_wide(Vector2(1680,720),98.,1.) and Metrics.prep_wide(Vector2(1280,1153),87.,1.),"wide preparation layout on the cover and inner screens")
+ check(not Metrics.prep_wide(Vector2(1280,2844),175.,1.) and not Metrics.prep_wide(Vector2(1280,1153),87.,1.5) and not Metrics.prep_wide(Vector2(1680,720),98.,1.5),"single column on a portrait phone and when the largest text would not fit two columns")
+ check(Metrics.hub_wide(Vector2(1680,720),98.) and not Metrics.hub_wide(Vector2(1280,1153),87.),"the campaign hub keeps its own threshold")
+func prep_case(shape:Vector2i,expect_wide:bool):
+ root.size=shape;await settle()
+ var game=load("res://scenes/main.tscn").instantiate();game.set_script(load("res://tests/density_main.gd"));game.capture_scenario="runtime-test"
+ root.add_child(game);await settle();game.set_process(false)
+ game._show_fittings();await settle()
+ var label="%dx%d"%[shape.x,shape.y]
+ var pane=game.get_meta("prep_scroll") if game.has_meta("prep_scroll") else null
+ var text=labels_of(game)
+ check(game.get_meta("prep_wide",false)==expect_wide and (pane!=null)==expect_wide,"Fittings column count "+label)
+ check("You have: 8 scrap · 10 cells · 0 alloy." in text and "Scrap and cells come from" in text,"currency line and first-visit note "+label)
+ for id in Tools.ids():check(not RackView.describe(id).is_empty() and RackView.describe(id) in text,"tool row says what "+id+" does "+label)
+ # EMP at 2 is not a cap (nine per craft); torpedoes are capped at two across the fleet and say why.
+ check(not button(game,"rack_add_emp").disabled and button(game,"rack_add_knock").disabled and RackView.REASONS["RACK FULL"] in text,"only a capped tool is greyed, and it says why "+label)
+ var back=button(game,"back")
+ if expect_wide:
+  var left=pane.get_parent().get_child(0)
+  var bars=bars_of(game,"LOCKER")+bars_of(game,"CARGO")
+  check(bars.size()==6 and bars.all(func(b):return left.is_ancestor_of(b)) and back!=null and left.is_ancestor_of(back),"summary bars and BACK sit in the left column "+label)
+  check(pane.is_ancestor_of(button(game,"rack_add_relay_buoy")) and pane.is_ancestor_of(button(game,"rack_empty")),"controls sit in the scrolling right column "+label)
+  check(game.panel_box.size.y<=game.scroll.size.y+1.0,"the page itself does not scroll "+label)
+  var last=button(game,"rack_add_relay_buoy")
+  pane.ensure_control_visible(last);await settle()
+  var screen=Rect2(Vector2.ZERO,game.size)
+  check(bars.all(func(b):return screen.encloses(b.get_global_rect())) and screen.encloses(last.get_global_rect()),"bars on screen while the last tool row is on screen "+label)
+  check(pane.scroll_vertical>0,"the right column scrolled on its own "+label)
+  var before=bars_of(game,"LOCKER")[0].fraction();var now=before
+  if await press(game,"rack_remove_hull_patch"):
+   now=bars_of(game,"LOCKER")[0].fraction()
+   check(now<before and locker_matches(game),"minus updates the summary LOCKER bar at once "+label)
+   check(game.get_meta("prep_scroll").scroll_vertical>0,"the right column keeps its place after a change "+label)
+   check(not "Scrap and cells come from" in labels_of(game),"first-visit note is shown once per visit "+label)
+  if await press(game,"rack_add_decoy"):
+   check(bars_of(game,"LOCKER")[0].fraction()>now and locker_matches(game),"plus updates the summary LOCKER bar at once "+label)
+  var plain=labels_of(game)
+  check(not plain.contains("Locker ") and not plain.contains("cargo 0 of"),"no feedback line under the row beside the summary "+label)
+  # Turning the screen to a phone shape redraws the same screen as one column.
+  root.size=Vector2i(1080,2400);await settle();await settle()
+  check(game.screen=="fittings" and not game.get_meta("prep_wide",true) and not game.has_meta("prep_scroll") and game.panel_box.get_child(0)==button(game,"back"),"a resize to a phone shape redraws one column "+label)
+ else:
+  check(game.panel_box.get_child(0)==back and not game.has_meta("prep_scroll"),"single column keeps BACK first "+label)
+  var order=[text.find("FITTINGS"),text.find("You have:"),text.find(RackView.carry_text(game.tool_racks)),text.find("TOOLS FOR THE NEXT DIVE"),text.find("QUICK FILL"),text.find("Extra charges for the next launch")]
+  var sorted=order.duplicate();sorted.sort()
+  check(order==sorted and not order.has(-1),"single column keeps today's order "+label)
+  if await press(game,"rack_add_decoy"):
+   var line=RackView.feedback_text(game,0)
+   check(line.begins_with("Locker ") and line in labels_of(game),"the row just changed shows the craft's locker and cargo "+label)
+   var rows=game.panel_box.get_children()
+   var add=button(game,"rack_add_decoy");var holder=add.get_parent()
+   check(holder.get_index()+1<rows.size() and rows[holder.get_index()+1] is Label and rows[holder.get_index()+1].text==line,"the feedback line sits directly under the changed row "+label)
+ game.queue_free();await settle()
 func run():
  data_checks()
+ layout_checks()
  refusal_checks()
+ for shape in [Vector2i(2520,1080),Vector2i(2184,1968)]:await prep_case(shape,true)
+ await prep_case(Vector2i(1080,2400),false)
  for shape in [Vector2i(2520,1080),Vector2i(2184,1968)]:await shape_case(shape)
  print("TOOL RACKS CHECKS %d FAILURES %d"%[checks,failures]);quit(1 if failures else 0)

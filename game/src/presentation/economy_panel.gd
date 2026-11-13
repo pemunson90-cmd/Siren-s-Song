@@ -15,6 +15,10 @@ const Save2Table=preload("res://src/persistence/save_states/save2_table.gd")
 const Catalog=preload("res://src/equipment/equipment_catalog.gd")
 const Research=preload("res://src/campaign/glass_research.gd")
 const Inventory=preload("res://src/campaign/fleet_inventory.gd")
+const PrepColumns=preload("res://src/presentation/prep_columns.gd")
+const HAVE_LINE="You have: %s."
+const SOURCES_LINE="Scrap and cells come from each dive's salvage; alloy comes from alien material you recover, or from refining %d scrap into %d alloy."
+const SHORT_LINE="You are short by %s."
 static func _redraw(host,action:Callable)->void:
 	var reading_position=host.scroll.scroll_vertical
 	action.call()
@@ -28,7 +32,19 @@ static func _redraw(host,action:Callable)->void:
 static func _spend_button(host,text:String,cost:Dictionary,action:Callable,id:String)->Button:
 	var button=host._button(host.panel_box,"%s · %s"%[text,Economy.fmt(cost)],func():_redraw(host,action),id)
 	button.disabled=not Economy.can_pay(host.economy,cost)
+	# A dim button says why, in the words the frame cards on Fittings use.
+	if button.disabled:host._menu_text(SHORT_LINE%Economy.shortfall(host.economy,cost),14)
 	return button
+# One plain line of what the player holds, and the first time per visit where each kind comes from.
+static func currency_text(e:Dictionary)->String:
+	return HAVE_LINE%" · ".join(Table.RES.map(func(key):return "%d %s"%[e.stock.get(key,0),Table.NAMES[key].to_lower()]))
+static func currency(host,fresh:bool)->void:
+	currency_line(host)
+	if fresh:currency_hint(host)
+static func currency_line(host)->void:
+	if Table.enabled:host._menu_text(currency_text(host.economy),16)
+static func currency_hint(host)->void:
+	if Table.enabled:host._menu_text(SOURCES_LINE%[Table.REFINE.scrap,Table.REFINE.alloy],14)
 # Operations entry: a supplies button.
 static func entry(host)->void:
 	if Table.enabled:
@@ -142,10 +158,13 @@ static func settle(host,first_recovery:bool,fleet_before:Dictionary)->void:
 # ---- the supplies screen -----------------------------------------------------
 static func show(host)->void:
 	var e=host.economy
+	# A redraw after a purchase is not a new visit, so the first-visit note stays away.
+	var fresh=host.screen!="economy"
 	host.screen="economy";host.sim.paused=true;host._clear_menu()
 	host._button(host.panel_box,"BACK TO OPERATIONS",host._show_campaign,"back")
 	host._menu_text("SUPPLIES / COSTS",30)
-	host._menu_text("%s\nPRESET · %s · %s%s"%[Economy.balance_text(e),Options.label(e),Economy.preset(e).note," · IRONMAN" if e.ironman else ""],16)
+	currency(host,fresh)
+	host._menu_text("PRESET · %s · %s%s"%[Options.label(e),Economy.preset(e).note," · IRONMAN" if e.ironman else ""],16)
 	# A dive that can be resumed is the current state; the default "No dive yet" report would be false.
 	var diving=host.active_started and host.sim.outcome.is_empty()
 	if diving:host._menu_text(host.CampaignFlow.in_progress_line(host),14)
@@ -164,8 +183,11 @@ static func show(host)->void:
 			iron_button.disabled=true
 			iron_button.text="IRONMAN / EASIER PRESET QUEUED"
 			host._menu_text("Easier preset queued; Ironman can be enabled after the next dock.",14)
-	host._menu_text("NEXT LAUNCH REFIT · %s\nA craft keeps what it carried last launch for free. A bare standard Quietus always launches free."%
-		Economy.fmt(launch_cost(host)),15)
+	# The note sits inside the same side margin as the cards, clear of the panel edge.
+	var note=MarginContainer.new();note.add_theme_constant_override("margin_left",UiStyle.PREP_TEXT_INSET);note.add_theme_constant_override("margin_right",UiStyle.PREP_TEXT_INSET)
+	var note_box=VBoxContainer.new();note.add_child(note_box);host.panel_box.add_child(note)
+	PrepColumns.into(host,note_box,func():host._menu_text("NEXT LAUNCH REFIT · %s\nA craft keeps what it carried last launch for free. A bare standard Quietus always launches free."%
+		Economy.fmt(launch_cost(host)),15))
 	_repairs(host)
 	_manufacturing(host)
 	_research(host)

@@ -200,3 +200,11 @@ const THREAT_WEDGE_LENGTH=0.3
 const THREAT_NUMBER_BOOST=8
 const THREAT_NUMBER_PAD=5.0
 const LOCK_CARD_WIDTH=5.0
+# Preparation columns (WP-53): side inset of a note that must clear the panel edge, and the shortest the
+# right-hand column may be drawn, in touch heights.
+const PREP_TEXT_INSET=12
+const PREP_SCROLL_MIN_TOUCHES=4.0
+const PREP_SCROLLBAR_ALLOWANCE=24.0
+const PREP_SUMMARY_SEPARATION=4
+const PREP_CONTROLS_SEPARATION=14
+const PREP_BACK_TOUCHES=3.0

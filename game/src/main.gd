@@ -244,7 +244,8 @@ func _layout(cancel_gesture:bool=true) -> void:
 			# The hub takes no argument; only the briefing is rebuilt for an operation index.
 			if screen=="menu": call_deferred("_show_campaign")
 			else: call_deferred("_briefing",int(get_meta("onboard2_fit_index",0)))
-		var panel_width=preload("res://src/presentation/layout_metrics.gd").menu_width(size,get_meta("hub_wide",false))
+		preload("res://src/presentation/prep_columns.gd").relayout(self)
+		var panel_width=preload("res://src/presentation/layout_metrics.gd").menu_width(size,get_meta("hub_wide",false) or get_meta("prep_wide",false))
 		menu.position=Vector2(maxf(24,(size.x-panel_width)/2),24); menu.size=Vector2(panel_width,size.y-48)
 		if screen=="reference" and get_meta("launch_costs_open",false):menu.position=Vector2(16,16);menu.size=size-Vector2(32,32)
 		if archive_status_text!=null:archive_status_text.add_theme_font_size_override("font_size",maxi(17,roundi(h*.26*FrontendSettings.text_scale())))
@@ -476,6 +477,7 @@ func _unhandled_key_input(event: InputEvent) -> void:DiveInput.unhandled_key(sel
 func _clear_menu() -> void:
 	set_meta("launch_costs_open",false)
 	if has_meta("hub_wide"):remove_meta("hub_wide") # only the campaign hub sets it, once it is built
+	preload("res://src/presentation/prep_columns.gd").forget(self) # preparation screens set their own columns
 	preload("res://src/presentation/arcs/arc_card.gd").back(self)
 	var resolution=get_node_or_null("ConfluenceResolution")
 	if resolution!=null:remove_child(resolution);resolution.queue_free()
