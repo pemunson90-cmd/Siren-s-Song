@@ -47,19 +47,21 @@ func refresh()->void:
  var need=maxf(_text_width(label_text())+tall+12.,_text_width(note_text())+tall*.4+12.)
  var width=clampf(need,minf(widest,h*layout.width_touch),widest)
  chip_rect=Rect2(Vector2(size.x-width-layout.gap,h*layout.top_touch+layout.gap),Vector2(width,_box_height(label_text(),width-tall-8.,tall)))
- # A received lock card in the same column pushes the chip (and its note) below it.
+ # WP-51: a received lock is stated once, by the lock card, which also carries the new-type note as its last line.
+ # While it shows, this chip and note draw nothing; only the bearing wedge (when no lock line already points) remains.
  var lock=host.get("lock_warning")
- if lock!=null and lock.visible and lock.banner.has_area():
-  var card=Rect2(lock.global_position-global_position+lock.banner.position,lock.banner.size)
-  var stack=Rect2(chip_rect.position,Vector2(chip_rect.size.x,chip_rect.size.y*2.+layout.gap))
-  if card.grow(layout.gap*.5).intersects(stack):chip_rect.position.y=card.end.y+layout.gap*.5
- # The kind note sits directly under the chip (or alone) clear of the centred lock banner.
+ var folded=lock!=null and lock.visible and not lock.rows.is_empty()
+ host.ocean.first_notice_showing=not frames.is_empty() and host.screen=="mission"
  note_rect=Rect2()
- if not note_frames.is_empty():
-  var note_at=chip_rect.position if frames.is_empty() else chip_rect.end+Vector2(-chip_rect.size.x,layout.gap*.5)
-  note_rect=Rect2(note_at,Vector2(width,_box_height(note_text(),width-tall*.4-8.,tall)))
- # marker_rect is the chip (the note alone when no bearing); captions also avoid note_rect.
- marker_rect=chip_rect if not frames.is_empty() or note_frames.is_empty() else note_rect
+ if folded:
+  chip_rect=Rect2();marker_rect=Rect2()
+ else:
+  # The kind note sits directly under the chip (or alone).
+  if not note_frames.is_empty():
+   var note_at=chip_rect.position if frames.is_empty() else chip_rect.end+Vector2(-chip_rect.size.x,layout.gap*.5)
+   note_rect=Rect2(note_at,Vector2(width,_box_height(note_text(),width-tall*.4-8.,tall)))
+  # marker_rect is the chip (the note alone when no bearing); captions also avoid note_rect.
+  marker_rect=chip_rect if not frames.is_empty() or note_frames.is_empty() else note_rect
  var silent=not visible or not host.sound.cue_audible(Table.AUDIO.id)
  if silent or voice.get_playback_position()>=Table.AUDIO.seconds:voice.stop()
  voice.stream_paused=host.sim.paused or suspended or host.sound.system_suspended
@@ -71,7 +73,7 @@ func _draw()->void:
   var locked=ThreatRead.lock_rows(host.sim).any(func(lock):return lock.craft==row.unit)
   if not locked:ThreatLine.wedge(self,host.ocean.screen_position(host.sim.units[row.unit].pos),row.bearing,minf(size.x,size.y)*UiStyle.THREAT_WEDGE_LENGTH)
  var panel=StyleBoxFlat.new();panel.bg_color=Color("102c39");panel.border_color=Palette.chart_color("evidence",Color("a9d9df"));panel.set_border_width_all(int(Palette.stroke(2)));panel.set_corner_radius_all(8)
- if not frames.is_empty():
+ if not frames.is_empty() and chip_rect.has_area():
   draw_style_box(panel,chip_rect)
   var center=chip_rect.position+Vector2(chip_rect.size.y*.5,chip_rect.size.y*.5)
   var direction:Vector2=frames.back().direction;var radius=chip_rect.size.y*.24
@@ -81,7 +83,7 @@ func _draw()->void:
   draw_colored_polygon(PackedVector2Array([tip,center+side,center-side]),Palette.chart_color("evidence",Color("a9d9df")))
   var tall=minf(chip_rect.size.y,host.ui_touch_height*Table.LAYOUT.height_touch)
   _text(chip_rect.position+Vector2(tall,0),label_text(),chip_rect.size.x-tall-8.,chip_rect.size.y)
- if not note_frames.is_empty():
+ if note_rect.has_area():
   panel.border_color=Palette.chart_color("warning",Color("e6c46a"));draw_style_box(panel,note_rect)
   var inset=minf(note_rect.size.y,host.ui_touch_height*Table.LAYOUT.height_touch)*.4
   _text(note_rect.position+Vector2(inset,0),note_text(),note_rect.size.x-inset-8.,note_rect.size.y)

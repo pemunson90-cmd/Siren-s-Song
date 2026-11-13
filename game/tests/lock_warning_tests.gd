@@ -63,9 +63,9 @@ func run():
  sim.units[0].band=1
  for episode in 4:
   warning.update_state(sim,true)
-  check(warning.show_hint==(episode<3),"hint appears only for first three episodes")
+  check(warning.card_text.contains(preload("res://src/presentation/threat_read/threat_read_table.gd").TEXT.lock_exit),"the way out is on the card for every episode, not only the first three")
   warning.update_state(sim,true)
-  check(warning.episodes==episode+1,"refresh does not consume another hint")
+  check(warning.episodes==episode+1,"refresh does not count another episode")
   contact.lock=0.;warning.update_state(sim,true);contact.lock=1.
  sound.update(sim,.01);sound.suspend()
  check(sound.lock_voice.stream_paused,"application suspension silences warning")
