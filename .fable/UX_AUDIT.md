@@ -94,3 +94,34 @@ Narrowed by the map:
 - **B4:** the Campaign already asks "ABANDON THE CURRENT DIVE?" before launching over a dive, and Android Back only pauses. Missing confirms: Expedition "END DIVE · LOSE RUN" and Challenge "END ATTEMPT".
 
 Build order: (1) B2 and B5 on the dive screen; (2) B3 and B4 on the end screens; (3) B6 tapping a contact; (4) B7, B14, B15 and the B9 wording pass in the menus; (5) B8 and B13 briefing and results layout; (6) B16 full-width layout; B17 names with the wording pass. B19 waits for Pat's phone.
+
+## Part C: how it looks (root's own review, 2026-11-12)
+
+Pat, verbatim: "what's this UI audit I also want you to like you know actually look at how it looks compare it to professional Android games and similar top-down games and make some evaluations and judgment calls"
+
+Method: root looked at the real screens itself (title, Campaign hub on both screen shapes, briefing, fittings, settings, the dive screen, the wheel, the route dialog, the camera panel, the lost screen), captured from the running game through the critic kit at 2520x1080 and 2184x1968. The comparison games are judged from knowledge of them, not from side-by-side captures: Into the Breach, FTL, Mini Motorways, Door Kickers, Cold Waters, Highfleet, Duskers. Phone-size comfort cannot be judged from a PC window.
+
+### Verdict
+
+The dive looks like a game. The menus look like a settings app. The gap between the two is the largest visual problem.
+
+**The dive screen is the strongest thing here.** The rock with its depth skirt, the craft, the Siren, the sonar rings and the camera viewfinder hold up beside Cold Waters and Highfleet for mood and legibility. The teal on near-black palette with amber for the unknown and red for threat is distinctive and consistent.
+
+**What falls short of a professional game, most costly first:**
+
+| # | What is seen | What professional games do | Call |
+|---|---|---|---|
+| C1 | Every button on every screen is the same dark rectangle with the same capital letters. START GAME looks like CREDITS. ENTER WATER looks like BACK TO OPERATIONS. REPLACE ROUTE looks like CANCEL. | One action per screen is the obvious one: filled with the accent colour. Leaving and cancelling are quiet. Throwing something away is marked as dangerous. (Into the Breach, FTL, every store-quality Android game.) | Build a three-level button style (main, normal, quiet) plus a danger style, defined once, applied by action name everywhere. |
+| C2 | The dive's own controls do not look like controls. PAUSED / RESUME is plain text in a corner. FLEET is a bare word. Life support, the clock that ended both critics' dives, is a number inside a small tag beside the craft. | Controls have a shape and an icon. The resource that ends the run is a gauge that never leaves the screen (FTL's hull and oxygen, Mini Motorways' timer). | Give PAUSE and FLEET button shapes with a pause or play mark. Put a hull and life support gauge at the top edge, always visible. |
+| C3 | The bottom of the dive screen is two to four lines of small log text: "QUIETUS · MIDDLE · REPLACE · Camera exposure · hold 4 seconds", "TASK · ...", "LAST · ...". | One short line saying what is happening now; history lives in a log the player opens. | One current line. The craft name and depth are already on the craft's tag, so they leave the line. Older lines go to the audio log page that exists. |
+| C4 | The title screen is a wordmark, a postage-stamp picture of the submarine and five identical buttons, with half the screen empty. | The title sells the game: full-screen art or a live scene behind the menu. | Use the game's own best asset: the chart, rock and a drifting Quietus as a full-screen backdrop, with the title and menu over it. |
+| C5 | The Campaign hub is fourteen buttons, six rows and a paragraph in one narrow column. On the wide cover screen that column uses half the width and has to scroll. Labels are built with slashes: "RESEARCH / ARCHIVE / FIELD LOG", "EASIER PRESET / ACCESSIBLE / NEXT DOCK", "LAUNCH DETAILS / LOADOUT". Locked operations are grey text. | The mission list is the centre of the screen as a set of cards (number, name, state, why it is locked). Everything else is a short row of secondary actions. Wide screens get two columns. | Operations as cards on the left, actions on the right on wide screens; one column on the tall screen without the dead lower half. Plain labels without slashes. |
+| C6 | The briefing opens well (GOAL, DANGER) and then stacks three look-alike toggles ("HIDE FRAMES AND FITTINGS", "EDIT TOOL RACKS / FITTINGS", "FIT SUMMARY · SHOW") above a large empty area, with ENTER WATER the same weight as BACK. | The briefing ends in one big launch button; loadout is one clearly named entry. | ENTER WATER as the main button; one LOADOUT entry; the empty area closes up. |
+| C7 | Fittings and results are paragraphs and rows of numbers. The NOISE bar reads 100% and is drawn two thirds full. Chosen and locked rows are the same grey text. | Each item is a card: name, what it changes, a clear chosen mark, a lock with its price. Bars mean what they show. | Cards with a chosen mark and a lock line; bars drawn to their true scale with the baseline marked. |
+| C8 | The route dialog is four tall look-alike boxes; one of them ("ADDED POINTS: PASS THROUGH") is a switch that looks like a button. | The main choice is filled; a switch looks like a switch. | REPLACE ROUTE as the main button, the switch drawn as a switch (with C1). |
+| C9 | Nearly all text is in capitals, including sentences. | Capitals for labels and buttons; sentences in sentence case. | Sentence case for descriptions and messages as each screen is touched. |
+| C10 | Chart labels collide: "UNKNOWN SIGNAL SOURCE · AREA · BRG 276" runs under a sonar ring; "OWN SHUTTER / SHUTTER HEARD 520m" sits on the rock. | Labels get a dark backing plate and are nudged off each other. | A backing plate behind chart labels and a simple push-apart. |
+
+### Order of work
+
+C1 first: it is small, defined in one place and changes the feel of every screen at once. Then C2 and C3 on the dive screen with the Part B dive items. Then C5 and C6 (this is the old A9 and B16). Then C4, C7, C8, C10, with C9 as each screen is touched. Every visible change is listed in `.fable/FINAL_REPORT.md` so Pat can adjust it to his taste.
