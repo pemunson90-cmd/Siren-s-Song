@@ -49,12 +49,12 @@ const ROLES={
 	"frontend_new_campaign":"MAIN","frontend_continue":"MAIN","resume":"MAIN","begin":"MAIN","next_dive":"MAIN","expedition6":"MAIN",
 	"arc_continue":"MAIN","career_resume":"MAIN","career_begin":"MAIN","career_new":"MAIN","career_continue":"MAIN",
 	"run_resume":"MAIN","run_begin":"MAIN","run_next":"MAIN","run_continue":"MAIN","run_seed_start":"MAIN",
-	"challenge_start":"MAIN","challenge_resume":"MAIN","continue_choir":"MAIN","continue_glass":"MAIN","next_expedition":"MAIN",
+	"challenge_start":"MAIN","order_go":"MAIN","challenge_resume":"MAIN","continue_choir":"MAIN","continue_glass":"MAIN","next_expedition":"MAIN",
 	# QUIET: back, cancel, close, keep, return, title.
 	"frontend_back":"QUIET","back":"QUIET","profiles_back":"QUIET","profiles_cancel":"QUIET","save2_back":"QUIET","save2_cancel":"QUIET",
 	"career_return":"QUIET","career_keep":"QUIET","launch_guard_keep":"QUIET","run_keep":"QUIET","run_dive_keep":"QUIET","challenge_attempt_keep":"QUIET","run_return":"QUIET",
 	"challenge_back":"QUIET","challenge_return":"QUIET","route_map_back":"QUIET","siren_dossier_back":"QUIET","ops_title":"QUIET",
-	"menu_title":"QUIET","dev_return":"QUIET","keep_recovering":"QUIET","hint_dismiss":"QUIET","contact_close":"QUIET","ack_archive_warning":"QUIET",
+	"menu_title":"QUIET","dev_return":"QUIET","keep_recovering":"QUIET","hint_dismiss":"QUIET","contact_close":"QUIET","order_cancel":"QUIET","ack_archive_warning":"QUIET",
 	# DANGER: throwing away a dive, a run or progress, and their confirm buttons.
 	"career_abandon":"DANGER","career_confirm_abandon":"DANGER","run_abandon":"DANGER","run_end":"DANGER","run_confirm_end":"DANGER",
 	"challenge_abandon":"DANGER","run_dive_confirm_end":"DANGER","challenge_attempt_confirm_end":"DANGER","new_campaign":"DANGER","confirm_new_campaign":"DANGER","launch_guard_abandon":"DANGER",
