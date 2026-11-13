@@ -63,7 +63,14 @@ static func map_event(host,event: InputEvent,local_event: bool=false) -> bool:
 			if host.decoy_armed and host.knock_press.get("decoy",false) and host.knock_press.get("unit",-1)==host.sim.selected:
 				host._order("decoy",{"point":host.ocean.map_position(action.tap-host.ocean.global_position)})
 			host.knock_press.clear(); return true
+		# UI review B6: an open contact card is closed by any other tap on the chart, and that tap does nothing else.
+		var card=host.mission_hud.contact_card
+		if card!=null and card.is_open():card.close();host.knock_press.clear();return true
 		var targets=host.ocean.contexts_at(action.tap-host.ocean.global_position,host.ui_touch_height)
+		# A drawn (observed) contact alone under the finger opens its card; beside a craft or site it is one more choice (contexts_at).
+		if targets.size()==1 and targets[0].kind=="contact":
+			if not host.ocean.information_at(action.tap-host.ocean.global_position):card.open(int(targets[0].key));return true
+			targets=[]
 		if not targets.is_empty():
 			host.mission_hud.open_targets(targets);return true
 		# Drawn information owns its tap even when it has no command target.
