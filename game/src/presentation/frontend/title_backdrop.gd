@@ -41,6 +41,7 @@ func _init() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	static_layer = Layer.new(); static_layer.name = "StaticChart"; static_layer.painter = _paint_static
+	static_layer.texture_repeat = CanvasItem.TEXTURE_REPEAT_ENABLED	# the basalt tiles across a wide rock, as in the dive
 	craft_layer = Layer.new(); craft_layer.name = "DriftingCraft"; craft_layer.painter = _paint_craft
 	for layer in [static_layer, craft_layer]:
 		layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -90,7 +91,8 @@ func _paint_static(canvas: Control) -> void:
 	var bands := 48
 	for i in bands:
 		var t := float(i) / float(bands - 1)
-		canvas.draw_rect(Rect2(0, s.y * i / bands, s.x, ceilf(s.y / bands) + 1.0), Color(UiStyle.TITLE_DEEP, 0.55 * t * t) if t > 0.45 else Color(UiStyle.ACCENT, 0.07 * (1.0 - t / 0.45)))
+		var y0 := floorf(s.y * i / bands)
+		canvas.draw_rect(Rect2(0, y0, s.x, floorf(s.y * (i + 1) / bands) - y0), Color(UiStyle.TITLE_DEEP, 0.55 * t * t) if t > 0.45 else Color(UiStyle.ACCENT, 0.07 * (1.0 - t / 0.45)))
 	for spec in ROCKS:
 		var outline := rock_outline(spec)
 		var origin := outline[0]
