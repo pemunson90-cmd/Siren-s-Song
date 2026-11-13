@@ -42,9 +42,6 @@ const HC_QUIET_BORDER=Color("8fb0b3")
 const HC_DANGER_TEXT=Color("ffb4a3")
 const HC_BORDER=Color("ffffff")
 # Sizes.
-const MAIN_HEIGHT_SCALE=1.25
-const MAIN_FONT_SCALE=1.18
-const MAIN_FONT_FALLBACK=17
 # Action id -> role. Anything missing is NORMAL. ids shared by two screens are not listed
 # here but decided in apply_for (retry, next_operation, continuations).
 const ROLES={
@@ -121,13 +118,12 @@ static func _look(role:String,hc:bool)->Dictionary:
 			if hc:return {"fill":BUTTON_FILL,"border":HC_DANGER_TEXT,"text":HC_DANGER_TEXT,"hover_fill":HOVER_FILL,"hover_border":HC_BORDER,"hover_text":HC_BORDER,"pressed_fill":PRESSED_FILL,"width":width}
 			return {"fill":BUTTON_FILL,"border":DANGER_RED,"text":DANGER_RED,"hover_fill":HOVER_FILL,"hover_border":DANGER_SOFT,"hover_text":DANGER_SOFT,"pressed_fill":PRESSED_FILL,"width":width}
 	return {}
+# A role changes colours only. Heights and font sizes belong to the layout code (touch height, text scale,
+# briefing fit); changing them here made the briefing footer fill the panel on the cover screen.
 static func apply(button:Button,role:String)->void:
-	if not button.has_meta("ui_base_height"):button.set_meta("ui_base_height",button.custom_minimum_size.y)
 	button.set_meta("ui_role",role)
 	for state in ["normal","hover","pressed","focus","disabled"]:button.remove_theme_stylebox_override(state)
 	for color in ["font_color","font_hover_color","font_pressed_color","font_focus_color","font_disabled_color","font_hover_pressed_color"]:button.remove_theme_color_override(color)
-	button.remove_theme_font_size_override("font_size")
-	button.custom_minimum_size.y=float(button.get_meta("ui_base_height"))
 	var look:=_look(role,Palette.high_contrast())
 	if look.is_empty():return
 	var width:int=look.width
@@ -141,7 +137,3 @@ static func apply(button:Button,role:String)->void:
 	button.add_theme_stylebox_override("focus",focus);button.add_theme_stylebox_override("disabled",disabled)
 	button.add_theme_color_override("font_color",look.text);button.add_theme_color_override("font_hover_color",look.hover_text);button.add_theme_color_override("font_pressed_color",look.hover_text)
 	button.add_theme_color_override("font_focus_color",look.hover_text);button.add_theme_color_override("font_hover_pressed_color",look.hover_text);button.add_theme_color_override("font_disabled_color",DISABLED_TEXT)
-	if role==MAIN:
-		button.custom_minimum_size.y=ceilf(float(button.get_meta("ui_base_height"))*MAIN_HEIGHT_SCALE)
-		var base:=button.get_theme_font_size("font_size")
-		button.add_theme_font_size_override("font_size",roundi((base if base>0 else MAIN_FONT_FALLBACK)*MAIN_FONT_SCALE))

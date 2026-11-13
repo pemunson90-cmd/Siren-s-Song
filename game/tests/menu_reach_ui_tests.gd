@@ -389,7 +389,7 @@ func roles_case():
 	check(begin!=null and quiet!=null and begin.get_theme_stylebox("normal").bg_color!=quiet.get_theme_stylebox("normal").bg_color and begin.get_theme_stylebox("normal").get_border_width(SIDE_LEFT)==2,"high contrast briefing keeps main and quiet distinct")
 	settings_script.current["high_contrast"]=false
 	var probe=Button.new();game.add_child(probe);probe.custom_minimum_size=Vector2(0,48)
-	Style.apply(probe,"MAIN");check(probe.custom_minimum_size.y>=60.0 and probe.get_theme_font_size("font_size")>17,"main role is taller and larger")
+	Style.apply(probe,"MAIN");check(probe.custom_minimum_size.y==48.0 and probe.has_theme_stylebox_override("normal"),"main role recolours the button and leaves its size to the layout")
 	Style.apply(probe,"NORMAL");check(probe.custom_minimum_size.y==48.0 and not probe.has_theme_stylebox_override("normal"),"normal role restores the original look")
 	probe.disabled=true
 	for role in ["MAIN","QUIET","DANGER"]:
