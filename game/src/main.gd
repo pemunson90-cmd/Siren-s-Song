@@ -5,6 +5,7 @@ const PhotoReview=preload("res://src/presentation/flow/photo_review.gd")
 const CampaignFlow=preload("res://src/presentation/flow/campaign_flow.gd")
 const ReleaseControls=preload("res://src/presentation/release_controls.gd")
 const DiveInput=preload("res://src/presentation/dive_input.gd")
+const CampaignArchiveFlow=preload("res://src/persistence/campaign_archive_flow.gd")
 const Recon=preload("res://src/simulation/recon_consequences.gd")
 const Endings=preload("res://src/campaign/endings.gd")
 const CraftUpgrades=preload("res://src/equipment/craft_upgrades.gd")
@@ -578,89 +579,13 @@ func _scenario(name: String) -> void:
 		if name=="camera": sim.command("camera")
 		sim.paused=true
 
-func _archive() -> Dictionary:
-	var data={"version":SaveStore.VERSION,"unlocked":unlocked,"completed":completed.duplicate(),"upgrade":upgrade,"settings":settings.duplicate(),"evidence":recovered_evidence.duplicate(true),"active":sim.snapshot(),"chart_view":ocean.chart_camera.snapshot()}
-	if not photo_records.is_empty():data["photo_records"]=photo_records.duplicate(true)
-	if not photo_intel.is_empty():data["intel"]=photo_intel.duplicate(true)
-	if not expedition.is_empty():data["expedition"]=expedition.duplicate(true)
-	if not fleet.is_empty():data["fleet"]=fleet.duplicate(true)
-	data["economy"]=economy.duplicate(true)
-	if not hints_seen.is_empty():data["hints_seen"]=hints_seen.duplicate()
-	if not early_reward.is_empty():data["early_reward"]=early_reward.duplicate(true)
-	preload("res://src/presentation/first_siren_cue/cue_archive.gd").write(self,data)
-	data["tactical_pause_history"]=tactical_aids.saved_history()
-	preload("res://src/presentation/arcs/arc_card.gd").write(self,data)
-	preload("res://src/presentation/finale/finale.gd").write(self,data)
-	preload("res://src/presentation/archive/voice_feed.gd").write(self,data)
-	preload("res://src/persistence/save_states/save2_controller.gd").write(self,data)
-	DevState.write(self,data)
-	preload("res://src/equipment/tool_racks.gd").write_archive(data,tool_racks)
-	data["equipment"]=preload("res://src/equipment/equipment_catalog.gd").canonical(fitted_equipment)
-	return data
-func _save_archive() -> void:
-	_write_archive(false)
-func _retry_archive()->void:
-	if not save_retry_pending:return
-	save_retry_pending=false
-	_write_archive(true)
-func _write_archive(retry:bool)->void:
-	if not capture_scenario.is_empty() or sim.mission==null:return
-	_sync_craft_upgrades()
-	if store.save(_archive()):
-		save_retry_pending=false;save_error=""
-		ReleaseControls.debug_print(["SS_SAVE ok mission=",mission_index," time=",snappedf(sim.elapsed,0.01)," paused=",sim.paused," completed=",completed," unlocked=",unlocked])
-	elif retry:
-		save_error=store.warning;sim.message=save_error
-		ReleaseControls.debug_print(["SS_SAVE retry_failed reason=",store.warning," active.captures=",sim.captures])
-	else:
-		ReleaseControls.debug_print(["SS_SAVE retry_pending reason=",store.warning," active.captures=",sim.captures])
-		if not save_retry_pending:
-			save_retry_pending=true;call_deferred("_retry_archive")
-	_update_archive_status()
-func _dismiss_archive_warning()->void:
-	archive_warning="";_update_archive_status()
-func _update_archive_status()->void:
-	if archive_status==null:return
-	var lines=[]
-	if not save_error.is_empty():lines.append("PROGRESS NOT SAVED\n"+save_error+"\nCurrent progress is held in this session only.")
-	if not archive_warning.is_empty():lines.append("ARCHIVE NOTICE\n"+archive_warning)
-	var text="\n\n".join(lines);var changed=archive_status_text.text!=text
-	archive_status_text.text=text;archive_status.visible=not text.is_empty()
-	save_retry_button.visible=not save_error.is_empty();archive_dismiss_button.visible=not archive_warning.is_empty()
-	if changed:call_deferred("_layout")
-func _load_archive() -> void:
-	var saved=store.load_game()
-	DevState.restore(self,saved)
-	preload("res://src/presentation/arcs/arc_card.gd").restore(self,saved)
-	preload("res://src/presentation/finale/finale.gd").restore(self,saved)
-	if not saved.is_empty():
-		unlocked=saved.unlocked; completed=saved.completed; upgrade=saved.upgrade; settings=saved.settings
-		early_reward=saved.get("early_reward",{}).duplicate(true)
-		expedition=saved.get("expedition",{}).duplicate(true)
-		fleet=saved.get("fleet",{}).duplicate(true)
-		photo_intel=saved.get("intel",{}).duplicate(true)
-		fitted_equipment=preload("res://src/equipment/equipment_catalog.gd").canonical(saved.get("equipment",{}))
-		fitted_equipment=FleetInventory.reconcile_fitting(fitted_equipment,FleetInventory.available(_equipment_entitlements(),fleet))
-		tool_racks=preload("res://src/equipment/tool_racks.gd").migrated(saved)
-		economy=Economy.Losses.migrated(saved.economy) if saved.has("economy") else Economy.legacy_state(fitted_equipment)
-		fitted_equipment=Economy.Losses.fitting(economy,FleetInventory.reconcile_fitting(fitted_equipment,FleetInventory.available(_equipment_entitlements(),fleet,economy)))
-		recovered_evidence=saved.get("evidence",{})
-		photo_records=saved.get("photo_records",{}).duplicate(true)
-		preload("res://src/presentation/archive/voice_feed.gd").restore(self,saved)
-		hints_seen=saved.get("hints_seen",[]).duplicate()
-		preload("res://src/presentation/first_siren_cue/cue_archive.gd").restore_types(self,saved)
-		if saved.get("active") is Dictionary and sim.restore(saved.active):
-			tactical_aids.restore_history(saved.get("tactical_pause_history"))
-			preload("res://src/presentation/first_siren_cue/cue_archive.gd").restore(self,saved)
-			active_started=true; mission_index=sim.mission.id; ocean.sim=sim
-			ocean._sync_camera()
-			var chart_view=saved.get("chart_view",{})
-			if chart_view is Dictionary:ocean.chart_camera.restore(chart_view)
-			ReleaseControls.debug_print(["SS_RESTORE ok mission=",mission_index," time=",snappedf(sim.elapsed,0.01)," paused=",sim.paused," completed=",completed," unlocked=",unlocked])
-	preload("res://src/persistence/save_states/save2_controller.gd").restore(self,saved)
-	sound.music_volume=settings.get("music",0.5); sound.effects_volume=settings.get("effects",0.8); sound.muted=settings.get("mute",false)
-	if not store.warning.is_empty():archive_warning=store.warning;sim.message=store.warning
-	_update_archive_status()
+func _archive() -> Dictionary:return CampaignArchiveFlow.archive(self)
+func _save_archive() -> void:CampaignArchiveFlow.save_archive(self)
+func _retry_archive()->void:CampaignArchiveFlow.retry_archive(self)
+func _write_archive(retry:bool)->void:CampaignArchiveFlow.write_archive(self,retry)
+func _dismiss_archive_warning()->void:CampaignArchiveFlow.dismiss_archive_warning(self)
+func _update_archive_status()->void:CampaignArchiveFlow.update_archive_status(self)
+func _load_archive() -> void:CampaignArchiveFlow.load_archive(self)
 func _settings_menu() -> void:
 	preload("res://src/presentation/frontend/menu_reach.gd").settings(self)
 func _set_text_scale(scale:float) -> void:
