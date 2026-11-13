@@ -245,10 +245,10 @@ func threat_line_checks():
 	var row={}
 	for r in rows:
 		if r.craft==1:row=r
-	check(not row.is_empty() and row.sentence.begins_with("A Siren to the EAST has noticed DRONE A. It locks in ") and row.sentence.ends_with(" s."),"the card names the direction that matches the bearing: %s"%str(row.get("sentence")))
+	check(not row.is_empty() and row.sentence.begins_with("SIREN TO THE EAST") and "locks DRONE A in " in row.sentence and row.sentence.ends_with(" s"),"the card names the direction that matches the bearing: %s"%str(row.get("sentence")))
 	check(not row.is_empty() and row.siren_pos==s.contacts[row.source].pos and roundi(row.bearing)==90,"the line and the words use the contact's known position")
 	var card=Warning.new();card.update_state(s,true)
-	check(card.visible and "to the EAST has noticed DRONE A" in card.card_text and TT.TEXT.lock_exit in card.card_text,"the lock card carries the direction and the way out for a drone")
+	check(card.visible and "SIREN TO THE EAST" in card.card_text and "locks DRONE A in " in card.card_text,"the lock card carries the direction and the craft for a drone")
 	card.free()
 	# The Siren is off the chart: the line is cut at the chart edge, not dropped.
 	view.size=Vector2(500,720);TR.draw_screen(view,s)

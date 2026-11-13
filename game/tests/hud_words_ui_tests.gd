@@ -44,7 +44,7 @@ func plate_case(shape:Vector2i,scale:float):
 		game.sim.paused=paused;game._refresh();await settle()
 		var lines=pause.text.split("\n")
 		check(lines[0]==("PAUSED" if paused else "RUNNING"),"the plate names the state first "+stamp+" "+str(lines))
-		check(("TAP TO RESUME" if paused else "TAP TO PAUSE") in pause.text and "O₂" in pause.text,"the plate names the tap and keeps the oxygen reading "+stamp+" "+str(lines))
+		check(lines.size() in [2,3] and "O₂" in lines[-1],"the plate keeps the oxygen reading under the state "+stamp+" "+str(lines))
 		var size=pause.get_theme_font_size("font_size")
 		var inner=pause.get_theme_font("font").get_multiline_string_size(pause.text,HORIZONTAL_ALIGNMENT_LEFT,-1,size)
 		check(inner.x<=pause.size.x-pause.get_theme_stylebox("normal").get_minimum_size().x+0.5 and inner.y<=pause.size.y,"both lines fit inside the plate "+stamp+" "+str(inner)+" in "+str(pause.size))
@@ -75,7 +75,7 @@ func silent_case():
 	# The sonar segments use the plain words.
 	s.selected=0;game._refresh();hud.open("acoustics");await settle()
 	check(hud.extra.sonar_emit.text.begins_with("PING SONAR\nuses ") and hud.extra.sonar_history.text=="PAST PINGS","the sonar segments say PING SONAR and PAST PINGS")
-	check(hud.extra.sonar_sector.text=="PING ARC: ALL ROUND" and hud.extra.sonar_power.text=="PING POWER: LOW","the arc and power segments say what they set: "+hud.extra.sonar_sector.text+" / "+hud.extra.sonar_power.text)
+	check(hud.extra.sonar_sector.text=="PING ARC\nALL ROUND" and hud.extra.sonar_power.text=="PING POWER\nLOW","the arc and power segments say what they set: "+hud.extra.sonar_sector.text+" / "+hud.extra.sonar_power.text)
 	game.queue_free();await settle()
 func route_end_case():
 	var game=await make(Vector2i(2520,1080),1.0)

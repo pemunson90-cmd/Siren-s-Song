@@ -49,6 +49,9 @@ const MIN_SHRINK=.7
 static func _plate_lines(hud,b:Button,first:String,action:String,readings:Array)->Array:
  var candidates=[]
  for reading in readings:candidates.append([first,action+Words.TEXT.join+reading])
+ # Next the state word over the oxygen reading: two clear lines read better on a phone than three small ones,
+ # and the plate is drawn as a button, so the tap needs no words when they do not fit.
+ for reading in readings:candidates.append([first,reading])
  for reading in readings:candidates.append([first,action,reading])
  var base=maxi(14,roundi(hud.touch_height*.26*hud.text_scale))
  var font=b.get_theme_font("font");var margin=b.get_theme_stylebox("normal").get_minimum_size()

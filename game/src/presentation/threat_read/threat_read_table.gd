@@ -46,8 +46,9 @@ const TEXT={
 	"lock_one":"S%d LOCK · %.1fs",
 	"lock_many":"%d LOCKS · %.1fs",
 	# The warning card: direction word, craft name, seconds left, then the way out.
-	"lock_sentence":"A Siren to the %s has noticed %s. It locks in %.1f s.",
-	"lock_exit":"Break its line of sight: put rock between you.",	# what the lock rule answers to (was "Break sight with cover.")
+	# Two short lines: the banner must stay the size of the old one, because the wheel and the tip card lay out around it.
+	"lock_sentence":"SIREN TO THE %s\nlocks %s in %.1f s",
+	"lock_exit":"Put rock between you.",	# what the lock rule answers to (was "Break sight with cover."); shown for the first three locks
 	"lost":"%s LOST",
 	"beam":" · SIREN BEAM FROM %03d°",
 	"battery":" · BATTERY EXHAUSTED",

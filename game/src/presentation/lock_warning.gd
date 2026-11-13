@@ -44,8 +44,7 @@ func update_state(sim,active:bool):
 func _card_text()->String:
  if rows.is_empty():
   return "S%d LOCK · %.1fs"%[int(locks[0].id)+1,locks[0].remaining] if not locks.is_empty() else ""
- var text=rows[0].sentence+"\n"+ThreatRead.Table.TEXT.lock_exit
- return text+"\nEMP or torpedo impact interrupts." if show_hint else text
+ return rows[0].sentence+"\n"+ThreatRead.Table.TEXT.lock_exit+"\nEMP or a torpedo hit interrupts it." if show_hint else rows[0].sentence
 func refresh(owner):
  host=owner;position=Vector2.ZERO;size=host.size
  update_state(host.sim,host.screen=="mission")
@@ -54,7 +53,7 @@ func refresh(owner):
  var tall=h*.85
  if not rows.is_empty():
   var text_h=ThemeDB.fallback_font.get_multiline_string_size(card_text,HORIZONTAL_ALIGNMENT_LEFT,maxf(1.,width-h*.9-12.),_font_size(h)).y
-  tall=maxf(tall,text_h+h*.4)
+  tall=maxf(tall,text_h+h*.25)
  banner=Rect2(Vector2((size.x-width)/2,h+24),Vector2(width,tall))
 func _font_size(h:float)->int:
  return maxi(18,roundi(h*.25))

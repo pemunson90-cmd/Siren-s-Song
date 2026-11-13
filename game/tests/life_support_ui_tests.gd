@@ -50,7 +50,7 @@ func shape_case(shape:Vector2i,mirrored:bool,scale:float):
 	var paused_lines=pause.text.split("
 ")
 	# WP-48: the paused control names the state, then the tap, then the reading (two or three lines, the plate's size unchanged).
-	check(paused_lines.size() in [2,3] and paused_lines[0]=="PAUSED" and "TAP TO RESUME" in pause.text and pause.text.find("O₂")>pause.text.find("TAP TO RESUME"),"the paused control states PAUSED, TAP TO RESUME and carries life support "+stamp+" "+str(paused_lines))
+	check(paused_lines.size() in [2,3] and paused_lines[0]=="PAUSED" and "O₂" in paused_lines[-1],"the paused control states PAUSED and carries life support "+stamp+" "+str(paused_lines))
 	check(pause.get_node_or_null(Chip.GAUGE)!=null and pause.get_node(Chip.GAUGE).visible and pause.get_node(Chip.GAUGE).mouse_filter==Control.MOUSE_FILTER_IGNORE,"a life support gauge lies inside the pause control and takes no tap "+stamp)
 	check(Chip.gauge_color(.8)==preload("res://src/presentation/ui_style.gd").ACCENT and Chip.gauge_color(.4)==preload("res://src/presentation/ui_style.gd").WARNING and Chip.gauge_color(.2)==preload("res://src/presentation/ui_style.gd").DANGER_RED,"the gauge is accent, amber below 50 percent and red below 25 "+stamp)
 	var paused_rect=pause.get_rect()
@@ -60,7 +60,7 @@ func shape_case(shape:Vector2i,mirrored:bool,scale:float):
 	game._refresh();await settle()
 	var lines=pause.text.split("
 ")
-	check(lines.size() in [2,3] and lines[0]=="RUNNING" and "TAP TO PAUSE" in pause.text and pause.text.find("O₂")>pause.text.find("TAP TO PAUSE"),"the running pause control states RUNNING, TAP TO PAUSE and carries life support "+stamp+" "+str(lines))
+	check(lines.size() in [2,3] and lines[0]=="RUNNING" and "O₂" in lines[-1],"the running pause control states RUNNING and carries life support "+stamp+" "+str(lines))
 	if lines.size() not in [2,3]:game.queue_free();await settle();return
 	var reading=pause.text.substr(pause.text.find("O₂"))
 	check(pause.get_theme_font_size("font_size")>=10 and pause.get_theme_font("font").get_multiline_string_size(pause.text,HORIZONTAL_ALIGNMENT_LEFT,-1,pause.get_theme_font_size("font_size")).x<=pause.size.x,"both plate texts fit inside the plate "+stamp)
