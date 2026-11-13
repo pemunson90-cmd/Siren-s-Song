@@ -188,3 +188,15 @@ const MANUAL_HEADING_SIZE=24
 const MANUAL_TITLE_SIZE=20
 const MANUAL_BODY_SIZE=17
 const MANUAL_TOPIC_WIDTH=3.0
+# Threat line (WP-49): the red line or wedge from a threatened craft toward the Siren, drawn on the chart.
+const THREAT_LINE_WIDTH=4.0
+const THREAT_LINE_HALO=9.0
+const THREAT_LINE_BACK=Color(0.03,0.01,0.01,0.85)
+const THREAT_ARROW_LENGTH=22.0
+const THREAT_ARROW_SPREAD=0.45
+const THREAT_STANDOFF=30.0
+const THREAT_WEDGE_HALF_DEGREES=15.0
+const THREAT_WEDGE_LENGTH=0.3
+const THREAT_NUMBER_BOOST=8
+const THREAT_NUMBER_PAD=5.0
+const LOCK_CARD_WIDTH=8.0

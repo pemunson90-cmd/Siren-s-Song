@@ -45,6 +45,9 @@ const TEXT={
 	"in_reach":"IN SHUTTER REACH",
 	"lock_one":"S%d LOCK · %.1fs",
 	"lock_many":"%d LOCKS · %.1fs",
+	# The warning card: direction word, craft name, seconds left, then the way out.
+	"lock_sentence":"A Siren to the %s has noticed %s. It locks in %.1f s.",
+	"lock_exit":"Stop, go SILENT, or put rock between you.",
 	"lost":"%s LOST",
 	"beam":" · SIREN BEAM FROM %03d°",
 	"battery":" · BATTERY EXHAUSTED",

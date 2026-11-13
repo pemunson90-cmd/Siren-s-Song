@@ -39,7 +39,7 @@ func state(s)->String:
  return var_to_str([s.snapshot(),s.sirens,s.units,s.noises,s.elapsed,s.hull,s.outcome,s.message]).sha256_text()
 func run():
  check(Table.enabled and Table.WINDOW==20.0 and Table.CAP>0 and Table.MOTION_RADIUS>125. and Table.MOTION_RADIUS<430.,"table defaults: on, 20 s window, threshold between silent and cruise motion")
- var expect={"ping":["ACTIVE SONAR"],"engine":["sight line"],"engine_toward":["moving at speed"],"camera":["CAMERA"],"sight":["sight line"]}
+ var expect={"ping":["ACTIVE SONAR"],"engine":["sight line"],"engine_toward":["moving fast"],"camera":["CAMERA"],"sight":["sight line"]}
  for kind in expect:
   var a=journey(kind,true);var b=journey(kind,false)
   check(a.sim.outcome=="lost" and "Siren beam" in a.sim.message,"%s journey ends in a beam loss"%kind)

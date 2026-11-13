@@ -1,5 +1,7 @@
 extends Control
 const Palette=preload("res://src/presentation/accessibility/palette.gd")
+const UiStyle=preload("res://src/presentation/ui_style.gd")
+const ThreatRead=preload("res://src/presentation/threat_read/threat_read.gd")
 # Read-only, receiver-earned lock cues. Never inspect the live enemy roster.
 # Visual revert: remove Main construction/refresh only; retain frames() and tests
 # because Soundscape and accessibility consume the same received-lock data.
@@ -22,27 +24,44 @@ var show_hint=false
 var previous_clock=-1.
 var previous_ids:Array=[]
 var banner=Rect2()
+# The warning card names the threatened craft (any of ours, not only Quietus), the direction of
+# the Siren and the way out, from the same received-lock rows the chart's threat line uses.
+var rows:Array=[]
+var card_text=""
 func _init():mouse_filter=Control.MOUSE_FILTER_IGNORE
 func update_state(sim,active:bool):
  if sim.elapsed<previous_clock:previous_ids.clear()
  previous_clock=sim.elapsed
  locks=frames(sim) if active else []
+ rows=ThreatRead.lock_rows(sim) if active else []
  var ids=locks.map(func(frame):return frame.id)
  if ids.any(func(id):return id not in previous_ids):
   episodes+=1;show_hint=episodes<=3
- if locks.is_empty():show_hint=false
+ if locks.is_empty() and rows.is_empty():show_hint=false
  previous_ids=ids
- visible=not locks.is_empty();queue_redraw()
+ card_text=_card_text()
+ visible=not locks.is_empty() or not rows.is_empty();queue_redraw()
+func _card_text()->String:
+ if rows.is_empty():
+  return "S%d LOCK · %.1fs"%[int(locks[0].id)+1,locks[0].remaining] if not locks.is_empty() else ""
+ var text=rows[0].sentence+"\n"+ThreatRead.Table.TEXT.lock_exit
+ return text+"\nEMP or torpedo impact interrupts." if show_hint else text
 func refresh(owner):
  host=owner;position=Vector2.ZERO;size=host.size
  update_state(host.sim,host.screen=="mission")
  var h=host.ui_touch_height
- var width=minf(size.x-32,h*5.)
- banner=Rect2(Vector2((size.x-width)/2,h+24),Vector2(width,h*(1.55 if show_hint else .85)))
+ var width=minf(size.x-32,h*UiStyle.LOCK_CARD_WIDTH)
+ var tall=h*.85
+ if not rows.is_empty():
+  var text_h=ThemeDB.fallback_font.get_multiline_string_size(card_text,HORIZONTAL_ALIGNMENT_LEFT,maxf(1.,width-h*.9-12.),_font_size(h)).y
+  tall=maxf(tall,text_h+h*.4)
+ banner=Rect2(Vector2((size.x-width)/2,h+24),Vector2(width,tall))
+func _font_size(h:float)->int:
+ return maxi(18,roundi(h*.25))
 func marker(point:Vector2)->Vector2:
  return point.clamp(Vector2.ONE*26,size-Vector2.ONE*26)
 func _draw():
- if host==null or locks.is_empty():return
+ if host==null or (locks.is_empty() and rows.is_empty()):return
  var h=host.ui_touch_height;var font=ThemeDB.fallback_font
  var warning=preload("res://src/presentation/accessibility/palette.gd").color("warning",Color("ffb18b"));var ink=Color("160b13")
  for frame in locks:
@@ -55,14 +74,18 @@ func _draw():
   draw_arc(source,25,-PI/2,-PI/2+TAU*frame.progress,40,warning,5,true)
   draw_string(font,source+Vector2(-15,6),"S%d"%(int(frame.id)+1),HORIZONTAL_ALIGNMENT_LEFT,-1,18,warning)
  draw_style_box(_panel(),banner)
+ var progress=rows[0].progress if not rows.is_empty() else locks[0].progress
  var radius=h*.26;var at=banner.position+Vector2(h*.45,h*.42)
  draw_arc(at,radius,0,TAU,40,Color(.4,.25,.24),5,true)
- draw_arc(at,radius,-PI/2,-PI/2+TAU*(1.-locks[0].progress),40,warning,7,true)
- var font_size=maxi(18,roundi(h*.25))
- draw_string(font,banner.position+Vector2(h*.9,h*.5),"S%d LOCK · %.1fs"%[int(locks[0].id)+1,locks[0].remaining],HORIZONTAL_ALIGNMENT_LEFT,-1,font_size,warning)
- if show_hint:
-  draw_string(font,banner.position+Vector2(12,h),"Break sight with cover.",HORIZONTAL_ALIGNMENT_LEFT,-1,font_size,Color.WHITE)
-  draw_string(font,banner.position+Vector2(12,h*1.35),"EMP or torpedo impact interrupts.",HORIZONTAL_ALIGNMENT_LEFT,-1,maxi(16,roundi(h*.21)),Color.WHITE)
+ draw_arc(at,radius,-PI/2,-PI/2+TAU*(1.-progress),40,warning,7,true)
+ var font_size=_font_size(h)
+ if rows.is_empty():
+  draw_string(font,banner.position+Vector2(h*.9,h*.5),card_text,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size,warning)
+  if show_hint:
+   draw_string(font,banner.position+Vector2(12,h),"Break sight with cover.",HORIZONTAL_ALIGNMENT_LEFT,-1,font_size,Color.WHITE)
+   draw_string(font,banner.position+Vector2(12,h*1.35),"EMP or torpedo impact interrupts.",HORIZONTAL_ALIGNMENT_LEFT,-1,maxi(16,roundi(h*.21)),Color.WHITE)
+  return
+ draw_multiline_string(font,banner.position+Vector2(h*.9,h*.2+font.get_ascent(font_size)),card_text,HORIZONTAL_ALIGNMENT_LEFT,maxf(1.,banner.size.x-h*.9-12.),font_size,-1,Color.WHITE)
 func _panel()->StyleBoxFlat:
  var panel=StyleBoxFlat.new();panel.bg_color=Color(.06,.015,.025,.97);panel.border_color=preload("res://src/presentation/accessibility/palette.gd").color("warning",Color("ffb18b"));panel.set_border_width_all(int(Palette.stroke(2)));panel.set_corner_radius_all(10)
  return panel

@@ -635,7 +635,7 @@ func _lead_area(o:Dictionary)->void:
 		if k%2==0:draw_arc(o.pos,r,TAU*k/n,TAU*(k+1)/n,6,c,2.0/world_scale)
 	for k in 4:draw_line(o.pos+Vector2.from_angle(k*PI/2)*6,o.pos+Vector2.from_angle(k*PI/2)*16,Color(c,0.7),1.2/world_scale)
 	var from:Vector2=sim.units[sim.selected].pos
-	_label(o.pos+Vector2(r*0.72,-r*0.72),"%s · AREA · BRG %03d"%[o.name,roundi(fposmod(rad_to_deg(from.angle_to_point(o.pos)),360.0))],c,16)
+	_label(o.pos+Vector2(r*0.72,-r*0.72),"%s · AREA · BRG %03d"%[o.name,preload("res://src/presentation/compass.gd").bearing(o.pos-from)],c,16)
 # Observations the player resolved on film, and marks cut from earlier film.
 const FINDING_COLORS={"loop":Color(0.95,0.6,0.35),"gap":Color(0.5,0.95,0.6),"post":Color(0.95,0.4,0.35),"route":Color(0.5,0.9,0.85),"cycle":Color(0.95,0.8,0.4),"person":Color(0.9,0.95,0.7),"hazard":Color(0.95,0.5,0.3),"weak":Color(0.95,0.8,0.4),"lane":Color(1.0,0.6,0.3)}
 func _draw_findings()->void:

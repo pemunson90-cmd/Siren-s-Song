@@ -27,7 +27,7 @@ func _initialize():
   s.outcome="lost";s.message=s.VAPORIZED_TEXT;s.hull=0.;s.elapsed=10.
   s.contacts={0:{"time":10.,"pos":s.units[0].pos+Vector2(140,0),"lock":4.,"target":0,"mode":"BEAM"}}
   var before=s.snapshot();var text=Summary.line(s)
-  check("140 m" in text and "last" in text.to_lower(),"a beam loss uses observed range with honest attribution")
+  check("140 m" in text and "to the EAST" in text,"a beam loss uses observed range with honest attribution")
   check(s.snapshot()==before,"explaining a loss never changes the snapshot")
   s.contacts={};check(not "140" in Summary.line(s),"an unseen cause never invents a measured range")
   s.oxygen=0.;s.message="Quietus lost."

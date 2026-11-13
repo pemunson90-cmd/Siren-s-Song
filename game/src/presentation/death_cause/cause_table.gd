@@ -14,5 +14,5 @@ const LOCKISH=["LOCKING","BEAM"]
 # Emission label -> phrase used after "It was drawn by: ". Labels come from NoticeSources.CRAFT_EMISSIONS.
 const EMISSION_PHRASE={Names.NOISE_ACTIVE_SONAR:"ACTIVE SONAR",Names.NOISE_CAMERA:"the CAMERA shutter",Names.NOISE_EMP:"an EMP pulse",Names.NOISE_KNOCKDOWN:"a KNOCKDOWN pulse",Names.NOISE_RECON_UPLINK:"the RECON UPLINK"}
 const DRAWN="It was drawn by: %s %d s before the lock."
-const MOVING="It heard %s moving at speed."
+const MOVING="It heard %s moving fast. SILENT running is heard from much closer."
 const SIGHT="%s was in the Siren's sight line."

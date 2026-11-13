@@ -1,6 +1,8 @@
 extends RefCounted
 # Plain loss feedback from our own craft and already observed contacts only.
 # Seams: classic and expedition debriefs. Revert: remove those two lines and this file.
+const Compass=preload("res://src/presentation/compass.gd")
+# Where the beam's Siren was: only from the last observed contact on Quietus, never the live roster.
 static func line(sim)->String:
  if sim.outcome!="lost":return ""
  var oxygen=sim.get("oxygen")
@@ -11,7 +13,8 @@ static func line(sim)->String:
    for id in contacts:
     var c=contacts[id];var age=elapsed-float(c.get("time",-100.))
     if age<0 or age>1. or c.get("target",-1)!=0 or c.get("mode","") not in ["LOCKING","BEAM"]:continue
-    return "Last observed S%d at %d m before the beam hit Quietus."%[int(id)+1,roundi(units[0].pos.distance_to(c.pos))]
+    var across:Vector2=c.pos-units[0].pos
+    return "The Siren that caught Quietus was to the %s, about %d m away."%[Compass.word(across),roundi(across.length()/10.)*10]
   return "A Siren beam hit Quietus before it could break contact."
  var hull=sim.get("hull")
  if (hull is float or hull is int) and hull<=0:return "Quietus lost its remaining hull before reaching recovery."
