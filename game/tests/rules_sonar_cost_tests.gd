@@ -20,7 +20,7 @@ func spent(sim,unit:int)->float:
  var after=sim.oxygen if unit==0 else sim.units[unit].battery
  return before-after if ok else -1.0
 func displayed(text:String)->float:
- return float(text.replace("EMIT\n","").replace(" RESERVE",""))
+ return float(text.replace("PING SONAR\nuses ","").replace(" reserve","").replace("no",""))
 func run():
  var g=load("res://scenes/main.tscn").instantiate();g.set_script(load("res://tests/density_main.gd"));g.store.path="user://rules-r1-cost.save"
  for suffix in ["",".bak",".tmp"]:DirAccess.remove_absolute(g.store.path+suffix)
@@ -43,13 +43,13 @@ func run():
     var paid=spent(sim,row[0])
     var label="%s %s %s"%[row[2],power,sector]
     if row[0]==0:
-     # Player rule (Pat, 2026-11-12): Quietus's sonar costs no life support, and its EMIT label says NO COST. A drone's pulse still costs battery.
-     check(paid==0.0 and g.mission_hud.extra.sonar_emit.text.begins_with("EMIT") and "NO COST" in g.mission_hud.extra.sonar_emit.text,label+" Quietus pulse is free and the label says so, label "+str(shown)+" spent "+str(paid))
+     # Player rule (Pat, 2026-11-12): Quietus's sonar costs no life support, and its PING SONAR label says it uses no reserve (WP-48 wording). A drone's pulse still costs battery.
+     check(paid==0.0 and g.mission_hud.extra.sonar_emit.text.begins_with("PING SONAR") and "uses no reserve" in g.mission_hud.extra.sonar_emit.text,label+" Quietus pulse is free and the label says so, label "+str(shown)+" spent "+str(paid))
     else:check(paid>0.0 and absf(shown-paid)<0.006,label+" label "+str(shown)+" equals spent "+str(paid))
     check(absf(cost-paid)<0.0001,label+" single cost function equals spent")
  # The reported bug: low noise hull, low power, all-around pulse.
  g._start_mission(0);g._enter_water();g.sim.sirens=[];g.sim.mission.launch_equipment={"quietus":"","drone_a":"","drone_b":"","hull":"quiet"}
  g.sim.sonar.power="low";g.sim.sonar.sector="all";g.sim.command("select",{"unit":0});g._refresh();g.mission_hud.open("acoustics");await frames()
- check("NO COST" in g.mission_hud.extra.sonar_emit.text,"low noise hull Quietus pulse shows NO COST under the player rule (it showed 0.5 reserve, not 0.4, before 2026-11-12)")
+ check("uses no reserve" in g.mission_hud.extra.sonar_emit.text,"low noise hull Quietus pulse says it uses no reserve under the player rule (it showed 0.5 reserve, not 0.4, before 2026-11-12)")
  g.queue_free();await frames()
  print("RULES SONAR COST CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)

@@ -4,6 +4,7 @@ const UiMetrics=preload("res://src/presentation/flow/ui_metrics.gd")
 const PhotoReview=preload("res://src/presentation/flow/photo_review.gd")
 const CampaignFlow=preload("res://src/presentation/flow/campaign_flow.gd")
 const ReleaseControls=preload("res://src/presentation/release_controls.gd")
+const HudWords=preload("res://src/presentation/hud_words.gd")
 const DiveInput=preload("res://src/presentation/dive_input.gd")
 const CampaignArchiveFlow=preload("res://src/persistence/campaign_archive_flow.gd")
 const Recon=preload("res://src/simulation/recon_consequences.gd")
@@ -409,7 +410,7 @@ func _refresh() -> void:
 	if not knock_armed and not decoy_armed:targeting_feedback=""
 	title_label.text="SIREN'S SONG    /    %02d  %s"%[mission_index+1,sim.mission.title.to_upper()]
 	status_label.text="DEPTH %dm    O₂ %03d%%    HULL %03d%%    RECORDS %d / %d    %s"%[sim.mission.depth,int(sim.oxygen),int(sim.hull),sim.mission.objectives.filter(func(o): return o.captured and not o.get("optional",false)).size(),sim.mission.objectives.filter(func(o): return not o.get("optional",false)).size(),"TACTICAL PAUSE" if sim.paused else "REAL TIME"]
-	pause_button.text="▶ RESUME" if sim.paused else "Ⅱ PAUSE"
+	pause_button.text=HudWords.plate_state(sim.paused)+"\n"+HudWords.plate_action(sim,false)
 	for i in 3:
 		var work=sim.capture_feedback(i)
 		var capture_task=WorkTaskView.action_verb(PhotoCapture.obj(sim,work.target)) if work.unit>=0 else ""
@@ -429,7 +430,7 @@ func _refresh() -> void:
 	elif camera_target>=0 and PhotoCapture.obj(sim,camera_target).get("kind","")=="receiver" and sim.mission.get("blackwater_revision",0)!=1:order_buttons.camera.text="LISTEN"
 	order_buttons.queue.text="TAPS:\nQUEUE" if sim.queue_mode else "TAPS:\nREPLACE"
 	order_buttons.program.text="PLAN\nROUTE"
-	order_buttons.silent.text=("LOW\nPROFILE" if sim.units[sim.selected].silent else "OPEN\nPROFILE") if sim.selected>0 else ("SILENT ✓" if sim.units[0].silent else "CRUISE")
+	order_buttons.silent.text=HudWords.silent_label(sim)
 	order_buttons.knock.text="CANCEL\nTORPEDO" if knock_armed else "TORPEDO\n%d"%preload("res://src/presentation/truthful_commands.gd").stock(sim,"knock")
 	order_buttons.knock.disabled=not knock_armed and (sim.selected!=0 or not sim.units[0].alive or sim.tools.get("knock",0)<=0)
 	order_buttons.emp.text="EMP\n%d"%preload("res://src/equipment/tool_racks.gd").count(sim,"emp")

@@ -24,6 +24,8 @@ const ReleaseControls=preload("res://src/presentation/release_controls.gd")
 const LifeChip=preload("res://src/presentation/life_support_chip.gd")
 const UiStyle=preload("res://src/presentation/ui_style.gd")
 const Palette=preload("res://src/presentation/accessibility/palette.gd")
+const Words=preload("res://src/presentation/hud_words.gd")
+const RouteEnd=preload("res://src/presentation/route_end_notice.gd")
 # A tap opens an object-owned projection. A separate tap chooses an action.
 var host
 var blocker:Control
@@ -55,6 +57,9 @@ var instruments_open=false
 var owned_touches:Dictionary={}
 var draining_popup=false
 var sector_press:Button
+# The wheel segment under the finger, or the last one touched: its caption may fill the wheel's centre.
+var wheel_focus:Button
+var route_end=RouteEnd.new()
 var popup_gesture=preload("res://src/input/map_gesture.gd").new()
 var touch_height=48.
 var fleet
@@ -146,7 +151,7 @@ func setup(owner):
  extra.all_stop=host._button(self,"ALL STOP",func():host._order("all_stop");open("route"),"all_stop")
  extra.shelf_warn=host._button(self,"LOCAL WARNING\n100m / QUIETUS",func():host._order("shelf_warn",{"site":subject.get("site","")}),"shelf_warn")
  extra.shelf_alarm=host._button(self,"SOUND ALARM\n1200m / ONCE",func():host._order("shelf_alarm"),"shelf_alarm")
- for entry in [["depth_menu","DEPTH / SONAR"],["depth_up","SHALLOWER"],["depth_down","DEEPER"],["sonar_sector","SECTOR"],["sonar_power","POWER"],["sonar_emit","EMIT SONAR"],["sonar_history","HISTORY"]]:
+ for entry in [["depth_menu","DEPTH / SONAR"],["depth_up","SHALLOWER"],["depth_down","DEEPER"],["sonar_sector",Words.arc_label("all")],["sonar_power",Words.power_label("low")],["sonar_emit",Words.ping_label(0.)],["sonar_history",Words.TEXT.history]]:
   var key=entry[0];extra[key]=host._button(self,entry[1],func():_extra(key),key)
  for pair in [["work","REACH WORK"],["recover","RECOVER\nMATERIAL"],["transfer","TRANSFER\nTO QUIETUS"],["service","RESTORE\nSERVICE"],["sever","SEVER\nSPUR"],["vane","RELEASE\nVANE"],["gate","OPEN\nLOCAL GATE"],["withdraw","WITHDRAW\nRECOVERY"],["route","ROUTE TO\nREACH WORK"]]:
   var key="glass_"+pair[0];extra[key]=host._button(self,pair[1],func():_extra(key),key)
@@ -208,7 +213,7 @@ func open(next:String="craft",context:Dictionary={}):
  order_dock_scroll.scroll_vertical=0
  tool_help.cancel()
  for id in host.map_gesture.touches:owned_touches[id]=true
- host.map_gesture.cancel();host.knock_press.clear();popup_gesture.cancel();sheet_pointers.clear();sector_press=null;host.knock_armed=false;host.decoy_armed=false
+ host.map_gesture.cancel();host.knock_press.clear();popup_gesture.cancel();sheet_pointers.clear();sector_press=null;wheel_focus=null;host.knock_armed=false;host.decoy_armed=false
  if not context.is_empty():subject=context
  elif subject.is_empty() or next=="fleet":subject={"kind":"craft","unit":host.sim.selected,"pos":host.sim.units[host.sim.selected].pos}
  var station=WarningChain.station_subject(host.sim,subject) if next=="object" else {}
@@ -348,6 +353,7 @@ func popup_input(event) -> bool:
   if sector_press==null:sector_press=recovery_button_at(point) if page=="recovery" else plant_button_at(point) if page=="plant" else null if label_at(point) else sector_at(point)
   if sheet.visible and sheet.get_global_rect().has_point(point) and not label_at(point):sheet_pointers[pointer]=true
   tool_help.arm(self,sector_press)
+  if sector_press!=null:wheel_focus=sector_press;queue_redraw()
  if not pressed and (event is InputEventScreenTouch or event is InputEventMouseButton):tool_help.cancel()
  if sheet_pointers.has(pointer):
   if event is InputEventScreenTouch and not event.pressed:sheet_pointers.erase(pointer)
@@ -599,15 +605,17 @@ func refresh():
  sonar_waterfall.visible=page=="inspect" and subject.get("subkind","")=="sonar"
  sonar_waterfall.sim=sim;sonar_waterfall.queue_redraw()
  var u=sim.units[sim.selected];var transition=u.transition
+ route_end.observe(sim)
  extra.all_stop.text=AllStop.label(sim);extra.all_stop.disabled=sim.selected!=0 or not u.alive
  extra.depth_up.text="↑ "+sim.Depth.NAMES[maxi(0,u.band-1)];extra.depth_up.disabled=u.band==0 or not transition.is_empty() or (sim.Depth.SurvivorAscent.count(sim.mission,sim.selected)>0 and u.get("ascent_settle",0.)>0)
  extra.depth_down.text="↓ "+sim.Depth.NAMES[mini(2,u.band+1)];extra.depth_down.disabled=u.band==2 or not transition.is_empty()
- extra.sonar_sector.text="SECTOR\n"+("ALL360°" if sim.sonar.sector=="all" else "FORWARD90°")
- extra.sonar_power.text="POWER\n"+sim.sonar.power.to_upper()
- extra.sonar_emit.text="EMIT\n"+("%s RESERVE"%String.num(snappedf(sim.Sonar.pulse_cost(sim,sim.selected),0.01)) if sim.Sonar.pulse_cost(sim,sim.selected)>0. else "NO COST");extra.sonar_emit.disabled=sim.ping_time>0 or not transition.is_empty()
+ extra.sonar_sector.text=Words.arc_label(sim.sonar.sector)
+ extra.sonar_power.text=Words.power_label(sim.sonar.power)
+ extra.sonar_emit.text=Words.ping_label(sim.Sonar.pulse_cost(sim,sim.selected));extra.sonar_emit.disabled=sim.ping_time>0 or not transition.is_empty()
  subject=Concealed.refresh_subject(sim,Recipient.refresh_subject(sim,Rendezvous.refresh_subject(sim,subject)))
- host.pause_button.text="▶\nRESUME" if sim.paused else "Ⅱ\nPAUSE"
- plate(host.pause_button,UiStyle.MAIN if sim.paused else UiStyle.NORMAL)
+ var time_held=sim.paused or host._order_dialog_open()
+ host.pause_button.text=Words.plate_state(time_held)+"\n"+Words.plate_action(sim,time_held)
+ plate(host.pause_button,UiStyle.MAIN if time_held else UiStyle.QUIET)
  LifeChip.sync(self)
  _fit_pause_button()
  host.advanced_button.text="FLEET";plate(host.advanced_button,UiStyle.NORMAL)
@@ -705,6 +713,10 @@ func refresh():
   # WP-36: the TASK line only while its work is actually under way; at rest the status is the current line and the standing hint.
   for task_text in [WorkTask.line(sim,task) if WorkTask.working(sim,task) else "",WorkTask.result_line(task_result),WorkTask.load_status(sim)]:
    if not task_text.is_empty():intent.text+="\n"+task_text
+  # WP-48: why the dive is held when the player did not hold it, and which craft ran out of route.
+  var urgent=alarm.visible or (host.lock_warning!=null and host.lock_warning.visible)
+  var reason=Words.pause_reason(host)
+  for held_line in ([reason] if not reason.is_empty() else [])+route_end.lines(sim,urgent):intent.text+="\n"+held_line
   intent.text+="\n"+sim.Depth.context(sim)
  Truthful.apply(self)
  _place_threat_stack()
@@ -835,7 +847,9 @@ func _draw():
   if not carry.is_empty():lines.append(carry)
  if page=="cache":lines.append_array(Cache.captions(host.sim))
  if page=="plant":lines.append(WarningChain.radial_state(WarningChain.context(host.sim)))
+ elif page=="craft" and wheel_focus==host.order_buttons.silent and wheel_focus in ring_buttons:lines.append_array(Words.silent_caption(host.sim))
  elif page=="craft" and host.order_buttons.camera in ring_buttons:lines.append_array(camera_caption())
+ if page=="acoustics":lines.append(Words.TEXT.ping_caption)
  if page in ["object","salvage","plant","habitat"]:lines.append_array(WorkTask.captions(host.sim,subject))
  if page=="choose":lines.append("CRAFT OR OBJECT?")
  lines=StatusView.captions(self,lines)

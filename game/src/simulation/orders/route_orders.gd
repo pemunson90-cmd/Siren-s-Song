@@ -21,7 +21,7 @@ static func _command(sim, order: String, args: Dictionary) -> bool:
 			sim.selected=id; sim._use_band(sim.units[id].band); sim.queue_mode=false
 			sim.message="%s selected · next tap replaces route" % sim.units[id].name
 			if sim.DroneBay.aboard(sim.units[id]):sim.message="%s is aboard Quietus · tap water to deploy it" % sim.units[id].name
-		"waypoint_mode": sim.pass_through=not sim.pass_through; sim.message="Queued waypoints PASS through" if sim.pass_through else "Queued waypoints STOP before continuing"
+		"waypoint_mode": sim.pass_through=not sim.pass_through; sim.message="New points: the craft keeps moving through them." if sim.pass_through else "New points: the craft stops at each one."
 		"queue": sim.queue_mode=not sim.queue_mode; sim.message="QUEUE: tap to add" if sim.queue_mode else "REPLACE: tap to set route"
 		"route", "emergency":
 			var append=sim.queue_mode and order!="emergency"
