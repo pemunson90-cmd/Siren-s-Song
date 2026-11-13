@@ -11,6 +11,9 @@ const Riders=preload("res://src/campaign/career/riders.gd")
 const Briefing=preload("res://src/presentation/mode_briefing.gd")
 const ResultText=preload("res://src/presentation/mode_result_text.gd")
 const NAME="NAVAL CAREER"
+const RIDER_FOR="OPTIONAL RIDER FOR %s"
+const RIDER_PREFIX="OPTIONAL RIDER · " # how Riders.description begins
+const RIDER_NOTE="Riders are drawn again after every dive, so a contract can offer a different rider next time. The one shown is the one you get if you accept now."
 # The rules of a contract that are neither goal nor danger.
 const CONTRACT_RULES=["The dive starts paused. A dive you leave resumes paused.","Oxygen, film and field tools refill for every dive.","Hull damage stays with your boat until you repair it.","Giving up a contract counts as a loss."]
 static func heading(host,title:String,screen:String)->void:
@@ -31,6 +34,7 @@ static func show(host)->void:
 	host._button(host.panel_box,"BACK TO GAME MODES",host._return,"career_return")
 	# Developer note, not shown to the player: pay and tuning are provisional.
 	host._menu_text("Recover a contract: standing +%d, contract pay and salvage. Lose one: standing %d and no pay. Recovery jobs are open at any standing."%[Table.SUCCESS,Table.LOSS],16)
+	host._menu_text(RIDER_NOTE,16)
 	for faction in Table.FACTIONS:
 		host._menu_text("%s · STANDING %d"%[Table.FACTIONS[faction],host.career_state.standing[faction]],22)
 		for id in Table.CONTRACTS:
@@ -40,10 +44,14 @@ static func show(host)->void:
 			var title=host.Simulation.Missions.make(c.op,host._launch_context(c.op)).title
 			var button=host._button(host.panel_box,"%s\n%s · REWARD %s"%[title.to_upper(),"OPEN" if available else "LOCKED · NEED STANDING %d"%c.get("standing",Table.MIN_STANDING),Economy.fmt(c.reward)],host._select_contract.bind(id),"career_contract_"+id)
 			button.disabled=not available or host.save_failed
-			host._menu_text(Riders.description(State.rider_offer(host.career_state,id)),16)
+			# The rider names its own contract and a rule closes the block, so it cannot read as the next one's.
+			host._menu_text(rider_line(title,State.rider_offer(host.career_state,id)),16)
+			host.panel_box.add_child(HSeparator.new())
 	host._button(host.panel_box,"SUPPLIES / RESEARCH",host._show_economy,"career_supplies")
 	host._button(host.panel_box,"FLEET / FITTINGS",host._show_fittings,"career_fittings")
 	host._menu_text("%d RECOVERED · %d LOST\n%s"%[host.career_state.recovered,host.career_state.lost,"\n".join(ResultText.career_lines(host.career_state.report))],17)
+static func rider_line(title:String,rider:Dictionary)->String:
+	return "%s · %s"%[RIDER_FOR%title.to_upper(),Riders.description(rider).trim_prefix(RIDER_PREFIX)]
 static func confirm_abandon(host)->void:
 	heading(host,"ABANDON THIS CONTRACT?","career_abandon")
 	host._menu_text("This records a loss, reduces the client's standing and forfeits contract pay. Your regional career continues.",17)
