@@ -131,8 +131,51 @@ func finale_case():
  check(found.size()==1,"finale first recovery: exactly one stats line (found %d)"%found.size())
  if found.size()==1:check(found[0]==LINE,"finale first recovery carries the sim values: "+found[0])
  game.queue_free();await settle()
+# WP-34: photographs of a lost or abandoned dive are kept only on the easiest preset.
+func take_spire_photo(game):
+ var s=game.sim;s.sirens=[]
+ var spire=Vector2(1300,300);var facing=2.74
+ s.units[0].pos=spire+Vector2.from_angle(facing)*110;s.units[0].angle=facing+PI
+ s.paused=false
+ for n in 12:s.advance(1./60)
+ s.command("camera")
+ for n in 300:s.advance(1./60)
+ s.paused=true
+func photo_loss_case(preset:String,keeps:bool):
+ var game=load("res://scenes/main.tscn").instantiate();game.capture_scenario="runtime-test"
+ game.store.path="user://dive-end-photo-%s.save"%preset
+ root.add_child(game);await settle();game.set_process(false)
+ game.economy=preload("res://src/campaign/economy.gd").new_state(preset)
+ game._start_mission(0);game.recovered_evidence={};game.photo_records={}
+ take_spire_photo(game)
+ var s=game.sim
+ var taken:int=s.mission.photo.shots.size()
+ check(taken>0,"%s: the dive took a photograph"%preset)
+ game._retain_evidence()
+ check(game.recovered_evidence.is_empty(),"%s: nothing is retained while the dive is still running"%preset)
+ s.outcome="lost";s.message="Hull lost."
+ game._evidence_gallery(0);await settle()
+ check(game.recovered_evidence.has("spire")==keeps,"%s: opening the gallery after a loss %s the lost dive's frames"%[preset,"keeps" if keeps else "does not keep"])
+ game.recovered_evidence={};game.photo_records={}
+ game._debrief();await settle()
+ var text=texts(game)
+ check(text.contains("SIGNAL LOST") and text.contains("PHOTOGRAPHS TAKEN THIS DIVE") and text.contains(" · grade "),"%s: the lost screen lists the photograph with its frame quality and grade"%preset)
+ check(text.contains("Kept as field records") if keeps else text.contains("Lost with the dive"),"%s: the lost screen states the photographs' fate"%preset)
+ check(game.recovered_evidence.has("spire")==keeps and game.recovered_evidence.get("spire",{}).get("shots",[]).size()==(taken if keeps else 0),"%s: a lost dive %s its photographs as field records"%[preset,"keeps" if keeps else "keeps none of"])
+ check(not game.completed.has(0) and game.photo_intel.is_empty() and game.expedition.is_empty(),"%s: a loss still grants no progress, intel or continuation"%preset)
+ game.recovered_evidence={};game.photo_records={}
+ s.outcome="";game.active_started=true
+ preload("res://src/presentation/flow/photo_review.gd").retain_abandoned(game)
+ check(game.recovered_evidence.has("spire")==keeps,"%s: an abandoned dive %s its photographs"%[preset,"keeps" if keeps else "keeps none of"])
+ game._show_campaign();await settle()
+ check(texts(game).contains("remain reviewable after loss or abandonment")==keeps and texts(game).contains("lost with it")!=keeps,"%s: the hub line tells the truth for this preset"%preset)
+ game.queue_free();await settle()
+ for suffix in ["",".bak",".tmp"]:DirAccess.remove_absolute("user://dive-end-photo-%s.save"%preset+suffix)
 func run():
  root.size=Vector2i(2520,1080);await settle()
+ await photo_loss_case("accessible",true)
+ await photo_loss_case("standard",false)
+ await photo_loss_case("survival",false)
  await manifest_cases()
  await arc_case()
  await finale_case()

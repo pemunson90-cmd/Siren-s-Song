@@ -103,12 +103,14 @@ func run() -> void:
 	check(game.sound.engine.stream_paused and game.sound.ambience.stream_paused,"system suspension freezes propulsion and ambience even before simulation notification")
 	game.recovered_evidence.clear(); game._start_mission(3); game._evidence_gallery(0); await process_frame
 	check(game.screen=="menu" and game.recovered_evidence.is_empty(),"optical archive does not expose undiscovered factory records")
+	game.sim.outcome="won" # WP-34: records are retained when the dive ends, not while it runs
 	game.sim.mission.objectives[0].captured=true; game._retain_evidence()
 	game._evidence_gallery(0); await process_frame
 	var photos=[]
 	for child in game.panel_box.get_children():
 		if child is TextureRect: photos.append(child.texture.resource_path)
 	check(game.screen=="evidence" and photos==["res://assets/evidence/foundry_furnace.png"],"recovered furnace gallery displays its own earned image")
+	game.sim.outcome="won"
 	game.sim.mission.objectives[1].captured=true; game._retain_evidence(); game._start_mission(4)
 	game._evidence_gallery(1); await process_frame
 	photos.clear()

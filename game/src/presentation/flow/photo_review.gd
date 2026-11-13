@@ -21,8 +21,28 @@ static func merge_shots(host, key:String) -> void:
 static func evidence_is_text(host, entry:Dictionary) -> bool:
 	return entry.optical in preload("res://src/campaign/operation_catalog.gd").record_keys(true) or entry.optical in ["well_pattern","well_signature"]
 
+# WP-34 rule, in one place: a lost or abandoned dive keeps its photographs as field records
+# only on the easiest preset (the last of EASIER_ORDER); on every other preset they are lost
+# with the dive. A won dive keeps them as always.
+static func keeps_photos_after_loss(host) -> bool:
+	var order:Array=preload("res://src/campaign/economy_table.gd").EASIER_ORDER
+	return str(host.economy.get("preset","")) == str(order[order.size()-1])
+
+# Callers (a live-dive capture, the gallery, either debrief) all land here. A dive still in
+# progress retains nothing yet, so a later loss cannot have kept frames by accident; a
+# lost dive retains only its photographs, and only when the rule says so.
 static func retain_evidence(host) -> void:
+	var outcome:String=host.sim.outcome
+	if outcome=="won":collect(host,false)
+	elif not outcome.is_empty() and keeps_photos_after_loss(host):collect(host,true)
+
+# An abandoned dive (replaced by a new launch) never reaches a debrief; the launch guard calls this.
+static func retain_abandoned(host) -> void:
+	if host.active_started and host.sim.outcome.is_empty() and keeps_photos_after_loss(host):collect(host,true)
+
+static func collect(host,photos_only:bool) -> void:
 	for objective in host.sim.mission.objectives+host.PhotoCapture.peek(host.sim).get("studies",[]):
+		if photos_only and not objective.has("photo_quality"):continue
 		if objective.captured and objective.has("photo_quality"):
 			var key="%d:%d"%[host.sim.mission.id,host.PhotoCapture.index_of(host.sim,objective)]
 			if objective.photo_quality>=host.photo_records.get(key,{}).get("photo_quality",0):host.photo_records[key]={"photo_quality":objective.photo_quality,"photo_craft":objective.photo_craft,"photo_distance":objective.photo_distance}
@@ -33,8 +53,23 @@ static func retain_evidence(host) -> void:
 			for field in ["photo_quality","photo_craft","photo_distance"]:
 				if objective.has(field):host.recovered_evidence[objective.optical][field]=objective[field]
 			host._merge_shots(objective.optical)
+	if photos_only:return
 	var signature=host.sim.well_signature_evidence()
 	if not signature.is_empty():host.recovered_evidence[signature.optical]=signature
+
+# Lost-screen text. The photographs taken this dive, one line each, then their fate.
+static func loss_photo_lines(host) -> String:
+	var Pay=preload("res://src/presentation/photo_pay/photo_pay.gd")
+	var rows:PackedStringArray=[]
+	for r in Pay.records(host.sim.mission):
+		var q:float=float(r.o.photo_quality)
+		rows.append("%s · frame %d%% · grade %s"%[Pay.Photo.label(r.o).to_upper().substr(0,Pay.Table.RECORD_NAME_CHARS),roundi(q*100),Pay.Grade.letter(q)])
+	if rows.is_empty():return ""
+	return "PHOTOGRAPHS TAKEN THIS DIVE\n"+"\n".join(rows)
+static func loss_note(host,photos:bool) -> String:
+	var keep:=keeps_photos_after_loss(host)
+	if photos:return ("Kept as field records on this difficulty." if keep else "Lost with the dive. Only the easiest difficulty keeps photographs after a loss.")+" Only successful extraction advances the campaign."
+	return "Field records remain reviewable after loss or abandonment. Only successful extraction advances the campaign." if keep else "Photographs from a lost or abandoned dive are lost with it. Only successful extraction advances the campaign."
 
 static func evidence_gallery(host, index: int,shot_index:int=-1,compare:bool=false) -> void:
 	host._retain_evidence()

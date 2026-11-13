@@ -24,6 +24,7 @@ func run():
 	s.command("camera");run_sim(s,5)
 	s.units[0].pos=spire+Vector2.from_angle(facing+PI)*110;s.units[0].angle=facing
 	s.command("camera");run_sim(s,5)
+	s.outcome="won" # WP-34: frames are retained when the dive ends, not while it runs
 	game._retain_evidence()
 	var entry=game.recovered_evidence.get("spire",{})
 	check(entry.get("shots",[]).size()==2,"two frames of one subject are retained in the archive")
