@@ -13,7 +13,6 @@ RUNNING. Critic round of 13 Nov ranked in PHASE9.md. WP-45, WP-46, WP-47 are wit
 
 | Package | Branch | From the critic ranking | Owns |
 |---|---|---|---|
-| WP-45 | `wp-45` | 1, 2: extraction tap; a tap that closes a wheel or panel must not order the craft | `dive_input.gd`, `mission_hud.gd`, `ocean_view.gd` taps, `fleet_ring.gd`, `sonar_history.gd` |
 | WP-46 | `wp-46` | 7, 8: first-run menus (hub button names the operation, chosen difficulty, region entry screen, Route Map header, REWARD wording, seed start, carried damage and carry sentence in the briefing) | `ops_home/`, `arcs/`, `route_map/`, `career_board.gd`, `runs/`, briefing in `campaign_flow.gd`, `fittings_menu.gd` |
 
 If the session died: the branches are local in the helpers' worktrees (`git worktree list`, `git branch --list "wp-4*"`). A branch with commits can be reviewed and merged as it stands; one without is redispatched from PHASE9.md "Queue".

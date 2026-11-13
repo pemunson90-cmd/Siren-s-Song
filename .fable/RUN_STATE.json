@@ -2,11 +2,11 @@
   "run_id": "overhaul-20261111",
   "status": "RUNNING",
   "phase": "9-ux-repair",
-  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: WP-45 (dive taps and extraction), WP-46 (first-run menus), WP-47 (Field Manual cards) are with implementers on branches wp-45, wp-46, wp-47: as each reports, review the diff, merge --no-ff, run touched suites, look in the kit on cover and inner (wheel command scrolls menus), send Pat captures, add behavior rows from 76. Then WP-48 (threat readability and wheel wording with numbers; ranking items 3 to 5 in PHASE9.md), by root or one implementer after WP-45 lands (same files). Three yes or no questions are open for Pat in PHASE9.md 'Open for Pat'. Read the everyday set result (background task) and fix any failure.",
+  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: WP-46 (first-run menus, branch wp-46) is with an implementer: when it reports, review, merge --no-ff, run touched suites, look in the kit on cover and inner (wheel scrolls menus), send Pat captures, add row 78. Then WP-48 by root or one implementer: threat readability (a line and bearing to the Siren that has locked, where it was on the loss screen), wheel wording with numbers (SILENT speed and hearing range, plain labels for EMIT, POWER, SECTOR), a plain RUNNING or PAUSED state on the pause control, a status line when a route ends (ranking items 3, 4, 5, 9 in PHASE9.md). Three yes or no questions are open for Pat. tap_ownership_ui_tests is registered in game/tests/suites.txt but not in the local everyday profile: add it when the profile is next edited.",
   "base_ref": "origin/claude/integration",
   "base_sha": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
   "run_branch": "fable/overhaul-20261111",
-  "run_head": "77eb4416d2edca94cb9a81cb663fe81ca26f12d3",
+  "run_head": "80c972df9fcfe70af2ff9fe584e4d84a197ff311",
   "shared_tips": {
     "claude/integration": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
     "main": "f5b66a198e3878950325f8c45a0bc6bc29dcba84",
@@ -60,11 +60,11 @@
     "WP-42": "merged",
     "WP-43": "merged",
     "WP-44": "merged",
-    "WP-45": "building",
+    "WP-45": "merged",
     "WP-46": "building",
     "WP-47": "merged"
   },
   "decisions_open": 0,
   "last_checkpoint": "Everyday set 39 of 39 on head 23ee8db5 (13 Nov, after WP-40 to WP-44). WP-47 merged on top and its suites green.",
-  "updated": "2026-11-13 11:19:15"
+  "updated": "2026-11-13 11:34:36"
 }
