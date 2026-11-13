@@ -28,6 +28,7 @@ It prints the result and exits non-zero on failure. One command at a time. `send
 | `hold` | `x`, `y`, `seconds` | Touch and hold. |
 | `drag` | `x`, `y`, `to_x`, `to_y`, `seconds`, `steps` | One finger drag (pan, scroll, sliders). |
 | `pinch` | `x`, `y`, `from_gap`, `to_gap`, `seconds` | Two finger pinch around a point. A growing gap zooms in. |
+| `wheel` | `x`, `y`, `notches` (positive scrolls down) | Mouse wheel at a point. Use it to scroll menus: on a PC without a touchscreen a finger `drag` does not scroll a menu, so a menu that will not drag here is not a finding. |
 | `back` | | The Android back button. |
 | `key` | `key` (for example `Escape`) | A keyboard key. Keyboard is a fallback; touch is the design target. |
 | `wait` | `seconds` (up to 120) | Lets the game run. |

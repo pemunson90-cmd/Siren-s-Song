@@ -177,6 +177,21 @@ func _execute(c: Dictionary) -> Dictionary:
 				event.pressed = pressed
 				Input.parse_input_event(event)
 				await process_frame
+		"wheel":
+			# Mouse wheel at a point: the only way to scroll a menu on a PC without a touchscreen
+			# (Godot's ScrollContainer scrolls by finger only where a touchscreen exists).
+			# Positive notches scroll down. This is an operator aid, not a player gesture.
+			var notches := clampi(int(_number(c, "notches", 3)), -60, 60)
+			for i in absi(notches):
+				for pressed in [true, false]:
+					var event := InputEventMouseButton.new()
+					event.button_index = MOUSE_BUTTON_WHEEL_DOWN if notches > 0 else MOUSE_BUTTON_WHEEL_UP
+					event.position = _to_window(pos)
+					event.global_position = event.position
+					event.pressed = pressed
+					event.factor = 1.0
+					Input.parse_input_event(event)
+				await process_frame
 		"back":
 			# The Android back button reaches the game as this notification.
 			root.propagate_notification(Node.NOTIFICATION_WM_GO_BACK_REQUEST)
