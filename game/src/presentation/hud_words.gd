@@ -48,8 +48,8 @@ const TEXT={
 	"idle_many": "%s HAVE NO ORDERS",
 	"idle_oxygen": " · oxygen is running",
 	"idle_and": " AND ",
-	# WP-118: the way a craft came, drawn as dim dots on the chart (ocean_view.gd); it is not an order.
-	"trail": "TRAIL",
+	# WP-118: an intel route finding (a photographed sheltered way) says on its own line that it is not an order (ocean_view.gd).
+	"intel_route": "%s · INTEL: a sheltered way, not an order",
 	# WP-118: the status line's next step once the record is secured and Quietus has no route (route_notes.gd).
 	"return_old": "Return Quietus to extraction.",
 	"return_steps": "Return Quietus to extraction: tap Quietus, then tap the water near EXTRACTION.",
@@ -153,11 +153,6 @@ const MOVING_SPEED=2.0
 # WP-118: seconds of running dive time a launched craft stands with no orders before the strip says so (the dive's first
 # seconds, a pause, and a fresh order all start the count again).
 const IDLE_SECONDS=5.0
-# WP-118: the trail dots: metres between dots, how many are kept, and the dot radius in metres.
-const TRAIL_STEP=30.0
-const TRAIL_MAX=40
-const TRAIL_DOT=2.5
-
 static func sights()->Dictionary:
 	return {"silent": Pricing.SIREN_SIGHT_SILENT, "open": Pricing.SIREN_SIGHT}
 # Quietus silent and cruise speed for the fitted hull and drive, as the simulation computes them.

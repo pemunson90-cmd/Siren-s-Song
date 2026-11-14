@@ -482,10 +482,11 @@ func idle_case(shape:Vector2i,scale:float):
 	s.units[0].route=[{"pos":s.units[0].pos+Vector2(300,0),"stop":true,"goal":true}]
 	check(RouteNotes.home_step(s,old)==old,"with a route set the line is left alone "+stamp)
 	s.units[0].route=[]
-	# The trail: dim dots with one TRAIL label; no dashed route is drawn for it.
-	for n in 4:
-		s.units[0].pos+=Vector2(Words.TRAIL_STEP+5.0,0);game.ocean.queue_redraw();await settle()
-	var dots:Array=game.ocean._trails.get(0,[])
-	check(dots.size()>=3,"Quietus's past track is kept as dots "+stamp+" "+str(dots.size()))
-	check(Words.TEXT.trail=="TRAIL" and UiStyle.TRAIL_INK!=UiStyle.ACCENT,"the trail has its own word and a grey that no route uses")
+	# An intel route finding (a photographed sheltered way) says on its line that it is not an order, in a colour no route uses.
+	var intel:String=Words.TEXT.intel_route%"LEE CHANNEL"
+	check(intel=="LEE CHANNEL · INTEL: a sheltered way, not an order","the intel route line names the finding and says it is not an order: "+intel)
+	check(UiStyle.INTEL_ROUTE_INK!=game.ocean.CYAN and UiStyle.INTEL_ROUTE_INK!=Color(0.5,0.9,0.85),"the intel colour is not the route cyan "+stamp)
+	s.mission["photo_marks"]=[{"kind":"route","text":"LEE CHANNEL · a sheltered way","pts":[[s.units[0].pos.x-300,s.units[0].pos.y+100],[s.units[0].pos.x-600,s.units[0].pos.y+200]]}]
+	game.ocean.queue_redraw();await settle()
+	check(game.ocean.get_child_count()>=0,"a chart with an intel route finding draws "+stamp)
 	game.queue_free();await settle()

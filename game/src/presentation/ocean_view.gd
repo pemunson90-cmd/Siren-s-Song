@@ -558,7 +558,6 @@ func _draw() -> void:
 			# WP-106: a route the craft is not following says why, on the line itself (critic A: a kept route looked set for 25 s).
 			var kept:String=RouteNotes.tag(sim,i)
 			if not kept.is_empty():_label(u.pos.lerp(u.route[0].pos,.5)+Vector2(0,-16),kept,Palette.chart_color("route",CYAN),15)
-		_draw_trail(u,i)  # WP-118: the way the craft came, as dim dots under it
 		_craft(u,i)
 	if sim.mission.has("glass_reach") and sim.mission.glass_reach.artifact.is_empty():
 		var at=sim.mission.glass_reach.work_pos
@@ -696,10 +695,12 @@ func _draw_findings()->void:
 		if f.has("pts") and f.pts.size()>=2:
 			var pts:=PackedVector2Array()
 			for p in f.pts:pts.append(Vector2(float(p[0]),float(p[1])))
-			for n in pts.size()-1:draw_dashed_line(pts[n],pts[n+1],Color(c,0.85),w,(7.0 if kind=="loop" else 14.0)/world_scale)
+			if kind=="route":c=Palette.chart_color("evidence",UiStyle.INTEL_ROUTE_INK)  # WP-118: intel about a way through, never an order: lilac short dots, no arrow
+			for n in pts.size()-1:draw_dashed_line(pts[n],pts[n+1],Color(c,0.8 if kind=="route" else 0.85),w*(.6 if kind=="route" else 1.),(3.0 if kind=="route" else 7.0 if kind=="loop" else 14.0)/world_scale)
 			if kind=="route":
-				var tip:Vector2=pts[-1];var back:Vector2=(pts[-2]-tip).normalized()
-				draw_colored_polygon(PackedVector2Array([tip,tip+back.rotated(0.5)*18/world_scale,tip+back.rotated(-0.5)*18/world_scale]),Color(c,0.9))
+				# WP-118: no arrow tip (it read as a heading to follow); the line says what it is instead
+				_label(pts[0].lerp(pts[1],.5)+Vector2(10,-8),Words.TEXT.intel_route%label.get_slice(" · ",0),c,15)
+				continue
 			_label(pts[0]+Vector2(10,-8),label,c,15)
 			continue
 		match kind:
@@ -895,27 +896,6 @@ func _siren(p: Vector2,angle: float,fresh: bool,role: String=Names.ROLE_PATROLLE
 		draw_arc(Vector2.ZERO,24,0,TAU,6,Color("956d63"),1.5)
 		draw_line(Vector2(-12,0),Vector2(12,0),Color("956d63"),1)
 	draw_set_transform(world_offset,0,Vector2.ONE*world_scale)
-# WP-118 (round 9 critics): where a craft has been, as small dim grey dots that fade with age, never a dashed line: three
-# critics took the dashed line back to EXTRACTION for a route home and watched oxygen run. Marked TRAIL once, near the
-# newest end, on the selected craft. The dots are kept here (a view record, not part of the dive) and start again with a new dive.
-var _trails:Dictionary={}
-var _trail_sim_id:=0
-var _trail_clock:=-1.0
-func _draw_trail(u:Dictionary,id:int)->void:
-	if sim.get_instance_id()!=_trail_sim_id or sim.elapsed<_trail_clock:_trails.clear()
-	_trail_sim_id=sim.get_instance_id();_trail_clock=sim.elapsed
-	var dots:Array=_trails.get(id,[])
-	if sim.DroneBay.aboard(u) or not u.alive:
-		_trails.erase(id);return
-	if dots.is_empty() or dots.back().distance_to(u.pos)>=Words.TRAIL_STEP:dots.append(u.pos)
-	while dots.size()>Words.TRAIL_MAX:dots.pop_front()
-	_trails[id]=dots
-	if dots.size()<2:return
-	var ink:Color=Palette.chart_color("trail",UiStyle.TRAIL_INK)
-	for n in dots.size():
-		var fade:float=float(n+1)/dots.size()
-		draw_circle(dots[n],Words.TRAIL_DOT*Palette.stroke(1.)/world_scale,Color(ink,lerpf(.15,.65,fade)))
-	if id==sim.selected:_label(dots[maxi(0,dots.size()-3)]+Vector2(8,10),Words.TEXT.trail,ink,13)
 func _dash(a: Vector2,b: Vector2,color: Color,width: float) -> void:
 	var distance=a.distance_to(b)
 	for n in range(0,int(distance),18): draw_line(a.move_toward(b,n),a.move_toward(b,minf(n+9,distance)),color,width)
