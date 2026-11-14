@@ -15,6 +15,10 @@ reads game state and never writes a save itself.
   kit.py send --kit <kit> --slot a '<json>'
       Send one command and print the matching result. See README.md.
   kit.py quit --kit <kit> --slot a
+  kit.py launch ... --headless          (WP-123) no window; drive by state / order / run
+  kit.py state --kit <kit> --slot a [--truth]
+  kit.py order --kit <kit> --slot a '{"order":"route","craft":"QUIETUS","points":[[x,y]]}'
+  kit.py run --kit <kit> --slot a --seconds 30 [--speed 4]
 
 Evidence (screenshots, journals, saves) stays in the kit folder, outside the
 repository. Windows only: the driver needs a real GPU window.
@@ -101,9 +105,15 @@ def cmd_launch(args):
     env["PLAYKIT_CONTROL"] = str(control)
     env["PLAYKIT_SIZE"] = VIEWS[args.view]
     log = open(control / ("runtime-%s.log" % time.strftime("%Y%m%dT%H%M%S")), "wb")
+    # WP-123: --headless runs the game with no window (Godot's own --headless). state, order, run and debug work;
+    # screenshot, taps and labels answer a clear refusal. Playing by state/order/run needs no GPU window.
+    if args.headless:
+        command = [str(godot_exe()), "--headless", "--path", str(kit / "game"), "--script", str(kit / "driver.gd")]
+    else:
+        command = [str(godot_exe()), "--path", str(kit / "game"), "--rendering-method", "gl_compatibility",
+                   "--resolution", VIEWS[args.view], "--position", "0,0", "--script", str(kit / "driver.gd")]
     process = subprocess.Popen(
-        [str(godot_exe()), "--path", str(kit / "game"), "--rendering-method", "gl_compatibility",
-         "--resolution", VIEWS[args.view], "--position", "0,0", "--script", str(kit / "driver.gd")],
+        command,
         env=env, stdout=log, stderr=subprocess.STDOUT,
         creationflags=getattr(subprocess, "CREATE_NEW_PROCESS_GROUP", 0) | getattr(subprocess, "CREATE_NO_WINDOW", 0),
     )
@@ -113,11 +123,13 @@ def cmd_launch(args):
     reply = {}
     for _ in range(20):
         reply = send(kit, args.slot, {"command": "geometry"}, timeout=60)
+        if args.headless and reply.get("headless"):
+            break
         if reply.get("texture_size") == wanted:
             break
         time.sleep(0.5)
-    ready = reply.get("texture_size") == wanted
-    print(json.dumps({"pid": process.pid, "session": args.session, "view": args.view, "wanted": VIEWS[args.view], "ready": ready, "geometry": reply}))
+    ready = bool(reply.get("headless")) if args.headless else reply.get("texture_size") == wanted
+    print(json.dumps({"pid": process.pid, "session": args.session, "view": args.view, "headless": bool(args.headless), "wanted": VIEWS[args.view], "ready": ready, "geometry": reply}))
     return 0 if ready else 1
 
 
@@ -157,6 +169,35 @@ def cmd_debug(args):
     return 0 if reply.get("ok") else 1
 
 
+def cmd_state(args):
+    # WP-123: everything a player can know now, as one JSON object. --truth adds hidden Siren truth (debug builds, testing only).
+    request = {"command": "state"}
+    if args.truth:
+        request["truth"] = True
+    reply = send(args.kit, args.slot, request, timeout=args.timeout)
+    print(json.dumps(reply))
+    return 0 if reply.get("ok") else 1
+
+
+def cmd_order(args):
+    # WP-123: one player order by name, e.g. order ... '{"order":"route","craft":"QUIETUS","points":[[600,500]]}'.
+    request = json.loads(args.json)
+    request["command"] = "order"
+    reply = send(args.kit, args.slot, request, timeout=args.timeout)
+    print(json.dumps(reply))
+    return 0 if reply.get("ok") else 1
+
+
+def cmd_run(args):
+    # WP-123: run the dive for N game seconds (at speed S); stops at a lock, card, loss or the dive's end.
+    request = {"command": "run", "seconds": args.seconds}
+    if args.speed is not None:
+        request["speed"] = args.speed
+    reply = send(args.kit, args.slot, request, timeout=args.timeout)
+    print(json.dumps(reply))
+    return 0 if reply.get("ok") else 1
+
+
 def cmd_quit(args):
     reply = send(args.kit, args.slot, {"command": "quit"}, timeout=30)
     print(json.dumps(reply))
@@ -177,6 +218,7 @@ def main():
     launch.add_argument("--view", choices=sorted(VIEWS), default="cover")
     launch.add_argument("--session", required=True)
     launch.add_argument("--settle", type=float, default=4.0)
+    launch.add_argument("--headless", action="store_true", help="no window: state, order, run and debug only (WP-123)")
     launch.set_defaults(run=cmd_launch)
     snd = sub.add_parser("send")
     snd.add_argument("--kit", required=True)
@@ -190,6 +232,25 @@ def main():
     dbg.add_argument("--timeout", type=int, default=150)
     dbg.add_argument("--line", required=True)
     dbg.set_defaults(run=cmd_debug)
+    st = sub.add_parser("state")
+    st.add_argument("--kit", required=True)
+    st.add_argument("--slot", required=True)
+    st.add_argument("--timeout", type=int, default=150)
+    st.add_argument("--truth", action="store_true")
+    st.set_defaults(run=cmd_state)
+    od = sub.add_parser("order")
+    od.add_argument("--kit", required=True)
+    od.add_argument("--slot", required=True)
+    od.add_argument("--timeout", type=int, default=150)
+    od.add_argument("json")
+    od.set_defaults(run=cmd_order)
+    rn = sub.add_parser("run")
+    rn.add_argument("--kit", required=True)
+    rn.add_argument("--slot", required=True)
+    rn.add_argument("--timeout", type=int, default=600)
+    rn.add_argument("--seconds", type=float, required=True)
+    rn.add_argument("--speed", type=float, default=None)
+    rn.set_defaults(run=cmd_run)
     qt = sub.add_parser("quit")
     qt.add_argument("--kit", required=True)
     qt.add_argument("--slot", required=True)
