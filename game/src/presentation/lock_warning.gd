@@ -2,6 +2,7 @@ extends Control
 const Palette=preload("res://src/presentation/accessibility/palette.gd")
 const UiStyle=preload("res://src/presentation/ui_style.gd")
 const ThreatRead=preload("res://src/presentation/threat_read/threat_read.gd")
+const MoveTiming=preload("res://src/presentation/lock_move_timing.gd")
 # Read-only, receiver-earned lock cues. Never inspect the live enemy roster.
 # Visual revert: remove Main construction/refresh only; retain frames() and tests
 # because Soundscape and accessibility consume the same received-lock data.
@@ -86,18 +87,28 @@ func _fit_buttons(h:float,width:float)->float:
  var moves:Array=rows[0].moves if not rows.is_empty() and host.sim.paused and not prompt_open else []
  var font_size=_font_size(h)
  var inner=width-BUTTON_PAD*2
- var x=0.;var y=0.;var used=0.
+ var x=0.;var y=0.;var used=0.;var row_step=h
  for i in buttons.size():
   var button:Button=buttons[i]
   button.visible=i<moves.size()
   if not button.visible:continue
   var move=moves[i]
-  button.text=move.label;button.set_meta("order",move.order);button.set_meta("craft",int(rows[0].craft))
+  # Second line: how long the move takes to work on this lock, from the simulation's own rules. A move that cannot
+  # work before the lock completes keeps its tap but is drawn in the warning colour with its reason.
+  var timing:Dictionary=MoveTiming.read(host.sim,rows[0],move)
+  button.text=move.label+"\n"+timing.line;button.set_meta("order",move.order);button.set_meta("craft",int(rows[0].craft));button.set_meta("in_time",timing.in_time)
   button.add_theme_font_size_override("font_size",font_size)
+  button.add_theme_color_override("font_color",Color.WHITE if timing.in_time else Palette.color("warning",Color("ffb18b")))
   button.disabled=move.order=="decoy" and host.get("decoy_armed")==true and int(host.decoy_unit)==int(rows[0].craft)
-  var w=minf(inner,maxf(h*1.2,ThemeDB.fallback_font.get_string_size(move.label,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x+h*.5))
-  if x>0 and x+w>inner:x=0.;y+=h+BUTTON_GAP
-  button.size=Vector2(w,h);button.set_meta("offset",Vector2(x,y));x+=w+BUTTON_GAP;used=y+h
+  # Two lines need more than the touch height on a small card: the button's own font and margins say how much.
+  var font:Font=button.get_theme_font("font")
+  var box:Vector2=button.get_theme_stylebox("normal").get_minimum_size()
+  var row:float=maxf(h,font.get_height(font_size)*2.+box.y)
+  var wide:float=maxf(font.get_string_size(move.label,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x,font.get_string_size(timing.line,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x)
+  var w=minf(inner,maxf(h*1.2,wide+box.x+h*.25))
+  if x>0 and x+w>inner:x=0.;y+=row_step+BUTTON_GAP
+  row_step=row
+  button.size=Vector2(w,row);button.set_meta("offset",Vector2(x,y));x+=w+BUTTON_GAP;used=y+row
  return 0. if moves.is_empty() else used+BUTTON_PAD*2
 func _place_buttons()->void:
  for button in buttons:
