@@ -124,6 +124,16 @@ func presentation_fixture():
  hud.alarm.text="HEARD PATROLLER · 040°";hud.alarm.show()
  Meter.sync(hud)
  check(hud.alarm.visible and hud.alarm.text.begins_with("HEARD") and not chip(hud).get_global_rect().intersects(hud.alarm.get_global_rect()),"Hunt preserves and clears a genuine warning")
+ # WP-69: the onboarding tip card is an obstacle too; put the card where the chip sits and the chip moves off it.
+ hud.alarm.hide()
+ var seat=chip(hud).get_global_rect()
+ hud.hints.panel.custom_minimum_size=seat.size+Vector2(40,40);hud.hints.panel.size=hud.hints.panel.custom_minimum_size
+ hud.hints.panel.global_position=seat.position-Vector2(20,20);hud.hints.panel.show()
+ Meter.sync(hud)
+ check(not chip(hud).get_global_rect().intersects(hud.hints.panel.get_global_rect()),"Hunt chip seats clear of the tip card")
+ hud.hints.panel.hide()
+ hud.alarm.text="HEARD PATROLLER · 040°";hud.alarm.show()
+ Meter.sync(hud)
  await tap(game.advanced_button.get_global_rect().get_center())
  hud.alarm.text="HEARD PATROLLER · 040°";hud.alarm.show()
  Meter.sync(hud)

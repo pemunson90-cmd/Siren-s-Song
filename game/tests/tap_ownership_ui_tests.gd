@@ -73,8 +73,33 @@ func run():
 	await tip_card_tap_checks(g)
 	await warning_card_checks(g)
 	await lock_move_checks(g)
+	await water_tap_checks(g)
 	g.queue_free();await settle()
 	print("TAP OWNERSHIP UI CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)
+
+# WP-69: a water tap that orders nothing names what a water tap needs; one that orders something stays quiet.
+class IdleGuard:
+	extends "res://src/presentation/order_guard.gd"
+	func tap_water(_world:Vector2)->void:pass
+func water_tap_checks(g)->void:
+	await fresh(g)
+	var Words=preload("res://src/presentation/hud_words.gd")
+	var DiveInput=preload("res://src/presentation/dive_input.gd")
+	var spot:Vector2=water(g,g.sim.units[0].pos)
+	check(spot!=Vector2.INF,"water tap: an open-water point exists")
+	var real=g.mission_hud.guard
+	g.sim.message="stale line"
+	DiveInput.water_tap(g,spot)
+	check(g.sim.units[0].route.size()>0 and g.sim.message!=Words.TEXT.tap_idle,"water tap: a tap that routes the craft does not say the idle line (%s)"%g.sim.message)
+	var idle=IdleGuard.new();g.mission_hud.add_child(idle);idle.setup(g);g.mission_hud.guard=idle
+	g.sim.message="stale line"
+	DiveInput.water_tap(g,spot)
+	check(g.sim.message==Words.TEXT.tap_idle,"water tap: a tap that orders nothing says what a tap needs (%s)"%g.sim.message)
+	g.sim.outcome="lost"
+	DiveInput.water_tap(g,spot)
+	check(g.sim.message==Words.TEXT.tap_over,"water tap: after the dive ends the line says so (%s)"%g.sim.message)
+	g.sim.outcome=""
+	g.mission_hud.guard=real;idle.queue_free()
 
 # The centre of the drawn EXTRACTION label: the label plate nearest the spot the chart draws it at.
 func label_point(g,ex:Vector2)->Vector2:

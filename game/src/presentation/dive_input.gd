@@ -9,6 +9,7 @@ extends RefCounted
 # chart; and handles Escape and Space. Each function takes the host (main.gd or
 # a session subclass) and reaches the dive through the host's own fields and
 # methods. main.gd keeps thin methods with the engine's names that forward here.
+const Words=preload("res://src/presentation/hud_words.gd")
 const ReleaseControls=preload("res://src/presentation/release_controls.gd")
 static func input(host,event:InputEvent) -> void:
 	if host.debug_console!=null and host.debug_console.input(event):host.get_viewport().set_input_as_handled();return
@@ -78,9 +79,23 @@ static func map_event(host,event: InputEvent,local_event: bool=false) -> bool:
 		# Drawn information owns its tap even when it has no command target.
 		if host.ocean.information_at(action.tap-host.ocean.global_position):return true
 		var world=host.ocean.map_position(action.tap-host.ocean.global_position)
-		if Rect2(Vector2.ZERO,host.ocean.world_size()).has_point(world): host.mission_hud.guard.tap_water(world)
+		if Rect2(Vector2.ZERO,host.ocean.world_size()).has_point(world):water_tap(host,world)
 	if action.has("ended") or action.has("tap"):host.knock_press.clear()
 	return true
+# WP-69: a tap on open water that orders nothing (no route set, no marker, no refusal line) names what a water
+# tap needs. The stale status line is cleared first so a silent refusal cannot hide behind an old message.
+static func water_tap(host,world:Vector2)->void:
+	var sim=host.sim
+	var guard=host.mission_hud.guard
+	var unit:Dictionary=sim.units[sim.selected]
+	var route_before:Array=unit.route.duplicate()
+	var marker_before:bool=not guard.pending.is_empty()
+	sim.message=""
+	guard.tap_water(world)
+	if not sim.message.is_empty() or not guard.pending.is_empty() or marker_before:return
+	if sim.selected>=sim.units.size() or sim.units[sim.selected].route!=route_before:return
+	sim.message=Words.TEXT.tap_over if not sim.outcome.is_empty() else Words.TEXT.tap_idle
+	host._refresh()
 static func target_knockdown(host,point: Vector2,intended:int=-2) -> void:
 	var chosen=host.ocean.knock_aim_key(point-host.ocean.global_position) if intended==-2 else intended
 	if chosen<0 or not host.ocean.knock_visible_targets().any(func(c):return c.key==chosen):

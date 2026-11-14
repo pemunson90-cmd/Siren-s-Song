@@ -120,7 +120,7 @@ func run() -> void:
 	check(not hints.panel.visible and game.hints_seen.size()==count,"a prompt does not show twice")
 	# Contextual action reads before the tap.
 	var caption=game.mission_hud.camera_caption()
-	check(caption.size()>=2 and caption.size()<=3 and (caption.size()==2 and "NO SITE" in caption[1] or "NOT READY" in caption[2]),"the action button says it is not ready before the tap")
+	check(caption.size()>=2 and caption.size()<=4 and (caption.size()==2 and "NO SITE" in caption[1] or "NOT READY" in caption[2]),"the action button says it is not ready before the tap")
 	game.sim.units[0].pos=game.sim.mission.objectives[0].pos+Vector2(60,0); game.sim.units[0].vel=Vector2.ZERO
 	game.sim.units[0].angle=PI
 	game.sim.Photo.discover(game.sim)

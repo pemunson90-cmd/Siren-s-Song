@@ -33,6 +33,8 @@ func run():
 	check(line.begins_with("NOT READY"),"caption still says NOT READY before the tap")
 	check(hidden not in numbers(line),"caption does not show the distance to the hidden source (%dm)"%hidden)
 	check(numbers(line)==[reach] and "REACH" in line,"caption names the same camera reach as the refusal")
+	# WP-69: a not-ready camera in reach of its lead says why, in the simulation's words.
+	check(caption.size()>3 and str(caption[3])==str(context.text),"NOT READY is followed by the simulation's own reason")
 	var path="res://src/presentation/photo_shutter/range_caption.gd"
 	var Range=load(path) if ResourceLoader.exists(path) else null
 	check(Range!=null,"the range caption module exists")
@@ -49,8 +51,10 @@ func run():
 	var refused:Array=numbers(str(context.text))
 	check(not context.ready and refused.size()>=2,"out of reach the simulation names distance and range (setup)")
 	check(numbers(line)==refused.slice(0,2) and "REACH" in line,"caption shows the refusal's distance and range, labelled")
+	check(caption.size()==3,"out of reach alone adds no reason line: the distance is already shown")
 	u.pos=o.pos+Vector2.from_angle(o.subject.facing)*100.0;u.angle=u.pos.angle_to_point(o.pos)
 	game._refresh();caption=game.mission_hud.camera_caption();line=str(caption[2]) if caption.size()>2 else ""
 	check(line.begins_with("READY") and numbers(line)==[roundi(u.pos.distance_to(o.pos)),reach],"in reach the caption reads READY with distance and reach")
+	check(caption.size()==3,"READY adds no reason line")
 	game.queue_free();await process_frame
 	print("PHOTO RANGE CAPTION CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)

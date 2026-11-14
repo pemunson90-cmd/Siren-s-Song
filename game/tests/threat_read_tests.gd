@@ -168,6 +168,15 @@ SIREN BEAM FROM 090° · TO THE EAST"),"the loss card names the craft, the cause
 	var battery=TR.observe(s)
 	check(battery.size()==1 and battery[0].text=="DRONE B LOST · BATTERY EXHAUSTED" and battery[0].bearing<0,"a battery loss names its cause and draws no bearing")
 	check(s.message=="DRONE B LOST · BATTERY EXHAUSTED · Quietus camera remains available.","battery message keeps its advice")
+	# WP-69: a drone lost during an exposure says its photograph was lost; one lost with no exposure does not.
+	check(not ("photograph" in TR.loss_card(s)),"a loss with no exposure adds no photograph line")
+	s=beam_fixture();s.sirens=[];s.units[2].alive=true;TR.reset();TR.observe(s)
+	s.captures[2]={"target":0,"elapsed":1.0}
+	s.units[2].alive=false;s.events.append({"type":"loss","pos":s.units[2].pos})
+	TR.observe(s)
+	check(TR.loss_card(s).ends_with("Its photograph in progress was lost with it."),"a drone lost mid-exposure adds the photograph line: %s"%TR.loss_card(s))
+	s.captures[2]={}
+	check("photograph" in TR.loss_card(s),"the line stays once the exposure is cleared")
 	# A first notice pausing in the same step as a loss keeps the loss line first.
 	Settings.apply(Store.sanitize({"auto_pause_notice":true}))
 	s=beam_fixture();s.sirens=[];s.units[2].alive=true;var aid=Aids.new();aid.bind(host_for(s));TR.reset();aid.observe()

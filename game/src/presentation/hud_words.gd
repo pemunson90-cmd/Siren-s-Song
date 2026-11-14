@@ -41,6 +41,9 @@ const TEXT={
 	"rock_route": "This route crosses charted rock. Tap the marker again to send it anyway, or tap open water.",
 	"rock_route_replace": "REPLACE ROUTE would cross charted rock; ADD TO ROUTE would not. Tap open water to move the marker.",
 	"rock_route_add": "ADD TO ROUTE would cross charted rock; REPLACE ROUTE would not. Tap open water to move the marker.",
+	# WP-69: a tap on open water that orders nothing says what a water tap needs (or that the dive is over).
+	"tap_idle": "Select a craft first: tap Quietus or a drone, or use FLEET",
+	"tap_over": "The dive is over: no craft can be ordered",
 	"send_anyway": "SEND ANYWAY",
 	"ping": "PING SONAR\nuses %s reserve",
 	"ping_free": "PING SONAR\nuses no reserve",

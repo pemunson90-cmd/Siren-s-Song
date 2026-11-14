@@ -912,7 +912,11 @@ func camera_caption() -> Array:
  if target==-2:return [verb,"▸ SIREN S%d"%(int(context.get("siren",0))+1)]
  if target>=0 and target<sim.mission.objectives.size():
   var site=sim.mission.objectives[target]
-  return [verb,"▸ %s"%sim.Photo.label(site).to_upper(),preload("res://src/presentation/photo_shutter/range_caption.gd").line(sim,site,context.get("ready",false))]
+  var Range=preload("res://src/presentation/photo_shutter/range_caption.gd")
+  var lines=[verb,"▸ %s"%sim.Photo.label(site).to_upper(),Range.line(sim,site,context.get("ready",false))]
+  var why:String=Range.why(context)
+  if not why.is_empty():lines.append(why)
+  return lines
  return [verb,"▸ NO SITE IN RANGE"]
 func action_controls() -> Dictionary:
  var result={}
