@@ -7,6 +7,7 @@ extends SceneTree
 # 4. While the route confirm dialog is open the simulation does not advance.
 const Settings=preload("res://src/presentation/frontend/frontend_settings.gd")
 const Words=preload("res://src/presentation/hud_words.gd")
+const UiStyle=preload("res://src/presentation/ui_style.gd")
 var checks=0
 var failures=0
 func check(ok:bool,label:String)->void:
@@ -20,8 +21,13 @@ func touch(point:Vector2,pressed:bool,index:int=0):
 func mouse(point:Vector2,pressed:bool):
 	var e=InputEventMouseButton.new();e.position=point;e.global_position=point;e.button_index=MOUSE_BUTTON_LEFT;e.device=InputEvent.DEVICE_ID_EMULATION;e.pressed=pressed;root.push_input(e,true);await process_frame
 func tap(point:Vector2):
+	after_close() # WP-124: every test tap comes later than the WP-115 window after a prompt closed
 	await touch(point,true);await mouse(point,true);await touch(point,false);await mouse(point,false);await settle()
 func click(button:Control):await tap(button.get_global_rect().get_center())
+# WP-124: a chart tap within UiStyle.TAP_AFTER_CLOSE_MS of a prompt closing is ignored by design (WP-115); a player's next tap
+# comes later, so a test that taps the chart straight after pressing a prompt button lets the window pass first.
+func after_close()->void:
+	UiStyle.clock_override_ms=maxi(UiStyle.clock_override_ms,Time.get_ticks_msec())+UiStyle.TAP_AFTER_CLOSE_MS+100
 func drag(from:Vector2,to:Vector2):
 	await touch(from,true)
 	for n in range(1,9):

@@ -876,7 +876,7 @@ func _tick(dt: float) -> void:
 				var usable=true
 				if Photo.applies(o):
 					var result=Photo.finish(self,station,o);usable=result.usable
-					if not usable:message="%s · exposure unusable: %s · retake from another angle"%[u.name,str(result.shot.get("why",Photo.missing_text(Photo.frame(self,station,o),o.subject)))] # WP-113: the same plain reason the camera panel shows;Recon.action(mission,3.0,"UNUSABLE EXPOSURE")
+					if not usable:message="%s · exposure unusable: %s · retake from another angle"%[u.name,str(result.shot.get("why",Photo.missing_text(Photo.frame(self,station,o),o.subject)))];Recon.action(mission,3.0,"UNUSABLE EXPOSURE") # WP-113: the message gives the same plain reason the camera panel shows (WP-124: the comment had swallowed Recon.action, so an unusable frame cost no Hunt)
 				u.hold=""; captures[station]={}
 				if usable:o.captured=true
 				if not usable:pass

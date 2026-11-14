@@ -95,6 +95,8 @@ func capture_case(shape:Vector2i):
  game._refresh();await settle()
  print("STABLE TARGETS ",shape," site=",site," point=",ocean.screen_position(site.pos)," hits=",ocean.contexts_at(ocean.screen_position(site.pos),game.ui_touch_height) if not baseline else [])
  var before=sim.snapshot()
+ var ui_style=preload("res://src/presentation/ui_style.gd")
+ ui_style.clock_override_ms=maxi(ui_style.clock_override_ms,Time.get_ticks_msec())+ui_style.TAP_AFTER_CLOSE_MS+100 # WP-124: the route prompt closed just above; a player's tap comes later than the WP-115 window
  await tap(ocean.global_position+ocean.screen_position(site.pos))
  await picture("%d-overlap"%shape.x)
  if not baseline:

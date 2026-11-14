@@ -2,6 +2,7 @@ extends SceneTree
 # PRICED SHOTS through the real Main: briefing line, viewfinder strip, chart rings,
 # the four once-only prompts and the film count on the camera control.
 const Pricing=preload("res://src/simulation/photo_pricing/photo_pricing.gd")
+const UiStyle=preload("res://src/presentation/ui_style.gd")
 var checks=0
 var failures=0
 var game
@@ -36,6 +37,9 @@ func run():
 	var s=game.sim;s.sirens=[];s.units[1].alive=false;s.units[2].alive=false
 	var spire=Vector2(1300,300);var facing=2.74
 	s.units[0].pos=spire+Vector2.from_angle(facing+PI)*150;s.units[0].angle=facing;s.units[0].vel=Vector2.ZERO
+	# WP-124: starting the mission closes a tip card, and WP-115 holds the next tip for UiStyle.TIP_GAP_MS of real time; the
+	# test is about the reach prompt, so let that gap pass (otherwise the check races the clock and fails on a fast machine).
+	UiStyle.clock_override_ms=Time.get_ticks_msec()+UiStyle.TIP_GAP_MS+100
 	game.ocean.sim=s;game._refresh();game.ocean._process(0.0);await settle()
 	var feed=game.ocean.optical_feed
 	check(feed.visible,"the viewfinder is open")
