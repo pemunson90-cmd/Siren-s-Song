@@ -50,6 +50,8 @@ var zoom_floor:float=Table.VIEW.zoom_start
 var fitted_size=Vector2.ZERO
 var fitted_touch=0.
 var fitted_scale=0.
+var shown_scroll:=Vector2i(-1,-1)	# the scroll the last zoom set
+var focus:Vector2=Vector2(.5,.5)	# WP-111: where the player is looking, as a fraction of the board
 static func entry(main)->void:
  if Table.enabled:main._button(main.panel_box,"ROUTE MAP",func():open(main),"route_map")
 static func open(main)->void:
@@ -253,12 +255,28 @@ func _regions(font_size:int,font:Font,pad:float)->Array:
 static func not_charted_text(id:int)->String:
  var arc:Dictionary=preload("res://src/campaign/arcs/arc_table.gd").for_operation(id)
  return Table.DETAIL.not_charted%arc.name if not arc.is_empty() else Table.DETAIL.not_charted_plain
+ # WP-111: the board's size changes with the zoom and its scroll range follows a frame later, so the old code
+ # (scroll now, scale by the zoom ratio) clamped to the old range and, at the overview where nothing scrolls,
+ # forgot where the player was looking. The view's centre is kept as a fraction of the board (`focus`): zoom
+ # out then in returns to the same spot, and a tap on a region or operation sets it too.
 func _zoom(direction:int):
  var previous=zoom;zoom=clampf(zoom+direction*Table.VIEW.zoom_step,zoom_floor,Table.VIEW.zoom_max)
  if zoom==previous:return
- var center=Vector2(chart.scroll_horizontal,chart.scroll_vertical)+chart.size*.5
+ _remember_focus()
  _nodes(_touch_height())
- chart.set_deferred("scroll_horizontal",roundi(center.x*zoom/previous-chart.size.x*.5));chart.set_deferred("scroll_vertical",roundi(center.y*zoom/previous-chart.size.y*.5))
+ _show_focus()
+# The view's centre as a fraction of the board, per axis. An axis that does not scroll (the whole board is in view) keeps the earlier focus.
+func _remember_focus()->void:
+ # Where the last zoom put the scroll is not the player's own look: keep that zoom's focus, so edge clamping never drifts a round trip.
+ if Vector2i(chart.scroll_horizontal,chart.scroll_vertical)==shown_scroll:return
+ for axis in 2:
+  var span:float=board.size[axis]
+  if span>chart.size[axis]+1.:focus[axis]=((chart.scroll_horizontal if axis==0 else chart.scroll_vertical)+chart.size[axis]*.5)/span
+func _show_focus()->void:
+ await get_tree().process_frame
+ if not is_inside_tree() or chart==null:return
+ chart.scroll_horizontal=roundi(focus.x*board.size.x-chart.size.x*.5);chart.scroll_vertical=roundi(focus.y*board.size.y-chart.size.y*.5)
+ shown_scroll=Vector2i(chart.scroll_horizontal,chart.scroll_vertical)
 # Overview taps are honest: nodes there are under the touch minimum, so the first tap only zooms in on the tapped one.
 func _look_closer(id:int):
  zoom=clampf(maxf(zoom,Table.OVERVIEW.look_zoom),zoom_floor,Table.VIEW.zoom_max)
@@ -269,6 +287,7 @@ func _look_closer(id:int):
 func _center_on(point:Vector2)->void:
  await get_tree().process_frame
  if not is_inside_tree() or chart==null:return
+ focus=point/board.size	# WP-111: remembered, so a later zoom keeps this spot
  chart.scroll_horizontal=roundi(point.x-chart.size.x*.5);chart.scroll_vertical=roundi(point.y-chart.size.y*.5)
 # A tap on the overview that lands on a region's area or name (not on an operation) zooms in on that region.
 func _board_input(event:InputEvent)->void:
@@ -295,6 +314,7 @@ func _focus_current():
  if branch>=0:id=branch
  if not board.centers.has(id):return
  var center:Vector2=board.centers[id]
+ focus=center/board.size	# WP-111: remembered for the zoom buttons
  chart.set_deferred("scroll_horizontal",roundi(center.x-chart.size.x*.5));chart.set_deferred("scroll_vertical",roundi(center.y-chart.size.y*.5))
 func _select(id:int):
  if buttons.has(id) and buttons[id].get_meta("look_only",false):_look_closer(id);return

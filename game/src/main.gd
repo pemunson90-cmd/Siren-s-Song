@@ -169,6 +169,8 @@ func _ready() -> void:
 	scroll_report_timer.timeout.connect(_report_targets)
 	scroll.get_v_scroll_bar().value_changed.connect(func(_value): scroll_report_timer.start())
 	panel_box=VBoxContainer.new(); panel_box.size_flags_horizontal=Control.SIZE_EXPAND_FILL; panel_box.add_theme_constant_override("separation",14); scroll.add_child(panel_box)
+	# WP-111: a fade and a "MORE BELOW" chip over the bottom edge while the menu text runs on below the screen.
+	preload("res://src/presentation/scroll_cue.gd").install(self,scroll)
 	menu_footer=HFlowContainer.new(); menu_footer.add_theme_constant_override("h_separation",12); menu_footer.add_theme_constant_override("v_separation",12); stack.add_child(menu_footer); menu_footer.hide()
 	route_editor=preload("res://src/presentation/route_program_panel.gd").new(); add_child(route_editor)
 	sound=Soundscape.new(); add_child(sound)
