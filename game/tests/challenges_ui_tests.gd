@@ -88,6 +88,7 @@ func shape_case(shape):
    var locked=rows.filter(func(b):return b.get_meta("locked",false))
    check(locked.all(func(b):return b.text.contains("LOCKED · Recover ") and b.text.contains("in the Campaign") and b.text.split("\n").size()>=3),"every locked card shows its rule beside the named Campaign operation that unlocks it")
    check(locked.any(func(b):return b.text.contains("Recover 02 Split Channel in the Campaign")),"a locked card names the operation, not only its number")
+   check(locked.any(func(b):return b.text.contains("Recover operation ")),"a later operation keeps its number only: the Route Map hides its name until the player can know it")
    if not locked.is_empty():
     var card=locked[0];var note=front.find_child("LockNote_"+card.get_meta("challenge_id"),true,false) as Label
     check(note!=null and not note.visible,"a locked card holds a hidden note until it is tapped")

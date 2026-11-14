@@ -8,13 +8,15 @@ const Session=preload("res://src/presentation/frontend/challenge_session.gd")
 const SaveErrorView=preload("res://src/presentation/frontend/save_error_view.gd")
 const Missions=preload("res://src/campaign/missions.gd")
 # Words for a locked card (critic 14 Nov: "recover operation 01" did not say it meant the Campaign).
-const TEXT={"lock":"LOCKED · Recover %02d %s in the Campaign","note":"Recover %02d %s in the Campaign to unlock this challenge.","progress":"Campaign so far: %d operations recovered.","fresh":"Campaign so far: no operation recovered yet."}
+const TEXT={"lock":"LOCKED · Recover %s in the Campaign","note":"Recover %s in the Campaign to unlock this challenge.","progress":"Campaign so far: %d operations recovered.","fresh":"Campaign so far: no operation recovered yet.","named":"%02d %s","unnamed":"operation %02d"}
+# The opening operations are always listed on Operations, so they are named; a later one keeps its number only,
+# as the Route Map keeps an operation's name hidden until the player can know it.
 static func operation_name(row:Dictionary)->String:
 	var op:int=int(row.op)
-	if op<Missions.TITLES.size():return str(Missions.TITLES[op])
-	return str(row.title).split(" / ")[0].capitalize()
+	if op<Missions.TITLES.size():return TEXT.named%[op+1,str(Missions.TITLES[op])]
+	return TEXT.unnamed%(op+1)
 static func lock_line(row:Dictionary,key:String="lock")->String:
-	return TEXT[key]%[int(row.op)+1,operation_name(row)]
+	return TEXT[key]%operation_name(row)
 static func lock_note(front,row:Dictionary)->String:
 	var done:int=completed(front).size()
 	return lock_line(row,"note")+"\n"+(TEXT.progress%done if done>0 else TEXT.fresh)
