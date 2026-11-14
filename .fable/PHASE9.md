@@ -1,6 +1,6 @@
 # Phase 9: UI and UX repair
 
-Status: LIVE PLAN (rewritten 2026-11-13 16:40 for a pause: Pat's weekly usage on this model was about to run out and he may continue with another model). This file plus `.fable/RUN_STATE.json` and `.fable/NOW.md` is enough to continue. You do not need to reread the repository or the session transcript.
+Status: LIVE PLAN (resumed on Opus 13 Nov evening; updated 19:00 after the third critic round and WP-56 to WP-60). This file plus `.fable/RUN_STATE.json` and `.fable/NOW.md` is enough to continue. You do not need to reread the repository or the session transcript.
 
 ## What Pat asked for (verbatim, 12 and 13 November 2026)
 
@@ -81,18 +81,25 @@ Since the resume of 13 November (rows 71 to 85):
 | WP-53 | Fittings in two columns on a wide screen (`prep_columns.gd`, `layout_metrics.gd` `prep_wide`); what each tool does; reasons on greyed buttons; currency line | 83 |
 | WP-54 | Six trial rules in `game/src/trial_rules.gd`, one auto-pause path `presentation/auto_pause.gd` | 84 |
 | WP-55 | Eight guard suites repaired (two source defects, six stale suites) | 85 |
+| WP-56 | Lock card names the counter-moves ("Or: GO SILENT · DECOY ×3 · EMP ×2"); a lost craft gets a card; Quietus chip says SILENT or LOUD | 86 |
+| WP-57 | Career result gives cause, time, hull, repair; rider lines name their contract; damage record names causes | 87 |
+| WP-58 | Route prompt in fixed places, switch on its own row; rock checked from the route's end; "set route" | 88 |
+| WP-59 (root) | HELD plate while a menu holds time; 150% briefing footer; Hunt help in plain words; Career banner below the threat lines (`mode_banner.gd`); hub slips; PHOTO GALLERY; kit `--slot` required | 89 |
+| WP-60 | Opening journeys answer chart stops (test only; all five openings won on both screens) | none |
 
 Two blind critic rounds on 13 November (kits `fable-critic26-20261113` and `fable-critic33-20261113`; journals and captures under `<kit>/audit/critic-a|b|c/` and `<kit>/evidence/critic-a|b|c/`). In the first, critic A lost operation 1 three times; in the second, critic A finished it.
 
-## In flight at the pause
+Third round (kit `fable-critic37-20261113`, head 62a2877f): A (campaign, cover) lost dive 1 to a far, loud, 13% photograph and won dive 2 with a drone decoy; B (menus, inner) found the 150% briefing footer and the narrow front-end screens; C (Expedition and Career, loud) found chained self-pauses, a drone loss shown only as a log line, Career's bare result and rider placement. A's "the pause let go by itself" was its own blind tap on the plate (request log), but it showed that PAUSED was shown while only the wheel held time: now HELD. B's two foreign screenshots came from leaving `--slot` off (kit default was slot a): now required.
 
-**No helper is running.** One background job was started by root at 16:18 on 13 November: the second full sweep, on merge commit 345dfe8e (head bef1876b differs only in `.fable` files). If the session ended before it finished, its logs are still valid up to where it got: read every `*.log` newer than 2026-11-13 16:18 in `%USERPROFILE%\.cache\sirens-song-toolchain\artifacts\fable-root\` for its last "CHECKS n FAILURES m" line, and rerun the suites that have no newer log (or simply run the full sweep again).
+Second sweep (13 Nov, read on resume): every one of the 245 registered suites has a log; failures were four stale suites after the trial rules and the PLAN ROUTE move (terminal_tick, field_tools, depth_policy, opening_depth_policy), all fixed. `cold_review_archive_tests` and `art_render_measurements` cannot run here.
 
-Already found by the second sweep (33 suites in): `depth_policy_ui_tests` 2 failures, "real route arrives through actual band geometry". Cause: the suite's journey advances the simulation with no player, and the trial pauses (new lock, route end) stop it, so the craft never arrives; the game is right. A resume step was added to its `travel` and `run_seconds` loops (committed, NOT yet run: the sweep held the engine). Run it first: `scripts\toolchain\win\headless.ps1 -Action Script -Script depth_policy_ui_tests -Prefix "DEPTH POLICY UI"`. Expect other journey suites that advance the simulation without a player to need the same step.
+## In flight
 
-The resume command for an Opus session is `/siren-s-start-opus` (tracked in `.claude/commands/`, with a pointer in the user's `~/.claude/commands/` so it works from any folder); `/siren-s-start-fable` is the same run on the Fable model.
+- **WP-61** (helper): photographs you can judge: SHUTTER shows the forecast frame and how far it is heard; a C or B frame says what a better one needs and gains; the camera panel holds still; toasts clear its buttons. Owns `camera_feed.gd`, `photo_shutter/`, `photo_grade/`, record wording in `simulation.gd` / `photo_capture.gd`.
+- **WP-62** (helper): big-screen menus: GAME MODES as cards, SUPPLIES, SETTINGS, Career board and Expedition operation menu in two columns on wide screens; backdrop behind centred screens. Owns `presentation/frontend/`, `runs/modes_frontend.gd`, `runs/expedition_session.gd` menus, `runs/offer_view.gd`, `career_board.gd`, `career_frontend.gd`, `economy_panel.gd`, `layout_metrics.gd`, `prep_columns.gd`.
+- Root: journey suites rerunning on the merged head (WP-60 merged); after WP-61 and WP-62: a full sweep, then a fourth critic round.
 
-The first sweep (on b352f808) found eight failing suites; WP-55 fixed all eight and they were rerun green with 18 neighbours. The second sweep is the proof for the whole registry and for WP-54 and WP-55 together: **until it is read, the head is not known to be clean.**
+The resume command for an Opus session is `/siren-s-start-opus`; `/siren-s-start-fable` is the same run on the Fable model.
 
 ## Incident (13 November): the other clone was touched
 
@@ -100,7 +107,9 @@ The WP-55 helper was created in `repos\Siren-s-Song` (the clone that must not be
 
 ## Not yet seen by root in a capture
 
-- The Siren warning after WP-51 (one card, tips parked, viewfinder closed). The capture Pat has (`fable-critic33-20261113/evidence/critic-a/018.png`) is from before WP-51.
+- The lock card with its counter-moves line (WP-56) and the lost-craft card: no lock or loss provoked in root's looks. Critic captures of the lock card from kit 37 (`critic-a/024_lock_full.png`, `critic-c/032_lockon_quietus_full.png`) are from before WP-56.
+- The Career result screen's new lines, the board's rider lines (WP-57), the Career banner placement in a dive (WP-59).
+- The Siren warning after WP-51 is now seen in kit 37 (critic A 024 and 025): one card, tip card in its fixed place.
 - FITTINGS in two columns on the inner screen (seen on cover in kit 35).
 - The fitting cards and scale bars of WP-41: a new campaign has none until operation 1 is recovered.
 - Trial rules 2 to 6 in play (rule 1 seen in kit 36); the widened pause plate at large text.
@@ -108,15 +117,16 @@ The WP-55 helper was created in `repos\Siren-s-Song` (the clone that must not be
 
 ## Queue, in order
 
-1. **Read the second full sweep** and fix every failure (see "In flight").
-2. **Third blind critic round** on a new kit from the head: three Sonnet critics (`general-purpose`), briefs `scripts/critic/CRITIC_BRIEF.md` and `OPERATE.md`, 70 commands each, "send the report ONCE and stop". Ask for full-scale captures of everything under "Not yet seen", and for play with the trial pauses on: does pausing on every lock and at a route's end feel right or interrupt too much. Rank the findings here and build the top ones.
-3. **Left from the second round's ranking:** a line after a photograph saying what a better frame would add (C G3, F11); the Route Map reads as a developer tool ("UNKNOWN / LOCKED", raw numbers, node 39); Naval Career says "separate resources" and shows the Campaign's balance, and does not say how standing is gained; SUPPLIES AND COSTS is still one column; long unattended legs; no FIT button in the dive; Hunt meter moves with no explanation, and its help text still says the lock is 4 s (`presentation/meter_table.gd`); the mode picker and the other front-end screens are plain black behind a narrow column on the inner screen.
+1. **Merge WP-61 and WP-62** (one at a time; radial hud and HUD words after each), look at both in a kit (cover and inner), rows 90 and 91, then the **full sweep** (`scripts\toolchain\win\full-sweep.ps1`; check no other sweep is running first: two ran at once on 13 Nov).
+2. **Fourth blind critic round** on a new kit (`--slot` is now required: brief each critic with its slot). Ask for captures of everything under "Not yet seen".
+3. **Left from the third round:** C F12 Expedition briefing says "Supplies: scarce" without what is short; C F11 Expedition tools list repeats "None left in expedition stock"; B F6 the message log takes 3 to 4 lines at 150%; B F8 Back and exit consistency (several Backs can leave the app); A F10 no tool taught in operation 1 beyond the lock card's new counter-moves line; C F2/A F2 a loud, open approach is fatal within seconds (rules: Pat's).
+4. **Left from the second round's ranking:** a line after a photograph saying what a better frame would add (C G3, F11); the Route Map reads as a developer tool ("UNKNOWN / LOCKED", raw numbers, node 39); Naval Career says "separate resources" and shows the Campaign's balance, and does not say how standing is gained; SUPPLIES AND COSTS is still one column; long unattended legs; no FIT button in the dive; Hunt meter moves with no explanation, and its help text still says the lock is 4 s (`presentation/meter_table.gd`); the mode picker and the other front-end screens are plain black behind a narrow column on the inner screen.
 4. **Loose ends from the packages:** "first dive" for trial rule 2 is recognised as the plain Campaign simulation running operation 01 (a mode flag would be sturdier); `onboarding_hints.gd` still sets `sim.paused` itself (outside the one auto-pause path); a route pending because of rock is not re-checked when the player presses ADD TO ROUTE; mission-context wheel extras still shift segment angles; Career's pending-save reason text; `tap_ownership_ui_tests`, `hud_words_ui_tests` and `trial_rules_tests` are registered but not in the local everyday profile: add them when the profile is next edited; the career report is rewritten from saved text by regular expressions (`mode_result_text.gd`): plain text at the source would be sturdier.
 5. Then the everyday set and a full sweep, refresh the pull request 262 body from `.fable/FINAL_REPORT.md` (`gh pr edit 262 --body-file .fable/FINAL_REPORT.md`; editing the body starts no workflow), and update `docs/STATUS.md`.
 
 ## Open for Pat (do not decide these)
 
-- **The six trial rules** ("Yes for testing", verbatim in `docs/USER_DIRECTIVES.md`): ask him again after he has played; each switches back in `game/src/trial_rules.gd`. Rule 2 changed the protected record of the 4 second lock (SIREN-010) so that it pins the standard length as a constant: he was told; confirm he is content.
+- **The six trial rules** ("Yes for testing", verbatim in `docs/USER_DIRECTIVES.md`): ask him again after he has played; each switches back in `game/src/trial_rules.gd`. Evidence from the third critic round: critic A (cautious) met 4 self-pauses in about 3 minutes and found each useful; critic C (loud, drones out) needed five resumes in one danger moment (a lock, then "QUIETUS finished its route", then "DRONE A finished its route" a second apart) and asked for pauses to be merged or made settings. A possible middle (Claude's suggestion, not built): route-end pauses that fall within a second or two of another pause fold into it. Rule 2 changed the protected record of the 4 second lock (SIREN-010) so that it pins the standard length as a constant: he was told; confirm he is content.
 - **The leftovers in the other clone** (a worktree folder and a branch `wp-55`): move to scrap only if he asks.
 - **For his play:** whether menus scroll by finger drag on the phone (B19: cannot be checked on this PC); PLAN ROUTE sits under ROUTE while a deploy or recall segment shows; the field records gallery during a dive does not show that dive's frames until it ends.
 - **From his rules** (`docs/V7_TO_GODOT_PARITY.md`, "Tests that still fly on the older rules"): the tender door photo with quiet drones, the scout-ahead opening, operations 17 and 30 on discovered charts. Which operation an Expedition starts on (a critic met the Campaign's finale as operation 1 of a seed).

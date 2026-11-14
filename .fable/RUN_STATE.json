@@ -6,7 +6,7 @@
   "base_ref": "origin/claude/integration",
   "base_sha": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
   "run_branch": "fable/overhaul-20261111",
-  "run_head": "3c3180ef2bb70054ea55f08a3ee52dd2d0ee61e9",
+  "run_head": "7389535ba1310b1402af8a839c67759a7b24b358",
   "shared_tips": {
     "claude/integration": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
     "main": "f5b66a198e3878950325f8c45a0bc6bc29dcba84",
@@ -75,9 +75,11 @@
     "WP-57": "merged",
     "WP-58": "merged",
     "WP-59": "merged",
-    "WP-60": "building"
+    "WP-60": "merged",
+    "WP-61": "merged",
+    "WP-62": "building"
   },
   "decisions_open": 0,
   "last_checkpoint": "Paused at Pat's request on 2026-11-13 16:40 (weekly usage on the model about to run out; he may continue with another model). WP-31 to WP-55 merged and pushed, behavior rows 57 to 85. First full sweep (b352f808): 244 suites, 8 failing, all 8 fixed by WP-55 and rerun green with 18 neighbours; WP-54 on top: Core 856/0 and 15 suites green. Second full sweep started 16:18 on 345dfe8e and NOT yet read: the head is not known to be clean.",
-  "updated": "2026-11-13 18:59:14"
+  "updated": "2026-11-13 19:28:10"
 }
