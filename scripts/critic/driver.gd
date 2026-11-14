@@ -5,8 +5,11 @@ extends SceneTree
 # events. It never calls game code, reads simulation or save state, or changes
 # a save. The one thing it reads from the scene is the text and rectangle of
 # interface labels (`labels`), as an aid for aiming taps. A blind critic plays
-# through it from screenshots. The one exception is the `debug` command (WP-120),
-# which hands a line to the game's debug console; it is for root and fun rounds.
+# through it from screenshots. Two exceptions: the `debug` command (WP-120), which
+# hands a line to the game's debug console (root and fun rounds), and the
+# `state`, `order` and `run` commands (WP-123), which let a tester who judges play
+# rather than pixels read what a player can know and give the player's own orders
+# through game/src/play_api/play_api.gd. They work in a windowless (--headless) run.
 #
 # Protocol: the client writes one request file `<control>/request-<id>.json`
 # (written under a temporary name, then renamed). The driver executes it and
@@ -19,7 +22,10 @@ var control := ""
 var busy := false
 var wanted_size := Vector2i.ZERO
 var served := {}
-var game = null # WP-120: the running main scene, used only by the `debug` command
+var game = null # WP-120: the running main scene, used by the `debug` command and (WP-123) state, order and run
+# WP-123: loaded at run time so an older kit without the module still starts (the three commands then answer an error).
+var PlayApi = null
+const TOUCH_COMMANDS := ["click", "hold", "drag", "pinch", "wheel", "screenshot", "labels"]
 
 
 func _initialize() -> void:
@@ -36,7 +42,9 @@ func _launch() -> void:
 	var main = load(ProjectSettings.get_setting("application/run/main_scene"))
 	game = main.instantiate()
 	root.add_child(game)
-	if wanted_size != Vector2i.ZERO:
+	if ResourceLoader.exists("res://src/play_api/play_api.gd"):
+		PlayApi = load("res://src/play_api/play_api.gd")
+	if wanted_size != Vector2i.ZERO and not _headless():
 		await process_frame
 		# The desktop may be smaller than the requested client area. The window
 		# is allowed to extend past it; captures read the full rendered viewport.
@@ -89,6 +97,11 @@ func _serve(name: String) -> void:
 	busy = false
 
 
+# WP-123: a windowless run (Godot --headless) has no rendered viewport: screenshots, taps and labels have nothing to act on.
+func _headless() -> bool:
+	return DisplayServer.get_name() == "headless"
+
+
 func _to_window(pos: Vector2) -> Vector2:
 	return pos * Vector2(DisplayServer.window_get_size()) / Vector2(root.get_texture().get_image().get_size())
 
@@ -129,7 +142,16 @@ func _inside_kit(path: String) -> bool:
 func _execute(c: Dictionary) -> Dictionary:
 	var result := {"command": c.get("command", ""), "ok": true}
 	var pos := _point(c, "x", "y")
-	match c.get("command", ""):
+	var command: String = str(c.get("command", ""))
+	if _headless() and command in TOUCH_COMMANDS:
+		result["ok"] = false
+		result["error"] = "Headless run: there is no window, so %s is unavailable. Use state, order and run." % command
+		return result
+	if command in ["state", "order", "run"] and (PlayApi == null or game == null):
+		result["ok"] = false
+		result["error"] = "This kit's game has no play_api module (make a new kit from a newer ref)"
+		return result
+	match command:
 		"click":
 			_touch(0, pos, true)
 			await process_frame
@@ -216,6 +238,9 @@ func _execute(c: Dictionary) -> Dictionary:
 				result["error"] = "Screenshot path must be inside the kit folder"
 				result["ok"] = false
 		"geometry":
+			if _headless():
+				result["headless"] = true
+				return result
 			result["texture_size"] = str(root.get_texture().get_image().get_size())
 			result["visible_rect"] = str(root.get_visible_rect())
 			result["window_size"] = str(DisplayServer.window_get_size())
@@ -238,6 +263,15 @@ func _execute(c: Dictionary) -> Dictionary:
 					result["ok"] = false
 					break
 			result["results"] = results
+		"state":
+			# WP-123: everything a player can know now (game/src/play_api/play_api.gd). Reads what the HUD reads.
+			result.merge(PlayApi.state(game, c), true)
+		"order":
+			# WP-123: the player's own orders by name, through the code the taps reach. No teleport, no shortcut.
+			result.merge(await PlayApi.order(game, c), true)
+		"run":
+			# WP-123: run the dive for N game seconds at a speed; stops at locks, cards, losses and the dive's end.
+			result.merge(await PlayApi.run(game, c), true)
 		"debug":
 			# WP-120: runs one line of the game's own debug console (for root's checks and fun rounds, not blind
 			# interface critics). It marks the profile DEV exactly as typing the line would. A release build has no

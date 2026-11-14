@@ -52,6 +52,24 @@ In JSON on a command line, wrap the whole JSON in single quotes. In PowerShell, 
 
 `debug` is for root's own checks and for fun-focused rounds that need to reach a state quickly. It marks the profile DEV, as typing the line in the game would. Blind interface critics play without it unless their brief says otherwise; they reach every state by touch.
 
+## Driving by state, order and run (no pixels; headless allowed)
+
+Which way to play depends on what you judge. **Gameplay and fun testers drive with `state`, `order` and `run`**, and may launch with `--headless` (no window, no GPU). **Interface critics keep screenshots and taps**, because they judge what the screen shows; `state` never replaces looking.
+
+```
+python TOOL launch --kit KIT --slot SLOT --session NAME --headless
+python TOOL state  --kit KIT --slot SLOT
+python TOOL order  --kit KIT --slot SLOT '{"order":"start","operation":1}'
+python TOOL order  --kit KIT --slot SLOT '{"order":"route","craft":"QUIETUS","points":[[400,760],[800,640]],"mode":"replace"}'
+python TOOL run    --kit KIT --slot SLOT --seconds 30 --speed 4
+```
+
+`state` is one JSON object of what a player can know now: screen, operation, pause or run, speed, dive time, oxygen (percent and seconds left), hull, each craft (position, depth, route points, hold or task, battery, film, exposure), the contacts received (label as the chart shows it, last-seen position, age), the objectives as the chart shows them (search radius until found, FILED and photo grade after), extraction, tools left, lock warnings with seconds left, the Hunt stage, the strip's lines and every open card or prompt with its buttons. Away from a dive (title, hub, briefing, result) it lists the screen's text and buttons. It never names an unreceived Siren. `--truth` (debug builds only) adds the real Siren list under a block marked `TESTING ONLY`; do not play from it.
+
+`order` takes `"order"` and fields: `start` (`operation`: opens its briefing and presses ENTER WATER; the dive starts paused), `route` (`craft`, `points` as `[[x,y],...]` in chart metres, `mode` `replace` or `append`), `depth` (`band` shallow, middle, deep, up or down; one band at a time, as the game allows), `deploy`, `recall` (`craft`), `photo` (optional `mode` wide or tight, `flash`, `focus`; `insist` presses again after the shutter's first-press warning), `tool` (`tool` emp, decoy with `point`, knock with `target` S number, recon ...), `ping`, `silent`, `loud`, `hold` (`on`), `all_stop`, `select`, `pause`, `run`, `speed` (1, 2, 4; above 4 only in a debug build, through the console, which marks the profile DEV), and `answer` (`button`: press a button of an open card, prompt or screen by its label, for example `GOT IT`, `REPLACE ROUTE`, `BACK TO OPERATIONS`). Each returns `ok`, the game's own `message`, and on refusal `refusal` in the words a player would see. An order plots or starts something; it never moves a craft by itself (no teleport, no instant travel). A route that crosses charted rock is sent as the second tap on the marker would, and the answer carries `warning`.
+
+`run` (`seconds`, optional `speed`) runs the dive for that many game seconds, starting it if paused, and **stops early** at a pause the game made, a new Siren lock, a new card or prompt, a craft lost, a Siren hunting while sped up, or the dive's end. It returns `stopped` (why), the new `state`, the `events` and the `messages` that happened, and `game_seconds_per_real_second`. The dive is left paused afterwards, so `state` and `order` between runs cost no dive time. Answer a card with `order answer`, then `run` again. Keep `--timeout` above the expected real time of a long run.
+
 ## Evidence
 
 Save screenshots under `KIT/evidence/<session>/` with numbered names. Keep a short running journal in `KIT/audit/<session>/JOURNAL.md` (what you tried, what happened, findings as you notice them), so a later session can continue from it. Open each screenshot you rely on with your image reader; do not infer a screen you did not look at.
