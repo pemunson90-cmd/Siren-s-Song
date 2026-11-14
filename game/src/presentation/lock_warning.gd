@@ -73,7 +73,8 @@ func _card_text()->String:
  var asking:bool=host!=null and host.mission_hud!=null and host.mission_hud.guard!=null and not host.mission_hud.guard.pending.is_empty()
  var decoy_note:String=Words.TEXT.decoy_note if not asking and moves.size()<all_moves.size() and all_moves.any(func(m):return m.order=="decoy") else ""
  # WP-103: the one line that says what a landed lock does, read from the craft the lock is on (simulation.gd).
- var lands:String=Words.lock_lands(host.sim,int(rows[0].craft)) if host!=null else ""
+ # Left off while the route prompt is open (one decision at a time), like the decoy note below, so the prompt still clears the stack.
+ var lands:String=Words.lock_lands(host.sim,int(rows[0].craft)) if host!=null and not asking else ""
  return rows[0].sentence+("\n"+lands if not lands.is_empty() else "")+"\n"+advice+("\n"+decoy_note if not decoy_note.is_empty() else "")+("\n"+aim if not aim.is_empty() else "")+("\n"+note if not note.is_empty() else "")
 func refresh(owner):
  host=owner;position=Vector2.ZERO;size=host.size
