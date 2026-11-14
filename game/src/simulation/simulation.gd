@@ -1528,7 +1528,7 @@ func _record_secured(record: Dictionary,unit_id:int=-1) -> void:
 # What would raise this record's frame: the viewfinder's own hint for the craft that took it.
 func _better_frame_hint(record:Dictionary,unit_id:int)->String:
 	if unit_id<0 or unit_id>=units.size() or not record.has("subject") or not Photo.applies(record):return ""
-	return FrameForecast.hint(Photo.frame(self,unit_id,record,0.0))
+	return FrameForecast.hint(Photo.frame(self,unit_id,record,0.0),Pricing.readout(self,unit_id,record))
 func _record_secured_core(record: Dictionary,unit_id:int=-1) -> void:
 	if record.has("siren"):
 		# A Siren study is film, not a charted record: it never advances an operation's own record logic.

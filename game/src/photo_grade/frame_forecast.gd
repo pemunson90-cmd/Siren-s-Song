@@ -9,7 +9,9 @@ extends RefCounted
 const Grade=preload("res://src/photo_grade/grade_on_secure.gd")
 const Photo=preload("res://src/simulation/photo_capture.gd")
 # Hints with no " · " tail of their own in the viewfinder row reason.
-const HINTS:={"HIDDEN":"go round to the lit side","CROPPED":"centre the subject","WAITING":"wait for its cycle","OUT OF FOCUS":"press FOCUS to choose it"}
+const HINTS:={"HIDDEN":"go round the subject","CROPPED":"centre the subject","WAITING":"wait for its cycle","OUT OF FOCUS":"press FOCUS to choose it"}
+# The camera panel's own advice for the next detail (photo_pricing.readout): hidden, or too dark to resolve.
+const LIGHT_HINT:="more light: flash, a still wait or closer"
 # The sharpness hint the viewfinder prints ("TOO SOFT · closer, lit or still").
 const SOFT_HINT:="closer, lit or still"
 
@@ -26,7 +28,11 @@ static func forecast(frame:Dictionary,o:Dictionary)->Dictionary:
 	return {"usable":usable,"q":q,"grade":Grade.letter(q)}
 
 # What a better frame needs, from the same row reasons the viewfinder status uses.
-static func hint(frame:Dictionary)->String:
+# readout: photo_pricing.readout for the same craft and subject, when given: its advice for the next detail comes
+# first, so the result line says what the panel said ("… hidden from here · go round the subject").
+static func hint(frame:Dictionary,readout:Dictionary={})->String:
+	if readout.get("hidden",false):return HINTS.HIDDEN
+	if readout.get("light",false):return LIGHT_HINT
 	for r in frame.get("rows",[]):
 		if r.apparent and not r.ready and not str(r.why).is_empty():
 			var why:String=str(r.why)
