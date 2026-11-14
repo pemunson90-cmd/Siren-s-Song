@@ -221,6 +221,18 @@ static func point_row(number:int,goal:Dictionary,drone:bool)->String:
 	var modes:Dictionary=POINT_MODES_DRONE if drone else POINT_MODES
 	return POINT_ROW%[number,modes.get(str(goal.get("mode","inherit")),"same speed"),POINT_STOPS[bool(goal.get("stop",true))]]
 
+# WP-110: the ROUTE PROGRAM screen's words (route_program_panel.gd, route_program_preview.gd). One word for "keep the
+# current setting": SAME, on the button, in the rows and in the help line (the route's own mode key is "inherit").
+const PROGRAM_MODES={"inherit": "SAME", "silent": "SILENT", "cruise": "CRUISE"}
+const PROGRAM_MODES_DRONE={"inherit": "SAME", "silent": "QUIET42", "cruise": "TRANSIT96"}
+const PROGRAM_HELP="TO: how %s travels to this point; SAME keeps its current setting.\nAT: STOP halts there first; PASS carries straight on."
+# Number, speed, stop, then how far and which way the point lies from the point before it (the craft for the first).
+const PROGRAM_ROW="%d · %s · %s · %d m, bearing %03d°"
+const PROGRAM_PAN="DRAG TO PAN"
+const PROGRAM_ROCK="ROCK"
+static func program_mode(mode:String,drone:bool)->String:
+	return (PROGRAM_MODES_DRONE if drone else PROGRAM_MODES).get(mode,"SAME")
+
 # extra is the second name some lines carry (the depth that is open).
 static func auto_pause_text(key:String,craft:String,extra:String="")->String:
 	var line:String=TEXT[AUTO_PAUSE_KEYS[key]]

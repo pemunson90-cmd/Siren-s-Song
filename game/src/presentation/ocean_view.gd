@@ -628,9 +628,9 @@ func _draw() -> void:
 	# Short screen-sized tags preserve observed identity without long world labels.
 	for entry in observed:
 		var anchor=chart_camera.to_screen(entry.pos)+Vector2(12,-18)
-		var tag_size=ThemeDB.fallback_font.get_string_size(entry.tag,HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size)
+		var tag_size=ThemeDB.fallback_font.get_string_size(entry.name,HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size)
 		draw_rect(Rect2(anchor-Vector2(3,feedback_font_size),Vector2(tag_size.x+6,feedback_font_size+5)),Color(0.025,0.06,0.075,0.94))
-		draw_string(ThemeDB.fallback_font,anchor,entry.tag,HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size,Color("ed8e79") if entry.fresh else Color("b09a94"))
+		draw_string(ThemeDB.fallback_font,anchor,entry.name,HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size,Color("ed8e79") if entry.fresh else Color("b09a94"))
 		if entry.key==selected_contact:_selection_bracket(chart_camera.to_screen(entry.pos),Palette.chart_color("threat",Color("ed8e79") if entry.fresh else Color("b09a94")))
 	for n in acoustic.pulses:
 		if n.label==Names.NOISE_DECOY:
@@ -655,7 +655,7 @@ func _contact_tag_rects()->Array:
 	if sim==null:return result
 	for entry in contact_entries():
 		var anchor=chart_camera.to_screen(entry.pos)+Vector2(12,-18)
-		var tag_size=ThemeDB.fallback_font.get_string_size(entry.tag,HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size)
+		var tag_size=ThemeDB.fallback_font.get_string_size(entry.name,HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size)
 		result.append(Rect2(anchor-Vector2(3,feedback_font_size),Vector2(tag_size.x+6,feedback_font_size+5)))
 	return result
 # A Siren study keeps only where it was last photographed, never where it is.

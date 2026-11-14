@@ -2,7 +2,7 @@ extends RefCounted
 # Own accepted-course footprint only. No terrain/listener query or input ownership.
 # Values describe the existing 12 m hull, not a change to collision or damage rules.
 # Revert: remove the OceanView/RouteProgramPreview draw calls and this folder.
-const STYLE={"hull_radius":12.0,"tint":Color(0.35,0.85,0.82,0.10),"legend":"BAND = HULL WIDTH"}
+const STYLE={"hull_radius":12.0,"tint":Color(0.35,0.85,0.82,0.10),"legend":"SHADED STRIP = THE CRAFT'S WIDTH"} # WP-110: was "BAND = HULL WIDTH", a developer note
 static func segments(sim,unit:int)->Array:
  var result=[]
  if unit<0 or unit>=sim.units.size() or not sim.units[unit].alive:return result

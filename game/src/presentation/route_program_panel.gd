@@ -1,5 +1,6 @@
 extends PanelContainer
 const Words=preload("res://src/presentation/hud_words.gd")
+const Compass=preload("res://src/presentation/compass.gd")
 var host
 var selected_goal=0
 var preview
@@ -63,11 +64,12 @@ func choose_point(p:Vector2):
  var index=0 if count==0 else selected_goal
  var u=host.sim.units[host.sim.selected]
  var origin:Vector2=u.pos if index<=0 else goals[index-1].pos
- var crossing=preview.leg_crosses_rock(origin,p)
+ var rock=preview.leg_rock_point(origin,p) # WP-110: where the rock is, so the chart can mark it
+ var crossing=rock!=null
  var again=preview.pending_point!=null and preview.screen_position(p).distance_to(preview.screen_position(preview.pending_point))<=touch_height
  if crossing and not again:
-  preview.pending_point=p;error_text=Words.TEXT.rock_route;preview.queue_redraw();refresh();return
- preview.pending_point=null
+  preview.pending_point=p;preview.pending_rock=rock;error_text=Words.TEXT.rock_route;preview.queue_redraw();refresh();return
+ preview.pending_point=null;preview.pending_rock=null
  apply("route_insert" if count==0 else "route_edit",{"index":index,"point":p})
 func configure(bounds:Vector2,h:float):
  if preview!=null and bounds!=layout_bounds:
@@ -101,11 +103,14 @@ func refresh():
  var goals=host.sim.route_goals();selected_goal=clampi(selected_goal,0,maxi(0,goals.size()-1))
  var legacy=goals.any(func(goal):return goal.get("legacy",false))
  var drone=host.sim.selected>0;var unit=host.sim.units[host.sim.selected]
- info.text=unit.name+(" · DRIVE %s · %s PROFILE\nTO sets how the drone travels to this point. SAME keeps its current setting. STOP halts at the point, then goes on."%["QUIET42" if unit.get("drone_drive","transit")=="quiet" else "TRANSIT96","LOW" if unit.silent else "OPEN"] if drone else " · TO sets how the craft travels to this point. SAME keeps its current setting. STOP halts at the point, then goes on.")+("\nLegacy course retained; editing rebuilds to its final goal." if legacy else "")
+ # WP-110: the help line says SAME like the button does, and says what AT does (it used to explain only TO).
+ info.text=unit.name+(" · DRIVE %s · %s PROFILE\n"%["QUIET42" if unit.get("drone_drive","transit")=="quiet" else "TRANSIT96","LOW" if unit.silent else "OPEN"]+Words.PROGRAM_HELP%"the drone" if drone else " · "+Words.PROGRAM_HELP%"the craft")+("\nLegacy course retained; editing rebuilds to its final goal." if legacy else "")
  for c in rows.get_children():rows.remove_child(c);c.queue_free()
  selected_row=null
  for n in goals.size():
-  var id=n;var goal=goals[n];var text="%d · %s · %s · %.0f, %.0f"%[n+1,mode_label(goal.mode,drone),"STOP" if goal.stop else "PASS",goal.pos.x,goal.pos.y]
+  # WP-110: distance and bearing from the point before (the craft for the first), not raw map coordinates.
+  var id=n;var goal=goals[n];var from:Vector2=unit.pos if n==0 else goals[n-1].pos
+  var text=Words.PROGRAM_ROW%[n+1,mode_label(goal.mode,drone),"STOP" if goal.stop else "PASS",roundi(from.distance_to(goal.pos)),Compass.bearing(goal.pos-from)]
   var b=button(rows,text,"goal"+str(n),func():selected_goal=id;refresh());b.mouse_filter=Control.MOUSE_FILTER_PASS;b.modulate=Color("80d9cf") if n==selected_goal else Color.WHITE
   if n==selected_goal:selected_row=b
  var empty=goals.is_empty();mode_button.disabled=empty;arrival_button.disabled=empty;delete_button.disabled=empty
@@ -115,7 +120,7 @@ func refresh():
  point_info.text=error_text if not error_text.is_empty() else ("Tap preview to add the first destination." if empty else "POINT %d / %d · tap preview to move"%[selected_goal+1,goals.size()])
  preview.selected_goal=selected_goal;preview.queue_redraw();call_deferred("configure",host.size,host.ui_touch_height);call_deferred("show_selected_row")
 func mode_label(mode:String,drone:bool) -> String:
- return ("QUIET42" if mode=="silent" else "TRANSIT96" if mode=="cruise" else "SAME") if drone else mode.to_upper()
+ return Words.program_mode(mode,drone) # WP-110: "inherit" reads SAME everywhere, for Quietus too
 func show_selected_row():
  if is_instance_valid(selected_row):row_scroll.ensure_control_visible(selected_row)
 func apply(order:String,args:Dictionary):
