@@ -140,7 +140,7 @@ static func fit_dock(hud)->void:
   hud.order_dock_context.text="\n".join(hud.camera_caption())
  if hud.page in ["object","salvage","plant","habitat"]:
   hud.order_dock_context.text=str(hud.subject.get("name","OBJECT"))+"\n"+"\n".join(hud.WorkTask.captions(hud.host.sim,hud.subject))
- if hud.page=="choose":hud.order_dock_context.text=str(hud.subject.get("name","OBJECT"))+"\nCRAFT OR OBJECT?"
+ if hud.page=="choose":hud.order_dock_context.text=str(hud.subject.get("name","OBJECT"))+"\n"+hud.Words.choose_prompt(hud.target_choices)
  if hud.page=="fleet":hud.order_dock_context.text=str(hud.get_meta(HINT,""))
  hud.order_dock_context.visible=not hud.order_dock_context.text.is_empty()
  hud.order_dock_context.add_theme_font_size_override("font_size",font)
