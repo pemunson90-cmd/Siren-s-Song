@@ -21,12 +21,17 @@ static func show(front)->void:
 	var error=front.host.get_meta("challenge_save_error","")
 	if error is String and not error.is_empty():
 		SaveErrorView.front_retry(front,"PROGRESS NOT SAVED\n"+error+"\nResults are held in this session.",16,"RETRY SAVE",func():Archive.persist(front.host);show(front),"challenge_retry_save")
+	# Wide: each challenge is a card in a grid of two columns. Narrow: the stacked list as ever.
+	var grid=front._grid(func():show(front))
 	for row in Catalog.all():
 		var id:String=row.id;var available=Catalog.unlocked(row,recovered)
 		var best=saved.get(id,{}).get("best",{})
 		var detail=Records.summary(best) if available else "LOCKED · recover operation %02d"%[int(row.op)+1]
-		var b=front._button(row.title+"\n"+detail,func():details(front,id),"challenge_"+id,not available)
-		b.set_meta("challenge_id",id)
+		var add=func():
+			var b=front._button(row.title+"\n"+detail,func():details(front,id),"challenge_"+id,not available)
+			b.set_meta("challenge_id",id)
+		if grid!=null:front._into(front._card(grid),add)
+		else:add.call()
 static func details(front,id:String)->void:
 	var row=Catalog.get_challenge(id)
 	if row.is_empty() or not Catalog.unlocked(row,completed(front)):return
