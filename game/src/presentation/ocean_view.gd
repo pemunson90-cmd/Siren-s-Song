@@ -88,7 +88,8 @@ func unstated_entries(entries=null)->Array:
 func _kept_under_lock(text:String,context:Dictionary)->bool:
 	return not context.is_empty() or text.length()==1 or text in ["EXTRACTION","WITHDRAWAL"]
 var threat_bottom=0.
-var optical_top_held=0.
+# The threat cards and readouts on screen (mission_hud.threat_rects, set with threat_bottom): the camera panel's top.
+var threat_rects_seen:Array=[]
 var contact_top=0.
 var contacts_in_scroll=false
 var optical_suppressed:=false
@@ -304,11 +305,15 @@ func _process(dt: float) -> void:
 		optical_feed.visible=viewfinder
 		# Reserve an optical dock beside the chart, above the reflowing status.
 		var width=minf(size.x*.52,optical_feed.preferred_width())
-		# The panel never slides up under a finger while it is showing: its top only ever moves down
-		# (clear of a new threat) and is released when the panel hides, so OPEN/FOLD keep SHUTTER, WIDE in place.
-		var top=maxf(instrument_top+4.,threat_bottom)
-		if optical_feed.visible:top=maxf(top,optical_top_held)
-		optical_top_held=top if optical_feed.visible else 0.0
+		# The panel clears only the threat cards and readouts above its own column (mission_hud.threat_rects), so a card
+		# or readout elsewhere never moves it (it used to follow the whole threat stack and jumped about 30 px between
+		# the OPEN tap and the SHUTTER tap). When a card above it leaves, the panel takes its room back: an earlier
+		# latch kept it squeezed to a strip after a lock card with move buttons had gone (13 Nov).
+		var top=instrument_top+4.
+		var left_edge:float=size.x-width-14.
+		if threat_rects_seen.is_empty():top=maxf(top,threat_bottom)
+		for r in threat_rects_seen:
+			if r.end.x>left_edge and r.position.x<size.x-14.:top=maxf(top,r.end.y+12.)
 		var height=minf(optical_feed.preferred_height(),maxf(1.,size.y-top-14.))
 		if optical_feed.compact:height=maxf(optical_feed.touch_height,optical_feed.receiver_font_size+14.)+8.
 		optical_feed.size=Vector2(width,height)

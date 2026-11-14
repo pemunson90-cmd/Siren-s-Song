@@ -740,7 +740,7 @@ func refresh():
   intent.text+="\n"+sim.Depth.context(sim)
  Truthful.apply(self)
  _place_threat_stack()
- host.ocean.threat_bottom=threat_floor()
+ host.ocean.threat_bottom=threat_floor();host.ocean.threat_rects_seen=threat_rects()
  StatusView.apply(self)
  _fit_wheel_words()
  segments.sync(self)
