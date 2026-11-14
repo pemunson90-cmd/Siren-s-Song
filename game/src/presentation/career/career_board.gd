@@ -73,6 +73,7 @@ static func briefing(host)->void:
 	heading(host,NAME+"\n"+mission.title.to_upper(),"career_briefing")
 	host._menu_text("%s: %s"%[Table.FACTIONS[c.faction],c.brief],18)
 	Briefing.show(host,c.op,c.brief,CONTRACT_RULES)
+	host._menu_text(Briefing.carrying_line(host.tool_racks),17)
 	host._menu_text("Reward if you recover it: %s.\nStanding with %s: %d. Recover it for +%d, lose it for %d.\nNext launch costs: %s."%[Economy.fmt(c.reward).to_lower(),Table.FACTIONS[c.faction].capitalize(),host.career_state.standing[c.faction],Table.SUCCESS,Table.LOSS,Economy.fmt(preload("res://src/presentation/economy_panel.gd").launch_cost(host)).to_lower()],17)
 	var rider=State.rider_offer(host.career_state,host.selected_contract)
 	host._menu_text(Riders.description(rider),17)

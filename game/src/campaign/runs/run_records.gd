@@ -67,8 +67,13 @@ static func add(records:Dictionary,state:Dictionary)->Dictionary:
 	out.best_depth=maxi(out.best_depth,row.depth);out.last.push_front(row)
 	out.last.resize(mini(LIMIT,out.last.size()))
 	return out
+# The run's Hunt stage is a ceiling: each operation starts at most at its own cap (the seed screen says the same).
+const HUNT_CEILING="Expedition Hunt stage %d · %s"
+const HUNT_CEILING_NOTE=" (each operation starts at most at its own cap)"
+static func hunt_ceiling(stage:int)->String:
+	return HUNT_CEILING%[stage,preload("res://src/names.gd").HUNT_STAGES[stage]]
 static func modifiers(row:Dictionary)->String:
-	return "%s LOADOUT / %s / STARTING HUNT %d"%[preload("res://src/equipment/field_tools.gd").loadout_label(row.loadout),Table.SCARCITY[row.scarcity].to_upper(),row.hunt_stage]
+	return "%s LOADOUT / %s / %s"%[preload("res://src/equipment/field_tools.gd").loadout_label(row.loadout),Table.SCARCITY[row.scarcity].to_upper(),hunt_ceiling(row.hunt_stage).to_upper()]
 # What a run's scarcity means in plain words: the starting stock it lacks against a supplied run, and what a
 # recovered operation adds. The numbers come from the run table only.
 const SCARCITY_LINE="%s: %s at the start, short of a supplied run; %s."
