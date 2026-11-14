@@ -5,6 +5,7 @@ const Table=preload("res://src/campaign/arcs/arc_table.gd")
 const Recap=preload("res://src/campaign/arcs/arc_recap.gd")
 const UiStyle=preload("res://src/presentation/ui_style.gd")
 const Metrics=preload("res://src/presentation/layout_metrics.gd")
+const ChartPreview=preload("res://src/presentation/chart_preview.gd")
 const META="arc_seen"
 const HEADING_SIZE=28
 const KIND_INTRO="ARC %d · REGION ENTRY"
@@ -68,6 +69,9 @@ func setup(main,arc:Dictionary,outro:bool)->void:
   var label=Label.new();label.text=rows[i];label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;label.add_theme_font_size_override("font_size",roundi((HEADING_SIZE if i==0 else 18)*scale))
   if i==1:label.add_theme_color_override("font_color",UiStyle.ACCENT)
   text.add_child(label)
+ # The first operation of the region: its chart, under the arc name and kind line.
+ if not outro and arc.has("first"):
+  ChartPreview.attach(text,main.Simulation.Missions.make(arc.first,main._launch_context(arc.first)),main.size.y,scale,2)
  var next=main._button(box,"CONTINUE TO RECOVERY" if outro else "CONTINUE TO BRIEFING",dismiss,"arc_continue")
  next.custom_minimum_size=Vector2(48,maxf(48,main.ui_touch_height));next.add_theme_font_size_override("font_size",roundi(18*scale))
  next.grab_focus()
