@@ -35,8 +35,11 @@ func judge(view,known_arcs):
   check(row.can_open==not row.tag.is_empty(),"node %d tag only when the operation can be opened"%row.id)
   if row.mark:check(button.text==Table.MARK_GLYPH,"unknown node %d shows no tag or name"%row.id)
   if row.can_open:
-   check(button.text.contains(row.label) and button.text.split("\n").size()>=3,"node %d shows title, state and tag"%row.id)
-   check(button.text.contains(" Siren") or row.tag.sirens==0,"node %d tag states the Sirens"%row.id)
+   # A tag line follows title and state when the operation has counted work or opens a route (the last operations open none).
+   var tag:String=view.tag_text(row)
+   check(button.text.contains(row.label) and button.text.split("\n").size()>=(3 if not tag.is_empty() else 2) and button.text.ends_with(tag),"node %d shows title, state and tag"%row.id)
+   # The map never counts Sirens: the briefing does not, and the dive reveals them by sound.
+   check(not tag.contains("Siren") and not row.tag.has("sirens"),"node %d tag does not count Sirens"%row.id)
 func map_case(shape,scale):
  case_label=str([shape,scale])
  root.size=shape;await settle()

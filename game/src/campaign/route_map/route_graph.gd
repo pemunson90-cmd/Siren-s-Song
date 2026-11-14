@@ -35,8 +35,9 @@ static func build(completed:Array,progress:Dictionary,intel:Dictionary,unlocked:
  for row in nodes:
   if not row.tag.is_empty():row.tag["opens"]=edges.filter(func(edge):return edge.from==row.id).size()
  return {"enabled":Table.enabled,"nodes":nodes,"edges":edges,"rumors":rumors}
-# Facts the briefing already shows: required photo subjects, other required tasks, Sirens on the chart.
+# Facts the briefing already shows: required photo subjects and other required tasks. How many Sirens wait is
+# never shown before the dive (the dive reveals them by sound), so the map does not count them either.
 static func _tag(mission:Dictionary)->Dictionary:
  var required=mission.get("objectives",[]).filter(func(objective):return not objective.get("optional",false))
  var photos=required.filter(func(objective):return objective.has("subject")).size()
- return {"photos":photos,"tasks":required.size()-photos,"sirens":mission.get("sirens",[]).size(),"opens":0}
+ return {"photos":photos,"tasks":required.size()-photos,"opens":0}

@@ -145,13 +145,13 @@ func _nodes(h):
   extent=extent.max(point+node_size+Vector2(margin,margin))
  board.regions=_regions(region_size,font)
  board.custom_minimum_size=extent;board.size=extent;board.queue_redraw()
-# The two-line reward and risk tag (empty for an operation the player cannot open): work and Sirens, then what recovering it opens.
+# The tag (empty for an operation the player cannot open): the work on one line, then what recovering it opens.
 static func tag_text(row:Dictionary)->String:
  if row.tag.is_empty():return ""
- var work:Array=[];var risk:Array=[]
- for part in [["photo",row.tag.photos,work],["task",row.tag.tasks,work],["siren",row.tag.sirens,risk],["opens",row.tag.opens,risk]]:
+ var work:Array=[];var reward:Array=[]
+ for part in [["photo",row.tag.photos,work],["task",row.tag.tasks,work],["opens",row.tag.opens,reward]]:
   if part[1]>0:part[2].append(Table.TAG[part[0]][0 if part[1]==1 else 1]%part[1])
- var lines:Array=[Table.TAG.join.join(work),Table.TAG.join.join(risk)].filter(func(line):return not line.is_empty())
+ var lines:Array=[Table.TAG.join.join(work),Table.TAG.join.join(reward)].filter(func(line):return not line.is_empty())
  return "\n"+"\n".join(lines) if not lines.is_empty() else ""
 # A region's name goes in the band above its topmost operation, left-aligned to its group, once, and only when the player knows
 # at least one of its operations by name.

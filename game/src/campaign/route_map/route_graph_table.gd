@@ -26,7 +26,7 @@ const DETAIL={"hint":"Drag to pan. + / − changes chart size. CURRENT finds the
  "photos":"%s: known from recovered film. Its route is not available yet.","locked":"%s: locked. %s.","not_charted":"Not yet charted: recover the operations next to it."}
 # Region names: drawn once above each arc's group, only when the player knows at least one of its operations by name.
 const REGION_COLOR="7fa6b3"
-# Reward and risk tag on an operation the player can open: two short lines under the title, from facts its briefing shows
-# (required photo subjects and other required tasks, Sirens on the chart, routes recovering it opens). Entries are [one, many]; zero counts are left out.
-const TAG={"photo":["%d photo","%d photos"],"task":["%d task","%d tasks"],"siren":["%d Siren","%d Sirens"],"opens":["opens %d route","opens %d routes"],"join":" · "}
+# Work and reward tag on an operation the player can open: short lines under the title, from facts its briefing shows
+# (required photo subjects and other required tasks, then the routes recovering it opens). Entries are [one, many]; zero counts are left out.
+const TAG={"photo":["%d photo","%d photos"],"task":["%d task","%d tasks"],"opens":["opens %d route","opens %d routes"],"join":" · "}
 const THEME={"background":"07151e","edge":"304953","recovered_fill":"193832","node_fill":"0c202b"}
