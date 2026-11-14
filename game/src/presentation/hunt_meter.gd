@@ -16,6 +16,18 @@ const HELP_HOOK="hunt_meter_help_resize_hook"
 const NOTE="hunt_meter_change_note"
 const NOTE_STAGE="hunt_meter_noted_stage"
 const NOTE_UNTIL="hunt_meter_note_until"
+# WP-115: the first-display note's shown-time count and the prompt it yielded to.
+const UiStyle=preload("res://src/presentation/ui_style.gd")
+const INTRO_TICK="hunt_meter_intro_tick"
+const INTRO_SHOWN="hunt_meter_intro_shown"
+const INTRO_PROMPT="hunt_meter_intro_prompt"
+# A prompt that needs an answer: the order dialog, the chart-stop prompt, a contact card, the lock card, or any open
+# wheel or sheet. (A tip card only makes the note wait; see intro().)
+static func _prompt_up(hud)->bool:
+ if hud.host.advanced_orders or hud.page=="order_help":return true
+ if hud.guard.panel.visible or hud.chart_choice.panel.visible or hud.contact_card.panel.visible:return true
+ var warning=hud.host.lock_warning
+ return warning!=null and warning.visible
 static func label(view:Dictionary,compact:bool=false,tight:bool=false)->String:
  var pips=""
  for index in Table.PIP_COUNT:pips+="●" if index<=int(view.index) else "○"
@@ -128,7 +140,20 @@ static func intro(hud,button:Button)->void:
   hud.set_meta("hunt_meter_intro_since",now)
   flags.append(Text.HUNT_METER_HINT)
  var label=_intro_label(hud)
- if now-float(hud.get_meta("hunt_meter_intro_since"))>Table.INTRO_SECONDS:_retire_intro(hud);return
+ # WP-115 (critic B round 8): the note leaves after INTRO_SECONDS of time it was actually SHOWN (real seconds, counted only
+ # while it is on screen; the dive's clock stands still while stopped, so the old count never ended). It also yields to any
+ # prompt that needs an answer (card, order dialog, route prompt, wheel), and leaves for good once such a prompt is answered.
+ var tick:int=UiStyle.now_ms()
+ var last:int=int(hud.get_meta(INTRO_TICK,tick))
+ hud.set_meta(INTRO_TICK,tick)
+ var shown:float=float(hud.get_meta(INTRO_SHOWN,0.0))
+ if label.visible:shown+=float(maxi(0,tick-last))/1000.0
+ hud.set_meta(INTRO_SHOWN,shown)
+ if shown>Table.INTRO_SECONDS:_retire_intro(hud);return
+ if _prompt_up(hud):
+  hud.set_meta(INTRO_PROMPT,true);label.hide();return
+ if hud.get_meta(INTRO_PROMPT,false):_retire_intro(hud);return
+ if hud.hints.panel.visible:label.hide();return  # a tip card is read first; the note waits (its shown time stands still)
  if not button.visible:label.hide();return
  # While a stage-change note is up, the chip's one seat beside it belongs to the note.
  if _note_live(hud):label.hide();return
@@ -245,7 +270,7 @@ static func _craft_touch_rects(hud)->Array:
    bounds=bounds.expand(at)
   result.append(bounds)
  return result
-static func _obstacles(hud,button:Button,craft:bool=true)->Array:
+static func _obstacles(hud,button:Button,craft:bool=true,tip_card:bool=true)->Array:
  var result=[]
  var area=Rect2(Vector2.ZERO,StatusView.content_bounds(hud,hud.size))
  for other in hud.action_controls().values():
@@ -266,7 +291,7 @@ static func _obstacles(hud,button:Button,craft:bool=true)->Array:
    if r.has_area():result.append(Rect2(cue.global_position-hud.global_position+r.position,r.size))
  # WP-69: the onboarding tip card is read once at the top left; the chip seats elsewhere while it is up.
  var tip=hud.get("hints")
- if tip!=null and tip.panel.is_visible_in_tree():result.append(Rect2(tip.panel.global_position-hud.global_position,tip.panel.size))
+ if tip_card and tip!=null and tip.panel.is_visible_in_tree():result.append(Rect2(tip.panel.global_position-hud.global_position,tip.panel.size))
  var banner=hud.host.get("status_label")
  if banner is Control and banner.is_visible_in_tree():result.append(Rect2(banner.global_position-hud.global_position,banner.size))
  if hud.fleet!=null and hud.fleet.is_visible_in_tree():
@@ -292,8 +317,10 @@ static func fit(hud)->void:
  # stays clear, so it moves for a resize, mirroring, text scale or a panel, not per frame.
  var signature=str([area.size,hud.touch_height,hud.text_scale,Settings.current.get("mirrored_hud",false),hud.host.advanced_orders,hud.page,hud.order_dock.visible])
  if Table.STICKY and button.get_meta("hunt_meter_fitted",false) and button.get_meta("hunt_meter_signature","")==signature:
+  # WP-115: the chip keeps its one place: a tip card appearing is not a reason to move it (the card keeps off the chip).
   var held=Rect2(old_position,body)
-  if area.encloses(held) and not obstacles.any(func(other):return held.intersects(other)):return
+  var firm:Array=_obstacles(hud,button,true,false)
+  if area.encloses(held) and not firm.any(func(other):return held.intersects(other)):return
  button.set_meta("hunt_meter_signature",signature)
  var candidates=[Vector2(right,near_top),Vector2(Table.MARGIN,near_top),Vector2(right,Table.MARGIN),Vector2(middle,Table.MARGIN),Vector2(Table.MARGIN,Table.MARGIN),Vector2(right,bottom),Vector2(middle,bottom),Vector2(Table.MARGIN,bottom)]
  # Try exact obstacle edges before the coarse scan: a full touch target can fit

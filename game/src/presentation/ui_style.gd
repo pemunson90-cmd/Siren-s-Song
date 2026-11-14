@@ -226,3 +226,17 @@ static func mode_card_box()->StyleBoxFlat:
 	var box:=_box(MODE_CARD_FILL,BUTTON_BORDER,1)
 	for side in ["left","right","top","bottom"]:box.set("content_margin_"+side,MODE_CARD_PADDING)
 	return box
+# WP-115 (round 8 critic B): floating elements of the dive at large text.
+# One wall clock for every "shown for" and "since it closed" rule below; a test sets clock_override_ms (-1 = real clock).
+static var clock_override_ms:=-1
+static func now_ms()->int:
+	return clock_override_ms if clock_override_ms>=0 else Time.get_ticks_msec()
+# Chart taps this long after any card or prompt closes are ignored (a tap meant for the card's last button or for
+# dismissing it was taken as a route marker).
+const TAP_AFTER_CLOSE_MS=300
+# After a tip card closes, the next tip waits this long (real time) before it may appear.
+const TIP_GAP_MS=6000
+const TIP_AVOID_GROW=6.0
+# The status strip holds at most this many drawn lines once text is large (text scale from STRIP_LARGE_TEXT).
+const STRIP_LARGE_TEXT=1.25
+const STRIP_MAX_LINES_LARGE=3

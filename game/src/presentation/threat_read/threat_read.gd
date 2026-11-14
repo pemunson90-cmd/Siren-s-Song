@@ -271,7 +271,11 @@ static func draw_screen(view,sim)->void:
 	if view.optical_feed!=null and view.optical_feed.is_visible_in_tree():occupied.append(view.optical_feed.get_rect().grow(6))
 	var fs:int=view.feedback_font_size
 	# A lock is stated once: by lock_warning.gd's card and this line's countdown, with no chip at the craft.
+	# WP-115 (critic B round 8: a craft loss was announced three times at once): while the loss card states it, the chip at
+	# the wreck stays away (the wreck cross on the chart marks the place); the chip is the record once the card has gone.
+	var card_states_loss:bool=rows.is_empty() and not loss_card(sim).is_empty()
 	for row in loss_rows(sim):
+		if card_states_loss:break
 		var anchor:Vector2=view.screen_position(row.pos)
 		var box:Rect2=chip(view,anchor,row.text,fs,occupied)
 		if box.size==Vector2.ZERO:continue

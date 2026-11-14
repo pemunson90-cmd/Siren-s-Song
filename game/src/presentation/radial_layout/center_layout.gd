@@ -105,9 +105,27 @@ static func fit_disc(lines:Array,font:Font,font_size:int,center:Vector2,radii:Ve
   if fitted.fits:return fitted
   var drop:=-1
   while drop<0 and not queue.is_empty():drop=stack.find(queue.pop_front())
-  if drop<0:return fitted
-  stack.remove_at(drop)
+  if drop>=0:stack.remove_at(drop);continue
+  # WP-115 (round 7/8: a long Expedition text ran past the wheel's rim at 150%): with nothing left to drop, the longest
+  # line is shortened with an ellipsis (a word at a time, a letter if it is one word) until the stack lies inside the disc.
+  var shorter:=_shorten(stack)
+  if shorter.is_empty():return fitted
+  stack=shorter
  return {}
+static func _shorten(stack:Array)->Array:
+ var pick:=-1;var longest:=0
+ for n in stack.size():
+  var length:=str(stack[n]).trim_suffix("…").length()
+  if length>longest and length>1:pick=n;longest=length
+ if pick<0:return []
+ var out:=stack.duplicate()
+ var cut:=str(stack[pick]).trim_suffix("…")
+ var words:=cut.split(" ",false)
+ if words.size()>1:
+  words.remove_at(words.size()-1);cut=" ".join(words)
+ else:cut=cut.substr(0,cut.length()-1)
+ out[pick]=cut.strip_edges()+"…"
+ return out
 static func _fit_stack(lines:Array,font:Font,font_size:int,center:Vector2,radii:Vector2,max_height:float,first_y:Callable,floor_px:int)->Dictionary:
  var size=font_size
  while true:
