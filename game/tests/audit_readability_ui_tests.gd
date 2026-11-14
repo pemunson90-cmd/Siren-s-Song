@@ -28,7 +28,8 @@ func shape_case(shape):
   var intent=game.mission_hud.intent
   print("STATUS REFLOW ",stamp," rect=",intent.get_rect()," minimum=",intent.get_minimum_size()," lines=",intent.get_line_count()," font=",intent.get_theme_font_size("font_size"))
   check(intent.size.y>=intent.get_minimum_size().y and Rect2(game.global_position,game.size).encloses(intent.get_global_rect()),"complete resolved status fits its visible allocation "+stamp)
-  check(intent.text.ends_with(game.sim.Depth.context(game.sim)),"full final depth-context suffix remains in visible status "+stamp)
+  var facts=preload("res://src/presentation/archive/voice_feed.gd").standing_once(game.mission_hud.current_message,game.sim.Depth.context(game.sim))
+  check(intent.text.ends_with(facts) or not intent.text.contains(facts),"depth-context facts show whole or give way to the task lines, never cut (a repeated instruction is said once) "+stamp)
   check(game.ocean.planning_size.y<=intent.position.y,"chart planning area ends above complete status "+stamp)
   check(feed._buttons.size()==3,"all fitted optical actions present "+stamp)
   check(feed.visible,"optical dock available "+stamp)

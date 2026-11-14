@@ -55,13 +55,14 @@ static func standing_once(message:String,standing:String)->String:
 		kept.append(text)
 	return SEP.join(kept)
 # fits(text) -> bool answers whether the strip's own label holds that text in two lines.
-static func strip_text(head:String,message:String,standing:String,fits:Callable)->String:
-	var first=head if message.is_empty() else head+SEP+message if not head.is_empty() else message
+# body is the strip so far (craft, band, mode, message and any task lines); message is its newest part.
+static func strip_text(body:String,message:String,standing:String,fits:Callable)->String:
 	var tail=standing_once(message,standing)
-	for candidate in [first+"\n"+tail if not tail.is_empty() else first,first]:
+	for candidate in [body+"\n"+tail if not tail.is_empty() else body,body]:
 		if fits.call(candidate):return candidate
-	# Last resort: the newest message alone, whole. A message longer than two lines is the writer's to shorten.
-	return message if not message.is_empty() else first
+	# Task and held-dive lines (extra rows after the message) are warnings and stay. Otherwise the last resort is
+	# the newest message alone, whole; a message longer than two lines is the writer's to shorten.
+	return message if not message.is_empty() and body.contains(message) and not body.contains("\n") else body
 # ---- archive ---------------------------------------------------------------
 static func write(host,data:Dictionary)->void:
 	if not received(host).is_empty():data[Voices.FIELD]=received(host).duplicate()

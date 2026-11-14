@@ -22,6 +22,7 @@ const Truthful=preload("res://src/presentation/truthful_commands.gd")
 const WorkTask=preload("res://src/presentation/work_task/work_task.gd")
 const ReleaseControls=preload("res://src/presentation/release_controls.gd")
 const LifeChip=preload("res://src/presentation/life_support_chip.gd")
+const VoiceFeed=preload("res://src/presentation/archive/voice_feed.gd")
 const UiStyle=preload("res://src/presentation/ui_style.gd")
 const Palette=preload("res://src/presentation/accessibility/palette.gd")
 const Words=preload("res://src/presentation/hud_words.gd")
@@ -43,6 +44,8 @@ var measurement_style:StyleBoxFlat
 var sheet_body:VBoxContainer
 var sheet_fit_pending=false
 var intent_fit_pending=false
+var strip_standing=""
+var current_message=""
 var sheet_scroll:ScrollContainer
 var details_return="water"
 var sheet_pointers:Dictionary={}
@@ -504,6 +507,16 @@ func _fit_intent():
  var height=maxf(ceil(intent.get_minimum_size().y)+8.,line*2+8.)
  intent.custom_minimum_size.y=height;intent.size.y=height;intent.position=host.ocean.chart_origin()+Vector2(16,size.y-height-14)
  host.ocean.status_floor=maxf(1.,intent.position.y-12.)
+# WP-83: the strip holds at most two lines. The standing depth hint gives up first (and says nothing the message
+# already says); the newest message is never cut.
+func _one_strip(message:String)->void:
+ var suffix="\n"+strip_standing
+ if strip_standing.is_empty() or not intent.text.ends_with(suffix):return
+ var font=intent.get_theme_font("font");var font_size=intent.get_theme_font_size("font_size")
+ var wide=maxf(1.,host.ocean.chart_width()-32)-8.
+ var line=font.get_height(font_size)
+ var fits=func(text:String)->bool:return font.get_multiline_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,wide,font_size).y<=line*2.+1.
+ intent.text=VoiceFeed.strip_text(intent.text.trim_suffix(suffix),message,strip_standing,fits)
 func _schedule_intent_fit():
  if intent_fit_pending:return
  intent_fit_pending=true;call_deferred("_resolved_intent_fit")
@@ -640,6 +653,7 @@ func refresh():
  host.advanced_button.text="FLEET";plate(host.advanced_button,UiStyle.NORMAL)
  focus_button.text="FOLLOW" if host.ocean.chart_camera.mode=="follow" else "FOCUS"
  var current=host.targeting_feedback if not host.targeting_feedback.is_empty() else "DECOY · TAP CLEAR WATER ≤160m · TAP CANCEL" if host.decoy_armed else "TORPEDO · TAP FRESH CONTACT · TAP CANCEL" if host.knock_armed else sim.message
+ current_message=current;strip_standing=""
  intent.text="%s · %s"%[sim.units[sim.selected].name+" · "+sim.Depth.NAMES[sim.units[sim.selected].band],"QUEUE" if sim.queue_mode else "REPLACE"]+(" · "+current if not current.is_empty() else "")
  host.title_label.visible=page not in ["signals","recovery","order_help"];host.detail_label.visible=page not in ["signals","recovery","order_help"]
  host.order_buttons.home.text="WITHDRAW" if Expedition.entry(sim) else "EXTRACT"
@@ -736,13 +750,15 @@ func refresh():
   var urgent=alarm.visible or (host.lock_warning!=null and host.lock_warning.visible)
   var reason=Words.pause_reason(host)
   for held_line in ([reason] if not reason.is_empty() else [])+route_end.lines(sim,urgent):intent.text+="\n"+held_line
-  intent.text+="\n"+sim.Depth.context(sim)
+  strip_standing=sim.Depth.context(sim)
+  intent.text+="\n"+strip_standing
  Truthful.apply(self)
  _place_threat_stack()
  host.ocean.threat_bottom=threat_floor();host.ocean.threat_rects_seen=threat_rects()
  StatusView.apply(self)
  _fit_wheel_words()
  segments.sync(self)
+ _one_strip(current_message)
  _fit_intent()
  var aid_font=maxi(14,roundi(touch_height*.26*text_scale))
  guard.refresh(Vector2(host.ocean.chart_width(),size.y),touch_height,aid_font,intent.position.y if intent.visible else size.y)
