@@ -166,12 +166,15 @@ static func arrange(host)->void:
  var primary_text=Table.TEXT.complete+"\n"+Table.TEXT.complete_note
  if target!=null:
   var next_data=datas[target];primary_text=Table.named(Table.TEXT.next,next_data.num,next_data.name)
- var primary=host._button(top,primary_text,func():
-  if is_instance_valid(target):target.pressed.emit()
- ,"next_operation")
- primary.disabled=target==null;primary.size_flags_horizontal=Control.SIZE_EXPAND_FILL
- primary.size_flags_stretch_ratio=Table.NEXT_STRETCH
- primary.mouse_filter=Control.MOUSE_FILTER_PASS
+ # While a dive is in flight RESUME DIVE stands alone: a second button naming the same operation would only restart it.
+ var primary=null
+ if resume==null:
+  primary=host._button(top,primary_text,func():
+   if is_instance_valid(target):target.pressed.emit()
+  ,"next_operation")
+  primary.disabled=target==null;primary.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+  primary.size_flags_stretch_ratio=Table.NEXT_STRETCH
+  primary.mouse_filter=Control.MOUSE_FILTER_PASS
  # Match disabled geometry to the active style so changing Resume availability cannot rewrap the row.
  for control in [resume,primary]:
   if control!=null and control.get_meta("ui_role","NORMAL")!="MAIN":control.add_theme_stylebox_override("disabled",control.get_theme_stylebox("normal"))
@@ -187,12 +190,7 @@ static func arrange(host)->void:
   ,"current_branch")
  var continue_head=HBoxContainer.new();continue_head.add_theme_constant_override("separation",Table.GAP)
  var continue_label=heading(host,"CONTINUE");continue_label.size_flags_horizontal=Control.SIZE_EXPAND_FILL;continue_label.size_flags_vertical=Control.SIZE_SHRINK_CENTER;continue_head.add_child(continue_label)
- var title=null
- if Table.TOP_TITLE:
-  # WP-14: reuses the bottom-row TITLE callback (MenuReach.open "title"); WP-37: top of the panel, top-right when wide.
-  title=host._button(continue_head,"TITLE",func():preload("res://src/presentation/frontend/menu_reach.gd").open(host,"title"),"ops_title")
-  title.size_flags_horizontal=Control.SIZE_SHRINK_END
-  title.custom_minimum_size=Vector2(maxf(title.custom_minimum_size.x,host.ui_touch_height*3.),title.custom_minimum_size.y)
+ # TITLE is offered once, in the bottom reach row (critic 14 Nov saw it twice).
  cont.add_child(top);cont.move_child(top,0)
  if branch!=null:cont.move_child(branch,1)
  # "Resuming keeps this dive's equipment..." speaks of a dive in progress: it is read only beside RESUME. Without a
@@ -233,8 +231,6 @@ static func arrange(host)->void:
   # The reach row spans both columns along the bottom, so its five buttons are not squeezed into half the width.
   if reach!=null:box.move_child(reach,box.get_child_count()-1)
  else:
-  if title!=null:title.reparent(box);title.size_flags_horizontal=Control.SIZE_SHRINK_BEGIN
-  if title!=null:box.move_child(title,0)
   box.add_child(continue_head);box.add_child(cont);box.add_child(ops);box.add_child(prep);box.add_child(difficulty)
   if reach!=null:box.move_child(reach,box.get_child_count()-1)
  # Hub rows are 48dp touch targets (LayoutMetrics.dense_height); folded controls keep a full minimum before first layout.
