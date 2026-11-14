@@ -141,6 +141,9 @@ const TEXT={
 	"move_decoy": "cannot break a lock",
 	# Said once on the lock card when its decoy is left off: why (simulation.gd: a sighting overrides what a Siren hears).
 	"decoy_note": "A decoy only draws Sirens that have not seen the craft.",
+	# WP-121 (Pat, 14 Nov 2026): the captions for the rock warning sounds (rock_warning.gd).
+	"rock_ahead": "ROCK AHEAD",
+	"ramming": "RAMMING SPEED",
 }
 # The status line for the route dialog's switch ("New points: the craft stops at each one." / "... keeps
 # moving through them.") is set where the simulation answers the waypoint_mode order, orders/route_orders.gd.

@@ -179,7 +179,7 @@ func run():
 	check(offer_lines[0].contains(Tools.spec("recon").name) and offer_lines[0].contains(Tools.spec("knock").name),"the stock line lists every tool, Survey and Torpedo included")
 	check(offer_lines.size()==2 and offer_lines[1].contains("+2 "+Tools.spec("hull_patch").name),"the stock line says what the recovery added")
 	check(Words.spare_line({"emp":3,"hull_patch":3},{Names.CRAFT_QUIETUS:{"emp":3,"hull_patch":1}}).contains("2 "+Tools.spec("hull_patch").name) and Words.spare_line({"emp":3},{Names.CRAFT_QUIETUS:{"emp":3}})=="","tools held beyond the racks are named")
-	var trade=Offers.describe(offered,"route:%d"%offered.operations[offered.operations.size()-1]).detail
+	var trade=Offers.describe(offered,"route:%d"%(offered.operations.size()-1)).detail # WP-121: a route offer names an INDEX; the test passed an operation number, which only fit the old shuffled order
 	check(trade.contains("Trade 1 "+Tools.spec("decoy").name+" for 2 "+Tools.spec("emp").name+" charges"),"the route offer reads as a trade: "+trade)
 	var dive=Words.dive_ledger({"emp":3,"decoy":3},{"emp":2,"decoy":3},{"emp":2,"decoy":3,"hull_patch":2})
 	check(dive[0]=="THIS DIVE" and dive[1]=="Spent: 1 EMP." and dive[2]=="Earned: +2 Hull patch." and dive[3]=="Kept: 2 EMP, 3 Decoy, 2 Hull patch.","the dive ledger reads spent, earned, kept: "+str(dive))

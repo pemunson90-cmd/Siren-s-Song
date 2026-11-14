@@ -21,6 +21,8 @@ var history:Array=[]
 var emitted:Array=[]
 var pulse_requests=0
 var selected=-1
+var rock_state=""
+var rock_at=-100.
 func _emit(cue:String,time:float,suffix:String="",caption_override:String="")->void:
  if not Table.TEXT.has(cue):return
  emitted.append(cue)
@@ -71,6 +73,12 @@ func observe(sim,active:bool)->void:
   if next_plate>plate:_emit("develop",sim.elapsed)
   if now_stopped and not stopped:_emit("engine_down",sim.elapsed)
   if ids.any(func(id):return id not in lock_ids):_emit("lock",sim.elapsed)
+  # WP-121: the rock warning sounds (soundscape.gd) in words, for players who play without sound.
+  var rock:Dictionary=preload("res://src/simulation/rock_warning.gd").worst(sim)
+  if rock.state=="":rock_state="";rock_at=-100.
+  elif rock.state!=rock_state or sim.elapsed-rock_at>=Table.ROCK_REPEAT:
+   rock_state=str(rock.state);rock_at=sim.elapsed
+   _emit("ramming" if rock.state=="ramming" else "rock_ahead",sim.elapsed," · "+str(sim.units[int(rock.unit)].name))
  mission=sim.mission;last_clock=sim.elapsed;films=current_films;transitions=current_transitions;plate=next_plate;stopped=now_stopped;lock_ids=ids;selected=sim.selected
  if not Settings.current.get("audio_captions",false):rows.clear();history.clear()
  rows=rows.filter(func(row):return row.until>sim.elapsed)

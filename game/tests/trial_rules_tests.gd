@@ -38,7 +38,8 @@ func run():
 	print("TRIAL RULES CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)
 func table_case():
 	TrialRules.reset()
-	check(TrialRules.wheel_holds_time() and TrialRules.pause_at_route_end() and TrialRules.pause_on_every_lock() and TrialRules.pause_when_blocked(),"the four on/off trial rules are on by default")
+	# WP-121: Pat's 14 Nov ruling switched rule 3 (pause at route end) off by default.
+	check(TrialRules.wheel_holds_time() and not TrialRules.pause_at_route_end() and TrialRules.pause_on_every_lock() and TrialRules.pause_when_blocked(),"rules 1, 4 and 5 are on by default and rule 3 (route-end pause) is off")
 	check(is_equal_approx(TrialRules.first_dive_lock_seconds(),6.0) and is_equal_approx(TrialRules.STANDARD_LOCK_SECONDS,4.0),"the first dive lock is 6 s, the standard 4 s")
 	check(not TrialRules.expedition_rider_default_on(),"the Expedition rider starts off by default")
 	TrialRules.override("PAUSE_WHEN_BLOCKED",false)
@@ -216,7 +217,14 @@ func game_cases():
 	check(sim.elapsed>before,"rule 1 off: an open wheel no longer holds time")
 	game.mission_hud.dismiss();game._refresh()
 	TrialRules.reset()
-	# Rule 3 on: a craft that reaches the end of its route pauses the game.
+	# WP-121: the default is rule 3 off: a finished route does not pause.
+	sim.paused=true;sim.command("select",{"unit":0});sim.command("route",{"point":sim.units[0].pos+Vector2(60,0)});sim.paused=false;game._refresh()
+	var default_frames=0
+	while not sim.units[0].route.is_empty() and default_frames<400:game._process(0.1);default_frames+=1
+	for n in 5:game._process(0.1)
+	check(sim.units[0].route.is_empty() and not sim.paused,"rule 3 by default: the finished route does not pause")
+	# Rule 3 on (switch set true): a craft that reaches the end of its route pauses the game.
+	TrialRules.override("PAUSE_AT_ROUTE_END",true)
 	sim.paused=true;sim.command("select",{"unit":0});sim.command("route",{"point":sim.units[0].pos+Vector2(60,0)});sim.paused=false;game._refresh()
 	var frames=0
 	while not sim.paused and frames<400:game._process(0.1);frames+=1

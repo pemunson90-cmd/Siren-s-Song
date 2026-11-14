@@ -17,7 +17,7 @@ static func delta(before:Dictionary,after:Dictionary,spent:Dictionary,gained:Dic
 static func summary(state:Dictionary)->Dictionary:
 	if state.is_empty() or not State.valid(state) or state.status=="active":return {}
 	var spent=counts();var gained=counts();var operations=[]
-	var replay=State.new_run(state.seed)
+	var replay=State.start_for(state) # WP-121: a run saved in the old order replays from that order
 	for result in state.results:
 		if Offers.pending(replay) and state.offers.picks.has(str(replay.cursor)):
 			var picked=Offers.choose(replay,state.offers.picks[str(replay.cursor)])

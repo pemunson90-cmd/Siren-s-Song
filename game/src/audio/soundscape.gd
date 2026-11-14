@@ -39,6 +39,19 @@ var lock_interval := .7
 var lock_next := -1.0
 var lock_source := -1
 var lock_clock := -1.0
+# WP-121 (Pat, 14 Nov 2026): the rock warning voice. "rock_close" sounds while a craft heads into charted rock
+# close ahead, quickening and rising as impact nears; "rock_ram" is the lower, harsher sound when that craft is also
+# going fast enough to hurt the hull. Rules in simulation/rock_warning.gd; levels use the Alerts volume.
+const RockWarning=preload("res://src/simulation/rock_warning.gd")
+const ROCK_CUES={
+	"rock_close":{"seconds":.12,"gain_db":-14.,"hz":[640.,640.],"noise":.02,"curve":.6,"pulses":1,"interval":[.8,.16],"pitch":[1.0,1.7]},
+	"rock_ram":{"seconds":.22,"gain_db":-9.,"hz":[300.,170.],"noise":.35,"curve":.5,"pulses":2,"interval":[.4,.13],"pitch":[1.0,1.35]},
+}
+var rock_voice: AudioStreamPlayer
+var rock_next := -1.0
+var rock_state := ""
+var rock_clock := -1.0
+var rock_plays := 0 # Test seam: how many warning sounds have started.
 var creak_timer := 11.0
 var system_suspended := false
 static func engine_gain(speed: float,silent: bool) -> float:
@@ -98,12 +111,14 @@ func _ready() -> void:
 	_sync_night_mode()
 	for cue in ["ping","camera","emp","knock","snare","salvage","record","loss","extraction","alert","recon","decoy","creak","beam","factory","carrier_received","return_received","sweep_received","heartbeat","berth_release","plant_switch"]: cues[cue]=stream(cue)
 	for cue in RoleCues.CUES:cues[cue]=PhotoWave.render(RoleCues.CUES[cue])
+	for cue in ROCK_CUES:cues[cue]=PhotoWave.render(ROCK_CUES[cue])
 	cues["hunt_stage"]=PhotoWave.stream(HuntTable.CUE_SOURCE)
 	ambience=AudioStreamPlayer.new(); ambience.stream=stream("ambience"); ambience.bus=AMBIENCE_BUS; ambience.volume_db=-17; add_child(ambience); ambience.play()
 	tension=AudioStreamPlayer.new(); tension.stream=stream("tension"); tension.bus=AMBIENCE_BUS; tension.volume_db=-80; add_child(tension); tension.play()
 	engine=AudioStreamPlayer.new(); engine.stream=stream("engine"); engine.bus=EFFECTS_BUS; engine.volume_db=-80; add_child(engine); engine.play()
 	for bed in [ambience,engine,tension]: bed.stream_paused=true
 	lock_voice=AudioStreamPlayer.new();lock_voice.stream=stream("alert");lock_voice.bus=ALERTS_BUS;lock_voice.volume_db=-6;add_child(lock_voice)
+	rock_voice=AudioStreamPlayer.new();rock_voice.bus=ALERTS_BUS;add_child(rock_voice)
 	for n in 5:
 		var bus_name="SirenVoice%d"%n; var index=_bus(bus_name,EFFECTS_BUS)
 		var panner: AudioEffectPanner
@@ -155,6 +170,23 @@ func _lock_update(sim,frozen:bool,active:bool)->void:
 		lock_voice.play();lock_next=sim.elapsed+lock_interval;lock_source=frame.id
 	elif lock_voice.get_playback_position()>.09:
 		lock_voice.stop()
+# WP-121: runs only while the dive runs (never when paused or inactive); it pauses nothing and writes nothing to the dive.
+func _rock_update(sim,frozen:bool,active:bool)->void:
+	if rock_voice==null:return
+	if sim.elapsed<rock_clock:rock_next=-1.
+	rock_clock=sim.elapsed
+	var reading:Dictionary=RockWarning.worst(sim) if active and not frozen else {"state":""}
+	rock_state=str(reading.state)
+	if rock_state=="" or not cue_audible("alert"):
+		rock_voice.stop();rock_next=-1.;return
+	var cue:String="rock_ram" if rock_state=="ramming" else "rock_close"
+	var row:Dictionary=ROCK_CUES[cue];var urgency:float=float(reading.urgency)
+	if rock_voice.stream!=cues[cue]:rock_voice.stream=cues[cue]
+	rock_voice.volume_db=float(row.gain_db)
+	rock_voice.pitch_scale=lerpf(row.pitch[0],row.pitch[1],urgency)
+	if sim.elapsed>=rock_next:
+		rock_voice.play();rock_plays+=1
+		rock_next=sim.elapsed+lerpf(row.interval[0],row.interval[1],urgency)
 func update(sim,dt: float,active_dive: bool=true) -> void:
 	accessibility.observe(sim,active_dive and not system_suspended)
 	var photo_engine=preload("res://src/audio/photo_audio/photo_audio.gd").sync(self,sim,dt,active_dive)
@@ -166,6 +198,7 @@ func update(sim,dt: float,active_dive: bool=true) -> void:
 	var frozen=sim.paused or not active_dive or system_suspended
 	_sync_region(sim.mission,sim.elapsed,frozen)
 	_lock_update(sim,frozen,active_dive)
+	_rock_update(sim,frozen,active_dive)
 	ambience.volume_db=ambience_base_db+HuntPressure.ambience_offset(sim.mission)
 	ambience.stream_paused=frozen; engine.stream_paused=frozen
 	if sim.elapsed<last_clock: tension_level=0.0
@@ -250,6 +283,7 @@ func _route_voice(i: int,cue: String) -> void:
 func suspend() -> void:
 	system_suspended=true
 	if lock_voice!=null:lock_voice.stream_paused=true
+	if rock_voice!=null:rock_voice.stop()
 	if ambience!=null: ambience.stream_paused=true
 	if engine!=null: engine.stream_paused=true
 	if tension!=null: tension.stream_paused=true
@@ -258,6 +292,7 @@ func suspend() -> void:
 func resume() -> void: system_suspended=false
 func _exit_tree() -> void:
 	if lock_voice!=null:lock_voice.stop();lock_voice.stream=null
+	if rock_voice!=null:rock_voice.stop();rock_voice.stream=null
 	if ambience!=null: ambience.stop(); ambience.stream=null
 	if engine!=null: engine.stop(); engine.stream=null
 	if tension!=null: tension.stop(); tension.stream=null

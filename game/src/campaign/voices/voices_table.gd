@@ -17,7 +17,7 @@ const LINES={
 	41:[["sorley","His window is above the screw. Bring him to the south boat."],["sorley","Keep the pod steady. I am at the lift."],["sorley","He is breathing. That is all I needed to hear."]],
 	0:[["okafor","Okafor, Brannock. You have the shelf and twenty minutes of air. Listen first, then bring everything home."],
 		["okafor","Brannock copies your receiver. Rig logs are readable. Do not stay for a second look."],
-		["okafor","Logged. Eight minutes of margin left, Quietus. That is how I like it."]],
+		["okafor","Logged. {margin} left, Quietus. That is how I like it."]],
 	1:[["okafor","Two channels, one hull. Take the quieter water. I count the air, you count the noise."],
 		["okafor","I hear the split from here. Hold your route and keep the drones close."],
 		["okafor","Back in one piece. Good. We move on that."]],

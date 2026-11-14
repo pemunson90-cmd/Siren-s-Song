@@ -381,7 +381,8 @@ func route_end_case():
 	check("has stopped" not in other.mission_hud.intent.text,"an idle craft says nothing")
 	other.queue_free();await settle()
 	# Rule 3 on: the same moment pauses the dive and names the reason; the status line keeps its words.
-	TrialRules.reset()
+	# WP-121: rule 3 is off by default now, so the pausing is tested with the switch set true.
+	TrialRules.override("PAUSE_AT_ROUTE_END",true)
 	var paused_end=await make(Vector2i(2520,1080),1.0)
 	var ps=paused_end.sim
 	ps.paused=true;ps.command("select",{"unit":0});ps.command("route",{"point":ps.units[0].pos+Vector2(60,0)})
