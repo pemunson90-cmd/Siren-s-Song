@@ -79,8 +79,9 @@ static func entry(host)->void:
 	if Table.enabled:
 		host._button(host.panel_box,"SUPPLIES",host._show_economy,"economy")
 		if not host._campaign_pristine() or host.active_started or Options.state(host.economy).started:
-			_easier_picker(host,host._show_campaign)
-static func _easier_picker(host,redraw:Callable)->void:
+			_easier_picker(host,host._show_campaign,false)
+# with_note: the line that the change cannot be undone, on SUPPLIES; the hub keeps its rows (the confirming tap says it).
+static func _easier_picker(host,redraw:Callable,with_note:bool=true)->void:
 	var e=host.economy
 	var pending=Options.state(e).pending
 	if not pending.is_empty():host._menu_text("%s is queued. It takes effect at the next dock after a dive; the current dive keeps its rules."%Table.PRESETS[pending].name.capitalize(),14)
@@ -93,7 +94,7 @@ static func _easier_picker(host,redraw:Callable)->void:
 			host.remove_meta(ARMED_EASIER)
 			if Options.request(e,id):host._save_archive();redraw.call()
 		,"eco_easier_"+id)
-	if not Options.choices(e).is_empty():host._menu_text(EASIER_LINE,14)
+	if with_note and not Options.choices(e).is_empty():host._menu_text(EASIER_LINE,14)
 
 # The preset choice, shown at the top of Operations while the campaign is pristine.
 static func pristine_picker(host)->void:
