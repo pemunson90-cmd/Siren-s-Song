@@ -25,5 +25,6 @@ static func advance(host,aids,dt:float)->void:
 		var amount=minf(remaining,host.sim.STEP)
 		_step(host,amount);aids.observe();remaining-=amount
 static func _step(host,dt:float)->void:
+	# WP-120: time speed (host.time_speed) is scaled here in every build; the console adds only its restorations.
 	if host.get("debug_console")!=null:host.debug_console.advance(dt)
-	else:host.sim.advance(dt)
+	else:preload("res://src/time_speed.gd").advance(host,dt)

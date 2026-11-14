@@ -293,3 +293,12 @@ static func pause_reason(host)->String:
 	for key in AUTO_PAUSE_REASONS:
 		if sim.message==AUTO_PAUSE_PREFIX+key:return TEXT[AUTO_PAUSE_REASONS[key]]
 	return ""
+
+# WP-120: the time speed control beside the pause plate (time_speed.gd decides when it may be used).
+const SPEED={
+	"label": "SPEED\n%sx",
+	"hunting": "1x · a Siren is hunting",
+}
+static func speed_text(speed:float,hunting:bool)->String:
+	if hunting and speed<=1.0:return SPEED.hunting
+	return SPEED.label%(str(roundi(speed)) if is_equal_approx(speed,roundf(speed)) else "%.2f"%speed)

@@ -9,12 +9,20 @@ const Hunt=preload("res://src/simulation/hunt_pressure/hunt_pressure.gd")
 const Tools=preload("res://src/equipment/field_tools.gd")
 const Racks=preload("res://src/equipment/tool_racks.gd")
 const Catalog=preload("res://src/campaign/operation_catalog.gd")
+const TimeSpeed=preload("res://src/time_speed.gd")
+const Trial=preload("res://src/trial_rules.gd")
 var host
 var panel
 var overlay
 var badge
-var time_scale=1.0
+# WP-120: the time speed is the host's (time_speed.gd, every build); the console's `time` sets it and marks it forced,
+# so hunting does not drop it. Setting 1.0 (a new campaign) clears the mark.
+var time_scale:float:
+ get:return host.time_speed if host!=null else 1.0
+ set(value):
+  host.time_speed=value;host.time_forced=not is_equal_approx(value,1.0)
 var invulnerable=false
+var oxygen_locked=false # WP-120: no oxygen drain while true
 var layers={}
 var fingers={}
 var hold_since=-1
@@ -106,7 +114,7 @@ func advance(dt:float)->void:
  if sim.paused:return
  # Chunk scaled time at the ordinary fixed step so the simulation's frame cap
  # cannot discard 4x time, and survival restoration happens before the next tick.
- if time_scale==1.0 and not invulnerable:
+ if is_equal_approx(time_scale,1.0) and not invulnerable and not oxygen_locked:
   sim.advance(dt);sample();return
  var remaining=minf(dt,0.25)*time_scale
  while remaining>0.000001 and sim.outcome.is_empty():
@@ -124,6 +132,10 @@ func advance(dt:float)->void:
    for key in ["module_recovery","blackwater_delivery","witness_evacuation","glass_reach","iron_choir"]:
     if sim.mission.has(key):carried[key]=sim.mission[key].duplicate(true)
   sim.advance(amount);sample()
+  if oxygen_locked:
+   sim.oxygen=maxf(maxf(sim.oxygen,oxygen_before),1.) # WP-120: OXYGEN LOCK: no drain, never empty
+   if sim.outcome=="lost" and sim.hull>0. and sim.units[0].alive:sim.outcome=""
+  if time_scale>1.0 and TimeSpeed.guard(host):remaining=0. # WP-120: a Siren began hunting: back to 1x at once
   if invulnerable:
    var died=false
    for i in sim.units.size():
@@ -148,21 +160,41 @@ func execute(line:String)->String:
  if command=="export":export_log();return "Exporting run log."
  if command=="overlay" and a.size()==2 and a[1] in Overlay.LAYERS:
   mark();layers[a[1]]=not layers.get(a[1],false);return a[1]+": "+str(layers[a[1]])
- if command=="time" and a.size()==2 and a[1].is_valid_float() and float(a[1])>=.25 and float(a[1])<=4:
-  mark();time_scale=float(a[1]);return "Time scale %.2fx"%time_scale
+ if command=="time" and a.size()==2 and a[1].is_valid_float() and float(a[1])>=.25 and float(a[1])<=Trial.DEBUG_TIME_MAX:
+  mark();time_scale=float(a[1]);return "Time scale %.2fx"%time_scale # WP-120: up to 16x
  if command=="step":
   mark();sim.paused=false;advance(sim.STEP/time_scale);sim.paused=true;return "Advanced one fixed tick."
- if command=="invulnerable":mark();invulnerable=not invulnerable;return "Invulnerable: "+str(invulnerable)
+ if command=="invulnerable":
+  # WP-120: "invulnerable on" / "invulnerable off" set it; the bare word still toggles.
+  mark();invulnerable=(a[1]=="on") if a.size()==2 and a[1] in ["on","off"] else not invulnerable;return "Invulnerable: "+str(invulnerable)
  if command=="known":
   # WP-16 developer option: charts and objectives known from the start of the next dive; this dive's objectives are marked now.
   var Rules=preload("res://src/simulation/parity_rules/parity_rules.gd")
   mark();Rules.debug_known=not Rules.debug_known
   if Rules.debug_known:preload("res://src/simulation/parity_rules/site_search.gd").reveal_all(sim)
   return "Known water and objectives: "+str(Rules.debug_known)+" (charts apply from the next dive)"
- if command=="oxygen":mark();sim.oxygen=120.;return "Oxygen refilled."
+ if command=="oxygen":
+  # WP-120: "oxygen lock" stops the drain until "oxygen unlock" (or a new campaign); the bare word refills.
+  mark()
+  if a.size()==2 and a[1] in ["lock","unlock"]:oxygen_locked=a[1]=="lock";return "Oxygen lock: "+str(oxygen_locked)
+  sim.oxygen=120.;return "Oxygen refilled."
+ if command in ["win","lose"]:
+  # WP-120: end the dive now with that outcome. A DEV dive never counts toward records (the DEV debrief follows).
+  if not host.active_started or sim.mission.is_empty() or not sim.outcome.is_empty():return "No dive is running."
+  mark();sim.outcome="won" if command=="win" else "lost";sim.message="DEV dive "+("won" if command=="win" else "lost")+" by command";sim.paused=true
+  return "DEV dive "+("won" if command=="win" else "lost")+"."
+ if command=="granttools":
+  # WP-120: one more of every tool, as many as the selected craft's locker and the fitted equipment allow (up to 9 each).
+  var racks=host.tool_racks.duplicate(true);var slot=Racks.UNITS[sim.selected];var added=0
+  for item in Tools.ids():
+   for n in 9:
+    var trial=racks.duplicate(true);trial[slot][item]=int(trial[slot].get(item,0))+1
+    if not Racks.valid(trial) or not Racks.reason(host.fitted_equipment,trial).is_empty():break
+    racks=trial;added+=1
+  mark();host.tool_racks=racks;host._save_archive();return "Granted %d tools."%added
  if command=="end":
   mark();host.active_started=false;debrief();return "DEV dive ended. Setup commands are available."
- if host.active_started and sim.outcome.is_empty() and command in ["preset","fact","clear","complete","grant","unlock","jump"]:
+ if host.active_started and sim.outcome.is_empty() and command in ["preset","fact","clear","complete","grant","unlock"]: # WP-120: jump may replace a running dive (JUMP in the panel)
   return "Between dives only. End this dive before changing setup."
  if command=="preset" and a.size()==5 and a[1] in ["deep","shelf"] and a[2] in ["concealed","overt"] and a[3] in ["none","concealed","overt"] and a[4] in ["found","absent"]:
   mark();State.setup(host).history=State.preset(a[1],a[2],a[3],a[4]=="found")

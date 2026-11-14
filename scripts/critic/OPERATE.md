@@ -35,6 +35,7 @@ It prints the result and exits non-zero on failure. One command at a time. `send
 | `labels` | | Text and rectangles of visible interface labels, in native pixels. Advisory: it can include labels hidden under another screen. The screenshot is the authority. |
 | `geometry` | | Window and viewport sizes. |
 | `batch` | `steps`: a list of the commands above | Runs them in order and returns every result. Counts as one command against your budget. |
+| `debug` | `line`: one debug console line | Runs the game's debug console on that line, for example `{"command":"debug","line":"jump 6"}` (also `kit.py debug --kit KIT --slot SLOT --line "jump 6"`), and returns its reply. Lines: `jump N`, `time 1..16`, `invulnerable on`, `oxygen lock`, `known`, `win`, `lose`, `unlock`, `granttools`, `help`. |
 
 **Coordinates are native pixels** of the full-size viewport (cover 2520x1080, inner 2184x1968). If you saved a screenshot at `scale` 0.5, multiply positions you read from it by 2.
 
@@ -48,6 +49,8 @@ Batch the usual loop to save commands, for example tap, wait, look:
 ```
 
 In JSON on a command line, wrap the whole JSON in single quotes. In PowerShell, escape the inner double quotes, or pass it through a file **inside your own folder** `KIT/audit/<session>/` (for example `KIT/audit/<session>/cmd.json`), always by its full path. Never use a relative path or a file outside your folder: other critics may be playing at the same time from the same working folder, and a shared command file sends your taps into their game and theirs into yours. The same holds for any helper script or temporary file you write: keep it in `KIT/audit/<session>/`, never in `/tmp`, the system temp folder or the working folder (on 14 November one critic's helper in `/tmp` was overwritten by another's and a batch silently did nothing).
+
+`debug` is for root's own checks and for fun-focused rounds that need to reach a state quickly. It marks the profile DEV, as typing the line in the game would. Blind interface critics play without it unless their brief says otherwise; they reach every state by touch.
 
 ## Evidence
 

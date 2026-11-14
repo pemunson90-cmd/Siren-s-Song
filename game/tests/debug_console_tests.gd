@@ -29,7 +29,7 @@ func run():
   game.active_started=false;dev.execute("jump "+str(id));check(game.sim.mission.id==id,"jump authored op "+str(id))
  # Reconcile PR207 operation41 and PR208 locker-aware rack grants.
  game.active_started=false;game.screen="menu";dev.open()
- var picker=dev.panel.body.get_child(4)
+ var picker=dev.panel.body.find_children("*","OptionButton",true,false)[0] # WP-120: the jump picker is in the QUICK block
  check(picker is OptionButton and picker.get_item_index(41)>=0,"operation picker includes authored Sorley rescue41")
  dev.panel.hide();dev.execute("preset shelf overt concealed found");dev.execute("jump 41")
  check(game.sim.mission.id==41 and game.sim.mission.launch_context.facts.sorley_boy=="rescued","Sorley launch consumes found preset")

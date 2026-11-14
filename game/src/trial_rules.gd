@@ -27,6 +27,12 @@ const PAUSE_WHEN_BLOCKED=true
 #    control, in Naval Career and Expeditions. This constant no longer applies and nothing reads it; it stays only as a record.
 const EXPEDITION_RIDER_DEFAULT_ON=false
 
+# WP-120 (Pat, 14 Nov): the dive's time speeds, in every build: the control next to the pause plate cycles through
+# these in order and wraps (1x, 2x, 4x, 1x). It is not one of the six trial rules and is not in DEFAULTS. It is
+# available only while no Siren is hunting the player's craft (time_speed.gd). The debug console may go further (to 16x).
+const TIME_SPEEDS=[1.0,2.0,4.0]
+const DEBUG_TIME_MAX=16.0
+
 const DEFAULTS={
 	"WHEEL_HOLDS_TIME": WHEEL_HOLDS_TIME,
 	"FIRST_DIVE_LOCK_SECONDS": FIRST_DIVE_LOCK_SECONDS,
@@ -49,3 +55,4 @@ static func first_dive_lock_seconds()->float:return float(_read("FIRST_DIVE_LOCK
 static func pause_at_route_end()->bool:return bool(_read("PAUSE_AT_ROUTE_END"))
 static func pause_on_every_lock()->bool:return bool(_read("PAUSE_ON_EVERY_LOCK"))
 static func pause_when_blocked()->bool:return bool(_read("PAUSE_WHEN_BLOCKED"))
+static func time_speeds()->Array:return TIME_SPEEDS

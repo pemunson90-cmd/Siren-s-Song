@@ -96,6 +96,10 @@ var map_gesture=preload("res://src/input/map_gesture.gd").new()
 var zoom_buttons: Array=[]
 var advanced_button: Button
 var advanced_orders:=false
+# WP-120: dive time speed (time_speed.gd). time_forced: a developer's speed, which hunting does not drop.
+var speed_button: Button
+var time_speed:=1.0
+var time_forced:=false
 var decoy_armed:=false
 var decoy_unit:=-1
 var knock_armed:=false
@@ -143,6 +147,7 @@ func _ready() -> void:
 		var order=o[0]
 		order_buttons[order]=_button(hud,o[1],func(): _primary_action() if order=="camera" else _order(order))
 	advanced_button=_button(hud,"MORE ORDERS",_toggle_advanced)
+	speed_button=_button(hud,"SPEED\n1x",_cycle_speed) # WP-120
 	order_buttons["home"]=_button(hud,"EXTRACT",_recovery_route)
 	order_buttons["menu"]=_button(hud,"OPERATIONS",func(): sim.paused=true; _show_campaign())
 	for button in [pause_button,advanced_button]+unit_buttons+order_buttons.values():
@@ -295,6 +300,7 @@ func _start_mission(index: int) -> void:
 	call_deferred("_layout")
 	if route_editor!=null: route_editor.hide()
 	active_started=true; mission_index=index; sim.start(index,upgrade,launch.launch)
+	if not time_forced:time_speed=1.0 # WP-120: every dive starts at 1x
 	if DevState.marked(self):sim.mission["dev"]=true
 	if debug_console!=null:debug_console.reset_metrics()
 	if mission_hud!=null:
@@ -379,6 +385,9 @@ func _order(order: String,args: Dictionary={}) -> void:
 	ReleaseControls.debug_print(["SS_ORDER ",order," accepted=",accepted," selected=",sim.selected," queued=",sim.queue_mode])
 	_refresh(); _save_archive()
 	if accepted and order=="camera": call_deferred("_report_targets")
+# WP-120: a tap on the speed control (1x, 2x, 4x, 1x). Refused while a Siren is hunting.
+func _cycle_speed() -> void:
+	preload("res://src/time_speed.gd").cycle(self);_refresh()
 func _pause() -> void:
 	# WP-103: the plate says what a tap does (hud_words.plate_kind). A pending route prompt is never dropped by the plate:
 	# the tap says what is waiting and the prompt stays up (CANCEL is the prompt's own button). An open menu that holds
