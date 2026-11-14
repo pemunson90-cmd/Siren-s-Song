@@ -15,6 +15,7 @@ const OBJECTIVE=Color("e1b66e")	# the dive's briefed-site colour (ocean_view.gd)
 const OBJECTIVE_AREA_RADIUS=150.0
 const EXTRACTION_RADIUS=64.0	# as the dive draws it
 const MARGIN=6.0
+const LABEL_INSET=6.0	# a label keeps this gap from the frame line, so no letter touches it
 const FONT_SIZE=13.0
 const HEIGHT_SHARE=0.26	# of the screen height; the picture never takes more than about a third of a column
 const MIN_HEIGHT=96.0
@@ -131,11 +132,11 @@ func _label(box:Rect2,factor:float,mark:Dictionary,placed:Array)->void:
 	var px:=int(roundf(FONT_SIZE*text_scale))
 	var width:=font.get_string_size(mark.text,HORIZONTAL_ALIGNMENT_LEFT,-1,px).x
 	var at:Vector2=box.position+mark.at*factor
-	var x:=clampf(at.x-width/2.0,box.position.x+2.0,box.end.x-width-2.0)
+	var x:=clampf(at.x-width/2.0,box.position.x+LABEL_INSET,box.end.x-width-LABEL_INSET)
 	var base:=at.y+px+2.0 if mark.below else at.y-4.0
 	var rect:=Rect2()
 	for attempt in 4:
-		var line_y:=clampf(base-attempt*(px+2.0),box.position.y+px,box.end.y-2.0)
+		var line_y:=clampf(base-attempt*(px+2.0),box.position.y+px+LABEL_INSET,box.end.y-LABEL_INSET)
 		rect=Rect2(x,line_y-px,width,px+2.0)
 		if not placed.any(func(other):return other.rect.intersects(rect)):break
 	if placed.any(func(other):return other.text==mark.text and other.rect.position.distance_to(rect.position)<width*2.0):return
