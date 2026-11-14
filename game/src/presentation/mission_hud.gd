@@ -26,6 +26,7 @@ const UiStyle=preload("res://src/presentation/ui_style.gd")
 const Palette=preload("res://src/presentation/accessibility/palette.gd")
 const Words=preload("res://src/presentation/hud_words.gd")
 const RouteEnd=preload("res://src/presentation/route_end_notice.gd")
+const StripMessage=preload("res://src/presentation/strip_message.gd")
 const SegmentState=preload("res://src/presentation/radial_layout/segment_state.gd")
 # A tap opens an object-owned projection. A separate tap chooses an action.
 var host
@@ -61,6 +62,7 @@ var sector_press:Button
 # The wheel segment under the finger, or the last one touched: its caption may fill the wheel's centre.
 var wheel_focus:Button
 var route_end=RouteEnd.new()
+var strip_message=StripMessage.new()
 # WP-52: the two-tap rule's armed segment and the segments' state lines.
 var segments=SegmentState.new()
 var popup_gesture=preload("res://src/input/map_gesture.gd").new()
@@ -639,7 +641,7 @@ func refresh():
  _fit_pause_button()
  host.advanced_button.text="FLEET";plate(host.advanced_button,UiStyle.NORMAL)
  focus_button.text="FOLLOW" if host.ocean.chart_camera.mode=="follow" else "FOCUS"
- var current=host.targeting_feedback if not host.targeting_feedback.is_empty() else "DECOY · TAP CLEAR WATER ≤160m · TAP CANCEL" if host.decoy_armed else "TORPEDO · TAP FRESH CONTACT · TAP CANCEL" if host.knock_armed else sim.message
+ var current=host.targeting_feedback if not host.targeting_feedback.is_empty() else "DECOY · TAP CLEAR WATER ≤160m · TAP CANCEL" if host.decoy_armed else "TORPEDO · TAP FRESH CONTACT · TAP CANCEL" if host.knock_armed else strip_message.current(sim)
  intent.text="%s · %s"%[sim.units[sim.selected].name+" · "+sim.Depth.NAMES[sim.units[sim.selected].band],"QUEUE" if sim.queue_mode else "REPLACE"]+(" · "+current if not current.is_empty() else "")
  host.title_label.visible=page not in ["signals","recovery","order_help"];host.detail_label.visible=page not in ["signals","recovery","order_help"]
  host.order_buttons.home.text="WITHDRAW" if Expedition.entry(sim) else "EXTRACT"

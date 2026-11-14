@@ -65,6 +65,26 @@ const TEXT={
 	"paused_route_end": "PAUSED: %s finished its route",
 	"paused_blocked": "PAUSED: rock blocks %s's route",
 	"route_end": "%s has stopped: its route is finished.",
+	# A craft with a route that is not getting anywhere (presentation/no_progress.gd). The first line of each pair is the
+	# pause reason on the status line; the second is the status message set when the dive pauses.
+	"paused_stuck": "PAUSED: %s is not getting anywhere on its route",
+	"stuck": "%s · no progress · replot",
+	"paused_stuck_current": "PAUSED: the current holds %s back",
+	"stuck_current": "%s · no progress · the current is stronger than its drive · replot or wait",
+	"paused_stuck_band": "PAUSED: %s cannot pass here at this depth · %s is open",
+	"stuck_band": "%s · no progress · %s is open here · replot or change depth",
+	"paused_blocked_band": "PAUSED: rock blocks %s's route at this depth · %s is open",
+	"blocked_band": "%s · rock blocks this leg at this depth · %s is open · replot or change depth",
+	"paused_stuck_rock": "PAUSED: rock blocks %s's route",
+	"stuck_rock": "%s · no progress · rock blocks this leg · replot",
+	# The status line once a message has gone stale (presentation/strip_message.gd).
+	"under_way": "%s · under way to point %d · %dm",
+	"at_rest": "%s · at rest · no route set",
+	# The move buttons on the lock card: what each move does about this lock (presentation/lock_move_timing.gd).
+	"move_now": "works at once",
+	"move_after": "works in %.1fs",
+	"move_close": "Siren within %dm: no help",
+	"move_decoy": "cannot break a lock",
 }
 # The status line for the route dialog's switch ("New points: the craft stops at each one." / "... keeps
 # moving through them.") is set where the simulation answers the waypoint_mode order, orders/route_orders.gd.
@@ -72,7 +92,11 @@ const TEXT={
 const AUTO_PAUSE_PREFIX="AUTO PAUSE: "
 const AUTO_PAUSE_REASONS={"FIRST NOTICE": "paused_notice", "LOCK WARNING": "paused_lock"}
 # The reason keys of presentation/auto_pause.gd, and the line each one shows. A %s takes the craft's name.
-const AUTO_PAUSE_KEYS={"notice": "paused_notice", "lock": "paused_lock", "route_end": "paused_route_end", "blocked": "paused_blocked"}
+const AUTO_PAUSE_KEYS={"notice": "paused_notice", "lock": "paused_lock", "route_end": "paused_route_end", "blocked": "paused_blocked", "blocked_band": "paused_blocked_band", "stuck": "paused_stuck", "stuck_current": "paused_stuck_current", "stuck_band": "paused_stuck_band", "stuck_rock": "paused_stuck_rock"}
+# A route message ends with one of these (route_orders.gd): a craft that has since stopped no longer "set route".
+const ROUTE_MESSAGE_ENDINGS=["set route", "replaced route", "queued route"]
+# Seconds of dive time a status message counts as new. Older, a craft that is under way says what it is doing now.
+const MESSAGE_FRESH_SECONDS=4.0
 # Seconds of dive time the "route finished" line stays on the status line.
 const ROUTE_END_SECONDS=8.0
 # A craft counts as moving above this speed (m/s) when its route runs out.
@@ -155,9 +179,18 @@ static func point_row(number:int,goal:Dictionary,drone:bool)->String:
 	var modes:Dictionary=POINT_MODES_DRONE if drone else POINT_MODES
 	return POINT_ROW%[number,modes.get(str(goal.get("mode","inherit")),"same speed"),POINT_STOPS[bool(goal.get("stop",true))]]
 
-static func auto_pause_text(key:String,craft:String)->String:
+# extra is the second name some lines carry (the depth that is open).
+static func auto_pause_text(key:String,craft:String,extra:String="")->String:
 	var line:String=TEXT[AUTO_PAUSE_KEYS[key]]
+	if line.count("%s")>=2:return line%[craft,extra]
 	return line%craft if "%s" in line else line
+# The status message a stall sets when it pauses the dive; "" for a rock hold, whose message the hold already set.
+static func stall_message(key:String,craft:String,extra:String="")->String:
+	if not TEXT.has(key):return ""
+	var line:String=TEXT[key]
+	return line%[craft,extra] if line.count("%s")>=2 else line%craft
+static func is_route_message(message:String)->bool:
+	return ROUTE_MESSAGE_ENDINGS.any(func(ending):return message.ends_with(ending))
 # Why the dive is held, when something other than the player held it. Empty when the player paused,
 # or when the held state already shows a card that states its reason.
 static func pause_reason(host)->String:
