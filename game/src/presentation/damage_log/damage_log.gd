@@ -10,6 +10,7 @@ const Names=preload("res://src/names.gd")
 # Revert: remove the install line in main.gd, the debrief() calls, and this folder.
 const Effects=preload("res://src/simulation/field_tool_effects.gd")
 const Economy=preload("res://src/campaign/economy.gd")
+const LossSummary=preload("res://src/presentation/loss_summary.gd")
 const MERGE_SECONDS=2.0
 const MIN_LOSS=0.000001
 const CAP=12
@@ -19,6 +20,7 @@ const CAUSE_BEAM="a Siren beam"
 const CAUSE_BURST="an Interceptor burst"
 const CAUSE_FIELD="a Warden pressure field"
 const CAUSE_UNKNOWN="a cause the game does not record"
+const FLOOR_LINE="Quietus came home at %d%% and is recorded at %d%%, the lowest this difficulty records after a loss."
 const REPAIR_LINE="Quietus hull is recorded at %d%%. It stays that way until repaired: open SUPPLIES and choose REPAIR QUIETUS HULL (%s) before the next dive."
 const REPAIR_FREE="Quietus hull is recorded at %d%%. It stays that way until repaired in SUPPLIES (REPAIR QUIETUS HULL)."
 var sim
@@ -40,8 +42,17 @@ static func debrief(host)->void:
  var node=host.hud.get_node_or_null("DamageLog") if host.get("hud")!=null else null
  var text=node.summary() if node!=null else ""
  if not text.is_empty():host._menu_text(text,16)
+ var floor_text=floor_line(host)
+ if not floor_text.is_empty():host._menu_text(floor_text,16)
  var repair=repair_line(host)
  if not repair.is_empty():host._menu_text(repair,16)
+# Why the recorded hull differs from the hull at the end of the dive: the difficulty's lowest recorded condition.
+static func floor_line(host)->String:
+ var e=host.get("economy")
+ if not e is Dictionary or not Economy.Table.enabled or Economy.preset(e).replenish or host.get("sim")==null:return ""
+ var cond:int=int(e.cond.get(Names.CRAFT_QUIETUS,100))
+ var ended:int=roundi(host.sim.hull)
+ return FLOOR_LINE%[ended,cond] if cond>ended and cond==int(Economy.preset(e).floor) else ""
 # Where the Campaign and Career offer a hull repair; "" when the hull is whole or mends by itself.
 static func repair_line(host)->String:
  var e=host.get("economy")
@@ -91,7 +102,7 @@ func _strike_text()->String:
  return ""
 # The cause of a hull loss that was not a collision, read from state the simulation already keeps.
 func _cause_text()->String:
- if "Siren beam" in str(sim.message) and sim.outcome=="lost":return CAUSE_BEAM
+ if LossSummary.beam_struck(sim):return CAUSE_BEAM
  var quietus=sim.units[0]
  for siren in sim.sirens:
   var state=siren.get("industry")
@@ -123,5 +134,9 @@ func summary()->String:
   match row.kind:
    "LOST":lines.append("%s · %s LOST"%[when,row.craft])
    "COLLISION":lines.append("%s · QUIETUS HULL -%d%% to %d%% · COLLISION%s"%[when,roundi(row.loss),roundi(row.after)," against "+row.note if not row.note.is_empty() else ""])
-   _:lines.append("%s · QUIETUS HULL -%d%% to %d%% · %s"%[when,roundi(row.loss),roundi(row.after),row.note if not row.note.is_empty() else CAUSE_UNKNOWN])
+   _:
+    var note:String=row.note if not row.note.is_empty() else CAUSE_UNKNOWN
+    # The final row may have been written a moment before the lock showed in the contacts.
+    if note==CAUSE_UNKNOWN and is_same(row,rows[-1]) and LossSummary.beam_struck(sim):note=CAUSE_BEAM
+    lines.append("%s · QUIETUS HULL -%d%% to %d%% · %s"%[when,roundi(row.loss),roundi(row.after),note])
  return "\n".join(lines)

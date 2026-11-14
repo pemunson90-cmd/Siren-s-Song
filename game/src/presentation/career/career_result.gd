@@ -13,7 +13,8 @@ static func show(host,abandoned:bool)->void:
 	if abandoned:host._menu_text(ABANDONED,17)
 	else:
 		var cause=LossSummary.line(sim)
-		if not cause.is_empty():host._menu_text(sim.message+"\n"+cause,17)
+		# The cause comes from what happened, not from sim.message: a rider's failure replaces that message.
+		if not cause.is_empty():host._menu_text(cause,17)
 	host._menu_text(Flow.stats_line(sim),17)
 	if not abandoned:CauseLog.debrief(host)
 	DamageLog.debrief(host)

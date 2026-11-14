@@ -301,7 +301,7 @@ func threat_line_checks():
 	var Summary=preload("res://src/presentation/loss_summary.gd")
 	var lost=FakeLoss.new()
 	lost.contacts={0:{"pos":Vector2(0,123),"time":5.0,"target":0,"mode":"BEAM"}}
-	check(Summary.line(lost)=="The Siren that caught Quietus was to the SOUTH, about 120 m away.","a recorded contact gives direction and rounded range: "+Summary.line(lost))
+	check(Summary.line(lost)=="A Siren's beam from the south struck Quietus, about 120 m away.","a recorded contact gives direction and rounded range: "+Summary.line(lost))
 	lost.contacts={}
 	var bare=Summary.line(lost)
 	check(bare=="A Siren beam hit Quietus before it could break contact." and not ("to the" in bare),"no recorded contact: the cause only, no invented direction")
