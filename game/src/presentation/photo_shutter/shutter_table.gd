@@ -15,6 +15,9 @@ const CHARS_WIDE:=7.0
 const FIXED_WIDE_REASON:="FINE DETAIL"
 # A second press on the same warned subject within this many seconds exposes anyway.
 const REPEAT_SECONDS:=4.0
+# WP-108: a SHUTTER that has only just appeared ignores taps for this long, so a tap meant for the OPEN or FOLD
+# button (or the chart) as the panel unfolds can never spend film. Tests set the panel's shutter_since to 0.
+const ARM_MS:=450
 const TEXT:={
 	"label":"SHUTTER",
 	"refused":"NO EXPOSURE · %s needs a TIGHT frame · tap WIDE to switch, or press again to expose anyway · no film spent",

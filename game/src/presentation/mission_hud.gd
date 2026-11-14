@@ -239,7 +239,9 @@ func open(next:String="craft",context:Dictionary={}):
 func dismiss():
  tool_help.cancel()
  draining_popup=not owned_touches.is_empty()
- host.map_gesture.cancel();host.knock_press.clear();popup_gesture.cancel();sheet_pointers.clear();sector_press=null;segments.disarm();host.advanced_orders=false;instruments_open=false;host._layout()
+ host.map_gesture.cancel();host.knock_press.clear();popup_gesture.cancel();sheet_pointers.clear();sector_press=null;segments.disarm();host.advanced_orders=false;instruments_open=false
+ page="craft"  # WP-108: a closed wheel forgets its page, so the next craft tap can only open the root
+ host._layout()
 func _back():
  if page=="field_tools":open("tools");return
  if page=="order_help":
@@ -910,6 +912,11 @@ func _draw():
  elif page=="craft" and host.order_buttons.camera in ring_buttons:lines.append_array(camera_caption())
  var refusal=get_meta(SegmentState.FEEDBACK_META,{})
  if refusal.get("reason","")==host.sim.message and refusal.get("page","")==page and refusal.get("unit",-1)==host.sim.selected and not refusal.get("reason","").is_empty():lines.append(refusal.reason)
+ # WP-108: a greyed segment under the finger (and a greyed PING SONAR on its own page) shows why in the centre at once, not after a tap.
+ var grey:Button=wheel_focus if wheel_focus!=null and ring_buttons.has(wheel_focus) else (extra.sonar_emit if page=="acoustics" and ring_buttons.has(extra.sonar_emit) else null)
+ if grey!=null and grey.disabled:
+  var why=str(grey.get_meta("truthful_reason",""))
+  if not why.is_empty() and not lines.has(why):lines.append(why)
  if page=="acoustics":lines.append(Words.TEXT.ping_caption);optional.push_front(Words.TEXT.ping_caption)
  if page in ["object","salvage","plant","habitat"]:
   var work=WorkTask.captions(host.sim,subject);lines.append_array(work);optional.append_array(work)

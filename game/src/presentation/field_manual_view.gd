@@ -39,6 +39,12 @@ static func open(host,briefing:Dictionary,buttons:Dictionary,holder:Control,id:S
 		var chosen:bool=key==id
 		buttons[key].set_meta("chosen",chosen)
 		Style.apply_card(buttons[key],chosen,false)
+		# WP-108: a finger leaves the last tab "hovered", so it looked chosen while the new card was shown. Only the
+		# chosen tab is lit: the others show their plain look when hovered or focused, and nothing keeps the focus.
+		if not chosen:
+			var plain:StyleBox=buttons[key].get_theme_stylebox("normal")
+			buttons[key].add_theme_stylebox_override("hover",plain);buttons[key].add_theme_stylebox_override("focus",plain)
+		buttons[key].release_focus()
 	for old in holder.get_children():
 		holder.remove_child(old);old.queue_free()
 	var entry=Table.topic(id)

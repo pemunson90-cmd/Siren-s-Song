@@ -60,6 +60,14 @@ func run() -> void:
 		for other in Table.TOPICS:
 			if buttons(game.panel_box,"manual_topic_"+other.id).get_meta("chosen",false):open_count+=1
 		check(open_count==1 and game.get_meta("field_manual_open","")==entry.id and topic.get_meta("chosen",false),"exactly one topic is open: "+entry.id)
+		# WP-108: only the open tab is lit; no other tab keeps a hover or focus look from the last tap.
+		var lit=0
+		for other in Table.TOPICS:
+			var tab=buttons(game.panel_box,"manual_topic_"+other.id)
+			if tab.get_theme_stylebox("hover")!=tab.get_theme_stylebox("normal") or tab.get_theme_stylebox("focus")!=tab.get_theme_stylebox("normal"):
+				if tab.get_meta("chosen",false):lit+=1
+				else:lit+=100
+		check(lit==1 and not topic.has_focus(),"the lit tab is the tab shown: "+entry.id)
 		for c in game.panel_box.find_children("*","Label",true,false):
 			check(not c.is_visible_in_tree() or c.get_minimum_size().x<=game.size.x,"card text fits the width: "+entry.id)
 		if entry.id!=Table.OPERATION_ID:

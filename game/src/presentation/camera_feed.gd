@@ -26,6 +26,7 @@ var cost_text:=""
 var more_text:=""
 var more_label:Label
 var shutter_refusal:=""
+var shutter_since:=-1  # WP-108: tick (ms) when the SHUTTER last appeared; -1 while it is not drawn
 var forecast_text:=""
 var _vm:Dictionary={}
 var _shot_count:=-1
@@ -148,6 +149,8 @@ func _gui_input(event: InputEvent) -> void:
 	if toggle_rect.has_point(point):
 		compact=not compact;accept_event();queue_redraw();return
 	if shutter_rect.has_point(point):
+		# WP-108: a SHUTTER that has only just appeared swallows the tap without taking a picture.
+		if shutter_since<0 or Time.get_ticks_msec()-shutter_since<ShutterTable.ARM_MS:accept_event();return
 		Shutter.press(self);_vm_age=1.0;accept_event();return
 	if stop_rect.has_point(point):
 		Shutter.stop(self);_vm_age=1.0;accept_event();return
@@ -290,6 +293,7 @@ func _draw_photo(t:Dictionary) -> void:
 		var mirrored:bool=Settings.current.get("mirrored_hud",false)
 		shutter_rect=Shutter.rect(size.x,touch_height,fs,toggle_rect,mirrored)
 		shutter_refusal=Shutter.refusal_for(sim,t.ctx,_frame.get("rows",[]))
+		if shutter_since<0:shutter_since=Time.get_ticks_msec()
 		_draw_shutter(shutter_rect,fs)
 		title_room-=shutter_rect.size.x+8
 		if mirrored:title_x=shutter_rect.end.x+8
@@ -365,10 +369,12 @@ func _draw() -> void:
 	if footer_scroll!=null:footer_scroll.hide()
 	if more_label!=null:more_label.hide()
 	_buttons=[]
+	var had_shutter:=shutter_rect.has_area()
 	shutter_rect=Rect2();stop_rect=Rect2();lock_text="";cost_text="";more_text=""
 	art_lamp_strength=0.0
 	if sim==null:return
 	var subject:=subject_view()
+	if not had_shutter:shutter_since=-1
 	if compact:
 		draw_rect(Rect2(Vector2.ZERO,size),Color("07151d"));_draw_toggle()
 		draw_string(ThemeDB.fallback_font,Vector2(10,receiver_font_size+10),_compact_title(),HORIZONTAL_ALIGNMENT_LEFT,size.x-toggle_rect.size.x-30,receiver_font_size,PHOSPHOR)
