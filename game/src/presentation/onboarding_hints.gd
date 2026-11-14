@@ -150,6 +150,11 @@ func _wanted(warning: bool = false) -> String:
 	if not seen("pause") and Text.applies("pause", op) and not sim.paused and sim.elapsed > 0.5 and _moment_open("pause"): return "pause"
 	if not seen("drone") and Text.applies("drone", op) and seen("move") and seen("pause") and sim.elapsed > 4.0 and _drone_moment() and not sim.paused: return "drone"
 	return PricedHints.wanted(sim, op, seen)
+# WP-106: a tip's text with its "time is stopped" sentence removed (or reworded) once time runs.
+func _live_text(id: String, stopped: bool) -> String:
+	var text: String = Text.hint_text(id)
+	var swap: Array = Words.TEXT.hint_run_swaps.get(id, [])
+	return text if stopped or swap.is_empty() else text.replace(swap[0], swap[1])
 func refresh(bounds: Vector2, h: float, font: int, top: float) -> void:
 	var sim = host.sim
 	if host.screen != "mission":
@@ -188,8 +193,11 @@ func refresh(bounds: Vector2, h: float, font: int, top: float) -> void:
 	var width := minf(bounds.x - 24, 620.0)
 	label.custom_minimum_size.x = maxf(1, width - 40 - h * 1.4)
 	label.size.x = label.custom_minimum_size.x
-	var body: String = Text.hint_text(current)
-	for id in joined: body += "\n" + Text.hint_text(id)
+	# WP-106: the card's text follows the dive. "Time is stopped" sentences and the footer show only while time is stopped,
+	# and the "Now: ... heard Ns ago" line is the cue of this moment, never one read earlier (critic 58: stale after RUN).
+	if current == "sweep" or "sweep" in joined: extra_line = _sweep_cue()
+	var body: String = _live_text(current, sim.paused)
+	for id in joined: body += "\n" + _live_text(id, sim.paused)
 	if not extra_line.is_empty(): body += "\n" + extra_line
 	if sim.paused: body += "\n" + Words.TEXT.hint_stopped
 	label.text = body

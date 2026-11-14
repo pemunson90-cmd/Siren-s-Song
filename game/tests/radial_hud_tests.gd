@@ -47,7 +47,7 @@ func run():
    check(g.pause_button.get_meta("ui_role","")==("MAIN" if paused else "QUIET"),"the pause control has the "+("MAIN" if paused else "QUIET")+" role "+label)
    check(g.advanced_button.get_meta("ui_role","")=="NORMAL","FLEET has the NORMAL role "+label)
    check(g.pause_button.text.begins_with("▶ RUN\n") if paused else g.pause_button.text.begins_with("|| PAUSE\n"),"the pause control names the tap's action first "+label+": "+g.pause_button.text)
-   check("O₂" in g.pause_button.text,"the pause control keeps the life support reading "+label+": "+g.pause_button.text)
+   check(("PAUSED" if paused else "RUNNING") in g.pause_button.text,"the pause control names the state (WP-106) "+label+": "+g.pause_button.text)
    check(g.pause_button.get_rect().position.is_equal_approx(old_pause.position) and g.pause_button.get_rect().size.is_equal_approx(old_pause.size),"the pause rectangle is unchanged "+label+" "+str(g.pause_button.get_rect()))
    check(g.advanced_button.get_rect().position.is_equal_approx(old_fleet.position) and g.advanced_button.get_rect().size.is_equal_approx(old_fleet.size),"the FLEET rectangle is unchanged "+label+" "+str(g.advanced_button.get_rect()))
    var plate:StyleBoxFlat=g.pause_button.get_theme_stylebox("normal")

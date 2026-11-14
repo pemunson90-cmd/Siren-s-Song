@@ -8,6 +8,7 @@ const RegionTable=preload("res://src/presentation/art/region_table.gd")
 const RegionArt=preload("res://src/presentation/art/region_renderer.gd")
 const Quality=preload("res://src/presentation/quality/quality_table.gd")
 const FeatureViews=preload("res://src/presentation/feature_views.gd")
+const RouteNotes=preload("res://src/presentation/route_notes.gd")
 const HullBand=preload("res://src/presentation/route_clearance/hull_band.gd")
 const Shelf=preload("res://src/presentation/shelf_habitat_view.gd")
 const Priced=preload("res://src/presentation/photo_pricing/photo_pricing_overlay.gd")
@@ -553,6 +554,9 @@ func _draw() -> void:
 					draw_arc(dest.pos,10,0,TAU,24,Palette.chart_color("route",CYAN),Palette.stroke(2)); draw_circle(dest.pos,3,Palette.chart_color("route",CYAN))
 				last=dest.pos
 			ReleaseControls.draw_legs(self,sim,i,world_scale)
+			# WP-106: a route the craft is not following says why, on the line itself (critic A: a kept route looked set for 25 s).
+			var kept:String=RouteNotes.tag(sim,i)
+			if not kept.is_empty():_label(u.pos.lerp(u.route[0].pos,.5)+Vector2(0,-16),kept,Palette.chart_color("route",CYAN),15)
 		_craft(u,i)
 	if sim.mission.has("glass_reach") and sim.mission.glass_reach.artifact.is_empty():
 		var at=sim.mission.glass_reach.work_pos
