@@ -43,10 +43,13 @@ func refresh()->void:
  var h=host.ui_touch_height;var layout=Table.LAYOUT
  font_size=maxi(layout.font_min,roundi(h*layout.font_touch))
  # WP-11 (I2): grow to the measured text, never past the content edge; wrap when even that is short.
- var tall=h*layout.height_touch;var widest=maxf(1.,size.x-layout.gap*2)
+ # The camera panel owns the right lane: the notice sits left of it, never over WIDE, SHUTTER or FOLD.
+ var feed=host.ocean.optical_feed;var right=size.x
+ if feed!=null and feed.is_visible_in_tree():right=minf(right,feed.global_position.x-global_position.x)
+ var tall=h*layout.height_touch;var widest=maxf(1.,right-layout.gap*2)
  var need=maxf(_text_width(label_text())+tall+12.,_text_width(note_text())+tall*.4+12.)
  var width=clampf(need,minf(widest,h*layout.width_touch),widest)
- chip_rect=Rect2(Vector2(size.x-width-layout.gap,h*layout.top_touch+layout.gap),Vector2(width,_box_height(label_text(),width-tall-8.,tall)))
+ chip_rect=Rect2(Vector2(right-width-layout.gap,h*layout.top_touch+layout.gap),Vector2(width,_box_height(label_text(),width-tall-8.,tall)))
  # WP-51: a received lock is stated once, by the lock card, which also carries the new-type note as its last line.
  # While it shows, this chip and note draw nothing; only the bearing wedge (when no lock line already points) remains.
  var lock=host.get("lock_warning")

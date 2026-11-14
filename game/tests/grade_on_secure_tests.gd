@@ -19,6 +19,19 @@ func _initialize():
 	var r2=s2.mission.objectives[0]
 	s2._record_secured(r2,0)
 	check(not s2.message.contains("grade"),"no grade text when no frame was taken")
+	# A B or C frame names what raises it and what that changes; an A frame adds no advice.
+	var advice=Grade.note({"photo_quality":.33},"closer, lit or still")
+	check(advice.contains("grade C") and advice.contains("a better frame needs: closer, lit or still") and advice.contains("intel kept for camera research"),"a C frame says what would raise it and what a better frame changes")
+	check(Grade.note({"photo_quality":.7},"closer, lit or still").contains("better frame"),"a B frame says what would raise it")
+	check(not Grade.note({"photo_quality":.9},"closer, lit or still").contains("better frame"),"an A frame adds no advice")
+	check(s.message.contains("better frame needs"),"the secured message of a poor frame carries the viewfinder hint")
+	var Forecast=preload("res://src/photo_grade/frame_forecast.gd")
+	var row={"id":"a","ready":true,"q":0.5,"apparent":true,"why":""}
+	var soft={"id":"b","ready":false,"q":0.0,"apparent":true,"why":"TOO SOFT · closer, lit or still"}
+	var guess=Forecast.forecast({"mode":"wide","sharp":0.4,"rows":[row,soft]},{"subject":{"required":[]}})
+	check(guess.usable and absf(guess.q-(0.4*0.55+0.25*0.45))<0.001 and guess.grade=="C","forecast repeats the one-frame filing formula")
+	check(not Forecast.forecast({"mode":"wide","sharp":0.4,"rows":[row,soft]},{"subject":{"required":["b"]}}).usable,"a missing required detail forecasts no usable frame")
+	check(Forecast.hint({"rows":[row,soft]})=="closer, lit or still" and Forecast.hint({"rows":[row]})==Forecast.SOFT_HINT,"hint comes from the viewfinder row reason, else the sharpness hint")
 	Grade.enabled=false
 	var s3=Sim.new();s3.start(1,"endurance");var r3=s3.mission.objectives[0];r3["photo_quality"]=.9
 	s3._record_secured(r3,0)

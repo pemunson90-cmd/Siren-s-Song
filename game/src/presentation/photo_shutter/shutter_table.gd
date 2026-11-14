@@ -18,5 +18,9 @@ const REPEAT_SECONDS:=4.0
 const TEXT:={
 	"label":"SHUTTER",
 	"refused":"NO EXPOSURE · %s needs a TIGHT frame · tap WIDE to switch, or press again to expose anyway · no film spent",
+	# Beside the button, before the tap: the frame it would file now, and the shutter's reach.
+	"forecast":"FRAME ~%d%% %s",
+	"forecast_none":"NO USABLE FRAME",
+	"heard":" · HEARD TO %dm",
 }
-const COLORS:={"ready":"e0bf83","refused":"4a6a6e","fill":"1d2a22"}
+const COLORS:={"ready":"e0bf83","refused":"4a6a6e","fill":"1d2a22","weak":"e0a46a","refused_text":"e08a73"}

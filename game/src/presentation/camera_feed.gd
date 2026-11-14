@@ -14,8 +14,10 @@ const Photo=preload("res://src/simulation/photo_capture.gd")
 const Quality=preload("res://src/presentation/quality/quality_table.gd")
 const Shutter=preload("res://src/presentation/photo_shutter/shutter.gd")
 const ShutterTable=preload("res://src/presentation/photo_shutter/shutter_table.gd")
+const ForecastRule=preload("res://src/photo_grade/frame_forecast.gd")
 var shutter_rect:=Rect2()
 var shutter_refusal:=""
+var forecast_text:=""
 var _vm:Dictionary={}
 var _shot_count:=-1
 var _shot_seen_reset:=true
@@ -216,7 +218,7 @@ func _draw_photo(t:Dictionary) -> void:
 
 	_draw_toggle()
 	# WP-10 shutter: same order as the ring's PHOTO, in the header beside FOLD.
-	shutter_rect=Rect2();shutter_refusal=""
+	shutter_rect=Rect2();shutter_refusal="";forecast_text=""
 	var title_x:=10.0;var title_room:=size.x-maxf(touch_height,fs*6.)-30
 	if not live and Shutter.offered(sim,t.get("ctx",{})):
 		var mirrored:bool=Settings.current.get("mirrored_hud",false)
@@ -225,6 +227,7 @@ func _draw_photo(t:Dictionary) -> void:
 		_draw_shutter(shutter_rect,fs)
 		title_room-=shutter_rect.size.x+8
 		if mirrored:title_x=shutter_rect.end.x+8
+		_draw_shutter_forecast(Vector2(title_x,maxf(shutter_rect.end.y-5,fs*2.0+5)),title_room,fs,o,float(readout.get("heard",0.0)))
 	draw_string(font,Vector2(title_x,fs+6),fit_caption(("EXPOSING" if live else "VIEW")+" / "+Names.UNIT_LETTERS[uid],title_room,fs),HORIZONTAL_ALIGNMENT_LEFT,-1,fs,PHOSPHOR)
 	if live:
 		var progress:=acquisition_progress(sim)
@@ -234,6 +237,15 @@ func _draw_shutter(r:Rect2,fs:int)->void:
 	var ink:=Color(ShutterTable.COLORS.refused if not shutter_refusal.is_empty() else ShutterTable.COLORS.ready)
 	draw_rect(r,Color(ShutterTable.COLORS.fill));draw_rect(r,ink,false,2)
 	draw_string(ThemeDB.fallback_font,r.position+Vector2(8,r.size.y*.68),ShutterTable.TEXT.label,HORIZONTAL_ALIGNMENT_LEFT,r.size.x-16,fs,ink)
+# Beside SHUTTER, before the tap: the frame this exposure would file now, and how far it is heard.
+func _draw_shutter_forecast(baseline:Vector2,room:float,fs:int,o:Dictionary,heard:float)->void:
+	var guess:Dictionary=ForecastRule.forecast(_frame,o)
+	var grade_text:String=ShutterTable.TEXT.forecast%[roundi(float(guess.q)*100),guess.grade] if guess.usable else ShutterTable.TEXT.forecast_none
+	var ink:=Color(ShutterTable.COLORS.ready if guess.grade=="A" and guess.usable else ShutterTable.COLORS.weak if guess.usable else ShutterTable.COLORS.refused_text)
+	var small:=maxi(12,fs-3)
+	var text:String=grade_text+ShutterTable.TEXT.heard%roundi(heard)
+	forecast_text=text
+	draw_string(ThemeDB.fallback_font,baseline,fit_caption(text,room,small),HORIZONTAL_ALIGNMENT_LEFT,-1,small,ink)
 func _draw_ambient_sea_life(picture:Rect2)->void:
 	# Viewfinder atmosphere only: no species data, collision, chart marks, sonar
 	# return, photo finding or archived-frame modification. Olive is not contact cyan.
