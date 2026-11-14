@@ -23,7 +23,7 @@ It prints the result and exits non-zero on failure. One command at a time. `send
 
 | Command | Fields | Effect |
 | --- | --- | --- |
-| `screenshot` | `path` (absolute, forward slashes), `scale` (0.1 to 1, default 1) | Saves the rendered viewport as PNG. Use `scale` 0.5 for routine looks and 1.0 when you need to read small text. |
+| `screenshot` | `path` (absolute, forward slashes, inside `KIT/evidence/<session>/`, for example `C:/Users/.../KIT-folder/evidence/critic-a/012.png`; no `..`, no relative path), `scale` (0.1 to 1, default 1) | Saves the rendered viewport as PNG. Use `scale` 0.5 for routine looks and 1.0 when you need to read small text. If a capture is refused as "outside the kit folder", compare your path text with the kit folder's full path first. |
 | `click` | `x`, `y` | One touch tap. |
 | `hold` | `x`, `y`, `seconds` | Touch and hold. |
 | `drag` | `x`, `y`, `to_x`, `to_y`, `seconds`, `steps` | One finger drag (pan, scroll, sliders). |
