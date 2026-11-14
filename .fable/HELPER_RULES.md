@@ -1,5 +1,7 @@
 # Helper rules (read before any work; your brief overrides only where it says so)
 
+Status: LIVE (root keeps it current; created 2026-11-14 on Pat's yes to one shared rule sheet)
+
 Run `overhaul-20261111`, game Siren's Song (Godot 4.6.3, GDScript, game in `game/`). Run clone: `C:\Users\Archi\Documents\Claude Cowork Homebase C\repos\_fable\Siren-s-Song`, branch `fable/overhaul-20261111`. Pat's rulings: `docs/USER_DIRECTIVES.md` (last sections first). His order of goals (14 Nov): efficiency, then accurate and complete work, then the letter of instructions.
 
 ## Where you work
