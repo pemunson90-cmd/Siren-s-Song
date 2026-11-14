@@ -1,7 +1,8 @@
 extends SceneTree
 # Back audit (WP-80): every screen a player can reach gets one system Back and we record where it lands.
 # The exit hook and clock are replaced, so the run never quits. The expected table below is the rule:
-# Back goes one level up toward Operations; only the top screens arm "Press Back again to exit"; a dive is never left.
+# Back goes one level up toward Operations; only the top screens arm "Press Back again to exit"; a dive is never ended:
+# Back closes what is open in it, else does what its MENU button does (the dive is kept for RESUME).
 const Confirm=preload("res://src/presentation/back_exit/back_exit_confirm.gd")
 const MenuReach=preload("res://src/presentation/frontend/menu_reach.gd")
 const ModeLauncher=preload("res://src/presentation/frontend/mode_launcher.gd")
@@ -80,8 +81,8 @@ func run():
  await audit("photographic intelligence",func(g):await gallery(g);g._intel_screen();await settle(),"evidence")
  await audit("HARD SAVES",func(g):preload("res://src/persistence/save_states/save2_controller.gd").open(g);await settle(),"menu")
  await audit("erase confirmation",func(g):g._confirm_new_campaign();await settle(),"menu")
- # A dive is never left or quit: Back closes what is open, else pauses.
- await audit("dive, nothing open",func(g):await dive(g),"mission",false,dive_stays)
+ # A dive is never ended or quit: Back closes what is open, else acts as the MENU button (Operations, dive kept).
+ await audit("dive, nothing open",func(g):await dive(g),"menu",false,dive_kept)
  await audit("dive, torpedo armed",func(g):await dive(g);g.knock_armed=true;g.ocean.knock_targeting=true,"mission",false,func(g):check(not g.knock_armed,"Back disarms the torpedo"))
  await audit("dive, order wheel open",func(g):await dive(g);g._toggle_advanced();await settle(),"mission",false,func(g):check(not g.advanced_orders,"Back closes the order wheel"))
  await audit("dive, route editor open",func(g):await dive(g);g._order("program");await settle(),"mission",false,func(g):check(not g.route_editor.visible,"Back closes the route editor"))
@@ -90,8 +91,8 @@ func run():
  # Mode sessions run on their own Main; the session reports its own screen.
 # Career board is audited by hand: Back there runs CareerSession._return twice (see the report), which raises a script error.
  await audit("expedition menu",func(g):await mode(g,"expedition"),"Frontend:expeditions")
- await audit("challenge dive",func(g):await mode(g,"challenge"),"ChallengeSession:mission")
- await audit("expedition dive",func(g):await mode(g,"expedition");await mode_dive(g,"ExpeditionSession"),"ExpeditionSession:mission")
+ await audit("challenge dive",func(g):await mode(g,"challenge"),"ChallengeSession:challenge_menu")
+ await audit("expedition dive",func(g):await mode(g,"expedition");await mode_dive(g,"ExpeditionSession"),"ExpeditionSession:expedition_menu")
  await audit("expedition end confirm",func(g):await mode(g,"expedition");await mode_dive(g,"ExpeditionSession");g.get_node("ExpeditionSession")._confirm_end();await settle(),"ExpeditionSession:expedition_menu")
  await audit("challenge end confirm",func(g):await mode(g,"challenge");g.get_node("ChallengeSession")._confirm_end();await settle(),"ChallengeSession:challenge_menu")
  # The launch title exits on a second Back inside the window, like Operations.
@@ -109,8 +110,8 @@ func open_card(game):
  card.key=0;card.panel.show()
  check(card.is_open(),"contact card fixture is open")
  await settle()
-func dive_stays(game):
- check(game.active_started and game.sim.outcome.is_empty() and game.screen=="mission" and game.sim.paused,"Back in a dive keeps the dive and pauses it")
+func dive_kept(game):
+ check(game.active_started and game.sim.outcome.is_empty() and game.sim.paused,"Back in a dive keeps the dive, paused, for RESUME")
 func dossier_button(game):
  for b in game.find_children("*","Button",true,false):
   if b.get_meta("action","")=="siren_dossier_back":return b.text

@@ -1,7 +1,7 @@
 extends RefCounted
 # One level up for Android Back. Main._android_back asks this first for the screens whose
 # visible BACK button does not lead to Operations; everything else keeps Main's own rule
-# (back to Operations). A dive is never left or quit from here: Back closes what is open, else pauses.
+# (back to Operations). A dive is never ended or quit from here: Back closes what is open, else acts as MENU.
 # The exit confirm (back_exit_confirm.gd) stays Operations-only, plus the title shown at launch.
 const BRIEFING_META="onboard2_fit_index"  # set by every briefing; the field manual and launch costs return to it
 const DOSSIER_FROM_META="siren_dossier_from"  # "archive" when the dossier was opened from the archive
@@ -29,11 +29,15 @@ static func at_launch_title(host)->bool:
 	var front=host.get_node_or_null("Frontend")
 	return front!=null and front.screen=="title" and front.operations_entry.is_empty()
 
-# Closes the innermost open thing; with nothing open the dive stays on screen and paused.
+# Closes the innermost open thing; with nothing open it does what the dive's MENU button does in this mode (the
+# Campaign shows Operations with RESUME; a challenge or Expedition shows its own menu). The dive is kept either way.
 static func dive(host)->void:
 	var hud=host.mission_hud
 	if hud!=null and hud.guard!=null and not hud.guard.pending.is_empty():hud.guard.cancel();return
 	if host.knock_armed or host.decoy_armed:host._primary_action();return
 	if host.advanced_orders:hud._back();return
 	if hud!=null and hud.contact_card!=null and hud.contact_card.is_open():hud.contact_card.close();return
-	host.sim.paused=true;host._refresh()
+	host.sim.paused=true
+	var menu=host.order_buttons.get("menu") if host.get("order_buttons") is Dictionary else null
+	if menu is Button and menu.is_visible_in_tree() and not menu.disabled:menu.pressed.emit()
+	else:host._show_campaign()

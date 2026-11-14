@@ -149,8 +149,8 @@ func _notification(what:int)->void:
 	if what in [NOTIFICATION_APPLICATION_PAUSED,NOTIFICATION_APPLICATION_FOCUS_OUT,NOTIFICATION_WM_WINDOW_FOCUS_OUT]:
 		sim.paused=true;_save_archive();sound.suspend()
 	elif what in [NOTIFICATION_APPLICATION_RESUMED,NOTIFICATION_APPLICATION_FOCUS_IN,NOTIFICATION_WM_WINDOW_FOCUS_IN]:sound.resume()
-	elif what==NOTIFICATION_WM_GO_BACK_REQUEST:
-		sim.paused=true;call_deferred("_android_back")
+	# Back: Main._notification (which Godot also runs on this session) already pauses and queues _android_back once;
+	# a second queue here ran _return twice, and the second call failed after the session had left.
 	elif what==NOTIFICATION_WM_CLOSE_REQUEST:_save_archive();get_tree().quit()
 func _android_back()->void:
 	if screen=="career_board" and not active_started and not result_pending:_return()
