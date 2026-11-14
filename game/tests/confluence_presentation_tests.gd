@@ -6,11 +6,13 @@ class Canvas:
  var rectangles=[]
  func draw_rect(rect,_color,_filled=true,_width=-1):rectangles.append(rect)
  func draw_texture_rect(_texture,rect,_tile=false,_modulate=Color.WHITE,_transpose=false):rectangles.append(rect)
- func draw_colored_polygon(points,_color):vertices.append_array(points)
- func draw_polygon(points,_colors,_uvs=PackedVector2Array(),_texture=null):vertices.append_array(points)
+ var polygons=0
+ var circles=[]
+ func draw_colored_polygon(points,_color):polygons+=1;vertices.append_array(points)
+ func draw_polygon(points,_colors,_uvs=PackedVector2Array(),_texture=null):polygons+=1;vertices.append_array(points)
  func draw_line(a,b,_color,_width=-1,_antialiased=false):vertices.append_array([a,b])
  func draw_polyline(points,_color,_width=-1,_antialiased=false):vertices.append_array(points)
- func draw_circle(p,r,_color,_filled=true,_width=-1,_antialiased=false):vertices.append_array([p-Vector2.ONE*r,p+Vector2.ONE*r])
+ func draw_circle(p,r,_color,_filled=true,_width=-1,_antialiased=false):circles.append(p);vertices.append_array([p-Vector2.ONE*r,p+Vector2.ONE*r])
  func draw_arc(p,r,_from,_to,_segments,_color,_width=-1,_antialiased=false):vertices.append_array([p-Vector2.ONE*r,p+Vector2.ONE*r])
 var checks=0
 var failures=0
@@ -24,7 +26,14 @@ func run():
  if world==null:finish();return
  var canvas=Canvas.new()
  world.draw_terrain(canvas,{"cell_size":40.,"clear_cells":[],"return_cells":[Vector2i(2,2)],"surface_segments":[]},1.)
- check(canvas.vertices.is_empty() and canvas.rectangles.is_empty(),"ambiguous returns never become solid rock")
+ # WP-112: the boundary stays (no fill, no textured or filled rect, no polygon); the cell now gets a dotted echo mark inside itself.
+ check(canvas.polygons==0 and canvas.rectangles.is_empty(),"ambiguous returns never become solid rock")
+ var echo_cell=Rect2(80,80,40,40)
+ check(canvas.circles.size()>0 and canvas.circles.all(func(c):return echo_cell.has_point(c)),"each ambiguous return cell gets an echo mark inside its own cell and nowhere else")
+ var covered=Canvas.new()
+ world.draw_terrain(covered,{"cell_size":40.,"clear_cells":[],"return_cells":[Vector2i(2,2)],"surface_segments":[PackedVector2Array([Vector2(80,100),Vector2(120,100)])]},1.)
+ check(covered.circles.is_empty(),"a return cell a measured face crosses gets no echo mark")
+ canvas=Canvas.new()
  world.draw_terrain(canvas,{"clear_cells":[],"surface_segments":[PackedVector2Array([Vector2(100,100),Vector2(120,100)])]},1.)
  check(not canvas.vertices.is_empty(),"one observed patch receives physical material and strata")
  check(canvas.vertices.all(func(p):return p.x>=99.99 and p.x<=120.01 and absf(p.y-100)<=24.),"relief cannot connect or extrapolate beyond measured patch endpoints")
