@@ -27,7 +27,16 @@ static func build(completed:Array,progress:Dictionary,intel:Dictionary,unlocked:
   var opening=Meta.map_requires(id)
   var prerequisite_known=opening.all(func(required):return required in completed) if opening!=null else Catalog.prerequisites_met(id,recovered)
   var named=state!="LOCKED" and (id in recovered or id in known or prerequisite_known)
-  var label=str(Catalog.make(id).title) if named else "UNKNOWN"
-  nodes.append({"id":id,"state":state,"label":label,"can_open":named and state in ["AVAILABLE","RECOVERED"],"mark":state=="LOCKED" and not named,"position":Table.POSITIONS.get(id,Meta.position(id)),"route":definition.route,"required_facts":definition.required_facts.duplicate(true)})
+  var mission=Catalog.make(id) if named else {}
+  var label=str(mission.title) if named else "UNKNOWN"
+  var can_open=named and state in ["AVAILABLE","RECOVERED"]
+  nodes.append({"id":id,"state":state,"label":label,"can_open":can_open,"mark":state=="LOCKED" and not named,"position":Table.POSITIONS.get(id,Meta.position(id)),"route":definition.route,"required_facts":definition.required_facts.duplicate(true),"tag":_tag(mission) if can_open else {}})
   for prerequisite in Meta.map_sources(id,definition.prerequisites):edges.append({"from":prerequisite,"to":id})
+ for row in nodes:
+  if not row.tag.is_empty():row.tag["opens"]=edges.filter(func(edge):return edge.from==row.id).size()
  return {"enabled":Table.enabled,"nodes":nodes,"edges":edges,"rumors":rumors}
+# Facts the briefing already shows: required photo subjects, other required tasks, Sirens on the chart.
+static func _tag(mission:Dictionary)->Dictionary:
+ var required=mission.get("objectives",[]).filter(func(objective):return not objective.get("optional",false))
+ var photos=required.filter(func(objective):return objective.has("subject")).size()
+ return {"photos":photos,"tasks":required.size()-photos,"sirens":mission.get("sirens",[]).size(),"opens":0}
