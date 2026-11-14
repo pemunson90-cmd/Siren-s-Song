@@ -19,7 +19,8 @@ static func wide(host)->bool:
 static func is_wide(host)->bool:
 	return host.get_meta(WIDE_META,false)
 # `rebuild` redraws the whole screen; Main calls it when a turn or resize changes the column count.
-static func open(host,rebuild:Callable,scrolling:bool=false)->Array:
+# WP-109: with `pin_right` the LEFT box scrolls on its own and the right box stays on screen (the contract board's links and BACK).
+static func open(host,rebuild:Callable,scrolling:bool=false,pin_right:bool=false)->Array:
 	# Inside a column of an outer frame (see nested) a screen section keeps its narrow, stacked form.
 	if host.get_meta(NESTED_META,false):return [host.panel_box,host.panel_box]
 	var columns:=wide(host)
@@ -28,8 +29,14 @@ static func open(host,rebuild:Callable,scrolling:bool=false)->Array:
 	var row:=HBoxContainer.new();row.size_flags_horizontal=Control.SIZE_EXPAND_FILL;row.add_theme_constant_override("separation",roundi(Metrics.MENU_COLUMN_GAP))
 	# The left column is a compact summary that must fit a short screen; the right holds the touch rows.
 	var left:=_column(UiStyle.PREP_SUMMARY_SEPARATION);var right:=_column(UiStyle.PREP_CONTROLS_SEPARATION)
-	row.add_child(left)
-	if scrolling:
+	if pin_right:
+		host.panel_box.size_flags_vertical=Control.SIZE_EXPAND_FILL;row.size_flags_vertical=Control.SIZE_EXPAND_FILL
+		var list:=ScrollContainer.new();list.size_flags_horizontal=Control.SIZE_EXPAND_FILL;list.size_flags_vertical=Control.SIZE_EXPAND_FILL
+		list.horizontal_scroll_mode=ScrollContainer.SCROLL_MODE_DISABLED;list.custom_minimum_size.y=host.ui_touch_height*UiStyle.PREP_SCROLL_MIN_TOUCHES
+		list.add_child(left);row.add_child(list);row.add_child(right);host.set_meta(SCROLL_META,list)
+	else:row.add_child(left)
+	if pin_right:pass
+	elif scrolling:
 		# The page itself fills the panel, so the row takes the height left below the back button.
 		host.panel_box.size_flags_vertical=Control.SIZE_EXPAND_FILL;row.size_flags_vertical=Control.SIZE_EXPAND_FILL
 		var pane:=ScrollContainer.new();pane.size_flags_horizontal=Control.SIZE_EXPAND_FILL;pane.size_flags_vertical=Control.SIZE_EXPAND_FILL

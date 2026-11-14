@@ -25,6 +25,8 @@ const KEPT_LINE="Kept: %s."
 const RECOVERED_RECORD="archive recovered (%s)"
 const NOTHING="nothing"
 const LEDGER_TITLE="THIS DIVE"
+# WP-109: a Naval Career dive launches with a full kit every time (Career.launch), so what it used is not a cost carried forward.
+const USED_REFILL_LINE="Used: %s. Field tools refill at the next launch."
 # What a loadout adds to the standard kit, from the tool table: "with more EMP, Decoy than the standard kit".
 static func kit_line(loadout:String,scarcity:int=0)->String:
 	var more:Array=[]
@@ -76,3 +78,6 @@ static func earned_text(supplies:String,recovered:String="",photo:float=-1.)->St
 	return ", ".join(parts) if not parts.is_empty() else NOTHING
 static func ledger(spent:String,earned:String,kept:String)->Array:
 	return [LEDGER_TITLE,SPENT_LINE%spent,EARNED_LINE%earned,KEPT_LINE%kept]
+
+static func career_ledger(used:String,earned:String,kept:String)->Array:
+	return [LEDGER_TITLE,USED_REFILL_LINE%used,EARNED_LINE%earned,KEPT_LINE%kept]

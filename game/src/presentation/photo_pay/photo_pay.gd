@@ -58,6 +58,10 @@ static func debrief_text(mission:Dictionary,intel:Dictionary)->String:
 		var item_name:String=str(Equipment.ITEMS[item].name).to_upper()
 		if have>=float(p.q):lines.append(Table.TEXT.cut%[item_name,Intel.label(p.intel),roundi(have*100)])
 		else:lines.append(Table.TEXT.short%[item_name,Intel.label(p.intel),roundi(float(p.q)*100),roundi(have*100)])
+	# WP-109: an intel feature that no research project and no chart mark reads still says so, instead of leaving the pay unexplained.
+	var read:Array=Intel.PROJECTS.values().map(func(p):return p.intel)+Intel.RETURNED_FILM.map(func(row):return row.key)
+	for key in all_keys:
+		if key not in read:lines.append(Table.TEXT.unused%Intel.label(key))
 	for row in Intel.RETURNED_FILM:
 		if all_keys.has(row.key) and Intel.ok({"intel":intel},row.key):
 			lines.append(Table.TEXT.chart%[Intel.label(row.key),", ".join(PackedStringArray(row.ops.map(func(id):return str(int(id)+1))))])

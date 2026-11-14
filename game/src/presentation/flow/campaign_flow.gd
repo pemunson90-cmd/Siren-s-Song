@@ -27,14 +27,17 @@ static func plain_stock(host,index:int=-1) -> String:
 const CARRIED_HULL="Quietus starts at hull %d%%: damage from the last dive is not repaired."
 # The result screen's RETRY DIVE says the same number, so the player knows what a retry starts with.
 const RETRY_HULL="RETRY DIVE · Quietus starts at hull %d%%"
+# WP-109: Expedition operations (7 and later) retry the same way and carry the same hull.
+const RETRY_HULL_OPERATION="RETRY OPERATION · Quietus starts at hull %d%%"
 static func carried_hull(host) -> int:
-	if not EconomyPanel.Table.enabled:return 100
+	if not EconomyPanel.Table.enabled or not host.get("economy") is Dictionary:return 100 # WP-109: a host without an economy (a test host) starts whole
 	return int(host.economy.get("cond",{}).get(Names.CRAFT_QUIETUS,100))
 static func carried_damage_line(host) -> String:
 	var hull:int=carried_hull(host)
 	return CARRIED_HULL%hull if hull<100 else ""
-static func retry_label(host) -> String:
+static func retry_label(host,operation:bool=false) -> String:
 	var hull:int=carried_hull(host)
+	if operation:return RETRY_HULL_OPERATION%hull if hull<100 else "RETRY OPERATION"
 	return RETRY_HULL%hull if hull<100 else "RETRY DIVE"
 
 static func show_campaign(host) -> void:
@@ -379,6 +382,7 @@ static func debrief(host) -> void:
 	host._button(host.panel_box,retry_label(host),func(): host._briefing(host.mission_index),"retry")
 	host._button(host.panel_box,"OPERATIONS ARCHIVE",host._show_campaign,"back")
 	preload("res://src/presentation/debrief_actions.gd").lift(host,lift_at)
+	preload("res://src/presentation/debrief_actions.gd").footer(host) # WP-109: NEXT DIVE and RETRY stay on screen
 	host._save_archive()
 	preload("res://src/presentation/arcs/arc_card.gd").recovered(host,first_recovery)
 	host.call_deferred("_layout")

@@ -93,9 +93,10 @@ static func debrief(main)->bool:
   main._menu_text("Field observations remain in the archive. This operation grants no new recovered fitting, continuation or committed history.",17)
   preload("res://src/presentation/module_recovery_view.gd").debrief(main)
  if not main.recovered_evidence.is_empty():main._button(main.panel_box,preload("res://src/presentation/flow/photo_review.gd").GALLERY_BUTTON,func():main._evidence_gallery(0),"evidence")
- main._button(main.panel_box,"RETRY OPERATION",func():main._briefing(mission.id),"retry")
+ main._button(main.panel_box,preload("res://src/presentation/flow/campaign_flow.gd").retry_label(main,true),func():main._briefing(mission.id),"retry")
  main._button(main.panel_box,"OPERATIONS ARCHIVE",main._show_campaign,"back")
  preload("res://src/presentation/debrief_actions.gd").lift(main,lift_at)
+ preload("res://src/presentation/debrief_actions.gd").footer(main) # WP-109: the result buttons stay on screen
  if mission.id>=14:main._menu_text(preload("res://src/campaign/glass_research.gd").detail(main.expedition),17)
  main._save_archive();main.call_deferred("_layout")
  return true

@@ -5,6 +5,9 @@ extends RefCounted
 const NOTHING="Nothing lost, nothing gained."
 const NONE_WORD="NONE"
 const Records=preload("res://src/campaign/runs/run_records.gd")
+# WP-109: the Naval Career keeps no photographs (its saved state has no photo archive) and pays nothing per photograph.
+const CAREER_PHOTOS_WON="Naval Career contracts pay for recovery, not per photograph, and the career keeps no photographs."
+const CAREER_PHOTOS_LOST="These photographs are lost with the dive. The Naval Career keeps no photographs."
 static var _career_head=RegEx.create_from_string("^(.+) · (RECOVERED|LOST)$")
 static var _career_standing=RegEx.create_from_string("^STANDING \\+?(-?\\d+) → (-?\\d+) · CONTRACT PAY (.+)$")
 static var _career_salvage=RegEx.create_from_string("^SALVAGE RECOVERED · (.+)$")

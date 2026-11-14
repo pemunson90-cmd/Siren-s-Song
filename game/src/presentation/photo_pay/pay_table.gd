@@ -7,9 +7,11 @@ extends RefCounted
 # REVERT: set `enabled` to false; the debrief and archive lose only these lines.
 static var enabled:=true
 const TEXT:={
-	"head":"PHOTO PAY · what this dive's film added to the archive",
-	"record":"%s · grade %s %d%% · %s",
+	# WP-109: the head says what the pay is (intel, never scrap or cells) and each row gives its figures: frame quality, intel value, the needed value.
+	"head":"PHOTO PAY · film pays no scrap or cells; it adds intel to the archive",
+	"record":"%s · grade %s %d%% frame quality · %s",
 	"credited":"INTEL %s %d%%",
+	"unused":"NO CAMERA RESEARCH · %s opens none and adds no returned-film chart mark; it stays in the archive",
 	"kept":"%s %d%% · archive already holds %d%% from dive %d",
 	"none":"no intel detail on film",
 	"cut":"CAMERA RESEARCH · %s cut from %s %d%%",
