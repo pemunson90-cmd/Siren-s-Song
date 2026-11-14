@@ -12,10 +12,22 @@ foreach ($row in Get-Content game\tests\suites.txt) {
     if ($row.StartsWith('#') -or -not $row.Trim()) { continue }
     $f = $row.Split('|')
     if ($f.Count -lt 5 -or $f[4] -ne 'render') { continue }
-    $r = & scripts\toolchain\win\headless.ps1 -Action Script -Script $f[0] -Prefix $f[1] 2>&1
+    # Some render suites run for about eight minutes (ops_home_ui_tests); the runner's default limit is 480 s.
+    $r = & scripts\toolchain\win\headless.ps1 -Action Script -Script $f[0] -Prefix $f[1] -TimeoutSec 1700 2>&1
     $sum = ($r | Where-Object { $_ -match 'CHECKS \d+ FAILURES \d+' } | Select-Object -Last 1)
     $ok = ($r | Where-Object { $_ -match 'headless Script (OK|FAILED)' } | Select-Object -Last 1)
     "$($f[0]) :: $sum :: $ok" | Out-File -FilePath $Out -Append -Encoding utf8
+}
+# A suite in neither the CI profile nor the render list (opening_depth_policy_ui_tests) runs here, so every
+# registered suite runs once.
+"UNRANKED SUITES" | Out-File -FilePath $Out -Append -Encoding utf8
+foreach ($row in Get-Content game\tests\suites.txt) {
+    if ($row.StartsWith('#') -or -not $row.Trim()) { continue }
+    $f = $row.Split('|')
+    if ($f.Count -lt 4 -or $f[3] -ne '-' -or ($f.Count -ge 5 -and $f[4] -eq 'render')) { continue }
+    $r = & scripts\toolchain\win\headless.ps1 -Action Script -Script $f[0] -Prefix $f[1] -TimeoutSec 1700 2>&1
+    $sum = ($r | Where-Object { $_ -match 'CHECKS \d+ FAILURES \d+' } | Select-Object -Last 1)
+    "$($f[0]) :: $sum" | Out-File -FilePath $Out -Append -Encoding utf8
 }
 "SWEEP END $(Get-Date -Format s)" | Out-File -FilePath $Out -Append -Encoding utf8
 # The runner scripts print to the host, so the lines above can come out empty. The per-suite logs are the
