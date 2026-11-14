@@ -324,6 +324,17 @@ func route_end_case():
 	while not ps.units[0].route.is_empty() and guard_frames<400:
 		ps.advance(0.1);guard_frames+=1;paused_end._refresh()
 	check(ps.paused,"rule 3 on: the finished route paused the dive")
+	# The same route at frame-sized steps: the craft brakes below MOVING_SPEED before its route empties, which 0.1 s
+	# steps never sampled, so play showed no notice and no pause (13 Nov).
+	var frame_end=await make(Vector2i(2520,1080),1.0)
+	var fs=frame_end.sim
+	fs.paused=true;fs.command("select",{"unit":0});fs.command("route",{"point":fs.units[0].pos+Vector2(300,0)})
+	fs.paused=false;frame_end._refresh()
+	var frame_steps=0
+	while not fs.paused and frame_steps<3600:
+		fs.advance(1.0/60.0);frame_steps+=1;frame_end._refresh()
+	check(fs.paused and fs.units[0].route.is_empty() and "has stopped" in frame_end.mission_hud.intent.text,"rule 3 at frame-sized steps: a route that ends in a braking stop is noticed and pauses the dive ("+str(frame_steps)+" frames)")
+	frame_end.queue_free();await settle()
 	paused_end._refresh();await settle()
 	check(end_line in paused_end.mission_hud.intent.text and "PAUSED: QUIETUS finished its route" in paused_end.mission_hud.intent.text,"the status line keeps its words and adds the reason: "+paused_end.mission_hud.intent.text)
 	paused_end.queue_free();await settle()
