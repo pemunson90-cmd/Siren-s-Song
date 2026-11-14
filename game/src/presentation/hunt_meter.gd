@@ -3,6 +3,7 @@ extends RefCounted
 # seam calls sync once per refresh, and inactive/legacy missions retain old UI.
 # Presentation tunables and copy live in hunt_meter/meter_table.gd.
 const Pressure=preload("res://src/simulation/hunt_pressure/hunt_pressure.gd")
+const HuntTable=preload("res://src/simulation/hunt_pressure/hunt_table.gd")
 const StatusView=preload("res://src/presentation/status_text/status_view.gd")
 const Table=preload("res://src/presentation/hunt_meter/meter_table.gd")
 const Palette=preload("res://src/presentation/accessibility/palette.gd")
@@ -12,6 +13,9 @@ const CHIP="hunt_meter_button"
 const INTRO="hunt_meter_intro"
 const PENDING="hunt_meter_fit_pending"
 const HELP_HOOK="hunt_meter_help_resize_hook"
+const NOTE="hunt_meter_change_note"
+const NOTE_STAGE="hunt_meter_noted_stage"
+const NOTE_UNTIL="hunt_meter_note_until"
 static func label(view:Dictionary,compact:bool=false,tight:bool=false)->String:
  var pips=""
  for index in Table.PIP_COUNT:pips+="●" if index<=int(view.index) else "○"
@@ -54,11 +58,11 @@ static func sync(hud)->void:
  var button=_button(hud) if view.active else (hud.get_meta(CHIP) if hud.has_meta(CHIP) else null)
  if not view.active or hud.host.screen!="mission":
   if is_instance_valid(button):button.hide()
-  if hud.has_meta(INTRO) and is_instance_valid(hud.get_meta(INTRO)):hud.get_meta(INTRO).hide()
+  _hide_notes(hud)
   return
  if hud.page=="order_help":
   button.hide()
-  if hud.has_meta(INTRO) and is_instance_valid(hud.get_meta(INTRO)):hud.get_meta(INTRO).hide()
+  _hide_notes(hud)
   if own_help(hud) and hud.touch_height>Table.COMPACT_TOUCH_HEIGHT:
    hook_help(hud)
    fit_help(hud)
@@ -88,23 +92,26 @@ static func sync(hud)->void:
  if not hud.host.advanced_orders and hud.alarm.visible and hud.alarm.text.begins_with("OP PRESSURE"):hud.alarm.hide()
  fit(hud)
  schedule_fit(hud)
+ change_note(hud,button)
  intro(hud,button)
 # The one-line meaning beside the chip the first time it is shown in a profile (critic 14 Nov: three players never understood it).
 # The flag is kept with the profile's other first-use flags; a mode session keeps it on its campaign.
 static func _flags_owner(hud):
  var campaign=hud.host.get("campaign_host")
  return campaign if campaign!=null and is_instance_valid(campaign) else hud.host
-static func _intro_label(hud)->Label:
- var existing=hud.get_meta(INTRO) if hud.has_meta(INTRO) else null
+static func _make_label(hud,key:String,label_name:String,text:String)->Label:
+ var existing=hud.get_meta(key) if hud.has_meta(key) else null
  if is_instance_valid(existing):return existing
  var label=Label.new()
- label.name="HuntMeterIntro";label.mouse_filter=Control.MOUSE_FILTER_IGNORE;label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
- label.text=Table.TEXT.intro;label.z_index=1;label.hide()
+ label.name=label_name;label.mouse_filter=Control.MOUSE_FILTER_IGNORE;label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+ label.text=text;label.z_index=1;label.hide()
  var style=StyleBoxFlat.new();style.bg_color=Color(.018,.055,.075,.95);style.border_color=Color("e9cb8c");style.set_border_width_all(1);style.set_corner_radius_all(6)
  style.content_margin_left=10;style.content_margin_right=10;style.content_margin_top=6;style.content_margin_bottom=6
  label.add_theme_stylebox_override("normal",style)
- hud.add_child(label);hud.set_meta(INTRO,label)
+ hud.add_child(label);hud.set_meta(key,label)
  return label
+static func _intro_label(hud)->Label:
+ return _make_label(hud,INTRO,"HuntMeterIntro",Table.TEXT.intro)
 static func _retire_intro(hud)->void:
  hud.set_meta("hunt_meter_intro_done",true)
  var label=hud.get_meta(INTRO) if hud.has_meta(INTRO) else null
@@ -123,12 +130,28 @@ static func intro(hud,button:Button)->void:
  var label=_intro_label(hud)
  if now-float(hud.get_meta("hunt_meter_intro_since"))>Table.INTRO_SECONDS:_retire_intro(hud);return
  if not button.visible:label.hide();return
+ # While a stage-change note is up, the chip's one seat beside it belongs to the note.
+ if _note_live(hud):label.hide();return
+ _seat_note(hud,button,label)
+# Seats a one-line note below the chip, else above it; with no clear place it waits hidden, so it never covers a lock card, a prompt or a control.
+static func _seat_note(hud,button:Button,label:Label,hand_wrap:bool=false)->void:
  var area=Rect2(Vector2.ZERO,StatusView.content_bounds(hud,hud.size))
  var width=minf(area.size.x-Table.MARGIN*2.0,Table.INTRO_MAX_WIDTH)
- label.add_theme_font_size_override("font_size",roundi(float(button.get_theme_font_size("font_size"))*Table.INTRO_FONT_FACTOR))
- label.custom_minimum_size=Vector2(width,0);label.size=Vector2(width,0)
- label.size=Vector2(width,label.get_combined_minimum_size().y)
- # Below the chip, else above it; with no clear place it waits hidden, so it never covers a lock card, a prompt or a control.
+ var font_size=roundi(float(button.get_theme_font_size("font_size"))*Table.INTRO_FONT_FACTOR)
+ label.add_theme_font_size_override("font_size",font_size)
+ var font=label.get_theme_font("font")
+ var box=label.get_theme_stylebox("normal").get_minimum_size()
+ if hand_wrap:
+  # A wrapping label keeps its old minimum height until it is drawn, and a hidden one is not drawn: this note breaks its own lines.
+  var plain=str(label.get_meta("plain",label.text))
+  width=minf(width,ceil(font.get_string_size(plain,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x+box.x+2.0))
+  label.autowrap_mode=TextServer.AUTOWRAP_OFF
+  label.text=_wrapped(font,plain,font_size,width-box.x)
+  label.custom_minimum_size=Vector2(width,ceil(font.get_height(font_size)*float(label.text.split("\n").size())+box.y))
+ else:
+  label.custom_minimum_size=Vector2(width,0)
+  label.custom_minimum_size.y=ceil(font.get_multiline_string_size(label.text,HORIZONTAL_ALIGNMENT_LEFT,width-box.x,font_size).y+box.y)
+ label.size=label.custom_minimum_size
  var obstacles=_obstacles(hud,button,false)
  var x=clampf(button.position.x+(button.size.x-width)/2.0,Table.MARGIN,maxf(Table.MARGIN,area.end.x-width-Table.MARGIN))
  for y in [button.position.y+button.size.y+Table.INTRO_GAP,button.position.y-label.size.y-Table.INTRO_GAP]:
@@ -136,6 +159,47 @@ static func intro(hud,button:Button)->void:
   if area.encloses(rect) and not obstacles.any(func(other):return rect.intersects(other)):
    label.position=rect.position;label.show();return
  label.hide()
+# Why the stage changed (critic 14 Nov: the chip moved between stages with no reason shown). Read-only: the
+# simulation's own record of the last stage change, shown for Table.CHANGE_SECONDS of running time.
+# The simulation names the last change in words (view.change_cause); find its cause key from the same table.
+static func cause_key(view:Dictionary)->String:
+ for key in HuntTable.CAUSES:
+  if HuntTable.CAUSES[key]==view.get("change_cause",""):return key
+ return "ACTIVITY"
+static func change_reason(cause:String)->String:
+ return Table.REASONS.get(cause,Table.TEXT.reason_other)
+static func change_text(view:Dictionary,cause:String)->String:
+ return Table.TEXT.change%[str(view.stage),change_reason(cause)]
+static func _note_live(hud)->bool:
+ return hud.has_meta(NOTE_UNTIL) and float(hud.get_meta(NOTE_UNTIL))>float(hud.host.sim.elapsed) and float(hud.get_meta(NOTE_UNTIL))-float(hud.host.sim.elapsed)<=Table.CHANGE_SECONDS
+static func _wrapped(font:Font,text:String,font_size:int,width:float)->String:
+ var lines:PackedStringArray=[];var line=""
+ for word in text.split(" "):
+  var trial=word if line.is_empty() else line+" "+word
+  if line.is_empty() or font.get_string_size(trial,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x<=width:line=trial
+  else:lines.append(line);line=word
+ lines.append(line)
+ return "\n".join(lines)
+static func _note_label(hud)->Label:
+ return _make_label(hud,NOTE,"HuntMeterChange","")
+static func change_note(hud,button:Button)->void:
+ var view=Pressure.view(hud.host.sim)
+ var index=int(view.index)
+ var seen=int(hud.get_meta(NOTE_STAGE,-1))
+ hud.set_meta(NOTE_STAGE,index)
+ if seen>=0 and seen!=index:
+  var label=_note_label(hud)
+  label.set_meta("plain",change_text(view,cause_key(view)))
+  label.text=str(label.get_meta("plain"))
+  hud.set_meta(NOTE_UNTIL,float(hud.host.sim.elapsed)+Table.CHANGE_SECONDS)
+ if not _note_live(hud):
+  if hud.has_meta(NOTE) and is_instance_valid(hud.get_meta(NOTE)):hud.get_meta(NOTE).hide()
+  return
+ if not button.visible:_note_label(hud).hide();return
+ _seat_note(hud,button,_note_label(hud),true)
+static func _hide_notes(hud)->void:
+ for key in [INTRO,NOTE]:
+  if hud.has_meta(key) and is_instance_valid(hud.get_meta(key)):hud.get_meta(key).hide()
 static func own_help(hud)->bool:
  return Pressure.view(hud.host.sim).active and hud.page=="order_help" and hud.help_text.begins_with("HUNT ·")
 static func help_rects(hud)->Array:

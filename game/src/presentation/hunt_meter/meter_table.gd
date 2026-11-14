@@ -1,4 +1,5 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 # Hunt meter presentation configuration only. Tune these values or restore
 # prior values to revert. Retain files, tests and evidence. HuntTable.enabled
 # remains the single module flag; this file contains no independent switch.
@@ -29,7 +30,26 @@ const INTRO_SECONDS=12.0
 const INTRO_FONT_FACTOR=0.9
 const INTRO_MAX_WIDTH=380.0
 const INTRO_GAP=4.0
+# A stage change shows its reason beside the chip for this many seconds of running time (critic 14 Nov).
+const CHANGE_SECONDS=6.0
+# Plain reason for each simulation cause key (HuntTable.CAUSES keys); the note reads "STAGE: reason".
+const REASONS={
+	"FACTORY":"the factory sensors noticed you",
+	"LAUNCH":"the operation began",
+	Names.NOISE_ACTIVE_SONAR:"your active sonar was heard",
+	Names.NOISE_EMP:"your EMP was heard",
+	Names.NOISE_KNOCKDOWN:"your knockdown was heard",
+	"EXPOSURE":"your shutter was heard",
+	"UNUSABLE EXPOSURE":"your shutter was heard",
+	"SECURED RECORD":"you secured a record",
+	"NEW SIGHT":"a Siren sighted you",
+	"ACTIVITY":"your activity was noticed",
+	"TIME":"time passed on the dive",
+	"COOLING":"things have been quiet"
+}
 const TEXT={
+	"change":"%s: %s",
+	"reason_other":"your activity was noticed",
 	"intro":"HUNT: how hard the Sirens are searching; it rises when they hear you. Tap it any time for more.",
 	"compact":"HUNT\n%s\n%s\n×%.2f\n%s\n%s",
 	"tight":"HUNT ×%.2f\n%s\n%s",

@@ -46,7 +46,11 @@ const COARSE_KINDS=["unknown","STATIC","PATROLLER","UNCLASSIFIED"]
 const SIREN_WORD="SIREN"
 # Tool names on the lock card come from equipment/field_tools.gd (threat_read._tool_word); the silent word is hud_words.gd's.
 
+# Unresolved lead areas of one name within this many degrees of bearing share one chart label.
+const LEAD_GROUP_DEGREES=4.0
 const TEXT={
+	"lead_one":"%s · AREA · BRG %03d",
+	"lead_many":"%s · AREA ×%d · BRG %03d",
 	"shutter":"SHUTTER HEARD %dm",
 	"in_reach":"IN SHUTTER REACH",
 	"lock_one":"S%d LOCK · %.1fs",
