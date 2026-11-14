@@ -6,7 +6,7 @@ extends Control
 # again also replaces. Main holds dive time while this dialog is open.
 const UiStyle := preload("res://src/presentation/ui_style.gd")
 const UNDO_MS := 10000
-const UNDO_MIN_FONT := 11
+const UNDO_MIN_FONT := 14 # never under the HUD's 14-point reading floor (the pause plate keeps the same floor)
 const EXTRACTION_TEXT := "%s: heading to extraction."
 const Words := preload("res://src/presentation/hud_words.gd")
 const HandPilot := preload("res://src/simulation/hand_pilot/hand_pilot.gd")
