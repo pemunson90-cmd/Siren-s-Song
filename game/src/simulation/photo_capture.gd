@@ -24,6 +24,7 @@ const Findings=preload("res://src/simulation/photo_findings.gd")
 const Pricing=preload("res://src/simulation/photo_pricing/photo_pricing.gd")
 const BandPhoto=preload("res://src/photo_depth/band_photo.gd")
 const Rules=preload("res://src/photo_rules/photo_rules.gd")
+const SirenTag=preload("res://src/simulation/siren_tag.gd")
 const COLS:=36
 const MAX_SHOTS:=24
 const TURN_RATE:=1.8
@@ -218,7 +219,7 @@ static func frame(sim,uid:int,o:Dictionary,t:float=0.0,with_view:bool=false)->Di
 		elif why.is_empty() and tight and f.id!=focus:why="OUT OF FOCUS"
 		elif why.is_empty() and not tight and detail>0.6:why="FINE DETAIL · use a TIGHT frame"
 		elif why.is_empty() and not _window(f,sim.elapsed):why="WAITING FOR ITS CYCLE"
-		elif why.is_empty() and local<detail:why="TOO SOFT · closer, lit or still"
+		elif why.is_empty() and local<detail:why=Pricing.Table.SOFT_REASON
 		var ready:bool=why.is_empty()
 		rows.append({"id":f.id,"label":f.label,"art":str(f.get("art","")),"y":float(f.get("y",0.4)),"ready":ready,"why":why,"apparent":inframe and side,"x":x/maxf(half,1.0),"q":clampf((local-detail*0.6)/(1.0-detail*0.6),0.0,1.0) if ready else 0.0,"dwell":float(f.get("dwell",1.2))})
 	var result={"unit":uid,"craft":u.name,"dist":dist,"bearing":bearing,"off":off,"aim":aim,"pivot":pivot,"aspect":aspect,"fov":fov,"mode":cfg.mode,"focus":focus,"flash":flashing,"light":light,"clarity":clarity,"shimmer":shimmer,"sharp":sharp,"steady":steady,"res":res,"range":op.range,"in_range":dist<=float(op.range),"rows":rows,"size":size,"facing":float(s.get("facing",0.0)),"heading":u.angle,"pos":u.pos,"glow":float(s.get("glow",0.0)),"depth":depth_dark,"thermal":bool(op.thermal)}
@@ -416,7 +417,7 @@ static func siren_objective(sim,i:int)->int:
 	for n in st.studies.size():
 		if st.studies[n].get("siren",-1)==i:return STUDY+n
 	var s=sim.sirens[i];var type=str(s.get("type",Names.ROLE_PATROLLER))
-	var study={"pos":s.pos,"name":"S%d %s"%[i+1,type.to_upper()],"captured":false,"optional":true,"kind":"","duration":8.0,"siren":i,"subject":siren_subject(s),"optical":"siren_"+type,"site_id":"siren_"+type,"evidence":""}
+	var study={"pos":s.pos,"name":"%s %s"%[SirenTag.tag(i),type.to_upper()],"captured":false,"optional":true,"kind":"","duration":8.0,"siren":i,"subject":siren_subject(s),"optical":"siren_"+type,"site_id":"siren_"+type,"evidence":""}
 	# Study indices are persistent identities: never evict/reindex a live or archived subject.
 	if st.studies.size()>=maxi(MAX_STUDIES,sim.sirens.size()):return -1
 	st.studies.append(study)
@@ -446,7 +447,7 @@ static func preview(sim,uid:int)->Dictionary:
 	var t=int(ctx.get("target",-1))
 	if t==-2:
 		var i=int(ctx.siren);var s=sim.sirens[i]
-		return {"o":{"pos":s.pos,"name":"S%d %s"%[i+1,str(s.get("type",Names.ROLE_PATROLLER)).to_upper()],"subject":siren_subject(s),"siren":i},"index":-2,"unit":uid,"ctx":ctx}
+		return {"o":{"pos":s.pos,"name":"%s %s"%[SirenTag.tag(i),str(s.get("type",Names.ROLE_PATROLLER)).to_upper()],"subject":siren_subject(s),"siren":i},"index":-2,"unit":uid,"ctx":ctx}
 	if t>=0 and t<sim.mission.objectives.size() and applies(sim.mission.objectives[t]):
 		var o=sim.mission.objectives[t]
 		if not sim.Depth.optical_clear(sim,sim.units[uid].pos,o.pos,sim.units[uid].band):return {}

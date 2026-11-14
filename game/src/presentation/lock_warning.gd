@@ -3,6 +3,8 @@ const Palette=preload("res://src/presentation/accessibility/palette.gd")
 const UiStyle=preload("res://src/presentation/ui_style.gd")
 const ThreatRead=preload("res://src/presentation/threat_read/threat_read.gd")
 const MoveTiming=preload("res://src/presentation/lock_move_timing.gd")
+const Words=preload("res://src/presentation/hud_words.gd")
+const SirenTag=preload("res://src/simulation/siren_tag.gd")
 # Read-only, receiver-earned lock cues. Never inspect the live enemy roster.
 # Visual revert: remove Main construction/refresh only; retain frames() and tests
 # because Soundscape and accessibility consume the same received-lock data.
@@ -58,12 +60,19 @@ func update_state(sim,active:bool):
  visible=not locks.is_empty() or not rows.is_empty();queue_redraw()
 func _card_text()->String:
  if rows.is_empty():
-  return "S%d LOCK · %.1fs"%[int(locks[0].id)+1,locks[0].remaining] if not locks.is_empty() else ""
+  return "%s LOCK · %.1fs"%[SirenTag.tag(int(locks[0].id)),locks[0].remaining] if not locks.is_empty() else ""
  var aim=ThreatRead.Table.TEXT.decoy_aim if host!=null and host.get("decoy_armed")==true and int(host.decoy_unit)==int(rows[0].craft) else ""
  # While the move buttons show (paused), they are the moves: the card does not print them again as an "Or:" line.
  var advice:String=rows[0].advice
- if host!=null and host.sim.paused and not rows[0].get("moves",[]).is_empty():advice=advice.get_slice("\n",0)
- return rows[0].sentence+"\n"+advice+("\n"+aim if not aim.is_empty() else "")+("\n"+note if not note.is_empty() else "")
+ var all_moves:Array=rows[0].get("moves",[]);var moves:Array=MoveTiming.useful(all_moves)
+ if host!=null and host.sim.paused and not moves.is_empty():advice=advice.get_slice("\n",0)
+ elif moves.size()<all_moves.size():
+  # The decoy is not offered against a running lock: the "Or:" line lists only the moves that can help.
+  advice=advice.get_slice("\n",0)+("" if moves.is_empty() else "\n"+ThreatRead.Table.TEXT.moves%ThreatRead.Table.TEXT.move_join.join(moves.map(func(m):return m.label)))
+ # One decision at a time: the note is left off while the route prompt is open, so the card stays as short as before.
+ var asking:bool=host!=null and host.mission_hud!=null and host.mission_hud.guard!=null and not host.mission_hud.guard.pending.is_empty()
+ var decoy_note:String=Words.TEXT.decoy_note if not asking and moves.size()<all_moves.size() and all_moves.any(func(m):return m.order=="decoy") else ""
+ return rows[0].sentence+"\n"+advice+("\n"+decoy_note if not decoy_note.is_empty() else "")+("\n"+aim if not aim.is_empty() else "")+("\n"+note if not note.is_empty() else "")
 func refresh(owner):
  host=owner;position=Vector2.ZERO;size=host.size
  var cue=host.hud.get_node_or_null("FirstSirenCue") if host.get("hud")!=null else null
@@ -84,7 +93,7 @@ func refresh(owner):
 func _fit_buttons(h:float,width:float)->float:
  # One decision at a time: while the route prompt is open the card shows its text only; the buttons return after it.
  var prompt_open:bool=host.mission_hud!=null and host.mission_hud.guard!=null and not host.mission_hud.guard.pending.is_empty()
- var moves:Array=rows[0].moves if not rows.is_empty() and host.sim.paused and not prompt_open else []
+ var moves:Array=MoveTiming.useful(rows[0].moves) if not rows.is_empty() and host.sim.paused and not prompt_open else []
  var font_size=_font_size(h)
  var inner=width-BUTTON_PAD*2
  var x=0.;var y=0.;var used=0.;var row_step=h
@@ -138,7 +147,7 @@ func _draw():
   Palette.marker(self,source,29.,"warning")
   draw_circle(source,25,ink)
   draw_arc(source,25,-PI/2,-PI/2+TAU*frame.progress,40,warning,5,true)
-  draw_string(font,source+Vector2(-15,6),"S%d"%(int(frame.id)+1),HORIZONTAL_ALIGNMENT_LEFT,-1,18,warning)
+  draw_string(font,source+Vector2(-15,6),SirenTag.tag(int(frame.id)),HORIZONTAL_ALIGNMENT_LEFT,-1,18,warning)
  draw_style_box(_panel(),banner)
  var progress=rows[0].progress if not rows.is_empty() else locks[0].progress
  var radius=h*.26;var at=banner.position+Vector2(h*.45,h*.42)

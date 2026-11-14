@@ -51,7 +51,7 @@ static func make(i: int) -> Dictionary:
 		objectives[0].name="FURNACE VENT"; objectives[0]["optical"]="furnace"
 		objectives[0]["evidence"]="Heat pours from the vent into a feed line that runs south to the frames."
 		objectives[1].name="LAUNCH CRADLE"; objectives[1]["optical"]="cradle"; objectives[1]["requires"]=[0]
-		objectives[1]["requirement"]="Resolve the heat source first, so the frame images can be matched to its feed line."
+		objectives[1]["requirement"]="Photograph the FURNACE VENT first (the marked heat source), so this frame can be matched to its feed line."
 		objectives[1]["evidence"]="Open steel frames stand on rails that end at the trench edge. All of it is still warm."
 	if i==5:
 		objectives[0].name="TRANSMITTER CROWN"; objectives[0]["optical"]="transmitter"
@@ -59,7 +59,7 @@ static func make(i: int) -> Dictionary:
 		objectives[1].name="OUTBOUND WAKES"; objectives[1]["optical"]="departure"
 		objectives[1]["evidence"]="Disturbed water runs out from the shelf. Past a warm fracture in the trench floor it splits: one line runs south down the trench, one turns west along the shelf."
 		objectives[2].name="LEE RECEIVER"; objectives[2]["kind"]="receiver"; objectives[2]["required_unit"]=0; objectives[2]["duration"]=6.0; objectives[2]["requires"]=[0,1]; objectives[2]["optical"]="warning"
-		objectives[2]["requirement"]="Need both observations: TRANSMITTER CROWN + OUTBOUND WAKES."
+		objectives[2]["requirement"]="Photograph both observations first (TRANSMITTER CROWN and OUTBOUND WAKES, the marked sites), then listen here."
 		objectives[2]["unit_requirement"]="Quietus hydrophones required · small drones cannot resolve this packet."
 		objectives[2]["evidence"]="DECODED: a list of bearings, one for every loud site on this coast the night of the strike. Two still answer. South down the trench: the drillship Tessaly. West on the shelf: the sonar station at Port Ardent."
 	var patrols: Array = []

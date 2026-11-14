@@ -239,12 +239,11 @@ func lock_move_checks(g)->void:
 	check(g.mission_hud.blocks(card.get_center()) and g.mission_hud.blocks(shown[0].get_global_rect().get_center()),"the card owns taps on its buttons and its body")
 	var route_before=str(g.sim.units[0].get("route_plan",[]))
 	var decoy=shown.filter(func(b):return b.get_meta("order")=="decoy")
-	check(decoy.size()==1,"a DECOY button is on the card")
-	if decoy.size()==1:
-		await click(decoy[0])
-		check(g.decoy_armed and g.decoy_unit==0 and g.sim.selected==0,"DECOY arms placement for the locked craft")
-		check(w.card_text.contains(Table.TEXT.decoy_aim),"the card says what to do next: "+w.card_text)
-		check(str(g.sim.units[0].get("route_plan",[]))==route_before,"the tap did not become a route order")
+	check(decoy.is_empty(),"no DECOY button on a running lock's card (WP-95): a decoy cannot break it")
+	# The wheel can still arm a decoy; the card then says what to do next.
+	g.decoy_armed=true;g.decoy_unit=0;g._refresh();await settle()
+	check(w.card_text.contains(Table.TEXT.decoy_aim),"the card says what to do next while a decoy is armed: "+w.card_text)
+	check(str(g.sim.units[0].get("route_plan",[]))==route_before,"the card did not become a route order")
 	g.decoy_armed=false;g._refresh();await settle()
 	var silent=shown_buttons(w)[0]
 	await click(silent)

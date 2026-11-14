@@ -33,8 +33,24 @@ const SCAN_MIN := 20.0
 const CACHE_STEP := 0.5
 const CACHE_POS := 8.0
 
-# Feature reasons that a light price can answer.
+# Feature reasons that a light price can answer. A soft row says SOFT_REASON; its tail is the "better frame" hint.
 const LIGHT_REASONS := ["TOO DARK", "TOO SOFT"]
+const SOFT_HINT := "move closer, add light or hold still"
+const SOFT_REASON := "TOO SOFT · " + SOFT_HINT
+# The camera panel's one plain next step (photo_grade/next_step.gd), by what the frame lacks. %d is metres or seconds.
+const NEXT := {
+	"hidden": "Go round the subject: its detail faces away",
+	"cropped": "Turn so the subject is in the frame",
+	"focus": "Press FOCUS to choose it",
+	"tight": "Switch to a TIGHT frame",
+	"cycle": "Wait for its cycle",
+	"close": "Move within %d m",
+	"hold": "Hold still for %d s",
+	"light": "Light the subject: the flash is fitted",
+	"dark": "Too dark: this camera has no flash or low-light back",
+	"soft": "Too soft: no range here gives a sharp frame",
+	"heat": "Move closer: the heat shimmer hides it from here",
+}
 
 # Short placeholder text.
 const TEXT := {
@@ -46,12 +62,12 @@ const TEXT := {
 	"heard": "SHUTTER heard to %dm",
 	"heard_eta": " · nearest Siren ~%ds",
 	"heard_none": " · no known Siren in range",
-	"light_flash": "FLASH %s · heard %dm · %d left",
-	"light_flash_none": "FLASH not fitted",
-	"light_wait": "WAIT %ds still %s · heard %dm",
-	"light_wait_none": "WAIT needs the low-light back",
-	"light_close": "CLOSE to %dm %s",
-	"ok": "ok",
+	"light_flash": "Flash: %s · heard %dm · %d left",
+	"light_flash_none": "Flash: not fitted",
+	"light_wait": "Low light: hold still %ds %s · heard %dm",
+	"light_wait_none": "Low light: needs the low-light back",
+	"light_close": "Closer: within %dm %s",
+	"ok": "resolves it",
 	"short": "not enough",
 	"window_open": "%s OPEN · %ds left",
 	"window_wait": "%s OPENS IN %ds",

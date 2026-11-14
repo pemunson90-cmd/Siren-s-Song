@@ -88,6 +88,8 @@ const TEXT={
 	"move_after": "works in %.1fs",
 	"move_close": "Siren inside %dm",
 	"move_decoy": "cannot break a lock",
+	# Said once on the lock card when its decoy is left off: why (simulation.gd: a sighting overrides what a Siren hears).
+	"decoy_note": "A decoy only draws Sirens that have not seen the craft.",
 }
 # The status line for the route dialog's switch ("New points: the craft stops at each one." / "... keeps
 # moving through them.") is set where the simulation answers the waypoint_mode order, orders/route_orders.gd.
