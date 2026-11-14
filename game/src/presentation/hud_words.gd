@@ -83,7 +83,7 @@ const TEXT={
 	# The move buttons on the lock card: what each move does about this lock (presentation/lock_move_timing.gd).
 	"move_now": "works at once",
 	"move_after": "works in %.1fs",
-	"move_close": "Siren within %dm: no help",
+	"move_close": "Siren inside %dm",
 	"move_decoy": "cannot break a lock",
 }
 # The status line for the route dialog's switch ("New points: the craft stops at each one." / "... keeps

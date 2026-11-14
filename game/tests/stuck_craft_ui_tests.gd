@@ -61,7 +61,7 @@ func card_case(shape:Vector2i,scale:float,stamp:String):
 		var warned:bool=b.get_theme_color("font_color")==Palette.color("warning",Color("ffb18b"))
 		check(warned==not bool(b.get_meta("in_time")),"%s is drawn in the warning colour exactly when it cannot work in time %s"%[order,stamp])
 		if order=="decoy":check(lines.size()==2 and lines[1]==Words.TEXT.move_decoy and not b.get_meta("in_time"),"the decoy says it cannot break a lock %s: %s"%[stamp,b.text.replace("\n"," / ")])
-		if order=="silent":check(not b.get_meta("in_time") and lines[1].begins_with("Siren within"),"silent says a Siren 80 m away still sees it %s: %s"%[stamp,b.text.replace("\n"," / ")])
+		if order=="silent":check(not b.get_meta("in_time") and lines[1].begins_with("Siren inside"),"silent says a Siren 80 m away still sees it %s: %s"%[stamp,b.text.replace("\n"," / ")])
 	game.queue_free();await settle()
 # A route order, then dive time: the strip shows the order while it is new and what the craft does after.
 func strip_case(shape:Vector2i,scale:float,stamp:String):

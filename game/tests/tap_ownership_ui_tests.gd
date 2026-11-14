@@ -234,7 +234,7 @@ func lock_move_checks(g)->void:
 	var shown:Array=shown_buttons(w)
 	check(shown.size()>=2 and shown[0].text.begins_with(Words.TEXT.silent_off),"a paused lock on Quietus shows its moves as buttons, GO SILENT first: "+str(shown.map(func(b):return b.text)))
 	var card:Rect2=Rect2(w.global_position+w.banner.position,w.banner.size)
-	check(shown.all(func(b):return b.size.y>=g.ui_touch_height-1.0 and card.encloses(b.get_global_rect())),"every move button has the normal touch height and sits inside the card")
+	check(shown.all(func(b):return b.size.y>=g.ui_touch_height-1.0 and card.encloses(b.get_global_rect())),"every move button has the normal touch height and sits inside the card: card "+str(card)+" buttons "+str(shown.map(func(b):return b.get_global_rect()))+" touch "+str(g.ui_touch_height))
 	check(is_equal_approx(w.banner.size.x,minf(g.size.x-32,g.ui_touch_height*preload("res://src/presentation/ui_style.gd").LOCK_CARD_WIDTH)),"the card keeps its width")
 	check(g.mission_hud.blocks(card.get_center()) and g.mission_hud.blocks(shown[0].get_global_rect().get_center()),"the card owns taps on its buttons and its body")
 	var route_before=str(g.sim.units[0].get("route_plan",[]))
