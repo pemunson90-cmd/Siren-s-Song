@@ -18,9 +18,12 @@ const MENU_COLUMN=800.
 const MENU_MARGIN=48.
 const MENU_COLUMN_GAP=24.
 const MENU_PANEL_PADDING=56.
-static func hub_wide(viewport_size: Vector2,touch_h: float) -> bool:
+static func hub_wide(viewport_size: Vector2,touch_h: float,text_scale: float=1.) -> bool:
 	var column_min=maxf(640.,touch_h*7.)
-	return viewport_size.x>=viewport_size.y*1.6 and viewport_size.x-MENU_MARGIN>=2.*column_min+MENU_COLUMN_GAP+MENU_PANEL_PADDING
+	if viewport_size.x>=viewport_size.y*1.6 and viewport_size.x-MENU_MARGIN>=2.*column_min+MENU_COLUMN_GAP+MENU_PANEL_PADDING:return true
+	# Near-square screens (the unfolded inner screen) take the preparation screens' rule: an operation card
+	# (number, name, state tag, "Recover ... first") fits the same column a tool row does, scaled with the text.
+	return prep_wide(viewport_size,touch_h,text_scale)
 # Preparation screens (Fittings, Career and Expedition tools) use two columns in any orientation once each
 # column can hold a tool row (name, count and two touch buttons) at the current touch height and text scale.
 # The canvas is at least 1280 wide, so this is true on the tablet-shaped inner screen (1280 wide, touch 87)

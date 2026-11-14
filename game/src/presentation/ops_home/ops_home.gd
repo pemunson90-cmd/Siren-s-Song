@@ -93,7 +93,7 @@ static func card(host,button:Button,data:Dictionary,primary:bool)->Control:
 static func arrange(host)->void:
  if not Table.enabled:return
  var box=host.panel_box
- var wide=Metrics.hub_wide(host.size,host.ui_touch_height)
+ var wide=Metrics.hub_wide(host.size,host.ui_touch_height,Prefs.text_scale())
  host.set_meta("hub_wide",wide)
  var completed=host._campaign_completed()
  preload("res://src/presentation/archive/archive_nav.gd").entry(host)

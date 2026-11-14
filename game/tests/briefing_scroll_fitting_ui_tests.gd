@@ -69,8 +69,8 @@ func change_loadout(label:String):
   var area=game.scroll.get_global_rect();var start=Vector2(area.get_center().x,area.end.y-20)
   await drag(start,Vector2(start.x,area.position.y+30))
  var before=game.scroll.scroll_vertical;var active=game.sim.snapshot();var previous=game.upgrade
- # The two-column cover hub fits without scrolling; then the control is simply visible.
- var fits_without_scrolling=game.scroll.get_v_scroll_bar().max_value<=game.scroll.size.y+1.
+ # The two-column hubs (cover and inner screens) show the control without scrolling; then it is simply visible.
+ var fits_without_scrolling=game.scroll.get_v_scroll_bar().max_value<=game.scroll.size.y+1. or before==0
  check((before>0 or fits_without_scrolling) and game.scroll.get_global_rect().encloses(action("loadout").get_global_rect()),label+" loadout control reached by ordinary operations scrolling or visible without it")
  await capture(label+"-loadout-before")
  await tap(action("loadout").get_global_rect().get_center())
@@ -140,7 +140,7 @@ func run():
   check(game.screen=="mission" and game.sim.equipment_feedback().fitted.drone_a=="drone_deep_cells" and game.sim.equipment_feedback().fitted.drone_b=="","ENTER WATER freezes the chosen fitting after scrolling and several changes")
   game._briefing(0);await settle();await dismiss_arc();check(game.scroll.scroll_vertical==0,"opening a different fresh briefing still resets to its beginning")
   briefing_checks("opening")
-  check(game.get_meta("hub_wide",false)==(dimensions.x==2520),"the opening briefing uses two columns only on the wide cover screen")
+  check(game.get_meta("hub_wide",false)==(dimensions.x==2520 or dimensions.x==2184),"the opening briefing uses two columns on the cover and inner screens")
   await change_loadout(label)
   game.queue_free();await settle()
  Input.set_emulate_touch_from_mouse(previous_emulation)

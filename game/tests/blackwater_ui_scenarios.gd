@@ -4,8 +4,9 @@ static func run(t,game):
 	t.check(game.order_buttons.camera.text.get_slice("\n",0)=="DECODE","fresh Blackwater labels its receiver action DECODE")
 	game._briefing(2);await t.process_frame
 	var copy=""
-	for child in game.panel_box.get_children():
-		if child is Label:copy+=child.text+"\n"
+	# Wide screens split the briefing into columns, so search below the box.
+	for child in game.panel_box.find_children("*","Label",true,false):
+		copy+=child.text+"\n"
 	t.check("DECODE" in copy and not "Use CAMERA within 240m" in copy,"Blackwater briefing explains local reception without generic optical range instructions")
 	game._reference(2);await t.process_frame
 	copy=""
