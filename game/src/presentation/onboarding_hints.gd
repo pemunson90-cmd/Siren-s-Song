@@ -30,6 +30,11 @@ var pending_first_use: Dictionary = {}  # id -> sim time its moment was last see
 var drones_aboard_at_start := false
 var parked := false  # the showing tip is hidden for a warning and waits for its moment to be checked
 var placed_top := -1.0  # the card's one place while it is up (set at its first refresh)
+# WP-115: the zone the card sits in (top left, bottom left, top right, bottom right in that order) while it is up (NO_SPOT = not placed yet) and when the last card closed (tips never chain).
+const UiStyle = preload("res://src/presentation/ui_style.gd")
+const NO_SPOT := Vector2(-1.0, -1.0)
+var placed_at := NO_SPOT
+var last_closed_ms := -1
 var touch := 0.0
 var menu_dismiss: Button
 func setup(owner) -> void:
@@ -82,11 +87,16 @@ func seen(id: String) -> bool:
 func show_hint(id: String) -> void:
 	# A tip that was parked for a warning and is replaced by the warning's own tip is not lost: it may return.
 	if parked and not current.is_empty() and current != id: host.hints_seen.erase(current)
-	current = id; extra_line = ""; joined.clear(); parked = false; placed_top = -1.0
+	current = id; extra_line = ""; joined.clear(); parked = false; placed_top = -1.0; placed_at = NO_SPOT
 	if not seen(id):
 		host.hints_seen.append(id)  # saved with the next ordinary archive write
 func dismiss() -> void:
-	current = ""; joined.clear(); parked = false; placed_top = -1.0; panel.hide()
+	# WP-115: a card that was showing starts the gap before the next one (a second card never lands on the same tap).
+	if not current.is_empty() and not parked: last_closed_ms = UiStyle.now_ms()
+	current = ""; joined.clear(); parked = false; placed_top = -1.0; placed_at = NO_SPOT; panel.hide()
+# WP-115: whether the card may be placed at rect: inside the area and clear of every rectangle in avoid.
+func _clear(rect: Rect2, area: Rect2, avoid: Array) -> bool:
+	return area.encloses(rect) and not avoid.any(func(r): return r.grow(UiStyle.TIP_AVOID_GROW).intersects(rect))
 # The card and one touch height round GOT IT belong to the card: a tap there never reaches the chart.
 func zones() -> Array:
 	return [panel.get_global_rect(), dismiss_button.get_global_rect().grow(touch)]
@@ -155,7 +165,9 @@ func _live_text(id: String, stopped: bool) -> String:
 	var text: String = Text.hint_text(id)
 	var swap: Array = Words.TEXT.hint_run_swaps.get(id, [])
 	return text if stopped or swap.is_empty() else text.replace(swap[0], swap[1])
-func refresh(bounds: Vector2, h: float, font: int, top: float) -> void:
+# avoid: rectangles (this control's coordinates) the card must stay off: the craft, their labels, the Hunt chip.
+# bottom: the lowest y the card may reach (the top of the status strip); -1 = the bottom of bounds.
+func refresh(bounds: Vector2, h: float, font: int, top: float, avoid: Array = [], bottom: float = -1.0) -> void:
 	var sim = host.sim
 	if host.screen != "mission":
 		panel.hide(); return
@@ -169,6 +181,8 @@ func refresh(bounds: Vector2, h: float, font: int, top: float) -> void:
 		parked = false
 		if not _moment_open(current): dismiss()
 	var wanted := _wanted(warning)
+	# WP-115: no second tip card until TIP_GAP_MS after the last one closed; a warning's own tip never waits.
+	if current.is_empty() and wanted not in WARNING_TIPS and last_closed_ms >= 0 and UiStyle.now_ms() - last_closed_ms < UiStyle.TIP_GAP_MS: wanted = ""
 	if warning and not current.is_empty() and current not in WARNING_TIPS and wanted not in WARNING_TIPS:
 		parked = true; panel.hide(); return
 	var busy: bool = host.advanced_orders or host.decoy_armed or host.knock_armed
@@ -208,4 +222,15 @@ func refresh(bounds: Vector2, h: float, font: int, top: float) -> void:
 	# that grows after the card was first placed (its wording or text size changed) would otherwise sit under the
 	# card's tap area and lose its taps.
 	placed_top = maxf(placed_top, top)
-	panel.position = Vector2(12, placed_top); panel.show(); move_to_front()
+	# WP-115: the card sits in a zone clear of the craft and their labels: top left, else top right, else bottom left,
+	# else bottom right. It keeps its zone while that stays clear; with no clear zone it takes the first (as before).
+	var area := Rect2(Vector2.ZERO, bounds)
+	var low: float = (bottom if bottom > 0.0 else bounds.y) - panel.size.y - 12.0
+	var right_x: float = bounds.x - panel.size.x - 12.0
+	# Left zones first: the Hunt chip's own seats start at the top right, so the card seldom takes the chip's place.
+	var spots := [Vector2(12, placed_top), Vector2(12, low), Vector2(right_x, placed_top), Vector2(right_x, low)]
+	if placed_at == NO_SPOT or not _clear(Rect2(placed_at, panel.size), area, avoid):
+		placed_at = spots[0]
+		for spot in spots:
+			if _clear(Rect2(spot, panel.size), area, avoid): placed_at = spot; break
+	panel.position = placed_at; panel.show(); move_to_front()

@@ -7,7 +7,12 @@ func check(value: bool,label: String) -> void:
 	checks+=1
 	if not value: failures+=1; printerr("FAIL: ",label)
 func _initialize() -> void: call_deferred("run")
+# WP-115: a fake clock (UiStyle.clock_override_ms) so "a tap just after a card closed" and "the gap between tip cards" are
+# deterministic: every click is a second after the last thing; gap() lets the tip gap pass.
+const UiStyle=preload("res://src/presentation/ui_style.gd")
+func gap() -> void: UiStyle.clock_override_ms+=UiStyle.TIP_GAP_MS+1
 func click(p: Vector2) -> void:
+	UiStyle.clock_override_ms+=1000
 	var down=InputEventMouseButton.new(); down.position=p; down.global_position=p; down.button_index=MOUSE_BUTTON_LEFT; down.button_mask=MOUSE_BUTTON_MASK_LEFT; down.pressed=true
 	var motion=InputEventMouseMotion.new(); motion.position=p; motion.global_position=p; root.push_input(motion,true)
 	root.push_input(down,true); await process_frame
@@ -22,6 +27,7 @@ func buttons(node: Node, id: String) -> Button:
 		if c.get_meta("action","")==id: return c
 	return null
 func run() -> void:
+	UiStyle.clock_override_ms=1000000
 	root.size=Vector2i(1280,720); await process_frame; await process_frame
 	game=load("res://scenes/main.tscn").instantiate(); game.capture_scenario="runtime-test"; root.add_child(game)
 	await settle()
@@ -123,6 +129,7 @@ func run() -> void:
 	check(Text.valid_seen([Text.HUNT_METER_HINT]),"the Hunt chip's first-sight flag is a valid saved flag")
 	game.sim.command("route",{"point":Vector2(400,700)}); game._refresh(); await settle()
 	check(not hints.panel.visible,"taking the step retires its prompt")
+	gap()
 	game.sim.paused=false; game.sim.elapsed=1.0; game._refresh(); await settle()
 	check(hints.current=="pause" and not game.sim.paused,"the pause prompt appears without pausing the game")
 	hints.dismiss(); game.sim.paused=true; game._refresh(); await settle()
@@ -160,6 +167,7 @@ func run() -> void:
 	check(not hints.panel.visible,"late launch alone teaches no first-use action")
 	check(not game.sim.command("depth",{"band":1}),"unchanged depth is rejected")
 	game._refresh(); check(not "first_depth" in game.hints_seen,"rejected depth order teaches nothing")
+	gap()
 	check(game.sim.command("depth",{"band":0}),"first real depth order accepted")
 	game._refresh(); await settle()
 	check(hints.current=="first_depth" and not game.sim.paused,"depth tip follows transition without pausing")
@@ -168,6 +176,7 @@ func run() -> void:
 	check(not game.sim.command("ping"),"emitting during transition rejected")
 	game._refresh(); check(not "first_emit" in game.hints_seen,"rejected emission teaches nothing")
 	game.sim.Depth.advance(game.sim,4.0)
+	gap()
 	check(game.sim.command("ping"),"real sonar emission accepted")
 	game._refresh(); await settle()
 	check(hints.current=="first_emit" and not game.sim.paused,"sonar tip follows own emission without pausing")
@@ -178,6 +187,7 @@ func run() -> void:
 	game.advanced_orders=true
 	check(game.sim.command("sonobuoy"),"real field tool spends stock")
 	game._refresh(); check(not "first_field_tool" in game.hints_seen,"tool tip waits while command ring is busy")
+	gap()
 	game.advanced_orders=false; game._refresh(); await settle()
 	check(hints.current=="first_field_tool" and not game.sim.paused,"successful field tool shows one nonpausing tip")
 	hints.dismiss(); game._refresh()

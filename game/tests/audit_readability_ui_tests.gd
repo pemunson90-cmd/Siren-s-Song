@@ -185,6 +185,9 @@ func gesture_case(game,feed,stamp):
  var water=water_point(game);var dock=feed.global_position+feed.toggle_rect.get_center()
  await touch_event(water,true);await drag_event(dock);await touch_event(dock,false);await settle()
  check(not game.map_gesture.active(),"chart drag ending over optics releases gesture "+stamp)
+ # WP-115: a tip card that first appears now sits clear of the craft, which can be over this open water; it owns its taps,
+ # so it is read and closed first (this check is about the chart gesture, not the card).
+ await settle();game.mission_hud.hints.dismiss();game._refresh();await settle();game.mission_hud.hints.dismiss()
  water=water_point(game)
  await touch_event(water,true)
  check(game.map_gesture.active(),"next chart press starts normally "+stamp)

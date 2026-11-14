@@ -57,6 +57,9 @@ static func map_event(host,event: InputEvent,local_event: bool=false) -> bool:
 	if action.has("pan"): host.ocean.pan_chart(action.pan)
 	if action.get("navigation",false): host._view_changed()
 	if action.has("tap") and host.ocean.get_global_rect().has_point(action.tap) and not host.mission_hud.blocks(action.tap):
+		# WP-115 (critic B round 8): a tap within UiStyle.TAP_AFTER_CLOSE_MS of a card or prompt closing is its closing tap's
+		# echo, not a chart tap: it places no marker and orders nothing.
+		if host.mission_hud.tap_just_after_close():host.knock_press.clear();return true
 		if host.knock_armed or host.knock_press.get("armed",false):
 			if host.knock_armed and host.knock_press.get("armed",false):host._target_knockdown(action.tap,host.knock_press.get("key",-1))
 			host.knock_press.clear(); return true

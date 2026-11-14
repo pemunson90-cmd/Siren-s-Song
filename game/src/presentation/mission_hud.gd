@@ -531,6 +531,41 @@ func _one_strip(message:String)->void:
  var line=font.get_height(font_size)
  var fits=func(text:String)->bool:return font.get_multiline_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,wide,font_size).y<=line*2.+1.
  intent.text=VoiceFeed.strip_text(intent.text.trim_suffix(suffix),message,strip_standing,fits)
+# WP-115 (critic B round 8: the strip reached four lines with repeats, and "has stopped: its route is finished" showed twice).
+# The strip says each line once: a line already said (whole, or as the message at the end of the first line) is dropped,
+# and the loss line the loss card already shows is dropped while that card is up. At large text the strip holds at most
+# UiStyle.STRIP_MAX_LINES_LARGE drawn lines; the lowest-priority (last) lines give way first and none is ever cut.
+func _tidy_strip()->void:
+ if intent==null or not intent.visible:return
+ var lines:Array=Array(intent.text.split("\n"))
+ var kept:Array=[]
+ var message:String=current_message
+ # The loss line the card shows: the head line carries the craft's LOST text first; the card already says it.
+ var card:String=preload("res://src/presentation/threat_read/threat_read.gd").loss_card(host.sim)
+ if not card.is_empty() and not message.is_empty():
+  for row in preload("res://src/presentation/threat_read/threat_read.gd").loss_rows(host.sim):
+   if message.begins_with(str(row.text)):
+    var rest:String=message.trim_prefix(str(row.text)).strip_edges().trim_prefix("·").strip_edges()
+    var head:String=str(lines[0])
+    if head.ends_with(message):lines[0]=head.trim_suffix(message).strip_edges().trim_suffix("·").strip_edges()+(" · "+rest if not rest.is_empty() else "")
+    message=rest;break
+ for n in lines.size():
+  var line:String=str(lines[n]);var said:bool=false
+  # The standing hint is _one_strip's to drop (it also removes what the message already says); it is left as it is here.
+  if n==lines.size()-1 and n>0 and line==strip_standing and not strip_standing.is_empty():kept.append(line);continue
+  for earlier in kept:
+   if line==earlier or (n>0 and not message.is_empty() and line==message and str(earlier).ends_with(message)):said=true
+  if not said and not line.is_empty():kept.append(line)
+ var text:String="\n".join(kept)
+ if FrontendSettings.text_scale()>=UiStyle.STRIP_LARGE_TEXT:
+  var font=intent.get_theme_font("font");var font_size=intent.get_theme_font_size("font_size")
+  var wide:float=maxf(1.,host.ocean.chart_width()-32)-8.
+  var line_h:float=font.get_height(font_size)
+  # The standing hint is left to _one_strip (it gives way first and has its own last resort); other lines drop from the end.
+  var has_standing:bool=kept.size()>1 and not strip_standing.is_empty() and kept[kept.size()-1]==strip_standing
+  while kept.size()>(2 if has_standing else 1) and font.get_multiline_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,wide,font_size).y>line_h*UiStyle.STRIP_MAX_LINES_LARGE+1.:
+   kept.remove_at(kept.size()-(2 if has_standing else 1));text="\n".join(kept)
+ if text!=intent.text:intent.text=text
 func _schedule_intent_fit():
  if intent_fit_pending:return
  intent_fit_pending=true;call_deferred("_resolved_intent_fit")
@@ -775,13 +810,14 @@ func refresh():
  StatusView.apply(self)
  _fit_wheel_words()
  segments.sync(self)
+ _tidy_strip()
  _one_strip(current_message)
  _fit_intent()
  var aid_font=maxi(14,roundi(touch_height*.26*text_scale))
  guard.refresh(Vector2(host.ocean.chart_width(),size.y),touch_height,aid_font,intent.position.y if intent.visible else size.y)
  chart_choice.refresh(Vector2(host.ocean.chart_width(),size.y),touch_height,aid_font,intent.position.y if intent.visible else size.y,not guard.panel.visible and not guard.undo_button.visible)
  contact_card.refresh(Vector2(host.ocean.chart_width(),size.y),touch_height,aid_font,intent.position.y if intent.visible else size.y)
- hints.refresh(size,touch_height,aid_font,threat_floor())
+ hints.refresh(size,touch_height,aid_font,threat_floor(),_tip_avoid(),intent.position.y if intent.visible else size.y)  # WP-115: the tip card keeps off the craft, their labels and the Hunt chip
  # A first-notice tutorial must not cover the very warning it explains.
  if hints.panel.visible and (not Rect2(Vector2.ZERO,size).encloses(hints.panel.get_rect()) or threat_rects().any(func(r):return r.intersects(hints.panel.get_rect())) or (order_dock.visible and hints.panel.get_rect().intersects(order_dock.get_rect()))):hints.panel.hide()
  # A tip card never sits over the order dialog or UNDO, where it would take their taps.
@@ -805,6 +841,7 @@ func refresh():
  # Fleet layout can relocate a radial after the hint was placed. Keep every
  # visible command tappable; retain the pending hint for a later clear view.
  _clear_hint_overlap()
+ _note_cards()
  host.ocean.ui_blocked_rects=occupied_rects().map(func(r):return Rect2(r.position-host.ocean.global_position,r.size))
  if host.decoy_armed or host.knock_armed:
   close_button.text="CANCEL";close_button.position=Vector2((host.ocean.chart_width()-close_button.size.x)/2,(intent.position.y if intent.visible else size.y)-close_button.size.y-12);close_button.show()
@@ -857,6 +894,27 @@ func _fit_pause_button():
  var margin=b.get_theme_stylebox("normal").get_minimum_size()
  var text=b.get_theme_font("font").get_multiline_string_size(b.text,HORIZONTAL_ALIGNMENT_CENTER,maxf(1.,b.size.x-margin.x),b.get_theme_font_size("font_size")).y
  if b.size.y<ceilf(text+margin.y):b.size.y=ceilf(text+margin.y)
+# WP-115: what a tip card must not cover: every craft, every craft's label, and the Hunt chip (rects in this control's coordinates).
+func _tip_avoid()->Array:
+ var result:Array=HuntMeter._craft_touch_rects(self)
+ result.append_array(threat_rects())  # a lock card, contact lines and the threat stack are read before any tip
+ for reading in fleet.readouts:result.append(Rect2(fleet.position+reading.rect.position,reading.rect.size))
+ var chip=get_meta(HuntMeter.CHIP) if has_meta(HuntMeter.CHIP) else null
+ if is_instance_valid(chip) and chip.visible:result.append(Rect2(chip.global_position-global_position,chip.size))
+ return result
+# WP-115: one rule for "a card or prompt just closed": the chart ignores taps for UiStyle.TAP_AFTER_CLOSE_MS afterwards.
+# A card or prompt is one of the panels below, or the lock card; the time is noted when one that was up is gone.
+var cards_were_up=false
+var cards_closed_ms:=-1000000
+func _cards_up()->bool:
+ if hints.panel.visible or guard.panel.visible or chart_choice.panel.visible or contact_card.panel.visible:return true
+ return host.lock_warning!=null and host.lock_warning.visible
+func _note_cards()->void:
+ var up:bool=_cards_up()
+ if cards_were_up and not up:cards_closed_ms=UiStyle.now_ms()
+ cards_were_up=up
+func tap_just_after_close()->bool:
+ return UiStyle.now_ms()-cards_closed_ms<UiStyle.TAP_AFTER_CLOSE_MS
 func _clear_hint_overlap():
  if hints.panel.visible and (command_controls()+[close_button,sheet]).any(func(b):return b.is_visible_in_tree() and hints.overlaps(b.get_global_rect())):hints.panel.hide()  # the card's tap area never covers a command
 
@@ -980,6 +1038,10 @@ func occupied_rects() -> Array:
   for reading in fleet.readouts:result.append(Rect2(fleet.global_position+reading.rect.position,reading.rect.size))
  if intent.visible:result.append(intent.get_global_rect())
  if alarm.visible:result.append(alarm.get_global_rect())
+ # WP-115: chart labels (the off-screen bearing labels among them) also keep off the mode banner and the RIDER chip
+ # (host.status_label). (Cards and the short-lived Hunt notes are not counted: the playfield keeps its water.)
+ var banner=host.get("status_label")
+ if banner is Control and banner.is_visible_in_tree():result.append(banner.get_global_rect())
  for rect in threat_rects():result.append(Rect2(global_position+rect.position,rect.size))
  if host.advanced_orders:result.append(Rect2(center-Vector2.ONE*(ring_radius+touch_height*.65),Vector2.ONE*(ring_radius+touch_height*.65)*2))
  return result
