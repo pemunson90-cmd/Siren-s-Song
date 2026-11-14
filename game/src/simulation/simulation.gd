@@ -9,6 +9,7 @@ const JobRelease=preload("res://src/simulation/job_release.gd")
 const SaveChecks=preload("res://src/persistence/save_checks.gd")
 const EnemyTypes=preload("res://src/simulation/enemy_types.gd")
 const GradeOnSecure=preload("res://src/photo_grade/grade_on_secure.gd")
+const FrameForecast=preload("res://src/photo_grade/frame_forecast.gd")
 const LaunchLayout=preload("res://src/simulation/opening_fleet/launch_layout.gd")
 const DroneBay=preload("res://src/simulation/drone_bay/drone_bay.gd")
 const ParityRules=preload("res://src/simulation/parity_rules/parity_rules.gd")
@@ -1523,7 +1524,11 @@ func has_live_contact() -> bool:
 
 func _record_secured(record: Dictionary,unit_id:int=-1) -> void:
 	_record_secured_core(record,unit_id)
-	if not record.has("siren"):message+=GradeOnSecure.note(record)
+	if not record.has("siren"):message+=GradeOnSecure.note(record,_better_frame_hint(record,unit_id))
+# What would raise this record's frame: the viewfinder's own hint for the craft that took it.
+func _better_frame_hint(record:Dictionary,unit_id:int)->String:
+	if unit_id<0 or unit_id>=units.size() or not record.has("subject") or not Photo.applies(record):return ""
+	return FrameForecast.hint(Photo.frame(self,unit_id,record,0.0))
 func _record_secured_core(record: Dictionary,unit_id:int=-1) -> void:
 	if record.has("siren"):
 		# A Siren study is film, not a charted record: it never advances an operation's own record logic.

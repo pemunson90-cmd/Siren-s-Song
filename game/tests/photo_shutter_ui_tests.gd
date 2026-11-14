@@ -7,6 +7,7 @@ const Photo=preload("res://src/simulation/photo_capture.gd")
 const PhotoOps=preload("res://src/campaign/photo_ops.gd")
 const Pricing=preload("res://src/simulation/photo_pricing/photo_pricing.gd")
 const Settings=preload("res://src/presentation/frontend/frontend_settings.gd")
+const ForecastRule=preload("res://src/photo_grade/frame_forecast.gd")
 const SHUTTER_PATH="res://src/presentation/photo_shutter/shutter.gd"
 const TABLE_PATH="res://src/presentation/photo_shutter/shutter_table.gd"
 var Shutter
@@ -75,6 +76,23 @@ func shape_case(shape:Vector2i):
 	check(Rect2(Vector2.ZERO,feed.size).encloses(r),"shutter lies inside the camera panel "+stamp)
 	check(not r.intersects(feed.picture_rect) and not r.intersects(feed.toggle_rect) and not feed._buttons.any(func(b):return b.rect.intersects(r)),"shutter covers neither the viewfinder picture nor another control "+stamp)
 	check(feed.get("shutter_refusal")!="","the panel knows this frame will be warned "+stamp)
+	# Forecast beside SHUTTER: the frame it would file now and the shutter's reach, before the tap.
+	var heard:int=roundi(float(Pricing.readout(s,0,spire).heard))
+	check("HEARD TO %dm"%heard in str(feed.get("forecast_text")) and ("FRAME ~" in str(feed.get("forecast_text")) or "NO USABLE FRAME" in str(feed.get("forecast_text"))),"the panel states the forecast frame and how far the shutter is heard "+stamp)
+	var guess=ForecastRule.forecast(feed._frame,spire)
+	check(not guess.usable and "NO USABLE FRAME" in str(feed.get("forecast_text")),"a WIDE frame of a fine-detail subject forecasts no usable frame "+stamp)
+	# The panel holds still: fold and open, with the threat stack changing, never move SHUTTER, WIDE or the panel.
+	var held_position:Vector2=feed.position
+	s.message="x";game.ocean.threat_bottom=game.ocean.instrument_top+60.;await view(game)
+	var raised:Vector2=feed.position;game.ocean.threat_bottom=0.
+	feed.compact=true;await view(game);var folded_position:Vector2=feed.position
+	feed.compact=false;await view(game)
+	check(feed.position.y>=held_position.y and raised.y>=held_position.y and folded_position==raised and feed.position==raised,"fold and open never move the camera panel up or sideways "+stamp)
+	game.ocean.threat_bottom=0.;await view(game)
+	# A first-notice toast stays clear of the camera panel.
+	var cue=game.find_child("FirstSirenCue",true,false)
+	if cue!=null:
+		cue.refresh();check(cue.chip_rect.end.x<=feed.global_position.x+0.5 and cue.note_rect.end.x<=feed.global_position.x+0.5,"the Siren-noticed toast sits left of the camera panel "+stamp)
 	# First shutter press: warned, nothing spent.
 	if Shutter!=null:Shutter.warned={}
 	var film:int=Pricing.film_left(s,0);var noises:int=s.noises.size()
