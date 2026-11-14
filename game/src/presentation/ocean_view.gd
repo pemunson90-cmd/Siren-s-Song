@@ -284,15 +284,16 @@ func salvage_markers()->Array:
 	return preload("res://src/presentation/module_recovery_view.gd").markers(self,sim,instrument_height)
 func chart_width()->float:
 	if command_dock_width>0:return size.x-command_dock_width-28.
-	if not presenting_mission or sim==null or optical_feed==null or not optical_feed.viewfinder_visible(sim):return size.x
+	if not presenting_mission or sim==null or optical_feed==null or not optical_feed.viewfinder_visible(sim) or optical_feed.compact:return size.x
 	return size.x-minf(size.x*.52,optical_feed.preferred_width())-28.
 func chart_origin()->Vector2:
 	return Vector2(command_dock_width+28.,0.) if command_dock_left and command_dock_width>0. else Vector2.ZERO
 func stable_chart_rect()->Rect2:
-	# Projection always reserves the right optical lane. Transient command docks,
-	# camera availability and folded optics must never move the chart under a tap.
-	var lane=minf(size.x*.52,optical_feed.preferred_width()) if optical_feed!=null else size.x*.52
-	return Rect2(Vector2.ZERO,Vector2(maxf(1.,size.x-lane-28.),size.y))
+	# The chart projects over the whole screen. The camera panel is an overlay: folded it is a small strip, open it lies over the
+	# right part of the chart. Neither moves or rescales the chart (no camera jump when it opens or folds); labels and taps stay
+	# off the panel through label_fit_rect, the blocked rects and optical_feed.blocks_point. Transient command docks and camera
+	# availability never move the chart under a tap either (critic 14 Nov: the chart filled 55% of the inner screen).
+	return Rect2(Vector2.ZERO,Vector2(maxf(1.,size.x),size.y))
 func _sync_camera() -> void:
 	var chart=stable_chart_rect()
 	chart_camera.configure(chart.size,world_size(),chart.position)
@@ -927,7 +928,14 @@ func _draw_fog(low:Vector2i,high:Vector2i,region:Vector2)->void:
 # Where a whole label plate may sit: the chart, not the optical lane beside it. The camera panel opens in that lane, and a
 # label placed under it was cut by the panel's edge. The plate's padding stays inside, so no label is drawn cut by an edge.
 func label_fit_rect()->Rect2:
-	return stable_chart_rect().grow(-(LABEL_PAD+LABEL_EDGE))
+	var chart=stable_chart_rect()
+	# Open, the panel is solid over the right of the chart: a plate may not reach under it. Folded, only its strip (a blocked
+	# rect in world_label_position) is kept clear, so labels use the full width.
+	if optical_feed!=null and optical_feed.is_visible_in_tree() and not optical_feed.compact:
+		var edge=optical_feed.position.x-LABEL_GAP
+		chart.size.x=clampf(edge-chart.position.x,0.,chart.size.x)
+	var inset:=LABEL_PAD+LABEL_EDGE
+	return chart.grow(-minf(inset,minf(chart.size.x,chart.size.y)*.5))
 func world_label_position(p:Vector2,text:String,font_size:int) -> Vector2:
 	var font=ThemeDB.fallback_font;var actual=label_font(font_size);var extent=font.get_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,-1,actual)*world_scale
 	var origin=chart_camera.to_screen(p);var height=extent.y+6;var fit:=label_fit_rect()
