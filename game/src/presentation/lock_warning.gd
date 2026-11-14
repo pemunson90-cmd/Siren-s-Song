@@ -59,7 +59,10 @@ func _card_text()->String:
  if rows.is_empty():
   return "S%d LOCK · %.1fs"%[int(locks[0].id)+1,locks[0].remaining] if not locks.is_empty() else ""
  var aim=ThreatRead.Table.TEXT.decoy_aim if host!=null and host.get("decoy_armed")==true and int(host.decoy_unit)==int(rows[0].craft) else ""
- return rows[0].sentence+"\n"+rows[0].advice+("\n"+aim if not aim.is_empty() else "")+("\n"+note if not note.is_empty() else "")
+ # While the move buttons show (paused), they are the moves: the card does not print them again as an "Or:" line.
+ var advice:String=rows[0].advice
+ if host!=null and host.sim.paused and not rows[0].get("moves",[]).is_empty():advice=advice.get_slice("\n",0)
+ return rows[0].sentence+"\n"+advice+("\n"+aim if not aim.is_empty() else "")+("\n"+note if not note.is_empty() else "")
 func refresh(owner):
  host=owner;position=Vector2.ZERO;size=host.size
  var cue=host.hud.get_node_or_null("FirstSirenCue") if host.get("hud")!=null else null
