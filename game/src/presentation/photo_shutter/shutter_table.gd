@@ -31,6 +31,14 @@ const TEXT:={
 	"stop":"STOP EXPOSURE",
 	"stopped":"EXPOSURE STOPPED · the film is spent",
 	"more":"MORE v · drag the text",
+	# WP-113: why a frame is or would be unusable (photo_grade/unusable_reason.gd), and what a second frame of a filed subject adds.
+	"unusable_now":"NO USABLE FRAME · %s",
+	"unusable_filed":"UNUSABLE · NOT FILED · %s",
+	"unusable_review":" · UNUSABLE · %s",
+	"unusable_old":"the frame did not resolve the subject",
+	"frame_word":"UNUSABLE FRAME",
+	"filed_before":"FILED %d%% · a new frame only helps if it is sharper or shows a new detail",
+	"why":{"HEAT SHIMMER":"lost in heat shimmer","TOO DARK":"too dark","CROPPED":"out of frame","HIDDEN":"hidden from this side","FINE DETAIL":"needs a TIGHT frame","OUT OF FOCUS":"out of focus","WAITING":"not showing yet","TOO SOFT":"too soft","SHORT":"not held long enough","NONE":"nothing resolved"},
 }
 # The result lines under the viewfinder stay this many seconds after a frame is filed.
 const RESULT_SECONDS:=30.0

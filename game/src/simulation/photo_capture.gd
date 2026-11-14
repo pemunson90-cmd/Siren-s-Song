@@ -25,6 +25,7 @@ const Pricing=preload("res://src/simulation/photo_pricing/photo_pricing.gd")
 const BandPhoto=preload("res://src/photo_depth/band_photo.gd")
 const Rules=preload("res://src/photo_rules/photo_rules.gd")
 const SirenTag=preload("res://src/simulation/siren_tag.gd")
+const UnusableReason=preload("res://src/photo_grade/unusable_reason.gd")
 const COLS:=36
 const MAX_SHOTS:=24
 const TURN_RATE:=1.8
@@ -323,6 +324,7 @@ static func finish(sim,uid:int,o:Dictionary)->Dictionary:
 		for m in marks:
 			for fd in found:
 				if str(fd.id).ends_with(":"+str(m.id)) or (m.id=="gait" and str(fd.id).begins_with("loop_")) or (m.id=="array" and str(fd.id).begins_with("post_")):m["find"]=str(fd.kind)
+	if not usable:shot["why"]=UnusableReason.reason(f.rows,s.get("required",[]),seen,str(f.mode),str(f.focus)) # WP-113: an unusable frame keeps the plain reason it was refused (text only; no rule reads it)
 	shot["band"]=int(f.band)
 	st.next=int(st.next)+1
 	st.shots.append(shot)

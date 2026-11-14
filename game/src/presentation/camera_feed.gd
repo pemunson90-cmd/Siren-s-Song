@@ -222,7 +222,13 @@ func _draw_photo(t:Dictionary) -> void:
 	var small:=maxi(12,fs-3)
 	var fixed_lines:Array=[]
 	if not lock_text.is_empty() and font.get_string_size(lock_text,HORIZONTAL_ALIGNMENT_LEFT,-1,small).x>_header_room(fs):fixed_lines.append([lock_text,ShutterTable.COLORS.refused_text])
-	if not cost_text.is_empty():fixed_lines.append([cost_text,ShutterTable.COLORS.weak])
+	if not cost_text.is_empty():fixed_lines.append([cost_text,ShutterTable.COLORS.weak]) # WP-113: stays first, ahead of the notes below
+	# WP-113: before the tap, say a frame would be unusable and why, and what a new frame of an already filed subject adds.
+	if not live and Shutter.offered(sim,t.get("ctx",{})):
+		var guess:Dictionary=ForecastRule.forecast(_frame,o)
+		if not guess.usable:fixed_lines.append([ShutterTable.TEXT.unusable_now%guess.why,ShutterTable.COLORS.refused_text])
+		var filed_note:String=ForecastRule.filed_note(o)
+		if not filed_note.is_empty():fixed_lines.append([filed_note,ShutterTable.COLORS.weak])
 	var fixed_h:=0.0
 	for fixed in fixed_lines:fixed_h+=font.get_multiline_string_size(fixed[0],HORIZONTAL_ALIGNMENT_LEFT,wide,fs).y+4.
 	# On a short panel the picture keeps a useful height first (ShutterTable.PICTURE_KEEP); when the fixed lines and a line and a half of text do not fit beside it, they join the top of the scrolling text; only then does the picture give way.
@@ -337,7 +343,7 @@ func _result_lines(readout:Dictionary)->Array:
 		if float(m.q)>0:names.append(str(m.label))
 	var q:float=float(_filed.q)
 	var lines:Array=[]
-	if not good:lines.append("UNUSABLE · NOT FILED")
+	if not good:lines.append(ShutterTable.TEXT.unusable_filed%str(_filed.get("why",ShutterTable.TEXT.unusable_old))) # WP-113: say why
 	elif GradeRule.enabled:lines.append(GradeRule.TEXT.panel_filed%[int(_filed.id),roundi(q*100),GradeRule.letter(q)])
 	else:lines.append("FRAME %d FILED · %d%%"%[int(_filed.id),roundi(q*100)])
 	lines.append(("RESOLVED " if not names.is_empty() else "NOTHING RESOLVED")+", ".join(names))
