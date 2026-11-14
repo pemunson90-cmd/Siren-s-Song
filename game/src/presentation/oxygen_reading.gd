@@ -11,5 +11,8 @@ static func time_left(sim)->String:
 	if per_second<=0.0:return "--:--"
 	var left:float=maxf(0.,float(sim.oxygen))/per_second
 	return "~%d:%02d"%[int(left)/60,int(left)%60]
+# WP-98: a loadout's tank size is a capacity against the standard tank, never "oxygen left" ("O₂ 120%" read as over full).
+static func tank(percent_of_standard:int)->String:
+	return "O₂ tank %d%% of standard"%percent_of_standard
 static func text(sim)->String:
 	return "%d%% %s"%[percent(sim),time_left(sim)]

@@ -7,6 +7,8 @@ const Delivery=preload("res://src/presentation/blackwater_delivery_view.gd")
 const Witness=preload("res://src/presentation/witness_evacuation_view.gd")
 const Ring=preload("res://src/presentation/fleet_ring.gd")
 const Oxygen=preload("res://src/presentation/oxygen_reading.gd")
+const CHIP_ROWS=4.6
+const CHIP_CHART_SHARE=.5
 const PROFILE_WORDS={true:"SILENT",false:"LOUD"}
 # Craft-anchored status; only offscreen craft acquire bounded edge handles.
 var host
@@ -96,7 +98,10 @@ func status(id:int)->String:
  var reserve="HULL %d · O₂ %s"%[roundi(sim.hull),Oxygen.text(sim)] if id==0 else "BAT %d%%"%roundi(sim.units[id].battery)
  var u=sim.units[id];var band=sim.Depth.NAMES[u.band]
  if not u.transition.is_empty():band+=" → "+sim.Depth.NAMES[u.transition.to]+" %.1fs"%u.transition.remaining
- return reserve+" · "+band+"\n"+task(id)
+ # WP-98: the reserves are one whole line; the depth band joins the craft's first task line ("MIDDLE · READY · SILENT · MOTION ~0m").
+ var lines:=task(id).split("\n")
+ lines[0]=band+" · "+lines[0]
+ return reserve+"\n"+"\n".join(lines)
 func _ordinary_task(id:int)->String:
  var sim=host.sim;var u=sim.units[id];var work=sim.capture_feedback(id)
  if work.unit>=0:
@@ -217,7 +222,8 @@ func refresh(blocked:Array):
    var measured=0.
    for line in reading.text.split("\n"):measured=maxf(measured,font.get_string_size(line,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x)
    # A line wider than the chip wraps onto another line; no word is cut with an ellipsis.
-   var wide:=minf(measured+20,h*4.6)
+   # WP-98: the chip may grow to half the chart's width (never under 4.6 touch rows) so a readout line stays whole.
+   var wide:=minf(measured+20,maxf(h*CHIP_ROWS,safe.size.x*CHIP_CHART_SHARE))
    reading.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;reading.text_overrun_behavior=TextServer.OVERRUN_NO_TRIMMING
    var wrapped:=font.get_multiline_string_size(reading.text,HORIZONTAL_ALIGNMENT_LEFT,wide-16,font_size,-1,TextServer.BREAK_MANDATORY|TextServer.BREAK_WORD_BOUND|TextServer.BREAK_ADAPTIVE)
    var extent=Vector2(wide,wrapped.y+16+4)

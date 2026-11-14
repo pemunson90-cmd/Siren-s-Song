@@ -66,7 +66,7 @@ static func show_campaign(host) -> void:
 	var rows=["COMPARE STOCK (O₂, EMP, SURVEY)"]
 	for choice in Names.LOADOUTS:
 		var supplies=host._loadout_stock(choice)
-		rows.append("%s: O₂ %d%%, EMP %d, SURVEY %d"%[preload("res://src/equipment/field_tools.gd").loadout_label(choice),supplies[0],supplies[1],supplies[2]])
+		rows.append("%s: %s, EMP %d, SURVEY %d"%[preload("res://src/equipment/field_tools.gd").loadout_label(choice),preload("res://src/presentation/oxygen_reading.gd").tank(supplies[0]),supplies[1],supplies[2]])
 	host._menu_text("\n".join(rows),14)
 	host._menu_text("TOOLS: "+FitSurfaceModel.stock_text(host.tool_racks)+"\nEMP lasts 12s. SURVEY takes 8s and is audible.",14)
 	host._button(host.panel_box,"CYCLE LOADOUT: ENDURANCE, EMP, SURVEY",host._cycle_loadout,"loadout")
@@ -101,6 +101,14 @@ static func orders_text(host, briefing:Dictionary) -> String:
 		return "ORDERS\n"+ReleaseControls.CONTROLS_TEXT+"\nTap a craft for its command ring; FLEET chooses a station. Empty water plots its route; a craft that already has orders asks you to confirm. ROUTE → TAPS: REPLACE / QUEUE sets whether a water tap replaces the route or adds to it. PAUSE stays available. Settle and DECODE for two seconds. Quietus receives within156m; drones within214.5m. Cover blocks reception. An audible SONAR may prompt a local relay replay; a decoded packet explains its partner's handshake. Drone buffers TRANSFER locally to Quietus: both settled, within60m, clear link. Return with both packets aboard."
 	return "ORDERS\n"+ReleaseControls.CONTROLS_TEXT+"\nTap a craft for its command ring; FLEET chooses a station. Tap empty water to plot a route; a craft that already has orders asks you to confirm. Craft → ROUTE → TAPS: REPLACE / QUEUE sets whether a water tap replaces the route or adds to it. PAUSE stays available. Drag / pinch inspects freely; FOCUS follows the craft and FIT shows the region. CAMERA works within 240m of a gold record marker. Return Quietus after all records are secured."
 
+# WP-98: the photo problems stay with the mission; on a split screen the OPTICS line (what Quietus mounts) is its own
+# label so it can sit in the boat's column. One column keeps the single label.
+static func photo_lines(host,text:String,font_size:int,split:bool,carried_nodes:Array)->void:
+	var parts:PackedStringArray=text.split("\n",true,1)
+	if not split or parts.size()<2:host._menu_text(text,font_size);return
+	host._menu_text(parts[0],font_size)
+	carried_nodes.append(host._menu_text(parts[1],font_size))
+
 static func briefing(host, index: int) -> void:
 	if index>=6 and index not in host.ExpeditionCampaign.available(host.completed,host.expedition):return
 	var compact=BriefRows029.applies(index)
@@ -108,6 +116,11 @@ static func briefing(host, index: int) -> void:
 	host.set_meta("onboard2_fit_index",index)
 	host.screen="briefing"; host.sim.paused=true; host._clear_menu()
 	var briefing=host.Simulation.Missions.make(index,host._launch_context(index))
+	# WP-98: on a wide screen the left column is the mission and the right column is the boat: what Quietus carries
+	# (optics, launch cost, loadout stock) is gathered in `carried_nodes` and joins the chart picture on the right.
+	var wide=preload("res://src/presentation/layout_metrics.gd").hub_wide(host.size,host.ui_touch_height,preload("res://src/presentation/frontend/frontend_settings.gd").text_scale())
+	var split_columns:bool=wide and not compact
+	var carried_nodes:Array=[]
 	host._menu_text("%02d  %s"%[index+1,briefing.title.to_upper()],BriefRows029.STYLE.title if compact else 30)
 	var goal=BriefRows029.goal(index,host.OnboardingText.goal(index))
 	var photo_problems:String=preload("res://src/simulation/photo_pricing/photo_pricing_briefing.gd").line(index,host.fitted_equipment)
@@ -117,11 +130,11 @@ static func briefing(host, index: int) -> void:
 		host._menu_text(goal,BriefRows029.STYLE.goal if compact else 20)
 		var primer:String=host.OnboardingText.primer(index,host.completed)
 		if not primer.is_empty():host._menu_text(primer,17)
-		if not photo_problems.is_empty():host._menu_text(photo_problems,BriefRows029.STYLE.photo if compact else 17)
+		if not photo_problems.is_empty():photo_lines(host,photo_problems,BriefRows029.STYLE.photo if compact else 17,split_columns,carried_nodes)
 		manual_control=host._button(host.panel_box,FieldManualTable.BUTTON_TEXT,func(): host._reference(index),"manual")
 	else:
 		host._menu_text(briefing.brief,20)
-		if not photo_problems.is_empty():host._menu_text(photo_problems,17)
+		if not photo_problems.is_empty():photo_lines(host,photo_problems,17,split_columns,carried_nodes)
 		if host.ExpeditionOperations.briefing(host,index):pass
 		manual_control=host._button(host.panel_box,FieldManualTable.BUTTON_TEXT,func(): host._reference(index),"manual")
 	# The chart picture sits under the goal lines; a two-column briefing moves it above the loadout (below).
@@ -131,16 +144,20 @@ static func briefing(host, index: int) -> void:
 	preload("res://src/presentation/archive/voice_feed.gd").briefing(host,index)
 	if compact and not host._campaign_pristine() and not EconomyPanel.briefing_line(host).is_empty():host._menu_text(preload("res://src/presentation/launch_summary.gd").short(host),14)
 	var fit_start=host.panel_box.get_child_count()
+	var cost_from:int=fit_start
 	if not host._campaign_pristine() and not EconomyPanel.briefing_line(host).is_empty():host._menu_text(EconomyPanel.briefing_line(host),14)
 	# Audit 091 F10: later briefings compare costs and mounts; the opening briefing keeps fit details optional.
 	if index>0 and not compact and not host._campaign_pristine() and not EconomyPanel.briefing_line(host).is_empty():host._menu_text(preload("res://src/presentation/launch_summary.gd").text(host),14)
+	carried_nodes.append_array(host.panel_box.get_children().slice(cost_from))
 	preload("res://src/presentation/crew/crew_view.gd").briefing(host,index)
 	# The opening brief confirms Quietus stock; its FITTINGS entry owns the full per-craft list.
+	var stock_from:int=host.panel_box.get_child_count()
 	host._menu_text(plain_stock(host,index),17)
 	var carried_line=carried_damage_line(host)
 	if not carried_line.is_empty():host._menu_text(carried_line,17)
 	var carry=preload("res://src/presentation/tool_racks_view.gd").carry_text(host.tool_racks)
 	if index>=3:host._menu_text(carry,14)
+	carried_nodes.append_array(host.panel_box.get_children().slice(stock_from))
 	# Frames open after the first dive; recovered fittings appear once earned. One fold hides them.
 	if not compact:fit_start=host.panel_box.get_child_count()
 	# Keep the first briefing focused; fit details stay available in the optional fold below LOADOUT.
@@ -182,15 +199,17 @@ static func briefing(host, index: int) -> void:
 	if index>0 and not host._campaign_pristine() and not EconomyPanel.briefing_line(host).is_empty():host._button(host.menu_footer,"COSTS AND\nRETRY",func():preload("res://src/presentation/launch_summary.gd").show(host,index),"launch_costs")
 	host.menu_footer.show()
 	# Wide landscape screens: facts and orders on the left, loadout controls on the right.
-	var wide=preload("res://src/presentation/layout_metrics.gd").hub_wide(host.size,host.ui_touch_height,preload("res://src/presentation/frontend/frontend_settings.gd").text_scale())
 	host.set_meta("hub_wide",wide)
 	# The compact (029) briefings already run full width on the cover screen; only the opening briefings split.
-	if wide and not compact:
+	if split_columns:
 		host.panel_box.move_child(chart_preview,loadout_entry.get_index())
 		var split=chart_preview.get_index();var nodes=host.panel_box.get_children()
 		var columns=HBoxContainer.new();columns.add_theme_constant_override("separation",int(preload("res://src/presentation/layout_metrics.gd").MENU_COLUMN_GAP));host.panel_box.add_child(columns)
 		var left=OpsHome.column(14);var right=OpsHome.column(14);columns.add_child(left);columns.add_child(right)
-		for i in nodes.size():nodes[i].reparent(left if i<split else right)
+		# Left: the mission. Right: the boat, in reading order: chart picture, what Quietus carries, LOADOUT, fit details.
+		for node in nodes.slice(0,split):
+			if node not in carried_nodes and node!=loadout_entry:node.reparent(left)
+		for node in [chart_preview]+carried_nodes+[loadout_entry]+nodes.slice(split+1).filter(func(n):return n!=loadout_entry):node.reparent(right)
 		# WP-93: each column holds what its half of the panel holds, so the panel never outgrows the screen.
 		var room=preload("res://src/presentation/layout_metrics.gd").menu_column_width(host.size,true,host.ui_touch_height)
 		for column in [left,right]:preload("res://src/presentation/equipment_context.gd").fit_to_column(column,room)
