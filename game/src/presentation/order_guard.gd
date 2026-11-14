@@ -24,6 +24,7 @@ var points_button: CheckButton
 var undo_button: Button
 var switch_row: HBoxContainer
 var add_slot: Control
+var add_hint: Label
 # Lines the prompt text always reserves, so a longer sentence never moves the buttons.
 const PROMPT_LINES := 3
 func setup(owner) -> void:
@@ -43,6 +44,7 @@ func setup(owner) -> void:
 	add_slot = Control.new(); add_slot.mouse_filter = Control.MOUSE_FILTER_IGNORE; row.add_child(add_slot)
 	cancel_button = _button(row, "CANCEL", cancel, "order_cancel")
 	for slot in [go_button, add_button, add_slot, cancel_button]: slot.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	add_hint = Label.new(); add_hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART; add_hint.mouse_filter = Control.MOUSE_FILTER_IGNORE; add_hint.text = Words.TEXT.add_hint; add_hint.modulate = Color(1, 1, 1, .8); box.add_child(add_hint)
 	undo_button = _button(self, "UNDO", do_undo, "order_undo")
 	var chip := StyleBoxFlat.new(); chip.bg_color = Color(.018, .055, .075, .94); chip.border_color = Color("6bd5cb"); chip.set_border_width_all(1); chip.set_corner_radius_all(6)
 	chip.content_margin_left = 12; chip.content_margin_right = 12; chip.content_margin_top = 8; chip.content_margin_bottom = 8
@@ -132,9 +134,14 @@ func confirm(append: bool) -> void:
 	pending = {}
 	if sim.selected != unit: host._order("select", {"unit": unit})
 	var before: bool = sim.queue_mode
-	sim.queue_mode = append and not sim.units[unit].route.is_empty()
+	var adds: bool = append and not sim.units[unit].route.is_empty()
+	sim.queue_mode = adds
+	var legs: int = sim.route_goals().size()
 	host._order("route", {"point": point}) # TRAVEL:water_leg_confirm
-	sim.queue_mode = before
+	var accepted: bool = sim.route_goals().size() > legs
+	# WP-89: ADD TO ROUTE keeps taps on QUEUE so each next tap adds a leg; a refused order or REPLACE changes nothing.
+	sim.queue_mode = true if adds and accepted else before
+	if adds and accepted: sim.message = Words.TEXT.queued_taps % sim.units[unit].name
 	host._refresh()
 func cancel() -> void:
 	pending = {}; host.sim.message = "Marker cancelled · orders unchanged"; host._refresh()
@@ -174,6 +181,9 @@ func refresh(bounds: Vector2, h: float, font: int, floor_y: float) -> void:
 		var offer_add := can_add()
 		add_button.visible = offer_add; add_button.disabled = not offer_add; points_button.visible = offer_add; add_slot.visible = not offer_add
 		points_button.set_pressed_no_signal(not sim.pass_through); points_button.text = POINTS_TEXT % ("OFF" if sim.pass_through else "ON"); points_button.autowrap_mode = TextServer.AUTOWRAP_OFF
+		add_hint.visible = offer_add
+		add_hint.add_theme_font_size_override("font_size", maxi(UNDO_MIN_FONT, font - 2))
+		add_hint.custom_minimum_size.y = add_hint.get_theme_font("font").get_height(maxi(UNDO_MIN_FONT, font - 2)) * 2
 		for b in [go_button, add_button, points_button, cancel_button, prompt]:
 			b.add_theme_font_size_override("font_size", font)
 			if b is Button:

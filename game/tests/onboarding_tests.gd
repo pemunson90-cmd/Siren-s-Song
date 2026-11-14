@@ -97,7 +97,7 @@ func run() -> void:
 	await click(water_point(Vector2(780,640))); await settle()
 	var before=game.sim.route_goals().size()
 	await click(guard.add_button.get_global_rect().get_center()); await settle()
-	check(game.sim.route_goals().size()==before+1 and not game.sim.queue_mode,"ADD TO ROUTE extends without leaving queue mode on")
+	check(game.sim.route_goals().size()==before+1 and game.sim.queue_mode,"ADD TO ROUTE extends and leaves taps on QUEUE (WP-89)")
 	await click(guard.undo_button.get_global_rect().get_center()); await settle()
 	check(game.sim.route_goals().size()==before,"undo removes the added stop")
 	# Undo of a first plan clears it.

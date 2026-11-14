@@ -90,6 +90,7 @@ func run():
 	await hold_checks(g)
 	await status_checks(g)
 	await dialog_place_checks(g)
+	await queue_checks(g)
 	await contact_card_checks(g)
 	await label_checks(g)
 	Settings.current["mirrored_hud"]=true
@@ -100,6 +101,7 @@ func run():
 	g=load("res://scenes/main.tscn").instantiate();g.capture_scenario="planning-order-flow-tests";root.add_child(g);await settle();g.set_process(false)
 	await planner_resume_check(g)
 	await dialog_place_checks(g)
+	await queue_checks(g)
 	await contact_card_checks(g)
 	Settings.current["mirrored_hud"]=true
 	await planner_resume_check(g)
@@ -317,6 +319,35 @@ func dialog_place_checks(g)->void:
 			check(not panel.intersects(guard.craft_rect(h)),"%s: the dialog does not cover the selected craft"%tag)
 			check(not panel.intersects(guard.marker_rect(h)),"%s: the dialog does not cover the marker"%tag)
 			guard.cancel();await settle()
+
+# WP-89: ADD TO ROUTE also puts taps on QUEUE, so the next taps add legs with no prompt; REPLACE ROUTE leaves REPLACE.
+func queue_checks(g)->void:
+	var shape="%dx%d"%[root.size.x,root.size.y]
+	for scale in [1.0,1.5]:
+		Settings.current["text_scale"]=scale;g._layout()
+		await fresh(g)
+		var guard=g.mission_hud.guard;var tag="%s text %d%%"%[shape,int(scale*100)]
+		var first=water(g,g.sim.units[0].pos,[g.sim.units[1].pos,g.sim.units[2].pos])
+		var second=water(g,first,[g.sim.units[0].pos,g.sim.units[1].pos,g.sim.units[2].pos])
+		var third=water(g,second,[first,g.sim.units[0].pos,g.sim.units[1].pos,g.sim.units[2].pos])
+		await tap(screen(g,first))
+		await tap(screen(g,second))
+		check(guard.panel.visible and not g.sim.queue_mode,tag+": the first extra point asks")
+		check(guard.add_hint.visible and "next taps add" in guard.add_hint.text,tag+": the prompt says ADD TO ROUTE makes the next taps add too")
+		check(Rect2(Vector2.ZERO,g.mission_hud.size).encloses(guard.panel.get_rect()) and guard.add_hint.get_global_rect().size.y>0,tag+": the prompt with its hint fits the screen")
+		await click(guard.add_button)
+		check(g.sim.queue_mode and g.sim.route_goals().size()==2 and not guard.panel.visible,tag+": ADD TO ROUTE adds the point and switches taps to QUEUE")
+		# The strip's head already shows QUEUE; the message says what that means and where to switch back.
+		check("QUEUE" in g.mission_hud.intent.text and "next taps add" in g.sim.message and "TAPS" in g.sim.message,tag+": the strip says QUEUE and where to switch back")
+		await tap(screen(g,third))
+		check(not guard.panel.visible and g.sim.route_goals().size()==3,tag+": the next tap adds a point with no prompt")
+		g._order("queue");await settle()
+		check(not g.sim.queue_mode,tag+": the TAPS switch returns to REPLACE")
+		await tap(screen(g,water(g,third,[first,second,g.sim.units[0].pos,g.sim.units[1].pos,g.sim.units[2].pos])))
+		check(guard.panel.visible,tag+": back on REPLACE a tap asks again")
+		await click(guard.go_button)
+		check(not g.sim.queue_mode and g.sim.route_goals().size()==1,tag+": REPLACE ROUTE leaves taps on REPLACE")
+	Settings.current["text_scale"]=1.0;g._layout()
 
 # 4. The dialog holds the dive.
 func hold_checks(g)->void:
