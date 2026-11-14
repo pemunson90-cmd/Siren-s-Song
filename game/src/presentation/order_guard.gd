@@ -6,6 +6,7 @@ extends Control
 # again also replaces. Main holds dive time while this dialog is open.
 const UiStyle := preload("res://src/presentation/ui_style.gd")
 const UNDO_MS := 10000
+const UNDO_MIN_FONT := 14 # never under the HUD's 14-point reading floor (the pause plate keeps the same floor)
 const EXTRACTION_TEXT := "%s: heading to extraction."
 const Words := preload("res://src/presentation/hud_words.gd")
 const HandPilot := preload("res://src/simulation/hand_pilot/hand_pilot.gd")
@@ -188,8 +189,13 @@ func refresh(bounds: Vector2, h: float, font: int, floor_y: float) -> void:
 		panel.custom_minimum_size = Vector2(width, 0); panel.reset_size()
 		place(bounds.x, floor_y, h)
 	if undo_button.visible:
-		undo_button.text = "UNDO  ·  %s back to %s" % [undo.name, restore_text(undo)]
-		undo_button.add_theme_font_size_override("font_size", font)
+		# Two lines at every text size: UNDO, then what it restores. The detail line shrinks to fit the chart instead of wrapping.
+		var detail := "%s back to %s" % [undo.name, restore_text(undo)]
+		undo_button.text = "UNDO\n" + detail; undo_button.autowrap_mode = TextServer.AUTOWRAP_OFF
+		var undo_font := font; var undo_margin: float = undo_button.get_theme_stylebox("normal").get_minimum_size().x
+		var undo_face = undo_button.get_theme_font("font")
+		while undo_font > UNDO_MIN_FONT and undo_face.get_string_size(detail, HORIZONTAL_ALIGNMENT_LEFT, -1, undo_font).x + undo_margin > bounds.x - 24: undo_font -= 1
+		undo_button.add_theme_font_size_override("font_size", undo_font)
 		undo_button.custom_minimum_size = Vector2(h * 3.2, h); undo_button.reset_size()
 		undo_button.position = Vector2((bounds.x - undo_button.size.x) / 2, maxf(host.mission_hud.threat_floor(), maxf(h * 2, floor_y - undo_button.size.y - 10)))
 	queue_redraw()

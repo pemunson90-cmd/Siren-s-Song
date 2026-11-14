@@ -13,7 +13,7 @@ static func show(host,from_archive:=false)->void:
 	host._menu_text("Only roles in first-hand notices or recovered Siren photographs are listed. Best recovered photo quality appears when studied.",15)
 	var rows=Table.discovered(host)
 	if rows.is_empty():
-		host._menu_text("No Siren roles recorded yet. First-hand notices and recovered photographs add entries here.",16)
+		host._menu_text("A role is recorded here the first time a photograph identifies it, or a first-hand notice names it.",16)
 	else:
 		for row in rows:
 			host._menu_text(row.name,22)
