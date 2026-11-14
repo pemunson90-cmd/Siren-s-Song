@@ -20,6 +20,8 @@ const TRAVEL_SHORTCUTS={
  "withdraw_home":{"name":"ROUTE page WITHDRAW / EXTRACT autopilot","dev_only":true},
  "recovery_chooser":{"name":"Recovery mouth chooser autopilot","dev_only":true},
  "module_return":{"name":"Departure sheet: send carrier to the mouth","dev_only":true},
+ # Not travel: a route to the craft's own spot, which is how the game ends an exposure in progress (WP-66).
+ "stop_exposure":{"name":"Camera STOP EXPOSURE: hold at the craft's own spot","dev_only":false},
 }
 
 # Build seam (WP-06, survey S-02). A DEV mark travels inside saved and exported

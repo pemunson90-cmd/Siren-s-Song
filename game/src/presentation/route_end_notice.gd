@@ -20,7 +20,10 @@ func observe(sim,host=null)->void:
 	var running:bool=sim.elapsed>clock and not sim.paused and sim.outcome.is_empty()
 	for i in sim.units.size():
 		var u=sim.units[i]
-		var moving:bool=u.alive and not u.route.is_empty() and u.vel.length()>Words.MOVING_SPEED
+		# Once a craft is moving along a route it counts as moving until that route ends: it brakes to a stop at its
+		# last point, so at real frame rates its speed is under MOVING_SPEED for the last few looks before the route
+		# empties, and the end went unnoticed (13 Nov: no notice and no trial pause in play; 0.1 s test steps hid it).
+		var moving:bool=u.alive and not u.route.is_empty() and (u.vel.length()>Words.MOVING_SPEED or was_moving.get(i,false))
 		if was_moving.get(i,false) and u.route.is_empty() and running and not damaged and u.alive and not sim.DroneBay.aboard(u) and not AllStop.stopped(u) and not AllStop.restarting(u):
 			notices.append({"text":Words.TEXT.route_end%u.name.to_upper(),"until":sim.elapsed+Words.ROUTE_END_SECONDS})
 			if host!=null and TrialRules.pause_at_route_end():host.request_auto_pause("route_end",i)

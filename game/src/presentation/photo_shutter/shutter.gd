@@ -91,7 +91,7 @@ static func stop(node:Node)->bool:
 	var sim=host.sim
 	var queued:bool=sim.queue_mode
 	if queued:host._order("queue")
-	host._order("route",{"point":sim.units[sim.selected].pos})
+	host._order("route",{"point":sim.units[sim.selected].pos}) # TRAVEL:stop_exposure
 	if queued:host._order("queue")
 	var stopped:bool=sim.captures[sim.selected].is_empty()
 	if stopped:sim.message=Table.TEXT.stopped
