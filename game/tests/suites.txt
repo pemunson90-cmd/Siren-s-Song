@@ -144,6 +144,7 @@ save_profiles_tests|SAVE PROFILES|11|224
 save_profiles_ui_tests|SAVE PROFILES UI|-|225|render
 save_profiles_transfer_tests|SAVE PROFILES TRANSFER|12|820
 back_exit_tests|BACK EXIT|-|226
+back_audit_tests|BACK AUDIT|-|2260
 a11y_cues_tests|A11Y CUES|-|227
 ai_trace_tests|AI TRACE|-|231
 acoustic_path_cull_tests|ACOUSTIC PATH CULL|-|248

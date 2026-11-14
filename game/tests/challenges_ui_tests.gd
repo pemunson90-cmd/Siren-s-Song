@@ -133,7 +133,7 @@ func shape_case(shape):
            session=game.get_node_or_null("ChallengeSession")
            if session!=null:
             session.set_process(false);await android_back()
-            check(session.screen=="challenge_menu","Android Back opens the attempt menu through the normal lifecycle notification")
+            check(session.screen=="challenge_menu" and session.sim.paused and not session.recorded,"Android Back opens the attempt menu (as MENU does) and records nothing")
             if await press(session,"challenge_abandon"):
              # WP-34: END ATTEMPT asks first; KEEP returns to the paused menu with nothing recorded.
              check(session.screen=="challenge_confirm_end" and not session.recorded,"END ATTEMPT opens a confirmation and records nothing yet")

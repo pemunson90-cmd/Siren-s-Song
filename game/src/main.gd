@@ -663,12 +663,12 @@ func _back_exit_handled()->bool:
 	return back_exit.handle(self)
 func _android_back()->void:
 	if debug_console!=null and debug_console.panel.visible:debug_console.panel.hide();return
-	if not is_inside_tree() or _frontend_back():return
+	if not is_inside_tree():return
+	var levels=preload("res://src/presentation/back_exit/back_levels.gd")
+	if levels.at_launch_title(self) and _back_exit_handled():return
+	if _frontend_back():return
 	if _back_exit_handled():return
-	# Match Escape in the route instrument, after Android's notification traversal.
-	if screen=="program":route_editor.close()
-	elif screen=="mission" and advanced_orders:mission_hud._back()
-	else:_show_campaign()
+	if not levels.up(self):_show_campaign()
 
 func _take_capture() -> void:
 	await RenderingServer.frame_post_draw
