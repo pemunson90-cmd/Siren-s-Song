@@ -1,13 +1,13 @@
 # NOW: what the root session is doing
 
 Status: LIVE NOTE (rewritten before every step; if a session died, this is the step it died in)
-Updated: 2026-11-14 12:57
+Updated: 2026-11-14 15:10
 
 **To resume after a context clear or a new session:** open this folder as the project and run `/siren-s-start-opus` (on an Opus model; `/siren-s-start-fable` is the same run on the Fable model). Read `.fable/PHASE9.md` first: it is the whole handoff. The `next_action` field in the state file always starts by sending the session to `.fable/HANDOFF.md` and to this file.
 
 ## Doing right now
 
-WP-98 to WP-105 merged; WP-105 suites running; next push and tenth sweep.
+Running: WP-115 (dive HUD at 150%), WP-116 (Route Map legend, Settings spacing). stage-r8 batch (WP-106+113) running; WP-114 to merge after it; sweep 10 render step
 
 ## In flight
 
