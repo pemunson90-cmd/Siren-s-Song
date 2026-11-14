@@ -104,7 +104,7 @@ var knock_press:Dictionary={}
 var ui_touch_height:=48.0
 var mission_row_heights:=Vector3.ZERO
 var mission_reflow_pending:=false
-var menu_footer: HBoxContainer
+var menu_footer: HFlowContainer
 var scroll_report_timer: Timer
 var metrics_session:=""
 var metrics_serial:=0
@@ -169,7 +169,7 @@ func _ready() -> void:
 	scroll_report_timer.timeout.connect(_report_targets)
 	scroll.get_v_scroll_bar().value_changed.connect(func(_value): scroll_report_timer.start())
 	panel_box=VBoxContainer.new(); panel_box.size_flags_horizontal=Control.SIZE_EXPAND_FILL; panel_box.add_theme_constant_override("separation",14); scroll.add_child(panel_box)
-	menu_footer=HBoxContainer.new(); menu_footer.add_theme_constant_override("separation",12); stack.add_child(menu_footer); menu_footer.hide()
+	menu_footer=HFlowContainer.new(); menu_footer.add_theme_constant_override("h_separation",12); menu_footer.add_theme_constant_override("v_separation",12); stack.add_child(menu_footer); menu_footer.hide()
 	route_editor=preload("res://src/presentation/route_program_panel.gd").new(); add_child(route_editor)
 	sound=Soundscape.new(); add_child(sound)
 	preload("res://src/presentation/first_siren_cue/first_siren_cue.gd").install(self)
@@ -254,11 +254,13 @@ func _layout(cancel_gesture:bool=true) -> void:
 			else: call_deferred("_briefing",int(get_meta("onboard2_fit_index",0)))
 		preload("res://src/presentation/prep_columns.gd").relayout(self)
 		var panel_width=preload("res://src/presentation/layout_metrics.gd").menu_width(size,get_meta("hub_wide",false) or get_meta("prep_wide",false),ui_touch_height)
-		menu.position=Vector2(maxf(24,(size.x-panel_width)/2),24); menu.size=Vector2(panel_width,size.y-48)
+		panel_width=minf(panel_width,size.x-preload("res://src/presentation/layout_metrics.gd").MENU_MARGIN)  # WP-96: never wider than the screen less its margin
+		menu.position=Vector2((size.x-panel_width)/2,24); menu.size=Vector2(panel_width,size.y-48)
 		if screen=="reference" and get_meta("launch_costs_open",false):menu.position=Vector2(16,16);menu.size=size-Vector2(32,32)
 		if archive_status_text!=null:archive_status_text.add_theme_font_size_override("font_size",maxi(17,roundi(h*.26*FrontendSettings.text_scale())))
 		for button in menu.find_children("*","Button",true,false):
 			button.custom_minimum_size.y=preload("res://src/presentation/layout_metrics.gd").dense_height(h) if button.has_meta("dense_height") else h; button.add_theme_font_size_override("font_size",maxi(17,roundi(h*0.29*FrontendSettings.text_scale())))
+		preload("res://src/presentation/layout_metrics.gd").share_row(menu_footer,panel_width-preload("res://src/presentation/layout_metrics.gd").MENU_PANEL_PADDING,(size.y-48)*.35)
 		for slider in menu.find_children("*","Slider",true,false): slider.custom_minimum_size.y=h
 	if route_editor!=null and route_editor.visible: route_editor.configure(size,h)
 	if debug_console!=null:debug_console.badge_layout_key=0

@@ -63,14 +63,52 @@ static func menu_width(viewport_size: Vector2,wide: bool,touch_h: float) -> floa
 # and the button's own padding, at whatever font size it carries now (Main._button calls this on every theme change).
 static func keep_words_whole(button:Button)->void:
 	if button.autowrap_mode==TextServer.AUTOWRAP_OFF or button.text.is_empty():return
-	# Buttons that share a row split its width between them, so a row of several keeps its own wrapping.
-	var row=button.get_parent()
-	if row is HBoxContainer and row.get_children().filter(func(c):return c is Button).size()>1:return
+	var need:=word_floor(button)
+	if need>button.custom_minimum_size.x:button.custom_minimum_size.x=need
+static func word_floor(button:Button)->float:
 	var font:Font=button.get_theme_font("font");var font_px:int=button.get_theme_font_size("font_size")
 	var widest:=0.
 	for word in button.text.replace("\n"," ").split(" ",false):widest=maxf(widest,font.get_string_size(word,HORIZONTAL_ALIGNMENT_LEFT,-1,font_px).x)
-	var need:=ceilf(widest+button.get_theme_stylebox("normal").get_minimum_size().x)
-	if need>button.custom_minimum_size.x:button.custom_minimum_size.x=need
+	return ceilf(widest+button.get_theme_stylebox("normal").get_minimum_size().x)
+# WP-96: the footer row (briefing and review buttons) is a flow row too. When every button's longest word fits on one line they
+# share the line equally; when they do not, each takes a full row's worth and the row drops them onto further lines.
+# The row never takes more than max_height of the panel: at a very large text size its labels shrink (never below
+# FOOTER_MIN_FONT) so the page above it keeps room to scroll.
+const FOOTER_MIN_FONT=17
+static func share_row(row:FlowContainer,room:float,max_height:float)->void:
+	var buttons=row.get_children().filter(func(c):return c is Button and c.visible)
+	if buttons.is_empty():return
+	var gap:=float(row.get_theme_constant("h_separation"))
+	var font:Font=buttons[0].get_theme_font("font");var px:int=buttons[0].get_theme_font_size("font_size")
+	var widest:=0.;var share:=0.;var rows:=1
+	while true:
+		for b in buttons:b.add_theme_font_size_override("font_size",px)
+		widest=0.
+		for b in buttons:widest=maxf(widest,word_floor(b))
+		share=(room-gap*(buttons.size()-1))/buttons.size()
+		rows=1 if share>=widest else buttons.size()
+		var tall:=0.
+		for b in buttons:
+			var pad:Vector2=b.get_theme_stylebox("normal").get_minimum_size()
+			tall=maxf(tall,font.get_multiline_string_size(b.text.replace("\n"," "),HORIZONTAL_ALIGNMENT_LEFT,maxf(1.,(share if rows==1 else room)-pad.x),px).y+pad.y)
+		# A row is never expected to be shorter than one touch row.
+		if rows*tall+gap*(rows-1)<=maxf(max_height,buttons[0].custom_minimum_size.y) or px<=FOOTER_MIN_FONT:break
+		px=maxi(FOOTER_MIN_FONT,px-4)
+	var width:=maxf(share,widest) if rows==1 else minf(room,widest)
+	for b in buttons:
+		# A fixed two-line label wider than its share gives up its line break and wraps between words instead.
+		if b.autowrap_mode==TextServer.AUTOWRAP_OFF and rows==1 and b.get_minimum_size().x>share:
+			b.text=b.text.replace("\n"," ");b.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;b.custom_minimum_size.x=0
+		b.custom_minimum_size.x=width
+# WP-96: a row of buttons that shares one line (hub links, craft tabs, research tabs) is a flow row. Each button keeps its
+# label on one line at its own width, and the row drops buttons onto a second line when they no longer fit, so no word breaks.
+static func flow_row(parent:Node,gap:int)->HFlowContainer:
+	var row:=HFlowContainer.new();row.add_theme_constant_override("h_separation",gap);row.add_theme_constant_override("v_separation",gap)
+	row.alignment=FlowContainer.ALIGNMENT_CENTER;row.size_flags_horizontal=Control.SIZE_EXPAND_FILL;parent.add_child(row)
+	return row
+static func flow_button(button:Button,touch_h:float)->void:
+	button.autowrap_mode=TextServer.AUTOWRAP_OFF;button.size_flags_horizontal=Control.SIZE_SHRINK_CENTER
+	button.custom_minimum_size.x=touch_h
 # Hub rows are touch targets at the 48dp gate; the 56dp touch height is the roomy default for other screens.
 static func dense_height(touch_h: float) -> float:
 	return maxf(48.,roundf(touch_h*48./56.))
