@@ -37,6 +37,8 @@ func view(game):
 func press_shutter(game):
 	var feed=game.ocean.optical_feed;await view(game)
 	var r:=shutter_rect(feed)
+	# WP-108: tests act as a player who has waited for the SHUTTER to settle; the fresh-shutter case sets its own time.
+	if feed.shutter_since>=0:feed.shutter_since=0
 	await tap(feed.global_position+(r.get_center() if r.has_area() else Vector2(feed.size.x-260,30)))
 func press_ring(game):
 	game.order_buttons.camera.emit_signal("pressed");await settle()
@@ -94,6 +96,12 @@ func shape_case(shape:Vector2i):
 	var cue=game.find_child("FirstSirenCue",true,false)
 	if cue!=null:
 		cue.refresh();check(cue.chip_rect.end.x<=feed.global_position.x+0.5 and cue.note_rect.end.x<=feed.global_position.x+0.5,"the Siren-noticed toast sits left of the camera panel "+stamp)
+	# WP-108: a tap on a SHUTTER that has only just appeared (the panel unfolding under the finger) takes no picture and warns nothing.
+	if Shutter!=null:Shutter.warned={}
+	s.message="";feed.shutter_since=Time.get_ticks_msec()
+	var fresh:Rect2=shutter_rect(feed);var film0:int=Pricing.film_left(s,0);var noises0:int=s.noises.size()
+	await tap(feed.global_position+fresh.get_center())
+	check(idle(s) and s.message=="" and (Shutter==null or Shutter.warned.is_empty()) and Pricing.film_left(s,0)==film0 and s.noises.size()==noises0,"a tap on a just-appeared SHUTTER is swallowed and does nothing "+stamp)
 	# First shutter press: warned, nothing spent.
 	if Shutter!=null:Shutter.warned={}
 	var film:int=Pricing.film_left(s,0);var noises:int=s.noises.size()

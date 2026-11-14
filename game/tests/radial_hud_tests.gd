@@ -94,6 +94,9 @@ func run():
   var drone_a=h.target_choices.find_custom(func(c):return c.kind=="craft" and c.unit==1)
   await click(h.target_buttons[drone_a])
   check(g.sim.selected==1 and g.ocean.chart_camera.mode=="free" and g.ocean.chart_camera.snapshot()==camera,"choosing a craft preserves FREE camera intent")
+  # WP-108: choosing one craft from a stack opens that craft's wheel at its root, named by craft.
+  check(h.page=="craft" and g.advanced_orders and h.target_choices.is_empty() and g.sim.units[1].name in h.caption_texts[0],"choosing a craft from a stack opens its own wheel at the root page")
+  h.open("acoustics");h.dismiss();check(h.page=="craft" and not g.advanced_orders,"a closed wheel forgets its page, so the next craft tap opens the root")
   h.dismiss();g.ocean.fit_chart();await settle();before=g.sim.snapshot()
   var site=g.ocean.observable_sites()[0];await tap(g.ocean.global_position+g.ocean.screen_position(site.pos))
   check(g.advanced_orders and h.page=="object" and g.sim.snapshot()==before,"briefed-object tap opens observational context without remote action")
@@ -139,5 +142,8 @@ func run():
    h.open("craft",{"kind":"craft","unit":g.sim.selected,"pos":g.ocean.map_position(h.size*spot)});await settle()
    var safe=Rect2(Vector2.ZERO,h.size).grow(-margin+.5)
    check(h.ring_buttons.all(func(b):return safe.encloses(b.get_rect())),"outer labels keep the edge margin with the craft at "+str(spot)+" "+name)
+  # WP-108: a greyed PING SONAR states its reason in the wheel centre before any tap, and the reason is not shown twice after one.
+  g.sim.ping_time=2.0;g._refresh();h.open("acoustics");g._refresh();await settle()
+  check(h.caption_texts.any(func(t):return "Sonar recharging" in str(t)),"greyed PING SONAR shows its reason in the wheel centre without a tap")
   h.dismiss();g.queue_free();await settle()
  print("RADIAL HUD CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)
