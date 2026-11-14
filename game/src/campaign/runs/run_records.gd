@@ -80,7 +80,7 @@ const SCARCITY_LINE="%s: %s at the start, short of a supplied run; %s."
 const SUPPLIED_LINE="Supplied: the full loadout stock at the start; %s."
 const SAME_STOCK="the same starting stock as a supplied run"
 const RESUPPLY_SOME="each recovered operation adds %d of one tool"
-const RESUPPLY_NONE="recovered operations add no supplies"
+const RESUPPLY_NONE="a recovered operation adds no supplies of its own, only the next-dive offer can"
 static func scarcity_line(loadout:String,scarcity:int)->String:
 	var full=Table.stock(loadout,0);var have=Table.stock(loadout,scarcity);var short=[]
 	for key in Table.TOOLS:

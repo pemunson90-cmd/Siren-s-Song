@@ -50,7 +50,7 @@ func audit(label:String,open:Callable,expect:String,expect_toast:=false,after_ch
  check(after==expect,"%s: Back from %s lands on %s (wanted %s)"%[label,before,after,expect])
  check(quits==0,label+": one Back never quits")
  check(armed==expect_toast,label+": the exit toast is "+("shown" if expect_toast else "not shown"))
- if after_check.is_valid():after_check.call(game)
+ if after_check.is_valid():await after_check.call(game)
  game.queue_free();await settle()
 func press(game,id):
  for b in game.find_children("*","Button",true,false):
@@ -68,6 +68,19 @@ func run():
  await audit("challenges",func(g):MenuReach.open(g,"challenges");await settle(),"menu")
  await audit("credits",func(g):MenuReach.open(g,"credits");await settle(),"menu")
  await audit("expeditions list",func(g):MenuReach.open(g,"modes");await settle();load("res://src/presentation/runs/modes_frontend.gd").expeditions(g.get_node("Frontend"));await settle(),"Frontend:modes")
+ # WP-105: a list opened from GAME MODES goes back to GAME MODES, whether it was reached from the title or from Operations.
+ await audit("challenges from game modes",func(g):MenuReach.open(g,"modes");await settle();await press(g.get_node("Frontend"),"mode_challenges"),"Frontend:modes")
+ await audit("expeditions from game modes",func(g):MenuReach.open(g,"modes");await settle();await press(g.get_node("Frontend"),"mode_expeditions"),"Frontend:modes")
+ await audit("naval career from game modes",func(g):MenuReach.open(g,"modes");await settle();await press(g.get_node("Frontend"),"mode_career"),"Frontend:modes")
+ # The launch title: Title -> GAME MODES -> CHALLENGES, then Back, lands on GAME MODES and not on the title.
+ await audit("title > game modes > challenges",func(g):g._boot_frontend();await settle();var f=g.get_node("Frontend");f._mode_select();await settle();await press(f,"mode_challenges"),"Frontend:modes")
+ for entry in ["mode_challenges","mode_expeditions","mode_career"]:
+  var g=await fresh();MenuReach.open(g,"modes");await settle()
+  await press(g.get_node("Frontend"),entry)
+  var opened=where(g)
+  var pressed=await press(g,"frontend_back")
+  check(pressed and opened!="Frontend:modes" and where(g)=="Frontend:modes",entry+": the on-screen BACK returns to GAME MODES ("+opened+" -> "+where(g)+")")
+  g.queue_free();await settle()
  await audit("Operations",func(g):await settle(),"menu",true)
  await audit("region card",func(g):g._briefing(0);await settle();preload("res://src/presentation/arcs/arc_card.gd").present(g,preload("res://src/campaign/arcs/arc_table.gd").ARCS[0],false);await settle(),"briefing")
  await audit("briefing",func(g):g._briefing(0);await settle();g.get_node("ArcCard").dismiss();await settle(),"menu")

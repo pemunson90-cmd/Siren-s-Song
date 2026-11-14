@@ -266,3 +266,5 @@ panel_taps_labels_note_ui_tests|PANEL TAPS LABELS NOTE UI|-|2262|render
 dive_time_honesty_ui_tests|DIVE TIME HONESTY UI|-|2263|render
 chart_full_width_ui_tests|CHART FULL WIDTH UI|-|1452|render
 wheel_water_tap_ui_tests|WHEEL WATER TAP UI|-|2264|render
+title_text_size_ui_tests|TITLE TEXT SIZE UI|-|2263|render
+retry_words_ui_tests|RETRY WORDS UI|-|2264|render

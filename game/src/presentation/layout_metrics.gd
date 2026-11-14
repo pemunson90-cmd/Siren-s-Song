@@ -37,8 +37,11 @@ const PREP_COLUMN_MIN=480.
 const PREP_COLUMN_TOUCHES=6.
 const PREP_LONGEST_WORD="RECONNAISSANCE"
 const PREP_WORD_PADDING_TOUCHES=.6
+# The font of a menu button: a share of its touch height and the player's text size, never under 17.
+static func button_font(touch_h: float,text_scale: float) -> int:
+	return maxi(17,roundi(touch_h*.29*text_scale))
 static func column_need(touch_h: float,text_scale: float) -> float:
-	var font_px=maxi(17,roundi(touch_h*.29*text_scale))
+	var font_px=button_font(touch_h,text_scale)
 	var word=ThemeDB.fallback_font.get_string_size(PREP_LONGEST_WORD,HORIZONTAL_ALIGNMENT_LEFT,-1,font_px).x+touch_h*PREP_WORD_PADDING_TOUCHES
 	return maxf(maxf(PREP_COLUMN_MIN,touch_h*PREP_COLUMN_TOUCHES),word)
 static func prep_wide(viewport_size: Vector2,touch_h: float,text_scale: float) -> bool:
@@ -50,7 +53,7 @@ const MENU_READING_CHARS=75.
 const MENU_CHAR_EM=.5
 static func reading_column(viewport_size: Vector2,touch_h: float) -> float:
 	if viewport_size.x<viewport_size.y:return MENU_COLUMN
-	var font_px=maxi(17,roundi(touch_h*.29*Settings.text_scale()))
+	var font_px=button_font(touch_h,Settings.text_scale())
 	return maxf(MENU_COLUMN,MENU_READING_CHARS*MENU_CHAR_EM*font_px+MENU_PANEL_PADDING)
 # Width of one text column inside the menu panel (the whole inner width when not wide).
 static func menu_column_width(viewport_size: Vector2,wide: bool,touch_h: float) -> float:

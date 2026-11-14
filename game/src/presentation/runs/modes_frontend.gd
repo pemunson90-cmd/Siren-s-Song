@@ -10,12 +10,13 @@ const SeedEntry=preload("res://src/presentation/runs/seed_entry.gd")
 const Table=preload("res://src/campaign/runs/run_table.gd")
 static func show(front)->void:
 	front._reset("modes")
+	front.challenges_origin=""
 	front._button("BACK",front._return,"frontend_back")
 	front._text("GAME MODES",32,Color("80d9cf"))
 	var continuing=front.profile in [front.Profile.OK,front.Profile.RECOVERED]
 	var modes=[
 		["CAMPAIGN · CONTINUE" if continuing else "CAMPAIGN",front._continue if continuing else front._new_campaign,"mode_campaign",false,"A continuing photographic reconnaissance campaign with persistent fleet progress."],
-		["CHALLENGES",func():load("res://src/presentation/frontend/challenges_frontend.gd").show(front),"mode_challenges",front.profile==front.Profile.UNREADABLE,"Fixed attempts unlocked by recovered campaign operations."],
+		["CHALLENGES",func():front.challenges_origin="modes";load("res://src/presentation/frontend/challenges_frontend.gd").show(front),"mode_challenges",front.profile==front.Profile.UNREADABLE,"Fixed attempts unlocked by recovered campaign operations."],
 		["EXPEDITIONS",func():expeditions(front),"mode_expeditions",not Table.enabled,"Seeded runs of 3 to 6 operations. Finite tools carry forward. One loss ends the run."],
 		["NAVAL CAREER",func():load("res://src/presentation/career/career_frontend.gd").show(front),"mode_career",false,"Regional reconnaissance contracts, faction standing and fleet development."]]
 	# Wide: each mode is a card (its button and its line) in a grid of two columns. Narrow: the stacked list as ever.
@@ -59,7 +60,7 @@ static func history(front)->void:
 	if records.last.is_empty():front._text("No finished runs recorded yet.",16)
 	for i in records.last.size():
 		var row:Dictionary=records.last[i]
-		front._button("SEED %d / %s / %d OF %d CLEARED"%[row.seed,row.status.to_upper(),row.depth,row.total],func():record_detail(front,row),"run_record_%d"%i)
+		front._button("SEED %d / %s / %d OF %d RECOVERED"%[row.seed,row.status.to_upper(),row.depth,row.total],func():record_detail(front,row),"run_record_%d"%i)
 static func record_detail(front,row:Dictionary)->void:
 	Summary.detail(front,row,func():expeditions(front),func():seed_screen(front,row.seed))
 static func seed_screen(front,seed_value:int)->void:

@@ -159,7 +159,7 @@ func run():
 				var name=Tools.spec(key).name
 				var expected="no %s"%name if held[key]==0 else "%d %s"%[held[key],name]
 				check((held[key]<full[key])==line.contains(expected),"line names short tool "+key+loadout+str(level))
-		check(Records.scarcity_line(loadout,2).contains("recovered operations add no supplies"),"scarce run restocks nothing")
+		check(Records.scarcity_line(loadout,2).contains("adds no supplies of its own"),"scarce run restocks nothing")
 	check(Seed.setup_context(State.new_run(7)).contains(Records.scarcity_line(State.new_run(7).loadout,State.new_run(7).scarcity)),"seed screen states what the supplies mean")
 	var hunt_row=Records.summary(completed(7));var ceiling=Records.hunt_ceiling(hunt_row.hunt_stage)
 	check(ceiling.contains(Names.HUNT_STAGES[hunt_row.hunt_stage]) and Records.modifiers(hunt_row).contains(ceiling.to_upper()) and Records.HUNT_CEILING_NOTE.contains("at most"),"run record words the Hunt as a ceiling with its stage name")
