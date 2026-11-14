@@ -7,6 +7,10 @@ func texts(game):
  var text=""
  for label in game.panel_box.find_children("*","Label",true,false):text+=label.text+"\n"
  return text
+func label_with(game,text):
+ for label in game.panel_box.find_children("*","Label",true,false):
+  if label.text.begins_with(text):return label
+ return null
 func shape_case(shape):
  root.size=shape;await settle()
  var game=load("res://scenes/main.tscn").instantiate();game.set_script(load("res://tests/density_main.gd"));game.capture_scenario="runtime-test"
@@ -34,6 +38,16 @@ func shape_case(shape):
  check(text.contains("STILL TO PHOTOGRAPH") and text.contains("not yet photographed"),"the archive shows an empty slot for each operation still to photograph")
  var slots=load("res://src/presentation/archive/archive_view.gd").empty_slot_ops(game,game._campaign_completed())
  check(not slots.is_empty() and 3 not in slots,"a photographed operation has no empty slot")
+ # A wide screen reads FIELD RECORDS in two columns: ledger and still-to-photograph on the left, photographs and field log on the right.
+ var PrepColumns=load("res://src/presentation/prep_columns.gd")
+ var wide:bool=PrepColumns.wide(game)
+ check(wide,"the cover and inner screens count as wide")
+ check(PrepColumns.is_wide(game)==wide,"FIELD RECORDS has two columns exactly when the screen is wide "+str(shape))
+ var ledger_label=label_with(game,"CAMPAIGN LEDGER");var slots_label=label_with(game,"STILL TO PHOTOGRAPH");var log_label=label_with(game,"FIELD LOG");var region_label=label_with(game,"SHELF ·")
+ check(ledger_label!=null and slots_label!=null and log_label!=null and region_label!=null,"the ledger, slots, regions and field log are all listed")
+ if wide and ledger_label!=null and slots_label!=null and log_label!=null and region_label!=null:
+  check(ledger_label.get_parent()==slots_label.get_parent() and log_label.get_parent()==region_label.get_parent() and ledger_label.get_parent()!=log_label.get_parent(),"ledger and slots share the left column, photographs and log the right")
+  check(log_label.get_global_rect().position.x>=ledger_label.get_global_rect().end.x-1.,"the right column lies beside the left, not under it")
  var dossier_button=button(game,"siren_dossier")
  check(dossier_button!=null and dossier_button.size.y>=game.ui_touch_height,"archive offers a full-height Siren dossier entry")
  await press(game,"siren_dossier")

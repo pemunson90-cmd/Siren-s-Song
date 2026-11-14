@@ -8,6 +8,7 @@ const Settings=preload("res://src/presentation/frontend/frontend_settings.gd")
 const View=preload("res://src/presentation/route_map/route_map_view.gd")
 const LATE={"version":2,"route":"deep","routes":["deep"],"facts":{"deep":"Recovered branch account","confluence_route":"concealed","glass_choice":"service","choir_choice":"bypass","choir_people":"landed","choir_plant":"reconnect"},"completed":[6,7,9,11,12,14,15,16,17,18,19,22,23,24,25,30,31,32,33,34],"notes":{},"references":{},"entitlements":[],"history":[],"selected_thread":"deep"}
 var case_label=""
+var label_fonts:Dictionary={}
 func check(ok,label):super.check(ok,label+" "+case_label)
 func open_map(game):
  View.open(game);await settle();await settle()
@@ -50,6 +51,14 @@ func judge(view,known_arcs):
    view._select(row.id)
    check(view.detail.text==Table.DETAIL.not_charted%arc.name and view.detail.text.begins_with(arc.name+":"),"a mark names its region when tapped: "+view.detail.text)
    break
+ # The drawn buttons (not just their boxes) never overlap each other, and no region name lies under one.
+ var drawn=[]
+ for id in view.buttons:drawn.append([id,Rect2(view.buttons[id].position,view.buttons[id].size)])
+ for index in drawn.size():
+  for other in range(index+1,drawn.size()):
+   check(not drawn[index][1].intersects(drawn[other][1]),"nodes %d and %d do not overlap %s %s"%[drawn[index][0],drawn[other][0],drawn[index][1],drawn[other][1]])
+ for region in board.regions:
+  for item in drawn:check(not region.rect.intersects(item[1]),"region name "+region.text+" is not under node %d"%item[0])
  for row in view.graph.nodes:
   var button=view.buttons[row.id]
   var look:bool=button.get_meta("look_only",false)
@@ -71,7 +80,23 @@ func overview(view,shape):
  check(view.zoom==view.zoom_floor and view.zoom_floor<Table.VIEW.zoom_start,"the chart zooms out below the opening zoom "+str(view.zoom))
  check(view.board.size.x<=view.chart.size.x+.5 and view.board.size.y<=view.chart.size.y+.5,"the whole board fits the chart "+str([view.board.size,view.chart.size,view.zoom,view.zoom_floor,view.size]))
  check(view.chart.get_h_scroll_bar().max_value<=view.chart.size.x+.5 or not view.chart.get_h_scroll_bar().visible,"no sideways scrolling at the overview")
+ check(view.board.size.y>=view.chart.size.y*.9,"the overview uses the chart's height "+str([view.board.size,view.chart.size]))
  view.call("_focus_current");await settle()
+# A tap on a region (its name or its area) at the overview zooms in centred on that region, whichever region it is.
+func region_tap(view):
+ for index in [3,0,5]:
+  var name:String=Arcs.ARCS[index].name
+  for step in 12:view._zoom(-1)
+  await settle();await settle()
+  var region=view.board.regions.filter(func(candidate):return candidate.text==name)[0]
+  check(view.tap_board(region.rect.get_center()),"a tap on the name "+name+" is taken")
+  await settle();await settle()
+  var fresh=view.board.regions.filter(func(candidate):return candidate.text==name)[0]
+  var visible:Rect2=Rect2(Vector2(view.chart.scroll_horizontal,view.chart.scroll_vertical),view.chart.size)
+  check(view.zoom>=Table.OVERVIEW.look_zoom and visible.has_point(fresh.area.get_center()),"the tap on "+name+" zooms in with that region in view "+str([visible,fresh.area]))
+  var wanted:Vector2=fresh.area.get_center()-view.chart.size*.5
+  var reachable:bool=wanted.x>=0. and wanted.y>=0. and wanted.x<=view.board.size.x-view.chart.size.x and wanted.y<=view.board.size.y-view.chart.size.y
+  check(not reachable or visible.get_center().distance_to(fresh.area.get_center())<=2.,"the tap on "+name+" centres that region "+str([visible.get_center(),fresh.area.get_center()]))
 func look_tap(view):
  var spots=view.buttons.values().filter(func(button):return button.get_meta("look_only",false))
  var look_at=Table.OVERVIEW.look_zoom
@@ -103,6 +128,10 @@ func map_case(shape,scale):
   check(fixture!="late" or known.size()==6,"a late profile names every region")
   check(view.board.regions.size()==Arcs.ARCS.size(),"every region has an area even when it is not yet known")
   judge(view,known)
+  # Node labels at the opening zoom follow the text size setting.
+  var label_font:int=view.buttons[0].get_theme_font_size("font_size")
+  if scale==1.:label_fonts[[shape,fixture]]=label_font
+  elif label_fonts.has([shape,fixture]):check(label_font>label_fonts[[shape,fixture]],"node labels grow with the text size setting %d > %d"%[label_font,label_fonts[[shape,fixture]]])
   if fixture=="late":
    for step in 4:view._zoom(1)
    await settle();await settle()
@@ -111,6 +140,9 @@ func map_case(shape,scale):
   await overview(view,shape)
   case_label=str([shape,scale,fixture,"overview"])
   judge(view,known)
+  await region_tap(view)
+  for step in 12:view._zoom(-1)
+  await settle();await settle()
   await look_tap(view)
   await view._back();await settle()
  game.queue_free();await settle();Settings.current["text_scale"]=prior
