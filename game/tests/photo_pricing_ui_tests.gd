@@ -12,9 +12,9 @@ func _initialize():call_deferred("run")
 func settle():
 	for n in 4:await process_frame
 func labels(node)->String:
+	# Every label under the panel: in two columns (WP-72) the briefing's labels sit one level down.
 	var shown=""
-	for c in node.get_children():
-		if c is Label:shown+=c.text+"\n"
+	for c in node.find_children("*","Label",true,false):shown+=c.text+"\n"
 	return shown
 func run():
 	root.size=Vector2i(1280,720);await process_frame;await process_frame

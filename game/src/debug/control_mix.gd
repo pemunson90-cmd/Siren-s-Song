@@ -4,13 +4,14 @@ extends RefCounted
 # planned legs, emergency, recall. Progress is the arc length of the craft's
 # closest point on that path, so arrival, ALL STOP, crash or a replacing order
 # all credit what was actually covered. Lives in sim metadata, never in a save.
-# A "route" order is one-press when its args carry a TRAVEL key other than the
-# release placed-leg keys (presentation/release_controls.gd TRAVEL_SHORTCUTS).
+# A "route" order is one-press when its args carry a dev-only TRAVEL key
+# (presentation/release_controls.gd TRAVEL_SHORTCUTS); release rows count as planned.
 # Each path segment keeps the kind of the order that plotted it, so a queued leg
 # never relabels the untraveled remainder of an earlier route.
 # Reads nothing back into the simulation. Revert: drop the Route.command hooks.
 const KINDS=["one_press","planned","emergency","recall"]
-const PLACED_LEGS=["","water_leg","water_leg_confirm"]
+# Release rows (not dev_only) count as planned: the placed legs, and STOP EXPOSURE, which holds the craft where it is.
+const Release=preload("res://src/presentation/release_controls.gd")
 const META="control_mix"
 
 static func on(sim)->bool:
@@ -18,7 +19,9 @@ static func on(sim)->bool:
 
 static func kind(order:String,args:Dictionary)->String:
  match order:
-  "route":return "planned" if str(args.get("travel","")) in PLACED_LEGS else "one_press"
+  "route":
+   var key:=str(args.get("travel",""))
+   return "planned" if key.is_empty() or not Release.TRAVEL_SHORTCUTS.get(key,{}).get("dev_only",true) else "one_press"
   "emergency":return "emergency"
   "recall","recall_all":return "recall"
  return ""

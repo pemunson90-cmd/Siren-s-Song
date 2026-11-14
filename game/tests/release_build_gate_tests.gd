@@ -23,7 +23,8 @@ func host(marked:bool)->Node:
 
 func run():
  check(dev_keys().size()==6,"six dev-only travel rows: "+str(dev_keys()))
- check(release_keys()==["water_leg","water_leg_confirm"],"two release travel rows: "+str(release_keys()))
+ # The two placed legs, and STOP EXPOSURE (row 103), which holds the craft at its own spot and travels nowhere.
+ check(release_keys()==["water_leg","water_leg_confirm","stop_exposure"],"three release rows: "+str(release_keys()))
  var marked=host(true);var plain=host(false)
 
  # Default seam follows the running build; the headless runner is a debug build.
