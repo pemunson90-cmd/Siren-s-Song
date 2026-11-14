@@ -281,6 +281,13 @@ static func progress_text(sim,uid:int,o:Dictionary)->String:
 	if f.pivot>0.0:return "TURNING onto subject · %d° off"%roundi(rad_to_deg(f.pivot))
 	return "SHARP %d%% · LIGHT %d%% · CLARITY %d%%"%[roundi(f.sharp*100),roundi(f.light*100),roundi(f.clarity*100)]
 # Resolves the exposure: appends a structured observation and updates the objective.
+# The one filing rule for a frame: whether it is usable, and its quality. finish() files with it and the SHUTTER
+# forecast (photo_grade/frame_forecast.gd) predicts with it, so the two cannot drift apart.
+static func frame_usable(required:Array,seen:Array,mode:String,focus:String)->bool:
+	var usable:bool=required.all(func(id):return id in seen) if not required.is_empty() else not seen.is_empty()
+	return usable or (mode=="tight" and focus in seen)
+static func frame_quality(usable:bool,sharp:float,coverage:float)->float:
+	return clampf(sharp*0.55+minf(1.0,coverage)*0.45,0.0,1.0) if usable else clampf(sharp*0.3,0.0,0.4)
 static func finish(sim,uid:int,o:Dictionary)->Dictionary:
 	var st=state(sim);var acc:Dictionary=st.acc.get(uid,{});var oi=index_of(sim,o)
 	var f=frame(sim,uid,o,float(acc.get("t",0.0)),true)
@@ -295,15 +302,13 @@ static func finish(sim,uid:int,o:Dictionary)->Dictionary:
 			marks.append({"id":r.id,"x":snappedf(r.x,0.01),"q":fq[r.id],"label":r.label,"art":r.art,"y":snappedf(r.y,0.01)})
 		elif r.apparent:
 			marks.append({"id":r.id,"x":snappedf(r.x,0.01),"q":0.0,"label":"","art":"","y":snappedf(r.y,0.01)})
-	var required:Array=s.get("required",[])
-	var usable:bool=required.all(func(id):return id in seen) if not required.is_empty() else not seen.is_empty()
-	if f.mode=="tight" and str(f.focus) in seen:usable=true
+	var usable:bool=frame_usable(s.get("required",[]),seen,str(f.mode),str(f.focus))
 	var mean_sharp:float=float(acc.get("sharp",0.0))/maxf(float(acc.get("t",0.0)),0.001)
 	var total:float=float(s.features.size())
 	var gained:float=0.0
 	for id in seen:gained+=float(fq[id])
 	var coverage:float=gained/maxf(1.0,1.0 if f.mode=="tight" else total)
-	var quality:float=clampf(mean_sharp*0.55+minf(1.0,coverage)*0.45,0.0,1.0) if usable else clampf(mean_sharp*0.3,0.0,0.4)
+	var quality:float=frame_quality(usable,mean_sharp,coverage)
 	var shot={"id":int(st.next),"op":int(sim.mission.id),"obj":oi,"key":str(o.get("optical",o.get("site_id",oi))),"name":label(o),"unit":uid,"craft":str(f.craft),"pos":[snappedf(f.pos.x,0.1),snappedf(f.pos.y,0.1)],"heading":snappedf(f.heading,0.01),"dist":snappedf(f.dist,0.1),"aspect":snappedf(f.aspect,0.01),"mode":f.mode,"flash":f.flash,"q":snappedf(quality,0.01),"sharp":snappedf(mean_sharp,0.01),"light":snappedf(f.light,0.01),"clarity":snappedf(f.clarity,0.01),"shimmer":snappedf(f.shimmer,0.01),"features":seen,"fq":fq,"intel":intel,"usable":usable,"time":snappedf(sim.elapsed,0.1),"frame":{"fov":snappedf(f.fov,0.01),"aim":snappedf(f.aim,0.01),"cols":f.cols,"marks":marks,"size":s.get("size",70.0),"dist":snappedf(f.dist,1.0),"facing":snappedf(f.facing,0.01),"aspect":snappedf(f.aspect,0.01),"bearing":snappedf(f.bearing,0.01),"glow":snappedf(f.glow,0.01),"seed":int(st.next)*7919%1000,"kind":"siren" if o.has("siren") else "site","depth":snappedf(f.depth,0.01),"thermal":f.thermal}}
 	if o.has("siren"):
 		shot["path"]=acc.get("path",[]);shot["siren"]=int(o.siren);shot["type"]=str(sim.sirens[o.siren].get("type",Names.ROLE_PATROLLER));shot["mode_seen"]=str(sim.sirens[o.siren].get("mode",""))

@@ -1,13 +1,13 @@
 extends RefCounted
 # FRAME FORECAST: what the frame the viewfinder shows right now would file as, and what
-# would raise it. Presentation only. It reads one Photo.frame() result and repeats the
-# weights Photo.finish() uses for a single frame (sharpness .55, subject covered .45),
-# so a still craft that exposes now files the quality shown here. It ignores dwell time
+# would raise it. Presentation only. It reads one Photo.frame() result and applies the
+# filing rule Photo.finish() uses (photo_capture.gd frame_usable / frame_quality), so a
+# still craft that exposes now files the quality shown here. It ignores dwell time
 # (the exposure normally outlasts it), low-light integration that builds during the
 # exposure, and any earlier frame of the same record (a record keeps its best).
 # REVERT: GradeOnSecure.enabled=false hides both uses; nothing is saved or ruled here.
 const Grade=preload("res://src/photo_grade/grade_on_secure.gd")
-const WEIGHTS:={"sharp":0.55,"coverage":0.45,"unusable":0.3,"unusable_cap":0.4}
+const Photo=preload("res://src/simulation/photo_capture.gd")
 # Hints with no " · " tail of their own in the viewfinder row reason.
 const HINTS:={"HIDDEN":"go round to the lit side","CROPPED":"centre the subject","WAITING":"wait for its cycle","OUT OF FOCUS":"press FOCUS to choose it"}
 # The sharpness hint the viewfinder prints ("TOO SOFT · closer, lit or still").
@@ -19,13 +19,10 @@ static func forecast(frame:Dictionary,o:Dictionary)->Dictionary:
 	var seen:Array=[];var gained:=0.0
 	for r in rows:
 		if r.ready and float(r.q)>0.0:seen.append(r.id);gained+=float(r.q)
-	var required:Array=o.get("subject",{}).get("required",[])
-	var usable:bool=required.all(func(id):return id in seen) if not required.is_empty() else not seen.is_empty()
 	var tight:bool=str(frame.get("mode","wide"))=="tight"
-	if tight and str(frame.get("focus","")) in seen:usable=true
-	var sharp:float=float(frame.get("sharp",0.0))
+	var usable:bool=Photo.frame_usable(o.get("subject",{}).get("required",[]),seen,str(frame.get("mode","wide")),str(frame.get("focus","")))
 	var coverage:float=gained/maxf(1.0,1.0 if tight else float(rows.size()))
-	var q:float=clampf(sharp*float(WEIGHTS.sharp)+minf(1.0,coverage)*float(WEIGHTS.coverage),0.0,1.0) if usable else clampf(sharp*float(WEIGHTS.unusable),0.0,float(WEIGHTS.unusable_cap))
+	var q:float=Photo.frame_quality(usable,float(frame.get("sharp",0.0)),coverage)
 	return {"usable":usable,"q":q,"grade":Grade.letter(q)}
 
 # What a better frame needs, from the same row reasons the viewfinder status uses.
