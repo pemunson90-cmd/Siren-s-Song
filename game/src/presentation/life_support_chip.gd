@@ -4,14 +4,14 @@ extends RefCounted
 # plate shown while paused, for 3 s after selection or below 25 percent, so a
 # player under way could lose track of the limit.
 #
-# The reading is the second line of the running pause control ("Ⅱ PAUSE" over
+# The reading is the second line of the running pause control ("|| PAUSE" over
 # "O₂ 87% ~3:10"). The control keeps its two lines, its place and its size, so
 # no panel, chip, ring or list moves. A first version drew a separate chip
 # under the pause control; that took a strip of the header lane and broke the
 # rendezvous, knockdown, sonar history and Hunt help layouts on small screens
 # (full matrix run 43229665195), so it was replaced. The paused control keeps
-# its place and size while paused too (WP-36, visual review C3). WP-48: the control now names the state first
-# ("PAUSED" / "RUNNING"), then the tap ("TAP TO RESUME · O₂ ~3:10"), see _plate_lines; a thin gauge along its inside bottom edge shows the
+# its place and size while paused too (WP-36, visual review C3). WP-48: WP-94: the control's first line is always the tap's action
+# ("▶ RUN" while stopped, "|| PAUSE" while time runs), then the state and the reading ("PAUSED · O₂ ~3:10"), see _plate_lines; a thin gauge along its inside bottom edge shows the
 # life support left (accent, amber below 50 percent, red below 25) so the limit never leaves
 # the screen. The gauge is a draw layer inside the pause control, not a panel or chip, so it
 # takes no space and no tap.
@@ -20,7 +20,7 @@ extends RefCounted
 # oxygen, drain rates or any rule.
 # Seam: MissionHud.refresh() calls sync(hud) after it sets the pause text and
 # before it fits the pause control.
-# Revert: set ENABLED=false (the control reads "Ⅱ / PAUSE" as before).
+# Revert: set ENABLED=false (the control reads "|| / PAUSE" as before).
 const Endurance=preload("res://src/simulation/operation_endurance.gd")
 const ENABLED=true
 const CRITICAL=25.
@@ -42,21 +42,23 @@ static func clock(sim)->String:
 static func forms(sim)->Array:
  var percent=roundi(float(sim.oxygen))
  return ["O₂ %d%% %s"%[percent,clock(sim)],"O₂ %s"%clock(sim),"O₂ %d%%"%percent]
-# WP-48: the plate reads state, then action, then oxygen. Candidates run from the fullest wording to the
-# state and oxygen alone; each is tried at the layout's text size, then smaller down to MIN_SHRINK of it, and
-# the first whose every line fits the plate's width and height is used. Sets the font size it chose.
-const MIN_SHRINK=.7
+# WP-48/WP-94: candidates run from the fullest wording to the action alone; each is tried at the layout's text
+# size and the first whose every line fits the plate's width and height is used.
 static func _plate_lines(hud,b:Button,first:String,action:String,readings:Array)->Array:
+ # WP-94: the first line is always the action a tap performs ("▶ RUN" / "|| PAUSE"); only the lines under it give way.
+ # The state and the oxygen reading share the second line when they fit, then three lines. The plate keeps its
+ # size in every state, so when those do not fit the reading stays and the action already implies PAUSED or RUNNING
+ # (and the plate's fill shows it); HELD, which the action cannot imply, keeps its word instead of the reading.
  var candidates=[]
- for reading in readings:candidates.append([first,action+Words.TEXT.join+reading])
- # Next the state word over the oxygen reading: two clear lines read better on a phone than three small ones,
- # and the plate is drawn as a button, so the tap needs no words when they do not fit.
- for reading in readings:candidates.append([first,reading])
- for reading in readings:candidates.append([first,action,reading])
+ for reading in readings:candidates.append([action,first+Words.TEXT.join+reading])
+ for reading in readings:candidates.append([action,first,reading])
+ if first==Words.TEXT.held:candidates.append([action,first])
+ for reading in readings:candidates.append([action,reading])
+ candidates.append([action,first])
  var base=maxi(14,roundi(hud.touch_height*.26*hud.text_scale))
  var font=b.get_theme_font("font");var margin=b.get_theme_stylebox("normal").get_minimum_size()
- # The plate's text never drops below the layout's text size (the 14 dp reading minimum): it starts at the
- # layout's own width and, when no wording fits, grows in width on its own outer-edge side instead.
+ # The plate's text never drops below the layout's text size (the 14 dp reading minimum) and its width stays the
+ # layout's own, the same in every state.
  var home:float=hud.touch_height*1.55*hud.text_scale
  var mirrored:bool=b.position.x>hud.size.x/2.
  var edge:float=b.position.x+b.size.x
@@ -64,19 +66,10 @@ static func _plate_lines(hud,b:Button,first:String,action:String,readings:Array)
  if mirrored:b.position.x=edge-home
  b.add_theme_font_size_override("font_size",base)
  var height=b.size.y-margin.y
- var cap:float=maxf(home,hud.size.x*.4)
  for lines in candidates:
   var wide:float=lines.map(func(line):return font.get_string_size(line,HORIZONTAL_ALIGNMENT_LEFT,-1,base).x).max()
   if font.get_height(base)*lines.size()<=height and wide<=home-margin.x:return lines
- # Nothing fits the home width: the state word over the fullest oxygen reading that fits the cap, on a wider plate.
- for reading in readings:
-  var lines=[first,reading]
-  var need:float=lines.map(func(line):return font.get_string_size(line,HORIZONTAL_ALIGNMENT_LEFT,-1,base).x).max()+margin.x+8.
-  if need<=cap:
-   b.size.x=maxf(home,need)
-   if mirrored:b.position.x=edge-b.size.x
-   return lines
- return [first,readings.back()]
+ return [action,first]
 static func active(hud)->bool:
  return ENABLED and hud.host.screen=="mission" and not hud.host.sim.mission.is_empty() and hud.host.pause_button.visible
 static func sync(hud)->void:
@@ -86,7 +79,7 @@ static func sync(hud)->void:
  if on:
   var sim=hud.host.sim
   var held=sim.paused or hud.host._time_held()
-  var lines=_plate_lines(hud,b,Words.plate_state(sim.paused,held),Words.plate_action(sim,hud.host._order_dialog_open(),hud.host._menu_holds_time()),forms(sim))
+  var lines=_plate_lines(hud,b,Words.plate_state(sim.paused,held),Words.plate_action(sim),forms(sim))
   if not lines.is_empty():
    # Amber text only on the running plate; the paused plate is accent-filled, where the gauge carries the warning.
    b.text="\n".join(lines);amber=not held and float(sim.oxygen)<=CRITICAL

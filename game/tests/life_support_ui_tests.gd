@@ -50,7 +50,7 @@ func shape_case(shape:Vector2i,mirrored:bool,scale:float):
 	var paused_lines=pause.text.split("
 ")
 	# WP-48: the paused control names the state, then the tap, then the reading (two or three lines, the plate's size unchanged).
-	check(paused_lines.size() in [2,3] and paused_lines[0]=="PAUSED" and "O₂" in paused_lines[-1],"the paused control states PAUSED and carries life support "+stamp+" "+str(paused_lines))
+	check(paused_lines.size() in [2,3] and paused_lines[0]=="▶ RUN" and "O₂" in paused_lines[-1],"the paused control says RUN (what a tap does) and carries life support "+stamp+" "+str(paused_lines))
 	check(pause.get_node_or_null(Chip.GAUGE)!=null and pause.get_node(Chip.GAUGE).visible and pause.get_node(Chip.GAUGE).mouse_filter==Control.MOUSE_FILTER_IGNORE,"a life support gauge lies inside the pause control and takes no tap "+stamp)
 	check(Chip.gauge_color(.8)==preload("res://src/presentation/ui_style.gd").ACCENT and Chip.gauge_color(.4)==preload("res://src/presentation/ui_style.gd").WARNING and Chip.gauge_color(.2)==preload("res://src/presentation/ui_style.gd").DANGER_RED,"the gauge is accent, amber below 50 percent and red below 25 "+stamp)
 	var paused_rect=pause.get_rect()
@@ -60,7 +60,7 @@ func shape_case(shape:Vector2i,mirrored:bool,scale:float):
 	game._refresh();await settle()
 	var lines=pause.text.split("
 ")
-	check(lines.size() in [2,3] and lines[0]=="RUNNING" and "O₂" in lines[-1],"the running pause control states RUNNING and carries life support "+stamp+" "+str(lines))
+	check(lines.size() in [2,3] and lines[0]=="|| PAUSE" and "O₂" in lines[-1],"the running pause control says PAUSE (what a tap does) and carries life support "+stamp+" "+str(lines))
 	if lines.size() not in [2,3]:game.queue_free();await settle();return
 	var reading=pause.text.substr(pause.text.find("O₂"))
 	check(pause.get_theme_font_size("font_size")>=10 and pause.get_theme_font("font").get_multiline_string_size(pause.text,HORIZONTAL_ALIGNMENT_LEFT,-1,pause.get_theme_font_size("font_size")).x<=pause.size.x,"both plate texts fit inside the plate "+stamp)
@@ -83,12 +83,13 @@ func shape_case(shape:Vector2i,mirrored:bool,scale:float):
 	check(not pause.has_meta(Chip.META) and pause.get_theme_color("font_color")!=Chip.AMBER and pause.get_theme_color("font_color")==preload("res://src/presentation/ui_style.gd").QUIET_TEXT,"the amber state clears, and the plate's own role colour returns above 25 percent "+stamp)
 	# A command ring open while running: the reading stays.
 	hud.open("craft",{"kind":"craft","unit":0,"pos":s.units[0].pos});await settle();game._refresh();await settle()
-	if not s.paused:check("O₂" in pause.text,"life support stays on screen with the command ring open "+stamp)
-	else:check(pause.text.begins_with("PAUSED"),"a ring that pauses the dive shows the paused control "+stamp)
+	# A ring holds time: the plate then says HELD (WP-94 keeps that word over the reading on a narrow plate; the gauge stays).
+	if not s.paused:check("O₂" in pause.text or "HELD" in pause.text,"life support or HELD stays on the plate with the command ring open "+stamp)
+	else:check(pause.text.begins_with("▶ RUN"),"a ring that pauses the dive shows the paused control "+stamp)
 	check(not controls(game).any(func(r):return r!=pause.get_rect() and r.intersects(pause.get_rect())),"ring controls clear the pause control "+stamp)
 	hud.dismiss();await settle()
 	s.paused=true;game._refresh();await settle()
-	check(pause.text.begins_with("PAUSED\n") and "O₂" in pause.text and not pause.has_meta(Chip.META),"pausing restores the paused text, with the reading, and no amber "+stamp)
+	check(pause.text.begins_with("▶ RUN\n") and "O₂" in pause.text and not pause.has_meta(Chip.META),"pausing restores the paused text, with the reading, and no amber "+stamp)
 	game.queue_free();await settle()
 func briefing_case():
 	root.size=Vector2i(2520,1080);await settle()

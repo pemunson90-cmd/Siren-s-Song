@@ -5,6 +5,7 @@ extends SceneTree
 const Settings=preload("res://src/presentation/frontend/frontend_settings.gd")
 const Words=preload("res://src/presentation/hud_words.gd")
 const TrialRules=preload("res://src/trial_rules.gd")
+const LifeChip=preload("res://src/presentation/life_support_chip.gd")
 const Pricing=preload("res://src/simulation/photo_pricing/photo_pricing_table.gd")
 const CraftUpgrades=preload("res://src/equipment/craft_upgrades.gd")
 var checks=0
@@ -52,8 +53,14 @@ func plate_case(shape:Vector2i,scale:float):
 	for paused in [true,false]:
 		game.sim.paused=paused;game._refresh();await settle()
 		var lines=pause.text.split("\n")
-		check(lines[0]==("PAUSED" if paused else "RUNNING"),"the plate names the state first "+stamp+" "+str(lines))
-		check(lines.size() in [2,3] and "O₂" in lines[-1],"the plate keeps the oxygen reading under the state "+stamp+" "+str(lines))
+		# WP-94: with the life-support reading active the first line is still the action a tap performs.
+		check(LifeChip.active(game.mission_hud),"the life-support reading is active "+stamp)
+		check(lines[0]==(Words.TEXT.act_run if paused else Words.TEXT.act_pause),"the plate's first line is the tap's action "+stamp+" "+str(lines))
+		check(lines.size() in [2,3] and "O₂" in lines[-1],"the plate keeps the oxygen reading under the action "+stamp+" "+str(lines))
+		# The state word shares the second line when the plate is wide enough; otherwise the action implies it and the fill shows it.
+		check(lines[1].begins_with(Words.plate_state(paused)) or pause.get_meta("ui_role","")==("MAIN" if paused else "QUIET"),"the plate shows the state in words or in its fill "+stamp+" "+str(lines))
+		# The font lacks "▸" and "Ⅱ"; the pause mark is two bars the font has, the play mark is the one the RESUME button already uses.
+		check(not pause.text.contains("▸") and not pause.text.contains("Ⅱ") and pause.get_theme_font("font").has_char("|".unicode_at(0)),"the plate uses only marks the game already shows "+stamp)
 		var size=pause.get_theme_font_size("font_size")
 		var inner=pause.get_theme_font("font").get_multiline_string_size(pause.text,HORIZONTAL_ALIGNMENT_LEFT,-1,size)
 		check(inner.x<=pause.size.x-pause.get_theme_stylebox("normal").get_minimum_size().x+0.5 and inner.y<=pause.size.y,"both lines fit inside the plate "+stamp+" "+str(inner)+" in "+str(pause.size))
@@ -396,7 +403,7 @@ func route_end_case():
 	dialog.sim.paused=false;dialog._refresh()
 	dialog.mission_hud.guard.pending={"unit":0,"point":dialog.sim.units[0].pos+Vector2(80,0)};dialog._refresh();dialog._refresh();await settle()
 	# Running before the dialog: the dialog only holds time (CANCEL lets it run again), so the plate reads HELD.
-	check(dialog.pause_button.text.begins_with(Words.TEXT.held) and Words.TEXT.held_route in dialog.mission_hud.intent.text,"a route dialog over a running dive shows HELD and why: "+dialog.pause_button.text+" / "+dialog.mission_hud.intent.text)
+	check(dialog.pause_button.text.contains(Words.TEXT.held) and Words.TEXT.held_route in dialog.mission_hud.intent.text,"a route dialog over a running dive shows HELD and why: "+dialog.pause_button.text+" / "+dialog.mission_hud.intent.text)
 	dialog.sim.paused=true;dialog._refresh();dialog._refresh();await settle()
-	check(dialog.pause_button.text.begins_with(Words.TEXT.paused) and "choose what to do with the route" in dialog.mission_hud.intent.text,"a route dialog over a paused dive shows PAUSED and why: "+dialog.pause_button.text+" / "+dialog.mission_hud.intent.text)
+	check(dialog.pause_button.text.begins_with(Words.TEXT.act_run) and not dialog.pause_button.text.contains(Words.TEXT.held) and "choose what to do with the route" in dialog.mission_hud.intent.text,"a route dialog over a paused dive offers RUN (not HELD) and says why: "+dialog.pause_button.text+" / "+dialog.mission_hud.intent.text)
 	dialog.queue_free();await settle()
