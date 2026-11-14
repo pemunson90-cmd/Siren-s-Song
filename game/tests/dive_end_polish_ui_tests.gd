@@ -7,7 +7,9 @@ const Flow=preload("res://src/presentation/flow/campaign_flow.gd")
 const Journey=preload("res://tests/calder_trench_journey_tests.gd")
 const Photo=preload("res://src/simulation/photo_capture.gd")
 const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
-const LINE="Dive time 02:05  /  Hull 63%  /  Life support 41%"
+const Chip=preload("res://src/presentation/oxygen_reading.gd")
+# WP-97: life support reads as the pause plate does: percent of full (never over 100) and time left.
+func line(s)->String:return "Dive time 02:05  /  Hull 63%%  /  Life support %s"%Chip.text(s)
 class ManifestSim:
  extends "res://src/simulation/simulation.gd"
  var mouth_pos=Vector2(300,800)
@@ -39,7 +41,7 @@ func texts(game)->String:
  for l in game.menu.find_children("*","Label",true,false):all.append(l.text)
  return "\n".join(all)
 func stat_lines(node)->Array:
- var re=RegEx.new();re.compile("Dive time \\d\\d:\\d\\d\\s*/\\s*Hull \\d+%\\s*/\\s*Life support \\d+%")
+ var re=RegEx.new();re.compile("Dive time \\d\\d:\\d\\d\\s*/\\s*Hull \\d+%\\s*/\\s*Life support \\d+% (~\\d+:\\d\\d|--:--)")
  return node.find_children("*","Label",true,false).filter(func(l):return l.is_visible_in_tree() and re.search(l.text)!=null).map(func(l):return l.text)
 func stage(game,quietus_out:bool):
  var s=game.sim
@@ -88,8 +90,8 @@ func arc_case():
  if card!=null:
   var found=stat_lines(card)
   check(found.size()==1,"Confluence card: exactly one stats line (found %d)"%found.size())
-  if found.size()==1:check(found[0]==LINE,"Confluence card carries the sim values: "+found[0])
-  check(Flow.stats_line(game.sim)==LINE,"stats line helper matches the expected text")
+  if found.size()==1:check(found[0]==line(game.sim),"Confluence card carries the sim values: "+found[0])
+  check(Flow.stats_line(game.sim)==line(game.sim),"stats line helper matches the expected text")
  game.queue_free();await settle()
 func archive_fixture()->Dictionary:
  var archive={}
@@ -129,7 +131,7 @@ func finale_case():
  check(game.screen=="photo_ending","finale first recovery opens the photo wall (screen %s)"%game.screen)
  var found=stat_lines(game)
  check(found.size()==1,"finale first recovery: exactly one stats line (found %d)"%found.size())
- if found.size()==1:check(found[0]==LINE,"finale first recovery carries the sim values: "+found[0])
+ if found.size()==1:check(found[0]==line(game.sim),"finale first recovery carries the sim values: "+found[0])
  game.queue_free();await settle()
 # WP-34: photographs of a lost or abandoned dive are kept only on the easiest preset.
 func take_spire_photo(game):

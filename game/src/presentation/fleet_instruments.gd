@@ -6,6 +6,7 @@ const WarningChain=preload("res://src/presentation/warning_chain_view.gd")
 const Delivery=preload("res://src/presentation/blackwater_delivery_view.gd")
 const Witness=preload("res://src/presentation/witness_evacuation_view.gd")
 const Ring=preload("res://src/presentation/fleet_ring.gd")
+const Oxygen=preload("res://src/presentation/oxygen_reading.gd")
 const PROFILE_WORDS={true:"SILENT",false:"LOUD"}
 # Craft-anchored status; only offscreen craft acquire bounded edge handles.
 var host
@@ -92,7 +93,7 @@ func task(id:int)->String:
  return detail
 func status(id:int)->String:
  var sim=host.sim
- var reserve="HULL %d · O₂ %d"%[roundi(sim.hull),roundi(sim.oxygen)] if id==0 else "BAT %d%%"%roundi(sim.units[id].battery)
+ var reserve="HULL %d · O₂ %s"%[roundi(sim.hull),Oxygen.text(sim)] if id==0 else "BAT %d%%"%roundi(sim.units[id].battery)
  var u=sim.units[id];var band=sim.Depth.NAMES[u.band]
  if not u.transition.is_empty():band+=" → "+sim.Depth.NAMES[u.transition.to]+" %.1fs"%u.transition.remaining
  return reserve+" · "+band+"\n"+task(id)
@@ -209,7 +210,7 @@ func refresh(blocked:Array):
   var critical=reserves.any(func(r):return r.critical)
   var show_detail=id==sim.selected and (sim.paused or sim.elapsed<detail_until)
   if show_detail or critical:
-   if not show_detail:reading.text=Names.UNIT_LETTERS[id]+" · "+" · ".join(reserves.filter(func(r):return r.critical).map(func(r):return "%s %d%s"%[r.label,roundi(r.value),"%" if id>0 else ""]))
+   if not show_detail:reading.text=Names.UNIT_LETTERS[id]+" · "+" · ".join(reserves.filter(func(r):return r.critical).map(func(r):return "O₂ %s"%Oxygen.text(sim) if r.label=="O₂" else "%s %d%s"%[r.label,roundi(r.value),"%" if id>0 else ""]))
    var plate=StyleBoxFlat.new();plate.bg_color=Color(.015,.045,.06,.78);plate.set_content_margin_all(8);plate.border_width_bottom=1;plate.border_color=Color("b78565") if critical else Color("4a7779")
    reading.add_theme_stylebox_override("normal",plate);reading.add_theme_font_size_override("font_size",font_size)
    reading.add_theme_color_override("font_color",Color("ffc097") if critical else Color("b6dcd7"))

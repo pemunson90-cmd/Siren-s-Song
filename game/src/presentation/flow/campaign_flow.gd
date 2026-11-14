@@ -286,9 +286,9 @@ static func choose_equipment(host, slot:String,item:String,index:int)->void:
 
 # One end-of-dive line for every debrief path (recovered, lost, expedition).
 static func stats_line(sim)->String:
-	var oxygen=sim.get("oxygen")
 	var elapsed=int(sim.elapsed)
-	return "Dive time %02d:%02d  /  Hull %d%%  /  Life support %d%%"%[elapsed/60,elapsed%60,int(sim.hull),int(oxygen) if oxygen!=null else 0]
+	# WP-97: life support is time left at the base drain, the same words as the pause plate and the craft readout.
+	return "Dive time %02d:%02d  /  Hull %d%%  /  Life support %s"%[elapsed/60,elapsed%60,int(sim.hull),preload("res://src/presentation/oxygen_reading.gd").text(sim)]
 
 # The expedition debrief owns its own text; give it the same single line, in place when it already has one.
 static func expedition_stats(host)->void:
@@ -332,7 +332,7 @@ static func debrief(host) -> void:
 		host.EarlyReward.debrief(host)
 		host.BlackwaterDelivery.debrief(host)
 		host.ModuleRecovery.debrief(host)
-		host._show_photo_grade(host.sim.mission.objectives)
+		host._show_photo_grade(host.sim.mission.objectives);PhotoReview.show_best_frame(host)
 		preload("res://src/presentation/photo_pay/photo_pay.gd").debrief(host)
 		host._menu_text(stats_line(host.sim),17)
 		preload("res://src/presentation/damage_log/damage_log.gd").debrief(host)

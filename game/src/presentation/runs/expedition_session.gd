@@ -165,6 +165,7 @@ func _result_menu()->void:
 	for line in dive_ledger:_menu_text(line,17)
 	if run_state.status!="active":SummaryView.session(self)
 	else:_show_photo_grade(sim.mission.objectives)
+	preload("res://src/presentation/flow/photo_review.gd").show_best_frame(self)
 	save_failed=not _persist_state(run_state)
 	if save_failed:
 		preload("res://src/presentation/frontend/save_error_view.gd").menu_retry(self,"RESULT NOT SAVED · "+str(campaign_host.get_meta("runs_save_error","")),17,"RETRY SAVE",_result_menu,"run_retry_save")
