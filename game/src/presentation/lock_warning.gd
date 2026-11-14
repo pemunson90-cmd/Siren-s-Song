@@ -81,7 +81,9 @@ func refresh(owner):
 # Sets up the move buttons from the card's moves (only while paused) and flows them into rows that fit the card's
 # width; returns the height they add under the text. Rows' offsets are kept in each button's "offset" meta.
 func _fit_buttons(h:float,width:float)->float:
- var moves:Array=rows[0].moves if not rows.is_empty() and host.sim.paused else []
+ # One decision at a time: while the route prompt is open the card shows its text only; the buttons return after it.
+ var prompt_open:bool=host.mission_hud!=null and host.mission_hud.guard!=null and not host.mission_hud.guard.pending.is_empty()
+ var moves:Array=rows[0].moves if not rows.is_empty() and host.sim.paused and not prompt_open else []
  var font_size=_font_size(h)
  var inner=width-BUTTON_PAD*2
  var x=0.;var y=0.;var used=0.

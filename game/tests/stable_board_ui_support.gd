@@ -84,6 +84,8 @@ func capture_case(shape:Vector2i):
  if not baseline:
   hud.guard.pending={"unit":0,"point":sim.units[0].pos+Vector2(100,0)}
   game._refresh();await settle()
+  # While the prompt is open the lock card shows no move buttons (one decision at a time), so the prompt clears the stack.
+  if game.lock_warning!=null:check(game.lock_warning.buttons.all(func(b):return not b.visible),"the lock card hides its move buttons while the route prompt is open")
   for rect in hud.threat_rects():check(not hud.guard.panel.get_rect().intersects(rect),"route confirmation clears threat stack")
   check(Rect2(Vector2.ZERO,hud.size).encloses(hud.guard.panel.get_rect()),"route confirmation stays in viewport")
   await picture("%d-confirm"%shape.x)
