@@ -9,7 +9,7 @@ static func lines(row:Dictionary)->Array:
 	return summary_lines(row)+operation_lines(row)
 # The left column of the run record: the run's modifiers and what it spent and gained.
 static func summary_lines(row:Dictionary)->Array:
-	var out=["Seed %d: %d of %d operations cleared."%[row.seed,row.depth,row.total],"Loadout: %s. Supplies: %s. Hunt started at stage %d."%[Tools.loadout_label(row.loadout),Records.Table.SCARCITY[row.scarcity],row.hunt_stage],Records.scarcity_line(row.loadout,row.scarcity)]
+	var out=["Seed %d: %d of %d operations cleared."%[row.seed,row.depth,row.total],"Loadout: %s. Supplies: %s. %s%s."%[Tools.loadout_label(row.loadout),Records.Table.SCARCITY[row.scarcity],Records.hunt_ceiling(row.hunt_stage),Records.HUNT_CEILING_NOTE],Records.scarcity_line(row.loadout,row.scarcity)]
 	# Only tools that were spent or gained are listed; an unused run has no block.
 	var used:Array=[]
 	for key in Records.Table.TOOLS:

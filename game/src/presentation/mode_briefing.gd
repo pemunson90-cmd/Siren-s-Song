@@ -11,6 +11,11 @@ const MAX_RULES=4
 const GOAL_PREFIX="GOAL: "
 const DANGER_PREFIX="\nDANGER: "
 const RULES_TITLE="RULES OF THIS MODE"
+const Racks=preload("res://src/equipment/tool_racks.gd")
+const Tools=preload("res://src/equipment/field_tools.gd")
+const Names=preload("res://src/names.gd")
+const CARRYING="Carrying: %s."
+const CARRYING_NONE="no tools"
 # The operation's own goal and danger. The Campaign rows win where both exist, as
 # they do in the Campaign briefing; an operation with neither keeps the caller's fallback goal.
 static func goal_danger(op:int,fallback_goal:String)->Dictionary:
@@ -29,3 +34,13 @@ static func show(host,op:int,fallback_goal:String,rules:Array)->void:
 	host._menu_text("GOAL: "+rows.goal,GOAL_SIZE)
 	if not rows.danger.is_empty():host._menu_text("DANGER: "+rows.danger,GOAL_SIZE)
 	if not rules.is_empty():host._menu_text(rule_lines(rules),RULES_SIZE)
+# One line of what each craft takes into this dive, from the racks it will launch with: "Carrying: QUIETUS DECOY 3, EMP 2; DRONE A SONOBUOY 1."
+static func carrying_line(racks:Dictionary)->String:
+	var crafts=[]
+	for i in Names.CRAFT_IDS.size():
+		var tools=[]
+		for id in Tools.ids():
+			var n=int(racks.get(Names.CRAFT_IDS[i],{}).get(id,0))
+			if n>0:tools.append("%s %d"%[Tools.spec(id).name.to_upper(),n])
+		if not tools.is_empty():crafts.append("%s %s"%[Names.UNIT_NAMES[i],", ".join(tools)])
+	return CARRYING%("; ".join(crafts) if not crafts.is_empty() else CARRYING_NONE)
