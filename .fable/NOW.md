@@ -1,13 +1,13 @@
 # NOW: what the root session is doing
 
 Status: LIVE NOTE (rewritten before every step; if a session died, this is the step it died in)
-Updated: 2026-11-13 19:46
+Updated: 2026-11-13 21:25
 
 **To resume after a context clear or a new session:** open this folder as the project and run `/siren-s-start-opus` (on an Opus model; `/siren-s-start-fable` is the same run on the Fable model). Read `.fable/PHASE9.md` first: it is the whole handoff. The `next_action` field in the state file always starts by sending the session to `.fable/HANDOFF.md` and to this file.
 
 ## Doing right now
 
-Full sweep of every registered suite running on the merged head (WP-56 to WP-62).
+Fourth blind critic round on kit 42 (head 5da11fd7: WP-56 to WP-64 merged); WP-63/64 checks running on the merged head.
 
 ## In flight
 
