@@ -630,3 +630,33 @@ How it is applied (Claude's reading): (1) A launched drone never goes back aboar
 Claude asked six yes or no questions, recommending yes to each: (1) should an open command wheel or panel hold dive time; (2) should the first dive give a longer warning before a Siren's lock kills; (3) should the game pause itself when a route ends; (4) should the game pause on every new Siren lock, on any craft; (5) should a craft that is blocked by rock pause the game; (6) should an Expedition's optional rider start switched off. Pat said, verbatim: "Yes for testing"
 
 How it is applied (Claude's reading): yes to all six, as trial rules. Each is built so it can be switched back in one place, is listed in docs/V7_TO_GODOT_PARITY.md as a trial difference from the prototype, and is put to Pat again after he has played. Nothing here is final until he says so.
+
+## 2026-11-14: priorities, and the six process proposals
+
+Claude proposed six process changes: (1) a short yes or no session on the waiting rule questions; (2) a phone build Pat can play (Claude said it needed a paid GitHub Actions run); (3) full sweeps in their own worktree; (4) critic rounds that alternate interface and fun; (5) moving the branch toward `main` in stages once Pat has played; (6) one shared rule sheet for helper briefs. Pat said, verbatim:
+
+"1. Do this first
+2. You are fully capable of building without GitHub actions
+3. Good
+4. Yes
+5. Yes
+6. Yes
+
+Your primary goal is efficiency of work, your secondary goal is accuracy and comprehensiveness of work, your third goal is accuracy following minds. The reason that structured that way is because by using less of my usage and being more efficient you can get more work done, which also means we can justify more conversation with that wasting tokens. Focusing on comprehensive work means that you do will actually be good firing a million revisions. My own decision points are ranked third out of three in that list because I am not a professional game designer, I'm a creative engine. So sometimes my instructions are wrong or inefficient. That doesn't mean that you should quietly upend my style or make completely drastic decisions without consulting me, but it does mean that I want you to have enough leeway to actually use your intelligence and figure things out I might have missed or wouldn't have thought of.
+
+Makes sense?"
+
+How it is applied (Claude's reading): the order of goals is efficiency (less of Pat's usage per unit of work), then accurate and complete work (done right once, not revised many times), then following Pat's instructions to the letter. Claude may correct or improve on an instruction where it sees a better way, says so, and asks before anything drastic or against Pat's style. Phone builds are made locally, without GitHub Actions. Sweeps run in their own worktree. Critic rounds alternate interface and fun. The branch moves toward `main` in stages after Pat has played. Helper briefs point to one shared rule sheet.
+
+## 2026-11-14: the ten rule questions
+
+Claude asked ten yes or no questions, recommending yes to each: (1) a 2x time button usable only while no Siren is hunting; (2) a leg across charted rock stops at the rock's edge instead of ramming it; (3) Okafor's "Eight minutes of margin left" quotes the real air left or drops the number; (4) a Sentinel cannot start a new lock for 8 s after a stun ends; (5) a rider that forbids tools is never offered where the danger can only be escaped with a tool; (6) riders start switched off in every mode; (7) the route-end auto-pause fires only when a craft's whole route ends, and pauses within 2 s merge; (8) Expeditions order their operations easiest first; (9) keep the six trial rules until Pat has played; (10) a second photo of a filed subject still costs full film. Pat said, verbatim:
+
+"For the question list yes unless I specify for example, question one should be 2X and 4x, especially for testing. We need to actually plan proper debug settings to make testing reasonable. Playing gameplay pass-throughs are valuable, but they are incredibly slow.
+2. Absolutely not, there can be an audio warning for proximity and ram speed, but a game with no danger isn't a game it's a walking simulator
+3  just make the amount of time a variable.
+I don't understand five or six.
+
+7. That's just bad design in the first place why would you add artificial stoppages?"
+
+How it is applied (Claude's reading): (1) 2x and 4x time while no Siren is hunting, and a planned set of debug settings so testing is fast. (2) Ramming stays; add an audio warning for nearby rock and for ramming speed. (3) Okafor's line takes the real time left as a variable. (4), (8), (9), (10) yes. (5), (6) explained again, no change until Pat answers. (7) Trial rule 3 (the game pauses itself when a route ends) is switched off: an artificial stoppage; the "HAS NO ORDERS" warning tells the player instead. One switch in `game/src/trial_rules.gd` brings it back.
