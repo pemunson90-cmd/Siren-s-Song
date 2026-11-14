@@ -337,7 +337,8 @@ func queue_checks(g)->void:
 		check(Rect2(Vector2.ZERO,g.mission_hud.size).encloses(guard.panel.get_rect()) and guard.add_hint.get_global_rect().size.y>0,tag+": the prompt with its hint fits the screen")
 		await click(guard.add_button)
 		check(g.sim.queue_mode and g.sim.route_goals().size()==2 and not guard.panel.visible,tag+": ADD TO ROUTE adds the point and switches taps to QUEUE")
-		check("QUEUE" in g.mission_hud.intent.text and "QUEUE" in g.sim.message and "TAPS" in g.sim.message,tag+": the strip says QUEUE and where to switch back")
+		# The strip's head already shows QUEUE; the message says what that means and where to switch back.
+		check("QUEUE" in g.mission_hud.intent.text and "next taps add" in g.sim.message and "TAPS" in g.sim.message,tag+": the strip says QUEUE and where to switch back")
 		await tap(screen(g,third))
 		check(not guard.panel.visible and g.sim.route_goals().size()==3,tag+": the next tap adds a point with no prompt")
 		g._order("queue");await settle()
