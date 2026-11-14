@@ -108,7 +108,7 @@ func _debrief(abandoned:bool=false)->void:
 	_bind_state();result_pending=true;dive_record=true;dive_abandoned=abandoned;_save_archive();_result_menu()
 func _result_menu()->void:
 	sim.paused=true;screen="career_result";_clear_menu()
-	_menu_text("CONTRACT RESULT",30);_menu_text("\n".join(CareerBoard.ResultText.career_lines(career_state.report)),18)
+	_menu_text("CONTRACT RESULT",30);_menu_text("\n".join(CareerBoard.ResultText.career_lines(career_state.report,not dive_record)),18)  # a dive just played shows its earnings once, in the ledger's "Earned:" line
 	if dive_record:preload("res://src/presentation/career/career_result.gd").show(self,dive_abandoned)
 	_show_photo_grade(sim.mission.objectives)
 	if save_failed:

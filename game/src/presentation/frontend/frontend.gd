@@ -120,7 +120,7 @@ func touch_height() -> float:
 func _fit_column() -> void:
 	if embedded_settings:return
 	if column == null: return
-	column.custom_minimum_size.x = clampf(size.x - 64.0, 240.0, minf(Metrics.menu_width(size, true), size.x - 64.0) if wide_built else 620.0)
+	column.custom_minimum_size.x = clampf(size.x - 64.0, 240.0, minf(Metrics.menu_width(size, true, touch_height()), size.x - 64.0) if wide_built else 620.0)
 	# The plate behind the column follows its width, so a two-column page has the same dark ground a narrow one has.
 	if title_backdrop != null: title_backdrop.set_plate(column.custom_minimum_size.x + 2.0 * PLATE_MARGIN if wide_built else 0.0)
 	if rebuild.is_valid() and not relayout_pending and host != null and PrepColumns.wide(host) != wide_built:
