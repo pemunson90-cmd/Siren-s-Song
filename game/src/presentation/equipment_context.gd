@@ -8,6 +8,7 @@ const Card=preload("res://src/presentation/fit_surface/fit_card.gd")
 const Bar=preload("res://src/presentation/fit_surface/fit_bar.gd")
 const UiStyle=preload("res://src/presentation/ui_style.gd")
 const PrepColumns=preload("res://src/presentation/prep_columns.gd")
+const Metrics=preload("res://src/presentation/layout_metrics.gd")
 const NEXT_LAUNCH_NOTE="Applies from your next launch."
 const SLOTS={Names.CRAFT_QUIETUS:Names.UNIT_QUIETUS,Names.CRAFT_DRONE_A:Names.UNIT_DRONE_A,Names.CRAFT_DRONE_B:Names.UNIT_DRONE_B}
 # A locked frame is bought with alloy when tapped, then chosen like any other.
@@ -82,13 +83,29 @@ static func _choose_fitting(main,key:String,id:String,module_id:String,choose:Ca
 # The four budget bars of one craft in one row. POWER and CARGO fill to their limit; NOISE and ENDURANCE
 # are drawn to true scale with the stock value (100%) marked by a tick. Returns the bars.
 static func budget_bars(main,b:Dictionary)->Array:
- var strip=HBoxContainer.new();strip.mouse_filter=Control.MOUSE_FILTER_PASS;strip.custom_minimum_size.x=PrepColumns.strip_width(main);strip.add_theme_constant_override("separation",12);main.panel_box.add_child(strip)
+ # WP-93: four captions in one row can need more than the column holds (a tall touch row on a phone, the
+ # narrow half of a two-column briefing). When they do the bars wrap into two rows of two.
+ var strip=GridContainer.new();strip.columns=4;strip.mouse_filter=Control.MOUSE_FILTER_PASS
+ strip.add_theme_constant_override("h_separation",roundi(Metrics.BAR_STRIP_GAP));strip.add_theme_constant_override("v_separation",roundi(Metrics.BAR_STRIP_GAP));main.panel_box.add_child(strip)
  var scale=UiStyle.BAR_SCALE_MAX
- return [
+ var bars=[
   Bar.add(main,strip,"POWER",b.power,b.power_cap,"%d / %d"%[b.power,b.power_cap],b.power>=b.power_cap and b.power>0),
   Bar.add(main,strip,"CARGO",b.cargo,b.cargo_cap,"%d / %d"%[b.cargo,b.cargo_cap],b.cargo_cap>0 and b.cargo>=b.cargo_cap),
   Bar.add(main,strip,"NOISE",b.noise,scale,"%d%%"%roundi(b.noise*100),b.noise>1.0,1.0),
   Bar.add(main,strip,"ENDURANCE",b.endurance,scale,"%d%%"%roundi(b.endurance*100),b.endurance<1.0,1.0)]
+ strip.set_meta(STRIP_META,true);refit_strip(strip,PrepColumns.strip_width(main))
+ return bars
+const STRIP_META="bar_strip"
+# One row of four when the captions fit `room`, else two rows of two. The briefing calls this again for
+# each strip once it has split into columns and knows how wide a column is.
+static func refit_strip(strip:GridContainer,room:float)->void:
+ strip.columns=4
+ if strip.get_combined_minimum_size().x>room:strip.columns=2
+# A two-column briefing: no menu text or bar strip asks for more than one column holds.
+static func fit_to_column(box:Control,room:float)->void:
+ for label in box.find_children("*","Label",true,false):label.custom_minimum_size.x=minf(label.custom_minimum_size.x,room)
+ for strip in box.find_children("*","GridContainer",true,false):
+  if strip.has_meta(STRIP_META):refit_strip(strip,room)
 # The craft name and its current mounts; the frame itself is described by the cards under it.
 static func frame_summary(fit:Dictionary,unit:int)->String:
  var b=Catalog.budget(fit,unit);var parts=[]
