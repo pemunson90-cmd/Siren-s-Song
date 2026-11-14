@@ -48,8 +48,9 @@ const TEXT={
 	"idle_many": "%s HAVE NO ORDERS",
 	"idle_oxygen": " · oxygen is running",
 	"idle_and": " AND ",
-	# WP-118: an intel route finding (a photographed sheltered way) says on its own line that it is not an order (ocean_view.gd).
-	"intel_route": "%s · INTEL: a sheltered way, not an order",
+	# WP-118: an intel route finding (a lane or passage a photograph revealed: LEE CHANNEL, LOADING LANE, INNER PASSAGE ...)
+	# says on its own line that it is not an order (ocean_view.gd). Root: not every such route is sheltered, so the words claim only that.
+	"intel_route": "%s · INTEL ROUTE · not an order",
 	# WP-118: the status line's next step once the record is secured and Quietus has no route (route_notes.gd).
 	"return_old": "Return Quietus to extraction.",
 	"return_steps": "Return Quietus to extraction: tap Quietus, then tap the water near EXTRACTION.",

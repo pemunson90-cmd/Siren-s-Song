@@ -484,7 +484,7 @@ func idle_case(shape:Vector2i,scale:float):
 	s.units[0].route=[]
 	# An intel route finding (a photographed sheltered way) says on its line that it is not an order, in a colour no route uses.
 	var intel:String=Words.TEXT.intel_route%"LEE CHANNEL"
-	check(intel=="LEE CHANNEL · INTEL: a sheltered way, not an order","the intel route line names the finding and says it is not an order: "+intel)
+	check(intel=="LEE CHANNEL · INTEL ROUTE · not an order","the intel route line names the finding and says it is not an order: "+intel)
 	check(UiStyle.INTEL_ROUTE_INK!=game.ocean.CYAN and UiStyle.INTEL_ROUTE_INK!=Color(0.5,0.9,0.85),"the intel colour is not the route cyan "+stamp)
 	s.mission["photo_marks"]=[{"kind":"route","text":"LEE CHANNEL · a sheltered way","pts":[[s.units[0].pos.x-300,s.units[0].pos.y+100],[s.units[0].pos.x-600,s.units[0].pos.y+200]]}]
 	game.ocean.queue_redraw();await settle()
