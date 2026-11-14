@@ -15,7 +15,7 @@ static func command(sim, order: String, args: Dictionary) -> bool:
 				sim.message="No Siren within EMP range · charge kept";return false
 			sim.tools.emp-=1
 			for s in sim.sirens:
-				if s.pos.distance_to(u.pos)<Tuning.EMP_RADIUS*sim.Depth.transmission(u,s): s.stun=Tuning.EMP_STUN; s.lock=0.0; s.target=-1; s.erase("recipient_target"); s.mode="PINNED" if s.get("pin_time",0)>0 else "DISRUPTED"
+				if s.pos.distance_to(u.pos)<Tuning.EMP_RADIUS*sim.Depth.transmission(u,s): s.stun=Tuning.EMP_STUN; s["emp_hit"]=true; s.lock=0.0; s.target=-1; s.erase("recipient_target"); s.mode="PINNED" if s.get("pin_time",0)>0 else "DISRUPTED"
 			sim._noise(u.pos,Tuning.WEAPON_NOISE,Names.NOISE_EMP,Tuning.WEAPON_NOISE_TIME,u.band); sim.message="EMP pulse · 12 second recovery window"; sim.events.append({"type":"emp","pos":u.pos})
 		"knock":
 			var id=args.get("target",null)

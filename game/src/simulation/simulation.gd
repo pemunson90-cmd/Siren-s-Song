@@ -45,6 +45,7 @@ const Thermal=preload("res://src/simulation/thermal_front.gd")
 const Acoustics = preload("res://src/simulation/acoustic_paths.gd")
 const TerrainChart=preload("res://src/simulation/terrain_chart.gd")
 const RouteProgram=preload("res://src/simulation/route_program.gd")
+const Tuning=preload("res://src/simulation/tuning.gd") # WP-125: EMP lock grace
 const HandPilot=preload("res://src/simulation/hand_pilot/hand_pilot.gd")
 const ModuleRecovery=preload("res://src/simulation/module_recovery.gd")
 const Cache=preload("res://src/simulation/optional_cache.gd")
@@ -131,6 +132,10 @@ var acoustic_paths=Acoustics.new()
 # Seconds a Siren must hold its lock before it fires. The one place the length is decided (trial rule 2,
 # trial_rules.gd): the first dive of the Campaign (operation 01 on the plain simulation, not a Challenge,
 # Career or Expedition run, which use subclasses) gives the longer warning; everything else keeps the standard.
+# WP-125: seconds a Siren cannot start a new lock after an EMP stun ends, for this dive's difficulty preset (tuning.gd).
+func emp_lock_grace() -> float:
+	var table:Dictionary=Tuning.EMP_LOCK_GRACE_BY_PRESET
+	return float(table.get(str(mission.get("difficulty_preset",Tuning.EMP_LOCK_GRACE_DEFAULT_PRESET)),table[Tuning.EMP_LOCK_GRACE_DEFAULT_PRESET]))
 func lock_seconds() -> float:
 	var campaign:bool=get_script().resource_path=="res://src/simulation/simulation.gd"
 	if campaign and int(mission.get("id",-1))==0:return TrialRules.first_dive_lock_seconds()
@@ -147,6 +152,7 @@ func start(index: int, upgrade: String = Names.LOADOUT_ENDURANCE, launch:Diction
 		units.append({"pos":mission.get("start",Vector2(140,800))+LaunchLayout.offset(index,i),"vel":Vector2.ZERO,"angle":-0.3,"route":[],"alive":true,"hold":"","silent":true,"battery":100.0,"name":Names.UNIT_NAMES[i]})
 	mission["module_recovery"]=ModuleRecovery.initial(mission.launch_equipment,units)
 	mission["fleet_commit"]=launch.get("fleet_commit",false)
+	if launch.has("difficulty_preset"):mission["difficulty_preset"]=str(launch.difficulty_preset) # WP-125: read by emp_lock_grace()
 	sirens = mission.sirens.duplicate(true)
 	Depth.initialize(self);Network.initialize(self);Industry.initialize(self);sonar=Sonar.initial();depth_charts={};geometry_band=1
 	# WP-13: on a player dive the drones begin aboard Quietus (drone_bay/).
@@ -1195,10 +1201,14 @@ func _threats(dt: float) -> bool:
 		if s.get("pin_time",0)>0: s.pin_time=maxf(0,s.pin_time-dt)
 		if s.stun>0:
 			s.stun-=dt; s.lock=0.0; s.target=-1
+			# WP-125: when an EMP stun runs out, no new lock for emp_lock_grace() seconds.
+			if s.stun<=0 and s.get("emp_hit",false):s.erase("emp_hit");s["lock_grace"]=emp_lock_grace()
 			s.erase("recipient_target")
 			s.mode="PINNED" if s.get("pin_time",0)>0 else "DISRUPTED"
 			observations.append(-1);fresh.append(false);distractions.append(false)
 			continue
+		var lock_grace:bool=float(s.get("lock_grace",0.0))>0.0 # WP-125: no new lock while the post-EMP grace runs
+		if lock_grace:s["lock_grace"]=maxf(0.0,float(s.lock_grace)-dt)
 		var detected := -1
 		var heard := false
 		var distraction := false
@@ -1244,7 +1254,9 @@ func _threats(dt: float) -> bool:
 			else: _visual_pursuit(s,victim.pos,dt)
 			if s.route.is_empty(): s.angle=rotate_toward(s.angle,s.pos.angle_to_point(victim.pos),1.8*dt)
 			var previous_lock:float=s.lock
-			s.target=detected; s.goal=victim.pos; s["last_known"]=s.goal; s["attention_time"]=Sweeper.attention(s); s["search_index"]=0; s.lock+=dt; s.suspicion=minf(1,s.suspicion+dt*0.3); s.mode="LOCKING" if s.lock<lock_seconds() else "BEAM"
+			s.target=detected; s.goal=victim.pos; s["last_known"]=s.goal; s["attention_time"]=Sweeper.attention(s); s["search_index"]=0; s.suspicion=minf(1,s.suspicion+dt*0.3)
+			if lock_grace:s.lock=0.0;s.mode="INVESTIGATE"
+			else:s.lock+=dt;s.mode="LOCKING" if s.lock<lock_seconds() else "BEAM"
 			if s.lock>=lock_seconds():
 				if previous_lock<lock_seconds(): events.append({"type":"beam","pos":victim.pos})
 				if recipient_seen:

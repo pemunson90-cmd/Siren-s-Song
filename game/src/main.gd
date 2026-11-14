@@ -291,6 +291,7 @@ func _start_mission(index: int) -> void:
 	launch.launch["context"]=_launch_context(index)
 	# WP-13: every player dive starts with the drones aboard Quietus (simulation/drone_bay/).
 	launch.launch["drones_aboard"]=true
+	launch.launch["difficulty_preset"]=str(economy.get("preset","standard")) # WP-125: the Campaign's economy preset sets the post-EMP lock grace
 	launch.launch["parity_rules"]=true # WP-16: discovered charts and objectives, Disrupt and factory rules
 	# The first call builds the paused display before loading an archive. Even
 	# blocked recovery needs valid craft/UI; later player launches stay guarded.
