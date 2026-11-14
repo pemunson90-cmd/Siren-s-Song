@@ -136,7 +136,9 @@ func run():
  check(Endings.resolve(ending).story.contains(S.LEFT),"unfound boy has different ending placeholder")
  ending.facts.sorley_boy="rescued"
  check(Endings.resolve(ending).story.contains(S.RESCUED) and Endings.resolve(ending).id=="silent_exodus","rescue epilogue preserves ending family and thread")
- check(Ledger.build(ending,{})[0].rows.has(S.RESCUED) and Ledger.build(progress(),{})[0].rows.has(S.LEFT),"ledger distinguishes rescue and no recorded landing")
+ var heard=progress();heard.notes={S.FACT:"100"}
+ check(Ledger.build(ending,{})[0].rows.has(S.RESCUED) and Ledger.build(heard,{})[0].rows.has(S.LEFT),"ledger distinguishes rescue and no recorded landing")
+ check(not Ledger.build(progress(),{})[0].rows.has(S.LEFT),"the ledger names Sorley's boy only after a recorder log was heard")
  var archive={"version":1,"unlocked":5,"completed":[0,1,2,3,4,5],"upgrade":"endurance","settings":{},"expedition":recovered,"active":s.snapshot()}
  var store=Store.new();store.path="user://sorley-test.save"
  check(store.save(archive) and store.load_game()==archive,"current binary archive roundtrips logs, rescue and active mission")
