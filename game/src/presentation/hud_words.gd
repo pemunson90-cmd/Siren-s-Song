@@ -40,9 +40,9 @@ const TEXT={
 	"join": " · ",
 	# Last line of a tip card while the dive is stopped: GOT IT only closes the card, the plate restarts time.
 	# WP-106: the strip line while the dive is stopped: the first thing ▶ RUN will do, most urgent first.
-	"run_lock": "▶ RUN: a lock lands %.1f s after RUN",
-	"run_orders": "▶ RUN: orders set for %s",
-	"run_none": "▶ RUN: no craft has orders",
+	"run_lock": "After ▶ RUN: a lock lands in %.1f s",
+	"run_orders": "After ▶ RUN: orders run for %s",
+	"run_none": "After ▶ RUN: no craft has orders",
 	# WP-106: a route line the craft is not following says why on the chart (route_notes.gd).
 	"tag_HOLD": "ROUTE KEPT · HOLDING",
 	"tag_CONTACT": "ROUTE KEPT · ON GUARD",
