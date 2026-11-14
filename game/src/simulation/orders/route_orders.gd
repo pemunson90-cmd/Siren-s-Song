@@ -4,6 +4,8 @@ extends RefCounted
 # Revert by inlining these cases and removing their table rows; no rule changes.
 const Tuning=preload("res://src/simulation/tuning.gd")
 const ControlMix=preload("res://src/debug/control_mix.gd")
+# WP-107: says what to do. A craft already against a wall can leave it; the refused case is a tapped point on or too near rock.
+const REFUSED:="That point is rock or too close to rock. Tap open water farther from the wall."
 
 # 130: dev-only control-mix telemetry wraps every route order; no rule change.
 static func command(sim, order: String, args: Dictionary) -> bool:
@@ -29,7 +31,7 @@ static func _command(sim, order: String, args: Dictionary) -> bool:
 			var plan=sim.route_goals() if append else []
 			if append and not plan.is_empty() and not plan.back().get("arrival_set",false): plan.back().stop=not sim.pass_through
 			plan.append({"pos":args.get("point",u.pos),"stop":true,"mode":"inherit"})
-			if not sim._install_program(u,plan,append,append and not u.route.is_empty()): sim.message="Rock or unsafe clearance. Choose open water."; return false
+			if not sim._install_program(u,plan,append,append and not u.route.is_empty()): sim.message=REFUSED; return false
 			if not append:
 				u.hold=""
 				sim.captures[sim.selected]={}

@@ -135,6 +135,7 @@ static func draw_legs(view,sim,unit:int,scale:float)->void:
   var base=WARNING if is_warning(w) else UiStyle.NOTE_COLOR
   var color=base if unit==sim.selected else Color(base,.4)
   view.draw_line(w.from,w.to,color,3./maxf(scale,.01))
+  if w.has("at"):view.draw_arc(w.at,16./maxf(scale,.01),0.,TAU,24,color,2./maxf(scale,.01)) # WP-107: ring where the leg first meets rock
 
 # Short reason beside the first warned leg of the selected craft (a rock warning before a neutral note). Screen space.
 static func draw_reason(view,sim)->void:
@@ -143,7 +144,7 @@ static func draw_reason(view,sim)->void:
  var w=warned[0]
  for candidate in warned:
   if is_warning(candidate):w=candidate;break
- var at=view.chart_camera.to_screen((w.from+w.to)*.5)+Vector2(12,-10)
+ var at=view.chart_camera.to_screen(w.get("at",(w.from+w.to)*.5))+Vector2(12,-10) # WP-107: tag sits on the rock the leg meets
  var font=ThemeDB.fallback_font;var size=view.feedback_font_size
  var text=w.reason.to_upper()
  var width=font.get_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,-1,size).x
