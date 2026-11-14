@@ -59,7 +59,8 @@ func run():
  for key in Release.TRAVEL_SHORTCUTS:check(seen.has(key),"registered shortcut has a tagged call site "+key)
  check(not audit("x._order(\"route\",{\"point\":p})","probe").is_empty(),"guard fails an unregistered one-press route order")
  check(not audit("x._order( \"emergency\" ,{})  # TRAVEL:teleport","probe").is_empty(),"guard fails an unknown shortcut key")
- check(Release.TRAVEL_SHORTCUTS.keys().filter(func(k):return not Release.TRAVEL_SHORTCUTS[k].dev_only)==["water_leg","water_leg_confirm"],"only placed legs are release travel")
+ # stop_exposure is a release order that does not travel: it routes the craft to its own spot to end an exposure.
+ check(Release.TRAVEL_SHORTCUTS.keys().filter(func(k):return not Release.TRAVEL_SHORTCUTS[k].dev_only)==["water_leg","water_leg_confirm","stop_exposure"],"only placed legs are release travel (and STOP EXPOSURE, which holds the craft in place)")
 
  var g=load("res://scenes/main.tscn").instantiate();g.set_script(load("res://tests/density_main.gd"));g.store.path="user://release-controls.save";g.capture_scenario="runtime-test"
  root.add_child(g);await frames();g.set_process(false)
