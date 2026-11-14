@@ -313,6 +313,11 @@ func closing_tap_checks(g)->void:
 				await tap(spot)
 				check(open_now,tag+": the surface was open before the tap")
 			check(not g.advanced_orders,tag+": the surface is closed")
+			# WP-104: the one exception is a craft's own wheel; a water tap there also gives its normal order.
+			if how=="wheel":
+				# A leg across charted rock waits on its marker (WP-52); that is the same answer a closed-wheel tap gives.
+				check((g.sim.route_goals().size()==1 or not g.mission_hud.guard.pending.is_empty()) and g.sim.units[1].route.is_empty() and g.sim.units[2].route.is_empty(),tag+": the closing tap routes the selected craft, once (or shows the rock marker)")
+				index+=1;continue
 			check(g.sim.route_goals().is_empty() and g.sim.units[1].route.is_empty() and g.sim.units[2].route.is_empty(),tag+": the closing tap orders no route")
 			check(g.sim.hull==hull and g.sim.selected==0 and g.sim.snapshot()["units"]==snap["units"] or how=="silent",tag+": nothing else changed")
 			await tap(spot)

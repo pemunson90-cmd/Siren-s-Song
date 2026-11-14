@@ -85,7 +85,8 @@ func run():
   await tap(ship);await click(h.extra.route_menu);await click(g.order_buttons.queue)
   check(g.sim.queue_mode and not g.advanced_orders and "QUEUE" in h.intent.text,"explicit QUEUE returns to water with visible persistent intent")
   before=g.sim.snapshot();await tap(ship);await tap(g.global_position+Vector2(g.size.x-20,g.size.y-20))
-  check(not g.advanced_orders and g.sim.snapshot()==before,"outside dismissal consumes its release without route")
+  # WP-104: a tap on the chart with the craft's wheel open closes it and is that tap's ordinary order, once (never twice).
+  check(not g.advanced_orders and g.sim.route_goals().size()<=1 and g.sim.units[1].route.is_empty() and g.sim.units[2].route.is_empty(),"outside tap closes the wheel and orders at most its own one leg")
   preload("res://tests/fixtures/player_dive.gd").launch_drones(g.sim);g.sim.units[1].pos=g.sim.units[0].pos;g.sim.units[2].pos=g.sim.units[0].pos;g._refresh();await settle();before=g.sim.snapshot()
   # WP-78: overlapping craft offer the CHOOSE TARGET list (one button per craft), not the FLEET page.
   await tap(ship);check(h.page=="choose" and h.target_buttons.size()==3 and g.sim.snapshot()==before,"overlapping own craft open explicit identity choices")

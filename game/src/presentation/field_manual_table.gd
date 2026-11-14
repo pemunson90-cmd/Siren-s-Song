@@ -6,7 +6,7 @@ const BUTTON_TEXT="FIELD MANUAL\nHow to move, stay quiet, use drones and take ph
 const OPERATION_ID="operation"
 const TOPICS=[
 	{"id":"moving","title":"MOVING","lines":[
-		"Tap || PAUSE (top left) to stop time and plan for as long as you like. Tap Quietus or a drone, then tap open water to place a straight leg. Nothing moves until you tap ▶ RUN.",
+		"Tap || PAUSE (top left) to stop time and plan for as long as you like. Tap Quietus or a drone, then tap open water to place a straight leg: that one water tap also closes the order wheel. Nothing moves until you tap ▶ RUN.",
 		"A craft does not steer around rock. A red leg crosses charted rock and can crash. Tap the marker a second time to send a route across rock anyway.",
 		"A craft that already has a route asks first: REPLACE ROUTE swaps it, ADD TO ROUTE extends it.",
 		"The switch STOP AT EACH NEW POINT decides whether the craft halts at added points or keeps moving through them.",
