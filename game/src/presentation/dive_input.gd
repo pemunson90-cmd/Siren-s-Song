@@ -80,8 +80,15 @@ static func map_event(host,event: InputEvent,local_event: bool=false) -> bool:
 		if host.ocean.information_at(action.tap-host.ocean.global_position):return true
 		var world=host.ocean.map_position(action.tap-host.ocean.global_position)
 		if Rect2(Vector2.ZERO,host.ocean.world_size()).has_point(world):water_tap(host,world)
+		else:outside_tap(host)
 	if action.has("ended") or action.has("tap"):host.knock_press.clear()
 	return true
+# WP-97: a leg has no length limit in the rules; the one tap that used to order nothing and say nothing is a tap past
+# the edge of the operation area (the chart can be panned or zoomed out beyond it). It now says why, and the line stays
+# until the next tap replaces it.
+const OUTSIDE_TAP="Outside the operation area: no route can reach there. Tap inside the chart edge, or zoom in to place the point."
+static func outside_tap(host)->void:
+	if host.sim.outcome.is_empty():host.sim.message=OUTSIDE_TAP;host._refresh()
 # WP-69: a tap on open water that orders nothing (no route set, no marker, no refusal line) names what a water
 # tap needs. The stale status line is cleared first so a silent refusal cannot hide behind an old message.
 static func water_tap(host,world:Vector2)->void:

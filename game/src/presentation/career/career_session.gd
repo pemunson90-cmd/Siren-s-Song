@@ -111,6 +111,7 @@ func _result_menu()->void:
 	_menu_text("CONTRACT RESULT",30);_menu_text("\n".join(CareerBoard.ResultText.career_lines(career_state.report,not dive_record)),18)  # a dive just played shows its earnings once, in the ledger's "Earned:" line
 	if dive_record:preload("res://src/presentation/career/career_result.gd").show(self,dive_abandoned)
 	_show_photo_grade(sim.mission.objectives)
+	if dive_record:preload("res://src/presentation/flow/photo_review.gd").show_best_frame(self)
 	if save_failed:
 		preload("res://src/presentation/frontend/save_error_view.gd").menu_retry(self,"RESULT NOT SAVED · "+str(campaign_host.get_meta("career_save_error","")),17,"RETRY SAVE",func():_save_archive();_result_menu(),"career_retry")
 	else:

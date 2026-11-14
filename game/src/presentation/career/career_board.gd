@@ -51,11 +51,20 @@ static func _contracts(host)->void:
 			if c.faction!=faction:continue
 			var available=State.open(host.career_state,id)
 			var title=host.Simulation.Missions.make(c.op,host._launch_context(c.op)).title
-			var button=host._button(host.panel_box,"%s\n%s · REWARD %s"%[title.to_upper(),"OPEN" if available else "LOCKED · NEED STANDING %d"%c.get("standing",Table.MIN_STANDING),Economy.fmt(c.reward)],host._select_contract.bind(id),"career_contract_"+id)
+			var button=host._button(host.panel_box,"%s\n%s · REWARD %s · SALVAGE %s"%[title.to_upper(),"OPEN" if available else "LOCKED · NEED STANDING %d"%c.get("standing",Table.MIN_STANDING),Economy.fmt(c.reward),Economy.fmt(salvage(host,c))],host._select_contract.bind(id),"career_contract_"+id)
 			button.disabled=not available or host.save_failed
 			# The rider names its own contract and a rule closes the block, so it cannot read as the next one's.
 			host._menu_text(rider_line(title,State.rider_offer(host.career_state,id)),16)
 			host.panel_box.add_child(HSeparator.new())
+# WP-97: what a recovery pays on top of the contract. The same rule Economy.settle applies to a career dive (a first
+# recovery of the operation pays more than a replay; the preset and options scale it; a career dive banks no module scrap).
+static func salvage(host,c:Dictionary)->Dictionary:
+	var base=Economy.Table.INCOME.first if c.op not in host.career_state.progress.completed else Economy.Table.INCOME.replay
+	var pay={}
+	for key in Economy.RES:
+		var n=base[key]
+		pay[key]=int(ceil(n*Economy.preset(host.economy).income*Economy.Options.multiplier(host.economy,"income")-0.0001)) if n>0 else 0
+	return pay
 static func _board_links(host)->void:
 	host._button(host.panel_box,"SUPPLIES / RESEARCH",host._show_economy,"career_supplies")
 	host._button(host.panel_box,"FLEET / FITTINGS",host._show_fittings,"career_fittings")
@@ -74,7 +83,7 @@ static func briefing(host)->void:
 	host._menu_text("%s: %s"%[Table.FACTIONS[c.faction],c.brief],18)
 	Briefing.show(host,c.op,c.brief,CONTRACT_RULES)
 	host._menu_text(Briefing.carrying_line(host.tool_racks),17)
-	host._menu_text("Reward if you recover it: %s.\nStanding with %s: %d. Recover it for +%d, lose it for %d.\nNext launch costs: %s."%[Economy.fmt(c.reward).to_lower(),Table.FACTIONS[c.faction].capitalize(),host.career_state.standing[c.faction],Table.SUCCESS,Table.LOSS,Economy.fmt(preload("res://src/presentation/economy_panel.gd").launch_cost(host)).to_lower()],17)
+	host._menu_text("Reward if you recover it: %s, plus salvage %s.\nStanding with %s: %d. Recover it for +%d, lose it for %d.\nNext launch costs: %s."%[Economy.fmt(c.reward).to_lower(),Economy.fmt(salvage(host,c)).to_lower(),Table.FACTIONS[c.faction].capitalize(),host.career_state.standing[c.faction],Table.SUCCESS,Table.LOSS,Economy.fmt(preload("res://src/presentation/economy_panel.gd").launch_cost(host)).to_lower()],17)
 	var rider=State.rider_offer(host.career_state,host.selected_contract)
 	host._menu_text(Riders.description(rider),17)
 	if not rider.is_empty():

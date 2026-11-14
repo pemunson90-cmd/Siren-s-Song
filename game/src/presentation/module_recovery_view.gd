@@ -123,6 +123,9 @@ static func departure_signature(context:Dictionary)->String:
  var left=[]
  for module in context.get("left",[]):left.append([module.item,module.state,module.unit])
  return str([context.get("available",false),context.get("corridor",{}),left,context.get("recovered",[])])
+# WP-97: what a drone that did not come home costs, stated under the fleet lines.
+const ABSENT="A drone lost or left outside recovery does not come home with you. A bare replacement drone flies the next dive."
+const ABSENT_IRON="A drone lost or left outside recovery is gone for good. A replacement needs paid manufacturing; an empty bay can still launch."
 static func consequence(sim,economy:Dictionary={})->String:
  var iron=preload("res://src/campaign/ironman_losses.gd").active(economy)
  if not sim.has_method("module_recovery_status"):return ""
@@ -137,7 +140,7 @@ static func consequence(sim,economy:Dictionary={})->String:
   for item in result.get(key,[]):names.append(name(item))
   if not names.is_empty():lines.append(("MODULES RECOVERED · " if key=="recovered" else "LEFT BEHIND · ")+", ".join(names))
  if not result.get("lost",[]).is_empty() and sim.mission.get("fleet_commit",false):lines.append("Listed modules are unavailable for future launches.")
- if absent:lines.append("Ironman replacements require paid manufacturing. Empty bays can launch." if iron else "Bare replacement drones remain available.")
+ if absent:lines.append(ABSENT_IRON if iron else ABSENT)
  if not iron and (sim.outcome!="won" or not sim.mission.get("fleet_commit",false)):lines.append("Retry / replay leaves permanent module stock unchanged.")
  return "\n".join(lines)
 static func debrief(main)->void:

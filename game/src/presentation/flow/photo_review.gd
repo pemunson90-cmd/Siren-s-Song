@@ -9,6 +9,21 @@ static func show_photo_grade(host, records:Array)->void:
 	var grade=host.Recon.grade(records)
 	if grade.photos>0:host._menu_text("INTEL PHOTO GRADE %s · %d %s · average %d%% of each record's best frame%s"%[grade.grade,grade.photos,"record" if grade.photos==1 else "records",roundi(grade.quality*100),"" if grade.photos==1 else " · sharpest record %d%%"%roundi(grade.best*100)],20)
 
+# WP-97: a result with an INTEL PHOTO line shows the sharpest frame the dive filed, drawn by the same Plate the photo
+# gallery uses, small under the line. Nothing is drawn when the dive filed no frame.
+const BEST_FRAME_NODE="ResultBestFrame"
+static func best_shot(mission:Dictionary)->Dictionary:
+	var best:Dictionary={}
+	for shot in mission.get("photo",{}).get("shots",[]):
+		if best.is_empty() or float(shot.q)>float(best.q):best=shot
+	return best
+static func show_best_frame(host)->void:
+	var shot:=best_shot(host.sim.mission)
+	if shot.is_empty() or host.sim.outcome!="won":return
+	var plate=host.PhotoView.Plate.new();plate.name=BEST_FRAME_NODE;plate.vm=host.PhotoView.from_shot(shot)
+	plate.title="BEST FRAME · QUALITY %d%%"%roundi(float(shot.q)*100)
+	plate.custom_minimum_size=Vector2(minf(420.0,host.size.x*0.7),minf(190.0,host.size.y*0.22));plate.size_flags_horizontal=Control.SIZE_SHRINK_BEGIN
+	host.panel_box.add_child(plate)
 static func merge_shots(host, key:String) -> void:
 	var entry:Dictionary=host.recovered_evidence[key]
 	var shots:Array=entry.get("shots",[]).duplicate(true)
