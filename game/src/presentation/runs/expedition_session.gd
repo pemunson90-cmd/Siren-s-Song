@@ -169,6 +169,7 @@ func _result_menu()->void:
 	save_failed=not _persist_state(run_state)
 	if save_failed:
 		preload("res://src/presentation/frontend/save_error_view.gd").menu_retry(self,"RESULT NOT SAVED · "+str(campaign_host.get_meta("runs_save_error","")),17,"RETRY SAVE",_result_menu,"run_retry_save")
+		preload("res://src/presentation/debrief_actions.gd").footer(self) # WP-109
 		call_deferred("_layout");return
 	if run_state.status=="active":
 		_button(panel_box,"NEXT OPERATION",func():
@@ -178,6 +179,7 @@ func _result_menu()->void:
 			recorded=false;dive_ledger=[];_show_campaign()
 		,"run_next")
 	_button(panel_box,"BACK TO EXPEDITIONS",_return,"run_return")
+	preload("res://src/presentation/debrief_actions.gd").footer(self) # WP-109: NEXT OPERATION and BACK stay on screen
 	call_deferred("_layout")
 func _pick_offer(id:String)->void:
 	if not RunState.valid(run_state) or not RunOffers.pending(run_state):return

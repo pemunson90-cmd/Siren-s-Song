@@ -270,3 +270,4 @@ title_text_size_ui_tests|TITLE TEXT SIZE UI|-|2263|render
 retry_words_ui_tests|RETRY WORDS UI|-|2264|render
 rock_drawn_tests|ROCK DRAWN|-|2270
 route_program_screen_tests|ROUTE PROGRAM SCREEN|-|2271
+result_actions_ui_tests|RESULT ACTIONS UI|-|2265|render

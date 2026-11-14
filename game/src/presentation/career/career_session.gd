@@ -112,12 +112,15 @@ func _result_menu()->void:
 	if dive_record:preload("res://src/presentation/career/career_result.gd").show(self,dive_abandoned)
 	_show_photo_grade(sim.mission.objectives)
 	if dive_record:preload("res://src/presentation/flow/photo_review.gd").show_best_frame(self)
+	# WP-109: the grade above is for this dive only; say plainly that the Naval Career keeps no photographs.
+	if dive_record and sim.mission.get("objectives",[]).any(func(o):return o.get("captured",false) and o.has("photo_quality")):_menu_text(CareerBoard.ResultText.CAREER_PHOTOS_WON if sim.outcome=="won" and not dive_abandoned else CareerBoard.ResultText.CAREER_PHOTOS_LOST,17)
 	if save_failed:
 		preload("res://src/presentation/frontend/save_error_view.gd").menu_retry(self,"RESULT NOT SAVED · "+str(campaign_host.get_meta("career_save_error","")),17,"RETRY SAVE",func():_save_archive();_result_menu(),"career_retry")
 	else:
 		_button(panel_box,"BACK TO CONTRACT BOARD",func():
 			result_pending=false;dive_record=false;active_started=false;CareerBoard.show(self)
 		,"career_board")
+	preload("res://src/presentation/debrief_actions.gd").footer(self) # WP-109: the result's buttons stay on screen
 	call_deferred("_layout")
 func _show_economy()->void:CareerBoard.supplies(self)
 func _refresh()->void:

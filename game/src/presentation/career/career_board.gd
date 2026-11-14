@@ -34,14 +34,15 @@ static func show(host)->void:
 		return
 	# WP-62: on a wide screen the contracts (each faction with its standing, each contract with its rider) are the
 	# left column and the rules, supplies, fittings and the record the right. Narrow: one list in the old order.
-	var columns=PrepColumns.open(host,host._show_campaign)
+	# WP-109: the contract list scrolls on its own; BACK, the rules, SUPPLIES and the record stay in place beside it.
+	var columns=PrepColumns.open(host,host._show_campaign,false,true)
 	PrepColumns.into(host,columns[1],_board_rules.bind(host))
 	PrepColumns.into(host,columns[0],_contracts.bind(host))
 	PrepColumns.into(host,columns[1],_board_links.bind(host))
 static func _board_rules(host)->void:
 	host._button(host.panel_box,"BACK TO GAME MODES",host._return,"career_return")
 	# Developer note, not shown to the player: pay and tuning are provisional.
-	host._menu_text("Recover a contract: standing +%d, contract pay and salvage. Lose one: standing %d and no pay. Recovery jobs are open at any standing."%[Table.SUCCESS,Table.LOSS],16)
+	host._menu_text("Recover a contract: standing +%d, contract pay and salvage. Lose one: standing %d, no contract pay, and only a little salvage. A replay pays less salvage than a first recovery. Recovery jobs are open at any standing."%[Table.SUCCESS,Table.LOSS],16)
 	host._menu_text(RIDER_NOTE,16)
 static func _contracts(host)->void:
 	for faction in Table.FACTIONS:
@@ -59,12 +60,27 @@ static func _contracts(host)->void:
 # WP-97: what a recovery pays on top of the contract. The same rule Economy.settle applies to a career dive (a first
 # recovery of the operation pays more than a replay; the preset and options scale it; a career dive banks no module scrap).
 static func salvage(host,c:Dictionary)->Dictionary:
-	var base=Economy.Table.INCOME.first if c.op not in host.career_state.progress.completed else Economy.Table.INCOME.replay
+	return scaled_income(host,Economy.Table.INCOME.first if c.op not in host.career_state.progress.completed else Economy.Table.INCOME.replay)
+# WP-109: the same scaling for any income row, so the briefing can name the first-recovery and the lost-dive salvage too.
+static func scaled_income(host,base:Dictionary)->Dictionary:
 	var pay={}
 	for key in Economy.RES:
 		var n=base[key]
 		pay[key]=int(ceil(n*Economy.preset(host.economy).income*Economy.Options.multiplier(host.economy,"income")-0.0001)) if n>0 else 0
 	return pay
+static func sum_pay(a:Dictionary,b:Dictionary)->Dictionary:
+	var out={}
+	for key in Economy.RES:out[key]=int(a.get(key,0))+int(b.get(key,0))
+	return out
+# WP-109: the briefing's reward paragraph. The total is contract pay plus salvage (Career.settle adds both); a replay says its salvage is reduced.
+const REWARD_LINE="Reward if you recover it: %s in total (contract pay %s + salvage %s)."
+const REPLAY_NOTE=" Salvage is reduced because you have recovered this contract before: a first recovery pays salvage of %s."
+const LOSS_LINE="Lose it: standing %d, no contract pay, salvage of only %s."
+static func reward_text(host,c:Dictionary)->String:
+	var salvaged:Dictionary=salvage(host,c)
+	var text:String=REWARD_LINE%[Economy.fmt(sum_pay(c.reward,salvaged)).to_lower(),Economy.fmt(c.reward).to_lower(),Economy.fmt(salvaged).to_lower()]
+	if c.op in host.career_state.progress.completed:text+=REPLAY_NOTE%Economy.fmt(scaled_income(host,Economy.Table.INCOME.first)).to_lower()
+	return text
 static func _board_links(host)->void:
 	host._button(host.panel_box,"SUPPLIES / RESEARCH",host._show_economy,"career_supplies")
 	host._button(host.panel_box,"FLEET / FITTINGS",host._show_fittings,"career_fittings")
@@ -83,7 +99,8 @@ static func briefing(host)->void:
 	host._menu_text("%s: %s"%[Table.FACTIONS[c.faction],c.brief],18)
 	Briefing.show(host,c.op,c.brief,CONTRACT_RULES)
 	host._menu_text(Briefing.carrying_line(host.tool_racks),17)
-	host._menu_text("Reward if you recover it: %s, plus salvage %s.\nStanding with %s: %d. Recover it for +%d, lose it for %d.\nNext launch costs: %s."%[Economy.fmt(c.reward).to_lower(),Economy.fmt(salvage(host,c)).to_lower(),Table.FACTIONS[c.faction].capitalize(),host.career_state.standing[c.faction],Table.SUCCESS,Table.LOSS,Economy.fmt(preload("res://src/presentation/economy_panel.gd").launch_cost(host)).to_lower()],17)
+	# WP-109: the total the player receives, the replay reduction, and what a loss still pays.
+	host._menu_text("%s\nStanding with %s: %d. Recover it for +%d.\n%s\nNext launch costs: %s."%[reward_text(host,c),Table.FACTIONS[c.faction].capitalize(),host.career_state.standing[c.faction],Table.SUCCESS,LOSS_LINE%[Table.LOSS,Economy.fmt(scaled_income(host,Economy.Table.INCOME.lost)).to_lower()],Economy.fmt(preload("res://src/presentation/economy_panel.gd").launch_cost(host)).to_lower()],17)
 	var rider=State.rider_offer(host.career_state,host.selected_contract)
 	host._menu_text(Riders.description(rider),17)
 	if not rider.is_empty():

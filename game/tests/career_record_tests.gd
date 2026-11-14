@@ -33,7 +33,7 @@ func run():
  # The recorded hull differs from the hull at the end of a dive: one line says why.
  var f=Economy.new_state();f.cond.quietus=Economy.preset(f).floor
  var host=_host(f);host.sim=bs
- check(Log.floor_line(host)==Log.FLOOR_LINE_LOST%[0,Economy.preset(f).floor],"the floor is explained: "+Log.floor_line(host))
+ check(Log.floor_line(host)==Log.FLOOR_LINE_LOST%[0,Economy.preset(f).floor,Economy.preset(f).floor],"the floor is explained: "+Log.floor_line(host))
  check(not Log.floor_line(host).contains("came home") and Log.floor_line(host).contains("was lost"),"a lost Quietus is not said to have come home")
  bs.outcome="won";check(Log.floor_line(host).begins_with("Quietus came home at 0%"),"a recovered Quietus came home")
  bs.outcome="lost"

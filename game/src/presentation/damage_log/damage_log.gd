@@ -20,9 +20,10 @@ const CAUSE_BEAM="a Siren beam"
 const CAUSE_BURST="an Interceptor burst"
 const CAUSE_FIELD="a Warden pressure field"
 const CAUSE_UNKNOWN="a cause the game does not record"
-const FLOOR_LINE="Quietus came home at %d%% and is recorded at %d%%, the lowest this difficulty records after a loss."
-const FLOOR_LINE_LOST="Quietus was lost at %d%% hull. It is recovered and recorded at %d%%, the lowest this difficulty records after a loss."
-const FLOOR_LINE_ENDED="Quietus ended the dive at %d%% hull. It is recorded at %d%%, the lowest this difficulty records after a loss."
+# WP-109: the floor is the lowest hull this difficulty records after ANY dive (Economy.settle), not only after a loss; the line says what the next dive starts with.
+const FLOOR_LINE="Quietus came home at %d%% hull and is raised to %d%%, the lowest hull this difficulty allows. The next dive starts at %d%%."
+const FLOOR_LINE_LOST="Quietus was lost at %d%% hull. It is brought back at %d%%, the lowest hull this difficulty allows. The next dive starts at %d%%."
+const FLOOR_LINE_ENDED="Quietus ended the dive at %d%% hull and is raised to %d%%, the lowest hull this difficulty allows. The next dive starts at %d%%."
 const REPAIR_LINE="Quietus hull is recorded at %d%%. It stays that way until repaired: open SUPPLIES and choose REPAIR QUIETUS HULL (%s) before the next dive."
 const REPAIR_FREE="Quietus hull is recorded at %d%%. It stays that way until repaired in SUPPLIES (REPAIR QUIETUS HULL)."
 var sim
@@ -58,7 +59,7 @@ static func floor_line(host)->String:
  var ended:int=roundi(host.sim.hull)
  if cond<=ended or cond!=int(Economy.preset(e).floor):return ""
  var template=FLOOR_LINE if host.sim.outcome=="won" else FLOOR_LINE_LOST if host.sim.outcome=="lost" else FLOOR_LINE_ENDED
- return template%[ended,cond]
+ return template%[ended,cond,cond] # WP-109: the floor and the recorded hull are the same number
 # Where the Campaign and Career offer a hull repair; "" when the hull is whole or mends by itself.
 static func repair_line(host)->String:
  var e=host.get("economy")
