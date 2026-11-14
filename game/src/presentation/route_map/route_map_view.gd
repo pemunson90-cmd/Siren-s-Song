@@ -78,7 +78,7 @@ func setup(main)->void:
     if count>0:states.append("%d %s"%[count,state.to_lower()])
    var summary=Label.new();summary.text=LEGEND_JOIN.join(states);summary.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;legend.add_child(summary)
  chart=ScrollContainer.new();chart.name="ChartPan";add_child(chart)
- board=Board.new();board.mouse_filter=Control.MOUSE_FILTER_PASS;board.graph=graph;chart.add_child(board)
+ board=Board.new();board.mouse_filter=Control.MOUSE_FILTER_PASS;board.graph=graph;board.gui_input.connect(_board_input);chart.add_child(board)
  detail=Label.new();detail.text=Table.DETAIL.hint;detail.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;add_child(detail)
  _fit()
  call_deferred("_focus_current")
@@ -159,7 +159,13 @@ func _metrics(h:float,z:float)->Dictionary:
  var pitch:Vector2=node_size+Vector2(gap,gap)
  var origin:Vector2=Vector2(margin+area_pad,margin+band)
  var foot:float=(band-area_pad) if z<Table.OVERVIEW.compact_below else 0.
- return {"stroke":stroke,"node_size":node_size,"region_size":region_size,"area_pad":area_pad,"origin":origin,"extent":origin+far*pitch+node_size+Vector2(margin+area_pad,margin+area_pad+foot)}
+ var tail:Vector2=Vector2(margin+area_pad,margin+area_pad+foot)
+ # In the overview the width sets the zoom, so the rows take the chart's free height: the gap between rows grows (never past
+ # row_stretch node heights), which keeps crowded columns apart and uses the board area.
+ if z<Table.OVERVIEW.compact_below and far.y>0.:
+  var free:float=chart.size.y*Table.OVERVIEW.fit_slack-(origin.y+far.y*pitch.y+node_size.y+tail.y)
+  pitch.y+=clampf(free/far.y,0.,node_size.y*Table.OVERVIEW.row_stretch)
+ return {"stroke":stroke,"node_size":node_size,"region_size":region_size,"area_pad":area_pad,"origin":origin,"pitch":pitch,"extent":origin+far*pitch+node_size+tail}
 # The smallest zoom: the whole board inside the chart, or zoom_start when it already fits at that zoom.
 func _fit_zoom(h:float)->float:
  var z:float=Table.VIEW.zoom_start
@@ -175,22 +181,28 @@ func _nodes(h):
  buttons.clear();board.centers.clear();board.boxes.clear()
  var m:Dictionary=_metrics(h,zoom);var node_size:Vector2=m.node_size;var area_pad:float=m.area_pad;var origin:Vector2=m.origin;var region_size:int=m.region_size
  var stroke:float=m.stroke;board.stroke=stroke
- var gap:float=h*Table.VIEW.gap_touch*zoom;var font=board.get_theme_default_font()
+ var pitch:Vector2=m.pitch;var font=board.get_theme_default_font()
  var compact:bool=zoom<Table.OVERVIEW.compact_below;var look:bool=_look_only(node_size)
  var node_font:int=maxi(Table.OVERVIEW.font_floor,roundi(_font(h,Table.VIEW.font_touch)*zoom))
  for row in graph.nodes:
-  var point:Vector2=row.position*(node_size+Vector2(gap,gap))+origin
+  var point:Vector2=row.position*pitch+origin
   var id:int=row.id
   # A node not yet charted is a small mark centred where its box would be; every node takes the tap.
   var cell:Vector2=Vector2.ONE*minf(node_size.x,node_size.y) if row.mark else node_size
   var spot:Vector2=point+(node_size-cell)*.5
   var button=_button(board,_face(row,compact,node_size),func():_select(id),"route_map_op_%d"%id)
-  button.position=spot;button.size=cell;button.custom_minimum_size=cell;button.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;button.mouse_filter=Control.MOUSE_FILTER_PASS
+  button.position=spot;button.size=cell;button.custom_minimum_size=cell
+  # A face of one short word never wraps: its box is the node's own size and cannot grow past it (a wrapping Button grew to two lines and overlapped its neighbours).
+  var wraps:bool=not row.mark and (not compact or node_size.x>=Table.OVERVIEW.title_min_width)
+  button.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART if wraps else TextServer.AUTOWRAP_OFF;button.clip_text=not wraps
+  button.mouse_filter=Control.MOUSE_FILTER_PASS
   button.set_meta("look_only",look)
   button.add_theme_font_size_override("font_size",node_font)
   var style=StyleBoxFlat.new();style.bg_color=Color(Table.THEME.recovered_fill if row.state=="RECOVERED" else Table.THEME.node_fill);style.set_content_margin_all(Table.OVERVIEW.padding if compact else Table.VIEW.padding)
   for state in ["normal","hover","pressed","disabled"]:button.add_theme_stylebox_override(state,style)
   button.add_theme_color_override("font_color",Color(Table.MARK_COLOR if row.mark else Table.COLORS[row.state]));buttons[id]=button
+  # Sized last: a Button grows to its minimum under the default theme and does not shrink back when the node's own look is applied.
+  button.reset_size();button.size=cell
   var border=Vector2.ONE*stroke
   board.centers[id]=point+node_size*.5;board.boxes[id]=Rect2(spot-border,cell+border*2)
  board.regions=_regions(region_size,font,area_pad)
@@ -244,8 +256,26 @@ func _zoom(direction:int):
 func _look_closer(id:int):
  zoom=clampf(maxf(zoom,Table.OVERVIEW.look_zoom),zoom_floor,Table.VIEW.zoom_max)
  _nodes(_touch_height())
- var center:Vector2=board.centers[id]
- chart.set_deferred("scroll_horizontal",roundi(center.x-chart.size.x*.5));chart.set_deferred("scroll_vertical",roundi(center.y-chart.size.y*.5))
+ _center_on(board.centers[id])
+# The chart's scroll range follows the board's new size one frame later: scrolling before that clamps to the old range
+# (the overview has none), which showed the left edge, the first region, whatever was tapped. So wait a frame, then centre.
+func _center_on(point:Vector2)->void:
+ await get_tree().process_frame
+ if not is_inside_tree() or chart==null:return
+ chart.scroll_horizontal=roundi(point.x-chart.size.x*.5);chart.scroll_vertical=roundi(point.y-chart.size.y*.5)
+# A tap on the overview that lands on a region's area or name (not on an operation) zooms in on that region.
+func _board_input(event:InputEvent)->void:
+ if event is InputEventMouseButton and event.pressed and event.button_index==MOUSE_BUTTON_LEFT and tap_board(event.position):board.accept_event()
+func tap_board(point:Vector2)->bool:
+ if zoom>=Table.OVERVIEW.compact_below:return false
+ for region in board.regions:
+  if region.area.has_point(point) or region.rect.has_point(point):
+   zoom=clampf(maxf(zoom,Table.OVERVIEW.look_zoom),zoom_floor,Table.VIEW.zoom_max)
+   _nodes(_touch_height())
+   for fresh in board.regions:
+    if fresh.text==region.text:_center_on(fresh.area.get_center())
+   return true
+ return false
 func _focus_current():
  var available=graph.nodes.filter(func(row):return row.state=="AVAILABLE")
  var recovered=host.completed+host.expedition.get("completed",[])

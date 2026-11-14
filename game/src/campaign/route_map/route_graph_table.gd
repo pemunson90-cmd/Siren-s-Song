@@ -17,7 +17,7 @@ const VIEW={
 # Overview: the player may zoom out until the whole board fits the chart (never below zoom_floor, fit_slack leaves a small margin).
 # Below compact_below a node shows its number (and its title while the box is title_min_width wide); text never drops under font_floor.
 # A node that would be under min_target in either direction is look-only: a tap zooms in on it (to look_zoom) instead of selecting it.
-const OVERVIEW={"zoom_floor":.05,"fit_slack":.98,"compact_below":.7,"title_min_width":96.,"font_floor":14,"padding":2,"look_zoom":.5,"min_target":48.,"stroke_share":.1,"pad_share":.25}
+const OVERVIEW={"zoom_floor":.05,"fit_slack":.98,"compact_below":.7,"title_min_width":96.,"font_floor":14,"padding":2,"look_zoom":.5,"min_target":48.,"stroke_share":.1,"pad_share":.25,"row_stretch":1.5}
 const COLORS={"RECOVERED":"75d7b0","AVAILABLE":"b8e7ed","LOCKED":"415862","KNOWN FROM PHOTOS":"e8c58b"}
 # An operation not yet charted is a small dim mark, not a box; the key lists it last.
 const NOT_CHARTED="NOT YET CHARTED"
