@@ -29,32 +29,33 @@ func run():
 	var context=s.camera_context()
 	check(not context.get("ready",true) and ("the camera reaches %d m"%reach) in str(context.text),"the simulation refuses with the camera reach (setup)")
 	var caption:Array=game.mission_hud.camera_caption()
-	var line:String=str(caption[2]) if caption.size()>2 else ""
+	var line:String=" ".join(caption.slice(1))
 	check(line.begins_with("NOT READY"),"caption still says NOT READY before the tap")
 	check(hidden not in numbers(line),"caption does not show the distance to the hidden source (%dm)"%hidden)
 	check(numbers(line)==[reach] and "REACH" in line,"caption names the same camera reach as the refusal")
-	# WP-69: a not-ready camera in reach of its lead says why, in the simulation's words.
-	check(caption.size()>3 and str(caption[3])==str(context.text),"NOT READY is followed by the simulation's own reason")
+	# WP-81: the lead's reason is the search area and the reach, said once: the simulation's sentence would repeat both.
+	check(str(caption[0])==Photo.label(o).to_upper() and not caption.has(str(context.text)),"the target is named once and the simulation's sentence is not repeated")
+	check(" ".join(caption).count(str(reach))==1,"the reach appears once in the caption")
 	var path="res://src/presentation/photo_shutter/range_caption.gd"
 	var Range=load(path) if ResourceLoader.exists(path) else null
 	check(Range!=null,"the range caption module exists")
 	if Range!=null:
 		Range.enabled=false
 		caption=game.mission_hud.camera_caption()
-		check(caption.size()>2 and str(caption[2])=="NOT READY · %dm"%hidden,"switch off: the caption returns to the base line exactly")
+		check(caption.size()>1 and str(caption[1])=="NOT READY · %dm"%hidden,"switch off: the caption returns to the base line exactly")
 		Range.enabled=true
 	# A resolved subject: the caption labels distance and reach, matching the refusal pair.
 	o.erase("unknown")
 	u.pos=o.pos+Vector2.from_angle(o.subject.facing)*300.0;u.angle=u.pos.angle_to_point(o.pos)
 	game._refresh();context=s.camera_context()
-	caption=game.mission_hud.camera_caption();line=str(caption[2]) if caption.size()>2 else ""
+	caption=game.mission_hud.camera_caption();line=" ".join(caption.slice(1))
 	var refused:Array=numbers(str(context.text))
 	check(not context.ready and refused.size()>=2,"out of reach the simulation names distance and range (setup)")
 	check(numbers(line)==refused.slice(0,2) and "REACH" in line,"caption shows the refusal's distance and range, labelled")
 	check(caption.size()==3,"out of reach alone adds no reason line: the distance is already shown")
 	u.pos=o.pos+Vector2.from_angle(o.subject.facing)*100.0;u.angle=u.pos.angle_to_point(o.pos)
-	game._refresh();caption=game.mission_hud.camera_caption();line=str(caption[2]) if caption.size()>2 else ""
+	game._refresh();caption=game.mission_hud.camera_caption();line=" ".join(caption.slice(1))
 	check(line.begins_with("READY") and numbers(line)==[roundi(u.pos.distance_to(o.pos)),reach],"in reach the caption reads READY with distance and reach")
-	check(caption.size()==3,"READY adds no reason line")
+	check(caption.size()==3 and not "▸" in "".join(caption),"READY adds no reason line, and no glyph the font lacks")
 	game.queue_free();await process_frame
 	print("PHOTO RANGE CAPTION CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)
