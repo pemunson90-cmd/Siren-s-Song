@@ -90,6 +90,7 @@ static func lock_rows(sim)->Array:
 		var word:String=Table.SIREN_WORD if kind in Table.COARSE_KINDS else Table.ROLE_WORDS.get(kind,Table.SIREN_WORD)
 		row["sentence"]=Table.TEXT.lock_sentence%[word,Compass.point(row.bearing),str(sim.units[target].get("name","CRAFT")),row.remaining]
 		var moves:String=counter_moves(sim,target,row.siren_pos)
+		row["moves"]=move_list(sim,target,row.siren_pos)
 		row["advice"]=(Table.TEXT.lock_exit if target==0 else Table.TEXT.lock_exit_drone)+("" if moves.is_empty() else "\n"+moves)
 		row["progress"]=clampf(1.0-float(row.remaining)/seconds,0.0,1.0)
 		result.append(row)
@@ -101,13 +102,18 @@ static func lock_rows(sim)->Array:
 # own gate, main.gd) and, for the EMP, when the locking Siren's known position is within its
 # pulse radius (weapon_orders.gd keeps the charge when no Siren is in range).
 static func counter_moves(sim,craft:int,siren_pos:Vector2)->String:
-	var u=sim.units[craft];var moves:Array=[]
-	if not u.get("silent",false):moves.append(HudWords.TEXT.silent_off if craft==0 else HudWords.TEXT.profile_low)
-	var decoys:int=_charges(sim,craft,"decoy")
-	if decoys>0:moves.append(Table.TEXT.move_count%[_tool_word("decoy"),decoys])
-	var pulses:int=_charges(sim,craft,"emp")
-	if pulses>0 and u.pos.distance_to(siren_pos)<=Tuning.EMP_RADIUS:moves.append(Table.TEXT.move_count%[_tool_word("emp"),pulses])
+	var moves:Array=move_list(sim,craft,siren_pos).map(func(m):return m.label)
 	return "" if moves.is_empty() else Table.TEXT.moves%Table.TEXT.move_join.join(moves)
+# The same moves as rows: {"order": the order the chart's wheel sends ("silent", "decoy", "emp"), "label": the card's words}.
+# The lock card's buttons (lock_warning.gd) and the line above both read this, so they never disagree.
+static func move_list(sim,craft:int,siren_pos:Vector2)->Array:
+	var u=sim.units[craft];var moves:Array=[]
+	if not u.get("silent",false):moves.append({"order":"silent","label":HudWords.TEXT.silent_off if craft==0 else HudWords.TEXT.profile_low})
+	var decoys:int=_charges(sim,craft,"decoy")
+	if decoys>0:moves.append({"order":"decoy","label":Table.TEXT.move_count%[_tool_word("decoy"),decoys]})
+	var pulses:int=_charges(sim,craft,"emp")
+	if pulses>0 and u.pos.distance_to(siren_pos)<=Tuning.EMP_RADIUS:moves.append({"order":"emp","label":Table.TEXT.move_count%[_tool_word("emp"),pulses]})
+	return moves
 # A tool's name as the card writes it: the tool table's own name (equipment/field_tools.gd), in capitals.
 static func _tool_word(id:String)->String:
 	return str(preload("res://src/equipment/field_tools.gd").spec(id).get("name",id)).to_upper()

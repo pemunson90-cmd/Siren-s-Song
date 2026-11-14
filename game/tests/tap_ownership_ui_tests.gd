@@ -72,6 +72,7 @@ func run():
 	await closing_tap_checks(g)
 	await tip_card_tap_checks(g)
 	await warning_card_checks(g)
+	await lock_move_checks(g)
 	g.queue_free();await settle()
 	print("TAP OWNERSHIP UI CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)
 
@@ -195,6 +196,48 @@ func warning_card_checks(g)->void:
 		check(g.ocean.warning_showing() and not feed.visible,"a lock does not open the viewfinder by itself")
 		g.sim.contacts={};g._refresh();await settle()
 		check(feed.visible,"the viewfinder comes back once the warning is over")
+
+# WP-67: the moves on the lock card are one-tap buttons; the card owns their taps.
+func shown_buttons(w)->Array:
+	return w.buttons.filter(func(b):return b.visible)
+func lock_move_checks(g)->void:
+	var Words=preload("res://src/presentation/hud_words.gd")
+	var Table=preload("res://src/presentation/threat_read/threat_read_table.gd")
+	await fresh(g)
+	g.sim.paused=true;g.sim.units[0].silent=false;await lock_on(g,0)
+	var w=g.lock_warning
+	var shown:Array=shown_buttons(w)
+	check(shown.size()>=2 and shown[0].text==Words.TEXT.silent_off,"a paused lock on Quietus shows its moves as buttons, GO SILENT first: "+str(shown.map(func(b):return b.text)))
+	var card:Rect2=Rect2(w.global_position+w.banner.position,w.banner.size)
+	check(shown.all(func(b):return b.size.y>=g.ui_touch_height-1.0 and card.encloses(b.get_global_rect())),"every move button has the normal touch height and sits inside the card")
+	check(is_equal_approx(w.banner.size.x,minf(g.size.x-32,g.ui_touch_height*preload("res://src/presentation/ui_style.gd").LOCK_CARD_WIDTH)),"the card keeps its width")
+	check(g.mission_hud.blocks(card.get_center()) and g.mission_hud.blocks(shown[0].get_global_rect().get_center()),"the card owns taps on its buttons and its body")
+	var route_before=str(g.sim.units[0].get("route_plan",[]))
+	var decoy=shown.filter(func(b):return b.get_meta("order")=="decoy")
+	check(decoy.size()==1,"a DECOY button is on the card")
+	if decoy.size()==1:
+		await click(decoy[0])
+		check(g.decoy_armed and g.decoy_unit==0 and g.sim.selected==0,"DECOY arms placement for the locked craft")
+		check(w.card_text.contains(Table.TEXT.decoy_aim),"the card says what to do next: "+w.card_text)
+		check(str(g.sim.units[0].get("route_plan",[]))==route_before,"the tap did not become a route order")
+	g.decoy_armed=false;g._refresh();await settle()
+	var silent=shown_buttons(w)[0]
+	await click(silent)
+	check(g.sim.units[0].silent and not shown_buttons(w).any(func(b):return b.get_meta("order")=="silent"),"GO SILENT sets Quietus silent in one tap and leaves the card")
+	var emp=shown_buttons(w).filter(func(b):return b.get_meta("order")=="emp")
+	if emp.size()==1:
+		await click(emp[0])
+		check(g.sim.message.contains("EMP") ,"the EMP button sends the EMP order: "+g.sim.message)
+	# A lock on a drone: the buttons select the drone first.
+	await fresh(g)
+	g.sim.paused=true;g.sim.units[1].silent=false;await lock_on(g,1)
+	var drone=shown_buttons(g.lock_warning)
+	check(not drone.is_empty() and drone[0].text==Words.TEXT.profile_low,"a drone's card offers GO LOW PROFILE")
+	if not drone.is_empty():
+		await click(drone[0])
+		check(g.sim.selected==1 and g.sim.units[1].silent,"the drone's button selects the drone and lowers its profile")
+	g.sim.paused=false;g._refresh();await settle()
+	check(shown_buttons(g.lock_warning).is_empty(),"running play shows no buttons")
 
 # 2. A tap that closes something only closes it.
 func opened(g,how:String)->void:

@@ -923,6 +923,7 @@ func action_controls() -> Dictionary:
 func blocks(point:Vector2) -> bool:
  if host.advanced_orders:return true
  if guard!=null and (guard.blocks(point) or hints.blocks(point) or chart_choice.blocks(point) or (contact_card!=null and contact_card.blocks(point))):return true
+ if host.lock_warning!=null and host.lock_warning.blocks(point):return true  # the lock card's move buttons own their taps
  for b in action_controls().values():
   if b.get_global_rect().has_point(point):return true
  return host.ocean.optical_feed!=null and host.ocean.optical_feed.is_visible_in_tree() and host.ocean.optical_feed.get_global_rect().has_point(point)
