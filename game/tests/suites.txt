@@ -258,3 +258,4 @@ chart_label_fit_ui_tests|CHART LABEL FIT UI|-|1452|render
 status_strip_tests|STATUS STRIP|-|1453|render
 stuck_craft_tests|STUCK CRAFT|-|1453
 stuck_craft_ui_tests|STUCK CRAFT UI|-|1454|render
+large_text_screen_ui_tests|LARGE TEXT SCREEN UI|-|1453|render
