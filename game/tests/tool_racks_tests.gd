@@ -201,8 +201,8 @@ func locker_matches(game)->bool:
 func layout_checks():
  var Metrics=preload("res://src/presentation/layout_metrics.gd")
  check(Metrics.prep_wide(Vector2(1680,720),98.,1.) and Metrics.prep_wide(Vector2(1280,1153),87.,1.),"wide preparation layout on the cover and inner screens")
- check(not Metrics.prep_wide(Vector2(1280,2844),175.,1.) and not Metrics.prep_wide(Vector2(1280,1153),87.,1.5) and not Metrics.prep_wide(Vector2(1680,720),98.,1.5),"single column on a portrait phone and when the largest text would not fit two columns")
- check(Metrics.hub_wide(Vector2(1680,720),98.,1.5) and Metrics.hub_wide(Vector2(1280,1153),87.) and not Metrics.hub_wide(Vector2(1280,1153),87.,1.5) and not Metrics.hub_wide(Vector2(1280,2844),175.),"the campaign hub is two columns on the cover and inner screens, one on the inner screen at large text and on a phone")
+ check(not Metrics.prep_wide(Vector2(1280,2844),175.,1.) and Metrics.prep_wide(Vector2(1280,1153),87.,1.5) and Metrics.prep_wide(Vector2(1680,720),98.,1.5) and not Metrics.prep_wide(Vector2(1000,1153),87.,1.5),"single column on a portrait phone and when the largest text would not fit two columns (a column needs more than a tool row only when its longest word is wider)")
+ check(Metrics.hub_wide(Vector2(1680,720),98.,1.5) and Metrics.hub_wide(Vector2(1280,1153),87.) and Metrics.hub_wide(Vector2(1280,1153),87.,1.5) and not Metrics.hub_wide(Vector2(1280,2844),175.),"the campaign hub is two columns on the cover and inner screens at every text size, one on a phone")
 func prep_case(shape:Vector2i,expect_wide:bool):
  root.size=shape;await settle()
  var game=load("res://scenes/main.tscn").instantiate();game.set_script(load("res://tests/density_main.gd"));game.capture_scenario="runtime-test"
