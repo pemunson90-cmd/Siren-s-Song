@@ -16,6 +16,7 @@ class Board extends Control:
  var boxes:Dictionary={}
  # One entry per region: {"text","key" (tint),"rect" (the name's own area),"area" (the soft region behind its operations),"reached","font_size"}.
  var regions:Array=[]
+ var stroke:float=Palette.VIEW.stroke
  func _draw():
   var font=get_theme_default_font()
   var look:Dictionary=Palette.REGION_AREA
@@ -27,13 +28,13 @@ class Board extends Control:
   for region in regions:
    var name_color:=Color(Palette.REGION_COLOR);name_color.a=1. if region.reached else look.name_dim
    draw_string(font,region.rect.position+Vector2(0,font.get_ascent(region.font_size)),region.text,HORIZONTAL_ALIGNMENT_LEFT,-1,region.font_size,name_color)
-  for edge in graph.get("edges",[]):draw_line(centers[edge.from],centers[edge.to],Color(Palette.THEME.edge),Palette.VIEW.stroke,true)
-  for edge in graph.get("rumors",[]):draw_dashed_line(centers[edge.from],centers[edge.to],Color(Palette.COLORS["KNOWN FROM PHOTOS"]),Palette.VIEW.stroke,Palette.VIEW.line_dash,true)
+  for edge in graph.get("edges",[]):draw_line(centers[edge.from],centers[edge.to],Color(Palette.THEME.edge),stroke,true)
+  for edge in graph.get("rumors",[]):draw_dashed_line(centers[edge.from],centers[edge.to],Color(Palette.COLORS["KNOWN FROM PHOTOS"]),stroke,Palette.VIEW.line_dash,true)
   for row in graph.get("nodes",[]):
    var rect:Rect2=boxes[row.id];var color=Color(Palette.MARK_COLOR if row.mark else Palette.COLORS[row.state])
    if row.state=="KNOWN FROM PHOTOS":
-    for side in [[rect.position,Vector2(rect.end.x,rect.position.y)],[Vector2(rect.end.x,rect.position.y),rect.end],[rect.end,Vector2(rect.position.x,rect.end.y)],[Vector2(rect.position.x,rect.end.y),rect.position]]:draw_dashed_line(side[0],side[1],color,Palette.VIEW.stroke,Palette.VIEW.node_dash,true)
-   else:draw_rect(rect,color,false,Palette.VIEW.stroke)
+    for side in [[rect.position,Vector2(rect.end.x,rect.position.y)],[Vector2(rect.end.x,rect.position.y),rect.end],[rect.end,Vector2(rect.position.x,rect.end.y)],[Vector2(rect.position.x,rect.end.y),rect.position]]:draw_dashed_line(side[0],side[1],color,stroke,Palette.VIEW.node_dash,true)
+   else:draw_rect(rect,color,false,stroke)
 var host
 var graph:Dictionary={}
 var buttons:Dictionary={}
@@ -44,7 +45,8 @@ var legend:VBoxContainer
 var legend_pan:ScrollContainer
 var key:HFlowContainer
 var detail:Label
-var zoom:float=Table.VIEW.zoom_min
+var zoom:float=Table.VIEW.zoom_start
+var zoom_floor:float=Table.VIEW.zoom_start
 var fitted_size=Vector2.ZERO
 var fitted_touch=0.
 var fitted_scale=0.
@@ -141,34 +143,65 @@ func _fit():
  # Wrapped Label minimum height is recomputed after its width/font changes.
  # Apply the bounded height after that deferred update, including first layout.
  detail.set_deferred("size",Vector2(size.x-margin*2,h))
+ zoom_floor=_fit_zoom(h);zoom=clampf(zoom,zoom_floor,Table.VIEW.zoom_max)
  _nodes(h);queue_redraw()
+# Sizes at one zoom: the same numbers lay out the nodes and measure the board, so the overview fit and the drawn board agree.
+func _metrics(h:float,z:float)->Dictionary:
+ var node_size:Vector2=Vector2(h*Table.VIEW.width_touch,h*Table.VIEW.height_tagged)*z
+ var gap:float=h*Table.VIEW.gap_touch*z;var area_pad:float=h*Table.REGION_AREA.pad*z;var margin:float=Table.VIEW.margin
+ # In the overview the gaps are thin: lines and region padding shrink with them so areas never reach a neighbour's node.
+ var stroke:float=maxf(1.,minf(Table.VIEW.stroke,gap*Table.OVERVIEW.stroke_share))
+ if z<Table.OVERVIEW.compact_below:area_pad=minf(area_pad,gap*Table.OVERVIEW.pad_share)
+ var region_size:int=maxi(Table.OVERVIEW.font_floor,roundi(_font(h,Table.VIEW.region_font)*z))
+ var band:float=board.get_theme_default_font().get_height(region_size)+Table.VIEW.region_pad+area_pad
+ var far:Vector2=Vector2.ZERO
+ for row in graph.nodes:far=far.max(row.position)
+ var pitch:Vector2=node_size+Vector2(gap,gap)
+ var origin:Vector2=Vector2(margin+area_pad,margin+band)
+ var foot:float=(band-area_pad) if z<Table.OVERVIEW.compact_below else 0.
+ return {"stroke":stroke,"node_size":node_size,"region_size":region_size,"area_pad":area_pad,"origin":origin,"extent":origin+far*pitch+node_size+Vector2(margin+area_pad,margin+area_pad+foot)}
+# The smallest zoom: the whole board inside the chart, or zoom_start when it already fits at that zoom.
+func _fit_zoom(h:float)->float:
+ var z:float=Table.VIEW.zoom_start
+ for step in 6:
+  var extent:Vector2=_metrics(h,z)["extent"]
+  var ratio:float=minf(chart.size.x/extent.x,chart.size.y/extent.y)
+  if ratio>=1. and z>=Table.VIEW.zoom_start:return Table.VIEW.zoom_start
+  z=clampf(z*ratio*Table.OVERVIEW.fit_slack,Table.OVERVIEW.zoom_floor,Table.VIEW.zoom_start)
+ return z
+func _look_only(node_size:Vector2)->bool:return minf(node_size.x,node_size.y)<Table.OVERVIEW.min_target
 func _nodes(h):
  for child in board.get_children():board.remove_child(child);child.queue_free()
  buttons.clear();board.centers.clear();board.boxes.clear()
- var node_size=Vector2(h*Table.VIEW.width_touch,h*Table.VIEW.height_tagged)*zoom
- var gap=h*Table.VIEW.gap_touch*zoom;var margin=Table.VIEW.margin;var extent=Vector2.ZERO
- # Region names sit in a band above the top row (name, gap, then the region area's padding), so the board starts that much lower.
- var region_size:int=roundi(_font(h,Table.VIEW.region_font)*zoom);var font=board.get_theme_default_font()
- var area_pad:float=h*Table.REGION_AREA.pad*zoom
- var band:float=font.get_height(region_size)+Table.VIEW.region_pad+area_pad
- var origin:=Vector2(margin+area_pad,margin+band)
+ var m:Dictionary=_metrics(h,zoom);var node_size:Vector2=m.node_size;var area_pad:float=m.area_pad;var origin:Vector2=m.origin;var region_size:int=m.region_size
+ var stroke:float=m.stroke;board.stroke=stroke
+ var gap:float=h*Table.VIEW.gap_touch*zoom;var font=board.get_theme_default_font()
+ var compact:bool=zoom<Table.OVERVIEW.compact_below;var look:bool=_look_only(node_size)
+ var node_font:int=maxi(Table.OVERVIEW.font_floor,roundi(_font(h,Table.VIEW.font_touch)*zoom))
  for row in graph.nodes:
   var point:Vector2=row.position*(node_size+Vector2(gap,gap))+origin
   var id:int=row.id
   # A node not yet charted is a small mark centred where its box would be; every node takes the tap.
   var cell:Vector2=Vector2.ONE*minf(node_size.x,node_size.y) if row.mark else node_size
   var spot:Vector2=point+(node_size-cell)*.5
-  var button=_button(board,Table.MARK_GLYPH if row.mark else "%02d  %s\n%s%s"%[id+1,row.label,row.state,tag_text(row)],func():_select(id),"route_map_op_%d"%id)
+  var button=_button(board,_face(row,compact,node_size),func():_select(id),"route_map_op_%d"%id)
   button.position=spot;button.size=cell;button.custom_minimum_size=cell;button.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;button.mouse_filter=Control.MOUSE_FILTER_PASS
-  button.add_theme_font_size_override("font_size",roundi(_font(h,Table.VIEW.font_touch)*zoom))
-  var style=StyleBoxFlat.new();style.bg_color=Color(Table.THEME.recovered_fill if row.state=="RECOVERED" else Table.THEME.node_fill);style.set_content_margin_all(Table.VIEW.padding)
+  button.set_meta("look_only",look)
+  button.add_theme_font_size_override("font_size",node_font)
+  var style=StyleBoxFlat.new();style.bg_color=Color(Table.THEME.recovered_fill if row.state=="RECOVERED" else Table.THEME.node_fill);style.set_content_margin_all(Table.OVERVIEW.padding if compact else Table.VIEW.padding)
   for state in ["normal","hover","pressed","disabled"]:button.add_theme_stylebox_override(state,style)
   button.add_theme_color_override("font_color",Color(Table.MARK_COLOR if row.mark else Table.COLORS[row.state]));buttons[id]=button
-  var border=Vector2.ONE*Table.VIEW.stroke
+  var border=Vector2.ONE*stroke
   board.centers[id]=point+node_size*.5;board.boxes[id]=Rect2(spot-border,cell+border*2)
-  extent=extent.max(point+node_size+Vector2(margin+area_pad,margin+area_pad))
  board.regions=_regions(region_size,font,area_pad)
- board.custom_minimum_size=extent;board.size=extent;board.queue_redraw()
+ board.custom_minimum_size=m.extent;board.size=m.extent;board.queue_redraw()
+ if look:detail.text=Table.DETAIL.look
+ elif detail.text==Table.DETAIL.look:detail.text=Table.DETAIL.hint
+# What a node shows: the full face (number, title, state, tag), or compact (number, and the title while the box is wide enough); colour carries the state.
+func _face(row:Dictionary,compact:bool,node_size:Vector2)->String:
+ if row.mark:return Table.MARK_GLYPH
+ if not compact:return "%02d  %s\n%s%s"%[row.id+1,row.label,row.state,tag_text(row)]
+ return "%02d  %s"%[row.id+1,row.label] if node_size.x>=Table.OVERVIEW.title_min_width else "%02d"%(row.id+1)
 # The tag (empty for an operation the player cannot open): the work on one line, then what recovering it opens.
 static func tag_text(row:Dictionary)->String:
  if row.tag.is_empty():return ""
@@ -191,18 +224,28 @@ func _regions(font_size:int,font:Font,pad:float)->Array:
   var text:String=arc.name;var size:=Vector2(font.get_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x,font.get_height(font_size))
   var reached:bool=members.any(func(row):return row.state in ["AVAILABLE","RECOVERED"])
   var corner:float=Table.REGION_AREA.corner*.5
-  result.append({"text":text,"key":arc.region,"rect":Rect2(Vector2(area.position.x+corner,area.position.y-Table.VIEW.region_pad-size.y),size),"area":area,"reached":reached,"font_size":font_size})
+  result.append({"text":text,"key":arc.region,"rect":Rect2(Vector2(area.position.x+corner,area.position.y-Table.VIEW.region_pad-size.y),size),"area":area,"reached":reached,"font_size":font_size,"below":false})
+ # A name wider than its area can run into a neighbour (overview): it then moves under its area, where the board keeps a band for it.
+ for region in result:
+  if result.any(func(other):return other!=region and region.rect.intersects(other.area)):
+   region.rect.position.y=region.area.end.y+Table.VIEW.region_pad;region.below=true
  return result
 # A mark says which region it lies in; an operation outside every region keeps the plain wording.
 static func not_charted_text(id:int)->String:
  var arc:Dictionary=preload("res://src/campaign/arcs/arc_table.gd").for_operation(id)
  return Table.DETAIL.not_charted%arc.name if not arc.is_empty() else Table.DETAIL.not_charted_plain
 func _zoom(direction:int):
- var previous=zoom;zoom=clampf(zoom+direction*Table.VIEW.zoom_step,Table.VIEW.zoom_min,Table.VIEW.zoom_max)
+ var previous=zoom;zoom=clampf(zoom+direction*Table.VIEW.zoom_step,zoom_floor,Table.VIEW.zoom_max)
  if zoom==previous:return
  var center=Vector2(chart.scroll_horizontal,chart.scroll_vertical)+chart.size*.5
  _nodes(_touch_height())
  chart.set_deferred("scroll_horizontal",roundi(center.x*zoom/previous-chart.size.x*.5));chart.set_deferred("scroll_vertical",roundi(center.y*zoom/previous-chart.size.y*.5))
+# Overview taps are honest: nodes there are under the touch minimum, so the first tap only zooms in on the tapped one.
+func _look_closer(id:int):
+ zoom=clampf(maxf(zoom,Table.OVERVIEW.look_zoom),zoom_floor,Table.VIEW.zoom_max)
+ _nodes(_touch_height())
+ var center:Vector2=board.centers[id]
+ chart.set_deferred("scroll_horizontal",roundi(center.x-chart.size.x*.5));chart.set_deferred("scroll_vertical",roundi(center.y-chart.size.y*.5))
 func _focus_current():
  var available=graph.nodes.filter(func(row):return row.state=="AVAILABLE")
  var recovered=host.completed+host.expedition.get("completed",[])
@@ -214,6 +257,7 @@ func _focus_current():
  var center:Vector2=board.centers[id]
  chart.set_deferred("scroll_horizontal",roundi(center.x-chart.size.x*.5));chart.set_deferred("scroll_vertical",roundi(center.y-chart.size.y*.5))
 func _select(id:int):
+ if buttons.has(id) and buttons[id].get_meta("look_only",false):_look_closer(id);return
  var row=graph.nodes.filter(func(node):return node.id==id)[0]
  if row.can_open:
   _dismiss();host._briefing(id)
