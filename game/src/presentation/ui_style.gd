@@ -23,6 +23,7 @@ const PANEL_FILL=Color("0a1b25")
 const PANEL_BORDER=Color("47636a")
 const ACCENT=Color("80d9cf")	# the heading colour used by frontend.gd
 const WARNING=Color("efc28d")	# the warning text colour used by frontend.gd
+const TRAIL_INK=Color("8f9ea3")	# WP-118: the dim grey of a craft's past-track dots; no route is grey or dotted
 const DANGER_RED=Color("e26a50")	# the threat red drawn on the chart (ocean_view.gd)
 # Role colours derived for the new looks.
 const ON_ACCENT=Color("06141b")

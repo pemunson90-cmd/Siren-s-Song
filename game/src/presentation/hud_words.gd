@@ -43,6 +43,16 @@ const TEXT={
 	"run_lock": "After ▶ RUN: a lock lands in %.1f s",
 	"run_orders": "After ▶ RUN: orders run for %s",
 	"run_none": "After ▶ RUN: no craft has orders",
+	# WP-118 (round 9 critics): the strip's standing line while time runs and a launched craft has no orders (route_notes.gd).
+	"idle_one": "%s HAS NO ORDERS",
+	"idle_many": "%s HAVE NO ORDERS",
+	"idle_oxygen": " · oxygen is running",
+	"idle_and": " AND ",
+	# WP-118: the way a craft came, drawn as dim dots on the chart (ocean_view.gd); it is not an order.
+	"trail": "TRAIL",
+	# WP-118: the status line's next step once the record is secured and Quietus has no route (route_notes.gd).
+	"return_old": "Return Quietus to extraction.",
+	"return_steps": "Return Quietus to extraction: tap Quietus, then tap the water near EXTRACTION.",
 	# WP-106: a route line the craft is not following says why on the chart (route_notes.gd).
 	"tag_HOLD": "ROUTE KEPT · HOLDING",
 	"tag_CONTACT": "ROUTE KEPT · ON GUARD",
@@ -140,6 +150,13 @@ const MESSAGE_FRESH_SECONDS=4.0
 const ROUTE_END_SECONDS=8.0
 # A craft counts as moving above this speed (m/s) when its route runs out.
 const MOVING_SPEED=2.0
+# WP-118: seconds of running dive time a launched craft stands with no orders before the strip says so (the dive's first
+# seconds, a pause, and a fresh order all start the count again).
+const IDLE_SECONDS=5.0
+# WP-118: the trail dots: metres between dots, how many are kept, and the dot radius in metres.
+const TRAIL_STEP=30.0
+const TRAIL_MAX=40
+const TRAIL_DOT=2.5
 
 static func sights()->Dictionary:
 	return {"silent": Pricing.SIREN_SIGHT_SILENT, "open": Pricing.SIREN_SIGHT}
