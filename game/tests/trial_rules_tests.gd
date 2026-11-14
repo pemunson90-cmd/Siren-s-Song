@@ -107,6 +107,11 @@ func lock_pause_case():
 	sim.paused=false;aid.auto_pause.clear()
 	for n in 5:sim.elapsed+=.1;sim.contacts[0].time=sim.elapsed;aid.observe()
 	check(not sim.paused,"resuming does not pause again for the same lock")
+	# Critic 13 Nov: the same lock re-paused at each fresh report after a quiet gap longer than LOCK_CLEAR_SECONDS.
+	for n in 25:sim.elapsed+=.1;aid.observe()
+	sim.contacts[0].time=sim.elapsed;sim.contacts[0].lock=2.6;aid.observe()
+	check(not sim.paused,"a lock still rising after a quiet gap between reports is the same lock: no second pause")
+	sim.contacts[0].lock=.1
 	sim.contacts.clear();aid.observe();sim.elapsed+=Aids.LOCK_CLEAR_SECONDS+.01
 	sim.contacts={0:{"pos":sim.units[1].pos+Vector2(60,0),"time":sim.elapsed,"mode":"LOCKING","lock":.1,"target":1,"band":sim.units[1].band}}
 	aid.observe()
