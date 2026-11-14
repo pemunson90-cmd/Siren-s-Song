@@ -146,6 +146,7 @@ func setup(owner):
   var b=host.unit_buttons[i];b.reparent(self);b.set_meta("action",["sub","droneA","droneB"][i]);b.pressed.connect(_selected_craft,CONNECT_DEFERRED)
  host.pause_button.reparent(self);host.pause_button.set_meta("action","pause")
  host.advanced_button.reparent(self);host.advanced_button.set_meta("action","more_orders")
+ host.speed_button.reparent(self);host.speed_button.set_meta("action","speed") # WP-120
  host.advanced_button.pressed.disconnect(host._toggle_advanced);host.advanced_button.pressed.connect(func():open("fleet"),CONNECT_DEFERRED)
  for i in host.zoom_buttons.size():
   host.zoom_buttons[i].reparent(self);host.zoom_buttons[i].set_meta("action",["zoom_out","zoom_in","fit"][i])
@@ -460,7 +461,7 @@ func layout(bounds:Vector2,h:float):
  # The plate's full wording was fitted at the previous size; at the new base size it would wrap and force the plate
  # taller for good. Refresh composes the full plate again straight after this layout.
  host.pause_button.text=Words.plate_action(host.sim)
- for b in host.order_buttons.values()+host.unit_buttons+extra.values()+target_buttons+[close_button,focus_button,host.pause_button,host.advanced_button]+host.zoom_buttons:
+ for b in host.order_buttons.values()+host.unit_buttons+extra.values()+target_buttons+[close_button,focus_button,host.pause_button,host.advanced_button,host.speed_button]+host.zoom_buttons:
   b.mouse_filter=Control.MOUSE_FILTER_IGNORE if b in command_controls() else Control.MOUSE_FILTER_STOP
   b.hide();b.custom_minimum_size=Vector2(bw,bh);b.size=Vector2(bw,bh);b.add_theme_font_size_override("font_size",font)
   b.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
@@ -477,6 +478,10 @@ func layout(bounds:Vector2,h:float):
  if FrontendSettings.current.get("mirrored_hud",false):
   host.pause_button.position.x=bounds.x-bw-12
   host.advanced_button.position.x=12
+ # WP-120: the speed control sits against the pause plate, on its inner side, with the plate's height.
+ var speed_gap=8.
+ host.speed_button.show();host.speed_button.size=Vector2(bw,bh)
+ host.speed_button.position=Vector2(host.pause_button.position.x+(-bw-speed_gap if host.pause_button.position.x>bounds.x/2. else bw+speed_gap),12)
  var line_height=ceili(intent.get_theme_font("font").get_height(font))
  intent.position=Vector2(16,bounds.y-line_height*2-14);intent.size=Vector2(bounds.x-32,line_height*2+8);intent.add_theme_font_size_override("font_size",font);intent.custom_minimum_size=Vector2(bounds.x-32,line_height*2+8)
  intent.visible=not host.advanced_orders
@@ -509,7 +514,9 @@ func layout(bounds:Vector2,h:float):
   _schedule_sheet_fit()
   close_button.position=Vector2(center.x-h*.775,minf(bounds.y-h-16,sheet.position.y+sheet.size.y+8));sheet.move_to_front();close_button.move_to_front()
  for label in [host.title_label,host.detail_label,instrument_info]:label.add_theme_font_size_override("font_size",font)
- alarm.position=Vector2(bw+32,12);alarm.size=Vector2(maxf(1,bounds.x-h*6.*text_scale-64),h);alarm.add_theme_font_size_override("font_size",font)
+ alarm.position=Vector2(bw+32,12);alarm.size=Vector2(maxf(1,bounds.x-h*6.*text_scale-64),h)
+ # WP-120: the alarm lane starts after the speed control when that control is on the alarm's side (the plate at the left).
+ if host.speed_button.position.x<bounds.x/2.:alarm.position.x+=bw+speed_gap;alarm.size.x=maxf(1.,alarm.size.x-bw-speed_gap);alarm.add_theme_font_size_override("font_size",font)
  host.pause_button.move_to_front();alarm.move_to_front();refresh();queue_redraw()
 # Measure the Label's resolved wrapping, rather than a separate Font estimate.
 # Its complete status grows upward; the chart reserves the space beside it.
@@ -668,7 +675,7 @@ func _place_threat_stack():
   var beside=Rect2(Vector2(size.x-warning.banner.size.x-12,host.ocean.contact_top),warning.banner.size)
   var blocks=rows.duplicate()
   if overflow:blocks.append(contact_scroll.get_rect())
-  for control in [host.pause_button,host.advanced_button]:
+  for control in [host.pause_button,host.advanced_button,host.speed_button]: # WP-120
    if control.visible:blocks.append(control.get_rect())
   if alarm.visible:blocks.append(alarm.get_rect())
   if blocks.any(func(r):return r.grow(8).intersects(beside)):beside.position.y=bottom
@@ -699,6 +706,7 @@ func refresh():
  plate(host.pause_button,UiStyle.MAIN if time_held else UiStyle.QUIET)
  LifeChip.sync(self)
  _fit_pause_button()
+ _sync_speed_button()
  host.advanced_button.text="FLEET";plate(host.advanced_button,UiStyle.NORMAL)
  focus_button.text="FOLLOW" if host.ocean.chart_camera.mode=="follow" else "FOCUS"
  var current=host.targeting_feedback if not host.targeting_feedback.is_empty() else "DECOY · TAP CLEAR WATER ≤160m · TAP CANCEL" if host.decoy_armed else "TORPEDO · TAP FRESH CONTACT · TAP CANCEL" if host.knock_armed else strip_message.current(sim)
@@ -889,6 +897,18 @@ func plate(b:Button,role:String):
  b.add_theme_constant_override("outline_size",0 if role==UiStyle.MAIN else 3)
 # The pause control's hit area always covers its whole wrapped label, so a tap on the
 # visible RESUME line is never lost to the chart below it.
+# WP-120: the speed control's words and plate; the plate is the pause plate's width and at least its height
+# (it grows only if the words need more).
+func _sync_speed_button():
+ var b:Button=host.speed_button
+ var hunted:bool=preload("res://src/time_speed.gd").hunting(host.sim)
+ b.text=Words.speed_text(host.time_speed,hunted)
+ plate(b,UiStyle.NORMAL if host.time_speed>1.0 else UiStyle.QUIET)
+ var px:=maxi(14,roundi(touch_height*.26*text_scale))
+ var font=b.get_theme_font("font");var margin=b.get_theme_stylebox("normal").get_minimum_size()
+ b.add_theme_font_size_override("font_size",px)
+ var need:float=font.get_multiline_string_size(b.text,HORIZONTAL_ALIGNMENT_CENTER,maxf(1.,b.size.x-margin.x),px).y+margin.y
+ b.size.y=maxf(ceilf(need),host.pause_button.size.y)
 func _fit_pause_button():
  var b:Button=host.pause_button
  var margin=b.get_theme_stylebox("normal").get_minimum_size()

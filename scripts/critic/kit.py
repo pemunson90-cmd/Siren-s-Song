@@ -150,6 +150,13 @@ def cmd_send(args):
     return 0 if reply.get("ok") else 1
 
 
+def cmd_debug(args):
+    # WP-120: one debug console line, for example `debug --line "jump 6"`. Same as send '{"command":"debug","line":...}'.
+    reply = send(args.kit, args.slot, {"command": "debug", "line": args.line}, timeout=args.timeout)
+    print(json.dumps(reply))
+    return 0 if reply.get("ok") else 1
+
+
 def cmd_quit(args):
     reply = send(args.kit, args.slot, {"command": "quit"}, timeout=30)
     print(json.dumps(reply))
@@ -177,6 +184,12 @@ def main():
     snd.add_argument("--timeout", type=int, default=150)
     snd.add_argument("json")
     snd.set_defaults(run=cmd_send)
+    dbg = sub.add_parser("debug")
+    dbg.add_argument("--kit", required=True)
+    dbg.add_argument("--slot", required=True)
+    dbg.add_argument("--timeout", type=int, default=150)
+    dbg.add_argument("--line", required=True)
+    dbg.set_defaults(run=cmd_debug)
     qt = sub.add_parser("quit")
     qt.add_argument("--kit", required=True)
     qt.add_argument("--slot", required=True)

@@ -438,7 +438,7 @@ static func new_campaign(host)->void:
 	preload("res://src/presentation/archive/voice_feed.gd").clear(host)
 	preload("res://src/debug/dev_state.gd").restore(host,{},true)
 	host.sim.mission.erase("dev")
-	if host.debug_console!=null:host.debug_console.time_scale=1.;host.debug_console.invulnerable=false;host.debug_console.layers.clear()
+	if host.debug_console!=null:host.debug_console.time_scale=1.;host.debug_console.invulnerable=false;host.debug_console.oxygen_locked=false;host.debug_console.layers.clear()
 	host.early_reward={}
 	host.completed=[];host.unlocked=0;host.expedition={};host.recovered_evidence={};host.photo_records={};host.photo_intel={};host.hints_seen=[]
 	host.fleet={};host.economy=EconomyPanel.take_draft(host)

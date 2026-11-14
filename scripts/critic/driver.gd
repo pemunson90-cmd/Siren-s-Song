@@ -5,7 +5,8 @@ extends SceneTree
 # events. It never calls game code, reads simulation or save state, or changes
 # a save. The one thing it reads from the scene is the text and rectangle of
 # interface labels (`labels`), as an aid for aiming taps. A blind critic plays
-# through it from screenshots.
+# through it from screenshots. The one exception is the `debug` command (WP-120),
+# which hands a line to the game's debug console; it is for root and fun rounds.
 #
 # Protocol: the client writes one request file `<control>/request-<id>.json`
 # (written under a temporary name, then renamed). The driver executes it and
@@ -18,6 +19,7 @@ var control := ""
 var busy := false
 var wanted_size := Vector2i.ZERO
 var served := {}
+var game = null # WP-120: the running main scene, used only by the `debug` command
 
 
 func _initialize() -> void:
@@ -32,7 +34,8 @@ func _initialize() -> void:
 
 func _launch() -> void:
 	var main = load(ProjectSettings.get_setting("application/run/main_scene"))
-	root.add_child(main.instantiate())
+	game = main.instantiate()
+	root.add_child(game)
 	if wanted_size != Vector2i.ZERO:
 		await process_frame
 		# The desktop may be smaller than the requested client area. The window
@@ -235,6 +238,17 @@ func _execute(c: Dictionary) -> Dictionary:
 					result["ok"] = false
 					break
 			result["results"] = results
+		"debug":
+			# WP-120: runs one line of the game's own debug console (for root's checks and fun rounds, not blind
+			# interface critics). It marks the profile DEV exactly as typing the line would. A release build has no
+			# console and answers an error.
+			var console = game.get("debug_console") if game != null else null
+			if console == null:
+				result["ok"] = false
+				result["error"] = "This build has no debug console"
+			else:
+				result["line"] = str(c.get("line", ""))
+				result["reply"] = str(console.execute(result["line"]))
 		"quit":
 			result["quit"] = true
 		_:
