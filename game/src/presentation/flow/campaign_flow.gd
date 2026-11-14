@@ -8,6 +8,7 @@ const OpsHome=preload("res://src/presentation/ops_home/ops_home.gd")
 const PhotoReview=preload("res://src/presentation/flow/photo_review.gd")
 const FitSurface=preload("res://src/presentation/fit_surface/fit_surface_view.gd")
 const FitSurfaceModel=preload("res://src/presentation/fit_surface/fit_surface.gd")
+const ChartPreview=preload("res://src/presentation/chart_preview.gd")
 const FieldManualTable=preload("res://src/presentation/field_manual_table.gd")
 # Campaign/menu flow extracted verbatim from main. Main keeps its existing
 # entry points as forwarders; host owns state, callbacks and deferred layout.
@@ -123,6 +124,8 @@ static func briefing(host, index: int) -> void:
 		if not photo_problems.is_empty():host._menu_text(photo_problems,17)
 		if host.ExpeditionOperations.briefing(host,index):pass
 		manual_control=host._button(host.panel_box,FieldManualTable.BUTTON_TEXT,func(): host._reference(index),"manual")
+	# The chart picture sits under the goal lines; a two-column briefing moves it above the loadout (below).
+	var chart_preview:=ChartPreview.attach(host.panel_box,briefing,host.size.y,host.ui_touch_height/48.0*preload("res://src/presentation/frontend/frontend_settings.gd").text_scale(),manual_control.get_index())
 	var thermal_line=preload("res://src/simulation/thermal_front.gd").briefing(briefing)
 	if not thermal_line.is_empty():host._menu_text(thermal_line,17)
 	preload("res://src/presentation/archive/voice_feed.gd").briefing(host,index)
@@ -183,7 +186,8 @@ static func briefing(host, index: int) -> void:
 	host.set_meta("hub_wide",wide)
 	# The compact (029) briefings already run full width on the cover screen; only the opening briefings split.
 	if wide and not compact:
-		var split=loadout_entry.get_index();var nodes=host.panel_box.get_children()
+		host.panel_box.move_child(chart_preview,loadout_entry.get_index())
+		var split=chart_preview.get_index();var nodes=host.panel_box.get_children()
 		var columns=HBoxContainer.new();columns.add_theme_constant_override("separation",int(preload("res://src/presentation/layout_metrics.gd").MENU_COLUMN_GAP));host.panel_box.add_child(columns)
 		var left=OpsHome.column(14);var right=OpsHome.column(14);columns.add_child(left);columns.add_child(right)
 		for i in nodes.size():nodes[i].reparent(left if i<split else right)
