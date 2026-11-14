@@ -8,7 +8,7 @@ extends RefCounted
 #  1. a received contact seen in the last CONTACT_AGE seconds is in mode INVESTIGATE, SEARCH, LOCKING or BEAM
 #     (alerted to, searching for, locking or beaming a craft), and is not stunned and is not a lock on someone else's
 #     recipient; this includes every lock warning (the lock card reads the same contacts);
-#  2. the Hunt meter is at its first stage or higher (hunt >= 20, hunt_pressure THRESHOLDS[0]).
+# The Hunt meter alone does not count: a stirred meter is not a Siren hunting the player's craft.
 # While hunting, speed is 1x: it drops at once, shows why, and never climbs back by itself.
 #
 # The debug console's `time` command sets the same host.time_speed (debug_console.gd time_scale) and marks it forced:
@@ -25,7 +25,7 @@ static func hunting(sim)->bool:
 		var c=sim.contacts[id]
 		if sim.elapsed-float(c.get("time",-1000.))>CONTACT_AGE or c.get("recipient_target",false):continue
 		if c.get("mode","") in ALERT_MODES and Stun.remaining(c,sim.elapsed)<=0.:return true
-	return Hunt.active(sim.mission) and Hunt.stage(sim.mission)>=1
+	return false # WP-120: a stirred Hunt meter alone is not a Siren hunting the player (root, 14 Nov)
 # The speed a tap on the control selects next (1 -> 2 -> 4 -> 1).
 static func next(current:float)->float:
 	var speeds:Array=Rules.time_speeds()

@@ -102,7 +102,7 @@ func hunting_case():
 	sim.contacts.clear()
 	if preload("res://src/simulation/hunt_pressure/hunt_pressure.gd").active(sim.mission):
 		var recon=sim.Recon.state(sim.mission).duplicate(true);recon["hunt"]=25.;sim.mission["reconnaissance"]=recon
-		check(TimeSpeed.hunting(sim),"Hunt at its first stage is hunting")
+		check(not TimeSpeed.hunting(sim),"a high Hunt meter with no hunting contact allows speed")
 		recon=recon.duplicate(true);recon["hunt"]=0.;sim.mission["reconnaissance"]=recon
 		check(not TimeSpeed.hunting(sim),"Hunt at zero is not hunting")
 	# A tap is refused while hunting.
