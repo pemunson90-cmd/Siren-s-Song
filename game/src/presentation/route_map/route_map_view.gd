@@ -14,7 +14,11 @@ class Board extends Control:
  var graph:Dictionary={}
  var centers:Dictionary={}
  var boxes:Dictionary={}
+ # One entry per named region: {"text","rect" (the label's own area),"font_size"}.
+ var regions:Array=[]
  func _draw():
+  var font=get_theme_default_font()
+  for region in regions:draw_string(font,region.rect.position+Vector2(0,font.get_ascent(region.font_size)),region.text,HORIZONTAL_ALIGNMENT_LEFT,-1,region.font_size,Color(Palette.REGION_COLOR))
   for edge in graph.get("edges",[]):draw_line(centers[edge.from],centers[edge.to],Color(Palette.THEME.edge),Palette.VIEW.stroke,true)
   for edge in graph.get("rumors",[]):draw_dashed_line(centers[edge.from],centers[edge.to],Color(Palette.COLORS["KNOWN FROM PHOTOS"]),Palette.VIEW.stroke,Palette.VIEW.line_dash,true)
   for row in graph.get("nodes",[]):
@@ -118,15 +122,19 @@ func _fit():
 func _nodes(h):
  for child in board.get_children():board.remove_child(child);child.queue_free()
  buttons.clear();board.centers.clear();board.boxes.clear()
- var node_size=Vector2(h*Table.VIEW.width_touch,h*Table.VIEW.height_touch)*zoom
+ var node_size=Vector2(h*Table.VIEW.width_touch,h*Table.VIEW.height_tagged)*zoom
  var gap=h*Table.VIEW.gap_touch*zoom;var margin=Table.VIEW.margin;var extent=Vector2.ZERO
+ # Region names sit in a band above the top row, so the board starts one label lower.
+ var region_size:int=roundi(_font(h,Table.VIEW.region_font)*zoom);var font=board.get_theme_default_font()
+ var band:float=font.get_height(region_size)+Table.VIEW.region_pad
+ var origin:=Vector2(margin,margin+band)
  for row in graph.nodes:
-  var point:Vector2=row.position*(node_size+Vector2(gap,gap))+Vector2(margin,margin)
+  var point:Vector2=row.position*(node_size+Vector2(gap,gap))+origin
   var id:int=row.id
   # A node not yet charted is a small mark centred where its box would be; every node takes the tap.
   var cell:Vector2=Vector2.ONE*minf(node_size.x,node_size.y) if row.mark else node_size
   var spot:Vector2=point+(node_size-cell)*.5
-  var button=_button(board,Table.MARK_GLYPH if row.mark else "%02d  %s\n%s"%[id+1,row.label,row.state],func():_select(id),"route_map_op_%d"%id)
+  var button=_button(board,Table.MARK_GLYPH if row.mark else "%02d  %s\n%s%s"%[id+1,row.label,row.state,tag_text(row)],func():_select(id),"route_map_op_%d"%id)
   button.position=spot;button.size=cell;button.custom_minimum_size=cell;button.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;button.mouse_filter=Control.MOUSE_FILTER_PASS
   button.add_theme_font_size_override("font_size",roundi(_font(h,Table.VIEW.font_touch)*zoom))
   var style=StyleBoxFlat.new();style.bg_color=Color(Table.THEME.recovered_fill if row.state=="RECOVERED" else Table.THEME.node_fill);style.set_content_margin_all(Table.VIEW.padding)
@@ -135,7 +143,30 @@ func _nodes(h):
   var border=Vector2.ONE*Table.VIEW.stroke
   board.centers[id]=point+node_size*.5;board.boxes[id]=Rect2(spot-border,cell+border*2)
   extent=extent.max(point+node_size+Vector2(margin,margin))
+ board.regions=_regions(region_size,font)
  board.custom_minimum_size=extent;board.size=extent;board.queue_redraw()
+# The tag (empty for an operation the player cannot open): the work on one line, then what recovering it opens.
+static func tag_text(row:Dictionary)->String:
+ if row.tag.is_empty():return ""
+ var work:Array=[];var reward:Array=[]
+ for part in [["photo",row.tag.photos,work],["task",row.tag.tasks,work],["opens",row.tag.opens,reward]]:
+  if part[1]>0:part[2].append(Table.TAG[part[0]][0 if part[1]==1 else 1]%part[1])
+ var lines:Array=[Table.TAG.join.join(work),Table.TAG.join.join(reward)].filter(func(line):return not line.is_empty())
+ return "\n"+"\n".join(lines) if not lines.is_empty() else ""
+# A region's name goes in the band above its topmost operation, left-aligned to its group, once, and only when the player knows
+# at least one of its operations by name.
+func _regions(font_size:int,font:Font)->Array:
+ var result:Array=[];var arcs=preload("res://src/campaign/arcs/arc_table.gd")
+ if not arcs.enabled:return result
+ for arc in arcs.ARCS:
+  var members=graph.nodes.filter(func(row):return row.id in arc.ids)
+  if members.is_empty() or members.all(func(row):return row.label=="UNKNOWN"):continue
+  var left:float=INF;var above:float=INF
+  for row in members:
+   left=minf(left,board.boxes[row.id].position.x);above=minf(above,board.boxes[row.id].position.y)
+  var text:String=arc.name;var area=Vector2(font.get_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x,font.get_height(font_size))
+  result.append({"text":text,"rect":Rect2(Vector2(left,above-Table.VIEW.region_pad-area.y),area),"font_size":font_size})
+ return result
 func _zoom(direction:int):
  var previous=zoom;zoom=clampf(zoom+direction*Table.VIEW.zoom_step,Table.VIEW.zoom_min,Table.VIEW.zoom_max)
  if zoom==previous:return

@@ -252,3 +252,4 @@ trial_rules_tests|TRIAL RULES|-|1427
 career_record_tests|CAREER RECORD|-|1450
 wide_menus_ui_tests|WIDE MENUS UI|-|1451|render
 chart_preview_ui_tests|CHART PREVIEW UI|-|1452|render
+route_map_layout_tests|ROUTE MAP LAYOUT|-|1452|render
