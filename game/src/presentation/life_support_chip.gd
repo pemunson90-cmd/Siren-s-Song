@@ -47,13 +47,13 @@ static func forms(sim)->Array:
 static func _plate_lines(hud,b:Button,first:String,action:String,readings:Array)->Array:
  # WP-94: the first line is always the action a tap performs ("▶ RUN" / "|| PAUSE"); only the lines under it give way.
  # The state and the oxygen reading share the second line when they fit, then three lines. The plate keeps its
- # size in every state, so when those do not fit the reading stays and the action already implies PAUSED or RUNNING
- # (and the plate's fill shows it); HELD, which the action cannot imply, keeps its word instead of the reading.
+ # size in every state, so when those do not fit the reading gives way (WP-106: the state word never does).
+ # WP-106: the state word is never dropped (round 8: "▶ RUN" over "O₂ ~3:25" read as "running", "|| PAUSE" as "paused").
+ # The oxygen reading is what gives way: the gauge and the craft label still carry life support.
  var candidates=[]
- for reading in readings:candidates.append([action,first+Words.TEXT.join+reading])
+ # The last, shortest reading is the bare time left ("PAUSED · ~3:10"): the gauge under it says what it counts.
+ for reading in readings+[readings[1].trim_prefix("O₂ ")]:candidates.append([action,first+Words.TEXT.join+reading])
  for reading in readings:candidates.append([action,first,reading])
- if first==Words.TEXT.held:candidates.append([action,first])
- for reading in readings:candidates.append([action,reading])
  candidates.append([action,first])
  var base=maxi(14,roundi(hud.touch_height*.26*hud.text_scale))
  var font=b.get_theme_font("font");var margin=b.get_theme_stylebox("normal").get_minimum_size()
@@ -108,6 +108,10 @@ static func _draw_gauge(g:Control,hud)->void:
  var area=Rect2(inset,g.size.y-inset-thick,width,thick)
  g.draw_rect(area,Color.BLACK if Palette.high_contrast() else Color(UiStyle.ON_ACCENT,.75))
  var f=fraction(hud.host.sim)
+ # WP-106: a live dot in the plate's corner while time runs, so a quiet outline is never read as "stopped".
+ if not hud.host.sim.paused and not hud.host._time_held():
+  var dot=maxf(3.,roundf(hud.touch_height*.06))
+  g.draw_circle(Vector2(g.size.x-inset-dot-1.,inset+dot+1.),dot,UiStyle.HC_ACCENT if Palette.high_contrast() else UiStyle.ACCENT)
  if f>0.:g.draw_rect(Rect2(area.position,Vector2(area.size.x*f,thick)),gauge_color(f))
 # The reading takes no space of its own, so it reserves none.
 static func rect(_hud)->Rect2:

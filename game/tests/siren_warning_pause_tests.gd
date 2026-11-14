@@ -80,6 +80,17 @@ func run() -> void:
 	check(hints.label.text.contains(Text.hint_text("warning")) and hints.label.text.contains(Text.hint_text("sweep")),"one card carries both notices")
 	check(hints.label.text.contains(Words.TEXT.hint_stopped),"the card says time stays stopped until RUN is tapped")
 	check(game.sim.paused,"the dive stays paused through the second notice")
+	# WP-106: once time runs the card drops its stopped-time sentences and its footer, and its cue line is rebuilt.
+	game.sim.paused=false;game._refresh(); await settle()
+	check(hints.current=="warning","the card is still the open warning card when time runs "+str(hints.current))
+	check(not hints.label.text.contains(Words.TEXT.hint_stopped),"the footer leaves the card when time runs: "+hints.label.text)
+	check(not hints.label.text.contains("Time is stopped") and not hints.label.text.contains("so time is stopped"),"no sentence on the card says time is stopped while it runs: "+hints.label.text)
+	check(hints.label.text.contains("Now:"),"the cue line shows while the cue is fresh: "+hints.label.text)
+	for row in s.sonar.history:row.time-=2.0
+	game._refresh(); await settle()
+	check(not hints.label.text.contains("Now:"),"the heard-noise cue line is not kept after its moment: "+hints.label.text)
+	game.sim.paused=true;game._refresh(); await settle()
+	check(hints.label.text.contains(Words.TEXT.hint_stopped),"the footer returns when time is stopped again")
 	hints.dismiss(); await settle()
 	check(not hints.panel.visible and game.sim.paused,"one GOT IT closes both notices and does not start time")
 	for n in 4: game._refresh(); await settle()

@@ -39,7 +39,22 @@ const TEXT={
 	"extract_slow": "Extraction: slow %s to under %d m/s to recover",
 	"join": " · ",
 	# Last line of a tip card while the dive is stopped: GOT IT only closes the card, the plate restarts time.
-	"hint_stopped": "GOT IT only closes this note. Time stays stopped until you tap ▶ RUN.",
+	# WP-106: the strip line while the dive is stopped: the first thing ▶ RUN will do, most urgent first.
+	"run_lock": "After ▶ RUN: a lock lands in %.1f s",
+	"run_orders": "After ▶ RUN: orders run for %s",
+	"run_none": "After ▶ RUN: no craft has orders",
+	# WP-106: a route line the craft is not following says why on the chart (route_notes.gd).
+	"tag_HOLD": "ROUTE KEPT · HOLDING",
+	"tag_CONTACT": "ROUTE KEPT · ON GUARD",
+	"tag_DRONE": "ROUTE KEPT · WAITING FOR DRONE",
+	"tag_SCOUT_STOP": "ROUTE KEPT · STOPPED ON CONTACT",
+	"tag_photo": "ROUTE KEPT · PHOTO UNDER WAY",
+	"tag_depth": "ROUTE KEPT · CHANGING DEPTH",
+	"tag_stop": "ROUTE KEPT · ALL STOP",
+	"tag_task": "ROUTE KEPT · ON A TASK",
+	# WP-106: sentences of a tip that say time is stopped, and what they read as once time runs (onboarding_hints.gd).
+	"hint_run_swaps": {"sweep": ["Time is stopped. ", ""], "warning": [", so time is stopped", ""], "move": ["Time starts stopped. Tap ▶ RUN (top left) to let it run, and || PAUSE", "Tap || PAUSE (top left)"]},
+	"hint_stopped":"GOT IT only closes this note. Time stays stopped until you tap ▶ RUN.",
 	# A toggle segment names the action a tap performs (first line) and the state it is in now (small second line).
 	"silent_off": "GO SILENT",
 	"silent_on": "GO LOUD",

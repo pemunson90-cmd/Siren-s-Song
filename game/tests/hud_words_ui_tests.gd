@@ -30,7 +30,7 @@ func make(shape:Vector2i,scale:float):
 func run():
 	var saved=Settings.current.duplicate()
 	for shape in [Vector2i(2520,1080),Vector2i(2184,1968)]:
-		for scale in [1.0,1.5]:
+		for scale in [1.0,1.3,1.5]:
 			await plate_case(shape,scale)
 	Settings.current=saved
 	Settings.current["text_scale"]=1.0
@@ -43,6 +43,7 @@ func run():
 	await prompt_case()
 	await planner_case()
 	await route_end_case()
+	await run_notes_case()
 	Settings.current=saved
 	TrialRules.reset()
 	print("HUD WORDS UI CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)
@@ -56,9 +57,10 @@ func plate_case(shape:Vector2i,scale:float):
 		# WP-94: with the life-support reading active the first line is still the action a tap performs.
 		check(LifeChip.active(game.mission_hud),"the life-support reading is active "+stamp)
 		check(lines[0]==(Words.TEXT.act_run if paused else Words.TEXT.act_pause),"the plate's first line is the tap's action "+stamp+" "+str(lines))
-		check(lines.size() in [2,3] and "O₂" in lines[-1],"the plate keeps the oxygen reading under the action "+stamp+" "+str(lines))
-		# The state word shares the second line when the plate is wide enough; otherwise the action implies it and the fill shows it.
-		check(lines[1].begins_with(Words.plate_state(paused)) or pause.get_meta("ui_role","")==("MAIN" if paused else "QUIET"),"the plate shows the state in words or in its fill "+stamp+" "+str(lines))
+		# WP-106: the state word is on the plate at every text size (round 8: "▶ RUN" over the oxygen alone read as "running");
+		# the oxygen reading is what gives way when the plate is short of room.
+		check(lines.size() in [2,3] and Words.plate_state(paused) in pause.text,"the plate always shows the state word "+stamp+" "+str(lines))
+		check(not (lines.size()==2 and "O₂" in lines[1] and not (Words.plate_state(paused) in lines[1])),"the oxygen reading never replaces the state word "+stamp+" "+str(lines))
 		# The font lacks "▸" and "Ⅱ"; the pause mark is two bars the font has, the play mark is the one the RESUME button already uses.
 		check(not pause.text.contains("▸") and not pause.text.contains("Ⅱ") and pause.get_theme_font("font").has_char("|".unicode_at(0)),"the plate uses only marks the game already shows "+stamp)
 		var size=pause.get_theme_font_size("font_size")
@@ -408,3 +410,24 @@ func route_end_case():
 	# WP-103: with the prompt up the plate offers ANSWER (a tap keeps the marker), not RUN; the strip still says why.
 	check(dialog.pause_button.text.begins_with(Words.TEXT.act_answer) and not dialog.pause_button.text.contains(Words.TEXT.held) and "choose what to do with the route" in dialog.mission_hud.intent.text,"a route dialog over a paused dive offers ANSWER (not HELD) and says why: "+dialog.pause_button.text+" / "+dialog.mission_hud.intent.text)
 	dialog.queue_free();await settle()
+
+# WP-106: the strip says what RUN will do while the dive is stopped, and a kept route says why the craft does not follow it.
+func run_notes_case():
+	var RouteNotes=preload("res://src/presentation/route_notes.gd")
+	var game=await make(Vector2i(2520,1080),1.0)
+	var s=game.sim
+	s.paused=true;for u in s.units:u.route=[];u.hold=""
+	game._refresh();await settle()
+	check(RouteNotes.run_line(s)==Words.TEXT.run_none and game.mission_hud.intent.text.contains(Words.TEXT.run_none),"a stopped dive with no orders says so on the strip: "+game.mission_hud.intent.text)
+	s.units[0].route=[{"pos":s.units[0].pos+Vector2(300,0),"stop":true,"goal":true}]
+	game._refresh();await settle()
+	check(game.mission_hud.intent.text.contains(Words.TEXT.run_orders%"QUIETUS"),"it names the craft that have orders: "+game.mission_hud.intent.text)
+	check(RouteNotes.tag(s,0)=="","a craft that is free to follow its route carries no tag")
+	s.units[0].hold="HOLD";s.units[0].vel=Vector2.ZERO
+	check(RouteNotes.tag(s,0)==Words.TEXT.tag_HOLD,"a held craft's route line says ROUTE KEPT: "+RouteNotes.tag(s,0))
+	s.units[0].hold="";s.captures[0]={"target":0}
+	check(RouteNotes.tag(s,0)==Words.TEXT.tag_photo,"a craft busy with a photograph says so: "+RouteNotes.tag(s,0))
+	s.captures[0]={}
+	s.paused=false;game._refresh();await settle()
+	check(not game.mission_hud.intent.text.contains("▶ RUN:"),"the RUN line goes once time runs: "+game.mission_hud.intent.text)
+	game.queue_free();await settle()
