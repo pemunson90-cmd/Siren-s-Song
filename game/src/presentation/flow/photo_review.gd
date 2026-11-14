@@ -5,6 +5,7 @@ extends RefCounted
 # The one name of the button that opens evidence_gallery, everywhere it is offered. It was REVIEW FIELD RECORDS,
 # beside the hub's FIELD RECORDS (the archive by region): two names for two screens read as one (13 Nov).
 const GALLERY_BUTTON="PHOTO GALLERY"
+const ShutterTable=preload("res://src/presentation/photo_shutter/shutter_table.gd") # WP-113: the words for UNUSABLE and why
 static func show_photo_grade(host, records:Array)->void:
 	var grade=host.Recon.grade(records)
 	if grade.photos>0:host._menu_text("INTEL PHOTO GRADE %s · %d %s · average %d%% of each record's best frame%s"%[grade.grade,grade.photos,"record" if grade.photos==1 else "records",roundi(grade.quality*100),"" if grade.photos==1 else " · sharpest record %d%%"%roundi(grade.best*100)],20)
@@ -141,7 +142,7 @@ static func shot_report(host, shot:Dictionary,at:int,total:int) -> String:
 		if float(mark.q)>0:seen.append("%s %d%%"%[mark.label,roundi(float(mark.q)*100)])
 	var how:="%s · %dm · aspect %d° · %s%s"%[shot.craft,roundi(float(shot.dist)),roundi(rad_to_deg(float(shot.aspect))),str(shot.mode).to_upper()," · flash" if shot.flash else ""]
 	var water:="light %d%% · clarity %d%% · sharp %d%%"%[roundi(float(shot.light)*100),roundi(float(shot.clarity)*100),roundi(float(shot.sharp)*100)]
-	return "FRAME %d OF %d · QUALITY %d%%%s\n%s\n%s\nRESOLVED: %s"%[at+1,total,roundi(float(shot.q)*100),"" if shot.get("usable",true) else " · UNUSABLE",how,water,", ".join(seen) if not seen.is_empty() else "nothing identifiable"]
+	return "FRAME %d OF %d · QUALITY %d%%%s\n%s\n%s\nRESOLVED: %s"%[at+1,total,roundi(float(shot.q)*100),"" if shot.get("usable",true) else ShutterTable.TEXT.unusable_review%str(shot.get("why",ShutterTable.TEXT.unusable_old)),how,water,", ".join(seen) if not seen.is_empty() else "nothing identifiable"]
 
 static func shot_findings(host, shot:Dictionary) -> String:
 	var lines:PackedStringArray=[]

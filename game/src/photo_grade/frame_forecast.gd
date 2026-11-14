@@ -8,6 +8,8 @@ extends RefCounted
 # REVERT: GradeOnSecure.enabled=false hides both uses; nothing is saved or ruled here.
 const Grade=preload("res://src/photo_grade/grade_on_secure.gd")
 const Photo=preload("res://src/simulation/photo_capture.gd")
+const Reason=preload("res://src/photo_grade/unusable_reason.gd")
+const Table=preload("res://src/presentation/photo_shutter/shutter_table.gd")
 const PricingTable=preload("res://src/simulation/photo_pricing/photo_pricing_table.gd")
 # Hints with no " · " tail of their own in the viewfinder row reason.
 const HINTS:={"HIDDEN":"go round the subject","CROPPED":"centre the subject","WAITING":"wait for its cycle","OUT OF FOCUS":"press FOCUS to choose it"}
@@ -26,7 +28,15 @@ static func forecast(frame:Dictionary,o:Dictionary)->Dictionary:
 	var usable:bool=Photo.frame_usable(o.get("subject",{}).get("required",[]),seen,str(frame.get("mode","wide")),str(frame.get("focus","")))
 	var coverage:float=gained/maxf(1.0,1.0 if tight else float(rows.size()))
 	var q:float=Photo.frame_quality(usable,float(frame.get("sharp",0.0)),coverage)
-	return {"usable":usable,"q":q,"grade":Grade.letter(q)}
+	# WP-113: when the frame would be unusable, the plain reason (the first required detail that does not resolve now).
+	return {"usable":usable,"q":q,"grade":Grade.letter(q),"why":"" if usable else Reason.reason(rows,o.get("subject",{}).get("required",[]),seen,str(frame.get("mode","wide")),str(frame.get("focus","")))}
+
+# WP-113: "FILED 94% · a new frame only helps if …" when this subject's record is already filed this dive, else "".
+# The rule it states is Photo.finish(): a record keeps its best, and a later usable frame raises it only through a sharper
+# frame (55% of the grade) or a detail no earlier frame showed (45%).
+static func filed_note(o:Dictionary)->String:
+	if not bool(o.get("captured",false)) or float(o.get("photo_quality",0.0))<=0.0:return ""
+	return Table.TEXT.filed_before%roundi(float(o.photo_quality)*100.0)
 
 # What a better frame needs, from the same row reasons the viewfinder status uses.
 # readout: photo_pricing.readout for the same craft and subject, when given: its advice for the next detail comes
