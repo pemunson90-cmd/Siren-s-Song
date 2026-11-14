@@ -48,6 +48,9 @@ const TEXT={
 	"tap_idle": "Select a craft first: tap Quietus or a drone, or use FLEET",
 	"tap_over": "The dive is over: no craft can be ordered",
 	"send_anyway": "SEND ANYWAY",
+	# WP-89: ADD TO ROUTE also puts water taps on QUEUE; the hint says so and where to switch back.
+	"add_hint": "ADD TO ROUTE · next taps add too (strip shows QUEUE) · ROUTE page TAPS switches back",
+	"queued_taps": "%s · QUEUE: next taps add points · ROUTE page TAPS switches back to REPLACE",
 	"ping": "PING SONAR\nuses %s reserve",
 	"ping_free": "PING SONAR\nuses no reserve",
 	"ping_caption": "Sirens hear every ping",
