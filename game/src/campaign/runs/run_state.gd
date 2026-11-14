@@ -27,6 +27,11 @@ static func new_run(seed:int)->Dictionary:
 	for i in range(pool.size()-1,0,-1):
 		var j=rng.randi_range(0,i);var swap=pool[i];pool[i]=pool[j];pool[j]=swap
 	pool.resize(rng.randi_range(3,6))
+	# WP-121: Pat, 14 Nov 2026, "Yes": operations run easiest first. The measure is Campaign order (the operation number),
+	# which is the game's own difficulty ladder for these six: their Hunt caps (hunt_table.gd CAPS 1.0, 1.0, 1.0, 1.15, 1.15,
+	# 1.15) never fall as the number rises. The shuffle and its random draws are unchanged, so a seed is still deterministic
+	# and still picks the same set, loadout, scarcity and hunt stage; only the order of the picked set is sorted.
+	pool.sort()
 	var loadout:String=Table.LOADOUTS[rng.randi_range(0,Table.LOADOUTS.size()-1)]
 	var scarcity=rng.randi_range(0,2)
 	return {"version":1,"seed":seed,"operations":pool,"cursor":0,"status":"active","in_flight":false,

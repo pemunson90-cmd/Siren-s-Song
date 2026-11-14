@@ -21,7 +21,8 @@ static func debrief(host)->void:
 	if mission==null or host.sim.outcome!="won" or Voices.row(int(mission.id),"debrief").is_empty():return
 	if mission.has("expedition_revision") and not mission.get("recovered",false):return
 	Voices.hear(received(host),int(mission.id),"debrief")
-	host._menu_text(Voices.line(int(mission.id),"debrief"),17)
+	# WP-121: the time Okafor names is the life-support time left shown in the result's stats line.
+	host._menu_text(Voices.line(int(mission.id),"debrief",preload("res://src/presentation/oxygen_reading.gd").seconds_left(host.sim)),17)
 # HUD log row text. A mid-dive message fires once on the player's own progress and stays for HOLD seconds.
 static func log_text(host,message:String)->String:
 	if host.screen!="mission" or host.sim.mission==null or not host.sim.outcome.is_empty():return message

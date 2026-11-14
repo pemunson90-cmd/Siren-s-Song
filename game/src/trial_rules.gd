@@ -16,7 +16,8 @@ const STANDARD_LOCK_SECONDS=4.0
 const FIRST_DIVE_LOCK_SECONDS=6.0
 # 3. The game pauses when a craft that was moving reaches the end of its route. Intermediate stop points do not
 #    count: the craft carries on by itself after them. Switch back: PAUSE_AT_ROUTE_END=false.
-const PAUSE_AT_ROUTE_END=true
+# WP-121: Pat, 14 Nov 2026, "why would you add artificial stoppages?": switched off by default; the switch stays so it can return.
+const PAUSE_AT_ROUTE_END=false
 # 4. The game pauses whenever a new lock by a Siren starts on any of the player's craft, whatever the
 #    accessibility setting says. Switch back: PAUSE_ON_EVERY_LOCK=false (the accessibility settings still work).
 const PAUSE_ON_EVERY_LOCK=true

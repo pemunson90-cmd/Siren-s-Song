@@ -121,3 +121,12 @@ Six rules the prototype does not have, all on trial and put to Pat again after h
 | 6 | An Expedition operation's rider starts switched off (Naval Career unchanged). | `EXPEDITION_RIDER_DEFAULT_ON=true` |
 
 Every automatic pause (these three and the accessibility aids) goes through `presentation/auto_pause.gd`.
+
+### Pat's rulings, 14 November 2026 (WP-121)
+
+| Ruling | What changed | Switch back |
+|---|---|---|
+| "why would you add artificial stoppages?" | Trial rule 3 is now OFF by default: a craft that finishes its route no longer pauses the game (the "has stopped" line still shows). | `PAUSE_AT_ROUTE_END=true` |
+| "there can be an audio warning for proximity and ram speed" | New warning sounds (Alerts volume) when a craft heads into charted or measured rock within 5 s of travel (45 to 420 m), quickening as impact nears; a harsher sound when Quietus is also faster than `COLLISION_SAFE_SPEED`. Captions "ROCK AHEAD" / "RAMMING SPEED" with the captions setting. Rock, hull damage and speed caps are unchanged. | `simulation/rock_warning.gd` (`WARN_SECONDS`), `Soundscape._rock_update` |
+| "just make the amount of time a variable" | Okafor's debrief line on operation 01 states the real life-support time left ("Two and a half minutes of margin left, Quietus."), from `OxygenReading.seconds_left`, the figure behind the result's "~2:29". | `{margin}` in `voices_table.gd` |
+| Yes: easiest first | An Expedition's operations are sorted by Campaign order (Hunt caps never fall along it) after the seed picks them; the set, loadout, scarcity and hunt stage for a seed are unchanged. Saved in-progress runs written in the old random order no longer validate. | remove `pool.sort()` in `run_state.gd new_run` |

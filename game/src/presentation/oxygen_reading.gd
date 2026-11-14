@@ -6,11 +6,16 @@ extends RefCounted
 const Endurance=preload("res://src/simulation/operation_endurance.gd")
 static func percent(sim)->int:
 	return clampi(roundi(float(sim.oxygen)),0,100)
-static func time_left(sim)->String:
+# WP-121: whole seconds of air left at the base drain, or -1 when nothing drains. time_left() below is written from it,
+# so Okafor's debrief line and the result's "~2:29" always come from one figure.
+static func seconds_left(sim)->int:
 	var per_second:float=Endurance.oxygen_drain(sim.mission,1.0)
-	if per_second<=0.0:return "--:--"
-	var left:float=maxf(0.,float(sim.oxygen))/per_second
-	return "~%d:%02d"%[int(left)/60,int(left)%60]
+	if per_second<=0.0:return -1
+	return int(maxf(0.,float(sim.oxygen))/per_second)
+static func time_left(sim)->String:
+	var left:int=seconds_left(sim)
+	if left<0:return "--:--"
+	return "~%d:%02d"%[left/60,left%60]
 # WP-98: a loadout's tank size is a capacity against the standard tank, never "oxygen left" ("O₂ 120%" read as over full).
 static func tank(percent_of_standard:int)->String:
 	return "O₂ tank %d%% of standard"%percent_of_standard
