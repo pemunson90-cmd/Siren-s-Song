@@ -1,6 +1,7 @@
 extends "res://tests/fix2_menu_ui_tests.gd"
 # Route map on the cover screen (2520x1080) and the inner screen (2184x1968), normal and 150% text:
-# region names and reward/risk tags are present only where the player knows the operation, nothing is clipped or overlaps, nodes stay tappable.
+# every region has a soft area and its name (known or not), reward/risk tags are present only where the player knows the operation,
+# nothing is clipped or overlaps, nodes stay tappable.
 const Table=preload("res://src/campaign/route_map/route_graph_table.gd")
 const Arcs=preload("res://src/campaign/arcs/arc_table.gd")
 const Settings=preload("res://src/presentation/frontend/frontend_settings.gd")
@@ -28,13 +29,26 @@ func judge(view,known_arcs):
  check(view.legend.get_children().size()==1+Arcs.ARCS.size(),"the key and one line per arc are all present")
  for id in board.boxes:rects.append(["node %d"%id,board.boxes[id]])
  var names=board.regions.map(func(region):return region.text)
- check(names==known_arcs.map(func(arc):return arc.name),"only arcs with a named operation are named once each "+str(names))
+ check(names==Arcs.ARCS.map(func(arc):return arc.name),"every region is named once, known or not "+str(names))
  for region in board.regions:
-  var rect:Rect2=region.rect
-  check(Rect2(Vector2.ZERO,board.size).encloses(rect),"region "+region.text+" lies on the board")
-  for other in rects:check(not rect.intersects(other[1]),"region "+region.text+" does not cover "+other[0])
+  var rect:Rect2=region.rect;var arc=Arcs.ARCS.filter(func(candidate):return candidate.name==region.text)[0]
+  check(Rect2(Vector2.ZERO,board.size).encloses(rect) and Rect2(Vector2.ZERO,board.size).encloses(region.area),"region "+region.text+" lies on the board")
+  check(region.reached==view.graph.nodes.any(func(row):return row.id in arc.ids and row.state in ["AVAILABLE","RECOVERED"]),"region "+region.text+" is drawn stronger only when it is in play")
+  check(rect.end.y<=region.area.position.y and rect.position.x>=region.area.position.x,"region name "+region.text+" sits above its area")
+  for other in rects:
+   check(not rect.intersects(other[1]),"region name "+region.text+" does not cover "+other[0])
+   # The area surrounds its own operations and touches no other region's operation.
+   check(region.area.encloses(other[1]) if int(other[0].split(" ")[1]) in arc.ids else not region.area.intersects(other[1]),"region area "+region.text+" holds "+other[0]+" only if it belongs to it")
   for second in board.regions:
-   if second.text!=region.text:check(not rect.intersects(second.rect),"region labels "+region.text+"/"+second.text+" do not overlap")
+   if second.text!=region.text:
+    check(not rect.intersects(second.rect),"region names "+region.text+"/"+second.text+" do not overlap")
+    check(not rect.intersects(second.area) and not region.area.intersects(second.area),"region "+region.text+" and area "+second.text+" do not overlap")
+ for row in view.graph.nodes:
+  if row.mark:
+   var arc=Arcs.for_operation(row.id)
+   view._select(row.id)
+   check(view.detail.text==Table.DETAIL.not_charted%arc.name and view.detail.text.begins_with(arc.name+":"),"a mark names its region when tapped: "+view.detail.text)
+   break
  for row in view.graph.nodes:
   var button=view.buttons[row.id]
   check(button.size.x>=48. and button.size.y>=48.,"node %d is tappable"%row.id)
@@ -67,6 +81,7 @@ func map_case(shape,scale):
   var known=Arcs.ARCS.filter(func(arc):return view.graph.nodes.any(func(row):return row.id in arc.ids and row.label!="UNKNOWN"))
   check(fixture!="fresh" or known.map(func(arc):return arc.number)==[1],"a fresh profile names only the opening region")
   check(fixture!="late" or known.size()==6,"a late profile names every region")
+  check(view.board.regions.size()==Arcs.ARCS.size(),"every region has an area even when it is not yet known")
   judge(view,known)
   if fixture=="late":
    for step in 4:view._zoom(1)

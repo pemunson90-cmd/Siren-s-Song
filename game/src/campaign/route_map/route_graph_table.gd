@@ -23,9 +23,13 @@ const KEY_ORDER=["RECOVERED","AVAILABLE","KNOWN FROM PHOTOS","LOCKED","NOT YET C
 const KEY_SWATCH={"mark_size":.9,"gap":8,"item_gap":16,"font":.22,"line_pad":4}
 # Available and recovered operations open their briefing on a tap (replay for recovered); the others explain themselves here.
 const DETAIL={"hint":"Drag to pan. + / − changes chart size. CURRENT finds the next available branch. Tap an available or recovered operation for its briefing; tap any other to see what opens it.",
- "photos":"%s: known from recovered film. Its route is not available yet.","locked":"%s: locked. %s.","not_charted":"Not yet charted: recover the operations next to it."}
+ "photos":"%s: known from recovered film. Its route is not available yet.","locked":"%s: locked. %s.","not_charted":"%s: not yet charted: recover the operations next to it.","not_charted_plain":"Not yet charted: recover the operations next to it."}
 # Region names: drawn once above each arc's group, only when the player knows at least one of its operations by name.
 const REGION_COLOR="7fa6b3"
+# Every region is a soft rounded area behind its operations, one tint per arc (arc_table.gd "region" key), with its name above it.
+# Alpha stays low so the node boxes and lines remain the strongest marks; a region with nothing available or recovered is dimmer.
+const REGION_TINTS={"shelf":"4aa3c4","divergence":"8a7fd6","confluence":"4cc0a0","glass":"6fb4d8","iron":"d68a5e","calder":"c4607a"}
+const REGION_AREA={"pad":.2,"corner":14,"fill":.12,"fill_dim":.05,"line":.3,"line_dim":.12,"name_dim":.55,"name_gap":4}
 # Work and reward tag on an operation the player can open: short lines under the title, from facts its briefing shows
 # (required photo subjects and other required tasks, then the routes recovering it opens). Entries are [one, many]; zero counts are left out.
 const TAG={"photo":["%d photo","%d photos"],"task":["%d task","%d tasks"],"opens":["opens %d route","opens %d routes"],"join":" · "}

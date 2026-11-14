@@ -14,11 +14,19 @@ class Board extends Control:
  var graph:Dictionary={}
  var centers:Dictionary={}
  var boxes:Dictionary={}
- # One entry per named region: {"text","rect" (the label's own area),"font_size"}.
+ # One entry per region: {"text","key" (tint),"rect" (the name's own area),"area" (the soft region behind its operations),"reached","font_size"}.
  var regions:Array=[]
  func _draw():
   var font=get_theme_default_font()
-  for region in regions:draw_string(font,region.rect.position+Vector2(0,font.get_ascent(region.font_size)),region.text,HORIZONTAL_ALIGNMENT_LEFT,-1,region.font_size,Color(Palette.REGION_COLOR))
+  var look:Dictionary=Palette.REGION_AREA
+  for region in regions:
+   var tint=Color(Palette.REGION_TINTS[region.key])
+   var style=StyleBoxFlat.new();style.set_corner_radius_all(look.corner);style.set_border_width_all(1)
+   style.bg_color=Color(tint,look.fill if region.reached else look.fill_dim);style.border_color=Color(tint,look.line if region.reached else look.line_dim)
+   draw_style_box(style,region.area)
+  for region in regions:
+   var name_color:=Color(Palette.REGION_COLOR);name_color.a=1. if region.reached else look.name_dim
+   draw_string(font,region.rect.position+Vector2(0,font.get_ascent(region.font_size)),region.text,HORIZONTAL_ALIGNMENT_LEFT,-1,region.font_size,name_color)
   for edge in graph.get("edges",[]):draw_line(centers[edge.from],centers[edge.to],Color(Palette.THEME.edge),Palette.VIEW.stroke,true)
   for edge in graph.get("rumors",[]):draw_dashed_line(centers[edge.from],centers[edge.to],Color(Palette.COLORS["KNOWN FROM PHOTOS"]),Palette.VIEW.stroke,Palette.VIEW.line_dash,true)
   for row in graph.get("nodes",[]):
@@ -139,10 +147,11 @@ func _nodes(h):
  buttons.clear();board.centers.clear();board.boxes.clear()
  var node_size=Vector2(h*Table.VIEW.width_touch,h*Table.VIEW.height_tagged)*zoom
  var gap=h*Table.VIEW.gap_touch*zoom;var margin=Table.VIEW.margin;var extent=Vector2.ZERO
- # Region names sit in a band above the top row, so the board starts one label lower.
+ # Region names sit in a band above the top row (name, gap, then the region area's padding), so the board starts that much lower.
  var region_size:int=roundi(_font(h,Table.VIEW.region_font)*zoom);var font=board.get_theme_default_font()
- var band:float=font.get_height(region_size)+Table.VIEW.region_pad
- var origin:=Vector2(margin,margin+band)
+ var area_pad:float=h*Table.REGION_AREA.pad*zoom
+ var band:float=font.get_height(region_size)+Table.VIEW.region_pad+area_pad
+ var origin:=Vector2(margin+area_pad,margin+band)
  for row in graph.nodes:
   var point:Vector2=row.position*(node_size+Vector2(gap,gap))+origin
   var id:int=row.id
@@ -157,8 +166,8 @@ func _nodes(h):
   button.add_theme_color_override("font_color",Color(Table.MARK_COLOR if row.mark else Table.COLORS[row.state]));buttons[id]=button
   var border=Vector2.ONE*Table.VIEW.stroke
   board.centers[id]=point+node_size*.5;board.boxes[id]=Rect2(spot-border,cell+border*2)
-  extent=extent.max(point+node_size+Vector2(margin,margin))
- board.regions=_regions(region_size,font)
+  extent=extent.max(point+node_size+Vector2(margin+area_pad,margin+area_pad))
+ board.regions=_regions(region_size,font,area_pad)
  board.custom_minimum_size=extent;board.size=extent;board.queue_redraw()
 # The tag (empty for an operation the player cannot open): the work on one line, then what recovering it opens.
 static func tag_text(row:Dictionary)->String:
@@ -168,20 +177,26 @@ static func tag_text(row:Dictionary)->String:
   if part[1]>0:part[2].append(Table.TAG[part[0]][0 if part[1]==1 else 1]%part[1])
  var lines:Array=[Table.TAG.join.join(work),Table.TAG.join.join(reward)].filter(func(line):return not line.is_empty())
  return "\n"+"\n".join(lines) if not lines.is_empty() else ""
-# A region's name goes in the band above its topmost operation, left-aligned to its group, once, and only when the player knows
-# at least one of its operations by name.
-func _regions(font_size:int,font:Font)->Array:
+# Every region is drawn: a padded area around its operations and its name above the area, left-aligned. The key above the board
+# already names every region, so nothing is revealed. A region with an operation available or recovered is "reached" and drawn stronger.
+func _regions(font_size:int,font:Font,pad:float)->Array:
  var result:Array=[];var arcs=preload("res://src/campaign/arcs/arc_table.gd")
  if not arcs.enabled:return result
  for arc in arcs.ARCS:
   var members=graph.nodes.filter(func(row):return row.id in arc.ids)
-  if members.is_empty() or members.all(func(row):return row.label=="UNKNOWN"):continue
-  var left:float=INF;var above:float=INF
-  for row in members:
-   left=minf(left,board.boxes[row.id].position.x);above=minf(above,board.boxes[row.id].position.y)
-  var text:String=arc.name;var area=Vector2(font.get_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x,font.get_height(font_size))
-  result.append({"text":text,"rect":Rect2(Vector2(left,above-Table.VIEW.region_pad-area.y),area),"font_size":font_size})
+  if members.is_empty():continue
+  var hull:Rect2=board.boxes[members[0].id]
+  for row in members:hull=hull.merge(board.boxes[row.id])
+  var area:Rect2=hull.grow(pad)
+  var text:String=arc.name;var size:=Vector2(font.get_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x,font.get_height(font_size))
+  var reached:bool=members.any(func(row):return row.state in ["AVAILABLE","RECOVERED"])
+  var corner:float=Table.REGION_AREA.corner*.5
+  result.append({"text":text,"key":arc.region,"rect":Rect2(Vector2(area.position.x+corner,area.position.y-Table.VIEW.region_pad-size.y),size),"area":area,"reached":reached,"font_size":font_size})
  return result
+# A mark says which region it lies in; an operation outside every region keeps the plain wording.
+static func not_charted_text(id:int)->String:
+ var arc:Dictionary=preload("res://src/campaign/arcs/arc_table.gd").for_operation(id)
+ return Table.DETAIL.not_charted%arc.name if not arc.is_empty() else Table.DETAIL.not_charted_plain
 func _zoom(direction:int):
  var previous=zoom;zoom=clampf(zoom+direction*Table.VIEW.zoom_step,Table.VIEW.zoom_min,Table.VIEW.zoom_max)
  if zoom==previous:return
@@ -202,7 +217,7 @@ func _select(id:int):
  var row=graph.nodes.filter(func(node):return node.id==id)[0]
  if row.can_open:
   _dismiss();host._briefing(id)
- elif row.mark:detail.text=Table.DETAIL.not_charted
+ elif row.mark:detail.text=not_charted_text(id)
  elif row.state=="KNOWN FROM PHOTOS":detail.text=Table.DETAIL.photos%row.label
  else:detail.text=Table.DETAIL.locked%[row.label,OpsHome.lock_reason(id,host.Simulation.Missions.TITLES)]
 func _unhandled_key_input(event):
