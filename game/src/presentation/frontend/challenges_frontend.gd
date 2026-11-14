@@ -26,7 +26,7 @@ static func show(front)->void:
 	for row in Catalog.all():
 		var id:String=row.id;var available=Catalog.unlocked(row,recovered)
 		var best=saved.get(id,{}).get("best",{})
-		var detail=Records.summary(best) if available else "LOCKED · recover operation %02d"%[int(row.op)+1]
+		var detail=Records.summary(best) if available else Catalog.description(row)+"\nLOCKED · recover operation %02d"%[int(row.op)+1]
 		var add=func():
 			var b=front._button(row.title+"\n"+detail,func():details(front,id),"challenge_"+id,not available)
 			b.set_meta("challenge_id",id)

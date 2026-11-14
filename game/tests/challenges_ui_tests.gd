@@ -85,6 +85,8 @@ func shape_case(shape):
    var rows=front.find_children("*","Button",true,false).filter(func(b):return b.get_meta("challenge_id","")!="")
    check(rows.size()==12,"the menu lists all twelve challenge unlocks")
    check(rows.filter(func(b):return not b.disabled).size()==1,"only the recovered operation is unlocked")
+   var locked=rows.filter(func(b):return b.disabled)
+   check(locked.all(func(b):return b.text.contains("LOCKED · recover operation") and b.text.split("\n").size()>=3),"every locked card shows its rule beside the lock reason")
    if await press(front,"challenge_shelf_passive"):
     if await press(front,"challenge_start"):
      var session=game.get_node_or_null("ChallengeSession")

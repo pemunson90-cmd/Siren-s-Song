@@ -94,7 +94,7 @@ func main_case(shape:Vector2i,wide:bool):
  game._show_economy();await settle()
  check(game.get_meta("prep_wide",false)==wide,"supplies use two columns only on a wide screen"+tag)
  var holding=label_rect(game,"You have:");var bare=rect(game,"eco_bare");var ironman=rect(game,"eco_ironman")
- check(inside(bare) and (beside(holding,bare)==wide and beside(ironman,bare)==wide),"supplies: holdings and purchases are "+("two columns" if wide else "one column")+tag)
+ check(inside(bare) and (beside(holding,bare)==wide and not beside(ironman,bare) and ironman.position.y>bare.position.y),"supplies: holdings and purchases are "+("two columns" if wide else "one column")+tag)
  check(inside(rect(game,"back")),"supplies: Back is reachable"+tag)
  var launch=label_rect(game,"NEXT LAUNCH REFIT")
  check(launch.size.x>0 and (beside(launch,bare)==wide),"supplies: the launch cost stays with what you hold"+tag)
