@@ -72,6 +72,11 @@ const LABEL_PAD:=3.
 const LABEL_GAP:=4.
 # Free space kept between a label plate and the edge of the chart.
 const LABEL_EDGE:=6.
+# Fog over water the crew has not charted (unknown) or cannot see now (unseen), in cells of FOG_CELL world units.
+const FOG_CELL:=40
+const FOG_UNKNOWN:=0.38
+const FOG_UNSEEN:=0.20
+const FOG_COLOR:=Color(0.005,0.014,0.025)
 const PRIORITY_THREAT:=0
 const PRIORITY_OBJECTIVE:=1
 const PRIORITY_OWN:=2
@@ -495,14 +500,10 @@ func _draw() -> void:
 		draw_line(o.pos+Vector2(0,-14),o.pos+Vector2(0,14),c,1)
 		if not o.captured: _label(o.pos+Vector2(50,-5),"SLUICE CONTROL" if o.get("site_id","")=="witness_sluice" else o.name,c,17,{"kind":"objective","subkind":"actuator" if o.get("site_id","")=="witness_sluice" else "","index":sites.find(o),"name":o.name,"pos":o.pos})
 	# Physical chart is retained. Unknown water, shadows, and contact memory remain separate.
-	var low=Vector2i((-world_offset/world_scale)/40.0).max(Vector2i.ZERO)
-	var high=Vector2i((size-world_offset)/world_scale/40.0)+Vector2i.ONE
-	high=high.min(Vector2i(region/40.0))
-	for y in (range(low.y,high.y) if earned.is_empty() else []):
-		for x in range(low.x,high.x):
-			var key=Vector2i(x,y); var p=Vector2(x*40+20,y*40+20)
-			var alpha=0.38 if not sim.known.has(key) else (0.0 if sim.visible(p) else 0.20)
-			if alpha>0: draw_rect(Rect2(x*40,y*40,40,40),Color(0.005,0.014,0.025,alpha))
+	var low=Vector2i((-world_offset/world_scale)/float(FOG_CELL)).max(Vector2i.ZERO)
+	var high=Vector2i((size-world_offset)/world_scale/float(FOG_CELL))+Vector2i.ONE
+	high=high.min(Vector2i(region/float(FOG_CELL)))
+	if earned.is_empty():_draw_fog(low,high,region)
 	FeatureViews.draw(self)
 	# Sonar rays stop at actual cover, producing explicit acoustic shadows.
 	if earned.is_empty() and sim.ping_time>0:
@@ -892,6 +893,34 @@ func own_craft_rects() -> Array:
 		var half=(Vector2(74,32) if id==0 else Vector2(26,20))*world_scale
 		result.append(Rect2(screen_position(sim.units[id].pos)-half,half*2))
 	return result
+# The fog's shade for one cell: unknown water is darkest, known water out of sight lighter, water in sight clear.
+func fog_alpha(key:Vector2i)->float:
+	if not sim.known.has(key):return FOG_UNKNOWN
+	return 0.0 if sim.visible(Vector2(key*FOG_CELL)+Vector2.ONE*FOG_CELL*.5) else FOG_UNSEEN
+# The fog, feathered (critic 14 Nov: hard-edged 40-unit blocks): each corner of the cell grid takes the mean shade
+# of the cells around it, and one triangle mesh blends between corners, so the edge of what the crew knows and sees
+# is a soft gradient. The cells and their shades are unchanged.
+func _draw_fog(low:Vector2i,high:Vector2i,region:Vector2)->void:
+	var cells:=Vector2i(region/float(FOG_CELL))
+	var shade:Dictionary={}
+	for y in range(maxi(low.y-1,0),mini(high.y+1,cells.y)):
+		for x in range(maxi(low.x-1,0),mini(high.x+1,cells.x)):shade[Vector2i(x,y)]=fog_alpha(Vector2i(x,y))
+	var corner:=func(x:int,y:int)->float:
+		var total:=0.0;var count:=0
+		for key in [Vector2i(x-1,y-1),Vector2i(x,y-1),Vector2i(x-1,y),Vector2i(x,y)]:
+			if shade.has(key):total+=shade[key];count+=1
+		return total/count if count>0 else FOG_UNKNOWN
+	var points:=PackedVector2Array();var colors:=PackedColorArray();var indices:=PackedInt32Array()
+	for y in range(low.y,high.y):
+		for x in range(low.x,high.x):
+			var a:Array=[corner.call(x,y),corner.call(x+1,y),corner.call(x+1,y+1),corner.call(x,y+1)]
+			if a.max()<=0.0:continue
+			var base:=points.size()
+			for n in 4:
+				points.append(Vector2(x+int(n in [1,2]),y+int(n in [2,3]))*FOG_CELL)
+				colors.append(Color(FOG_COLOR,a[n]))
+			indices.append_array([base,base+1,base+2,base,base+2,base+3])
+	if not indices.is_empty():RenderingServer.canvas_item_add_triangle_array(get_canvas_item(),indices,points,colors)
 # Where a whole label plate may sit: the chart, not the optical lane beside it. The camera panel opens in that lane, and a
 # label placed under it was cut by the panel's edge. The plate's padding stays inside, so no label is drawn cut by an edge.
 func label_fit_rect()->Rect2:
