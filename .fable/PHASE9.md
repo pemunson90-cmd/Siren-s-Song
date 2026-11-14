@@ -96,9 +96,10 @@ Second sweep (13 Nov, read on resume): every one of the 245 registered suites ha
 ## In flight
 
 - WP-75 to WP-92 merged (rows 104 to 122). Sweeps 6 (91702f14) and 7 (150b9fa9) were green on every registered suite except the two this PC cannot run (`cold_review_archive_tests`, `art_render_measurements`); `opening_depth_policy_ui_tests` runs alone (its summary prefix is "OPENING POLICY UI", 571 checks). Core 856/0 on 150b9fa9.
-- WP-88 to WP-92 merged on top of 150b9fa9 at about 06:50 on 14 Nov, with their touched suites run; not yet pushed and not yet in a full sweep (the eighth sweep is the next step).
-- No helper running. Fifth critic round done and ranked (below); its findings are fixed except the items marked Pat's and the Route Map's cramped SHELF column at the overview zoom (minor).
-- Next: push, eighth full sweep, a sixth blind critic round on the merged head (one kit per critic), then rank again.
+- The eighth sweep (74337ca1, WP-88 to WP-92 in) was green except `ops_home_ui_tests`, which hit the sweep's 480-s render limit (it passes alone in about 500 s). `full-sweep.ps1` now gives render suites 1700 s and also runs `opening_depth_policy_ui_tests` (the one suite in neither list).
+- Sixth critic round done and ranked (below). WP-93 to WP-97 merged at about 09:30 on 14 Nov (rows 123 to 128), with Core 856/0 and their touched suites green; WP-96 merged last, its suites running; then push and the ninth full sweep.
+- No helper running.
+- Next: the ninth full sweep, then the rest of the sixth round's list (camera panel and wheel over map taps, chart labels stacking at one bearing, the Hunt meter's changes explained in the dive, the Route Map overview's crushed SHELF column and clipped "CONFLUENCE", FIELD RECORDS width on the cover screen, the briefing's half-empty right column), then a seventh critic round.
 - Pull request 262's body: `.fable/FINAL_REPORT.md` is now about 117 KB, over GitHub's 65,536-character body limit, so `gh pr edit 262 --body-file .fable/FINAL_REPORT.md` would fail. Write a short body (what phase 9 changed, the open questions for Pat, and a link to the file on the branch) instead.
 
 The resume command for an Opus session is `/siren-s-start-opus`; `/siren-s-start-fable` is the same run on the Fable model.
