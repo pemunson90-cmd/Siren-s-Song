@@ -2,6 +2,7 @@ extends SceneTree
 # PHOTO1: viewpoint, light, framing, craft, patience, discovery, intel and gear
 # all change the frame, and only legitimately observable facts are recorded.
 const Sim=preload("res://src/simulation/simulation.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 const Photo=preload("res://src/simulation/photo_capture.gd")
 const Intel=preload("res://src/campaign/photo_intel.gd")
 const Equipment=preload("res://src/equipment/equipment_catalog.gd")
@@ -67,11 +68,10 @@ func _initialize():
 	check(Photo.frame(craft,1,craft.mission.objectives[0]).sharp>sub_frame.sharp,"a drone that closes in out-resolves Quietus at standoff")
 	check(Photo.frame(craft,1,craft.mission.objectives[0]).dist<sub_frame.dist,"closing in is the drone's trade")
 	# 6 / Gear: flash gives light at a charge and noise cost; thermal imager sees heat features.
-	var gear=fresh(5);gear.units[1].alive=true
+	var gear=fresh(5);PlayerDive.launch_drones(gear)
 	gear.mission.launch_equipment=Equipment.canonical({"quietus":"","drone_a":"photo_flash","drone_b":"thermal_imager"})
 	check(Equipment.valid_fitting(gear.mission.launch_equipment),"camera hardware fits the optics mounts")
 	var wakes=gear.mission.objectives[1];put(gear,1,wakes.pos+Vector2(0,-150),PI/2);put(gear,2,wakes.pos+Vector2(0,-150),PI/2);put(gear,0,wakes.pos+Vector2(0,-150),PI/2)
-	gear.units[2].alive=true
 	check(not Photo.frame(gear,0,wakes).rows[1].ready and Photo.frame(gear,0,wakes).rows[1].why.contains("thermal"),"heat feature is not resolved without a thermal imager")
 	check(Photo.frame(gear,2,wakes).rows[1].ready,"thermal imager resolves the warm fracture at standoff")
 	var dark=Photo.frame(gear,1,wakes).light

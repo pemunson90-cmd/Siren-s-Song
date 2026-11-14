@@ -39,7 +39,7 @@ func state(s)->String:
  return var_to_str([s.snapshot(),s.sirens,s.units,s.noises,s.elapsed,s.hull,s.outcome,s.message]).sha256_text()
 func run():
  check(Table.enabled and Table.WINDOW==20.0 and Table.CAP>0 and Table.MOTION_RADIUS>125. and Table.MOTION_RADIUS<430.,"table defaults: on, 20 s window, threshold between silent and cruise motion")
- var expect={"ping":["ACTIVE SONAR"],"engine":["sight line"],"engine_toward":["moving at speed"],"camera":["CAMERA"],"sight":["sight line"]}
+ var expect={"ping":["ACTIVE SONAR"],"engine":["sight line"],"engine_toward":["moving fast"],"camera":["CAMERA"],"sight":["sight line"]}
  for kind in expect:
   var a=journey(kind,true);var b=journey(kind,false)
   check(a.sim.outcome=="lost" and "Siren beam" in a.sim.message,"%s journey ends in a beam loss"%kind)
@@ -79,7 +79,13 @@ func run():
  o.contacts={0:{"time":10.,"pos":o.units[0].pos+Vector2(140,0),"mode":"BEAM","target":0,"source":"optical"}}
  check("sight line" in l2.line(),"a fresh optical contact alone gives the sight line")
  o.oxygen=0.;check(l2.line()=="","oxygen losses keep their line and get no cause")
- o.oxygen=50.;o.message="Quietus lost.";o.hull=0.;check(l2.line()=="","hull losses get no cause")
+ o.oxygen=50.;o.message="Quietus lost.";o.hull=0.;o.contacts={};check(l2.line()=="","hull losses with no beam get no cause")
+ # The beam is known from the finished lock even when a later message (a rider's failure) replaced the beam message.
+ o.message="RIDER FAILED · a launched craft was lost · base contract continues"
+ o.contacts={0:{"time":10.,"pos":o.units[0].pos+Vector2(140,0),"mode":"BEAM","target":0,"source":"optical"}}
+ check(Summary.beam_struck(o),"a finished lock is a beam kill although the message was replaced")
+ check("beam from the" in Summary.line(o) and not ("base contract" in Summary.line(o)),"the cause line names the beam, not the rider message: "+Summary.line(o))
+ o.contacts={}
  o.message=o.VAPORIZED_TEXT;o.outcome="won";check(l2.line()=="","only losses get a cause line")
  o.outcome="lost";Table.enabled=false
  check(l2.line()=="","flag off restores today's debrief (no line)")

@@ -1,5 +1,6 @@
 extends SceneTree
 const Sim=preload("res://src/simulation/simulation.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 const Voyage=preload("res://tests/glass_fleet_voyage.gd")
 const Campaign=preload("res://src/campaign/expedition_campaign.gd")
 const Endings=preload("res://src/campaign/endings.gd")
@@ -70,6 +71,8 @@ func journey(id:int,p:Dictionary):
  print("GLASS JOURNEY id=",id," outcome=",s.outcome," time=",s.elapsed," hull=",s.hull," oxygen=",s.oxygen," message=",s.message)
  return s
 func _initialize():
+ # Scripted route through authored water, not a discovery test: known-charts developer switch (the player rules leave this water uncharted).
+ var charts_before=PlayerDive.known_water(true)
  var p=progress();var original=Endings.resolve(p).id
  check(Campaign.valid(p) and 14 in Campaign.available([0,1,2,3,4,5],p),"normal concealed outcome unlocks Glass Reach")
  check(Campaign.valid(progress("overt")) and 14 in Campaign.available([0,1,2,3,4,5],progress("overt")),"normal public outcome also unlocks Glass Reach")
@@ -90,4 +93,5 @@ func _initialize():
   tick(s,2.1);check(s.mission.structures.is_empty() and s.mission.glass_reach.gate_open,"decoder research changes real later-region water")
  var service=Sim.Missions.make(19,{"facts":{"glass_choice":"service"}});var sever=Sim.Missions.make(19,{"facts":{"glass_choice":"sever"}})
  check(service.structures.is_empty() and not sever.structures.is_empty() and service.sirens.size()>sever.sirens.size(),"recovered anchorage choice changes finale physical access and relay topology")
+ PlayerDive.known_water(charts_before)
  print("GLASS JOURNEY CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)

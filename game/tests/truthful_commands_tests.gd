@@ -83,25 +83,25 @@ func run():
  for unit in 3:
   g.sim.command("select",{"unit":unit});g.mission_hud.open("tools");g._refresh();await frames()
   check(g.order_buttons.knock.text.replace("\n"," ").begins_with("TORPEDO %d"%(0 if unit>0 else 2)),"tool menu torpedo count belongs to craft %d"%unit)
-  check(g.order_buttons.emp.text.replace("\n"," ").begins_with("DISRUPT %d"%[3,1,0][unit]),"tool menu disrupt count includes this craft's zero %d"%unit)
+  check(g.order_buttons.emp.text.replace("\n"," ").begins_with("EMP %d"%[3,1,0][unit]),"tool menu disrupt count includes this craft's zero %d"%unit)
   if unit==2:check(g.order_buttons.emp.text.split("\n").size()<=2 and "Zero stock on DRONE B" in g.order_buttons.emp.tooltip_text,"zero stock refusal names owning craft")
   if unit>0:check(g.order_buttons.knock.text.split("\n").size()<=2 and "Quietus only" in g.order_buttons.knock.tooltip_text,"drone launcher refusal names actual owner")
  var brief=Copy.brief_stock(racks)
  check("QUIETUS: " in brief and "DRONE A: " in brief and "DRONE B: " in brief,"brief separates all three craft")
- check("TORPEDOES 0" in brief.get_slice("\n",1) and "DISRUPT 0" in brief.get_slice("\n",2),"brief shows each craft's zero stock")
+ check("TORPEDOES 0" in brief.get_slice("\n",1) and "EMP 0" in brief.get_slice("\n",2),"brief shows each craft's zero stock")
  # Opening brief stays short; the existing fittings page carries every craft's stock.
  g.tool_racks=racks.duplicate(true);g._show_fittings();await frames()
  var fitting_copy=""
- for child in g.panel_box.get_children():
-  if child is Label:fitting_copy+=child.text+"\n"
- check(brief in fitting_copy,"opening fittings entry shows all per-craft counts including zero")
+ for child in g.panel_box.find_children("*","Label",true,false):fitting_copy+=child.text+"\n"
+ # WP-44: the fittings page says what each craft carries in a sentence and leaves zeros out.
+ check(Racks.UNITS.all(func(slot):return preload("res://src/presentation/tool_racks_view.gd").carry_line(racks,slot) in fitting_copy),"opening fittings entry says what each craft carries")
  # The opening brief confirms actual Quietus stock without a text wall.
  var stock_before=g.sim.snapshot().duplicate(true)
  g._briefing(0);await frames()
  var opening_copy=""
- for child in g.panel_box.get_children():
-  if child is Label:opening_copy+=child.text+"\n"
- check("QUIETUS\nO₂ 120% · DISRUPT 3 · SURVEY 0" in opening_copy,"opening brief confirms actual selected Quietus stock")
+ # The briefing may lay its text out in columns (WP-37), so labels are found at any depth; the loadout line is plain words now.
+ for child in g.panel_box.find_children("*","Label",true,false):opening_copy+=child.text+"\n"
+ check("Loadout:" in opening_copy and "O₂ 120% · EMP 3 · SURVEY 0" in opening_copy,"opening brief confirms actual selected Quietus stock")
  check(g.sim.snapshot()==stock_before,"reading launch stock preserves the active dive")
  check(Work.action_verb({"site_id":"rendezvous","kind":"receiver"})=="DECODE","tender's receiver task keeps its authored decode verb")
  check(Work.action_verb({"kind":"receiver"})=="LISTEN","ordinary receiver keeps LISTEN distinct from exchange DECODE")
@@ -195,7 +195,7 @@ func run():
  for scale in [1.,1.5]:
   Settings.current["text_scale"]=scale;g._start_mission(15);g._enter_water();Racks.launch(g.sim,racks);g.sim.command("select",{"unit":2})
   g.mission_hud.open("tools");g._refresh();await frames();g._refresh()
-  check((g.order_buttons.emp.text=="DISRUPT 0 / NONE ABOARD" if scale>=1.5 else g.order_buttons.emp.text.replace("\n"," ").begins_with("DISRUPT 0")) and "Zero stock on DRONE B" in g.order_buttons.emp.tooltip_text,"visible reason at text scale %.1f"%scale)
+  check((g.order_buttons.emp.text=="EMP 0 / NONE ABOARD" if scale>=1.5 else g.order_buttons.emp.text.replace("\n"," ").begins_with("EMP 0")) and "Zero stock on DRONE B" in g.order_buttons.emp.tooltip_text,"visible reason at text scale %.1f"%scale)
   # Real popup touch and dock-tap paths both explain grey actions and do not
   # emit their command signal. Periodic refresh must retain the feedback.
   var grey=g.order_buttons.emp;var fired=[0]

@@ -16,11 +16,12 @@ func _initialize():
 	s.paused=false
 	for n in 180:s.advance(1./60)
 	var secs:String="%ds restart"%ceili(Table.RESTART_SECONDS)
-	var oxy:String="%.1f%% O2"%Table.ENTRY_OXYGEN
+	var label_secs:String="%ds to restart"%ceili(Table.RESTART_SECONDS)
+	var oxy:String="costs %.1f%% O₂"%Table.ENTRY_OXYGEN
 	var lab:String=AllStop.label(s)
 	check(lab.begins_with("ALL STOP"),"the button still reads ALL STOP")
 	check(lab.contains(oxy),"the button names the oxygen cost: "+lab)
-	check(lab.contains(secs),"the button names the restart seconds: "+lab)
+	check(lab.contains(label_secs),"the button names the restart seconds: "+lab)
 	check(lab.split("\n").size()==2,"the button stays two lines")
 	s.command("all_stop")
 	check(s.message.contains("%.1f%% oxygen"%Table.ENTRY_OXYGEN),"the engage message names the oxygen cost: "+s.message)

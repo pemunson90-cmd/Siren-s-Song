@@ -1,8 +1,13 @@
 extends Control
+const Names=preload("res://src/names.gd")
 const UiMetrics=preload("res://src/presentation/flow/ui_metrics.gd")
 const PhotoReview=preload("res://src/presentation/flow/photo_review.gd")
 const CampaignFlow=preload("res://src/presentation/flow/campaign_flow.gd")
 const ReleaseControls=preload("res://src/presentation/release_controls.gd")
+const HudWords=preload("res://src/presentation/hud_words.gd")
+const TrialRules=preload("res://src/trial_rules.gd")
+const DiveInput=preload("res://src/presentation/dive_input.gd")
+const CampaignArchiveFlow=preload("res://src/persistence/campaign_archive_flow.gd")
 const Recon=preload("res://src/simulation/recon_consequences.gd")
 const Endings=preload("res://src/campaign/endings.gd")
 const CraftUpgrades=preload("res://src/equipment/craft_upgrades.gd")
@@ -71,8 +76,8 @@ const Economy=preload("res://src/campaign/economy.gd")
 var economy:Dictionary=Economy.new_state()
 var challenge_records:Dictionary={}
 var fitted_equipment:Dictionary=preload("res://src/equipment/equipment_catalog.gd").default_loadout()
-var tool_racks:Dictionary=preload("res://src/equipment/tool_racks.gd").template("endurance")
-var upgrade := "endurance"
+var tool_racks:Dictionary=preload("res://src/equipment/tool_racks.gd").template(Names.LOADOUT_ENDURANCE)
+var upgrade := Names.LOADOUT_ENDURANCE
 var capture_scenario := ""
 var frame := 0
 var capture_path := ""
@@ -99,7 +104,7 @@ var knock_press:Dictionary={}
 var ui_touch_height:=48.0
 var mission_row_heights:=Vector3.ZERO
 var mission_reflow_pending:=false
-var menu_footer: HBoxContainer
+var menu_footer: HFlowContainer
 var scroll_report_timer: Timer
 var metrics_session:=""
 var metrics_serial:=0
@@ -114,6 +119,9 @@ const DevState=preload("res://src/debug/dev_state.gd")
 var tactical_aids=preload("res://src/presentation/accessibility/tactical_aids.gd").new()
 var quality_runtime=preload("res://src/presentation/quality/quality_runtime.gd").new()
 var quality_periodic_refresh:=false
+# The follow view converted to a still view by a paused selection. Resuming follows the
+# selected craft again only while the view is exactly this one (no pan, zoom or FIT since).
+var held_view:Dictionary={}
 func _ready() -> void:
 	get_tree().auto_accept_quit=false
 	_theme()
@@ -129,8 +137,8 @@ func _ready() -> void:
 	pause_button=_button(hud,"▶  RESUME",_pause)
 	for i in 3:
 		var id=i
-		unit_buttons.append(_button(hud,["QUIETUS","DRONE A","DRONE B"][i],func(): _order("select",{"unit":id})))
-	var orders=[["ping","SONAR"],["camera","CAMERA"],["silent","SILENT"],["queue","+ QUEUE"],["hold","HOLD"],["emp","DISRUPT"],["decoy","DECOY"],["recon","SURVEY"],["contact_hold","IF CONTACT"],["wait_drone","WAIT DRONE"],["waypoint_mode","WAYPOINT: PASS"],["program","PLAN ROUTE"],["knock","TORPEDO"]]
+		unit_buttons.append(_button(hud,Names.UNIT_NAMES[i],func(): _order("select",{"unit":id})))
+	var orders=[["ping","SONAR"],["camera","CAMERA"],["silent","SILENT"],["queue","+ QUEUE"],["hold","HOLD"],["emp","EMP"],["decoy","DECOY"],["recon","SURVEY"],["contact_hold","IF CONTACT"],["wait_drone","WAIT DRONE"],["waypoint_mode","WAYPOINT: PASS"],["program","PLAN ROUTE"],["knock","TORPEDO"]]
 	for o in orders:
 		var order=o[0]
 		order_buttons[order]=_button(hud,o[1],func(): _primary_action() if order=="camera" else _order(order))
@@ -161,7 +169,7 @@ func _ready() -> void:
 	scroll_report_timer.timeout.connect(_report_targets)
 	scroll.get_v_scroll_bar().value_changed.connect(func(_value): scroll_report_timer.start())
 	panel_box=VBoxContainer.new(); panel_box.size_flags_horizontal=Control.SIZE_EXPAND_FILL; panel_box.add_theme_constant_override("separation",14); scroll.add_child(panel_box)
-	menu_footer=HBoxContainer.new(); menu_footer.add_theme_constant_override("separation",12); stack.add_child(menu_footer); menu_footer.hide()
+	menu_footer=HFlowContainer.new(); menu_footer.add_theme_constant_override("h_separation",12); menu_footer.add_theme_constant_override("v_separation",12); stack.add_child(menu_footer); menu_footer.hide()
 	route_editor=preload("res://src/presentation/route_program_panel.gd").new(); add_child(route_editor)
 	sound=Soundscape.new(); add_child(sound)
 	preload("res://src/presentation/first_siren_cue/first_siren_cue.gd").install(self)
@@ -186,23 +194,23 @@ func _boot_frontend() -> void:
 	front.settings_store.path=settings_path
 	if not front.setup(self): remove_child(front); front.queue_free()
 func _theme() -> void:
-	var t=Theme.new(); t.default_font_size=17
-	var normal=StyleBoxFlat.new(); normal.bg_color=Color("102831"); normal.border_color=Color("36545d"); normal.set_border_width_all(1); normal.set_corner_radius_all(5); normal.content_margin_left=12; normal.content_margin_right=12; normal.content_margin_top=10; normal.content_margin_bottom=10
-	var hover=normal.duplicate(); hover.bg_color=Color("20444c"); hover.border_color=Color("6bd5cb")
-	var pressed=normal.duplicate(); pressed.bg_color=Color("37605e")
-	t.set_stylebox("normal","Button",normal); t.set_stylebox("hover","Button",hover); t.set_stylebox("pressed","Button",pressed); t.set_stylebox("focus","Button",hover)
-	t.set_color("font_color","Button",Color("d0e0df")); t.set_color("font_hover_color","Button",Color("ffffff")); t.set_color("font_color","Label",Color("c3d5d6"))
-	var p=StyleBoxFlat.new(); p.bg_color=Color("0a1b25"); p.border_color=Color("47636a"); p.set_border_width_all(1); p.content_margin_left=28; p.content_margin_right=28; p.content_margin_top=22; p.content_margin_bottom=22
-	t.set_stylebox("panel","PanelContainer",p); theme=t
+	theme=preload("res://src/presentation/ui_style.gd").theme()
 func _label(parent: Node,text: String,font_size: int) -> Label:
 	var l=Label.new(); l.text=text; l.add_theme_font_size_override("font_size",font_size); parent.add_child(l); return l
 func _button(parent: Node,text: String,action: Callable,action_id: String="") -> Button:
 	var b=Button.new(); b.text=text; b.custom_minimum_size=Vector2(0,ui_touch_height); b.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART; b.pressed.connect(action,CONNECT_DEFERRED); b.focus_mode=Control.FOCUS_ALL; parent.add_child(b)
-	if parent==menu_footer: b.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+	# WP-93: wrapped button text breaks between words only; the floor follows the font size set in _layout.
+	b.theme_changed.connect(preload("res://src/presentation/layout_metrics.gd").keep_words_whole.bind(b))
+	if parent==menu_footer:
+		b.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+		# A footer label that carries its own line breaks ("ENTER WATER\nSTART PAUSED") needs no automatic wrapping.
+		# Wrapped, its height was measured at the button's first narrow width: at 150% text the briefing's two
+		# footer buttons stood 1145 px tall on the inner screen and squeezed the briefing (critic 13 Nov).
+		if "\n" in text: b.autowrap_mode=TextServer.AUTOWRAP_OFF
 	# Let ScrollContainer observe touch-emulated drags begun on menu rows.
 	# Its scroll-begin notification cancels the button click; taps still activate.
 	if parent==panel_box: b.mouse_filter=Control.MOUSE_FILTER_PASS
-	if not action_id.is_empty(): b.set_meta("action",action_id); b.set_meta("ui_action",action_id)
+	if not action_id.is_empty(): b.set_meta("action",action_id); b.set_meta("ui_action",action_id); preload("res://src/presentation/ui_style.gd").apply_for(b,action_id)
 	return b
 func ui_density_dpi() -> float:
 	return DisplayServer.screen_get_dpi()
@@ -239,11 +247,20 @@ func _layout(cancel_gesture:bool=true) -> void:
 		mission_hud.layout(size,h);mission_row_heights=_measured_mission_rows()
 		ocean.ui_blocked_rects=mission_hud.occupied_rects().map(func(r):return Rect2(r.position-ocean.global_position,r.size))
 	if menu!=null:
-		menu.position=Vector2(maxf(24,(size.x-800)/2),24); menu.size=Vector2(minf(800,size.x-48),size.y-48)
+		# A turned or resized screen rebuilds the hub when its one-or-two column choice changes.
+		if screen in ["menu","briefing"] and has_meta("hub_wide") and get_meta("hub_wide")!=preload("res://src/presentation/layout_metrics.gd").hub_wide(size,h,FrontendSettings.text_scale()):
+			# The hub takes no argument; only the briefing is rebuilt for an operation index.
+			if screen=="menu": call_deferred("_show_campaign")
+			else: call_deferred("_briefing",int(get_meta("onboard2_fit_index",0)))
+		preload("res://src/presentation/prep_columns.gd").relayout(self)
+		var panel_width=preload("res://src/presentation/layout_metrics.gd").menu_width(size,get_meta("hub_wide",false) or get_meta("prep_wide",false),ui_touch_height)
+		panel_width=minf(panel_width,size.x-preload("res://src/presentation/layout_metrics.gd").MENU_MARGIN)  # WP-96: never wider than the screen less its margin
+		menu.position=Vector2((size.x-panel_width)/2,24); menu.size=Vector2(panel_width,size.y-48)
 		if screen=="reference" and get_meta("launch_costs_open",false):menu.position=Vector2(16,16);menu.size=size-Vector2(32,32)
 		if archive_status_text!=null:archive_status_text.add_theme_font_size_override("font_size",maxi(17,roundi(h*.26*FrontendSettings.text_scale())))
 		for button in menu.find_children("*","Button",true,false):
-			button.custom_minimum_size.y=h; button.add_theme_font_size_override("font_size",maxi(17,roundi(h*0.29*FrontendSettings.text_scale())))
+			button.custom_minimum_size.y=preload("res://src/presentation/layout_metrics.gd").dense_height(h) if button.has_meta("dense_height") else h; button.add_theme_font_size_override("font_size",maxi(17,roundi(h*0.29*FrontendSettings.text_scale())))
+		preload("res://src/presentation/layout_metrics.gd").share_row(menu_footer,panel_width-preload("res://src/presentation/layout_metrics.gd").MENU_PANEL_PADDING,(size.y-48)*.35)
 		for slider in menu.find_children("*","Slider",true,false): slider.custom_minimum_size.y=h
 	if route_editor!=null and route_editor.visible: route_editor.configure(size,h)
 	if debug_console!=null:debug_console.badge_layout_key=0
@@ -265,11 +282,14 @@ func _start_mission(index: int) -> void:
 		var why=racks.prepare_launch(launch.launch,fitted_equipment,Economy.Losses.racks(economy,tool_racks))
 		if not why.is_empty():sim.message=why;return
 	launch.launch["context"]=_launch_context(index)
+	# WP-13: every player dive starts with the drones aboard Quietus (simulation/drone_bay/).
+	launch.launch["drones_aboard"]=true
+	launch.launch["parity_rules"]=true # WP-16: discovered charts and objectives, Disrupt and factory rules
 	# The first call builds the paused display before loading an archive. Even
 	# blocked recovery needs valid craft/UI; later player launches stay guarded.
 	if not sim.mission.is_empty() and not preload("res://src/persistence/save_states/save2_controller.gd").before_launch(self,index):return
 	if mission_hud!=null and mission_hud.guard!=null:mission_hud.guard.reset()
-	diagnostic_ready=""; diagnostic_records.clear(); diagnostic_roles.clear(); diagnostic_role_route_ready=false; map_gesture.cancel(); advanced_orders=false; knock_armed=false; ocean.knock_targeting=false; decoy_armed=false; ocean.decoy_targeting=false
+	diagnostic_ready=""; diagnostic_records.clear(); diagnostic_roles.clear(); diagnostic_role_route_ready=false; held_view={}; map_gesture.cancel(); advanced_orders=false; knock_armed=false; ocean.knock_targeting=false; decoy_armed=false; ocean.decoy_targeting=false
 	call_deferred("_layout")
 	if route_editor!=null: route_editor.hide()
 	active_started=true; mission_index=index; sim.start(index,upgrade,launch.launch)
@@ -286,7 +306,9 @@ func _primary_action() -> void:
 	var held=WorkTaskView.held_reason(sim,mission_hud.task) if mission_hud!=null else ""
 	if not held.is_empty():mission_hud.task_result={"owner":WorkTaskView.NAMES[sim.selected],"ok":false,"text":held};_refresh();return
 	var photographic=sim.camera_context()
-	if photographic.get("ready",false) and preload("res://src/simulation/photo_context.gd").is_photo(sim,photographic):_order("camera");return
+	if photographic.get("ready",false) and preload("res://src/simulation/photo_context.gd").is_photo(sim,photographic):
+		if preload("res://src/presentation/photo_shutter/shutter.gd").refuse(self):return
+		_order("camera");return
 	var shelter=preload("res://src/presentation/shelf_habitat_view.gd").nearest(sim)
 	if not shelter.is_empty():mission_hud.open("habitat",shelter);return
 	var station=WarningChain.nearest_station(sim)
@@ -313,14 +335,14 @@ func _order(order: String,args: Dictionary={}) -> void:
 		knock_armed=false; ocean.knock_targeting=false; decoy_armed=false; ocean.decoy_targeting=false
 		map_gesture.cancel(); sim.paused=true; screen="program"; hud.hide(); menu.hide()
 		for button in zoom_buttons: button.hide()
-		print("SS_SCREEN program paused=",sim.paused)
+		ReleaseControls.debug_print(["SS_SCREEN program paused=",sim.paused])
 		route_editor.open(self); call_deferred("_report_targets"); _save_archive(); return
 	if order=="decoy" and not args.has("point"):
 		targeting_feedback=""
 		map_gesture.cancel(); knock_armed=false; ocean.knock_targeting=false
 		if sim.units[sim.selected].alive and preload("res://src/equipment/tool_racks.gd").count(sim,"decoy")>0 and sim.outcome.is_empty():decoy_armed=not decoy_armed;decoy_unit=sim.selected
 		else:decoy_armed=false;sim.message="Decoy unavailable · no charge spent"
-		_refresh(); print("SS_DECOY_AIM armed=",decoy_armed," selected=",sim.selected); call_deferred("_report_targets"); return
+		_refresh(); ReleaseControls.debug_print(["SS_DECOY_AIM armed=",decoy_armed," selected=",sim.selected]); call_deferred("_report_targets"); return
 	if order=="knock" and not args.has("target"):
 		targeting_feedback=""
 		map_gesture.cancel();decoy_armed=false;ocean.decoy_targeting=false
@@ -333,18 +355,56 @@ func _order(order: String,args: Dictionary={}) -> void:
 	var undo_record={}
 	if order=="route" and sim.outcome.is_empty() and mission_hud!=null and mission_hud.guard!=null:undo_record=mission_hud.guard.capture()
 	var worker=sim.selected
+	if order=="select" and sim.paused and int(args.get("unit",-1))!=sim.selected:_hold_view()
+	# WP-36: the LAST result belongs to the previous order. Any next order, or selecting another craft, clears it
+	# (selecting the same craft leaves it); a work order below then reports its own. The message is cleared the same
+	# way: an accepted order replaces a stale cancelled/refused message, a refused one keeps what it reports.
+	var earlier_message=sim.message
+	if mission_hud!=null and (order!="select" or int(args.get("unit",-1))!=sim.selected):mission_hud.task_result={}
+	sim.message=""
 	var accepted=sim.command(order,args)
+	if sim.message.is_empty():sim.message=earlier_message if not accepted else ""
 	if mission_hud!=null and (order=="camera" or order.ends_with("_action") or order in WORK_ORDERS):
 		mission_hud.task_result={"owner":WorkTaskView.NAMES[worker],"ok":accepted,"text":sim.message}
 	if accepted and not undo_record.is_empty():mission_hud.guard.arm_undo(undo_record)
 	if order=="knock" and not accepted: knock_armed=aiming
 	if order=="decoy" and not accepted:decoy_armed=aiming_decoy
 	if not accepted and (knock_armed or decoy_armed):targeting_feedback=sim.message
-	print("SS_ORDER ",order," accepted=",accepted," selected=",sim.selected," queued=",sim.queue_mode)
+	ReleaseControls.debug_print(["SS_ORDER ",order," accepted=",accepted," selected=",sim.selected," queued=",sim.queue_mode])
 	_refresh(); _save_archive()
 	if accepted and order=="camera": call_deferred("_report_targets")
 func _pause() -> void:
-	sim.paused=not sim.paused; print("SS_PAUSE paused=",sim.paused); _refresh(); _save_archive()
+	# RESUME closes an open ring or order dialog in the same press; the dialog's marker is dropped.
+	if sim.paused and mission_hud!=null:
+		if not mission_hud.guard.pending.is_empty():mission_hud.guard.cancel()
+		if advanced_orders:mission_hud.dismiss()
+	sim.paused=not sim.paused; tactical_aids.auto_pause.clear(); ReleaseControls.debug_print(["SS_PAUSE paused=",sim.paused]); _release_view(); _refresh(); _save_archive()
+# While paused, a selection keeps the view still: a follow view becomes a still view on the
+# same centre and scale. FOCUS recentres explicitly; running play keeps following.
+func _hold_view() -> void:
+	if ocean.chart_camera.mode!="follow":return
+	ocean._sync_camera(); ocean.chart_camera.mode="free"; ocean.chart_camera.center=ocean.chart_camera.center
+	ocean._sync_camera(); held_view=ocean.chart_camera.snapshot()
+func _release_view() -> void:
+	if held_view.is_empty() or sim.paused:return
+	if ocean.chart_camera.snapshot()==held_view:ocean.focus_craft()
+	held_view={}
+# The route confirm dialog holds dive time until the player answers it.
+func _order_dialog_open() -> bool:
+	return mission_hud!=null and mission_hud.guard!=null and mission_hud.guard.panel.is_visible_in_tree()
+# Trial rule 1 (trial_rules.gd): the command wheel, its pages, the status sheet, the PAST PINGS sheet and the
+# FLEET panel (all of them advanced_orders) and the contact card hold dive time like the route dialog does.
+# sim.paused is not touched: closing the surface lets time run again if the player had not paused.
+func _menu_holds_time() -> bool:
+	if not TrialRules.wheel_holds_time():return false
+	return advanced_orders or (mission_hud!=null and mission_hud.contact_card!=null and mission_hud.contact_card.is_open())
+# Everything that holds dive time without the player pausing.
+func _time_held() -> bool:
+	return _order_dialog_open() or _menu_holds_time()
+# The one door for pauses the game makes by itself (presentation/auto_pause.gd): trial rules 3 and 5, and the
+# accessibility aids through tactical_aids. key names the reason line; unit is the craft it names.
+func request_auto_pause(key:String,unit:int=-1)->bool:
+	return tactical_aids.auto_pause.request(self,key,unit)
 func _confirm_module_departure()->void:
 	ModuleRecovery.confirm_departure(self)
 func _process(dt: float) -> void:
@@ -356,7 +416,8 @@ func _process(dt: float) -> void:
 		save_clock+=dt
 		if save_clock>5.0: _save_archive(); save_clock=0.0
 	if screen=="mission":
-		tactical_aids.advance(dt)
+		_release_view()
+		if not _time_held():preload("res://src/dive_clock.gd").advance(self,tactical_aids,dt)
 		_observation_diagnostics()
 		if not sim.outcome.is_empty(): _debrief()
 		elif sim.has_method("departure_context") and sim.departure_context().get("pending",false): _confirm_module_departure()
@@ -373,29 +434,30 @@ func _refresh() -> void:
 	if not knock_armed and not decoy_armed:targeting_feedback=""
 	title_label.text="SIREN'S SONG    /    %02d  %s"%[mission_index+1,sim.mission.title.to_upper()]
 	status_label.text="DEPTH %dm    O₂ %03d%%    HULL %03d%%    RECORDS %d / %d    %s"%[sim.mission.depth,int(sim.oxygen),int(sim.hull),sim.mission.objectives.filter(func(o): return o.captured and not o.get("optional",false)).size(),sim.mission.objectives.filter(func(o): return not o.get("optional",false)).size(),"TACTICAL PAUSE" if sim.paused else "REAL TIME"]
-	pause_button.text="▶ RESUME" if sim.paused else "Ⅱ PAUSE"
+	pause_button.text=HudWords.plate_text(sim,false)
 	for i in 3:
 		var work=sim.capture_feedback(i)
 		var capture_task=WorkTaskView.action_verb(PhotoCapture.obj(sim,work.target)) if work.unit>=0 else ""
 		unit_buttons[i].modulate=Color("80d9cf") if sim.selected==i else Color.WHITE
-		unit_buttons[i].disabled=not sim.units[i].alive
-		var task="LOST" if not sim.units[i].alive else (capture_task if work.unit>=0 else (sim.units[i].hold if not sim.units[i].hold.is_empty() else ("ROUTE" if not sim.units[i].route.is_empty() else "READY")))
+		unit_buttons[i].disabled=sim.DroneBay.lost(sim.units[i])
+		var task="ABOARD" if sim.DroneBay.aboard(sim.units[i]) else "LOST" if not sim.units[i].alive else (capture_task if work.unit>=0 else (sim.units[i].hold if not sim.units[i].hold.is_empty() else ("ROUTE" if not sim.units[i].route.is_empty() else "READY")))
 		task={"SCOUT_STOP":"ALERT"}.get(task,task)
-		unit_buttons[i].text=["QUIETUS","DRONE A","DRONE B"][i]+"\n"+task
+		unit_buttons[i].text=Names.UNIT_NAMES[i]+"\n"+task
 		unit_buttons[i].add_theme_font_size_override("font_size",maxi(14,roundi(ui_touch_height*0.26*FrontendSettings.text_scale())))
 	order_buttons.waypoint_mode.text="PASS\nPOINTS" if sim.pass_through else "STOP AT\nPOINTS"
 	ocean.optical_feed.receiver_font_size=maxi(17,roundi(ui_touch_height*0.29*FrontendSettings.text_scale()))
 	ocean.optical_feed.touch_height=ui_touch_height
 	order_buttons.camera.text="DECODE" if sim.mission.get("blackwater_revision",0)==1 else "CAMERA\nLISTEN" if sim.mission.get("finale_revision",0)==1 else ("CAMERA\nLINK" if mission_index==1 else "CAMERA")
-	var camera_target:int=int(sim.camera_context().get("target",-1))
+	var camera_hint:Dictionary=sim.camera_context()
+	var camera_target:int=int(camera_hint.get("target",-1))
 	if camera_target==-2 or (camera_target>=0 and PhotoCapture.applies(PhotoCapture.obj(sim,camera_target))):order_buttons.camera.text="PHOTO"
 	elif camera_target>=0 and PhotoCapture.obj(sim,camera_target).get("kind","")=="receiver" and sim.mission.get("blackwater_revision",0)!=1:order_buttons.camera.text="LISTEN"
-	order_buttons.queue.text="+ QUEUE ON" if sim.queue_mode else "REPLACE"
+	order_buttons.queue.text="TAPS:\nQUEUE" if sim.queue_mode else "TAPS:\nREPLACE"
 	order_buttons.program.text="PLAN\nROUTE"
-	order_buttons.silent.text=("LOW\nPROFILE" if sim.units[sim.selected].silent else "OPEN\nPROFILE") if sim.selected>0 else ("SILENT ✓" if sim.units[0].silent else "CRUISE")
+	order_buttons.silent.text=HudWords.silent_label(sim)
 	order_buttons.knock.text="CANCEL\nTORPEDO" if knock_armed else "TORPEDO\n%d"%preload("res://src/presentation/truthful_commands.gd").stock(sim,"knock")
 	order_buttons.knock.disabled=not knock_armed and (sim.selected!=0 or not sim.units[0].alive or sim.tools.get("knock",0)<=0)
-	order_buttons.emp.text="DISRUPT\n%d"%preload("res://src/equipment/tool_racks.gd").count(sim,"emp")
+	order_buttons.emp.text="EMP\n%d"%preload("res://src/equipment/tool_racks.gd").count(sim,"emp")
 	order_buttons.emp.disabled=preload("res://src/equipment/tool_racks.gd").count(sim,"emp")<=0
 	order_buttons.decoy.text="CANCEL\nDECOY" if decoy_armed else "DECOY\n%d"%preload("res://src/equipment/tool_racks.gd").count(sim,"decoy")
 	order_buttons.decoy.disabled=preload("res://src/equipment/tool_racks.gd").count(sim,"decoy")<=0 and not decoy_armed
@@ -412,9 +474,9 @@ func _refresh() -> void:
 	order_buttons.wait_drone.text="WAIT\nDRONE"
 	var mode="ADD TO ROUTE" if sim.queue_mode else "REPLACE ROUTE"
 	var goals=sim.route_goals(); var intent=""
-	if not goals.is_empty(): intent="TO 1: %s / %s · "%[route_editor.mode_label(goals[0].mode,sim.selected>0),"STOP" if goals[0].stop else "PASS"]
+	if not goals.is_empty(): intent=HudWords.point_row(1,goals[0],sim.selected>0)+" · "
 	if sim.selected>0:intent="DRIVE %s · "%["QUIET42" if sim.units[sim.selected].get("drone_drive","transit")=="quiet" else "TRANSIT96"]+intent
-	var context=sim.camera_context().text
+	var context=camera_hint.text
 	if scout.state=="armed":context="SCOUT: own passive contact stops · route kept"
 	elif scout.state=="stopped":context=("SCOUT braking" if sim.units[sim.selected].vel.length()>2 else "SCOUT holding")+" · own contact · route kept · SCOUT resumes"
 	elif scout.state=="legacy":context="FLEET GUARD · any fresh fleet contact holds"
@@ -428,107 +490,17 @@ func _focus_craft() -> void:
 func _toggle_advanced() -> void:
 	if advanced_orders:mission_hud.dismiss()
 	else:mission_hud.open("craft",{"kind":"craft","unit":sim.selected,"pos":sim.units[sim.selected].pos})
-func _input(event:InputEvent) -> void:
-	if debug_console!=null and debug_console.input(event):get_viewport().set_input_as_handled();return
-	if debug_console!=null and debug_console.panel.visible:return
-	if screen!="mission":return
-	if ocean.optical_feed.route_input(event):get_viewport().set_input_as_handled();return
-	if mission_hud.contact_touch.feed(mission_hud.contact_scroll,event):get_viewport().set_input_as_handled();return
-	if mission_hud.owns_pointer(event):get_viewport().set_input_as_handled();return
-	if mission_hud.fleet.handle_input(event):get_viewport().set_input_as_handled();return
-	if advanced_orders:
-		map_gesture.cancel();knock_press.clear()
-		if mission_hud.popup_input(event):get_viewport().set_input_as_handled()
-		return
-	if not map_gesture.active():return
-	var pressed=(event is InputEventScreenTouch and event.pressed) or (event is InputEventMouseButton and event.pressed)
-	if pressed and (not ocean.get_global_rect().has_point(event.position) or mission_hud.blocks(event.position)):
-		map_gesture.cancel();return
-	if _map_event(event):get_viewport().set_input_as_handled()
-func _gui_input(event: InputEvent) -> void:
-	if screen!="mission": return
-	if event is InputEventMouse or event is InputEventScreenTouch or event is InputEventScreenDrag:
-		if mission_hud.blocks(event.position+global_position):return
-	if event is InputEventMouseButton and event.button_index in [MOUSE_BUTTON_WHEEL_UP,MOUSE_BUTTON_WHEEL_DOWN] and event.pressed and Rect2(ocean.position,ocean.size).has_point(event.position):
-		map_gesture.cancel(); ocean.zoom_at(1.2 if event.button_index==MOUSE_BUTTON_WHEEL_UP else 1.0/1.2,event.position-ocean.position); _view_changed(); accept_event(); return
-	var pressed=(event is InputEventScreenTouch and event.pressed) or (event is InputEventMouseButton and event.pressed and event.button_index==MOUSE_BUTTON_LEFT)
-	if pressed and Rect2(ocean.position,ocean.size).has_point(event.position) and _map_event(event,true): accept_event()
-func _map_event(event: InputEvent,local_event: bool=false) -> bool:
-	if event.device==InputEvent.DEVICE_ID_EMULATION: return false
-	if event is InputEventScreenTouch and event.canceled: map_gesture.cancel(); knock_press.clear(); return true
-	var kind=""; var index=-1; var point=Vector2.ZERO
-	if event is InputEventScreenTouch:
-		kind="press" if event.pressed else "release"; index=event.index; point=event.position
-	elif event is InputEventScreenDrag:
-		kind="move"; index=event.index; point=event.position
-	elif event is InputEventMouseButton and event.button_index==MOUSE_BUTTON_LEFT:
-		kind="press" if event.pressed else "release"; point=event.position
-	elif event is InputEventMouseMotion and map_gesture.active():
-		kind="move"; point=event.position
-	if kind.is_empty(): return false
-	if local_event: point+=global_position
-	if kind=="press" and not map_gesture.active():
-		knock_press={"armed":knock_armed,"decoy":decoy_armed,"unit":sim.selected,"key":ocean.knock_aim_key(point-ocean.global_position) if knock_armed else -1}
-	var action=map_gesture.feed(kind,index,point)
-	if action.has("zoom"): ocean.zoom_at(action.zoom,action.anchor-ocean.global_position)
-	if action.has("pan"): ocean.pan_chart(action.pan)
-	if action.get("navigation",false): _view_changed()
-	if action.has("tap") and ocean.get_global_rect().has_point(action.tap) and not mission_hud.blocks(action.tap):
-		if knock_armed or knock_press.get("armed",false):
-			if knock_armed and knock_press.get("armed",false):_target_knockdown(action.tap,knock_press.get("key",-1))
-			knock_press.clear(); return true
-		if decoy_armed or knock_press.get("decoy",false):
-			if decoy_armed and knock_press.get("decoy",false) and knock_press.get("unit",-1)==sim.selected:
-				_order("decoy",{"point":ocean.map_position(action.tap-ocean.global_position)})
-			knock_press.clear(); return true
-		var targets=ocean.contexts_at(action.tap-ocean.global_position,ui_touch_height)
-		if not targets.is_empty():
-			mission_hud.open_targets(targets);return true
-		# Drawn information owns its tap even when it has no command target.
-		if ocean.information_at(action.tap-ocean.global_position):return true
-		var world=ocean.map_position(action.tap-ocean.global_position)
-		if Rect2(Vector2.ZERO,ocean.world_size()).has_point(world): mission_hud.guard.tap_water(world)
-	if action.has("ended") or action.has("tap"):knock_press.clear()
-	return true
-func _target_knockdown(point: Vector2,intended:int=-2) -> void:
-	var chosen=ocean.knock_aim_key(point-ocean.global_position) if intended==-2 else intended
-	if chosen<0 or not ocean.knock_visible_targets().any(func(c):return c.key==chosen):
-		sim.message="Choose an S# FIRE box or a clear contact · no torpedo spent"
-		for id in sim.contacts:
-			var contact=sim.contacts[id]
-			if sim.elapsed-contact.time>=.3:continue
-			if ocean.screen_position(contact.pos).distance_to(point-ocean.global_position)>maxf(ui_touch_height/2,43*ocean.world_scale):continue
-			if contact.get("mode","") in ["DISRUPTED","PINNED"]:
-				sim.message="S%d %s · shot declined · no torpedo spent"%[int(id)+1,"disrupted" if contact.mode=="DISRUPTED" else "already snared"]
-				break
-			var distance=sim.units[0].pos.distance_to(contact.pos)
-			if distance>sim.KNOCK_RANGE:
-				sim.message="S%d out of range · %dm / %dm · no torpedo spent"%[int(id)+1,ceili(distance),roundi(sim.KNOCK_RANGE)]
-				break
-		targeting_feedback=sim.message; _refresh(); return
-	_order("knock",{"target":chosen})
-func _chart_zoom(factor: float) -> void:
-	map_gesture.cancel(); ocean.zoom_at(factor,ocean.size/2); _view_changed()
-func _view_changed() -> void:
-	_refresh()
-	_save_archive()
-	print("SS_VIEW zoom=",snappedf(ocean.chart_camera.zoom,0.01)," center=",ocean.chart_camera.center)
-	call_deferred("_report_targets")
-func _unhandled_key_input(event: InputEvent) -> void:
-	if event is InputEventKey and event.pressed and not event.echo and event.keycode==KEY_ESCAPE:
-		if _frontend_back():get_viewport().set_input_as_handled();return
-	if screen=="program":
-		if event is InputEventKey and event.pressed and event.keycode==KEY_ESCAPE: route_editor.close()
-		return
-	if event is InputEventKey and event.pressed and not event.echo:
-		# SPACE pauses only live play; menus, briefing and settings never touch mission pause.
-		if event.keycode==KEY_SPACE and screen=="mission": _pause()
-		if event.keycode==KEY_ESCAPE:
-			if advanced_orders:mission_hud._back()
-			elif knock_armed or decoy_armed:_primary_action()
-			else:sim.paused=true;_show_campaign()
+func _input(event:InputEvent) -> void:DiveInput.input(self,event)
+func _gui_input(event: InputEvent) -> void:DiveInput.gui_input(self,event)
+func _map_event(event: InputEvent,local_event: bool=false) -> bool:return DiveInput.map_event(self,event,local_event)
+func _target_knockdown(point: Vector2,intended:int=-2) -> void:DiveInput.target_knockdown(self,point,intended)
+func _chart_zoom(factor: float) -> void:DiveInput.chart_zoom(self,factor)
+func _view_changed() -> void:DiveInput.view_changed(self)
+func _unhandled_key_input(event: InputEvent) -> void:DiveInput.unhandled_key(self,event)
 func _clear_menu() -> void:
 	set_meta("launch_costs_open",false)
+	if has_meta("hub_wide"):remove_meta("hub_wide") # only the campaign hub sets it, once it is built
+	preload("res://src/presentation/prep_columns.gd").forget(self) # preparation screens set their own columns
 	preload("res://src/presentation/arcs/arc_card.gd").back(self)
 	var resolution=get_node_or_null("ConfluenceResolution")
 	if resolution!=null:remove_child(resolution);resolution.queue_free()
@@ -559,7 +531,7 @@ func _cycle_loadout()->void:
 	CampaignFlow.cycle_loadout(self)
 func _orders_text(briefing:Dictionary) -> String:
 	return CampaignFlow.orders_text(self, briefing)
-const RULES_TEXT="SPACE / PAUSE grants unlimited planning time. Silent running is slower and quieter. Disruption interrupts nearby Sirens for 12 seconds. Quietus torpedoes travel noisily up to 150m; impact pins one Siren for 8s. Cover blocks sonar, enemy sight and torpedoes."
+const RULES_TEXT="SPACE / PAUSE grants unlimited planning time. Silent running is slower and quieter. An EMP pulse interrupts nearby Sirens for 12 seconds. Quietus torpedoes travel noisily up to 150m; impact pins one Siren for 8s. Cover blocks sonar, enemy sight and torpedoes."
 func _briefing(index: int) -> void:
 	CampaignFlow.briefing(self, index)
 func _fold_fit(nodes:Array,holder:Array) -> void:
@@ -614,7 +586,7 @@ func _scenario(name: String) -> void:
 			var beam=false
 			for c in sim.contacts.values():
 				if c.lock>0.1 and not anchored: sim.command("hold"); anchored=true
-				if c.lock>=4.15 and sim.elapsed-c.time<0.3: beam=true
+				if c.lock>=sim.lock_seconds()+0.15 and sim.elapsed-c.time<0.3: beam=true
 			if beam or not sim.outcome.is_empty(): break
 		sim.paused=true
 	if name=="split":
@@ -640,89 +612,13 @@ func _scenario(name: String) -> void:
 		if name=="camera": sim.command("camera")
 		sim.paused=true
 
-func _archive() -> Dictionary:
-	var data={"version":SaveStore.VERSION,"unlocked":unlocked,"completed":completed.duplicate(),"upgrade":upgrade,"settings":settings.duplicate(),"evidence":recovered_evidence.duplicate(true),"active":sim.snapshot(),"chart_view":ocean.chart_camera.snapshot()}
-	if not photo_records.is_empty():data["photo_records"]=photo_records.duplicate(true)
-	if not photo_intel.is_empty():data["intel"]=photo_intel.duplicate(true)
-	if not expedition.is_empty():data["expedition"]=expedition.duplicate(true)
-	if not fleet.is_empty():data["fleet"]=fleet.duplicate(true)
-	data["economy"]=economy.duplicate(true)
-	if not hints_seen.is_empty():data["hints_seen"]=hints_seen.duplicate()
-	if not early_reward.is_empty():data["early_reward"]=early_reward.duplicate(true)
-	preload("res://src/presentation/first_siren_cue/cue_archive.gd").write(self,data)
-	data["tactical_pause_history"]=tactical_aids.saved_history()
-	preload("res://src/presentation/arcs/arc_card.gd").write(self,data)
-	preload("res://src/presentation/finale/finale.gd").write(self,data)
-	preload("res://src/presentation/archive/voice_feed.gd").write(self,data)
-	preload("res://src/persistence/save_states/save2_controller.gd").write(self,data)
-	DevState.write(self,data)
-	preload("res://src/equipment/tool_racks.gd").write_archive(data,tool_racks)
-	data["equipment"]=preload("res://src/equipment/equipment_catalog.gd").canonical(fitted_equipment)
-	return data
-func _save_archive() -> void:
-	_write_archive(false)
-func _retry_archive()->void:
-	if not save_retry_pending:return
-	save_retry_pending=false
-	_write_archive(true)
-func _write_archive(retry:bool)->void:
-	if not capture_scenario.is_empty() or sim.mission==null:return
-	_sync_craft_upgrades()
-	if store.save(_archive()):
-		save_retry_pending=false;save_error=""
-		print("SS_SAVE ok mission=",mission_index," time=",snappedf(sim.elapsed,0.01)," paused=",sim.paused," completed=",completed," unlocked=",unlocked)
-	elif retry:
-		save_error=store.warning;sim.message=save_error
-		print("SS_SAVE retry_failed reason=",store.warning," active.captures=",sim.captures)
-	else:
-		print("SS_SAVE retry_pending reason=",store.warning," active.captures=",sim.captures)
-		if not save_retry_pending:
-			save_retry_pending=true;call_deferred("_retry_archive")
-	_update_archive_status()
-func _dismiss_archive_warning()->void:
-	archive_warning="";_update_archive_status()
-func _update_archive_status()->void:
-	if archive_status==null:return
-	var lines=[]
-	if not save_error.is_empty():lines.append("PROGRESS NOT SAVED\n"+save_error+"\nCurrent progress is held in this session only.")
-	if not archive_warning.is_empty():lines.append("ARCHIVE NOTICE\n"+archive_warning)
-	var text="\n\n".join(lines);var changed=archive_status_text.text!=text
-	archive_status_text.text=text;archive_status.visible=not text.is_empty()
-	save_retry_button.visible=not save_error.is_empty();archive_dismiss_button.visible=not archive_warning.is_empty()
-	if changed:call_deferred("_layout")
-func _load_archive() -> void:
-	var saved=store.load_game()
-	DevState.restore(self,saved)
-	preload("res://src/presentation/arcs/arc_card.gd").restore(self,saved)
-	preload("res://src/presentation/finale/finale.gd").restore(self,saved)
-	if not saved.is_empty():
-		unlocked=saved.unlocked; completed=saved.completed; upgrade=saved.upgrade; settings=saved.settings
-		early_reward=saved.get("early_reward",{}).duplicate(true)
-		expedition=saved.get("expedition",{}).duplicate(true)
-		fleet=saved.get("fleet",{}).duplicate(true)
-		photo_intel=saved.get("intel",{}).duplicate(true)
-		fitted_equipment=preload("res://src/equipment/equipment_catalog.gd").canonical(saved.get("equipment",{}))
-		fitted_equipment=FleetInventory.reconcile_fitting(fitted_equipment,FleetInventory.available(_equipment_entitlements(),fleet))
-		tool_racks=preload("res://src/equipment/tool_racks.gd").migrated(saved)
-		economy=Economy.Losses.migrated(saved.economy) if saved.has("economy") else Economy.legacy_state(fitted_equipment)
-		fitted_equipment=Economy.Losses.fitting(economy,FleetInventory.reconcile_fitting(fitted_equipment,FleetInventory.available(_equipment_entitlements(),fleet,economy)))
-		recovered_evidence=saved.get("evidence",{})
-		photo_records=saved.get("photo_records",{}).duplicate(true)
-		preload("res://src/presentation/archive/voice_feed.gd").restore(self,saved)
-		hints_seen=saved.get("hints_seen",[]).duplicate()
-		preload("res://src/presentation/first_siren_cue/cue_archive.gd").restore_types(self,saved)
-		if saved.get("active") is Dictionary and sim.restore(saved.active):
-			tactical_aids.restore_history(saved.get("tactical_pause_history"))
-			preload("res://src/presentation/first_siren_cue/cue_archive.gd").restore(self,saved)
-			active_started=true; mission_index=sim.mission.id; ocean.sim=sim
-			ocean._sync_camera()
-			var chart_view=saved.get("chart_view",{})
-			if chart_view is Dictionary:ocean.chart_camera.restore(chart_view)
-			print("SS_RESTORE ok mission=",mission_index," time=",snappedf(sim.elapsed,0.01)," paused=",sim.paused," completed=",completed," unlocked=",unlocked)
-	preload("res://src/persistence/save_states/save2_controller.gd").restore(self,saved)
-	sound.music_volume=settings.get("music",0.5); sound.effects_volume=settings.get("effects",0.8); sound.muted=settings.get("mute",false)
-	if not store.warning.is_empty():archive_warning=store.warning;sim.message=store.warning
-	_update_archive_status()
+func _archive() -> Dictionary:return CampaignArchiveFlow.archive(self)
+func _save_archive() -> void:CampaignArchiveFlow.save_archive(self)
+func _retry_archive()->void:CampaignArchiveFlow.retry_archive(self)
+func _write_archive(retry:bool)->void:CampaignArchiveFlow.write_archive(self,retry)
+func _dismiss_archive_warning()->void:CampaignArchiveFlow.dismiss_archive_warning(self)
+func _update_archive_status()->void:CampaignArchiveFlow.update_archive_status(self)
+func _load_archive() -> void:CampaignArchiveFlow.load_archive(self)
 func _settings_menu() -> void:
 	preload("res://src/presentation/frontend/menu_reach.gd").settings(self)
 func _set_text_scale(scale:float) -> void:
@@ -747,11 +643,11 @@ func _notification(what: int) -> void:
 			knock_armed=false; ocean.knock_targeting=false; decoy_armed=false; ocean.decoy_targeting=false; map_gesture.cancel()
 			sim.paused=true; _save_archive()
 			if sound!=null: sound.suspend()
-			print("SS_LIFECYCLE suspended paused=true")
+			ReleaseControls.debug_print(["SS_LIFECYCLE suspended paused=true"])
 	if what in [NOTIFICATION_APPLICATION_RESUMED,NOTIFICATION_APPLICATION_FOCUS_IN,NOTIFICATION_WM_WINDOW_FOCUS_IN]:
 		if sound!=null: sound.resume()
 		if is_node_ready() and is_inside_tree() and hud!=null:
-			print("SS_LIFECYCLE foreground")
+			ReleaseControls.debug_print(["SS_LIFECYCLE foreground"])
 			call_deferred("_report_targets")
 	if what==NOTIFICATION_WM_CLOSE_REQUEST:
 		_save_archive(); get_tree().quit()
@@ -771,18 +667,18 @@ func _back_exit_handled()->bool:
 	return back_exit.handle(self)
 func _android_back()->void:
 	if debug_console!=null and debug_console.panel.visible:debug_console.panel.hide();return
-	if not is_inside_tree() or _frontend_back():return
+	if not is_inside_tree():return
+	var levels=preload("res://src/presentation/back_exit/back_levels.gd")
+	if levels.at_launch_title(self) and _back_exit_handled():return
+	if _frontend_back():return
 	if _back_exit_handled():return
-	# Match Escape in the route instrument, after Android's notification traversal.
-	if screen=="program":route_editor.close()
-	elif screen=="mission" and advanced_orders:mission_hud._back()
-	else:_show_campaign()
+	if not levels.up(self):_show_campaign()
 
 func _take_capture() -> void:
 	await RenderingServer.frame_post_draw
 	var image=get_viewport().get_texture().get_image()
 	var result=image.save_png(capture_path)
-	print("SS_CAPTURE ",capture_path," size=",image.get_size()," result=",result)
+	ReleaseControls.debug_print(["SS_CAPTURE ",capture_path," size=",image.get_size()," result=",result])
 
 func _report_targets() -> void:
 	if not is_inside_tree():return
@@ -803,42 +699,43 @@ func _report_targets() -> void:
 		for child in get_node("ConfluenceResolution").actions.get_children():
 			if child is Button and child.has_meta("action"):buttons[child.get_meta("action")]=child
 	else:
-		for child in panel_box.get_children()+menu_footer.get_children():
+		# Buttons inside hub columns, grids and cards sit below panel_box's own children; report the visible ones too.
+		for child in panel_box.get_children()+menu_footer.get_children()+panel_box.find_children("*","Button",true,false).filter(func(b):return b.is_visible_in_tree()):
 			if child is Button and child.has_meta("action"): buttons[child.get_meta("action")]=child
 	_emit_ui_metrics(_ui_metrics(capture_phase))
 	for key in buttons:
 		var p=buttons[key].get_global_rect().get_center()
-		print("SS_TARGET ",key," center=",roundi(p.x),",",roundi(p.y)," viewport=",roundi(get_viewport_rect().size.x),",",roundi(get_viewport_rect().size.y))
+		ReleaseControls.debug_print(["SS_TARGET ",key," center=",roundi(p.x),",",roundi(p.y)," viewport=",roundi(get_viewport_rect().size.x),",",roundi(get_viewport_rect().size.y)])
 	if hud.visible:
 		var center=ocean.get_global_rect().get_center()
-		print("SS_TARGET chart_center center=",roundi(center.x),",",roundi(center.y)," viewport=",roundi(get_viewport_rect().size.x),",",roundi(get_viewport_rect().size.y))
+		ReleaseControls.debug_print(["SS_TARGET chart_center center=",roundi(center.x),",",roundi(center.y)," viewport=",roundi(get_viewport_rect().size.x),",",roundi(get_viewport_rect().size.y)])
 		var sites=sim.observable_sites()
 		if not sites.is_empty():
 			var approach=sites[0].pos+Vector2(0,210)
 			if sim.blocked(approach,25): approach=sites[0].pos+Vector2(-210,0)
 			var objective_point=ocean.global_position+ocean.world_offset+approach*ocean.world_scale
-			print("SS_TARGET objective0 center=",roundi(objective_point.x),",",roundi(objective_point.y)," viewport=",roundi(get_viewport_rect().size.x),",",roundi(get_viewport_rect().size.y))
+			ReleaseControls.debug_print(["SS_TARGET objective0 center=",roundi(objective_point.x),",",roundi(objective_point.y)," viewport=",roundi(get_viewport_rect().size.x),",",roundi(get_viewport_rect().size.y)])
 		var p=ocean.global_position+ocean.world_offset+Vector2(480,850)*ocean.world_scale
-		print("SS_TARGET route center=",roundi(p.x),",",roundi(p.y)," viewport=",roundi(get_viewport_rect().size.x),",",roundi(get_viewport_rect().size.y))
+		ReleaseControls.debug_print(["SS_TARGET route center=",roundi(p.x),",",roundi(p.y)," viewport=",roundi(get_viewport_rect().size.x),",",roundi(get_viewport_rect().size.y)])
 
 		# Own launch geometry only. Keep10m inside the cap for rounded input pixels.
 		if decoy_armed:
 			var deployment=sim.units[sim.selected].pos+Vector2(150,0)
 			if sim.decoy_target_valid(deployment):
 				var mapped=ocean.global_position+ocean.screen_position(deployment)
-				print("SS_TARGET role_decoy center=",roundi(mapped.x),",",roundi(mapped.y)," viewport=",roundi(get_viewport_rect().size.x),",",roundi(get_viewport_rect().size.y))
+				ReleaseControls.debug_print(["SS_TARGET role_decoy center=",roundi(mapped.x),",",roundi(mapped.y)," viewport=",roundi(get_viewport_rect().size.x),",",roundi(get_viewport_rect().size.y)])
 		if mission_index==4:
 			for action in {"role_observer":Vector2(640,850),"role_home":Vector2(140,800)}:
 				var world:Vector2={"role_observer":Vector2(640,850),"role_home":Vector2(140,800)}[action]
 				var mapped=ocean.global_position+ocean.world_offset+world*ocean.world_scale
-				print("SS_TARGET ",action," center=",roundi(mapped.x),",",roundi(mapped.y)," viewport=",roundi(get_viewport_rect().size.x),",",roundi(get_viewport_rect().size.y))
+				ReleaseControls.debug_print(["SS_TARGET ",action," center=",roundi(mapped.x),",",roundi(mapped.y)," viewport=",roundi(get_viewport_rect().size.x),",",roundi(get_viewport_rect().size.y)])
 
 func _emit_ui_metrics(snapshot: Dictionary={}) -> void:
 	UiMetrics.emit_ui_metrics(self, snapshot)
 func _enter_water() -> void:
 	screen="mission"; menu.hide(); hud.show()
 	for button in zoom_buttons: button.show()
-	print("SS_SCREEN mission paused=",sim.paused)
+	ReleaseControls.debug_print(["SS_SCREEN mission paused=",sim.paused])
 	call_deferred("_layout"); _save_archive()
 
 func _apply_safe_area() -> void:
@@ -854,12 +751,12 @@ func _observation_diagnostics() -> void:
 	# Read-only validation logs. Hidden AI state never enters the player HUD.
 	for id in sim.sirens.size():
 		var siren=sim.sirens[id]
-		if siren.get("type","patroller")=="patroller": continue
+		if siren.get("type",Names.ROLE_PATROLLER)==Names.ROLE_PATROLLER: continue
 		if diagnostic_roles.get(id,"")!=siren.mode:
 			diagnostic_roles[id]=siren.mode
-			print("SS_ROLE mission=%d index=%d type=%s mode=%s pos=%.6f,%.6f home=%.6f,%.6f target=%d lock=%.6f time=%.6f"%[mission_index,id,siren.type,siren.mode,siren.pos.x,siren.pos.y,siren.home.x,siren.home.y,siren.target,siren.lock,sim.elapsed])
+			ReleaseControls.debug_print(["SS_ROLE mission=%d index=%d type=%s mode=%s pos=%.6f,%.6f home=%.6f,%.6f target=%d lock=%.6f time=%.6f"%[mission_index,id,siren.type,siren.mode,siren.pos.x,siren.pos.y,siren.home.x,siren.home.y,siren.target,siren.lock,sim.elapsed]])
 	var route_ready=mission_index==4 and sim.units[0].alive and sim.units[0].pos.distance_to(Vector2(640,850))<20 and sim.units[0].vel.length()<2
-	if route_ready and not diagnostic_role_route_ready: print("SS_ROLE_ROUTE_READY mission=4 unit=0 time=",sim.elapsed)
+	if route_ready and not diagnostic_role_route_ready: ReleaseControls.debug_print(["SS_ROLE_ROUTE_READY mission=4 unit=0 time=",sim.elapsed])
 	diagnostic_role_route_ready=route_ready
 	var ready=""
 	var unit=sim.units[sim.selected]
@@ -867,13 +764,13 @@ func _observation_diagnostics() -> void:
 		var objective=sim.mission.objectives[id]
 		if objective.captured and not diagnostic_records.has(id):
 			diagnostic_records[id]=true
-			print("SS_OBJECTIVE_RECORDED mission=",mission_index," objective=",id)
+			ReleaseControls.debug_print(["SS_OBJECTIVE_RECORDED mission=",mission_index," objective=",id])
 			_retain_evidence()
 	var context=sim.camera_context()
 	if unit.alive and context.ready: ready="unit=%d objective=%d"%[sim.selected,context.target]
 	if ready!=diagnostic_ready:
 		diagnostic_ready=ready
-		if not ready.is_empty(): print("SS_CAMERA_READY ",ready)
+		if not ready.is_empty(): ReleaseControls.debug_print(["SS_CAMERA_READY ",ready])
 	if sim.mission.get("well_revision",0)==1 and not sim.mission.well_observation.is_empty() and not recovered_evidence.has("well_signature"):_retain_evidence()
 # Frames of one subject accumulate across dives: best frames kept, newest listed last.
 func _merge_shots(key:String) -> void:

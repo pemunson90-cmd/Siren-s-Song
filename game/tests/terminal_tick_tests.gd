@@ -9,7 +9,7 @@ func fixture(kind:String):
  # Restorable endgame state, with a real beam, drone route and sonar clocks.
  # Production _tick decides the result; no stub or preassigned outcome.
  var s=Simulation.new();s.start(0)
- s.sirens[0].pos=Vector2(220,800);s.sirens[0].goal=s.units[0].pos;s.sirens[0].route=[];s.sirens[0].target=0;s.sirens[0].lock=4.0 if kind=="hull" else 0.0
+ s.sirens[0].pos=Vector2(220,800);s.sirens[0].goal=s.units[0].pos;s.sirens[0].route=[];s.sirens[0].target=0;s.sirens[0].lock=s.lock_seconds() if kind=="hull" else 0.0
  check(s.line_clear(s.sirens[0].pos,s.units[0].pos),"terminal fixture beam has physical line of sight")
  check(s.command("select",{"unit":1}) and s.command("route",{"point":Vector2(220,700)}) and s.command("select",{"unit":0}) and s.command("ping"),"terminal fixture uses actual route/select/sonar commands")
  if kind=="won":

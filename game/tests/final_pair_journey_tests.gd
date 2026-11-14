@@ -3,6 +3,7 @@ extends SceneTree
 # Source-known bare routes. Ordinary movement, depth, camera and extraction;
 # no position assignments, enemy removal, free film or pre-captured records.
 const Sim=preload("res://src/simulation/simulation.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 var checks=0
 var failures=0
 func check(ok,label):
@@ -34,6 +35,8 @@ func photo(s)->bool:
  return o.captured
 func _initialize():call_deferred("run")
 func run():
+ # Scripted route through authored water, not a discovery test: known-charts developer switch (the player rules leave this water uncharted).
+ var charts_before=PlayerDive.known_water(true)
  for id in [30,31]:
   var s=Sim.new();s.start(id);s.mission["dev"]=true
   check(s.mission.get("launch_equipment",{}).values().all(func(item):return str(item).is_empty() or str(item)=="standard"),"bare initial loadout "+str(id))
@@ -48,4 +51,5 @@ func run():
   check(returned and s.outcome=="won" and s.mission.recovered,"bare recovery with real threats "+str(id))
   check(not s.mission.objectives[1].captured and Sim.valid_snapshot(s.snapshot()),"bonus optional and final save valid "+str(id))
   print("FINAL ROUTE ",id," outcome=",s.outcome," time=",s.elapsed," hull=",s.hull," oxygen=",s.oxygen)
+ PlayerDive.known_water(charts_before)
  print("FINAL PAIR JOURNEY CHECKS %d FAILURES %d"%[checks,failures]);quit(1 if failures else 0)

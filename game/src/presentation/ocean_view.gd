@@ -1,5 +1,7 @@
 extends Control
+const Names=preload("res://src/names.gd")
 const Palette=preload("res://src/presentation/accessibility/palette.gd")
+const UiStyle=preload("res://src/presentation/ui_style.gd")
 const ArtTable=preload("res://src/presentation/art/art_table.gd")
 const Art=preload("res://src/presentation/art/art_renderer.gd")
 const RegionTable=preload("res://src/presentation/art/region_table.gd")
@@ -20,6 +22,8 @@ const Expedition=preload("res://src/presentation/expedition_view.gd")
 const Confluence=preload("res://src/presentation/confluence_world.gd")
 const WarningChain=preload("res://src/presentation/warning_chain_view.gd")
 const Rendezvous=preload("res://src/presentation/rendezvous_view.gd")
+# THREAT READ seam: shutter reach, lock countdown chips and drone loss marks (threat_read/).
+const ThreatRead=preload("res://src/presentation/threat_read/threat_read.gd")
 var sim
 var presenting_mission=true
 var optical_feed
@@ -43,6 +47,7 @@ var rocks: Array = []
 var foundry=preload("res://assets/structures/foundry.png")
 var quietus=preload("res://assets/craft/quietus.png")
 var basalt=preload("res://assets/materials/basalt.png")
+const RockPainter=preload("res://src/presentation/art/rock_painter.gd")
 # Presentation-only static contours. Disable to rebuild the identical points on
 # every draw; cache retains only the last world extent and never reads sim state.
 var _contour_extent := Vector2(-1,-1)
@@ -56,7 +61,44 @@ var instrument_top:=64.0
 var ui_blocked_rects:Array=[]
 var world_label_rects:Array=[]
 var label_targets:Array=[]
+# UI review B6: the contact whose card is open (-1 none); drawn with a bracket.
+var selected_contact:=-1
+# UI review C10: chart labels queue during the world pass, then are placed in priority order and drawn on a backing plate.
+var _label_queue:Array=[]
+var _label_open:=false
+var _tag_rects:Array=[]
+const LABEL_PAD:=3.
+# Free space kept between two label plates, and between a plate and a panel.
+const LABEL_GAP:=4.
+# Free space kept between a label plate and the edge of the chart.
+const LABEL_EDGE:=6.
+# Fog over water the crew has not charted (unknown) or cannot see now (unseen), in cells of FOG_CELL world units.
+const FOG_CELL:=40
+const FOG_UNKNOWN:=0.38
+const FOG_UNSEEN:=0.20
+const FOG_COLOR:=Color(0.005,0.014,0.025)
+const PRIORITY_THREAT:=0
+const PRIORITY_OBJECTIVE:=1
+const PRIORITY_OWN:=2
+const PRIORITY_LANDMARK:=3
+# WP-51: what the warning cards say right now, set by lock_warning.gd and first_siren_cue.gd. While a lock card shows,
+# the contact id it states is read out nowhere else, and only the goal, the craft and the Siren keep chart labels.
+var lock_card_source:=-1
+var first_notice_showing:=false
+func warning_showing()->bool:
+	return lock_card_source>=0 or first_notice_showing
+# Contact readouts without the lock countdown the lock card already states.
+func unstated_entries(entries=null)->Array:
+	var result:Array=[]
+	for entry in (entries if entries!=null else contact_entries()):
+		if not (entry.get("locking",false) and entry.key==lock_card_source):result.append(entry);continue
+		if not entry.get("report","").is_empty():result.append(entry.merged({"text":entry.plain,"urgent":false,"locking":false},true))
+	return result
+func _kept_under_lock(text:String,context:Dictionary)->bool:
+	return not context.is_empty() or text.length()==1 or text in ["EXTRACTION","WITHDRAWAL"]
 var threat_bottom=0.
+# The threat cards and readouts on screen (mission_hud.threat_rects, set with threat_bottom): the camera panel's top.
+var threat_rects_seen:Array=[]
 var contact_top=0.
 var contacts_in_scroll=false
 var optical_suppressed:=false
@@ -126,9 +168,10 @@ func contexts_at(point:Vector2,touch:float)->Array:
 	if not recipient.is_empty():
 		for key in ["gate","recipient"]:
 			if recipient[key].known and point.distance_to(screen_position(recipient[key].pos))<=maxf(touch*.32,25*world_scale):candidates.append(Recipient.subject(recipient[key],key))
+	var sites=observable_sites()
 	if Expedition.active(sim):
-		for index in observable_sites().size():
-			var site=observable_sites()[index]
+		for index in sites.size():
+			var site=sites[index]
 			if site.get("own_origin",false) and Expedition.transmission_badge(self,site,touch).has_point(point):candidates.append({"kind":"objective","subkind":"transmission","index":index,"name":"TRANSMISSION SECTOR","pos":site.pos})
 		for corridor in sim.extraction_corridors():
 			if point.distance_to(screen_position(corridor.pos))<=maxf(touch*.5,64*world_scale):candidates.append({"kind":"objective","subkind":"corridor","name":corridor.name,"pos":corridor.pos,"route":corridor.route,"available":corridor.available})
@@ -137,8 +180,8 @@ func contexts_at(point:Vector2,touch:float)->Array:
 		if marker.rect.has_point(point):candidates.append({"kind":"salvage","item":marker.site.item,"name":marker.site.name.to_upper(),"pos":marker.site.pos})
 	for target in preload("res://src/presentation/industrial_view.gd").targets(sim):
 		if point.distance_to(screen_position(target.pos))<maxf(touch*.38,24.*world_scale):candidates.append(target)
-	for id in observable_sites().size():
-		var site=observable_sites()[id]
+	for id in sites.size():
+		var site=sites[id]
 		if sim.mission.id==8 or site.get("own_origin",false) or Rendezvous.replaces_site(sim,site) or Witness.replaces_site(sim,site) or Recipient.replaces_site(sim,site) or Wake.replaces_site(sim,site):continue
 		if point.distance_to(screen_position(site.pos))<=maxf(touch*.5,38*world_scale):candidates.append({"kind":"objective","subkind":"actuator" if site.get("site_id","")=="witness_sluice" else "","index":id,"name":site.name,"pos":site.pos})
 	for label in label_targets:
@@ -147,14 +190,23 @@ func contexts_at(point:Vector2,touch:float)->Array:
 		var goal=goal_marker.info.target
 		candidates.append(objective_context(screen_position(goal),touch))
 	for id in craft_at(point,touch):candidates.append({"kind":"craft","unit":id,"pos":sim.units[id].pos})
+	# UI review B6: a drawn observed contact is one more thing under the finger.
+	var seen=contact_choice(point,touch)
+	if not seen.is_empty():candidates.append(seen)
 	for context in candidates:
-		if context.is_empty() or context.kind=="fleet":continue
+		if context.is_empty() or context.kind in ["fleet","extraction"]:continue
 		if context.get("subkind","").is_empty():context.erase("subkind")
 		var station=WarningChain.station_subject(sim,context)
 		if not station.is_empty():context=station
 		if result.any(func(c):return c.kind==context.kind and c.get("unit",-1)==context.get("unit",-1) and c.get("index",-1)==context.get("index",-1) and c.get("subkind","")==context.get("subkind","") and c.get("seat","")==context.get("seat","") and c.get("site","")==context.get("site","") and c.get("station","")==context.get("station","") and c.get("target_id","")==context.get("target_id","") and c.get("item","")==context.get("item","") and c.get("route","")==context.get("route","") and c.pos==context.pos):continue
 		result.append(context)
 	return result
+# WP-45: the plain extraction circle (an operation outside the expedition arc) and its label are one tap target;
+# the tap sends the selected craft there (order_guard.tap_extraction). The label is found where it was placed.
+func extraction_at(point:Vector2,touch:float)->bool:
+	if sim==null or Expedition.active(sim):return false
+	if point.distance_to(screen_position(sim.mission.extraction))<=maxf(touch*.5,64*world_scale):return true
+	return label_targets.any(func(l):return l.context.kind=="extraction" and l.rect.has_point(point))
 func information_at(point:Vector2)->bool:
 	return world_label_rects.any(func(r):return r.has_point(point)) or contact_readout_rects().any(func(r):return r.has_point(point)) or (goal_marker.visible and not goal_marker.info.is_empty() and goal_marker.info.rect.has_point(point))
 func pick_context(point:Vector2,touch:float) -> Dictionary:
@@ -166,7 +218,9 @@ func pick_context(point:Vector2,touch:float) -> Dictionary:
 		if point.distance_to(screen_position(pos))<maxf(touch*.5,24*world_scale):
 			# 119: a public machine whose work is CAMERA owns its own projection.
 			var machine=_machine_at(pos)
-			if machine>=0:return {"kind":"objective","index":machine,"name":observable_sites()[machine].name,"pos":observable_sites()[machine].pos}
+			if machine>=0:
+				var machine_site=observable_sites()[machine]
+				return {"kind":"objective","index":machine,"name":machine_site.name,"pos":machine_site.pos}
 			return {"kind":"objective","subkind":"glass_work","name":"REACH MACHINERY","pos":pos}
 	for marker in salvage_markers():
 		if marker.rect.has_point(point):return {"kind":"salvage","item":marker.site.item,"name":marker.site.name.to_upper(),"pos":marker.site.pos}
@@ -216,8 +270,9 @@ func objective_context(point:Vector2,touch:float)->Dictionary:
 	var witness=Witness.pick(self,sim,point,touch)
 	if not witness.is_empty():return witness
 	# Fixed public sites share their marker's actual hit area with fleet rings.
-	for id in observable_sites().size():
-		var site=observable_sites()[id]
+	var sites=observable_sites()
+	for id in sites.size():
+		var site=sites[id]
 		if sim.mission.id==8:continue
 		if Rendezvous.replaces_site(sim,site) or Witness.replaces_site(sim,site) or Recipient.replaces_site(sim,site) or Wake.replaces_site(sim,site):continue
 		if site.get("own_origin",false):continue
@@ -253,17 +308,28 @@ func fit_chart() -> void:
 func _process(dt: float) -> void:
 	phase+=dt; camera_flash=Palette.pulse(maxf(0,camera_flash-dt),minf(.08,maxf(0,camera_flash-dt)));_sync_camera()
 	if optical_feed!=null:
-		optical_feed.sim=sim; optical_feed.visible=not optical_suppressed and presenting_mission and sim!=null and sim.outcome.is_empty() and optical_feed.viewfinder_visible(sim)
+		optical_feed.sim=sim; var viewfinder:bool=not optical_suppressed and presenting_mission and sim!=null and sim.outcome.is_empty() and optical_feed.viewfinder_visible(sim)
+		# A warning never opens the viewfinder by itself (a Siren coming into view makes it a subject); it waits, unless a shot is live.
+		if viewfinder and warning_showing() and not optical_feed.visible and sim.capture_unit<0:viewfinder=false
+		optical_feed.visible=viewfinder
 		# Reserve an optical dock beside the chart, above the reflowing status.
 		var width=minf(size.x*.52,optical_feed.preferred_width())
-		var top=maxf(instrument_top+4.,threat_bottom)
+		# The panel clears only the threat cards and readouts above its own column (mission_hud.threat_rects), so a card
+		# or readout elsewhere never moves it (it used to follow the whole threat stack and jumped about 30 px between
+		# the OPEN tap and the SHUTTER tap). When a card above it leaves, the panel takes its room back: an earlier
+		# latch kept it squeezed to a strip after a lock card with move buttons had gone (13 Nov).
+		var top=instrument_top+4.
+		var left_edge:float=size.x-width-14.
+		if threat_rects_seen.is_empty():top=maxf(top,threat_bottom)
+		for r in threat_rects_seen:
+			if r.end.x>left_edge and r.position.x<size.x-14.:top=maxf(top,r.end.y+12.)
 		var height=minf(optical_feed.preferred_height(),maxf(1.,size.y-top-14.))
 		if optical_feed.compact:height=maxf(optical_feed.touch_height,optical_feed.receiver_font_size+14.)+8.
 		optical_feed.size=Vector2(width,height)
 		optical_feed.position=Vector2(size.x-width-14.,top)
 		planning_size=Vector2(chart_width(),status_floor if status_floor>0. else size.y)
 
-	var visual_key=hash([world_scale,world_offset,size,presenting_mission,quality_tier,decoy_targeting,knock_targeting,sim.selected if sim!=null else -1])
+	var visual_key=hash([world_scale,world_offset,size,presenting_mission,quality_tier,decoy_targeting,knock_targeting,sim.selected if sim!=null else -1,selected_contact])
 	var changed=visual_key!=_quality_visual_key
 	_quality_visual_key=visual_key
 	var idle=not presenting_mission or sim==null or sim.paused
@@ -272,18 +338,27 @@ func _process(dt: float) -> void:
 func acoustic_rows() -> Array:
 	return preload("res://src/presentation/acoustic_feedback.gd").rows(sim.acoustic_feedback()) if sim!=null else []
 func contact_entries() -> Array:
-	return preload("res://src/presentation/contact_feedback.gd").entries(sim.contacts,sim.elapsed,sim.units,sim.line_clear,sim.contact_target) if sim!=null else []
-func contact_readout_entries() -> Array:
-	return contact_entries().filter(func(entry):return not warnings_in_hud or not (entry.urgent or (entry.fresh and ("REPORT" in entry.text or "STUNNED" in entry.text))))
-func contact_readout_rects() -> Array:
+	return preload("res://src/presentation/contact_feedback.gd").entries(sim.contacts,sim.elapsed,sim.units,sim.line_clear,sim.contact_target,sim.lock_seconds()) if sim!=null else []
+func contact_readout_entries(entries=null) -> Array:
+	return unstated_entries(entries).filter(func(entry):return not warnings_in_hud or not (entry.urgent or (entry.fresh and ("REPORT" in entry.text or "STUNNED" in entry.text))))
+func contact_readout_rects(listed=null) -> Array:
 	var result: Array=[]
 	if contacts_in_scroll:return result
 	var top=maxf(instrument_top+10,contact_top)
-	for entry in contact_readout_entries():
+	for entry in (listed if listed!=null else contact_readout_entries()):
 		var width=ThemeDB.fallback_font.get_string_size(entry.text,HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size).x+20
 		result.append(Rect2(12,top,minf(width,size.x-24),feedback_font_size+6))
 		top+=feedback_font_size+8
 	return result
+# UI review B6: the observed contact nearest the point, within a touch radius of its drawn position, as a
+# choice entry for the target list ({} when none). Only drawn (observed, not expired) contacts count.
+func contact_choice(point:Vector2,touch:float)->Dictionary:
+	if sim==null:return {}
+	var best:={};var least:=INF
+	for entry in contact_entries():
+		var distance=screen_position(entry.pos).distance_to(point)
+		if distance<=maxf(touch*.5,43*world_scale) and distance<least:least=distance;best={"kind":"contact","key":entry.key,"name":str(entry.text).get_slice(" · ",0),"pos":entry.pos}
+	return best
 func knock_visible_targets() -> Array:
 	var targets=[]
 	if not knock_targeting or sim==null:return targets
@@ -305,7 +380,7 @@ func knock_aim_targets() -> Array:
 		var anchor=screen_position(objective.pos)
 		blocked.append(Rect2(anchor-Vector2.ONE*43*world_scale,Vector2.ONE*86*world_scale).grow(4))
 		if not objective.captured:
-			var font=maxi(17,int(12/world_scale));var width=ThemeDB.fallback_font.get_string_size(objective.name,HORIZONTAL_ALIGNMENT_LEFT,-1,font).x*world_scale
+			var font=label_font(17);var width=ThemeDB.fallback_font.get_string_size(objective.name,HORIZONTAL_ALIGNMENT_LEFT,-1,font).x*world_scale
 			blocked.append(Rect2(screen_position(objective.pos+Vector2(50,-5))-Vector2(0,font*world_scale),Vector2(width,font*world_scale+6)).grow(4))
 	for u in sim.units:
 		var previous=screen_position(u.pos)
@@ -337,9 +412,10 @@ func _depth_contours(extent: Vector2) -> Array:
 	_contour_extent=extent;_contour_points=lines
 	return lines
 func _draw() -> void:
-	world_label_rects.clear();label_targets.clear()
+	world_label_rects.clear();label_targets.clear();_label_queue.clear();_label_open=false;_tag_rects=[]
 	if sim==null or ocean==null: return
 	_sync_camera()
+	_label_open=true;_tag_rects=_contact_tag_rects()
 	draw_rect(Rect2(Vector2.ZERO,size),Color("050f17"))
 	draw_set_transform(world_offset,0,Vector2.ONE*world_scale)
 	var region=sim.world_size()
@@ -382,13 +458,15 @@ func _draw() -> void:
 	if ArtTable.enabled and not earned.is_empty() and presenting_mission and sim.outcome.is_empty() and optical_feed!=null and optical_feed.visible and optical_feed.art_lamp_current(sim):
 		Art.lamp_guide(self,optical_feed.art_lamp_pos,optical_feed.art_lamp_aim,optical_feed.art_lamp_fov,optical_feed.art_lamp_range)
 	if not presenting_mission or not sim.outcome.is_empty():
+		_flush_labels()
 		draw_set_transform(Vector2.ZERO)
 		return
 	for o in sim.mission.get("photo",{}).get("studies",[]):
 		if o.captured:_siren_mark(o)
 	for h in sim.mission.get("photo_hidden",[]):
 		if h.has("lead") and not h.get("found",false):_lead_area({"pos":h.pos+h.lead.get("off",Vector2.ZERO),"lead_r":float(h.lead.get("r",200.0)),"name":str(h.lead.get("alias","UNKNOWN RETURN"))})
-	for o in observable_sites():
+	var sites=observable_sites()
+	for o in sites:
 		if sim.mission.id==8:continue
 		if o.get("own_origin",false):continue
 		if o.has("siren"):continue
@@ -412,7 +490,7 @@ func _draw() -> void:
 		draw_texture_rect(foundry,Rect2(1080,-100,540,360),false,Color(0.65,0.8,0.82,0.8))
 		if ArtTable.enabled:Art.factory(self,Rect2(1080,-100,540,360),world_scale)
 	# Intelligence marks are briefed coordinates, not live contact observations.
-	for o in observable_sites():
+	for o in sites:
 		if sim.mission.id==8:continue
 		if o.get("own_origin",false) or o.has("siren") or o.get("stage","")=="lead":continue
 		if Wake.replaces_site(sim,o) or Rendezvous.replaces_site(sim,o) or WarningChain.replaces_site(sim,o) or Witness.replaces_site(sim,o) or Recipient.replaces_site(sim,o):continue
@@ -420,16 +498,12 @@ func _draw() -> void:
 		draw_arc(o.pos,43,0,TAU,40,Color(c,0.35),1.4)
 		draw_line(o.pos+Vector2(-14,0),o.pos+Vector2(14,0),c,1)
 		draw_line(o.pos+Vector2(0,-14),o.pos+Vector2(0,14),c,1)
-		if not o.captured: _label(o.pos+Vector2(50,-5),"SLUICE CONTROL" if o.get("site_id","")=="witness_sluice" else o.name,c,17,{"kind":"objective","subkind":"actuator" if o.get("site_id","")=="witness_sluice" else "","index":observable_sites().find(o),"name":o.name,"pos":o.pos})
+		if not o.captured: _label(o.pos+Vector2(50,-5),"SLUICE CONTROL" if o.get("site_id","")=="witness_sluice" else o.name,c,17,{"kind":"objective","subkind":"actuator" if o.get("site_id","")=="witness_sluice" else "","index":sites.find(o),"name":o.name,"pos":o.pos})
 	# Physical chart is retained. Unknown water, shadows, and contact memory remain separate.
-	var low=Vector2i((-world_offset/world_scale)/40.0).max(Vector2i.ZERO)
-	var high=Vector2i((size-world_offset)/world_scale/40.0)+Vector2i.ONE
-	high=high.min(Vector2i(region/40.0))
-	for y in (range(low.y,high.y) if earned.is_empty() else []):
-		for x in range(low.x,high.x):
-			var key=Vector2i(x,y); var p=Vector2(x*40+20,y*40+20)
-			var alpha=0.38 if not sim.known.has(key) else (0.0 if sim.visible(p) else 0.20)
-			if alpha>0: draw_rect(Rect2(x*40,y*40,40,40),Color(0.005,0.014,0.025,alpha))
+	var low=Vector2i((-world_offset/world_scale)/float(FOG_CELL)).max(Vector2i.ZERO)
+	var high=Vector2i((size-world_offset)/world_scale/float(FOG_CELL))+Vector2i.ONE
+	high=high.min(Vector2i(region/float(FOG_CELL)))
+	if earned.is_empty():_draw_fog(low,high,region)
 	FeatureViews.draw(self)
 	# Sonar rays stop at actual cover, producing explicit acoustic shadows.
 	if earned.is_empty() and sim.ping_time>0:
@@ -441,12 +515,13 @@ func _draw() -> void:
 	var ex=sim.mission.extraction
 	if not Expedition.active(sim) or Expedition.entry(sim):
 		draw_arc(ex,64,0,TAU,64,Color(CYAN,0.42),2)
-		_label(ex+Vector2(-120 if ex.y>830 else -66,66 if ex.y>830 else 90),"WITHDRAWAL" if Expedition.entry(sim) else "EXTRACTION",CYAN,18)
+		_label(ex+Vector2(-120 if ex.y>830 else -66,84 if ex.y>830 else 90),"WITHDRAWAL" if Expedition.entry(sim) else "EXTRACTION",CYAN,18,{} if Expedition.entry(sim) else {"kind":"extraction"})
 	FeatureViews.draw_detail(self)
 	_draw_observed_paths()
 	_draw_findings()
 	RuleOverlay.draw_chart(self,sim)
 	Priced.draw_chart(self,sim)
+	ThreatRead.draw_world(self,sim)
 	# Own open-water estimate only; deliberately does not sample hidden terrain or
 	# listeners. Dotted amber radius is subordinate to later foreground beam cues.
 	if sim.mission.get("acoustic_revision",0)==1:
@@ -479,6 +554,8 @@ func _draw() -> void:
 		draw_rect(Rect2(at-Vector2.ONE*20,Vector2.ONE*40),Color("d8c591"),false,2./world_scale)
 		draw_line(at-Vector2(30,0),at+Vector2(30,0),Color("d8c591"),1.5/world_scale)
 	FeatureViews.draw_activity(self)
+	# Every label queued so far is placed in priority order and drawn now, below the aim callouts and the contacts.
+	_flush_labels()
 	# Only own launcher range and legitimately cached targets; beams draw afterward.
 	if knock_targeting and sim.selected==0 and sim.units[0].alive:
 		draw_arc(sim.units[0].pos,sim.KNOCK_RANGE,0,TAU,64,Color(0.7,0.85,0.8,0.5),1.5/world_scale)
@@ -515,19 +592,19 @@ func _draw() -> void:
 			if not observed_target.is_empty() and observed_target.alive and sim.line_clear(c.pos,observed_target.pos):
 				var target:Vector2=observed_target.pos
 				var origin:Vector2=c.pos+Vector2.from_angle(aim)*62
-				if c.lock>=4:
+				if c.lock>=sim.lock_seconds():
 					draw_line(origin,target,Color(1,0.22,0.09,0.23),10)
 					draw_line(origin,target,Palette.chart_color("warning",Color("ff8a59")),3.5); draw_line(origin,target,Color("ffedc5"),1.2)
 					draw_arc(target,17+Palette.pulse(sin(phase*18)*5,0.),0,TAU,24,Palette.chart_color("warning",Color("ffbc83")),2)
 				else: _dash(origin,target,Palette.chart_color("warning",Color(1,0.37,0.24,0.32)),1.5)
-			draw_arc(c.pos,58,-PI/2,-PI/2+TAU*minf(1,c.lock/4),40,Palette.chart_color("warning",Color("fa7969")),3)
+			draw_arc(c.pos,58,-PI/2,-PI/2+TAU*minf(1,c.lock/sim.lock_seconds()),40,Palette.chart_color("warning",Color("fa7969")),3)
 	var acoustic=sim.acoustic_feedback()
 	for n in acoustic.responses:
 		if n.label=="FACTORY RESPONSE":
 			draw_arc(n.pos,60+fmod(sim.mission.get("response_time",0.0)*100,350),0,TAU,64,Color(0.95,0.66,0.32,0.6),3)
 			_label(sim.mission.factory_rect.position+Vector2(16,520),"CARRIER · CRADLE",Color("e1b66e"),16)
 	for n in acoustic.pulses:
-		if n.label=="DECOY":
+		if n.label==Names.NOISE_DECOY:
 			draw_arc(n.pos,29,0,TAU,40,Color("675b43"),2)
 			draw_arc(n.pos,29,-PI/2,-PI/2+TAU*clampf(n.time/15.0,0,1),40,Color("e1b66e"),3)
 			draw_circle(n.pos,4,Color("e1b66e"))
@@ -541,6 +618,7 @@ func _draw() -> void:
 	_draw_pressure_overlay()
 	_draw_local_current()
 	FeatureViews.draw_screen(self)
+	ThreatRead.draw_screen(self,sim)
 	ReleaseControls.draw_reason(self,sim)
 	# Short screen-sized tags preserve observed identity without long world labels.
 	for entry in observed:
@@ -548,16 +626,33 @@ func _draw() -> void:
 		var tag_size=ThemeDB.fallback_font.get_string_size(entry.tag,HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size)
 		draw_rect(Rect2(anchor-Vector2(3,feedback_font_size),Vector2(tag_size.x+6,feedback_font_size+5)),Color(0.025,0.06,0.075,0.94))
 		draw_string(ThemeDB.fallback_font,anchor,entry.tag,HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size,Color("ed8e79") if entry.fresh else Color("b09a94"))
+		if entry.key==selected_contact:_selection_bracket(chart_camera.to_screen(entry.pos),Palette.chart_color("threat",Color("ed8e79") if entry.fresh else Color("b09a94")))
 	for n in acoustic.pulses:
-		if n.label=="DECOY":
+		if n.label==Names.NOISE_DECOY:
 			draw_string(ThemeDB.fallback_font,chart_camera.to_screen(n.pos)+Vector2(12,-12),"%ds"%ceili(n.time),HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size,Color("e1b66e"))
-	var readout=contact_readout_rects()
-	var listed=contact_readout_entries()
+	var listed=contact_readout_entries(observed)
+	var readout=contact_readout_rects(listed)
 	for i in readout.size():
 		var entry=listed[i];var box=readout[i]
 		draw_rect(box,Color(0.04,0.07,0.09,0.94))
 		draw_string(ThemeDB.fallback_font,box.position+Vector2(8,feedback_font_size),entry.text,HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size,Palette.chart_color("warning" if entry.urgent else "threat",Color("ffac8c") if entry.urgent else Color("ed8e79") if entry.fresh else Color("b09a94")))
 
+# UI review B6: four corner brackets round the contact whose card is open (screen space).
+func _selection_bracket(at:Vector2,colour:Color)->void:
+	var half:=maxf(44.,feedback_font_size*3.);var arm:=half*.4;var width:=Palette.stroke(2.5)
+	for corner in [Vector2(-1,-1),Vector2(1,-1),Vector2(1,1),Vector2(-1,1)]:
+		var tip=at+corner*half
+		draw_polyline(PackedVector2Array([tip-Vector2(corner.x*arm,0),tip,tip-Vector2(0,corner.y*arm)]),Color("07131b"),width+3.)
+		draw_polyline(PackedVector2Array([tip-Vector2(corner.x*arm,0),tip,tip-Vector2(0,corner.y*arm)]),colour,width)
+# UI review C10: the on-screen rectangle of each observed contact's short tag (drawn after the world pass).
+func _contact_tag_rects()->Array:
+	var result=[]
+	if sim==null:return result
+	for entry in contact_entries():
+		var anchor=chart_camera.to_screen(entry.pos)+Vector2(12,-18)
+		var tag_size=ThemeDB.fallback_font.get_string_size(entry.tag,HORIZONTAL_ALIGNMENT_LEFT,-1,feedback_font_size)
+		result.append(Rect2(anchor-Vector2(3,feedback_font_size),Vector2(tag_size.x+6,feedback_font_size+5)))
+	return result
 # A Siren study keeps only where it was last photographed, never where it is.
 func _siren_mark(o:Dictionary)->void:
 	var c=Palette.chart_color("evidence",Color(0.9,0.42,0.34,0.7))
@@ -573,7 +668,7 @@ func _lead_area(o:Dictionary)->void:
 		if k%2==0:draw_arc(o.pos,r,TAU*k/n,TAU*(k+1)/n,6,c,2.0/world_scale)
 	for k in 4:draw_line(o.pos+Vector2.from_angle(k*PI/2)*6,o.pos+Vector2.from_angle(k*PI/2)*16,Color(c,0.7),1.2/world_scale)
 	var from:Vector2=sim.units[sim.selected].pos
-	_label(o.pos+Vector2(r*0.72,-r*0.72),"%s · AREA · BRG %03d"%[o.name,roundi(fposmod(rad_to_deg(from.angle_to_point(o.pos)),360.0))],c,16)
+	_label(o.pos+Vector2(r*0.72,-r*0.72),"%s · AREA · BRG %03d"%[o.name,preload("res://src/presentation/compass.gd").bearing(o.pos-from)],c,16)
 # Observations the player resolved on film, and marks cut from earlier film.
 const FINDING_COLORS={"loop":Color(0.95,0.6,0.35),"gap":Color(0.5,0.95,0.6),"post":Color(0.95,0.4,0.35),"route":Color(0.5,0.9,0.85),"cycle":Color(0.95,0.8,0.4),"person":Color(0.9,0.95,0.7),"hazard":Color(0.95,0.5,0.3),"weak":Color(0.95,0.8,0.4),"lane":Color(1.0,0.6,0.3)}
 func _draw_findings()->void:
@@ -683,21 +778,8 @@ func _rock(r) -> void:
 	var origin:Vector2=r.position if r is Rect2 else poly[0]
 	if r is PackedVector2Array:
 		for p in poly:origin=Vector2(minf(origin.x,p.x),minf(origin.y,p.y))
-	var lower=PackedVector2Array(); var uv=PackedVector2Array()
-	for p in poly:
-		lower.append(p+Vector2(9,23)); uv.append((p-origin)/Vector2(400,400))
-	draw_colored_polygon(lower,Color("030b11"))
-	draw_colored_polygon(poly,regional_style.get("stone",Color("31474c")))
-	draw_polygon(poly,PackedColorArray([regional_style.get("water",Color(0.72,0.85,0.86))]),uv,basalt)
-	for n in poly.size():
-		var a=poly[n]; var b=poly[(n+1)%poly.size()]
-		if b.x<a.x:
-			draw_colored_polygon(PackedVector2Array([a,b,b+Vector2(9,23),a+Vector2(9,23)]),Color("11252e"))
-			for k in range(0,int(a.distance_to(b)),8):
-				var p=a.move_toward(b,k)
-				draw_line(p,p+Vector2(7,21),Color(0.2,0.35,0.39,0.5),2)
-		else: draw_line(a,b,Color(regional_style.edge,.55) if not regional_style.is_empty() else Color(0.49,0.65,0.66,0.55),1.8)
-	draw_polyline(poly,Color(0.17,0.26,0.3,0.5),Palette.stroke(2))
+	var edge:Color=Color(regional_style.edge,.55) if not regional_style.is_empty() else RockPainter.EDGE
+	RockPainter.rock(self,poly,origin,basalt,regional_style.get("stone",RockPainter.STONE),regional_style.get("water",RockPainter.TINT),edge,Palette.stroke(2))
 func _installation(p: Vector2,recorded: bool) -> void:
 	if ArtTable.enabled:
 		draw_set_transform(world_offset+p*world_scale,0,Vector2.ONE*world_scale)
@@ -747,7 +829,7 @@ func _craft(u: Dictionary,index: int) -> void:
 			draw_polyline(heading,Color("a7c7c3"),feedback_font_size*0.15/world_scale,true)
 	var label_y=63 if index==0 else 45
 	if (world_offset+p*world_scale).y+label_y*world_scale>size.y-8: label_y=-36
-	if index!=sim.selected and (fleet_instruments==null or not fleet_instruments.is_visible_in_tree()):_label(p+Vector2(-8,label_y),["Q","A","B"][index],Color("7e9da4"),18)
+	if index!=sim.selected and (fleet_instruments==null or not fleet_instruments.is_visible_in_tree()):_label(p+Vector2(-8,label_y),Names.UNIT_LETTERS[index],Color("7e9da4"),18)
 func selected_heading_marker() -> PackedVector2Array:
 	if sim==null or sim.selected!=0 or sim.units.is_empty(): return PackedVector2Array()
 	var u=sim.units[sim.selected]
@@ -760,41 +842,41 @@ func selected_heading_marker() -> PackedVector2Array:
 	return PackedVector2Array([bow+side,bow+direction*length,bow-side])
 func _hull_style() -> StyleBoxFlat:
 	var style=StyleBoxFlat.new(); style.bg_color=Color("263841"); style.border_color=Color("627780"); style.set_border_width_all(1); style.set_corner_radius_all(7); return style
-func _siren(p: Vector2,angle: float,fresh: bool,role: String="patroller",pin_time: float=0.0) -> void:
+func _siren(p: Vector2,angle: float,fresh: bool,role: String=Names.ROLE_PATROLLER,pin_time: float=0.0) -> void:
 	var depth=1.0
 	if pin_time>0: depth=1.0-0.58*minf(clampf((8.0-pin_time)/0.8,0,1),clampf(pin_time/0.8,0,1))
 	draw_set_transform(world_offset+p*world_scale,angle,Vector2.ONE*world_scale*depth)
 	if fresh:
 		# The same original biological material has distinct station/response profiles.
 		var body=Rect2(-67,-40,134,80)
-		if role=="sweeper": body=Rect2(-70,-50,140,100)
-		if role=="sentinel": body=Rect2(-58,-53,116,106)
+		if role==Names.ROLE_SWEEPER: body=Rect2(-70,-50,140,100)
+		if role==Names.ROLE_SENTINEL: body=Rect2(-58,-53,116,106)
 		var shade=Color(lerpf(0.25,1.0,depth),lerpf(0.44,1.0,depth),lerpf(0.55,1.0,depth),lerpf(0.45,1.0,depth))
-		if role=="buoy":
+		if role==Names.ROLE_BUOY:
 			draw_line(Vector2(0,-36),Vector2(0,48),Color("d5b77c"),4.)
 			draw_circle(Vector2.ZERO,20,Color("193a40"));draw_arc(Vector2.ZERO,22,0,TAU,24,Color("d5b77c"),3.)
-		elif role=="relay":
+		elif role==Names.ROLE_RELAY:
 			draw_colored_polygon(PackedVector2Array([Vector2(0,-35),Vector2(23,0),Vector2(0,35),Vector2(-23,0)]),Color("578c99"))
 			for side in [-1,1]:draw_line(Vector2(side*20,0),Vector2(side*47,-20),Color("dbcfa5"),3.)
-		elif role=="interceptor":
+		elif role==Names.ROLE_INTERCEPTOR:
 			draw_colored_polygon(PackedVector2Array([Vector2(70,0),Vector2(-45,-24),Vector2(-25,-5),Vector2(-60,0),Vector2(-25,5),Vector2(-45,24)]),Color("67868e"))
 			for side in [-1,1]:draw_line(Vector2(-40,side*20),Vector2(-65,side*28),Color("d87961"),4.)
-		elif role=="warden":
+		elif role==Names.ROLE_WARDEN:
 			draw_circle(Vector2.ZERO,30,Color("37535d"))
 			for n in 6:
 				var spoke=Vector2.from_angle(n*TAU/6);draw_line(spoke*24,spoke*55,Color("d1ad72"),6.)
 			draw_arc(Vector2.ZERO,40,0,TAU,24,Color("b87864"),3.)
 		elif ArtTable.enabled and ArtTable.SHAPES.has(role):Art.siren(self,role,shade)
-		elif role=="hunter":Confluence.draw_hunter(self,sim.elapsed,shade)
+		elif role==Names.ROLE_HUNTER:Confluence.draw_hunter(self,sim.elapsed,shade)
 		else:draw_texture_rect(siren_ray,body,false,shade)
-		if role=="sweeper":
+		if role==Names.ROLE_SWEEPER:
 			for radius in [30,43,56]:draw_arc(Vector2(25,0),radius,-PI*.45,PI*.45,20,Color("e4b273"),2.)
 		if pin_time>0:
 			for x in [-25.0,0.0,25.0]:
 				draw_arc(Vector2(x,0),26,-PI*0.45,PI*0.45,16,Color("85b1b4"),2.0)
 			draw_line(Vector2(-40,19),Vector2(40,-19),Color("85b1b4"),2.0)
 			draw_line(Vector2(0,26),Vector2(0,60),Color(0.2,0.35,0.4,0.5),1.5)
-		if role=="sentinel":
+		if role==Names.ROLE_SENTINEL:
 			for side in [-1,1]:
 				draw_line(Vector2(-18,side*39),Vector2(14,side*48),Color("b6a58b"),2)
 	else:
@@ -811,38 +893,103 @@ func own_craft_rects() -> Array:
 		var half=(Vector2(74,32) if id==0 else Vector2(26,20))*world_scale
 		result.append(Rect2(screen_position(sim.units[id].pos)-half,half*2))
 	return result
+# The fog's shade for one cell: unknown water is darkest, known water out of sight lighter, water in sight clear.
+func fog_alpha(key:Vector2i)->float:
+	if not sim.known.has(key):return FOG_UNKNOWN
+	return 0.0 if sim.visible(Vector2(key*FOG_CELL)+Vector2.ONE*FOG_CELL*.5) else FOG_UNSEEN
+# The fog, feathered (critic 14 Nov: hard-edged 40-unit blocks): each corner of the cell grid takes the mean shade
+# of the cells around it, and one triangle mesh blends between corners, so the edge of what the crew knows and sees
+# is a soft gradient. The cells and their shades are unchanged.
+func _draw_fog(low:Vector2i,high:Vector2i,region:Vector2)->void:
+	var cells:=Vector2i(region/float(FOG_CELL))
+	var shade:Dictionary={}
+	for y in range(maxi(low.y-1,0),mini(high.y+1,cells.y)):
+		for x in range(maxi(low.x-1,0),mini(high.x+1,cells.x)):shade[Vector2i(x,y)]=fog_alpha(Vector2i(x,y))
+	var corner:=func(x:int,y:int)->float:
+		var total:=0.0;var count:=0
+		for key in [Vector2i(x-1,y-1),Vector2i(x,y-1),Vector2i(x-1,y),Vector2i(x,y)]:
+			if shade.has(key):total+=shade[key];count+=1
+		return total/count if count>0 else FOG_UNKNOWN
+	var points:=PackedVector2Array();var colors:=PackedColorArray();var indices:=PackedInt32Array()
+	for y in range(low.y,high.y):
+		for x in range(low.x,high.x):
+			var a:Array=[corner.call(x,y),corner.call(x+1,y),corner.call(x+1,y+1),corner.call(x,y+1)]
+			if a.max()<=0.0:continue
+			var base:=points.size()
+			for n in 4:
+				points.append(Vector2(x+int(n in [1,2]),y+int(n in [2,3]))*FOG_CELL)
+				colors.append(Color(FOG_COLOR,a[n]))
+			indices.append_array([base,base+1,base+2,base,base+2,base+3])
+	if not indices.is_empty():RenderingServer.canvas_item_add_triangle_array(get_canvas_item(),indices,points,colors)
+# Where a whole label plate may sit: the chart, not the optical lane beside it. The camera panel opens in that lane, and a
+# label placed under it was cut by the panel's edge. The plate's padding stays inside, so no label is drawn cut by an edge.
+func label_fit_rect()->Rect2:
+	return stable_chart_rect().grow(-(LABEL_PAD+LABEL_EDGE))
 func world_label_position(p:Vector2,text:String,font_size:int) -> Vector2:
-	var font=ThemeDB.fallback_font;var actual=maxi(font_size,int(12./world_scale));var extent=font.get_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,-1,actual)*world_scale
-	var origin=chart_camera.to_screen(p);var height=extent.y+6
-	var blocked=ui_blocked_rects+ship_instrument_rects()+own_craft_rects()+world_label_rects
+	var font=ThemeDB.fallback_font;var actual=label_font(font_size);var extent=font.get_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,-1,actual)*world_scale
+	var origin=chart_camera.to_screen(p);var height=extent.y+6;var fit:=label_fit_rect()
+	var blocked=ui_blocked_rects+ship_instrument_rects()+own_craft_rects()+world_label_rects+_tag_rects
 	if optical_feed!=null and optical_feed.is_visible_in_tree():blocked.append(optical_feed.get_rect().grow(6))
 	for horizontal in [0,extent.x*.75,-extent.x*.75,extent.x*1.5,-extent.x*1.5]:
 		for step in [0,-1,-2,1,-3,2,-4,3]:
 			var point=origin+Vector2(horizontal,step*height)
-			point.x=clampf(point.x,12,maxf(12,size.x-extent.x-12))
+			point.x=clampf(point.x,fit.position.x,maxf(fit.position.x,fit.end.x-extent.x))
 			var area=Rect2(point-Vector2(0,font.get_ascent(actual)*world_scale),extent)
-			if Rect2(Vector2.ZERO,size).encloses(area) and not blocked.any(func(r):return r.intersects(area.grow(3))):return chart_camera.to_world(point)
+			if fit.encloses(area) and not blocked.any(func(r):return r.intersects(area.grow(LABEL_GAP))):return chart_camera.to_world(point)
 	# Dense public contacts can exhaust the nearby slots. Keep the hint readable
 	# elsewhere on the chart, with the ordinary leader back to its subject.
 	for row in range(1,maxi(2,ceili(size.y/height))):
-		for x in [12.,maxf(12.,(chart_width()-extent.x)*.5),maxf(12.,chart_width()-extent.x-12.)]:
-			var point=Vector2(x,row*height)
+		for x in [fit.position.x,maxf(fit.position.x,fit.position.x+(fit.size.x-extent.x)*.5),maxf(fit.position.x,fit.end.x-extent.x)]:
+			var point=Vector2(x,fit.position.y+row*height)
 			var area=Rect2(point-Vector2(0,font.get_ascent(actual)*world_scale),extent)
-			if Rect2(Vector2.ZERO,size).encloses(area) and not blocked.any(func(r):return r.intersects(area.grow(3))):return chart_camera.to_world(point)
+			if fit.encloses(area) and not blocked.any(func(r):return r.intersects(area.grow(LABEL_GAP))):return chart_camera.to_world(point)
 	return Vector2.INF
+# WP-31: a chart label keeps a constant readable on-screen size. Zooming out never goes
+# below 12 px; zooming in never grows it past its nominal size.
+func label_font(font_size:int)->int:
+	return maxi(1,roundi(maxf(12.,minf(font_size*world_scale,float(font_size)))/world_scale))
 func world_label_rect(p:Vector2,text:String,font_size:int)->Rect2:
-	var font=ThemeDB.fallback_font;var actual=maxi(font_size,int(12./world_scale))
+	var font=ThemeDB.fallback_font;var actual=label_font(font_size)
 	return Rect2(chart_camera.to_screen(p)-Vector2(0,font.get_ascent(actual)*world_scale),font.get_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,-1,actual)*world_scale)
+# UI review C10: the backing plate of a placed label (screen space): its text rectangle plus a few pixels.
+func label_plate(p:Vector2,text:String,font_size:int)->Rect2:
+	return world_label_rect(p,text,font_size).grow(LABEL_PAD)
+func label_plate_colour()->Color:
+	return Color(UiStyle.PANEL_FILL,1. if Palette.high_contrast() else .75)
+# Placed labels reserve their whole plate, so two plates never overlap.
 func reserve_world_label(p:Vector2,text:String,font_size:int)->void:
-	world_label_rects.append(world_label_rect(p,text,font_size))
-func _label(p:Vector2,text:String,color:Color,font_size:int,context:Dictionary={}) -> void:
+	world_label_rects.append(label_plate(p,text,font_size))
+# Fixed priority order for placement: threat and warning labels, then objectives, then own-craft notes, then landmarks.
+# A caller may pass the priority; otherwise it is read from the label (a context means an objective).
+func label_priority(text:String,context:Dictionary,given:int=-1)->int:
+	if given>=0:return given
+	var upper=text.to_upper()
+	if "SIREN" in upper or "HEARD" in upper or "SIGHT" in upper:return PRIORITY_THREAT
+	if not context.is_empty() or "EXTRACTION" in upper or "WITHDRAWAL" in upper or "AREA" in upper:return PRIORITY_OBJECTIVE
+	if upper.begins_with("OWN") or upper.begins_with("MOTOR") or text.length()==1:return PRIORITY_OWN
+	return PRIORITY_LANDMARK
+func _label(p:Vector2,text:String,color:Color,font_size:int,context:Dictionary={},priority:int=-1) -> void:
+	if lock_card_source>=0 and not _kept_under_lock(text,context):return
+	if _label_open:_label_queue.append({"p":p,"text":text,"color":color,"font":font_size,"context":context,"priority":label_priority(text,context,priority),"order":_label_queue.size()});return
+	_place_label(p,text,color,font_size,context)
+# Place and draw the queued labels, most important first (call order within one priority).
+func _flush_labels()->void:
+	_label_open=false
+	var queue=_label_queue.duplicate();_label_queue.clear()
+	queue.sort_custom(func(a,b):return a.order<b.order if a.priority==b.priority else a.priority<b.priority)
+	for item in queue:_place_label(item.p,item.text,item.color,item.font,item.context)
+func _place_label(p:Vector2,text:String,color:Color,font_size:int,context:Dictionary) -> void:
 	var placed=world_label_position(p,text,font_size)
 	if placed.is_finite():
 		reserve_world_label(placed,text,font_size)
 		if not context.is_empty():label_targets.append({"rect":world_label_rect(placed,text,font_size),"context":context})
 		if placed.distance_to(p)*world_scale>feedback_font_size*2:draw_line(p,placed,Color(color,.35),1./world_scale)
-		draw_string_outline(ThemeDB.fallback_font,placed,text,HORIZONTAL_ALIGNMENT_LEFT,-1,maxi(font_size,int(12./world_scale)),maxi(1,int(3./world_scale)),Color(.01,.03,.04,.95))
-		draw_string(ThemeDB.fallback_font,placed,text,HORIZONTAL_ALIGNMENT_LEFT,-1,maxi(font_size,int(12./world_scale)),color)
+		# A dark plate behind the text keeps it readable over rings, routes and rock; opaque in high contrast.
+		var plate=label_plate(placed,text,font_size)
+		var box=StyleBoxFlat.new();box.bg_color=label_plate_colour();box.set_corner_radius_all(maxi(1,roundi(4./world_scale)))
+		draw_style_box(box,Rect2((plate.position-world_offset)/world_scale,plate.size/world_scale))
+		draw_string_outline(ThemeDB.fallback_font,placed,text,HORIZONTAL_ALIGNMENT_LEFT,-1,label_font(font_size),maxi(1,int(3./world_scale)),Color(.01,.03,.04,.95))
+		draw_string(ThemeDB.fallback_font,placed,text,HORIZONTAL_ALIGNMENT_LEFT,-1,label_font(font_size),color)
 
 func _draw_departure() -> void:
 	var report=sim.departure_feedback()

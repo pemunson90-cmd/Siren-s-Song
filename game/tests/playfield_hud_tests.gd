@@ -45,13 +45,22 @@ func run():
   if dimensions.x==2520:game.fixture_safe_area=Rect2(136,0,2384,1080)
   root.add_child(game);await settle();game.set_process(false)
   game.tool_racks=preload("res://src/equipment/tool_racks.gd").empty();game.tool_racks.quietus.decoy=3
-  game._start_mission(0);await settle()
+  game._start_mission(0);await settle();preload("res://tests/fixtures/player_dive.gd").launch_drones(game.sim)
   var name="cover" if dimensions.x==2520 else "inner";var ocean=game.ocean
   await capture(name+"-start")
   if game.get("mission_hud")!=null:
    var exposed=1.-covered_area(game.mission_hud.occupied_rects(),game.get_global_rect())/(game.size.x*game.size.y)
    print("PLAYFIELD_WATER ",name," unobscured=",exposed," camera=",ocean.chart_camera.center," mode=",ocean.chart_camera.mode)
    check(exposed>=(.75 if name=="cover" else .82),"persistent HUD leaves most water unobscured")
+   if exposed<(.75 if name=="cover" else .82):
+    for r in game.mission_hud.occupied_rects():print("PLAYFIELD_RECT ",name," ",r," share=",r.get_area()/(game.size.x*game.size.y))
+    for reading in game.mission_hud.fleet.readouts:print("PLAYFIELD_READOUT ",name," unit=",reading.unit," ",reading.rect," text=",str(reading.text).replace("
+"," / "))
+    var controls=game.mission_hud.action_controls()
+    for key in controls:print("PLAYFIELD_CONTROL ",name," ",key," ",controls[key].get_global_rect()," text=",str(controls[key].get("text")).replace("
+"," / "))
+    print("PLAYFIELD_INTENT ",name," visible=",game.mission_hud.intent.visible," rect=",game.mission_hud.intent.get_global_rect()," text=",game.mission_hud.intent.text.replace("
+"," / "))
    var scale=Vector2(dimensions)/root.get_visible_rect().size
    for button in game.mission_hud.action_controls().values():
     var font=button.get_theme_font("font");var font_size=button.get_theme_font_size("font_size");var content=button.get_theme_stylebox("normal").get_minimum_size()

@@ -1,8 +1,8 @@
-> **CURRENT USER ORDER:** read docs/USER_DIRECTIVES.md first. Observe Pat's cloud stop and Windows desktop handover in docs/RESUME.md. The approved full-release program remains the standing plan when Pat resumes work. Preserve accepted Pass0/V7 systems. One implementation worker and one independent integration reviewer; human playtesting never gates authorized development.
+> Governing rules: [AGENTS.md](../../AGENTS.md). Pat's rulings: [USER_DIRECTIVES.md](../USER_DIRECTIVES.md). Current status: [STATUS.md](../STATUS.md).
 
 # Siren's Song — technical production architecture
 
-The Gauntlet's **single operating contract** is `../../AGENTS.md`; the **living intended game** is `../CURRENT_GAME_SPEC.md`. This file preserves technical constraints and gameplay architecture, not an independent workflow, mandatory critic quota, stage-gate schedule or current next-task assignment. Stable execution rules belong to AGENTS; operational status belongs to RESUME. Source authority and ratified player decisions govern implementation.
+The Gauntlet's **single operating contract** is `../../AGENTS.md`; the **living intended game** is `../CURRENT_GAME_SPEC.md`. This file preserves technical constraints and gameplay architecture, not an independent workflow, mandatory critic quota, stage-gate schedule or current next-task assignment. Stable execution rules belong to AGENTS; operational status belongs to STATUS.md. Source authority and ratified player decisions govern implementation.
 
 ## Creative contract
 
@@ -58,6 +58,6 @@ Sound conveys engines/noise, ping and returns, proximity/threat, hull pressure, 
 
 ## Verification approach
 
-Preserve deterministic simulation, observation fairness, input/gesture correctness, terrain pathing, authentic save/restore and regression prevention. Run targeted checks during feature development and affected regressions on integration; batch broad Godot gameplay regression at substantive playable milestones. Current Pat rules prohibit APK builds and defer phone testing until feature complete and bug free. Ordinary development and previews run directly in Godot or GitHub; native-specific concerns do not grant an exception. Evidence and independent criticism support the Gauntlet's recurring **whole-game quality judgments**, not mandatory ceremony after each small change.
+Preserve deterministic simulation, observation fairness, input/gesture correctness, terrain pathing, authentic save/restore and regression prevention. Run targeted checks during feature development and affected regressions on integration; batch broad Godot gameplay regression at substantive playable milestones. Debug Android packages may be built when they help testing, signed only with the tracked development key (Pat, 1 November 2026; see USER_DIRECTIVES). Ordinary development and previews run directly in Godot or GitHub. Evidence and independent criticism support the Gauntlet's recurring **whole-game quality judgments**, not mandatory ceremony after each small change.
 
-Current operational status and next action: `../RESUME.md`; project history and older external reference methods: recoverable archives. Protect previously accepted gameplay. Continue the most consequential authorized work after Pat resumes; the current cloud stop ends with the desktop handover.
+Current operational status and next action: `../STATUS.md`; project history and older external reference methods: recoverable archives. Protect previously accepted gameplay.

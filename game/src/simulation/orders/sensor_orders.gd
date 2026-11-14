@@ -1,4 +1,5 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 # Player sensors orders. Called only after Simulation.command's existing guards.
 # The shared table records whether successful orders run the legacy finish hooks.
 # Revert by inlining these cases and removing their table rows; no rule changes.
@@ -10,6 +11,7 @@ static func command(sim, order: String, args: Dictionary) -> bool:
 		"ping":
 			if sim.ping_time>0: return false
 			if not sim.Sonar.emit(sim,sim.selected):return false
+			sim.SiteSearch.pinged(sim,sim.selected,sim.Sonar.POWERS[sim.sonar.power].radius*(1.4 if sim.Sonar.prism_pulse(sim,sim.selected) else 1.))
 			sim.ping_time=Tuning.PING_FEEDBACK_TIME; sim.ping_origin=u.pos; sim.events.append({"type":"ping","pos":u.pos}); sim.message="Pulse away · wait for physical echoes · emission audible"
 			sim._observe()
 			if sim.mission.get("blackwater_revision",0)==1:
@@ -21,6 +23,6 @@ static func command(sim, order: String, args: Dictionary) -> bool:
 		"recon":
 			if sim.tools.recon<=0: return false
 			if sim.mission.has("world_size"):sim.mission["survey_origin"]=u.pos
-			sim.tools.recon-=1; sim.recon_time=Tuning.RECON_TIME; sim._noise(u.pos,Tuning.RECON_NOISE,"RECON UPLINK",Tuning.RECON_NOISE_TIME,u.band); sim.message="Local 560m survey · 8 seconds" if sim.mission.has("world_size") else "Wide survey uplink · 8 seconds"; sim.SignalField.observe(sim,true); sim.Consequences.observe(sim,true); sim.events.append({"type":"recon","pos":u.pos}); sim._observe()
+			sim.tools.recon-=1; sim.recon_time=Tuning.RECON_TIME; sim._noise(u.pos,Tuning.RECON_NOISE,Names.NOISE_RECON_UPLINK,Tuning.RECON_NOISE_TIME,u.band); sim.message="Local 560m survey · 8 seconds" if sim.mission.has("world_size") else "Wide survey uplink · 8 seconds"; sim.SignalField.observe(sim,true); sim.Consequences.observe(sim,true); sim.events.append({"type":"recon","pos":u.pos}); sim._observe()
 		_:return false
 	return true

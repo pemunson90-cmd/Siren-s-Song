@@ -7,7 +7,8 @@ else:import fcntl
 ROOT=pathlib.Path(__file__).resolve().parent
 HELPER=ROOT/'gauntlet-boundary.py'
 INSTALL=ROOT/'install-gauntlet-hooks.py'
-FILES=('AGENTS.md','docs/USER_DIRECTIVES.md','docs/RESUME.md','docs/CONTINUATION.md','docs/WORKBENCH.md','docs/architecture/GAUNTLET.md','docs/CURRENT_GAME_SPEC.md','docs/V7_TO_GODOT_PARITY.md')
+FILES=('AGENTS.md','docs/USER_DIRECTIVES.md','docs/STATUS.md','docs/WORKFLOW.md','docs/architecture/GAUNTLET.md','docs/CURRENT_GAME_SPEC.md','docs/V7_TO_GODOT_PARITY.md')
+LEGACY=('docs/RESUME.md','docs/CONTINUATION.md','docs/WORKBENCH.md')
 
 def run(*args,cwd=None,input=None):
  return subprocess.run(args,cwd=cwd,input=input,text=True,capture_output=True,timeout=15)
@@ -55,8 +56,15 @@ class BoundaryTests(unittest.TestCase):
   updates=f'refs/heads/feature {self.sha} refs/heads/gauntlet/production {self.sha}\n'
   r=self.invoke('--boundary','pre-push',input=updates)
   self.assertNotEqual(r.returncode,0);self.assertIn('ancestor',r.stderr)
- def test_missing_resume_is_stale_without_dispatch(self):
-  self.assert_missing_required_spec_stops_dispatch('docs/RESUME.md')
+ def test_missing_status_is_stale_without_dispatch(self):
+  self.assert_missing_required_spec_stops_dispatch('docs/STATUS.md')
+ def test_legacy_layout_is_still_read_until_integration_carries_the_new_one(self):
+  for name in ('docs/STATUS.md','docs/WORKFLOW.md'):git(self.seed,'rm',name)
+  for name in LEGACY:(self.seed/name).write_text('# '+name+'\n')
+  git(self.seed,'add','.');git(self.seed,'commit','-m','legacy layout');git(self.seed,'push','origin','claude/integration')
+  r=self.invoke();self.assertEqual(r.returncode,0,r.stderr);files=self.receipt()['files']
+  for name in LEGACY:self.assertIn(name,files)
+  self.assertNotIn('docs/STATUS.md',files)
  def test_production_only_commit_cannot_be_lost_by_force_push(self):
   git(self.seed,'checkout','-b','gauntlet/production',self.sha)
   (self.seed/'preserved.txt').write_text('production-only evidence')
@@ -71,7 +79,7 @@ class BoundaryTests(unittest.TestCase):
   self.assertEqual(self.invoke().returncode,0);git(self.repo,'remote','set-url','origin',str(self.base/'missing.git'))
   r=self.invoke();self.assertNotEqual(r.returncode,0);d=self.receipt();self.assertEqual(d['status'],'stale');self.assertIsNone(d['policy_sha']);self.assertEqual(d['last_success']['policy_sha'],self.sha);self.assertIn('fetch',d['error'])
  def test_missing_remote_document_is_stale(self):
-  self.assertEqual(self.invoke().returncode,0);git(self.seed,'rm','docs/WORKBENCH.md');git(self.seed,'commit','-m','broken docs');git(self.seed,'push','origin','claude/integration')
+  self.assertEqual(self.invoke().returncode,0);git(self.seed,'rm','docs/WORKFLOW.md');git(self.seed,'commit','-m','broken docs');git(self.seed,'push','origin','claude/integration')
   self.assertNotEqual(self.invoke().returncode,0);self.assertEqual(self.receipt()['last_success']['policy_sha'],self.sha)
  def assert_missing_required_spec_stops_dispatch(self,name):
   self.assertEqual(self.invoke().returncode,0);git(self.seed,'rm',name);git(self.seed,'commit','-m','missing required living document');git(self.seed,'push','origin','claude/integration')

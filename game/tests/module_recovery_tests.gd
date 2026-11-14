@@ -1,6 +1,7 @@
 extends SceneTree
 const Sim=preload("res://src/simulation/simulation.gd")
 const Program=preload("res://src/simulation/route_program.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 var checks=0
 var failures=0
 func check(ok:bool,label:String)->void:
@@ -10,7 +11,7 @@ func advance(s,seconds:float)->void:
  s.paused=false
  for n in roundi(seconds*60):s.advance(Sim.STEP)
 func fresh(fitted:Dictionary={"quietus":"","drone_a":"drone_sampler","drone_b":"drone_deep_cells"}):
- var s=Sim.new();s.start(0,"endurance",{"fitted":fitted,"fleet_commit":true});s.sirens=[];s.mission.rocks=[];s.mission.structures=[];s._build_navigation()
+ var s=Sim.new();s.start(0,"endurance",{"fitted":fitted,"fleet_commit":true});PlayerDive.launch_drones(s);s.sirens=[];s.mission.rocks=[];s.mission.structures=[];s._build_navigation()
  s.units[1].pos=Vector2(300,800);s.units[2].pos=Vector2(500,800)
  return s
 func finish()->void:
@@ -84,7 +85,7 @@ func _initialize():
  advance(stale,Sim.STEP)
  check(not stale.command("depart",{"confirm":true,"corridor":{"pos":Vector2(900,800),"route":""}}) and stale.outcome.is_empty(),"a stale confirmation for another physical recovery mouth cannot commit departure")
  for index in [8,11]:
-  var expedition=Sim.new();expedition.start(index,"endurance",{"fitted":{"quietus":"","drone_a":"drone_deep_cells","drone_b":""},"fleet_commit":true});expedition.sirens=[]
+  var expedition=Sim.new();expedition.start(index,"endurance",{"fitted":{"quietus":"","drone_a":"drone_deep_cells","drone_b":""},"fleet_commit":true});PlayerDive.launch_drones(expedition);expedition.sirens=[]
   if index==8:
    expedition.units[0].pos=expedition.mission.corridors[0].pos;expedition.units[0].vel=Vector2.ZERO;advance(expedition,Sim.STEP)
    check(expedition.outcome.is_empty() and not expedition.departure_context().available,"Shelf hardware recovery cannot replace an undelivered shelter account")
@@ -127,6 +128,6 @@ func _initialize():
  for dimensions in [[],"1600x960",Vector2(INF,960)]:
   bad=depart.snapshot();bad.mission.world_size=dimensions
   check(not Sim.valid_snapshot(bad),"malformed world dimensions reject before typed recovery bounds lookup")
- var launch=Fleet.launch({"quietus":"","drone_a":"","drone_b":""},earned,inventory,1,[0]);var replacements=Sim.new();replacements.start(1,"endurance",launch.launch)
+ var launch=Fleet.launch({"quietus":"","drone_a":"","drone_b":""},earned,inventory,1,[0]);var replacements=Sim.new();replacements.start(1,"endurance",launch.launch);PlayerDive.launch_drones(replacements)
  check(replacements.units[1].alive and replacements.units[2].alive and replacements.units[1].battery==100 and replacements.units[2].battery==100,"losing equipment never removes the guaranteed fresh bare replacement drones")
  finish()

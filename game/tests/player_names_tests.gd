@@ -33,9 +33,9 @@ func listed_leaks(text:String)->bool:
 			if low.contains(id):return true
 		elif text.strip_edges()==id:return true # A label that is only the lowercase bare id; display names are capitalised.
 		elif id=="emp":
-			# Not an English word: the player-facing name is Disrupt.
+			# Pat, 2026-11-12: the player-facing name is EMP (capitals). Any other casing is the internal id.
 			for m in words:
-				if m.get_string().to_lower()==id:return true
+				if m.get_string()!="EMP" and m.get_string().to_lower()==id:return true
 		# Other bare ids (decoy, recon, survey) are plain English inside prose.
 	return false
 func leaks(text:String)->bool:
@@ -94,7 +94,7 @@ func run():
 	check(not pattern_leaks("EXPEDITION · SEED 4 / 3 OF 5"),"regex passes header text")
 	check(leaks("unknown_id") and not leaks("Silt Archive"),"leaks self-check")
 	check(listed_leaks("knock") and listed_leaks("recon") and listed_leaks("survey"),"list catches labels that are a bare id")
-	check(listed_leaks("fire the emp now") and listed_leaks("EMP burst"),"list catches emp")
+	check(listed_leaks("fire the emp now") and listed_leaks("Emp burst") and not listed_leaks("EMP burst"),"list catches emp and passes the display name EMP")
 	check(not listed_leaks("Recon Drone") and not listed_leaks("Decoy") and not listed_leaks("a southern survey mouth"),"list passes display names and prose")
 	for op in 41:
 		if Catalog.definition(op).is_empty():continue

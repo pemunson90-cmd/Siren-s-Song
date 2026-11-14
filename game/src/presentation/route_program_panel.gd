@@ -1,4 +1,5 @@
 extends PanelContainer
+const Words=preload("res://src/presentation/hud_words.gd")
 var host
 var selected_goal=0
 var preview
@@ -40,14 +41,12 @@ func rebuild():
  var crafts=row(body)
  for n in 3:
   var id=n;var b=button(crafts,host.sim.units[n].name,"craft"+str(n),func():host._order("select",{"unit":id});selected_goal=0;error_text="";rebuild())
-  b.disabled=not host.sim.units[n].alive;b.modulate=Color("80d9cf") if n==host.sim.selected else Color.WHITE
+  b.disabled=host.sim.DroneBay.lost(host.sim.units[n]);b.modulate=Color("80d9cf") if n==host.sim.selected else Color.WHITE
  info=label(body,"")
  content=BoxContainer.new();content.add_theme_constant_override("separation",8);content.size_flags_vertical=Control.SIZE_EXPAND_FILL;body.add_child(content)
  preview=preload("res://src/presentation/route_program_preview.gd").new();preview.sim=host.sim;preview.custom_minimum_size=Vector2(160,70);preview.size_flags_vertical=Control.SIZE_EXPAND_FILL;preview.size_flags_horizontal=Control.SIZE_EXPAND_FILL;preview.size_flags_stretch_ratio=1.5;content.add_child(preview)
  preview.view_changed.connect(host._report_targets,CONNECT_DEFERRED)
- preview.point_chosen.connect(func(p):
-  var count=host.sim.route_goals().size()
-  apply("route_insert" if count==0 else "route_edit",{"index":0 if count==0 else selected_goal,"point":p}))
+ preview.point_chosen.connect(choose_point)
  editor=BoxContainer.new();editor.vertical=true;editor.size_flags_horizontal=Control.SIZE_EXPAND_FILL;editor.add_theme_constant_override("separation",8);content.add_child(editor)
  row_scroll=ScrollContainer.new();row_scroll.custom_minimum_size.y=touch_height;row_scroll.size_flags_vertical=Control.SIZE_EXPAND_FILL;row_scroll.horizontal_scroll_mode=ScrollContainer.SCROLL_MODE_DISABLED;editor.add_child(row_scroll)
  rows=VBoxContainer.new();rows.size_flags_horizontal=Control.SIZE_EXPAND_FILL;row_scroll.add_child(rows)
@@ -57,6 +56,19 @@ func rebuild():
  var modes=row(edit_controls);mode_button=button(modes,"","propulsion",cycle_mode);arrival_button=button(modes,"","arrival",toggle_arrival)
  var edits=row(edit_controls);button(edits,"INSERT","insert",insert_after);delete_button=button(edits,"DELETE","delete",func():apply("route_delete",{"index":selected_goal}));undo_button=button(edits,"UNDO","undo",func():apply("route_undo",{}))
  configure(host.size,host.ui_touch_height);refresh()
+# WP-52: a tapped point whose leg from the previous point (or the craft) crosses charted rock waits for a second tap
+# on the same point; the status line says so and nothing is ordered before. Open water elsewhere moves the marker.
+func choose_point(p:Vector2):
+ var goals=host.sim.route_goals();var count=goals.size()
+ var index=0 if count==0 else selected_goal
+ var u=host.sim.units[host.sim.selected]
+ var origin:Vector2=u.pos if index<=0 else goals[index-1].pos
+ var crossing=preview.leg_crosses_rock(origin,p)
+ var again=preview.pending_point!=null and preview.screen_position(p).distance_to(preview.screen_position(preview.pending_point))<=touch_height
+ if crossing and not again:
+  preview.pending_point=p;error_text=Words.TEXT.rock_route;preview.queue_redraw();refresh();return
+ preview.pending_point=null
+ apply("route_insert" if count==0 else "route_edit",{"index":index,"point":p})
 func configure(bounds:Vector2,h:float):
  if preview!=null and bounds!=layout_bounds:
   # BoxContainer changes can produce several intermediate preview sizes. Retain
@@ -89,7 +101,7 @@ func refresh():
  var goals=host.sim.route_goals();selected_goal=clampi(selected_goal,0,maxi(0,goals.size()-1))
  var legacy=goals.any(func(goal):return goal.get("legacy",false))
  var drone=host.sim.selected>0;var unit=host.sim.units[host.sim.selected]
- info.text=unit.name+(" · DRIVE %s · %s PROFILE\nTO sets incoming drive; INHERIT keeps current. STOP settles, then continues."%["QUIET42" if unit.get("drone_drive","transit")=="quiet" else "TRANSIT96","LOW" if unit.silent else "OPEN"] if drone else " · TO sets incoming propulsion. INHERIT keeps manual. STOP settles, then continues.")+("\nLegacy course retained; editing rebuilds to its final goal." if legacy else "")
+ info.text=unit.name+(" · DRIVE %s · %s PROFILE\nTO sets how the drone travels to this point. SAME keeps its current setting. STOP halts at the point, then goes on."%["QUIET42" if unit.get("drone_drive","transit")=="quiet" else "TRANSIT96","LOW" if unit.silent else "OPEN"] if drone else " · TO sets how the craft travels to this point. SAME keeps its current setting. STOP halts at the point, then goes on.")+("\nLegacy course retained; editing rebuilds to its final goal." if legacy else "")
  for c in rows.get_children():rows.remove_child(c);c.queue_free()
  selected_row=null
  for n in goals.size():
@@ -103,7 +115,7 @@ func refresh():
  point_info.text=error_text if not error_text.is_empty() else ("Tap preview to add the first destination." if empty else "POINT %d / %d · tap preview to move"%[selected_goal+1,goals.size()])
  preview.selected_goal=selected_goal;preview.queue_redraw();call_deferred("configure",host.size,host.ui_touch_height);call_deferred("show_selected_row")
 func mode_label(mode:String,drone:bool) -> String:
- return ("QUIET42" if mode=="silent" else "TRANSIT96" if mode=="cruise" else "INHERIT") if drone else mode.to_upper()
+ return ("QUIET42" if mode=="silent" else "TRANSIT96" if mode=="cruise" else "SAME") if drone else mode.to_upper()
 func show_selected_row():
  if is_instance_valid(selected_row):row_scroll.ensure_control_visible(selected_row)
 func apply(order:String,args:Dictionary):

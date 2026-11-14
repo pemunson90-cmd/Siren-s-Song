@@ -1,4 +1,5 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 const TITLES = ["Shelf Signal", "Split Channel", "Blackwater Relay", "Cold Foundry", "The Listening Well", "Siren's Song"]
 const BRIEFS = [
 	"Corran Bank's beacon is still pinging from the shelf. Find what is sending and photograph it, then bring Quietus home. Your charts show rock, not what waits behind it. Sonar shows you the water and tells everything in it where you are.",
@@ -50,7 +51,7 @@ static func make(i: int) -> Dictionary:
 		objectives[0].name="FURNACE VENT"; objectives[0]["optical"]="furnace"
 		objectives[0]["evidence"]="Heat pours from the vent into a feed line that runs south to the frames."
 		objectives[1].name="LAUNCH CRADLE"; objectives[1]["optical"]="cradle"; objectives[1]["requires"]=[0]
-		objectives[1]["requirement"]="Resolve the heat source first, so the frame images can be matched to its feed line."
+		objectives[1]["requirement"]="Photograph the FURNACE VENT first (the marked heat source), so this frame can be matched to its feed line."
 		objectives[1]["evidence"]="Open steel frames stand on rails that end at the trench edge. All of it is still warm."
 	if i==5:
 		objectives[0].name="TRANSMITTER CROWN"; objectives[0]["optical"]="transmitter"
@@ -58,12 +59,12 @@ static func make(i: int) -> Dictionary:
 		objectives[1].name="OUTBOUND WAKES"; objectives[1]["optical"]="departure"
 		objectives[1]["evidence"]="Disturbed water runs out from the shelf. Past a warm fracture in the trench floor it splits: one line runs south down the trench, one turns west along the shelf."
 		objectives[2].name="LEE RECEIVER"; objectives[2]["kind"]="receiver"; objectives[2]["required_unit"]=0; objectives[2]["duration"]=6.0; objectives[2]["requires"]=[0,1]; objectives[2]["optical"]="warning"
-		objectives[2]["requirement"]="Need both observations: TRANSMITTER CROWN + OUTBOUND WAKES."
+		objectives[2]["requirement"]="Photograph both observations first (TRANSMITTER CROWN and OUTBOUND WAKES, the marked sites), then listen here."
 		objectives[2]["unit_requirement"]="Quietus hydrophones required · small drones cannot resolve this packet."
 		objectives[2]["evidence"]="DECODED: a list of bearings, one for every loud site on this coast the night of the strike. Two still answer. South down the trench: the drillship Tessaly. West on the shelf: the sonar station at Port Ardent."
 	var patrols: Array = []
 	for n in (1 + i / 2):
-		patrols.append({"pos":Vector2(620 + n*270,130),"home":Vector2(620+n*270,130),"goal":Vector2(620+n*270,130),"vel":Vector2.ZERO,"route":[],"angle":0.0,"mode":"PATROL","suspicion":0.0,"stun":0.0,"lock":0.0,"target":-1,"patrol":n,"path_time":0.0,"type":"patroller"})
+		patrols.append({"pos":Vector2(620 + n*270,130),"home":Vector2(620+n*270,130),"goal":Vector2(620+n*270,130),"vel":Vector2.ZERO,"route":[],"angle":0.0,"mode":"PATROL","suspicion":0.0,"stun":0.0,"lock":0.0,"target":-1,"patrol":n,"path_time":0.0,"type":Names.ROLE_PATROLLER})
 	if i==1:
 		patrols[0].pos=Vector2(420,140); patrols[0].home=patrols[0].pos; patrols[0].goal=patrols[0].pos
 		var east=patrols[0].duplicate(true); east.pos=Vector2(1220,140); east.home=east.pos; east.goal=east.pos; east.patrol=1; patrols.append(east)
@@ -80,12 +81,13 @@ static func make(i: int) -> Dictionary:
 		result.brief+=" A charted cold-water front crosses the southern channel. Sound and passive contacts weaken across it in both directions. Waiting west of it may protect a staging drone, but costs information and time. Close sight and visible beam charges still expose you; optical photography remains noisy."
 		result.brief+=" The plant's motors cycle up, then a load moves out southeast. Its lit return comes from below our operating depth: it is not cover or an obstacle. Listen and watch the Siren guards before you cross. Waiting costs time; crossing early and loud may need a disruption. Sight still outranks the plant noise."
 		var factory=Rect2(1120,140,400,600)
+		result["factory_sensors"]=[{"pos":factory.get_center(),"r":340.0}] # WP-16: the plant senses craft near it
 		result["structures"]=[factory]; result["factory_rect"]=factory; result["phase"]="approach"; result["response_time"]=0.0
 		result.extraction=Vector2(1420,880)
 		for n in patrols.size():
 			var home=[Vector2(960,260),Vector2(1320,820)][n]
 			patrols[n].pos=home; patrols[n].home=home; patrols[n].goal=home
-			patrols[n]["type"]="sentinel"; patrols[n]["tether"]=190.0
+			patrols[n]["type"]=Names.ROLE_SENTINEL; patrols[n]["tether"]=190.0
 	if i==4:
 		result["well_revision"]=1;result["well_reference"]={};result["well_observation"]={}
 		result.brief="The well repeats an unassigned cadence. Recover three perimeter records and return. Its fast hunter follows real noise and sightings. Optional comparison: after recording the PATTERN ARRAY, cruise Quietus through clear water within 240m of the PROFILE APERTURE while MOTION NOISE shows QUIETUS. Then bring a live receiver within passive reach of the RETURN ARCHIVE. A drone can listen while Quietus makes its pass; Quietus can make the comparison alone. Remote records remain a valid unverified archive. No comparison is worth promising a safe escape."
@@ -93,7 +95,7 @@ static func make(i: int) -> Dictionary:
 		objectives[0].name="PATTERN ARRAY";objectives[0]["optical"]="well_pattern"
 		objectives[0]["evidence"]="UNASSIGNED CADENCE. This perimeter record contains a repeating pattern, not an identified speaker. Optional test: cruise Quietus past the PROFILE APERTURE within 240m and a clear line while its motion-noise instrument is active. Receive the local return near the RETURN ARCHIVE: Quietus within 240m or a live drone within 330m, with a clear line. Keep the remote archive without making this comparison, or risk a moving pass for a recorded match."
 		objectives[1].name="PROFILE APERTURE";objectives[2].name="RETURN ARCHIVE"
-		patrols[1]["type"]="hunter"; patrols[1].pos=Vector2(800,600); patrols[1].home=patrols[1].pos; patrols[1].goal=patrols[1].pos
+		patrols[1]["type"]=Names.ROLE_HUNTER; patrols[1].pos=Vector2(800,600); patrols[1].home=patrols[1].pos; patrols[1].goal=patrols[1].pos
 	if i==5:
 		result["phase"]="observations"; result["finale_revision"]=1
 		result["array_rect"]=Rect2(1260,60,300,280); result["structures"]=[result.array_rect]
@@ -112,7 +114,7 @@ static func make(i: int) -> Dictionary:
 		patrols[n]["patrol_points"]=circuits[i][n]; patrols[n]["patrol_index"]=0
 	if i==5:
 		result["contact_report_revision"]=1
-		result.brief+=" A Siren with clear sight can report a last-seen area to one nearby peer after 2s. Break sight to interrupt; disruption stops the report but its own noise can expose you. Reports travel through the local water, never the whole network."
+		result.brief+=" A Siren with clear sight can report a last-seen area to one nearby peer after 2s. Break sight to interrupt; an EMP pulse stops the report but its own noise can expose you. Reports travel through the local water, never the whole network."
 	if i==1:preload("res://src/campaign/split_channel_region.gd").apply(result)
 	return result
 

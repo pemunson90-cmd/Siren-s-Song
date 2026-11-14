@@ -12,9 +12,9 @@ func _initialize():call_deferred("run")
 func settle():
 	for n in 4:await process_frame
 func labels(node)->String:
+	# Every label under the panel: in two columns (WP-72) the briefing's labels sit one level down.
 	var shown=""
-	for c in node.get_children():
-		if c is Label:shown+=c.text+"\n"
+	for c in node.find_children("*","Label",true,false):shown+=c.text+"\n"
 	return shown
 func run():
 	root.size=Vector2i(1280,720);await process_frame;await process_frame
@@ -26,7 +26,8 @@ func run():
 	game._briefing(0);await settle()
 	var shown=labels(game.panel_box)
 	check(shown.contains("PHOTO PROBLEMS") and shown.contains("OPTICS"),"the briefing names the photo problems and the optics")
-	check(shown.length()<420,"the opening briefing stays short")
+	# Row 76 added a three-line primer to the opening briefing (582 characters now); 700 matches the other briefing suite.
+	check(shown.length()<700,"the opening briefing stays short")
 	game._briefing(2);await settle()
 	check(not labels(game.panel_box).contains("PHOTO PROBLEMS"),"an operation without photo subjects shows no line")
 	# Dive: viewfinder, chart rings and the reach prompt.

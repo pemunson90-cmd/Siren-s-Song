@@ -1,4 +1,5 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 # Optional fleet payoffs through existing Reach work, currents and finite tools.
 # Revert: set ENABLED=false; retain record registration for existing saved notes.
 # No fleet rules or required records. Optional cache custody lives in its module.
@@ -42,7 +43,7 @@ static func apply(m:Dictionary)->void:
    var watch=W.listen("glass_record_38_watch","ROOF WATCH ACCOUNT",SILT_ACCOUNT,"The roof watch account records the southern patrol's crossing beneath the roof.",6.)
    watch.optional=true
    m.objectives.append(watch)
-   m.brief+="\nOptional roof watch account: LISTEN in MIDDLE along the strip north of the closed sluice (1500,1680). Silt screen can cover this exposed reception from the southern patrol for25s; it also hides your view and its release is audible. Waiting for the patrol or using Disrupt remains possible. The DEEP underside photograph is still the required job."
+   m.brief+="\nOptional roof watch account: LISTEN in MIDDLE along the strip north of the closed sluice (1500,1680). Silt screen can cover this exposed reception from the southern patrol for25s; it also hides your view and its release is audible. Waiting for the patrol or using the EMP remains possible. The DEEP underside photograph is still the required job."
   39:
    var patrol=W.listen("glass_record_39_patrol","EXHAUST PATROL ACCOUNT",PATROL_ACCOUNT,"The exhaust patrol account records the inner terrace's service crossing.",6.)
    patrol.optional=true
@@ -50,7 +51,7 @@ static func apply(m:Dictionary)->void:
    m.brief+="\nOptional exhaust patrol account: LISTEN in MIDDLE near (2300,1100), beside the moving southern patrol. Drop a sonobuoy from the eastern basin to watch coarse bearings turn away before crossing; bearings give direction, never range or a guaranteed safe window. The outer contour or a patient approach needs no tool; the exhaust photograph remains the job."
 
 static func _sentinel(pos:Vector2,patrol:int)->Dictionary:
- var guard=preload("res://src/campaign/encounters/roster.gd").guard("sentinel",pos,1,[],{"angle":-PI/2,"patrol":patrol})
+ var guard=preload("res://src/campaign/encounters/roster.gd").guard(Names.ROLE_SENTINEL,pos,1,[],{"angle":-PI/2,"patrol":patrol})
  # Preserve the authored stationary format; launch supplies its depth defaults.
  for key in ["band","patrol_points","patrol_index"]:guard.erase(key)
  return guard

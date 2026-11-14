@@ -17,17 +17,17 @@ func configure(id:String)->bool:
 func setup(id:String)->bool:
 	if not configure(id):return false
 	start(int(definition.op));return true
-func start(_index:int,_upgrade:String="endurance",_launch:Dictionary={})->void:
+func start(_index:int,_upgrade:String=Names.LOADOUT_ENDURANCE,_launch:Dictionary={})->void:
 	if definition.is_empty():return
-	super.start(int(definition.op),str(definition.loadout),{"fitted":Catalog.fitting(definition),"context":definition.get("context",{}).duplicate(true),"fleet_commit":false})
+	super.start(int(definition.op),str(definition.loadout),{"fitted":Catalog.fitting(definition),"context":definition.get("context",{}).duplicate(true),"fleet_commit":false,DroneBay.FLAG:true,ParityRules.KEY:true})
 	launched=[];used={};loud_time=0.;rule_failure=""
 	for id in units.size():
-		if units[id].alive:launched.append(id)
+		if DroneBay.home(units[id]):launched.append(id)
 	for key in tools:used[key]=0
 func _observe()->void:
 	if policy.has("crafts"):
 		for id in units.size():
-			if id not in policy.crafts:units[id].alive=false
+			if id not in policy.crafts:DroneBay.leave_behind(units[id])
 	super._observe()
 func command(order:String,args:Dictionary={})->bool:
 	if definition.is_empty():return false
@@ -50,7 +50,7 @@ func tools_used()->int:
 func lost_craft()->int:
 	var count=0
 	for id in launched:
-		if not units[id].alive or (id==0 and hull<=0):count+=1
+		if DroneBay.lost(units[id]) or (id==0 and hull<=0):count+=1
 	return count
 func route()->String:
 	var key=str(definition.get("route_pars",{}).get("key",""))

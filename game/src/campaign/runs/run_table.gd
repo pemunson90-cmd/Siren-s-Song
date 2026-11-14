@@ -1,9 +1,10 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 # AI-DESIGNED expedition budgets. Revert enabled=false and remove the mode entry.
 # Reuse the six standalone recon operations; never rewrite enemies or campaign data.
 static var enabled=true
 const POOL=[0,1,2,3,4,5]
-const LOADOUTS=["endurance","survey","disruption"]
+const LOADOUTS=[Names.LOADOUT_ENDURANCE,Names.LOADOUT_SURVEY,Names.LOADOUT_EMP]
 const SCARCITY=["supplied","limited","scarce"]
 const TOOLS=["emp","decoy","recon","knock","sonobuoy","silt_screen","hull_patch","relay_buoy"]
 const RESUPPLY=[2,1,0]

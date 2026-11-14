@@ -1,4 +1,5 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 # Authored 38/39 geography only. Revert with their factory calls; no rule changes.
 const T=preload("res://src/campaign/encounters/terrain.gd")
 const DEEP_GATE=Rect2(650,1800,300,160)
@@ -28,6 +29,6 @@ static func shelf(m:Dictionary)->void:
  _patrol(m,[Vector2(340,880),Vector2(340,960),Vector2(260,960),Vector2(260,880)])
  m.sirens[1].band=2
 static func _patrol(m:Dictionary,points:Array)->void:
- var guard=preload("res://src/campaign/encounters/roster.gd").guard("patroller",points[0],1,points,{"patrol":m.sirens.size()})
+ var guard=preload("res://src/campaign/encounters/roster.gd").guard(Names.ROLE_PATROLLER,points[0],1,points,{"patrol":m.sirens.size()})
  # These layouts inherit their band at simulation launch, as before.
  guard.erase("band");m.sirens.append(guard)

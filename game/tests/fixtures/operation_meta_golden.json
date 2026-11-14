@@ -1,0 +1,7695 @@
+{
+	"source": "base 075f627e",
+	"ids": [
+		0,
+		1,
+		2,
+		3,
+		4,
+		5,
+		6,
+		7,
+		8,
+		9,
+		10,
+		11,
+		12,
+		13,
+		14,
+		15,
+		16,
+		17,
+		18,
+		19,
+		20,
+		21,
+		22,
+		23,
+		24,
+		25,
+		26,
+		27,
+		28,
+		29,
+		30,
+		31,
+		32,
+		33,
+		34,
+		35,
+		36,
+		37,
+		38,
+		39,
+		40,
+		41
+	],
+	"ops": {
+		"0": {
+			"hunt_cap": 1.0,
+			"oxygen_seconds": 180.0,
+			"drone_seconds": 180.0,
+			"routes": {
+				"deep": {
+					"region": "shelf",
+					"audio": "res://assets/audio/regions/shelf.wav",
+					"gain_db": -19.0
+				},
+				"shelf": {
+					"region": "shelf",
+					"audio": "res://assets/audio/regions/shelf.wav",
+					"gain_db": -19.0
+				},
+				"none": {
+					"region": "shelf",
+					"audio": "res://assets/audio/regions/shelf.wav",
+					"gain_db": -19.0
+				}
+			},
+			"position": [
+				0.0,
+				0.0
+			]
+		},
+		"1": {
+			"hunt_cap": 1.0,
+			"oxygen_seconds": 300.0,
+			"drone_seconds": 240.0,
+			"routes": {
+				"deep": {
+					"region": "shelf",
+					"audio": "res://assets/audio/regions/shelf.wav",
+					"gain_db": -19.0
+				},
+				"shelf": {
+					"region": "shelf",
+					"audio": "res://assets/audio/regions/shelf.wav",
+					"gain_db": -19.0
+				},
+				"none": {
+					"region": "shelf",
+					"audio": "res://assets/audio/regions/shelf.wav",
+					"gain_db": -19.0
+				}
+			},
+			"position": [
+				0.0,
+				1.0
+			]
+		},
+		"2": {
+			"hunt_cap": 1.0,
+			"oxygen_seconds": 180.0,
+			"drone_seconds": 150.0,
+			"routes": {
+				"deep": {
+					"region": "shelf",
+					"audio": "res://assets/audio/regions/shelf.wav",
+					"gain_db": -19.0
+				},
+				"shelf": {
+					"region": "shelf",
+					"audio": "res://assets/audio/regions/shelf.wav",
+					"gain_db": -19.0
+				},
+				"none": {
+					"region": "shelf",
+					"audio": "res://assets/audio/regions/shelf.wav",
+					"gain_db": -19.0
+				}
+			},
+			"position": [
+				0.0,
+				2.0
+			]
+		},
+		"3": {
+			"hunt_cap": 1.15,
+			"oxygen_seconds": 180.0,
+			"drone_seconds": 180.0,
+			"routes": {
+				"deep": {
+					"region": "shelf",
+					"audio": "res://assets/audio/regions/shelf.wav",
+					"gain_db": -19.0
+				},
+				"shelf": {
+					"region": "shelf",
+					"audio": "res://assets/audio/regions/shelf.wav",
+					"gain_db": -19.0
+				},
+				"none": {
+					"region": "shelf",
+					"audio": "res://assets/audio/regions/shelf.wav",
+					"gain_db": -19.0
+				}
+			},
+			"position": [
+				0.0,
+				3.0
+			]
+		},
+		"4": {
+			"hunt_cap": 1.15,
+			"oxygen_seconds": 240.0,
+			"drone_seconds": 180.0,
+			"routes": {
+				"deep": {
+					"region": "shelf",
+					"audio": "res://assets/audio/regions/shelf.wav",
+					"gain_db": -19.0
+				},
+				"shelf": {
+					"region": "shelf",
+					"audio": "res://assets/audio/regions/shelf.wav",
+					"gain_db": -19.0
+				},
+				"none": {
+					"region": "shelf",
+					"audio": "res://assets/audio/regions/shelf.wav",
+					"gain_db": -19.0
+				}
+			},
+			"position": [
+				0.0,
+				4.0
+			]
+		},
+		"5": {
+			"hunt_cap": 1.15,
+			"oxygen_seconds": 300.0,
+			"drone_seconds": 240.0,
+			"routes": {
+				"deep": {
+					"region": "shelf",
+					"audio": "res://assets/audio/regions/shelf.wav",
+					"gain_db": -19.0
+				},
+				"shelf": {
+					"region": "shelf",
+					"audio": "res://assets/audio/regions/shelf.wav",
+					"gain_db": -19.0
+				},
+				"none": {
+					"region": "shelf",
+					"audio": "res://assets/audio/regions/shelf.wav",
+					"gain_db": -19.0
+				}
+			},
+			"position": [
+				0.0,
+				5.0
+			]
+		},
+		"6": {
+			"hunt_cap": 1.3,
+			"oxygen_seconds": 300.0,
+			"drone_seconds": 240.0,
+			"routes": {
+				"deep": {
+					"region": "divergence_deep",
+					"audio": "res://assets/audio/regions/divergence_deep.wav",
+					"gain_db": -20.0
+				},
+				"shelf": {
+					"region": "divergence_shelf",
+					"audio": "res://assets/audio/regions/divergence_shelf.wav",
+					"gain_db": -20.0
+				},
+				"none": {
+					"region": "divergence_deep",
+					"audio": "res://assets/audio/regions/divergence_deep.wav",
+					"gain_db": -20.0
+				}
+			},
+			"position": [
+				1.0,
+				5.0
+			]
+		},
+		"7": {
+			"hunt_cap": 1.3,
+			"oxygen_seconds": 300.0,
+			"drone_seconds": 240.0,
+			"routes": {
+				"deep": {
+					"region": "divergence_deep",
+					"audio": "res://assets/audio/regions/divergence_deep.wav",
+					"gain_db": -20.0
+				},
+				"shelf": {
+					"region": "divergence_deep",
+					"audio": "res://assets/audio/regions/divergence_deep.wav",
+					"gain_db": -20.0
+				},
+				"none": {
+					"region": "divergence_deep",
+					"audio": "res://assets/audio/regions/divergence_deep.wav",
+					"gain_db": -20.0
+				}
+			},
+			"position": [
+				2.0,
+				4.0
+			]
+		},
+		"8": {
+			"hunt_cap": 1.3,
+			"oxygen_seconds": 300.0,
+			"drone_seconds": 240.0,
+			"routes": {
+				"deep": {
+					"region": "divergence_shelf",
+					"audio": "res://assets/audio/regions/divergence_shelf.wav",
+					"gain_db": -20.0
+				},
+				"shelf": {
+					"region": "divergence_shelf",
+					"audio": "res://assets/audio/regions/divergence_shelf.wav",
+					"gain_db": -20.0
+				},
+				"none": {
+					"region": "divergence_shelf",
+					"audio": "res://assets/audio/regions/divergence_shelf.wav",
+					"gain_db": -20.0
+				}
+			},
+			"position": [
+				2.0,
+				6.0
+			]
+		},
+		"9": {
+			"hunt_cap": 1.3,
+			"oxygen_seconds": 300.0,
+			"drone_seconds": 240.0,
+			"routes": {
+				"deep": {
+					"region": "divergence_deep",
+					"audio": "res://assets/audio/regions/divergence_deep.wav",
+					"gain_db": -20.0
+				},
+				"shelf": {
+					"region": "divergence_deep",
+					"audio": "res://assets/audio/regions/divergence_deep.wav",
+					"gain_db": -20.0
+				},
+				"none": {
+					"region": "divergence_deep",
+					"audio": "res://assets/audio/regions/divergence_deep.wav",
+					"gain_db": -20.0
+				}
+			},
+			"position": [
+				3.0,
+				4.0
+			]
+		},
+		"10": {
+			"hunt_cap": 1.3,
+			"oxygen_seconds": 300.0,
+			"drone_seconds": 240.0,
+			"routes": {
+				"deep": {
+					"region": "divergence_shelf",
+					"audio": "res://assets/audio/regions/divergence_shelf.wav",
+					"gain_db": -20.0
+				},
+				"shelf": {
+					"region": "divergence_shelf",
+					"audio": "res://assets/audio/regions/divergence_shelf.wav",
+					"gain_db": -20.0
+				},
+				"none": {
+					"region": "divergence_shelf",
+					"audio": "res://assets/audio/regions/divergence_shelf.wav",
+					"gain_db": -20.0
+				}
+			},
+			"position": [
+				3.0,
+				6.0
+			]
+		},
+		"11": {
+			"hunt_cap": 1.3,
+			"oxygen_seconds": 840.0,
+			"drone_seconds": 600.0,
+			"routes": {
+				"deep": {
+					"region": "confluence",
+					"audio": "res://assets/audio/regions/confluence.wav",
+					"gain_db": -20.0
+				},
+				"shelf": {
+					"region": "confluence",
+					"audio": "res://assets/audio/regions/confluence.wav",
+					"gain_db": -20.0
+				},
+				"none": {
+					"region": "confluence",
+					"audio": "res://assets/audio/regions/confluence.wav",
+					"gain_db": -20.0
+				}
+			},
+			"position": [
+				4.0,
+				5.0
+			]
+		},
+		"12": {
+			"hunt_cap": 1.3,
+			"oxygen_seconds": 420.0,
+			"drone_seconds": 300.0,
+			"routes": {
+				"deep": {
+					"region": "confluence",
+					"audio": "res://assets/audio/regions/confluence.wav",
+					"gain_db": -20.0
+				},
+				"shelf": {
+					"region": "confluence",
+					"audio": "res://assets/audio/regions/confluence.wav",
+					"gain_db": -20.0
+				},
+				"none": {
+					"region": "confluence",
+					"audio": "res://assets/audio/regions/confluence.wav",
+					"gain_db": -20.0
+				}
+			},
+			"position": [
+				5.0,
+				4.0
+			]
+		},
+		"13": {
+			"hunt_cap": 1.3,
+			"oxygen_seconds": 360.0,
+			"drone_seconds": 300.0,
+			"routes": {
+				"deep": {
+					"region": "confluence",
+					"audio": "res://assets/audio/regions/confluence.wav",
+					"gain_db": -20.0
+				},
+				"shelf": {
+					"region": "confluence",
+					"audio": "res://assets/audio/regions/confluence.wav",
+					"gain_db": -20.0
+				},
+				"none": {
+					"region": "confluence",
+					"audio": "res://assets/audio/regions/confluence.wav",
+					"gain_db": -20.0
+				}
+			},
+			"position": [
+				5.0,
+				6.0
+			]
+		},
+		"14": {
+			"hunt_cap": 1.5,
+			"oxygen_seconds": 300.0,
+			"drone_seconds": 240.0,
+			"routes": {
+				"deep": {
+					"region": "glass",
+					"audio": "res://assets/audio/regions/glass.wav",
+					"gain_db": -21.0
+				},
+				"shelf": {
+					"region": "glass",
+					"audio": "res://assets/audio/regions/glass.wav",
+					"gain_db": -21.0
+				},
+				"none": {
+					"region": "glass",
+					"audio": "res://assets/audio/regions/glass.wav",
+					"gain_db": -21.0
+				}
+			},
+			"position": [
+				6.0,
+				5.0
+			]
+		},
+		"15": {
+			"hunt_cap": 1.5,
+			"oxygen_seconds": 300.0,
+			"drone_seconds": 240.0,
+			"routes": {
+				"deep": {
+					"region": "glass",
+					"audio": "res://assets/audio/regions/glass.wav",
+					"gain_db": -21.0
+				},
+				"shelf": {
+					"region": "glass",
+					"audio": "res://assets/audio/regions/glass.wav",
+					"gain_db": -21.0
+				},
+				"none": {
+					"region": "glass",
+					"audio": "res://assets/audio/regions/glass.wav",
+					"gain_db": -21.0
+				}
+			},
+			"position": [
+				7.0,
+				5.0
+			]
+		},
+		"16": {
+			"hunt_cap": 1.5,
+			"oxygen_seconds": 300.0,
+			"drone_seconds": 240.0,
+			"routes": {
+				"deep": {
+					"region": "glass",
+					"audio": "res://assets/audio/regions/glass.wav",
+					"gain_db": -21.0
+				},
+				"shelf": {
+					"region": "glass",
+					"audio": "res://assets/audio/regions/glass.wav",
+					"gain_db": -21.0
+				},
+				"none": {
+					"region": "glass",
+					"audio": "res://assets/audio/regions/glass.wav",
+					"gain_db": -21.0
+				}
+			},
+			"position": [
+				8.0,
+				5.0
+			]
+		},
+		"17": {
+			"hunt_cap": 1.5,
+			"oxygen_seconds": 300.0,
+			"drone_seconds": 240.0,
+			"routes": {
+				"deep": {
+					"region": "glass",
+					"audio": "res://assets/audio/regions/glass.wav",
+					"gain_db": -21.0
+				},
+				"shelf": {
+					"region": "glass",
+					"audio": "res://assets/audio/regions/glass.wav",
+					"gain_db": -21.0
+				},
+				"none": {
+					"region": "glass",
+					"audio": "res://assets/audio/regions/glass.wav",
+					"gain_db": -21.0
+				}
+			},
+			"position": [
+				9.0,
+				5.0
+			]
+		},
+		"18": {
+			"hunt_cap": 1.5,
+			"oxygen_seconds": 300.0,
+			"drone_seconds": 240.0,
+			"routes": {
+				"deep": {
+					"region": "glass",
+					"audio": "res://assets/audio/regions/glass.wav",
+					"gain_db": -21.0
+				},
+				"shelf": {
+					"region": "glass",
+					"audio": "res://assets/audio/regions/glass.wav",
+					"gain_db": -21.0
+				},
+				"none": {
+					"region": "glass",
+					"audio": "res://assets/audio/regions/glass.wav",
+					"gain_db": -21.0
+				}
+			},
+			"position": [
+				10.0,
+				5.0
+			]
+		},
+		"19": {
+			"hunt_cap": 1.5,
+			"oxygen_seconds": 300.0,
+			"drone_seconds": 240.0,
+			"routes": {
+				"deep": {
+					"region": "glass",
+					"audio": "res://assets/audio/regions/glass.wav",
+					"gain_db": -21.0
+				},
+				"shelf": {
+					"region": "glass",
+					"audio": "res://assets/audio/regions/glass.wav",
+					"gain_db": -21.0
+				},
+				"none": {
+					"region": "glass",
+					"audio": "res://assets/audio/regions/glass.wav",
+					"gain_db": -21.0
+				}
+			},
+			"position": [
+				11.0,
+				5.0
+			]
+		},
+		"20": {
+			"hunt_cap": 1.5,
+			"oxygen_seconds": 300.0,
+			"drone_seconds": 240.0,
+			"routes": {
+				"deep": {
+					"region": "glass",
+					"audio": "res://assets/audio/regions/glass.wav",
+					"gain_db": -21.0
+				},
+				"shelf": {
+					"region": "glass",
+					"audio": "res://assets/audio/regions/glass.wav",
+					"gain_db": -21.0
+				},
+				"none": {
+					"region": "glass",
+					"audio": "res://assets/audio/regions/glass.wav",
+					"gain_db": -21.0
+				}
+			},
+			"position": [
+				8.0,
+				3.0
+			]
+		},
+		"21": {
+			"hunt_cap": 1.5,
+			"oxygen_seconds": 300.0,
+			"drone_seconds": 240.0,
+			"routes": {
+				"deep": {
+					"region": "glass",
+					"audio": "res://assets/audio/regions/glass.wav",
+					"gain_db": -21.0
+				},
+				"shelf": {
+					"region": "glass",
+					"audio": "res://assets/audio/regions/glass.wav",
+					"gain_db": -21.0
+				},
+				"none": {
+					"region": "glass",
+					"audio": "res://assets/audio/regions/glass.wav",
+					"gain_db": -21.0
+				}
+			},
+			"position": [
+				9.0,
+				7.0
+			]
+		},
+		"22": {
+			"hunt_cap": 1.7,
+			"oxygen_seconds": 300.0,
+			"drone_seconds": 240.0,
+			"routes": {
+				"deep": {
+					"region": "iron",
+					"audio": "res://assets/audio/regions/iron.wav",
+					"gain_db": -17.0
+				},
+				"shelf": {
+					"region": "iron",
+					"audio": "res://assets/audio/regions/iron.wav",
+					"gain_db": -17.0
+				},
+				"none": {
+					"region": "iron",
+					"audio": "res://assets/audio/regions/iron.wav",
+					"gain_db": -17.0
+				}
+			},
+			"position": [
+				12.0,
+				5.0
+			]
+		},
+		"23": {
+			"hunt_cap": 1.7,
+			"oxygen_seconds": 300.0,
+			"drone_seconds": 240.0,
+			"routes": {
+				"deep": {
+					"region": "iron",
+					"audio": "res://assets/audio/regions/iron.wav",
+					"gain_db": -17.0
+				},
+				"shelf": {
+					"region": "iron",
+					"audio": "res://assets/audio/regions/iron.wav",
+					"gain_db": -17.0
+				},
+				"none": {
+					"region": "iron",
+					"audio": "res://assets/audio/regions/iron.wav",
+					"gain_db": -17.0
+				}
+			},
+			"position": [
+				13.0,
+				5.0
+			]
+		},
+		"24": {
+			"hunt_cap": 1.7,
+			"oxygen_seconds": 300.0,
+			"drone_seconds": 240.0,
+			"routes": {
+				"deep": {
+					"region": "iron",
+					"audio": "res://assets/audio/regions/iron.wav",
+					"gain_db": -17.0
+				},
+				"shelf": {
+					"region": "iron",
+					"audio": "res://assets/audio/regions/iron.wav",
+					"gain_db": -17.0
+				},
+				"none": {
+					"region": "iron",
+					"audio": "res://assets/audio/regions/iron.wav",
+					"gain_db": -17.0
+				}
+			},
+			"position": [
+				14.0,
+				5.0
+			]
+		},
+		"25": {
+			"hunt_cap": 1.7,
+			"oxygen_seconds": 300.0,
+			"drone_seconds": 240.0,
+			"routes": {
+				"deep": {
+					"region": "iron",
+					"audio": "res://assets/audio/regions/iron.wav",
+					"gain_db": -17.0
+				},
+				"shelf": {
+					"region": "iron",
+					"audio": "res://assets/audio/regions/iron.wav",
+					"gain_db": -17.0
+				},
+				"none": {
+					"region": "iron",
+					"audio": "res://assets/audio/regions/iron.wav",
+					"gain_db": -17.0
+				}
+			},
+			"position": [
+				15.0,
+				5.0
+			]
+		},
+		"26": {
+			"hunt_cap": 1.7,
+			"oxygen_seconds": 300.0,
+			"drone_seconds": 240.0,
+			"routes": {
+				"deep": {
+					"region": "iron",
+					"audio": "res://assets/audio/regions/iron.wav",
+					"gain_db": -17.0
+				},
+				"shelf": {
+					"region": "iron",
+					"audio": "res://assets/audio/regions/iron.wav",
+					"gain_db": -17.0
+				},
+				"none": {
+					"region": "iron",
+					"audio": "res://assets/audio/regions/iron.wav",
+					"gain_db": -17.0
+				}
+			},
+			"position": [
+				12.0,
+				7.0
+			]
+		},
+		"27": {
+			"hunt_cap": 1.7,
+			"oxygen_seconds": 300.0,
+			"drone_seconds": 240.0,
+			"routes": {
+				"deep": {
+					"region": "iron",
+					"audio": "res://assets/audio/regions/iron.wav",
+					"gain_db": -17.0
+				},
+				"shelf": {
+					"region": "iron",
+					"audio": "res://assets/audio/regions/iron.wav",
+					"gain_db": -17.0
+				},
+				"none": {
+					"region": "iron",
+					"audio": "res://assets/audio/regions/iron.wav",
+					"gain_db": -17.0
+				}
+			},
+			"position": [
+				13.0,
+				3.0
+			]
+		},
+		"28": {
+			"hunt_cap": 1.7,
+			"oxygen_seconds": 300.0,
+			"drone_seconds": 240.0,
+			"routes": {
+				"deep": {
+					"region": "iron",
+					"audio": "res://assets/audio/regions/iron.wav",
+					"gain_db": -17.0
+				},
+				"shelf": {
+					"region": "iron",
+					"audio": "res://assets/audio/regions/iron.wav",
+					"gain_db": -17.0
+				},
+				"none": {
+					"region": "iron",
+					"audio": "res://assets/audio/regions/iron.wav",
+					"gain_db": -17.0
+				}
+			},
+			"position": [
+				13.0,
+				7.0
+			]
+		},
+		"29": {
+			"hunt_cap": 1.7,
+			"oxygen_seconds": 300.0,
+			"drone_seconds": 240.0,
+			"routes": {
+				"deep": {
+					"region": "iron",
+					"audio": "res://assets/audio/regions/iron.wav",
+					"gain_db": -17.0
+				},
+				"shelf": {
+					"region": "iron",
+					"audio": "res://assets/audio/regions/iron.wav",
+					"gain_db": -17.0
+				},
+				"none": {
+					"region": "iron",
+					"audio": "res://assets/audio/regions/iron.wav",
+					"gain_db": -17.0
+				}
+			},
+			"position": [
+				14.0,
+				7.0
+			]
+		},
+		"30": {
+			"hunt_cap": 1.0,
+			"oxygen_seconds": 300.0,
+			"drone_seconds": 240.0,
+			"routes": {
+				"deep": {
+					"region": "iron",
+					"audio": "res://assets/audio/regions/iron.wav",
+					"gain_db": -17.0
+				},
+				"shelf": {
+					"region": "iron",
+					"audio": "res://assets/audio/regions/iron.wav",
+					"gain_db": -17.0
+				},
+				"none": {
+					"region": "iron",
+					"audio": "res://assets/audio/regions/iron.wav",
+					"gain_db": -17.0
+				}
+			},
+			"position": [
+				16.0,
+				5.0
+			]
+		},
+		"31": {
+			"hunt_cap": 1.0,
+			"oxygen_seconds": 300.0,
+			"drone_seconds": 240.0,
+			"routes": {
+				"deep": {
+					"region": "iron",
+					"audio": "res://assets/audio/regions/iron.wav",
+					"gain_db": -17.0
+				},
+				"shelf": {
+					"region": "iron",
+					"audio": "res://assets/audio/regions/iron.wav",
+					"gain_db": -17.0
+				},
+				"none": {
+					"region": "iron",
+					"audio": "res://assets/audio/regions/iron.wav",
+					"gain_db": -17.0
+				}
+			},
+			"position": [
+				17.0,
+				5.0
+			]
+		},
+		"32": {
+			"hunt_cap": 1.7,
+			"oxygen_seconds": 300.0,
+			"drone_seconds": 240.0,
+			"routes": {
+				"deep": {
+					"region": "calder",
+					"audio": "res://assets/audio/regions/calder.wav",
+					"gain_db": -21.0
+				},
+				"shelf": {
+					"region": "calder",
+					"audio": "res://assets/audio/regions/calder.wav",
+					"gain_db": -21.0
+				},
+				"none": {
+					"region": "calder",
+					"audio": "res://assets/audio/regions/calder.wav",
+					"gain_db": -21.0
+				}
+			},
+			"position": [
+				18.0,
+				5.0
+			]
+		},
+		"33": {
+			"hunt_cap": 1.7,
+			"oxygen_seconds": 300.0,
+			"drone_seconds": 240.0,
+			"routes": {
+				"deep": {
+					"region": "calder",
+					"audio": "res://assets/audio/regions/calder.wav",
+					"gain_db": -21.0
+				},
+				"shelf": {
+					"region": "calder",
+					"audio": "res://assets/audio/regions/calder.wav",
+					"gain_db": -21.0
+				},
+				"none": {
+					"region": "calder",
+					"audio": "res://assets/audio/regions/calder.wav",
+					"gain_db": -21.0
+				}
+			},
+			"position": [
+				19.0,
+				5.0
+			]
+		},
+		"34": {
+			"hunt_cap": 1.7,
+			"oxygen_seconds": 300.0,
+			"drone_seconds": 240.0,
+			"routes": {
+				"deep": {
+					"region": "calder",
+					"audio": "res://assets/audio/regions/calder.wav",
+					"gain_db": -21.0
+				},
+				"shelf": {
+					"region": "calder",
+					"audio": "res://assets/audio/regions/calder.wav",
+					"gain_db": -21.0
+				},
+				"none": {
+					"region": "calder",
+					"audio": "res://assets/audio/regions/calder.wav",
+					"gain_db": -21.0
+				}
+			},
+			"position": [
+				20.0,
+				5.0
+			]
+		},
+		"35": {
+			"hunt_cap": 1.7,
+			"oxygen_seconds": 300.0,
+			"drone_seconds": 240.0,
+			"routes": {
+				"deep": {
+					"region": "calder",
+					"audio": "res://assets/audio/regions/calder.wav",
+					"gain_db": -21.0
+				},
+				"shelf": {
+					"region": "calder",
+					"audio": "res://assets/audio/regions/calder.wav",
+					"gain_db": -21.0
+				},
+				"none": {
+					"region": "calder",
+					"audio": "res://assets/audio/regions/calder.wav",
+					"gain_db": -21.0
+				}
+			},
+			"position": [
+				19.0,
+				7.0
+			]
+		},
+		"36": {
+			"hunt_cap": 1.7,
+			"oxygen_seconds": 300.0,
+			"drone_seconds": 240.0,
+			"routes": {
+				"deep": {
+					"region": "calder",
+					"audio": "res://assets/audio/regions/calder.wav",
+					"gain_db": -21.0
+				},
+				"shelf": {
+					"region": "calder",
+					"audio": "res://assets/audio/regions/calder.wav",
+					"gain_db": -21.0
+				},
+				"none": {
+					"region": "calder",
+					"audio": "res://assets/audio/regions/calder.wav",
+					"gain_db": -21.0
+				}
+			},
+			"position": [
+				19.0,
+				3.0
+			]
+		},
+		"37": {
+			"hunt_cap": 1.5,
+			"oxygen_seconds": 300.0,
+			"drone_seconds": 240.0,
+			"routes": {
+				"deep": {
+					"region": "glass",
+					"audio": "res://assets/audio/regions/glass.wav",
+					"gain_db": -21.0
+				},
+				"shelf": {
+					"region": "glass",
+					"audio": "res://assets/audio/regions/glass.wav",
+					"gain_db": -21.0
+				},
+				"none": {
+					"region": "glass",
+					"audio": "res://assets/audio/regions/glass.wav",
+					"gain_db": -21.0
+				}
+			},
+			"position": [
+				7.0,
+				7.0
+			]
+		},
+		"38": {
+			"hunt_cap": 1.3,
+			"oxygen_seconds": 300.0,
+			"drone_seconds": 240.0,
+			"routes": {
+				"deep": {
+					"region": "divergence_deep",
+					"audio": "res://assets/audio/regions/divergence_deep.wav",
+					"gain_db": -20.0
+				},
+				"shelf": {
+					"region": "divergence_deep",
+					"audio": "res://assets/audio/regions/divergence_deep.wav",
+					"gain_db": -20.0
+				},
+				"none": {
+					"region": "divergence_deep",
+					"audio": "res://assets/audio/regions/divergence_deep.wav",
+					"gain_db": -20.0
+				}
+			},
+			"position": [
+				2.0,
+				2.0
+			]
+		},
+		"39": {
+			"hunt_cap": 1.3,
+			"oxygen_seconds": 300.0,
+			"drone_seconds": 240.0,
+			"routes": {
+				"deep": {
+					"region": "divergence_shelf",
+					"audio": "res://assets/audio/regions/divergence_shelf.wav",
+					"gain_db": -20.0
+				},
+				"shelf": {
+					"region": "divergence_shelf",
+					"audio": "res://assets/audio/regions/divergence_shelf.wav",
+					"gain_db": -20.0
+				},
+				"none": {
+					"region": "divergence_shelf",
+					"audio": "res://assets/audio/regions/divergence_shelf.wav",
+					"gain_db": -20.0
+				}
+			},
+			"position": [
+				2.0,
+				8.0
+			]
+		},
+		"40": {
+			"hunt_cap": 1.3,
+			"oxygen_seconds": 300.0,
+			"drone_seconds": 240.0,
+			"routes": {
+				"deep": {
+					"region": "confluence",
+					"audio": "res://assets/audio/regions/confluence.wav",
+					"gain_db": -20.0
+				},
+				"shelf": {
+					"region": "confluence",
+					"audio": "res://assets/audio/regions/confluence.wav",
+					"gain_db": -20.0
+				},
+				"none": {
+					"region": "confluence",
+					"audio": "res://assets/audio/regions/confluence.wav",
+					"gain_db": -20.0
+				}
+			},
+			"position": [
+				4.0,
+				8.0
+			]
+		},
+		"41": {
+			"hunt_cap": 1.3,
+			"oxygen_seconds": 300.0,
+			"drone_seconds": 240.0,
+			"routes": {
+				"deep": {
+					"region": "shelf",
+					"audio": "res://assets/audio/regions/shelf.wav",
+					"gain_db": -19.0
+				},
+				"shelf": {
+					"region": "shelf",
+					"audio": "res://assets/audio/regions/shelf.wav",
+					"gain_db": -19.0
+				},
+				"none": {
+					"region": "shelf",
+					"audio": "res://assets/audio/regions/shelf.wav",
+					"gain_db": -19.0
+				}
+			},
+			"position": [
+				8.0,
+				8.0
+			]
+		}
+	},
+	"unknown": {
+		"-1": {
+			"hunt_cap": 1.0,
+			"oxygen_seconds": 300.0,
+			"drone_seconds": 240.0,
+			"routes": {
+				"deep": {
+					"region": "shelf",
+					"audio": "res://assets/audio/regions/shelf.wav",
+					"gain_db": -19.0
+				},
+				"shelf": {
+					"region": "shelf",
+					"audio": "res://assets/audio/regions/shelf.wav",
+					"gain_db": -19.0
+				},
+				"none": {
+					"region": "shelf",
+					"audio": "res://assets/audio/regions/shelf.wav",
+					"gain_db": -19.0
+				}
+			},
+			"position": [
+				-1.0,
+				5.0
+			]
+		},
+		"42": {
+			"hunt_cap": 1.0,
+			"oxygen_seconds": 300.0,
+			"drone_seconds": 240.0,
+			"routes": {
+				"deep": {
+					"region": "shelf",
+					"audio": "res://assets/audio/regions/shelf.wav",
+					"gain_db": -19.0
+				},
+				"shelf": {
+					"region": "shelf",
+					"audio": "res://assets/audio/regions/shelf.wav",
+					"gain_db": -19.0
+				},
+				"none": {
+					"region": "shelf",
+					"audio": "res://assets/audio/regions/shelf.wav",
+					"gain_db": -19.0
+				}
+			},
+			"position": [
+				42.0,
+				5.0
+			]
+		},
+		"999": {
+			"hunt_cap": 1.0,
+			"oxygen_seconds": 300.0,
+			"drone_seconds": 240.0,
+			"routes": {
+				"deep": {
+					"region": "shelf",
+					"audio": "res://assets/audio/regions/shelf.wav",
+					"gain_db": -19.0
+				},
+				"shelf": {
+					"region": "shelf",
+					"audio": "res://assets/audio/regions/shelf.wav",
+					"gain_db": -19.0
+				},
+				"none": {
+					"region": "shelf",
+					"audio": "res://assets/audio/regions/shelf.wav",
+					"gain_db": -19.0
+				}
+			},
+			"position": [
+				999.0,
+				5.0
+			]
+		}
+	},
+	"graphs": {
+		"fresh": {
+			"nodes": [
+				{
+					"id": 0,
+					"state": "AVAILABLE",
+					"named": true,
+					"can_open": true,
+					"position": [
+						0.0,
+						0.0
+					]
+				},
+				{
+					"id": 1,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						0.0,
+						1.0
+					]
+				},
+				{
+					"id": 2,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						0.0,
+						2.0
+					]
+				},
+				{
+					"id": 3,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						0.0,
+						3.0
+					]
+				},
+				{
+					"id": 4,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						0.0,
+						4.0
+					]
+				},
+				{
+					"id": 5,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						0.0,
+						5.0
+					]
+				},
+				{
+					"id": 6,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						1.0,
+						5.0
+					]
+				},
+				{
+					"id": 7,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						2.0,
+						4.0
+					]
+				},
+				{
+					"id": 8,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						2.0,
+						6.0
+					]
+				},
+				{
+					"id": 9,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						3.0,
+						4.0
+					]
+				},
+				{
+					"id": 10,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						3.0,
+						6.0
+					]
+				},
+				{
+					"id": 11,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						4.0,
+						5.0
+					]
+				},
+				{
+					"id": 12,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						5.0,
+						4.0
+					]
+				},
+				{
+					"id": 13,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						5.0,
+						6.0
+					]
+				},
+				{
+					"id": 14,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						6.0,
+						5.0
+					]
+				},
+				{
+					"id": 15,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						7.0,
+						5.0
+					]
+				},
+				{
+					"id": 16,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						8.0,
+						5.0
+					]
+				},
+				{
+					"id": 17,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						9.0,
+						5.0
+					]
+				},
+				{
+					"id": 18,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						10.0,
+						5.0
+					]
+				},
+				{
+					"id": 19,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						11.0,
+						5.0
+					]
+				},
+				{
+					"id": 20,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						8.0,
+						3.0
+					]
+				},
+				{
+					"id": 21,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						9.0,
+						7.0
+					]
+				},
+				{
+					"id": 22,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						12.0,
+						5.0
+					]
+				},
+				{
+					"id": 23,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						13.0,
+						5.0
+					]
+				},
+				{
+					"id": 24,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						14.0,
+						5.0
+					]
+				},
+				{
+					"id": 25,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						15.0,
+						5.0
+					]
+				},
+				{
+					"id": 26,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						12.0,
+						7.0
+					]
+				},
+				{
+					"id": 27,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						13.0,
+						3.0
+					]
+				},
+				{
+					"id": 28,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						13.0,
+						7.0
+					]
+				},
+				{
+					"id": 29,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						14.0,
+						7.0
+					]
+				},
+				{
+					"id": 30,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						16.0,
+						5.0
+					]
+				},
+				{
+					"id": 31,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						17.0,
+						5.0
+					]
+				},
+				{
+					"id": 32,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						18.0,
+						5.0
+					]
+				},
+				{
+					"id": 33,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						19.0,
+						5.0
+					]
+				},
+				{
+					"id": 34,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						20.0,
+						5.0
+					]
+				},
+				{
+					"id": 35,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						19.0,
+						7.0
+					]
+				},
+				{
+					"id": 36,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						19.0,
+						3.0
+					]
+				},
+				{
+					"id": 37,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						7.0,
+						7.0
+					]
+				},
+				{
+					"id": 38,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						2.0,
+						2.0
+					]
+				},
+				{
+					"id": 39,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						2.0,
+						8.0
+					]
+				},
+				{
+					"id": 40,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						4.0,
+						8.0
+					]
+				}
+			],
+			"edges": [
+				[
+					0,
+					1
+				],
+				[
+					1,
+					2
+				],
+				[
+					2,
+					3
+				],
+				[
+					3,
+					4
+				],
+				[
+					4,
+					5
+				],
+				[
+					5,
+					6
+				],
+				[
+					6,
+					7
+				],
+				[
+					6,
+					8
+				],
+				[
+					7,
+					9
+				],
+				[
+					8,
+					10
+				],
+				[
+					9,
+					11
+				],
+				[
+					10,
+					11
+				],
+				[
+					11,
+					12
+				],
+				[
+					11,
+					13
+				],
+				[
+					12,
+					14
+				],
+				[
+					13,
+					14
+				],
+				[
+					14,
+					15
+				],
+				[
+					15,
+					16
+				],
+				[
+					16,
+					17
+				],
+				[
+					17,
+					18
+				],
+				[
+					18,
+					19
+				],
+				[
+					16,
+					20
+				],
+				[
+					17,
+					21
+				],
+				[
+					19,
+					22
+				],
+				[
+					22,
+					23
+				],
+				[
+					23,
+					24
+				],
+				[
+					24,
+					25
+				],
+				[
+					22,
+					26
+				],
+				[
+					23,
+					27
+				],
+				[
+					23,
+					28
+				],
+				[
+					24,
+					29
+				],
+				[
+					25,
+					30
+				],
+				[
+					30,
+					31
+				],
+				[
+					31,
+					32
+				],
+				[
+					32,
+					33
+				],
+				[
+					33,
+					34
+				],
+				[
+					32,
+					35
+				],
+				[
+					32,
+					36
+				],
+				[
+					15,
+					37
+				],
+				[
+					7,
+					38
+				],
+				[
+					8,
+					39
+				],
+				[
+					11,
+					40
+				]
+			],
+			"rumors": []
+		},
+		"first": {
+			"nodes": [
+				{
+					"id": 0,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						0.0,
+						0.0
+					]
+				},
+				{
+					"id": 1,
+					"state": "AVAILABLE",
+					"named": true,
+					"can_open": true,
+					"position": [
+						0.0,
+						1.0
+					]
+				},
+				{
+					"id": 2,
+					"state": "AVAILABLE",
+					"named": false,
+					"can_open": false,
+					"position": [
+						0.0,
+						2.0
+					]
+				},
+				{
+					"id": 3,
+					"state": "AVAILABLE",
+					"named": false,
+					"can_open": false,
+					"position": [
+						0.0,
+						3.0
+					]
+				},
+				{
+					"id": 4,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						0.0,
+						4.0
+					]
+				},
+				{
+					"id": 5,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						0.0,
+						5.0
+					]
+				},
+				{
+					"id": 6,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						1.0,
+						5.0
+					]
+				},
+				{
+					"id": 7,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						2.0,
+						4.0
+					]
+				},
+				{
+					"id": 8,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						2.0,
+						6.0
+					]
+				},
+				{
+					"id": 9,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						3.0,
+						4.0
+					]
+				},
+				{
+					"id": 10,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						3.0,
+						6.0
+					]
+				},
+				{
+					"id": 11,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						4.0,
+						5.0
+					]
+				},
+				{
+					"id": 12,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						5.0,
+						4.0
+					]
+				},
+				{
+					"id": 13,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						5.0,
+						6.0
+					]
+				},
+				{
+					"id": 14,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						6.0,
+						5.0
+					]
+				},
+				{
+					"id": 15,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						7.0,
+						5.0
+					]
+				},
+				{
+					"id": 16,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						8.0,
+						5.0
+					]
+				},
+				{
+					"id": 17,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						9.0,
+						5.0
+					]
+				},
+				{
+					"id": 18,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						10.0,
+						5.0
+					]
+				},
+				{
+					"id": 19,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						11.0,
+						5.0
+					]
+				},
+				{
+					"id": 20,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						8.0,
+						3.0
+					]
+				},
+				{
+					"id": 21,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						9.0,
+						7.0
+					]
+				},
+				{
+					"id": 22,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						12.0,
+						5.0
+					]
+				},
+				{
+					"id": 23,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						13.0,
+						5.0
+					]
+				},
+				{
+					"id": 24,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						14.0,
+						5.0
+					]
+				},
+				{
+					"id": 25,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						15.0,
+						5.0
+					]
+				},
+				{
+					"id": 26,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						12.0,
+						7.0
+					]
+				},
+				{
+					"id": 27,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						13.0,
+						3.0
+					]
+				},
+				{
+					"id": 28,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						13.0,
+						7.0
+					]
+				},
+				{
+					"id": 29,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						14.0,
+						7.0
+					]
+				},
+				{
+					"id": 30,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						16.0,
+						5.0
+					]
+				},
+				{
+					"id": 31,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						17.0,
+						5.0
+					]
+				},
+				{
+					"id": 32,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						18.0,
+						5.0
+					]
+				},
+				{
+					"id": 33,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						19.0,
+						5.0
+					]
+				},
+				{
+					"id": 34,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						20.0,
+						5.0
+					]
+				},
+				{
+					"id": 35,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						19.0,
+						7.0
+					]
+				},
+				{
+					"id": 36,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						19.0,
+						3.0
+					]
+				},
+				{
+					"id": 37,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						7.0,
+						7.0
+					]
+				},
+				{
+					"id": 38,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						2.0,
+						2.0
+					]
+				},
+				{
+					"id": 39,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						2.0,
+						8.0
+					]
+				},
+				{
+					"id": 40,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						4.0,
+						8.0
+					]
+				}
+			],
+			"edges": [
+				[
+					0,
+					1
+				],
+				[
+					1,
+					2
+				],
+				[
+					2,
+					3
+				],
+				[
+					3,
+					4
+				],
+				[
+					4,
+					5
+				],
+				[
+					5,
+					6
+				],
+				[
+					6,
+					7
+				],
+				[
+					6,
+					8
+				],
+				[
+					7,
+					9
+				],
+				[
+					8,
+					10
+				],
+				[
+					9,
+					11
+				],
+				[
+					10,
+					11
+				],
+				[
+					11,
+					12
+				],
+				[
+					11,
+					13
+				],
+				[
+					12,
+					14
+				],
+				[
+					13,
+					14
+				],
+				[
+					14,
+					15
+				],
+				[
+					15,
+					16
+				],
+				[
+					16,
+					17
+				],
+				[
+					17,
+					18
+				],
+				[
+					18,
+					19
+				],
+				[
+					16,
+					20
+				],
+				[
+					17,
+					21
+				],
+				[
+					19,
+					22
+				],
+				[
+					22,
+					23
+				],
+				[
+					23,
+					24
+				],
+				[
+					24,
+					25
+				],
+				[
+					22,
+					26
+				],
+				[
+					23,
+					27
+				],
+				[
+					23,
+					28
+				],
+				[
+					24,
+					29
+				],
+				[
+					25,
+					30
+				],
+				[
+					30,
+					31
+				],
+				[
+					31,
+					32
+				],
+				[
+					32,
+					33
+				],
+				[
+					33,
+					34
+				],
+				[
+					32,
+					35
+				],
+				[
+					32,
+					36
+				],
+				[
+					15,
+					37
+				],
+				[
+					7,
+					38
+				],
+				[
+					8,
+					39
+				],
+				[
+					11,
+					40
+				]
+			],
+			"rumors": []
+		},
+		"gap": {
+			"nodes": [
+				{
+					"id": 0,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						0.0,
+						0.0
+					]
+				},
+				{
+					"id": 1,
+					"state": "AVAILABLE",
+					"named": true,
+					"can_open": true,
+					"position": [
+						0.0,
+						1.0
+					]
+				},
+				{
+					"id": 2,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						0.0,
+						2.0
+					]
+				},
+				{
+					"id": 3,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						0.0,
+						3.0
+					]
+				},
+				{
+					"id": 4,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						0.0,
+						4.0
+					]
+				},
+				{
+					"id": 5,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						0.0,
+						5.0
+					]
+				},
+				{
+					"id": 6,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						1.0,
+						5.0
+					]
+				},
+				{
+					"id": 7,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						2.0,
+						4.0
+					]
+				},
+				{
+					"id": 8,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						2.0,
+						6.0
+					]
+				},
+				{
+					"id": 9,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						3.0,
+						4.0
+					]
+				},
+				{
+					"id": 10,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						3.0,
+						6.0
+					]
+				},
+				{
+					"id": 11,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						4.0,
+						5.0
+					]
+				},
+				{
+					"id": 12,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						5.0,
+						4.0
+					]
+				},
+				{
+					"id": 13,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						5.0,
+						6.0
+					]
+				},
+				{
+					"id": 14,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						6.0,
+						5.0
+					]
+				},
+				{
+					"id": 15,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						7.0,
+						5.0
+					]
+				},
+				{
+					"id": 16,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						8.0,
+						5.0
+					]
+				},
+				{
+					"id": 17,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						9.0,
+						5.0
+					]
+				},
+				{
+					"id": 18,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						10.0,
+						5.0
+					]
+				},
+				{
+					"id": 19,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						11.0,
+						5.0
+					]
+				},
+				{
+					"id": 20,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						8.0,
+						3.0
+					]
+				},
+				{
+					"id": 21,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						9.0,
+						7.0
+					]
+				},
+				{
+					"id": 22,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						12.0,
+						5.0
+					]
+				},
+				{
+					"id": 23,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						13.0,
+						5.0
+					]
+				},
+				{
+					"id": 24,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						14.0,
+						5.0
+					]
+				},
+				{
+					"id": 25,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						15.0,
+						5.0
+					]
+				},
+				{
+					"id": 26,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						12.0,
+						7.0
+					]
+				},
+				{
+					"id": 27,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						13.0,
+						3.0
+					]
+				},
+				{
+					"id": 28,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						13.0,
+						7.0
+					]
+				},
+				{
+					"id": 29,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						14.0,
+						7.0
+					]
+				},
+				{
+					"id": 30,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						16.0,
+						5.0
+					]
+				},
+				{
+					"id": 31,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						17.0,
+						5.0
+					]
+				},
+				{
+					"id": 32,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						18.0,
+						5.0
+					]
+				},
+				{
+					"id": 33,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						19.0,
+						5.0
+					]
+				},
+				{
+					"id": 34,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						20.0,
+						5.0
+					]
+				},
+				{
+					"id": 35,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						19.0,
+						7.0
+					]
+				},
+				{
+					"id": 36,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						19.0,
+						3.0
+					]
+				},
+				{
+					"id": 37,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						7.0,
+						7.0
+					]
+				},
+				{
+					"id": 38,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						2.0,
+						2.0
+					]
+				},
+				{
+					"id": 39,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						2.0,
+						8.0
+					]
+				},
+				{
+					"id": 40,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						4.0,
+						8.0
+					]
+				}
+			],
+			"edges": [
+				[
+					0,
+					1
+				],
+				[
+					1,
+					2
+				],
+				[
+					2,
+					3
+				],
+				[
+					3,
+					4
+				],
+				[
+					4,
+					5
+				],
+				[
+					5,
+					6
+				],
+				[
+					6,
+					7
+				],
+				[
+					6,
+					8
+				],
+				[
+					7,
+					9
+				],
+				[
+					8,
+					10
+				],
+				[
+					9,
+					11
+				],
+				[
+					10,
+					11
+				],
+				[
+					11,
+					12
+				],
+				[
+					11,
+					13
+				],
+				[
+					12,
+					14
+				],
+				[
+					13,
+					14
+				],
+				[
+					14,
+					15
+				],
+				[
+					15,
+					16
+				],
+				[
+					16,
+					17
+				],
+				[
+					17,
+					18
+				],
+				[
+					18,
+					19
+				],
+				[
+					16,
+					20
+				],
+				[
+					17,
+					21
+				],
+				[
+					19,
+					22
+				],
+				[
+					22,
+					23
+				],
+				[
+					23,
+					24
+				],
+				[
+					24,
+					25
+				],
+				[
+					22,
+					26
+				],
+				[
+					23,
+					27
+				],
+				[
+					23,
+					28
+				],
+				[
+					24,
+					29
+				],
+				[
+					25,
+					30
+				],
+				[
+					30,
+					31
+				],
+				[
+					31,
+					32
+				],
+				[
+					32,
+					33
+				],
+				[
+					33,
+					34
+				],
+				[
+					32,
+					35
+				],
+				[
+					32,
+					36
+				],
+				[
+					15,
+					37
+				],
+				[
+					7,
+					38
+				],
+				[
+					8,
+					39
+				],
+				[
+					11,
+					40
+				]
+			],
+			"rumors": []
+		},
+		"missing_four": {
+			"nodes": [
+				{
+					"id": 0,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						0.0,
+						0.0
+					]
+				},
+				{
+					"id": 1,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						0.0,
+						1.0
+					]
+				},
+				{
+					"id": 2,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						0.0,
+						2.0
+					]
+				},
+				{
+					"id": 3,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						0.0,
+						3.0
+					]
+				},
+				{
+					"id": 4,
+					"state": "AVAILABLE",
+					"named": true,
+					"can_open": true,
+					"position": [
+						0.0,
+						4.0
+					]
+				},
+				{
+					"id": 5,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						0.0,
+						5.0
+					]
+				},
+				{
+					"id": 6,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						1.0,
+						5.0
+					]
+				},
+				{
+					"id": 7,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						2.0,
+						4.0
+					]
+				},
+				{
+					"id": 8,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						2.0,
+						6.0
+					]
+				},
+				{
+					"id": 9,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						3.0,
+						4.0
+					]
+				},
+				{
+					"id": 10,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						3.0,
+						6.0
+					]
+				},
+				{
+					"id": 11,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						4.0,
+						5.0
+					]
+				},
+				{
+					"id": 12,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						5.0,
+						4.0
+					]
+				},
+				{
+					"id": 13,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						5.0,
+						6.0
+					]
+				},
+				{
+					"id": 14,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						6.0,
+						5.0
+					]
+				},
+				{
+					"id": 15,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						7.0,
+						5.0
+					]
+				},
+				{
+					"id": 16,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						8.0,
+						5.0
+					]
+				},
+				{
+					"id": 17,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						9.0,
+						5.0
+					]
+				},
+				{
+					"id": 18,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						10.0,
+						5.0
+					]
+				},
+				{
+					"id": 19,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						11.0,
+						5.0
+					]
+				},
+				{
+					"id": 20,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						8.0,
+						3.0
+					]
+				},
+				{
+					"id": 21,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						9.0,
+						7.0
+					]
+				},
+				{
+					"id": 22,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						12.0,
+						5.0
+					]
+				},
+				{
+					"id": 23,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						13.0,
+						5.0
+					]
+				},
+				{
+					"id": 24,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						14.0,
+						5.0
+					]
+				},
+				{
+					"id": 25,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						15.0,
+						5.0
+					]
+				},
+				{
+					"id": 26,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						12.0,
+						7.0
+					]
+				},
+				{
+					"id": 27,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						13.0,
+						3.0
+					]
+				},
+				{
+					"id": 28,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						13.0,
+						7.0
+					]
+				},
+				{
+					"id": 29,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						14.0,
+						7.0
+					]
+				},
+				{
+					"id": 30,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						16.0,
+						5.0
+					]
+				},
+				{
+					"id": 31,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						17.0,
+						5.0
+					]
+				},
+				{
+					"id": 32,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						18.0,
+						5.0
+					]
+				},
+				{
+					"id": 33,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						19.0,
+						5.0
+					]
+				},
+				{
+					"id": 34,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						20.0,
+						5.0
+					]
+				},
+				{
+					"id": 35,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						19.0,
+						7.0
+					]
+				},
+				{
+					"id": 36,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						19.0,
+						3.0
+					]
+				},
+				{
+					"id": 37,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						7.0,
+						7.0
+					]
+				},
+				{
+					"id": 38,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						2.0,
+						2.0
+					]
+				},
+				{
+					"id": 39,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						2.0,
+						8.0
+					]
+				},
+				{
+					"id": 40,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						4.0,
+						8.0
+					]
+				}
+			],
+			"edges": [
+				[
+					0,
+					1
+				],
+				[
+					1,
+					2
+				],
+				[
+					2,
+					3
+				],
+				[
+					3,
+					4
+				],
+				[
+					4,
+					5
+				],
+				[
+					5,
+					6
+				],
+				[
+					6,
+					7
+				],
+				[
+					6,
+					8
+				],
+				[
+					7,
+					9
+				],
+				[
+					8,
+					10
+				],
+				[
+					9,
+					11
+				],
+				[
+					10,
+					11
+				],
+				[
+					11,
+					12
+				],
+				[
+					11,
+					13
+				],
+				[
+					12,
+					14
+				],
+				[
+					13,
+					14
+				],
+				[
+					14,
+					15
+				],
+				[
+					15,
+					16
+				],
+				[
+					16,
+					17
+				],
+				[
+					17,
+					18
+				],
+				[
+					18,
+					19
+				],
+				[
+					16,
+					20
+				],
+				[
+					17,
+					21
+				],
+				[
+					19,
+					22
+				],
+				[
+					22,
+					23
+				],
+				[
+					23,
+					24
+				],
+				[
+					24,
+					25
+				],
+				[
+					22,
+					26
+				],
+				[
+					23,
+					27
+				],
+				[
+					23,
+					28
+				],
+				[
+					24,
+					29
+				],
+				[
+					25,
+					30
+				],
+				[
+					30,
+					31
+				],
+				[
+					31,
+					32
+				],
+				[
+					32,
+					33
+				],
+				[
+					33,
+					34
+				],
+				[
+					32,
+					35
+				],
+				[
+					32,
+					36
+				],
+				[
+					15,
+					37
+				],
+				[
+					7,
+					38
+				],
+				[
+					8,
+					39
+				],
+				[
+					11,
+					40
+				]
+			],
+			"rumors": []
+		},
+		"all_opening": {
+			"nodes": [
+				{
+					"id": 0,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						0.0,
+						0.0
+					]
+				},
+				{
+					"id": 1,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						0.0,
+						1.0
+					]
+				},
+				{
+					"id": 2,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						0.0,
+						2.0
+					]
+				},
+				{
+					"id": 3,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						0.0,
+						3.0
+					]
+				},
+				{
+					"id": 4,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						0.0,
+						4.0
+					]
+				},
+				{
+					"id": 5,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						0.0,
+						5.0
+					]
+				},
+				{
+					"id": 6,
+					"state": "AVAILABLE",
+					"named": true,
+					"can_open": true,
+					"position": [
+						1.0,
+						5.0
+					]
+				},
+				{
+					"id": 7,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						2.0,
+						4.0
+					]
+				},
+				{
+					"id": 8,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						2.0,
+						6.0
+					]
+				},
+				{
+					"id": 9,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						3.0,
+						4.0
+					]
+				},
+				{
+					"id": 10,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						3.0,
+						6.0
+					]
+				},
+				{
+					"id": 11,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						4.0,
+						5.0
+					]
+				},
+				{
+					"id": 12,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						5.0,
+						4.0
+					]
+				},
+				{
+					"id": 13,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						5.0,
+						6.0
+					]
+				},
+				{
+					"id": 14,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						6.0,
+						5.0
+					]
+				},
+				{
+					"id": 15,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						7.0,
+						5.0
+					]
+				},
+				{
+					"id": 16,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						8.0,
+						5.0
+					]
+				},
+				{
+					"id": 17,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						9.0,
+						5.0
+					]
+				},
+				{
+					"id": 18,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						10.0,
+						5.0
+					]
+				},
+				{
+					"id": 19,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						11.0,
+						5.0
+					]
+				},
+				{
+					"id": 20,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						8.0,
+						3.0
+					]
+				},
+				{
+					"id": 21,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						9.0,
+						7.0
+					]
+				},
+				{
+					"id": 22,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						12.0,
+						5.0
+					]
+				},
+				{
+					"id": 23,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						13.0,
+						5.0
+					]
+				},
+				{
+					"id": 24,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						14.0,
+						5.0
+					]
+				},
+				{
+					"id": 25,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						15.0,
+						5.0
+					]
+				},
+				{
+					"id": 26,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						12.0,
+						7.0
+					]
+				},
+				{
+					"id": 27,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						13.0,
+						3.0
+					]
+				},
+				{
+					"id": 28,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						13.0,
+						7.0
+					]
+				},
+				{
+					"id": 29,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						14.0,
+						7.0
+					]
+				},
+				{
+					"id": 30,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						16.0,
+						5.0
+					]
+				},
+				{
+					"id": 31,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						17.0,
+						5.0
+					]
+				},
+				{
+					"id": 32,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						18.0,
+						5.0
+					]
+				},
+				{
+					"id": 33,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						19.0,
+						5.0
+					]
+				},
+				{
+					"id": 34,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						20.0,
+						5.0
+					]
+				},
+				{
+					"id": 35,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						19.0,
+						7.0
+					]
+				},
+				{
+					"id": 36,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						19.0,
+						3.0
+					]
+				},
+				{
+					"id": 37,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						7.0,
+						7.0
+					]
+				},
+				{
+					"id": 38,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						2.0,
+						2.0
+					]
+				},
+				{
+					"id": 39,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						2.0,
+						8.0
+					]
+				},
+				{
+					"id": 40,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						4.0,
+						8.0
+					]
+				}
+			],
+			"edges": [
+				[
+					0,
+					1
+				],
+				[
+					1,
+					2
+				],
+				[
+					2,
+					3
+				],
+				[
+					3,
+					4
+				],
+				[
+					4,
+					5
+				],
+				[
+					5,
+					6
+				],
+				[
+					6,
+					7
+				],
+				[
+					6,
+					8
+				],
+				[
+					7,
+					9
+				],
+				[
+					8,
+					10
+				],
+				[
+					9,
+					11
+				],
+				[
+					10,
+					11
+				],
+				[
+					11,
+					12
+				],
+				[
+					11,
+					13
+				],
+				[
+					12,
+					14
+				],
+				[
+					13,
+					14
+				],
+				[
+					14,
+					15
+				],
+				[
+					15,
+					16
+				],
+				[
+					16,
+					17
+				],
+				[
+					17,
+					18
+				],
+				[
+					18,
+					19
+				],
+				[
+					16,
+					20
+				],
+				[
+					17,
+					21
+				],
+				[
+					19,
+					22
+				],
+				[
+					22,
+					23
+				],
+				[
+					23,
+					24
+				],
+				[
+					24,
+					25
+				],
+				[
+					22,
+					26
+				],
+				[
+					23,
+					27
+				],
+				[
+					23,
+					28
+				],
+				[
+					24,
+					29
+				],
+				[
+					25,
+					30
+				],
+				[
+					30,
+					31
+				],
+				[
+					31,
+					32
+				],
+				[
+					32,
+					33
+				],
+				[
+					33,
+					34
+				],
+				[
+					32,
+					35
+				],
+				[
+					32,
+					36
+				],
+				[
+					15,
+					37
+				],
+				[
+					7,
+					38
+				],
+				[
+					8,
+					39
+				],
+				[
+					11,
+					40
+				]
+			],
+			"rumors": []
+		},
+		"deep": {
+			"nodes": [
+				{
+					"id": 0,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						0.0,
+						0.0
+					]
+				},
+				{
+					"id": 1,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						0.0,
+						1.0
+					]
+				},
+				{
+					"id": 2,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						0.0,
+						2.0
+					]
+				},
+				{
+					"id": 3,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						0.0,
+						3.0
+					]
+				},
+				{
+					"id": 4,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						0.0,
+						4.0
+					]
+				},
+				{
+					"id": 5,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						0.0,
+						5.0
+					]
+				},
+				{
+					"id": 6,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						1.0,
+						5.0
+					]
+				},
+				{
+					"id": 7,
+					"state": "AVAILABLE",
+					"named": true,
+					"can_open": true,
+					"position": [
+						2.0,
+						4.0
+					]
+				},
+				{
+					"id": 8,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						2.0,
+						6.0
+					]
+				},
+				{
+					"id": 9,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						3.0,
+						4.0
+					]
+				},
+				{
+					"id": 10,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						3.0,
+						6.0
+					]
+				},
+				{
+					"id": 11,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						4.0,
+						5.0
+					]
+				},
+				{
+					"id": 12,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						5.0,
+						4.0
+					]
+				},
+				{
+					"id": 13,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						5.0,
+						6.0
+					]
+				},
+				{
+					"id": 14,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						6.0,
+						5.0
+					]
+				},
+				{
+					"id": 15,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						7.0,
+						5.0
+					]
+				},
+				{
+					"id": 16,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						8.0,
+						5.0
+					]
+				},
+				{
+					"id": 17,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						9.0,
+						5.0
+					]
+				},
+				{
+					"id": 18,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						10.0,
+						5.0
+					]
+				},
+				{
+					"id": 19,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						11.0,
+						5.0
+					]
+				},
+				{
+					"id": 20,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						8.0,
+						3.0
+					]
+				},
+				{
+					"id": 21,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						9.0,
+						7.0
+					]
+				},
+				{
+					"id": 22,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						12.0,
+						5.0
+					]
+				},
+				{
+					"id": 23,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						13.0,
+						5.0
+					]
+				},
+				{
+					"id": 24,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						14.0,
+						5.0
+					]
+				},
+				{
+					"id": 25,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						15.0,
+						5.0
+					]
+				},
+				{
+					"id": 26,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						12.0,
+						7.0
+					]
+				},
+				{
+					"id": 27,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						13.0,
+						3.0
+					]
+				},
+				{
+					"id": 28,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						13.0,
+						7.0
+					]
+				},
+				{
+					"id": 29,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						14.0,
+						7.0
+					]
+				},
+				{
+					"id": 30,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						16.0,
+						5.0
+					]
+				},
+				{
+					"id": 31,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						17.0,
+						5.0
+					]
+				},
+				{
+					"id": 32,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						18.0,
+						5.0
+					]
+				},
+				{
+					"id": 33,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						19.0,
+						5.0
+					]
+				},
+				{
+					"id": 34,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						20.0,
+						5.0
+					]
+				},
+				{
+					"id": 35,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						19.0,
+						7.0
+					]
+				},
+				{
+					"id": 36,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						19.0,
+						3.0
+					]
+				},
+				{
+					"id": 37,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						7.0,
+						7.0
+					]
+				},
+				{
+					"id": 38,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						2.0,
+						2.0
+					]
+				},
+				{
+					"id": 39,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						2.0,
+						8.0
+					]
+				},
+				{
+					"id": 40,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						4.0,
+						8.0
+					]
+				}
+			],
+			"edges": [
+				[
+					0,
+					1
+				],
+				[
+					1,
+					2
+				],
+				[
+					2,
+					3
+				],
+				[
+					3,
+					4
+				],
+				[
+					4,
+					5
+				],
+				[
+					5,
+					6
+				],
+				[
+					6,
+					7
+				],
+				[
+					6,
+					8
+				],
+				[
+					7,
+					9
+				],
+				[
+					8,
+					10
+				],
+				[
+					9,
+					11
+				],
+				[
+					10,
+					11
+				],
+				[
+					11,
+					12
+				],
+				[
+					11,
+					13
+				],
+				[
+					12,
+					14
+				],
+				[
+					13,
+					14
+				],
+				[
+					14,
+					15
+				],
+				[
+					15,
+					16
+				],
+				[
+					16,
+					17
+				],
+				[
+					17,
+					18
+				],
+				[
+					18,
+					19
+				],
+				[
+					16,
+					20
+				],
+				[
+					17,
+					21
+				],
+				[
+					19,
+					22
+				],
+				[
+					22,
+					23
+				],
+				[
+					23,
+					24
+				],
+				[
+					24,
+					25
+				],
+				[
+					22,
+					26
+				],
+				[
+					23,
+					27
+				],
+				[
+					23,
+					28
+				],
+				[
+					24,
+					29
+				],
+				[
+					25,
+					30
+				],
+				[
+					30,
+					31
+				],
+				[
+					31,
+					32
+				],
+				[
+					32,
+					33
+				],
+				[
+					33,
+					34
+				],
+				[
+					32,
+					35
+				],
+				[
+					32,
+					36
+				],
+				[
+					15,
+					37
+				],
+				[
+					7,
+					38
+				],
+				[
+					8,
+					39
+				],
+				[
+					11,
+					40
+				]
+			],
+			"rumors": []
+		},
+		"shelf": {
+			"nodes": [
+				{
+					"id": 0,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						0.0,
+						0.0
+					]
+				},
+				{
+					"id": 1,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						0.0,
+						1.0
+					]
+				},
+				{
+					"id": 2,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						0.0,
+						2.0
+					]
+				},
+				{
+					"id": 3,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						0.0,
+						3.0
+					]
+				},
+				{
+					"id": 4,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						0.0,
+						4.0
+					]
+				},
+				{
+					"id": 5,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						0.0,
+						5.0
+					]
+				},
+				{
+					"id": 6,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						1.0,
+						5.0
+					]
+				},
+				{
+					"id": 7,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						2.0,
+						4.0
+					]
+				},
+				{
+					"id": 8,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						2.0,
+						6.0
+					]
+				},
+				{
+					"id": 9,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						3.0,
+						4.0
+					]
+				},
+				{
+					"id": 10,
+					"state": "AVAILABLE",
+					"named": true,
+					"can_open": true,
+					"position": [
+						3.0,
+						6.0
+					]
+				},
+				{
+					"id": 11,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						4.0,
+						5.0
+					]
+				},
+				{
+					"id": 12,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						5.0,
+						4.0
+					]
+				},
+				{
+					"id": 13,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						5.0,
+						6.0
+					]
+				},
+				{
+					"id": 14,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						6.0,
+						5.0
+					]
+				},
+				{
+					"id": 15,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						7.0,
+						5.0
+					]
+				},
+				{
+					"id": 16,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						8.0,
+						5.0
+					]
+				},
+				{
+					"id": 17,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						9.0,
+						5.0
+					]
+				},
+				{
+					"id": 18,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						10.0,
+						5.0
+					]
+				},
+				{
+					"id": 19,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						11.0,
+						5.0
+					]
+				},
+				{
+					"id": 20,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						8.0,
+						3.0
+					]
+				},
+				{
+					"id": 21,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						9.0,
+						7.0
+					]
+				},
+				{
+					"id": 22,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						12.0,
+						5.0
+					]
+				},
+				{
+					"id": 23,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						13.0,
+						5.0
+					]
+				},
+				{
+					"id": 24,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						14.0,
+						5.0
+					]
+				},
+				{
+					"id": 25,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						15.0,
+						5.0
+					]
+				},
+				{
+					"id": 26,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						12.0,
+						7.0
+					]
+				},
+				{
+					"id": 27,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						13.0,
+						3.0
+					]
+				},
+				{
+					"id": 28,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						13.0,
+						7.0
+					]
+				},
+				{
+					"id": 29,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						14.0,
+						7.0
+					]
+				},
+				{
+					"id": 30,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						16.0,
+						5.0
+					]
+				},
+				{
+					"id": 31,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						17.0,
+						5.0
+					]
+				},
+				{
+					"id": 32,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						18.0,
+						5.0
+					]
+				},
+				{
+					"id": 33,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						19.0,
+						5.0
+					]
+				},
+				{
+					"id": 34,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						20.0,
+						5.0
+					]
+				},
+				{
+					"id": 35,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						19.0,
+						7.0
+					]
+				},
+				{
+					"id": 36,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						19.0,
+						3.0
+					]
+				},
+				{
+					"id": 37,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						7.0,
+						7.0
+					]
+				},
+				{
+					"id": 38,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						2.0,
+						2.0
+					]
+				},
+				{
+					"id": 39,
+					"state": "AVAILABLE",
+					"named": true,
+					"can_open": true,
+					"position": [
+						2.0,
+						8.0
+					]
+				},
+				{
+					"id": 40,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						4.0,
+						8.0
+					]
+				}
+			],
+			"edges": [
+				[
+					0,
+					1
+				],
+				[
+					1,
+					2
+				],
+				[
+					2,
+					3
+				],
+				[
+					3,
+					4
+				],
+				[
+					4,
+					5
+				],
+				[
+					5,
+					6
+				],
+				[
+					6,
+					7
+				],
+				[
+					6,
+					8
+				],
+				[
+					7,
+					9
+				],
+				[
+					8,
+					10
+				],
+				[
+					9,
+					11
+				],
+				[
+					10,
+					11
+				],
+				[
+					11,
+					12
+				],
+				[
+					11,
+					13
+				],
+				[
+					12,
+					14
+				],
+				[
+					13,
+					14
+				],
+				[
+					14,
+					15
+				],
+				[
+					15,
+					16
+				],
+				[
+					16,
+					17
+				],
+				[
+					17,
+					18
+				],
+				[
+					18,
+					19
+				],
+				[
+					16,
+					20
+				],
+				[
+					17,
+					21
+				],
+				[
+					19,
+					22
+				],
+				[
+					22,
+					23
+				],
+				[
+					23,
+					24
+				],
+				[
+					24,
+					25
+				],
+				[
+					22,
+					26
+				],
+				[
+					23,
+					27
+				],
+				[
+					23,
+					28
+				],
+				[
+					24,
+					29
+				],
+				[
+					25,
+					30
+				],
+				[
+					30,
+					31
+				],
+				[
+					31,
+					32
+				],
+				[
+					32,
+					33
+				],
+				[
+					33,
+					34
+				],
+				[
+					32,
+					35
+				],
+				[
+					32,
+					36
+				],
+				[
+					15,
+					37
+				],
+				[
+					7,
+					38
+				],
+				[
+					8,
+					39
+				],
+				[
+					11,
+					40
+				]
+			],
+			"rumors": []
+		},
+		"photo": {
+			"nodes": [
+				{
+					"id": 0,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						0.0,
+						0.0
+					]
+				},
+				{
+					"id": 1,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						0.0,
+						1.0
+					]
+				},
+				{
+					"id": 2,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						0.0,
+						2.0
+					]
+				},
+				{
+					"id": 3,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						0.0,
+						3.0
+					]
+				},
+				{
+					"id": 4,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						0.0,
+						4.0
+					]
+				},
+				{
+					"id": 5,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						0.0,
+						5.0
+					]
+				},
+				{
+					"id": 6,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						1.0,
+						5.0
+					]
+				},
+				{
+					"id": 7,
+					"state": "AVAILABLE",
+					"named": true,
+					"can_open": true,
+					"position": [
+						2.0,
+						4.0
+					]
+				},
+				{
+					"id": 8,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						2.0,
+						6.0
+					]
+				},
+				{
+					"id": 9,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						3.0,
+						4.0
+					]
+				},
+				{
+					"id": 10,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						3.0,
+						6.0
+					]
+				},
+				{
+					"id": 11,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						4.0,
+						5.0
+					]
+				},
+				{
+					"id": 12,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						5.0,
+						4.0
+					]
+				},
+				{
+					"id": 13,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						5.0,
+						6.0
+					]
+				},
+				{
+					"id": 14,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						6.0,
+						5.0
+					]
+				},
+				{
+					"id": 15,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						7.0,
+						5.0
+					]
+				},
+				{
+					"id": 16,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						8.0,
+						5.0
+					]
+				},
+				{
+					"id": 17,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						9.0,
+						5.0
+					]
+				},
+				{
+					"id": 18,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						10.0,
+						5.0
+					]
+				},
+				{
+					"id": 19,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						11.0,
+						5.0
+					]
+				},
+				{
+					"id": 20,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						8.0,
+						3.0
+					]
+				},
+				{
+					"id": 21,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						9.0,
+						7.0
+					]
+				},
+				{
+					"id": 22,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						12.0,
+						5.0
+					]
+				},
+				{
+					"id": 23,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						13.0,
+						5.0
+					]
+				},
+				{
+					"id": 24,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						14.0,
+						5.0
+					]
+				},
+				{
+					"id": 25,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						15.0,
+						5.0
+					]
+				},
+				{
+					"id": 26,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						12.0,
+						7.0
+					]
+				},
+				{
+					"id": 27,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						13.0,
+						3.0
+					]
+				},
+				{
+					"id": 28,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						13.0,
+						7.0
+					]
+				},
+				{
+					"id": 29,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						14.0,
+						7.0
+					]
+				},
+				{
+					"id": 30,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						16.0,
+						5.0
+					]
+				},
+				{
+					"id": 31,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						17.0,
+						5.0
+					]
+				},
+				{
+					"id": 32,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						18.0,
+						5.0
+					]
+				},
+				{
+					"id": 33,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						19.0,
+						5.0
+					]
+				},
+				{
+					"id": 34,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						20.0,
+						5.0
+					]
+				},
+				{
+					"id": 35,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						19.0,
+						7.0
+					]
+				},
+				{
+					"id": 36,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						19.0,
+						3.0
+					]
+				},
+				{
+					"id": 37,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						7.0,
+						7.0
+					]
+				},
+				{
+					"id": 38,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						2.0,
+						2.0
+					]
+				},
+				{
+					"id": 39,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						2.0,
+						8.0
+					]
+				},
+				{
+					"id": 40,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						4.0,
+						8.0
+					]
+				},
+				{
+					"id": 41,
+					"state": "AVAILABLE",
+					"named": true,
+					"can_open": true,
+					"position": [
+						8.0,
+						8.0
+					]
+				}
+			],
+			"edges": [
+				[
+					0,
+					1
+				],
+				[
+					1,
+					2
+				],
+				[
+					2,
+					3
+				],
+				[
+					3,
+					4
+				],
+				[
+					4,
+					5
+				],
+				[
+					5,
+					6
+				],
+				[
+					6,
+					7
+				],
+				[
+					6,
+					8
+				],
+				[
+					7,
+					9
+				],
+				[
+					8,
+					10
+				],
+				[
+					9,
+					11
+				],
+				[
+					10,
+					11
+				],
+				[
+					11,
+					12
+				],
+				[
+					11,
+					13
+				],
+				[
+					12,
+					14
+				],
+				[
+					13,
+					14
+				],
+				[
+					14,
+					15
+				],
+				[
+					15,
+					16
+				],
+				[
+					16,
+					17
+				],
+				[
+					17,
+					18
+				],
+				[
+					18,
+					19
+				],
+				[
+					16,
+					20
+				],
+				[
+					17,
+					21
+				],
+				[
+					19,
+					22
+				],
+				[
+					22,
+					23
+				],
+				[
+					23,
+					24
+				],
+				[
+					24,
+					25
+				],
+				[
+					22,
+					26
+				],
+				[
+					23,
+					27
+				],
+				[
+					23,
+					28
+				],
+				[
+					24,
+					29
+				],
+				[
+					25,
+					30
+				],
+				[
+					30,
+					31
+				],
+				[
+					31,
+					32
+				],
+				[
+					32,
+					33
+				],
+				[
+					33,
+					34
+				],
+				[
+					32,
+					35
+				],
+				[
+					32,
+					36
+				],
+				[
+					15,
+					37
+				],
+				[
+					7,
+					38
+				],
+				[
+					8,
+					39
+				],
+				[
+					11,
+					40
+				]
+			],
+			"rumors": []
+		},
+		"film": {
+			"nodes": [
+				{
+					"id": 0,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						0.0,
+						0.0
+					]
+				},
+				{
+					"id": 1,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						0.0,
+						1.0
+					]
+				},
+				{
+					"id": 2,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						0.0,
+						2.0
+					]
+				},
+				{
+					"id": 3,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						0.0,
+						3.0
+					]
+				},
+				{
+					"id": 4,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						0.0,
+						4.0
+					]
+				},
+				{
+					"id": 5,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						0.0,
+						5.0
+					]
+				},
+				{
+					"id": 6,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						1.0,
+						5.0
+					]
+				},
+				{
+					"id": 7,
+					"state": "AVAILABLE",
+					"named": true,
+					"can_open": true,
+					"position": [
+						2.0,
+						4.0
+					]
+				},
+				{
+					"id": 8,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						2.0,
+						6.0
+					]
+				},
+				{
+					"id": 9,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						3.0,
+						4.0
+					]
+				},
+				{
+					"id": 10,
+					"state": "KNOWN FROM PHOTOS",
+					"named": true,
+					"can_open": false,
+					"position": [
+						3.0,
+						6.0
+					]
+				},
+				{
+					"id": 11,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						4.0,
+						5.0
+					]
+				},
+				{
+					"id": 12,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						5.0,
+						4.0
+					]
+				},
+				{
+					"id": 13,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						5.0,
+						6.0
+					]
+				},
+				{
+					"id": 14,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						6.0,
+						5.0
+					]
+				},
+				{
+					"id": 15,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						7.0,
+						5.0
+					]
+				},
+				{
+					"id": 16,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						8.0,
+						5.0
+					]
+				},
+				{
+					"id": 17,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						9.0,
+						5.0
+					]
+				},
+				{
+					"id": 18,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						10.0,
+						5.0
+					]
+				},
+				{
+					"id": 19,
+					"state": "KNOWN FROM PHOTOS",
+					"named": true,
+					"can_open": false,
+					"position": [
+						11.0,
+						5.0
+					]
+				},
+				{
+					"id": 20,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						8.0,
+						3.0
+					]
+				},
+				{
+					"id": 21,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						9.0,
+						7.0
+					]
+				},
+				{
+					"id": 22,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						12.0,
+						5.0
+					]
+				},
+				{
+					"id": 23,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						13.0,
+						5.0
+					]
+				},
+				{
+					"id": 24,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						14.0,
+						5.0
+					]
+				},
+				{
+					"id": 25,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						15.0,
+						5.0
+					]
+				},
+				{
+					"id": 26,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						12.0,
+						7.0
+					]
+				},
+				{
+					"id": 27,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						13.0,
+						3.0
+					]
+				},
+				{
+					"id": 28,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						13.0,
+						7.0
+					]
+				},
+				{
+					"id": 29,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						14.0,
+						7.0
+					]
+				},
+				{
+					"id": 30,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						16.0,
+						5.0
+					]
+				},
+				{
+					"id": 31,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						17.0,
+						5.0
+					]
+				},
+				{
+					"id": 32,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						18.0,
+						5.0
+					]
+				},
+				{
+					"id": 33,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						19.0,
+						5.0
+					]
+				},
+				{
+					"id": 34,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						20.0,
+						5.0
+					]
+				},
+				{
+					"id": 35,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						19.0,
+						7.0
+					]
+				},
+				{
+					"id": 36,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						19.0,
+						3.0
+					]
+				},
+				{
+					"id": 37,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						7.0,
+						7.0
+					]
+				},
+				{
+					"id": 38,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						2.0,
+						2.0
+					]
+				},
+				{
+					"id": 39,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						2.0,
+						8.0
+					]
+				},
+				{
+					"id": 40,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						4.0,
+						8.0
+					]
+				}
+			],
+			"edges": [
+				[
+					0,
+					1
+				],
+				[
+					1,
+					2
+				],
+				[
+					2,
+					3
+				],
+				[
+					3,
+					4
+				],
+				[
+					4,
+					5
+				],
+				[
+					5,
+					6
+				],
+				[
+					6,
+					7
+				],
+				[
+					6,
+					8
+				],
+				[
+					7,
+					9
+				],
+				[
+					8,
+					10
+				],
+				[
+					9,
+					11
+				],
+				[
+					10,
+					11
+				],
+				[
+					11,
+					12
+				],
+				[
+					11,
+					13
+				],
+				[
+					12,
+					14
+				],
+				[
+					13,
+					14
+				],
+				[
+					14,
+					15
+				],
+				[
+					15,
+					16
+				],
+				[
+					16,
+					17
+				],
+				[
+					17,
+					18
+				],
+				[
+					18,
+					19
+				],
+				[
+					16,
+					20
+				],
+				[
+					17,
+					21
+				],
+				[
+					19,
+					22
+				],
+				[
+					22,
+					23
+				],
+				[
+					23,
+					24
+				],
+				[
+					24,
+					25
+				],
+				[
+					22,
+					26
+				],
+				[
+					23,
+					27
+				],
+				[
+					23,
+					28
+				],
+				[
+					24,
+					29
+				],
+				[
+					25,
+					30
+				],
+				[
+					30,
+					31
+				],
+				[
+					31,
+					32
+				],
+				[
+					32,
+					33
+				],
+				[
+					33,
+					34
+				],
+				[
+					32,
+					35
+				],
+				[
+					32,
+					36
+				],
+				[
+					15,
+					37
+				],
+				[
+					7,
+					38
+				],
+				[
+					8,
+					39
+				],
+				[
+					11,
+					40
+				]
+			],
+			"rumors": [
+				[
+					17,
+					19,
+					"silt_scour"
+				],
+				[
+					8,
+					10,
+					"relay_blink"
+				]
+			]
+		},
+		"fork": {
+			"nodes": [
+				{
+					"id": 0,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						0.0,
+						0.0
+					]
+				},
+				{
+					"id": 1,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						0.0,
+						1.0
+					]
+				},
+				{
+					"id": 2,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						0.0,
+						2.0
+					]
+				},
+				{
+					"id": 3,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						0.0,
+						3.0
+					]
+				},
+				{
+					"id": 4,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						0.0,
+						4.0
+					]
+				},
+				{
+					"id": 5,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						0.0,
+						5.0
+					]
+				},
+				{
+					"id": 6,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						1.0,
+						5.0
+					]
+				},
+				{
+					"id": 7,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						2.0,
+						4.0
+					]
+				},
+				{
+					"id": 8,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						2.0,
+						6.0
+					]
+				},
+				{
+					"id": 9,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						3.0,
+						4.0
+					]
+				},
+				{
+					"id": 10,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						3.0,
+						6.0
+					]
+				},
+				{
+					"id": 11,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						4.0,
+						5.0
+					]
+				},
+				{
+					"id": 12,
+					"state": "AVAILABLE",
+					"named": true,
+					"can_open": true,
+					"position": [
+						5.0,
+						4.0
+					]
+				},
+				{
+					"id": 13,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						5.0,
+						6.0
+					]
+				},
+				{
+					"id": 14,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						6.0,
+						5.0
+					]
+				},
+				{
+					"id": 15,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						7.0,
+						5.0
+					]
+				},
+				{
+					"id": 16,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						8.0,
+						5.0
+					]
+				},
+				{
+					"id": 17,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						9.0,
+						5.0
+					]
+				},
+				{
+					"id": 18,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						10.0,
+						5.0
+					]
+				},
+				{
+					"id": 19,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						11.0,
+						5.0
+					]
+				},
+				{
+					"id": 20,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						8.0,
+						3.0
+					]
+				},
+				{
+					"id": 21,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						9.0,
+						7.0
+					]
+				},
+				{
+					"id": 22,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						12.0,
+						5.0
+					]
+				},
+				{
+					"id": 23,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						13.0,
+						5.0
+					]
+				},
+				{
+					"id": 24,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						14.0,
+						5.0
+					]
+				},
+				{
+					"id": 25,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						15.0,
+						5.0
+					]
+				},
+				{
+					"id": 26,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						12.0,
+						7.0
+					]
+				},
+				{
+					"id": 27,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						13.0,
+						3.0
+					]
+				},
+				{
+					"id": 28,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						13.0,
+						7.0
+					]
+				},
+				{
+					"id": 29,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						14.0,
+						7.0
+					]
+				},
+				{
+					"id": 30,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						16.0,
+						5.0
+					]
+				},
+				{
+					"id": 31,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						17.0,
+						5.0
+					]
+				},
+				{
+					"id": 32,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						18.0,
+						5.0
+					]
+				},
+				{
+					"id": 33,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						19.0,
+						5.0
+					]
+				},
+				{
+					"id": 34,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						20.0,
+						5.0
+					]
+				},
+				{
+					"id": 35,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						19.0,
+						7.0
+					]
+				},
+				{
+					"id": 36,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						19.0,
+						3.0
+					]
+				},
+				{
+					"id": 37,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						7.0,
+						7.0
+					]
+				},
+				{
+					"id": 38,
+					"state": "AVAILABLE",
+					"named": true,
+					"can_open": true,
+					"position": [
+						2.0,
+						2.0
+					]
+				},
+				{
+					"id": 39,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						2.0,
+						8.0
+					]
+				},
+				{
+					"id": 40,
+					"state": "AVAILABLE",
+					"named": true,
+					"can_open": true,
+					"position": [
+						4.0,
+						8.0
+					]
+				}
+			],
+			"edges": [
+				[
+					0,
+					1
+				],
+				[
+					1,
+					2
+				],
+				[
+					2,
+					3
+				],
+				[
+					3,
+					4
+				],
+				[
+					4,
+					5
+				],
+				[
+					5,
+					6
+				],
+				[
+					6,
+					7
+				],
+				[
+					6,
+					8
+				],
+				[
+					7,
+					9
+				],
+				[
+					8,
+					10
+				],
+				[
+					9,
+					11
+				],
+				[
+					10,
+					11
+				],
+				[
+					11,
+					12
+				],
+				[
+					11,
+					13
+				],
+				[
+					12,
+					14
+				],
+				[
+					13,
+					14
+				],
+				[
+					14,
+					15
+				],
+				[
+					15,
+					16
+				],
+				[
+					16,
+					17
+				],
+				[
+					17,
+					18
+				],
+				[
+					18,
+					19
+				],
+				[
+					16,
+					20
+				],
+				[
+					17,
+					21
+				],
+				[
+					19,
+					22
+				],
+				[
+					22,
+					23
+				],
+				[
+					23,
+					24
+				],
+				[
+					24,
+					25
+				],
+				[
+					22,
+					26
+				],
+				[
+					23,
+					27
+				],
+				[
+					23,
+					28
+				],
+				[
+					24,
+					29
+				],
+				[
+					25,
+					30
+				],
+				[
+					30,
+					31
+				],
+				[
+					31,
+					32
+				],
+				[
+					32,
+					33
+				],
+				[
+					33,
+					34
+				],
+				[
+					32,
+					35
+				],
+				[
+					32,
+					36
+				],
+				[
+					15,
+					37
+				],
+				[
+					7,
+					38
+				],
+				[
+					8,
+					39
+				],
+				[
+					11,
+					40
+				]
+			],
+			"rumors": []
+		},
+		"late": {
+			"nodes": [
+				{
+					"id": 0,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						0.0,
+						0.0
+					]
+				},
+				{
+					"id": 1,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						0.0,
+						1.0
+					]
+				},
+				{
+					"id": 2,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						0.0,
+						2.0
+					]
+				},
+				{
+					"id": 3,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						0.0,
+						3.0
+					]
+				},
+				{
+					"id": 4,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						0.0,
+						4.0
+					]
+				},
+				{
+					"id": 5,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						0.0,
+						5.0
+					]
+				},
+				{
+					"id": 6,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						1.0,
+						5.0
+					]
+				},
+				{
+					"id": 7,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						2.0,
+						4.0
+					]
+				},
+				{
+					"id": 8,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						2.0,
+						6.0
+					]
+				},
+				{
+					"id": 9,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						3.0,
+						4.0
+					]
+				},
+				{
+					"id": 10,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						3.0,
+						6.0
+					]
+				},
+				{
+					"id": 11,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						4.0,
+						5.0
+					]
+				},
+				{
+					"id": 12,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						5.0,
+						4.0
+					]
+				},
+				{
+					"id": 13,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						5.0,
+						6.0
+					]
+				},
+				{
+					"id": 14,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						6.0,
+						5.0
+					]
+				},
+				{
+					"id": 15,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						7.0,
+						5.0
+					]
+				},
+				{
+					"id": 16,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						8.0,
+						5.0
+					]
+				},
+				{
+					"id": 17,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						9.0,
+						5.0
+					]
+				},
+				{
+					"id": 18,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						10.0,
+						5.0
+					]
+				},
+				{
+					"id": 19,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						11.0,
+						5.0
+					]
+				},
+				{
+					"id": 20,
+					"state": "AVAILABLE",
+					"named": true,
+					"can_open": true,
+					"position": [
+						8.0,
+						3.0
+					]
+				},
+				{
+					"id": 21,
+					"state": "AVAILABLE",
+					"named": true,
+					"can_open": true,
+					"position": [
+						9.0,
+						7.0
+					]
+				},
+				{
+					"id": 22,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						12.0,
+						5.0
+					]
+				},
+				{
+					"id": 23,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						13.0,
+						5.0
+					]
+				},
+				{
+					"id": 24,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						14.0,
+						5.0
+					]
+				},
+				{
+					"id": 25,
+					"state": "RECOVERED",
+					"named": true,
+					"can_open": true,
+					"position": [
+						15.0,
+						5.0
+					]
+				},
+				{
+					"id": 26,
+					"state": "AVAILABLE",
+					"named": true,
+					"can_open": true,
+					"position": [
+						12.0,
+						7.0
+					]
+				},
+				{
+					"id": 27,
+					"state": "AVAILABLE",
+					"named": true,
+					"can_open": true,
+					"position": [
+						13.0,
+						3.0
+					]
+				},
+				{
+					"id": 28,
+					"state": "AVAILABLE",
+					"named": true,
+					"can_open": true,
+					"position": [
+						13.0,
+						7.0
+					]
+				},
+				{
+					"id": 29,
+					"state": "AVAILABLE",
+					"named": true,
+					"can_open": true,
+					"position": [
+						14.0,
+						7.0
+					]
+				},
+				{
+					"id": 30,
+					"state": "AVAILABLE",
+					"named": true,
+					"can_open": true,
+					"position": [
+						16.0,
+						5.0
+					]
+				},
+				{
+					"id": 31,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						17.0,
+						5.0
+					]
+				},
+				{
+					"id": 32,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						18.0,
+						5.0
+					]
+				},
+				{
+					"id": 33,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						19.0,
+						5.0
+					]
+				},
+				{
+					"id": 34,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						20.0,
+						5.0
+					]
+				},
+				{
+					"id": 35,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						19.0,
+						7.0
+					]
+				},
+				{
+					"id": 36,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						19.0,
+						3.0
+					]
+				},
+				{
+					"id": 37,
+					"state": "AVAILABLE",
+					"named": true,
+					"can_open": true,
+					"position": [
+						7.0,
+						7.0
+					]
+				},
+				{
+					"id": 38,
+					"state": "AVAILABLE",
+					"named": true,
+					"can_open": true,
+					"position": [
+						2.0,
+						2.0
+					]
+				},
+				{
+					"id": 39,
+					"state": "LOCKED",
+					"named": false,
+					"can_open": false,
+					"position": [
+						2.0,
+						8.0
+					]
+				},
+				{
+					"id": 40,
+					"state": "AVAILABLE",
+					"named": true,
+					"can_open": true,
+					"position": [
+						4.0,
+						8.0
+					]
+				},
+				{
+					"id": 41,
+					"state": "AVAILABLE",
+					"named": true,
+					"can_open": true,
+					"position": [
+						8.0,
+						8.0
+					]
+				}
+			],
+			"edges": [
+				[
+					0,
+					1
+				],
+				[
+					1,
+					2
+				],
+				[
+					2,
+					3
+				],
+				[
+					3,
+					4
+				],
+				[
+					4,
+					5
+				],
+				[
+					5,
+					6
+				],
+				[
+					6,
+					7
+				],
+				[
+					6,
+					8
+				],
+				[
+					7,
+					9
+				],
+				[
+					8,
+					10
+				],
+				[
+					9,
+					11
+				],
+				[
+					10,
+					11
+				],
+				[
+					11,
+					12
+				],
+				[
+					11,
+					13
+				],
+				[
+					12,
+					14
+				],
+				[
+					13,
+					14
+				],
+				[
+					14,
+					15
+				],
+				[
+					15,
+					16
+				],
+				[
+					16,
+					17
+				],
+				[
+					17,
+					18
+				],
+				[
+					18,
+					19
+				],
+				[
+					16,
+					20
+				],
+				[
+					17,
+					21
+				],
+				[
+					19,
+					22
+				],
+				[
+					22,
+					23
+				],
+				[
+					23,
+					24
+				],
+				[
+					24,
+					25
+				],
+				[
+					22,
+					26
+				],
+				[
+					23,
+					27
+				],
+				[
+					23,
+					28
+				],
+				[
+					24,
+					29
+				],
+				[
+					25,
+					30
+				],
+				[
+					30,
+					31
+				],
+				[
+					31,
+					32
+				],
+				[
+					32,
+					33
+				],
+				[
+					33,
+					34
+				],
+				[
+					32,
+					35
+				],
+				[
+					32,
+					36
+				],
+				[
+					15,
+					37
+				],
+				[
+					7,
+					38
+				],
+				[
+					8,
+					39
+				],
+				[
+					11,
+					40
+				]
+			],
+			"rumors": [
+				[
+					16,
+					25,
+					"exhaust_stack"
+				]
+			]
+		}
+	}
+}

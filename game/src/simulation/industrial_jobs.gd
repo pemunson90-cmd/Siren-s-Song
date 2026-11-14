@@ -1,4 +1,5 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 const Catalog=preload("res://src/campaign/operation_catalog.gd")
 const Rules=preload("res://src/campaign/encounters/choir_rules.gd")
 static func applies(m:Dictionary)->bool:return Catalog.supports(m.get("id",-1),"iron_choir") and m.get("iron_choir") is Dictionary
@@ -67,7 +68,7 @@ static func command(sim,args:Dictionary)->bool:
   load.route=route;load.state="transit";load.destination=destination;state.route_choice=action
   sim._use_band(sim.units[id].band);sim._noise(c.pos,650.,"CHOIR BERTH RELEASE",6.,load.band);sim.message="Sled departs by "+action+" course · locally observe its actual dock arrival";return true
  state.jobs[id]={"action":action,"pos":c.pos,"band":sim.units[id].band,"elapsed":0.,"duration":c.duration};sim.units[id].hold="HOLD"
- sim._noise(c.pos,520.,"RECOVERY WINCH" if action=="recover" else "CHOIR MACHINERY",c.duration,sim.units[id].band);sim.message=c.reason;return true
+ sim._noise(c.pos,520.,Names.NOISE_RECOVERY_WINCH if action=="recover" else "CHOIR MACHINERY",c.duration,sim.units[id].band);sim.message=c.reason;return true
 # JobRelease calls this only after the shared HOLD guard.
 static func release_if_unheld(sim,id:int):
  if busy(sim,id):sim.mission.iron_choir.jobs[id]={}

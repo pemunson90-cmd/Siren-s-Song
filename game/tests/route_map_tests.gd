@@ -19,6 +19,7 @@ func _initialize():
  check(41 in Catalog.registered_ids() and not fresh.nodes.any(func(row):return row.id==41),"registered hidden rescue has no fresh route-map node")
  check(node(fresh,0).state=="AVAILABLE" and node(fresh,0).label!="UNKNOWN","first operation is available and named")
  check(fresh.nodes.slice(1).all(func(row):return row.state=="LOCKED" and row.label=="UNKNOWN"),"fresh profile cannot learn later operation names")
+ check(fresh.nodes.slice(1).all(func(row):return row.mark) and not node(fresh,0).mark,"every operation not yet charted is a mark; the named one keeps its box")
  var incomplete=Graph.build([0],{}, {},3)
  check(node(incomplete,1).label!="UNKNOWN" and node(incomplete,2).label=="UNKNOWN","an unlock counter never discloses names beyond recovered prerequisites")
  check(node(incomplete,1).get("can_open",false) and not node(incomplete,2).get("can_open",true),"an unknown name cannot leak through a map briefing action")

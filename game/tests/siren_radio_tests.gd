@@ -1,5 +1,6 @@
 extends SceneTree
 const Sim=preload("res://src/simulation/simulation.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 const Reports=preload("res://src/simulation/contact_reports.gd")
 const Catalog=preload("res://src/campaign/operation_catalog.gd")
 var checks=0
@@ -9,7 +10,8 @@ func check(ok:bool,label:String):
  if not ok:failures+=1;printerr("FAIL ",label)
 func fixture():
  var s=Sim.new();s.start(5);s.mission.rocks=[];s.mission.structures=[];s.mission.depth_geometry={};s._build_navigation()
- for i in 3:s.units[i].pos=Vector2(700,600);s.units[i].alive=true;s.units[i].vel=Vector2.ZERO
+ PlayerDive.launch_drones(s) # both drones start aboard; the radio fixture needs all three craft in the water
+ for i in 3:s.units[i].pos=Vector2(700,600);s.units[i].vel=Vector2.ZERO
  s.sirens=s.sirens.slice(0,2)
  for i in 2:
   var e=s.sirens[i];e.band=1;e.pos=Vector2(550-i*300,600);e.home=e.pos;e.goal=e.pos;e.type="patroller";e.route=[];e.patrol_points=[];e.stun=0.0;e.lock=0.0;e.target=-1;e.suspicion=0.0

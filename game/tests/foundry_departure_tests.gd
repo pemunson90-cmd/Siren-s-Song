@@ -1,5 +1,6 @@
 extends SceneTree
 const Sim=preload("res://src/simulation/simulation.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 var checks=0
 var failures=0
 func check(ok:bool,label:String):
@@ -19,7 +20,7 @@ func _initialize():
  check(not restored.noises.any(func(n):return n.label=="DEEP MOTOR") and restored.departure_feedback().is_empty(),"old Foundry has no industrial source or cue")
  var paused=s.snapshot();s.advance(30);check(s.snapshot()==paused,"pause freezes event progression and all observations")
  # Receiver is placed in ordinary clear staging water. No listener truth reaches feedback.
- s.units[2].band=2;s.units[2].pos=Vector2(1040,860);s.elapsed=24.1
+ PlayerDive.Bay.launch(s,2);s.units[2].band=2;s.units[2].pos=Vector2(1040,860);s.elapsed=24.1 # drone B launched from Quietus
  var heard=s.departure_feedback()
  check(not heard.is_empty() and heard.moving and heard.receivers.has(2),"current moving motor is heard through supported thermal/terrain transmission")
  check(heard.get("lit",false) and heard.has("pos"),"lit deep hull is shown only inside own physical range and clear sight")
@@ -42,7 +43,7 @@ func _initialize():
  bad=active.duplicate(true);bad.mission.id=4;check(not Sim.valid_snapshot(bad),"departure cannot activate in another chapter")
  bad=active.duplicate(true);bad.elapsed=NAN;check(not Sim.valid_snapshot(bad),"invalid event clock rejects before recovery")
  # Existing industrial timbre is reused only for an actual selected receiver.
- var audio=Sim.new();audio.start(3);audio.elapsed=24.0;audio.units[2].band=2;audio.units[2].pos=Vector2(1040,860);audio.selected=2;audio.paused=false;tick(audio,0.1)
+ var audio=Sim.new();audio.start(3);PlayerDive.Bay.launch(audio,2);audio.elapsed=24.0;audio.units[2].band=2;audio.units[2].pos=Vector2(1040,860);audio.selected=2;audio.paused=false;tick(audio,0.1)
  check(audio.events.filter(func(e):return e.get("industrial",false)).size()==1,"locally received departure has one restrained existing factory audio cue")
  tick(audio,1);check(audio.events.filter(func(e):return e.get("industrial",false)).size()==1,"industrial audio does not spam on each motor emission")
  var remote=Sim.new();remote.start(3);remote.elapsed=24.0;remote.paused=false;tick(remote,0.1)

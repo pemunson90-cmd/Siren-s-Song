@@ -1,4 +1,5 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 signal noticed(row:Dictionary)
 # D1 observer only: never writes simulation, contacts, saves or detection state.
 # Revert with cue_table.enabled=false; the unconsumed notice signal has no effect.
@@ -29,14 +30,14 @@ func _notice(id:int,source:Vector2)->void:
  if not listed:return
  var direction=(source-sim.units[sim.selected].pos).normalized()
  seen[id]=true
- var row={"id":id,"unit":sim.selected,"time":sim.elapsed,"direction":direction,"bearing":fposmod(rad_to_deg(atan2(direction.x,-direction.y)),360.)}
+ var row={"id":id,"unit":sim.selected,"time":sim.elapsed,"direction":direction,"bearing":preload("res://src/presentation/compass.gd").degrees(direction)}
  records.append(row);noticed.emit(row)
 # One-time kind note: reads only the public sirens[id].type, adds no sim field.
 func _note_type(id:int)->void:
  if id<0 or id>=sim.sirens.size():return
  var identity=preload("res://src/simulation/contact_identity.gd")
  if not identity.known(sim,id) and not identity.sighted(sim,id):return
- var kind=str(sim.sirens[id].get("type","patroller"))
+ var kind=str(sim.sirens[id].get("type",Names.ROLE_PATROLLER))
  if not Table.TYPE_NAMES.has(kind) or kind in types_seen:return
  types_seen.append(kind)
  note_records.append({"id":id,"time":sim.elapsed,"type":kind,"text":Table.NOTE_PREFIX+Table.TYPE_NAMES[kind]})

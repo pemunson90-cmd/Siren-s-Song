@@ -1,4 +1,5 @@
 extends SceneTree
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 # Source-known input and rendering fixtures; not a blind campaign playthrough.
 var checks=0
 var failures=0
@@ -39,7 +40,7 @@ func stock_reference(game):
  # Loadouts change starting supply, not the shared maximum-stock scale.
  # Exercise the real menu, then a real binary archive with a different NEXT fit.
  for choice in ["endurance","disruption","survey"]:
-  game.upgrade=choice;game._start_mission(0);await settle()
+  game.upgrade=choice;game._start_mission(0);PlayerDive.launch_drones(game.sim);game._refresh();await settle()
   var sim=game.sim;var fleet=game.mission_hud.fleet;var stock=120. if choice=="endurance" else 100.
   check(is_equal_approx(row(fleet,0).reserves[1].fraction,stock/120.),"actual "+choice+" supply uses the same120-unit reference")
   sim.oxygen=27.;sim.command("select",{"unit":1});game._refresh();await settle()
@@ -137,7 +138,7 @@ func run():
   root.size=dimensions;await settle()
   var game=load("res://scenes/main.tscn").instantiate();game.set_script(load("res://tests/density_main.gd"));game.capture_scenario="fleet-ring"
   if dimensions.x==2520:game.fixture_safe_area=Rect2(136,0,2384,1080)
-  root.add_child(game);await settle();game.set_process(false);game._start_mission(10);await settle()
+  root.add_child(game);await settle();game.set_process(false);game._start_mission(10);PlayerDive.launch_drones(game.sim);game._refresh();await settle()
   var s=game.sim;var hud=game.mission_hud;var fleet=hud.fleet;var ocean=game.ocean;var name="cover" if dimensions.x==2520 else "inner"
   s.units[0].pos=Vector2(480,1060);s.units[1].pos=Vector2(650,1220);s.units[2].pos=Vector2(1500,1100)
   s.units[0].vel=Vector2.ZERO;s.units[1].vel=Vector2.ZERO;s.units[2].vel=Vector2.ZERO
@@ -154,6 +155,9 @@ func run():
   # Measured centres of the old Q floating handle, inside charted clear water.
   # Replay the same world tap on baseline and challenger, not a new UI target.
   var water=Vector2(55.3334,578.4445) if dimensions.x==2520 else Vector2(234.6574,778.5394)
+  # WP-38: chart labels are placed in priority order and on plates, so a label may now sit over this point; a drawn label owns its tap. Step along the chart to the nearest point no label covers.
+  for step in [Vector2.ZERO,Vector2(0,70),Vector2(0,-70),Vector2(70,0),Vector2(0,140),Vector2(0,-140),Vector2(140,0)]:
+   if not ocean.information_at(ocean.screen_position(water+step)) and ocean.contexts_at(ocean.screen_position(water+step),game.ui_touch_height).is_empty():water+=step;break
   var saved=s.snapshot();await tap(ocean.global_position+ocean.screen_position(water))
   var goals=s.route_goals()
   check(not game.advanced_orders and not goals.is_empty() and goals[0].pos.distance_to(water)<1,"water beneath former detached handle plots the intended course")

@@ -6,7 +6,10 @@ const Card=preload("res://src/presentation/arcs/arc_card.gd")
 const Flow=preload("res://src/presentation/flow/campaign_flow.gd")
 const Journey=preload("res://tests/calder_trench_journey_tests.gd")
 const Photo=preload("res://src/simulation/photo_capture.gd")
-const LINE="Dive time 02:05  /  Hull 63%  /  Life support 41%"
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
+const Chip=preload("res://src/presentation/oxygen_reading.gd")
+# WP-97: life support reads as the pause plate does: percent of full (never over 100) and time left.
+func line(s)->String:return "Dive time 02:05  /  Hull 63%%  /  Life support %s"%Chip.text(s)
 class ManifestSim:
  extends "res://src/simulation/simulation.gd"
  var mouth_pos=Vector2(300,800)
@@ -38,10 +41,11 @@ func texts(game)->String:
  for l in game.menu.find_children("*","Label",true,false):all.append(l.text)
  return "\n".join(all)
 func stat_lines(node)->Array:
- var re=RegEx.new();re.compile("Dive time \\d\\d:\\d\\d\\s*/\\s*Hull \\d+%\\s*/\\s*Life support \\d+%")
+ var re=RegEx.new();re.compile("Dive time \\d\\d:\\d\\d\\s*/\\s*Hull \\d+%\\s*/\\s*Life support \\d+% (~\\d+:\\d\\d|--:--)")
  return node.find_children("*","Label",true,false).filter(func(l):return l.is_visible_in_tree() and re.search(l.text)!=null).map(func(l):return l.text)
 func stage(game,quietus_out:bool):
  var s=game.sim
+ PlayerDive.launch_drones(s) # the drones are launched; none is aboard
  for id in 3:
   var u=s.units[id];u.alive=true;u.band=1;u.transition={};u.vel=Vector2.ZERO;u.pos=s.mouth_pos+Vector2(10*id,0)
  s.units[2].pos=s.mouth_pos+Vector2(400,0)
@@ -86,8 +90,8 @@ func arc_case():
  if card!=null:
   var found=stat_lines(card)
   check(found.size()==1,"Confluence card: exactly one stats line (found %d)"%found.size())
-  if found.size()==1:check(found[0]==LINE,"Confluence card carries the sim values: "+found[0])
-  check(Flow.stats_line(game.sim)==LINE,"stats line helper matches the expected text")
+  if found.size()==1:check(found[0]==line(game.sim),"Confluence card carries the sim values: "+found[0])
+  check(Flow.stats_line(game.sim)==line(game.sim),"stats line helper matches the expected text")
  game.queue_free();await settle()
 func archive_fixture()->Dictionary:
  var archive={}
@@ -112,10 +116,13 @@ func finale_case():
  root.add_child(game);await settle();game.set_process(false)
  game.completed=[0,1,2,3,4,5];game.unlocked=5;game.expedition=expedition_fixture();game.recovered_evidence=archive_fixture();game.active_started=false
  game._show_campaign();game.capture_scenario=""
+ # The scripted finale route crosses authored water the player rules leave uncharted; it is not a discovery test: known-charts developer switch.
+ var charts_before=PlayerDive.known_water(true)
  game._start_mission(34)
  game.sim.mission["dev"]=true
  var won=Journey.run_core(game.sim,34)
  game.sim.mission.erase("dev")
+ PlayerDive.known_water(charts_before)
  check(won and game.sim.outcome=="won","fixture recovers operation 34")
  set_stats(game.sim)
  game._debrief();await settle()
@@ -124,10 +131,53 @@ func finale_case():
  check(game.screen=="photo_ending","finale first recovery opens the photo wall (screen %s)"%game.screen)
  var found=stat_lines(game)
  check(found.size()==1,"finale first recovery: exactly one stats line (found %d)"%found.size())
- if found.size()==1:check(found[0]==LINE,"finale first recovery carries the sim values: "+found[0])
+ if found.size()==1:check(found[0]==line(game.sim),"finale first recovery carries the sim values: "+found[0])
  game.queue_free();await settle()
+# WP-34: photographs of a lost or abandoned dive are kept only on the easiest preset.
+func take_spire_photo(game):
+ var s=game.sim;s.sirens=[]
+ var spire=Vector2(1300,300);var facing=2.74
+ s.units[0].pos=spire+Vector2.from_angle(facing)*110;s.units[0].angle=facing+PI
+ s.paused=false
+ for n in 12:s.advance(1./60)
+ s.command("camera")
+ for n in 300:s.advance(1./60)
+ s.paused=true
+func photo_loss_case(preset:String,keeps:bool):
+ var game=load("res://scenes/main.tscn").instantiate();game.capture_scenario="runtime-test"
+ game.store.path="user://dive-end-photo-%s.save"%preset
+ root.add_child(game);await settle();game.set_process(false)
+ game.economy=preload("res://src/campaign/economy.gd").new_state(preset)
+ game._start_mission(0);game.recovered_evidence={};game.photo_records={}
+ take_spire_photo(game)
+ var s=game.sim
+ var taken:int=s.mission.photo.shots.size()
+ check(taken>0,"%s: the dive took a photograph"%preset)
+ game._retain_evidence()
+ check(game.recovered_evidence.is_empty(),"%s: nothing is retained while the dive is still running"%preset)
+ s.outcome="lost";s.message="Hull lost."
+ game._evidence_gallery(0);await settle()
+ check(game.recovered_evidence.has("spire")==keeps,"%s: opening the gallery after a loss %s the lost dive's frames"%[preset,"keeps" if keeps else "does not keep"])
+ game.recovered_evidence={};game.photo_records={}
+ game._debrief();await settle()
+ var text=texts(game)
+ check(text.contains("SIGNAL LOST") and text.contains("PHOTOGRAPHS TAKEN THIS DIVE") and text.contains(" · grade "),"%s: the lost screen lists the photograph with its frame quality and grade"%preset)
+ check(text.contains("Kept as field records") if keeps else text.contains("Lost with the dive"),"%s: the lost screen states the photographs' fate"%preset)
+ check(game.recovered_evidence.has("spire")==keeps and game.recovered_evidence.get("spire",{}).get("shots",[]).size()==(taken if keeps else 0),"%s: a lost dive %s its photographs as field records"%[preset,"keeps" if keeps else "keeps none of"])
+ check(not game.completed.has(0) and game.photo_intel.is_empty() and game.expedition.is_empty(),"%s: a loss still grants no progress, intel or continuation"%preset)
+ game.recovered_evidence={};game.photo_records={}
+ s.outcome="";game.active_started=true
+ preload("res://src/presentation/flow/photo_review.gd").retain_abandoned(game)
+ check(game.recovered_evidence.has("spire")==keeps,"%s: an abandoned dive %s its photographs"%[preset,"keeps" if keeps else "keeps none of"])
+ game._show_campaign();await settle()
+ check(texts(game).contains("remain reviewable after loss or abandonment")==keeps and texts(game).contains("lost with it")!=keeps,"%s: the hub line tells the truth for this preset"%preset)
+ game.queue_free();await settle()
+ for suffix in ["",".bak",".tmp"]:DirAccess.remove_absolute("user://dive-end-photo-%s.save"%preset+suffix)
 func run():
  root.size=Vector2i(2520,1080);await settle()
+ await photo_loss_case("accessible",true)
+ await photo_loss_case("standard",false)
+ await photo_loss_case("survival",false)
  await manifest_cases()
  await arc_case()
  await finale_case()

@@ -4,6 +4,7 @@ extends RefCounted
 const Sim=preload("res://src/simulation/simulation.gd")
 const Photo=preload("res://src/simulation/photo_capture.gd")
 const Patient=preload("res://tests/patient_play.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 const GO_SECONDS=300.0
 const WAITS=40
 const WAIT_SECONDS=2.0
@@ -20,7 +21,7 @@ var initial_sirens=0
 var initial_tools={}
 var spawn=Vector2.ZERO
 func _init(operation:int,row:String,craft:int=0,upgrade:String="endurance"):
- op=operation;key=row;uid=craft;s=Sim.new();s.start(op,upgrade);s.mission["dev"]=true # 127: scripted photo-row courses fly the dev/test pathfinder route (Pat 2026-10-30).
+ op=operation;key=row;uid=craft;s=Sim.new();s.start(op,upgrade);s.mission["dev"]=true;PlayerDive.launch_drones(s) # 127: scripted photo-row courses fly the dev/test pathfinder route (Pat 2026-10-30).
  spawn=s.units[uid].pos;initial_sirens=s.sirens.size();initial_tools=s.tools.duplicate(true)
  check(initial_sirens>0,"authored live Sirens are present")
  check(s.units.all(func(u):return u.alive),"all authored craft begin alive at their real launch positions")

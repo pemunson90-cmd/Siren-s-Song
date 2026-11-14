@@ -3,7 +3,17 @@ extends Control
 # Revert Table.enabled=false. Save fields are optional booleans, absent means unseen.
 const Table=preload("res://src/campaign/arcs/arc_table.gd")
 const Recap=preload("res://src/campaign/arcs/arc_recap.gd")
+const UiStyle=preload("res://src/presentation/ui_style.gd")
+const Metrics=preload("res://src/presentation/layout_metrics.gd")
+const ChartPreview=preload("res://src/presentation/chart_preview.gd")
 const META="arc_seen"
+const HEADING_SIZE=28
+const KIND_INTRO="ARC %d · REGION ENTRY"
+const KIND_OUTRO="ARC %d · RECOVERED, DEPARTURE"
+# The arc text names its speaker as "Okafor, on Brannock:"; the card says who and where plainly.
+const SPEAKER_OLD="Okafor, on Brannock: "
+const SPEAKER="Okafor (Brannock Command):\n"
+var frame:PanelContainer
 var host
 var previous_screen=""
 var previous_menu_visible=false
@@ -46,21 +56,32 @@ func setup(main,arc:Dictionary,outro:bool)->void:
  main.menu.hide()
  set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT);mouse_filter=Control.MOUSE_FILTER_STOP
  var background=ColorRect.new();background.color=Color("07151e");background.mouse_filter=Control.MOUSE_FILTER_STOP;add_child(background);background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
- var margin=MarginContainer.new();add_child(margin);margin.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
- for side in ["left","right","top","bottom"]:margin.add_theme_constant_override("margin_"+side,24)
- var box=VBoxContainer.new();box.add_theme_constant_override("separation",12);margin.add_child(box)
+ # The same framed panel, width and margins as the briefing it covers (see _fit).
+ frame=PanelContainer.new();add_child(frame)
+ var box=VBoxContainer.new();box.add_theme_constant_override("separation",12);frame.add_child(box)
  var scroll=ScrollContainer.new();scroll.size_flags_vertical=Control.SIZE_EXPAND_FILL;scroll.horizontal_scroll_mode=ScrollContainer.SCROLL_MODE_DISABLED;box.add_child(scroll)
  var text=VBoxContainer.new();text.size_flags_horizontal=Control.SIZE_EXPAND_FILL;text.add_theme_constant_override("separation",16);scroll.add_child(text)
  var scale=main.ui_touch_height/48.0*preload("res://src/presentation/frontend/frontend_settings.gd").text_scale()
- var rows=["ARC %d / %s"%[arc.number,arc.name],"RECOVERED / DEPARTURE" if outro else "REGION ENTRY",arc.outro if outro else arc.intro]
+ var rows=[arc.name,KIND_OUTRO%arc.number if outro else KIND_INTRO%arc.number,arc.outro if outro else arc.intro.replace(SPEAKER_OLD,SPEAKER)]
  rows.append_array(Recap.lines(main.expedition))
  if outro:rows.append(preload("res://src/presentation/flow/campaign_flow.gd").stats_line(main.sim))
  for i in rows.size():
-  var label=Label.new();label.text=rows[i];label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;label.add_theme_font_size_override("font_size",roundi((28 if i==0 else 18)*scale));text.add_child(label)
+  var label=Label.new();label.text=rows[i];label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;label.add_theme_font_size_override("font_size",roundi((HEADING_SIZE if i==0 else 18)*scale))
+  if i==1:label.add_theme_color_override("font_color",UiStyle.ACCENT)
+  text.add_child(label)
+ # The first operation of the region: its chart, under the arc name and kind line.
+ if not outro and arc.has("first"):
+  ChartPreview.attach(text,main.Simulation.Missions.make(arc.first,main._launch_context(arc.first)),main.size.y,scale,2)
  var next=main._button(box,"CONTINUE TO RECOVERY" if outro else "CONTINUE TO BRIEFING",dismiss,"arc_continue")
  next.custom_minimum_size=Vector2(48,maxf(48,main.ui_touch_height));next.add_theme_font_size_override("font_size",roundi(18*scale))
  next.grab_focus()
+ _fit()
+# Same geometry the briefing panel gets in Main._layout.
+func _fit()->void:
+ var width:float=Metrics.menu_width(host.size,host.get_meta("hub_wide",false),host.ui_touch_height)
+ frame.position=Vector2(maxf(24,(host.size.x-width)/2),24);frame.size=Vector2(width,host.size.y-48)
 func _process(_delta):
+ _fit()
  if host.screen!=previous_screen or not Table.enabled:dismiss()
 func dismiss()->void:
  if not is_inside_tree():return

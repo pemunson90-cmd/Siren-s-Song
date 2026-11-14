@@ -1,3 +1,5 @@
+> **How to read this file.** This is the one home for Pat's rulings, verbatim and dated. Entries are never rewritten; a later ruling overrides an earlier one. The sections below are not in date order: the 29 October entries come first, older entries follow under "Current user directives", and everything from 29 October to today is appended at the end under "Rulings copied from codex/handoffs" and "Rulings recorded by the overhaul run". Lines tagged [KEEL], [AI-DESIGNED] or "Operating effect" are agent notes, not Pat's words. Where an old entry forbids APK builds, sends promotions to `gauntlet/production`, forbids Claude builders or drops per-feature review, the later rulings at the end govern; `docs/GOVERNANCE_MIGRATION.md` lists each such case. [Note added by the overhaul run, 2026-11-12, AI-written.]
+
 ## 29 October 2026: interruptible local Siren radio (handoffs 104/116)
 
 [PAT, verbatim ruling recorded in PAT_RULINGS_2026-10-29.md, item 6] "On ops with 2+ patrolling Sirens, should they radio each other with a visible charge-up you can interrupt? (Protected, your call.)" = "Yes, 2+ patrollers (Recommended)"
@@ -212,7 +214,7 @@ Development integration is `claude/integration`; `gauntlet/production` remains t
 
 ## 21 October 2026 — user pause, story rulings and orchestration handoff
 
-**PAUSED: ORCHESTRATION HANDED TO CLAUDE.** The user's direct pause handoff overrides conflicting autonomous-continuation and worker-orientation instructions below and in other governing documents. Finish or park only the already in-flight Iron Choir work, publish the requested pause checkpoint, then stop. No follow-on task, cycle or worker. See [pause checkpoint](PAUSE_CHECKPOINT_2026-10-21.md).
+**PAUSED: ORCHESTRATION HANDED TO CLAUDE.** The user's direct pause handoff overrides conflicting autonomous-continuation and worker-orientation instructions below and in other governing documents. Finish or park only the already in-flight Iron Choir work, publish the requested pause checkpoint, then stop. No follow-on task, cycle or worker. See [pause checkpoint](../_scrap-20261111/docs/PAUSE_CHECKPOINT_2026-10-21.md).
 
 - **Story ruling:** the Siren-evacuation / human-fleet-threat arc is rejected as unratified AI fabrication and will be stripped. Rescue subjects are **human survivors from both deep-sea drilling/oil-rig operations and military installations**. Sirens strike those sites because drilling and military activity register as potential threats. Quietus must reach the survivors while avoiding becoming a threat itself; noisy rescue work attracts Siren attention. Sirens remain superior aliens who kill perceived threats; tools protect the player but never permanently disable a Siren. **Do not author new narrative text.** Claude orchestrates the rewrite; the user approves characters, site sequence and ending conditions before they land.
 - **No cleanup now:** preserve branches and governing documents apart from these explicitly requested pause additions. Do not start a branch-retirement or documentation-reconciliation pass.
@@ -283,3 +285,348 @@ Agent play and software renders support game development; human enjoyment, headp
 
 Ruling (Pat, 2026-10-29T18:48:40-0400, widget): "Can Codex draw new photo images that clearly show each subject (the people, the bore, the damage) in the game's current art style, without changing how exposure or photo grades work? This touches art direction, which is your call." = "Yes (Recommended)".
 Compositions are AI-DESIGNED placeholders Pat can replace.
+
+# Rulings copied from codex/handoffs (29 October to 1 November 2026)
+
+Copied unchanged on 2026-11-12 from `docs/state/RULINGS.md` on `codex/handoffs` at commit `99e52d2d93c5d7a3ae879f336aca9b9832e170a4`, so that every ruling lives beside the game. Everything between the two rules below is that file, byte for byte, including its own headings and its draft intent card, which is UNRATIFIED until Pat answers the open question about it. [Framing sentence AI-written.]
+
+---
+
+# RULINGS (Pat's words only, verbatim and dated; append-only)
+
+Workflow v2 single source for rulings. Newest at the bottom of section 2. Rulings before 29 Oct 2026 remain in docs/USER_DIRECTIVES.md on claude/integration (verbatim, dated) until migration step 10 copies them here.
+
+## 1. Intent card (DRAFT, UNRATIFIED until Pat answers question 3)
+
+```
+INTENT CARD (what the player does, what must stay hard)
+1. The player pilots by hand: places legs while paused, changes depth, works what is in reach, recalls drones, chooses when to be loud.
+2. There is no one-press travel in release play. Shortcuts exist only behind the dev state for tests.
+3. Crashing is possible and costs hull. A light edge assist stops grinding; it never plans a path for you.
+4. Noise and exposure draw the Sirens. Being seen or heard has a cost you can read on screen.
+5. The bare fleet can finish required ops on ACCESSIBLE and STANDARD, but as a skill feat with worse results, not as the easy path.
+6. Planning, drones, tools and fittings change outcomes on every preset. An op that plays the same either way is a defect.
+7. The game tells the truth: every action says what it does, every grey action says why, every exit is named for what exists.
+8. The board does not move under your finger. A tap does one predictable thing.
+9. Photography and recovered evidence are the point of going down there; they must be worth seeing and interpreting.
+10. Story is 1 to 2 line placeholders, no em dashes, until Pat writes it; branching matters, prose does not.
+```
+
+## 2. Rulings
+
+- 2026-10-31 00:00 ET (chat) [workflow]: Q "Let Claude build game items directly when Codex is out or slower, one bounded session per item, two sessions alive at most, no fan-outs? I recommend yes." A "Yes to question 1, start the migration".
+- 2026-10-31 15:06 ET (chat) [branches]: Q "Make main the only promotion target, tagged at each milestone, and freeze gauntlet/production (kept, never deleted)? I recommend yes." A "Yes and then ill reset and restart".
+- 2026-11-01 ~16:25 ET (chat) [ownership]: Q "Should I hand the stable-board work (#239) to a Claude builder now instead of waiting for Codex until about 3 November? I recommend yes." A "#239 yes. There is no codex until nov3/4".
+- 2026-11-01 ~16:30 ET (chat) [android]: unprompted. "If it would be easier to test on, you can build the apk. Just ve smart about the debug signing. We dont need release signing yet." Effect: APK builds allowed when they help testing; sign only with the tracked development key scripts/toolchain/signing/sirens-song-debug.keystore (certificate SHA256 32bcb228...dc3c), never a regenerated key; no release signing.
+
+## 3. Rulings 29 to 30 Oct 2026 (copied unchanged from docs/codex/PAT_RULINGS_2026-10-29.md)
+
+
+Claude asked each question in a multiple-choice widget with its recommendation listed first. Pat's selections, verbatim as chosen (question text, then answer):
+
+1. "In Ironman mode, should a drone or module lost in a dive be gone for good?" = "Yes, Ironman only (Recommended)" (QUESTIONS_FOR_PAT 14)
+2. "Add one more story fork in arc 5, so earlier play picks which later ops you get?" = "Yes, one fork (Recommended)" (2)
+3. "Should sonar only show a rough Siren type until you see or photograph it? (Changes Siren sense display, your call.)" = "Yes (Recommended)" (9)
+4. "Show each Siren's wariness level as a mark on the chart?" = "Later" (8, deferred)
+5. "Should hunter and sentinel Sirens each get their own hearing, search and attention, so each type needs a different plan? (Siren senses, your call.)" = "Yes (Recommended)" (6)
+6. "On ops with 2+ patrolling Sirens, should they radio each other with a visible charge-up you can interrupt? (Protected, your call.)" = "Yes, 2+ patrollers (Recommended)" (7)
+7. "Should the thermal layer cover only one depth band, so picking a depth decides who can hear you? (Protected, your call.)" = "Yes (Recommended)" (10)
+8. "Should expedition seeds also shuffle Siren start positions and patrol timing (never their senses)?" = "Yes (Recommended)" (12)
+9. "Add a small set of custom economy values (repair cost, income, starting stock) behind an ADVANCED toggle?" = "Yes, small set (Recommended)" (15)
+10. "Allow switching to an easier preset mid-campaign (not in Ironman), marked in the ledger?" = "Yes (Recommended)" (16)
+11. "Add tactical aids such as auto-pause when a Siren first notices you, as an Accessible option off by default?" = "Yes (Recommended)" (11)
+12. "Change the Sorley rescue reward from supplies to pilotage charts?" = "Yes, charts (Recommended)"
+13. "Should the Sorley rescue count as one vote toward which ending you get?" = "No, keep it separate (Recommended)"
+14. "On SURVIVAL, add extra pressure inside dives (for example a harsher oxygen or Hunt pace)?" = "Later, after audit (Recommended)"
+15. "Give each hull and chassis a distinct silhouette so you can tell them apart at a glance? (Art, your call.)" = "Yes (Recommended)" (17)
+16. "Give each Siren role its own sound, heard only once sonar has earned it?" = "Yes (Recommended)" (20)
+17. "Add a little ambient sea life, in colours that never look like contacts and never on sonar? (Art, your call.)" = "Yes, limited (Recommended)" (19)
+18. "Add a mirrored HUD option for one-handed play?" = "Yes (Recommended)" (21)
+19. "Use a placeholder title art, icon and splash built from the Quietus silhouette until you supply art?" = "Yes, placeholder (Recommended)" (18, 22)
+20. "The spec says 28 core ops but the game has 29. Keep 29?" = "Yes, keep 29 (Recommended)" (23)
+
+Earlier the same morning (~08:10 ET): diver ascent "For now* Yes*" (handoff 102, done), then "Survivor depth change is fine."
+
+Operating effect: items 3, 5, 6 and 7 are Pat-authorized changes to protected Siren senses and sensing presentation. Only the change named is authorized; silent sight 180 m, cruise sight 290 m, the lock warning and the beam stay as they are unless a handoff says otherwise. Every exact number in the handoffs is AI-DESIGNED for Pat to ratify. Each implementing PR copies its ruling line verbatim into docs/USER_DIRECTIVES.md on integration and marks the QUESTIONS_FOR_PAT item ruled.
+
+
+## Efficiency rulings (Claude S7 widget, ~17:30 ET)
+Context: Codex sessions have a 475k-token window; today about 1.84B input tokens: the 091 critic session 413M (365k context), the AI queue runner 98M (polling), fresh per-handoff sessions 35-55M each.
+1. "Split each Codex task into short sessions (build, then test and PR, then merge) that hand off through notes?" = "Yes (Recommended)"
+2. "Ask Codex root to checkpoint the whole-game critic and continue it in fresh sessions, region by region?" = "Yes (Recommended)"
+3. "Replace the AI queue runner with a plain script, with Claude doing the PR checks?" = "Yes (Recommended)"
+
+## Follow-up (Claude S7 chat, ~17:50 ET)
+Claude proposed: lower reasoning for the measuring phase; compact test output; and asked "Should extra tools cost cargo in Career and Expedition too (today campaign only)? I recommend yes." Pat: "Yes to all, and then tell me clearly when you're ready to be cleared and reset with siren start".
+
+## 2026-10-29T18:48:40-0400 (Claude S8, widget, after the 091 audit)
+
+Q: "Can Codex draw new photo images that clearly show each subject (the people, the bore, the damage) in the game's current art style, without changing how exposure or photo grades work? This touches art direction, which is your call."
+Pat: "Yes (Recommended)" (option text: "Fixes the audit's top finding. Same style and palette, same photo rules; the images become placeholders you can replace later.")
+
+## 2026-10-29T20:35:53-0400 (Claude S8, widget)
+
+Q: "Start the next gauntlet loop (Promotion 4, then a fresh blind critic) after the five audit fixes (116, 118-121) land, about 4 hours, rather than now?"
+Pat: "After the fixes (Recommended)". Pat had said: "it seems like we're slowing down and getting close to being ready to launch the next gauntlet loop on the game".
+
+## 2026-10-30T12:09:01-04:00 (Claude S10, chat)
+
+Q: "Should Codex add an authored campaign ending plus more varied late-campaign evidence (F7/F8/F14), with story lines as 1-2 line AI-designed placeholders you can replace? I recommend yes."
+Pat: "Yes". Queued as 125 (BOARD row 122). Ending conditions stay protected.
+
+## 2026-10-30T12:53:27-04:00 (Claude S10, chat)
+
+Pat asked for a real gauntlet stop: evaluate the whole game, find every weak point, one comprehensive plan, then fan out. Claude asked: "Should I freeze new building after 125 merges and ask root to run the remaining critic regions in parallel (late arcs with the ending, and side modes)? The full verdict would land today, then I'd write one complete improvement plan and run it across both lanes. I recommend yes."
+Pat: "Yes, freeze and run the critic in parallel".
+
+## 2026-10-30T12:57:49-04:00 (Claude S10, chat): gauntlet priorities
+
+Pat: "The storyline is the least important besides how it affects branching paths. The main point of the gauntlet loop right now is gameplay, graphics, ux, ui, bugs, features. The whole point is that we have a complete game. We review it, figure out where it's lacking especially in comparison to other AAA releases, and then we plan out the upgrades, and then we execute."
+
+## 2026-10-30T13:04:53-04:00 (Claude S10, chat): reference-judged plan and workflow gauntlet
+
+Q: "Should I build the improvement plan this way: each piece judged blind against named reference games, keeping only changes that win? I recommend yes. You can swap any of those references for games you'd rather we match." (Pieces: chart and touch controls, HUD and UI, graphics, audio, Siren combat, mission variety, progression and fittings, side modes. Proposed references: Cold Waters, FTL, Into the Breach, Highfleet, Barotrauma, Mini Motorways.)
+Pat: "Approved. At every major milestone you should stop and evaluate our progress, find areas where we can tighten up our workflow or improve, find our weakest areas, and essentially run a mini gauntlet loop against our own workflow".
+
+## 2026-10-30T19:18:37-04:00 (Claude S11, chat): controls are autopilot; travel shortcuts test-only
+
+Pat: "I honestly just don't like the controls. It basically means you can complete almost every mission while half of your maneuvering is just clicking a button and watching autopilot. That defeats the whole purpose of the entire waypoint mode and the pause planning selection stuff. There should be controls for depth, interacting with nearby interactable objects, movement controls and recover drones."
+Q: "Should I drop the one-press travel shortcuts and make planned waypoints plus an in-reach job menu the way you move? I recommend yes, and stripping the route-target part out of 126 before it merges."
+Pat: "They are fine for testing but they will absolutely have to be stripped for release play".
+Applied: 126 merges with its shortcuts (testing); 127 RELEASE CONTROLS gates every one-press travel order behind dev state and adds in-reach jobs, depth pair, recall.
+
+## 2026-10-30T19:21:49-04:00 (Claude S11, chat): movement risk and edge assist
+
+Pat on D9 (straight legs instead of auto-path): "You should still be able to crash. But there should be moderate autopilot for edges and stuff so you're not just getting stuck grinding on things if you fuck up. I don't know figure it out it still got to be a game like there still has to be some challenge and risk to it."
+Applied in 127: straight legs, rock legs allowed with warning, crash damage unchanged, edge slide/hold assist.
+
+## 2026-10-31T21:27:54-04:00 (Claude S12, chat): minimum tests, fastest path
+
+Pat: "From now on you should always and this needs to be hard locked either in your claude.md or any of the startup instructions etc wherever it's useful without being redundant, you should always be using the absolute minimum number of required tests and you should always be aiming to get them as quickly done as possible. This doesn't mean take shortcuts, this doesn't mean modify CI to pass on a red, this means taking the most efficient and shortest pass on every single task. We should be working at the speed of professional game Dev with compute, not tired intern half-assing the next task to say they did it"
+Applied (D36): builders run locally only import, core, the suites their diff touches or adds, the canaries and check-suites; the full matrix runs once, in parallel, in CI (which lists every failure in one run since 136), never in local lanes. No suite already green on the same head is rerun. The PR goes ready as soon as phase A is done so CI runs while evidence and review happen. Never loosen, skip or delete a test, and never edit CI to pass on red.
+
+---
+
+# Rulings recorded by the overhaul run (November 2026)
+
+## 2026-11-05: removal rule
+
+[PAT, as written in Pat's working copy of `AGENTS.md`, read 2026-11-12] "**Removal rule (Pat, Nov 5 2026):** nothing is deleted. Move files to a scrap folder (`_scrap-YYYYMMDD/` at the repo root or `Documents\_to_delete\`). No `rm`, `git rm`, `git clean`, or delete-permission requests. Back up before overwriting."
+
+## 2026-11-11: signing keys
+
+[PAT, 2026-11-11, as recorded in `.fable/TARGET.md` section 5; summary, not a quotation] Any private or release key stays out of the repository and is gitignored; Pat provides it when and as needed. Debug packages use only the tracked development keystore.
+
+## 2026-11-11 20:49: continue after the guard self-test failed
+
+[PAT, chat, verbatim] "Just fix it snd go"
+
+[AI note] Context: the overhaul run's command guard was not loaded because the session had started in another folder. The run continued with the guard rules applied by hand; the git-level hooks were verified.
+
+## 2026-11-11 ~21:05: restart-proof run documents
+
+[PAT, chat; summary, the verbatim message was not preserved] Pat asked for restart-proof documentation of the run: a write-ahead note, a resume guide written by one agent and checked by another, finished documents marked finished, and a staleness check after every task.
+
+## 2026-11-11 21:16: save files are minor priority
+
+[PAT, chat, verbatim] "Save files are minor priority because the game isnt even finished yet so saves absolutely will not be able to be carried forward if there is a major refactor or a change in the flow of the game."
+
+[AI note on effect] Save, restore, profiles, export and import stay working on new saves (feature continuity). Carrying existing saves across a refactor is not required as long as incompatible saves are rejected cleanly. Save-file defects rank low.
+
+## 2026-11-11 21:22: hooks tracked
+
+[PAT, chat, verbatim] "I don't want the stop gate and session-start hooks in .claude/settings.local.json, which is on disk only (git-ignored), like the start command. I want it to work every session"
+
+## 2026-11-12: overhaul run launch
+
+[PAT, launch message, verbatim excerpts] "I want a real overhaul: consolidate, restructure and fix what you find, and make the game easier to expand. Every behavior change goes in the final report, small ones included." "Do not start P2 work or further polish."
+
+## 2026-11-12: no deletions without Pat's permission
+
+[PAT, chat, verbatim] "there should be absolutely no deletions ever for any reason without my permission. Anything that is to be deleted needs to go to a scrap folder and if you can't, left alone."
+
+[PAT, same message, verbatim] "I don't know how to open the _fable clone as the project from my phone. If everything else is working just continue"
+
+[AI note on effect] This restates the removal rule of 5 November 2026 and extends it to every kind of deletion (files, folders, branches, tags, caches, scratch output). Where a move to scrap is not possible, the item is left where it is.
+
+## 2026-11-12: no leases or holds bind the overhaul run
+
+[PAT, chat, verbatim] "also in case it wasn't clear before, there are no leases or holds on any files in the repo. That have any relevance to you. You are currently fully in charge because I don't want you to feel held back from touching anything for any reason. Obviously keep working in your isolated branch, but don't feel like anything is off limits. You are here to upgrade and keep the planning on track for this game."
+
+[AI note on effect] No claim, lease or ownership note left by another agent restricts what the overhaul run may edit on its own branch. The run still works only under `fable/`, still deletes nothing (2026-11-12 ruling above), and still records game-rule, narrative and capability-removal questions as decisions for Pat.
+
+[PAT, chat, verbatim, same day, restating the ruling above] "I'm explicitly telling you not to leave other agents leases or claims alone. There is no one currently active in this repo but you and me. Therefore please keep that in mind"
+
+## 2026-11-12: subagent economy
+
+[PAT, chat, verbatim] "Also when using sub agents make sure to use the weakest but most capable sub agent for each task and make sure you don't use too many of them. Trying to make usage still worth it."
+
+## 2026-11-12: effort, tests and GitHub Actions
+
+[PAT, chat, verbatim] "And if you hit any work that would require high effort or anything above medium let me know and I can make the change"
+
+[PAT, chat, verbatim] "You should be focusing on development and efficiency and properly building up the game, not running endless tests for everything you do."
+
+[PAT, chat, verbatim] "Don't waste my GitHub actions unless necessary.
+You should be using the absolute bare minimum amount of tests always."
+
+[AI note on effect] Consistent with the 2026-10-31 minimum-tests ruling. Applied in the overhaul run from this point: local checks limited to the suites a fix touches; one full-matrix run to verify the gate fix; one package build; the pull request is left as a draft because marking it ready starts another full run.
+
+## 2026-11-12: hour-long checks, bare minimum testing, drones launch from Quietus
+
+[PAT, chat, verbatim] "We should not be having hour long checks. You need to audit that. That's a problem."
+
+[PAT, chat, verbatim] "Yes I want the literal absolute minimum amount of testing ever for anything ever. Unless we are doing a final or near final release apk, I do not want a massive tests taking up our time and usage. The literal absolute bare minimum test for every single process no exception. Also drones are torpedo launched from the quietus. There should be no issues of throwing starting in any place cuz they do not start on the map."
+
+[AI note on effect] Testing: pull requests no longer run the four-shard matrix; they run core, the minimum selection (`select-suites.py --minimum`) and the canaries. The full matrix is a manual dispatch for a release or near-release package. Drones: this is a design ruling. On the base and in this run's build, both drones begin every dive already in the water at fixed offsets from Quietus; the ruling says they begin aboard and are launched from Quietus. Decision D-11 is answered by it (none of its three options applies). The change is not built yet.
+
+## 2026-11-12: the drone launch was core design, and answers to the repair list
+
+[PAT, chat, verbatim] "That was a core gameplay design even all the way back in the prototype"
+
+[AI note] Confirmed against the sources: in `reference/original-prototype/sirens_song_prototype_v7.html` (lines 231 to 234) a drone does not exist until the player launches it, at the submarine's position, from a stock of four; the design bible (line 55) calls drones "limited, expendable, torpedo-launched units". The Godot game placed both drones in the water at the start of every dive, and `docs/V7_TO_GODOT_PARITY.md` never recorded the difference.
+
+[PAT, chat, verbatim] "Plan out your repairs. Everything you've listed so far that I haven't interacted with. I will give a yes or no answer to everything unless it requires elaboration. Just give me a numbered list."
+
+[PAT, chat, verbatim, in answer to the 23-item list below] "Yes to all your recs. Use yourself on high as needed and weaker bounded agents for smaller tasks."
+
+[AI summary of the list Pat answered; the wording is the agent's, the recommendation in brackets is what Pat accepted]
+
+1. Restore drone launch as in the prototype: drones start aboard Quietus, off the map; ordering one launches it from the submarine; a drone never launched counts as recovered. [yes]
+2. First version: launching makes no extra noise beyond the drone's normal movement. [yes]
+3. First version: two drones, no spares. [yes]
+4. First version: recovery unchanged (bring drones to the recovery point; no re-docking). [yes]
+5. Audit the rest of the prototype against the game for other silently dropped mechanics and record every difference in the parity document. [yes]
+6. Add a TITLE button to the Operations screen (D-12 A). [yes]
+7. One new test package after items 1 to 6. [yes]
+8. After the playtest: retune photo pay so a sharp close photo beats a safe distant one, numbers shown to Pat first (D-08 A). [yes]
+9. After the playtest: 2x and 4x fast-forward that drops to normal when any Siren notices a craft (D-09). [yes]
+10. After the playtest: one starter drone tool after operation 1 (D-09). [yes]
+11. After the playtest: late-campaign alternates from existing optional operations now, new arc-opening operations later (D-10 D). [yes]
+12. After the playtest: a Siren on the approach of every optional operation, and fleet-required side objectives (D-10 R). [yes]
+13. Diagnostic lines stay silent in release builds (D-13 A). [yes]
+14. Move HUMAN_TEST_READINESS and AUTHORED_ENDING_125 to scrap; keep the Siren AI roadmap and the 1 November overview (D-02 A). [yes]
+15. Dated correction notes under three stale lines of the story draft, quoting Pat's rulings, the draft's text unchanged (D-03 B). [yes]
+16. `codex/handoffs` is frozen history from now on (D-04 A). [yes]
+17. Bounded runs and the open-ended Gauntlet loop both stay available (D-05 C). [yes]
+18. The specification line that says "safe pathfinding" is changed to the 30 October movement ruling (D-06 A; Q4 and Q5 stay open). [yes]
+19. The guard files stay in the pull request (D-07 A). [yes]
+20. Create archive tags for the 326 old branches (D-14 A). [yes]
+21. Remove the archived branch names afterwards. [not yet]
+22. Mark the pull request ready once items 1 to 7 are in (D-15, changed by the minimum-testing workflow). [yes]
+23. Do not trim the 41 slow suites; they run only for a release build now. [yes]
+
+## 2026-11-12: parity review before the playtest
+
+[PAT, chat, verbatim] "We need to check the parity audit before I play anything I don't want any rude surprises and a game that was not my design unless it's something that was approved. That doesn't mean that everything is automatically garbage it just means I need to know what's going on before I waste time playing"
+
+[AI note] The agent then listed sixteen numbered differences between the v7 prototype and the game (1 to 9: built by earlier agents and recorded, no ruling from Pat found; 10 to 16: never recorded). The numbers in Pat's answer refer to that list: 5 sonar echoes, sectors and pulse cost; 7 tool numbers (Disrupt, decoy, survey); 9 most maps fully charted from the start; 10 objectives shown from the start; 11 Disrupt spends its charge with no Siren in range; 12 the survey is loud; 13 drones attract Sirens by movement noise; 14 factory proximity no longer raises suspicion; 15 a Siren's sight range is not drawn; 16 smaller numbers (extraction distance and speed, top speed).
+
+[PAT, chat, verbatim]
+"5. Is that realistic?
+7. What is disrupt? Is that emp?
+9. That's a complete fail. It's acceptable in maybe the first one to three missions as a tutorial in known waters, but the whole point is it's a recon and survey mission. You have to discover through exploration, sonar, photographs, recon sweeps but are temporary until you map them.
+
+10. Was probably a good choice for testing and should be left as a debug option but not primary for gameplay release.
+
+11. Yeah that's a failure
+
+12. That doesn't really make sense because it's supposed to be a recon plane in universe, we can discuss that.
+
+13. That's fine they should be stealthier than the sub but still able to fuck up and die
+
+14. Huge failure. It's an alien factory with sensors and protection. It should know you're there.
+
+15 explain? You mean like visibly on screen?
+
+16. I'll have to try that for testing."
+
+[AI note on effect] Rulings to build: 9 (charts are discovered; fully charted water only in the first one to three operations; survey sweeps are temporary until a craft maps the water), 10 (objectives shown from the start only as a debug option), 11 (Disrupt must not spend its charge with nothing in range), 14 (the factory senses a craft near it). Open with Pat: 12 (how a recon-plane survey should register with Sirens), 13 (drones are not in fact stealthier than the submarine today; whether to make them so), 15 (whether to draw a detected Siren's sight range). 16 and items 1 to 8 stay as built for the playtest.
+
+## 2026-11-12: sonar cost, the EMP name, drone stealth, sight range, survey
+
+[AI note] The numbers again refer to the sixteen-item list of prototype differences: 5 sonar, 7 tool numbers and the Disrupt tool, 13 drones and Siren attention, 15 drawing a Siren's sight range, 12 the survey.
+
+[PAT, chat, verbatim]
+"5. I don't think it should cost oxygen. It's your primary maneuverability and recon ability. It's kind of important. It shouldn't be limited like that. The biggest risk is getting caught. On the drones it costing battery makes sense.
+
+7. It should just say EMP and it's an area of affected package shouldn't required you to Target anything. It should work on any sirens in the range. Knockdown torpedos are the single target. We can spec out more interactive and defensive tools later. Like a scrambled jammer that makes sirens confused or something like that.
+
+13. Give me some options and evaluate how it affects gameplay.
+
+15. It needa a way to be diegetic and make sense.
+
+12. Not sure."
+
+[AI note on effect] Built in WP-16: Quietus's sonar pulse costs no life support on a player dive (a drone's still costs battery); the tool is named EMP in everything the player reads (internal identifiers such as the noise label DISRUPTION and the loadout id `disruption` are unchanged). The EMP was already an area pulse that needs no target; the only refusal is when no Siren at all is inside its radius. Options given to Pat and awaiting his choice: drone stealth (A harder to see, B quieter, C slower lock, D calm Sirens ignore drones as in the prototype; recommended D with B) and a diegetic sight range (A earned by photographing the Siren type, B an estimate that sharpens, C shown only when a Siren looks toward a craft; recommended A). The survey question stays open. Pat's idea for later: more interactive and defensive tools, for example a jammer that confuses Sirens.
+
+## 2026-11-12: drone stealth and Siren sight range chosen
+
+[AI note] The agent had recommended, for drone stealth, option D with B (calm Sirens ignore drones, as in the prototype; drones about 40 percent quieter) and, for a diegetic Siren sight range, option A (drawn once that Siren type has been photographed).
+
+[PAT, chat, verbatim] "Approved your recommendations.
+15. A is fine for now even though it doesn't make a ton of sense we can figure out a way to explain it later."
+
+[AI note on effect] Built in WP-16 (`game/src/simulation/parity_rules/drone_stealth.gd`, `sight_range.gd`). The in-world explanation of the sight range is Pat's to supply later. The survey question (item 12) stays open.
+
+## 2026-11-12: loadout rename, code base audit, pause and resume
+
+[PAT, chat, verbatim] "Yes I wanted disruption renamed to emp, the rest I will give feedback after play testing. In the meantime I want you to avoid it the code base and see if it could be made more efficient because it sounds like a tangled mess."
+
+[AI note] "avoid it" is read as "audit". The loadout rename and the audit are phase 8 of the overhaul run (`.fable/PHASE8.md`).
+
+[PAT, chat, verbatim] "I stopped you because you were spending your gears for like 20 minutes with no response so what I'm going to ask you to do instead is make sure that you are ready to pause I don't want to clear and restart because our context is very full. Make sure that the siren start Fable command is properly scoped for the current work including the code base audit I just asked for please. Remember the delegation rules and to always use limited badges of the most capable but cheapest possible agents per task except where your specific intelligence is needed. Orchestrate, update still drafts and documents, and keep working. After the resume."
+
+[PAT, chat, verbatim] "Continue and prepare for clear a d resume"
+
+[AI note on effect] The start command `.claude/commands/siren-s-start-fable.md` was rewritten on this instruction to resume into phase 8 with Pat's standing rules (minimum tests, no unnecessary Actions runs, cheapest capable agents in small batches, plain English, a short update every few minutes). The run is paused for a context clear.
+
+
+## 2026-11-12: code base audit fixes approved; build a professional code base
+
+[AI note] The agent had listed twelve fixes, A1 to A12, in `.fable/CODE_AUDIT.md` section 3 with a recommendation for each: yes to A1 to A8 and A10 (A7 after A5; A8 after A5 and A6, in small steps; A10's change only if a hitch is measured), A9 later, no to A11 and A12.
+
+[PAT, chat, verbatim] "Yes to all of your recs. We should be building this as a professional video game code base, not a scrapped together prototype anymore. There's enough of a base here that it's worth expanding on and building this game but it needs a foundation that's not going to break every time we change a variable or a name"
+
+[AI note on effect] Fixes A1 to A8 and A10 are approved and are built one work package each (WP-19 onward), starting with A4 (the opening-operation sensing stutter), A3 and A2. A9 waits. A11 and A12 are not done. The standard for new and reworked code from here on is the one Pat states: names and numbers defined once, and changes that do not break distant files.
+
+## 2026-11-12: check the audit work in full, then a UI and UX audit and repair
+
+Pat, verbatim: "Once you're done and your work is checked for not just accuracy, but also necessarity, functionality, complexity, scalability, interoperability, stability, bend overall code-based health; I want to perform another comprehensive audit and repair of the UI and ux, please and thank you"
+
+How it is applied (Claude's reading, not Pat's words): when the approved code audit fixes are built, the whole set is reviewed once by a fresh reviewer against each of those headings (is it correct, was it needed, does it work, is it simpler or more complex than before, will it scale, does it fit with the rest, is it stable, is the code base healthier). Findings are fixed. Then a full UI and UX audit starts: a plain-English list with yes/no recommendations first, repairs after Pat's answers, as with the code audit.
+
+## 2026-11-12: cut the test suites down
+
+Pat asked, verbatim: "Genuinely do we need 856 tests?" Claude answered no: the core suite earns its keep, the roughly 390 suites around it mostly do not, and recommended preparing a keep list (core, save and resume, one journey per mission arc, one suite per screen layout; probably 60 to 90 suites) with the rest moved to the scrap folder, after the UI audit. Pat, verbatim: "Yes"
+
+How it is applied (Claude's reading): after the UI and UX audit list is delivered, prepare the list of suites to keep and to retire, with the reason for each group, for Pat's approval. Nothing is moved before he approves the list. Retired suites go to the scrap folder, never deleted.
+
+## 2026-11-12: GitHub Actions allowance is spent; test locally
+
+Pat sent his GitHub metered usage page (Actions compute $12.00 used of $12.00 included, storage 0.5 GB of 0.5 GB, resets in 18 days; Siren-s-Song $55.84 of $68.99 gross this month) and said, verbatim: "This is why we need to trim the tests and why we need to test local right now. I'm literally out"
+
+How it is applied (Claude's reading): no GitHub Actions run is started by this run until Pat says otherwise: no manual dispatch, and every push carries `[skip ci]` in its head commit message so the pull request checks do not start. All testing is local. Cause found: every push to the pull request branch started a pull request check (49 on 12 November), on top of 6 manual full passes; the frequent state commits were the main drain. The test-suite trim moves ahead of the UI repairs.
+
+## 2026-11-12: UI and UX audit items approved by Claude's judgement
+
+Asked for his answers to `.fable/UX_AUDIT.md` Part B (B1 to B19), Pat said, verbatim: "Yes to all by your judgement
+ Youre here to fix the game. I can personalize it later"
+
+How it is applied (Claude's reading): every Part B item is approved as recommended, and where an item needs a choice (layout, plain wording for jargon, one name for a place) Claude makes it and records it, without bringing tables to Pat first. Pat will adjust wording and names to his taste afterwards, so every text Claude writes or changes is listed in `.fable/FINAL_REPORT.md` where he can find it. Still Pat's and not touched: story content, game rules, prototype mechanics.
+
+## 2026-11-12: drones stay out once deployed; photographs on a lost dive; look at the game
+
+Asked whether a recalled drone should be able to go back aboard, and which rule applies to photographs on a lost dive, Pat said, verbatim: "1. I prefer the idea that wants deployed they had to stay out. They are torpedo deployed deep sea drones, I don't really think a recovery Bay makes sense on an experimental stealth sub.
+
+2. On easy mode you keep them, everything higher you don't..
+
+Also what's this UI audit I also want you to like you know actually look at how it looks compare it to professional Android games and similar top-down games and make some evaluations and judgment calls"
+
+How it is applied (Claude's reading): (1) A launched drone never goes back aboard during a dive; RECALL brings it beside Quietus and it is counted home at recovery, as now. Player-facing text should speak of deploying, not of a bay. (2) A lost or abandoned dive keeps its photographs only on the easiest preset; on every other preset they are lost with the dive, the gallery must not keep them by accident, and the hub text must say what is true for the preset in use. (3) The UI audit so far judged use, not looks. Claude looks at the real screens itself, compares them with professional Android games and top-down games, writes its evaluation and makes the calls, then builds them.
+
+## 2026-11-13: six trial rules from the blind critic rounds
+
+Claude asked six yes or no questions, recommending yes to each: (1) should an open command wheel or panel hold dive time; (2) should the first dive give a longer warning before a Siren's lock kills; (3) should the game pause itself when a route ends; (4) should the game pause on every new Siren lock, on any craft; (5) should a craft that is blocked by rock pause the game; (6) should an Expedition's optional rider start switched off. Pat said, verbatim: "Yes for testing"
+
+How it is applied (Claude's reading): yes to all six, as trial rules. Each is built so it can be switched back in one place, is listed in docs/V7_TO_GODOT_PARITY.md as a trial difference from the prototype, and is put to Pat again after he has played. Nothing here is final until he says so.

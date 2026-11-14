@@ -67,8 +67,29 @@ static func add(records:Dictionary,state:Dictionary)->Dictionary:
 	out.best_depth=maxi(out.best_depth,row.depth);out.last.push_front(row)
 	out.last.resize(mini(LIMIT,out.last.size()))
 	return out
+# The run's Hunt stage is a ceiling: each operation starts at most at its own cap (the seed screen says the same).
+const HUNT_CEILING="Hunt ceiling for this run: stage %d · %s"
+const HUNT_CEILING_NOTE=" (each operation starts at most at its own cap)"
+static func hunt_ceiling(stage:int)->String:
+	return HUNT_CEILING%[stage,preload("res://src/names.gd").HUNT_STAGES[stage]]
 static func modifiers(row:Dictionary)->String:
-	return "%s LOADOUT / %s / STARTING HUNT %d"%[row.loadout.to_upper(),Table.SCARCITY[row.scarcity].to_upper(),row.hunt_stage]
+	return "%s LOADOUT / %s / %s"%[preload("res://src/equipment/field_tools.gd").loadout_label(row.loadout),Table.SCARCITY[row.scarcity].to_upper(),hunt_ceiling(row.hunt_stage).to_upper()]
+# What a run's scarcity means in plain words: the starting stock it lacks against a supplied run, and what a
+# recovered operation adds. The numbers come from the run table only.
+const SCARCITY_LINE="%s: %s at the start, short of a supplied run; %s."
+const SUPPLIED_LINE="Supplied: the full loadout stock at the start; %s."
+const SAME_STOCK="the same starting stock as a supplied run"
+const RESUPPLY_SOME="each recovered operation adds %d of one tool"
+const RESUPPLY_NONE="recovered operations add no supplies"
+static func scarcity_line(loadout:String,scarcity:int)->String:
+	var full=Table.stock(loadout,0);var have=Table.stock(loadout,scarcity);var short=[]
+	for key in Table.TOOLS:
+		if have[key]>=full[key]:continue
+		var name:String=preload("res://src/equipment/field_tools.gd").spec(key).name
+		short.append("no %s"%name if have[key]==0 else "%d %s"%[have[key],name])
+	var resupply=RESUPPLY_SOME%Table.RESUPPLY[scarcity] if Table.RESUPPLY[scarcity]>0 else RESUPPLY_NONE
+	if scarcity==0:return SUPPLIED_LINE%resupply
+	return SCARCITY_LINE%[Table.SCARCITY[scarcity].capitalize(),", ".join(short) if not short.is_empty() else SAME_STOCK,resupply]
 static func photo_text(quality:float)->String:
 	if quality<0.:return "NO PHOTO RECORDED"
 	return "%s / %d%%"%["A" if quality>=.85 else "B" if quality>=.6 else "C",roundi(quality*100)]

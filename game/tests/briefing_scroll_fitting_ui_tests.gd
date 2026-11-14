@@ -38,7 +38,8 @@ func drag(start:Vector2,finish:Vector2):
   elif Time.get_ticks_msec()-still_since>250:break
  await settle()
 func fitting(slot:String):
- for control in game.panel_box.get_children():
+ # The wide cover briefing nests its controls in two columns, so search below panel_box's own children.
+ for control in game.panel_box.find_children("*","Button",true,false):
   if control is Button and control.get_meta("action","")=="fit_"+slot and "Drone deep cells" in control.text:return control
  return null
 func action(id:String):
@@ -68,11 +69,13 @@ func change_loadout(label:String):
   var area=game.scroll.get_global_rect();var start=Vector2(area.get_center().x,area.end.y-20)
   await drag(start,Vector2(start.x,area.position.y+30))
  var before=game.scroll.scroll_vertical;var active=game.sim.snapshot();var previous=game.upgrade
- check(before>0 and game.scroll.get_global_rect().encloses(action("loadout").get_global_rect()),label+" loadout control reached by ordinary operations scrolling")
+ # The two-column hubs (cover and inner screens) show the control without scrolling; then it is simply visible.
+ var fits_without_scrolling=game.scroll.get_v_scroll_bar().max_value<=game.scroll.size.y+1. or before==0
+ check((before>0 or fits_without_scrolling) and game.scroll.get_global_rect().encloses(action("loadout").get_global_rect()),label+" loadout control reached by ordinary operations scrolling or visible without it")
  await capture(label+"-loadout-before")
  await tap(action("loadout").get_global_rect().get_center())
  check(game.upgrade!=previous,label+" loadout tap changes next-dive supplies")
- check(game.scroll.scroll_vertical>0 and absf(game.scroll.scroll_vertical-before)<=game.ui_touch_height,label+" cycling loadout retains operations reading location")
+ check((game.scroll.scroll_vertical>0 or fits_without_scrolling) and absf(game.scroll.scroll_vertical-before)<=game.ui_touch_height,label+" cycling loadout retains operations reading location")
  check(game.scroll.get_global_rect().encloses(action("loadout").get_global_rect()),label+" loadout remains fully visible for another comparison")
  check(game.screen=="menu" and game.sim.snapshot()==active,label+" loadout change preserves the active dive")
  await capture(label+"-loadout-after")
@@ -87,11 +90,26 @@ func change_fit(slot:String,item:String,label:String):
  await tap(before_rect.get_center())
  control=fitting(slot)
  print("FIT_SCROLL ",label," before=",before," after=",game.scroll.scroll_vertical," row_before=",before_rect," row_after=",control.get_global_rect())
- check(game.fitted_equipment[slot]==item and (("→ BARE" in control.text)==not item.is_empty()),"separate fitting tap updates the selected next-launch equipment for "+label)
+ check(game.fitted_equipment[slot]==item and (control.text.begins_with("CHOSEN")==not item.is_empty()),"separate fitting tap updates the selected next-launch equipment for "+label)
  check(game.scroll.scroll_vertical>0 and absf(game.scroll.scroll_vertical-before)<=game.ui_touch_height,"fitting retains the current briefing reading location for "+label)
  check(game.scroll.get_global_rect().encloses(control.get_global_rect()),"changed fitting remains fully readable and immediately tappable for "+label)
  check(game.screen=="briefing" and game.sim.snapshot()==active,"fitting preserves the paused active dive and keeps the briefing for "+label)
  await capture(label+"-after")
+# WP-37: one MAIN action (ENTER WATER), footer rows at touch height, one LOADOUT entry and one plainly named fold.
+func briefing_checks(label:String):
+ var mains=game.menu.find_children("*","Button",true,false).filter(func(c):return c.is_visible_in_tree() and c.get_meta("ui_role","")=="MAIN")
+ check(mains.size()==1 and mains[0].get_meta("ui_action","")=="begin","the "+label+" briefing has exactly one MAIN button, ENTER WATER")
+ for id in ["begin","back"]:
+  var footer=action(id)
+  check(footer!=null and footer.size.y<=game.ui_touch_height*2.,"the "+label+" briefing footer "+id+" keeps its touch height (not taller than twice it)")
+ check(action("back").get_meta("ui_role","")=="QUIET","the "+label+" briefing BACK is quiet")
+ var entry=action("edit_racks")
+ check(entry!=null and entry.text=="LOADOUT","the "+label+" briefing has one entry named LOADOUT")
+ var fold=action("fit_fold")
+ check(fold!=null and "LOADOUT" in fold.text and "DETAILS" in fold.text and "/" not in fold.text,"the "+label+" briefing fold is named plainly")
+ var texts=game.panel_box.find_children("*","Label",true,false).map(func(l):return l.text)
+ check(texts.any(func(t):return t.begins_with("Loadout:")) or label=="compact","the "+label+" briefing states the loadout in plain words")
+ check(not texts.any(func(t):return "NEXT DIVE / RETRY" in t),"the "+label+" briefing no longer builds a slash heading")
 func run():
  for arg in OS.get_cmdline_user_args():
   if arg.begins_with("--capture-dir="):folder=arg.trim_prefix("--capture-dir=");DirAccess.make_dir_recursive_absolute(folder)
@@ -103,6 +121,7 @@ func run():
   root.add_child(game);await settle();game.set_process(false)
   game.completed=[0,1,2,3,4,5];game.unlocked=5;game.expedition={"version":1,"route":"deep","routes":["deep","shelf"],"facts":{"deep":"known","shelf":"known"},"completed":[6,7,8]};game._start_mission(6);game._briefing(6);await settle();await dismiss_arc()
   var label="cover" if dimensions.x==2520 else "inner"
+  briefing_checks("compact")
   check(game.scroll.scroll_vertical==0 and DisplayServer.is_touchscreen_available(),"fresh "+label+" briefing begins at the top on the touchscreen GUI path")
   # 029 folds preparation initially. Enter it through its real control before
   # the existing drag/selection/persistence checks; all those checks stay intact.
@@ -120,6 +139,8 @@ func run():
   if game.screen=="launch_guard":await tap(action("launch_guard_abandon").get_global_rect().get_center())
   check(game.screen=="mission" and game.sim.equipment_feedback().fitted.drone_a=="drone_deep_cells" and game.sim.equipment_feedback().fitted.drone_b=="","ENTER WATER freezes the chosen fitting after scrolling and several changes")
   game._briefing(0);await settle();await dismiss_arc();check(game.scroll.scroll_vertical==0,"opening a different fresh briefing still resets to its beginning")
+  briefing_checks("opening")
+  check(game.get_meta("hub_wide",false)==(dimensions.x==2520 or dimensions.x==2184),"the opening briefing uses two columns on the cover and inner screens")
   await change_loadout(label)
   game.queue_free();await settle()
  Input.set_emulate_touch_from_mouse(previous_emulation)

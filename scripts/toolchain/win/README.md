@@ -86,3 +86,11 @@ names that only define helpers are counted and ignored. Warnings cover stale
 allowlist lines and registered files that are not SceneTree entry points.
 
 Add a deliberately unregistered entry-point to the allowlist as `name | reason`.
+
+## full-sweep.ps1
+
+Runs every registered suite once, locally (the CI profile, then each render-flagged suite), about 85 minutes. Use it after a batch of merges: the everyday set does not cover the guard suites. The per-suite logs in the artifact folder are the record; the result file ends with the failures found in them.
+
+```
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/toolchain/win/full-sweep.ps1 -Repo <repository folder> -Out <result file>
+```

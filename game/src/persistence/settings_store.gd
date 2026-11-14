@@ -8,6 +8,7 @@ const DEFAULTS := {
 	"high_contrast": false, "reduced_motion": false, "haptics": true, "safe_palette": false, "audio_captions": false,
 	"night_mode": false,
 	"auto_pause_notice": false, "auto_pause_lock": false, "mirrored_hud": false,
+	"auto_pause_loss": false, # THREAT READ: optional pause when a craft is lost; off by default.
 	"quality": "STANDARD", # QUALITY: optional draw-only tier; legacy settings retain all effects.
 	# SETDEPTH: optional keys. Absent or invalid values load as these defaults (today's mix and feel).
 	"alerts": 0.8, "messages": 0.8, "haptic_strength": 2, "drag_preset": 1, "hold_preset": 1,
@@ -39,7 +40,7 @@ static func sanitize(raw: Variant) -> Dictionary:
 			var lo := 1 if key == "haptic_strength" else 0
 			var hi := 3 if key == "haptic_strength" else 2
 			if int(v) >= lo and int(v) <= hi: out[key] = int(v)
-	for key in ["high_contrast", "reduced_motion", "haptics", "safe_palette", "audio_captions", "night_mode", "auto_pause_notice", "auto_pause_lock", "mirrored_hud"]:
+	for key in ["high_contrast", "reduced_motion", "haptics", "safe_palette", "audio_captions", "night_mode", "auto_pause_notice", "auto_pause_lock", "mirrored_hud", "auto_pause_loss"]:
 		if raw.get(key) is bool: out[key] = raw[key]
 	return out
 func load_settings() -> Dictionary:

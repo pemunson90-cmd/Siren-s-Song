@@ -89,10 +89,18 @@ func touch_shape(shape:Vector2i):
  var before=game.sim.snapshot()
  var button=visible_chip(game,label+" basic")
  await picture("hunt-%d-basic"%shape.x)
+ var intro=hud.find_child("HuntMeterIntro",true,false) as Label
+ check(intro!=null and intro.text==MeterTable.TEXT.intro and MeterTable.TEXT.intro.contains("how hard the Sirens are searching"),label+" the first sight of the chip carries its one-line meaning")
+ check("hunt_meter" in game.hints_seen,label+" the one-line meaning is remembered with the profile's first-use flags")
+ if intro!=null and intro.visible and button!=null:
+  check(not intro.get_global_rect().intersects(button.get_global_rect()) and Rect2(game.global_position,game.size).encloses(intro.get_global_rect()),label+" the one-line meaning sits clear of the chip and inside the screen")
+  for other in hud.action_controls().values():
+   if other.is_visible_in_tree():check(not intro.get_global_rect().intersects(other.get_global_rect()),label+" the one-line meaning stays clear of "+str(other.get_meta("action","control")))
  if button!=null:await tap(button.get_global_rect().get_center())
+ check(intro==null or not intro.visible,label+" opening the help retires the one-line meaning")
  check(hud.page=="order_help" and game.advanced_orders and game.sim.paused,label+" actual basic Hunt touch opens paused explanation")
  check(not chip(hud).is_visible_in_tree(),label+" explanation sheet is clear of its opener")
- check(hud.instrument_info.is_visible_in_tree() and "sight" in hud.instrument_info.text.to_lower() and "hearing" in hud.instrument_info.text.to_lower() and "local" in hud.instrument_info.text.to_lower(),label+" visible explanation identifies sight-only global factor and local alert")
+ check(hud.instrument_info.is_visible_in_tree() and "sight" in hud.instrument_info.text.to_lower() and "hearing" in hud.instrument_info.text.to_lower() and "heard you" in hud.instrument_info.text.to_lower(),label+" visible explanation identifies sight-only global factor and local alert")
  await picture("hunt-%d-help"%shape.x)
  if shape.x==960:await compact_help(game,label)
  same_dive_except_pause(before,game.sim.snapshot(),label+" basic help")
@@ -124,6 +132,16 @@ func presentation_fixture():
  hud.alarm.text="HEARD PATROLLER · 040°";hud.alarm.show()
  Meter.sync(hud)
  check(hud.alarm.visible and hud.alarm.text.begins_with("HEARD") and not chip(hud).get_global_rect().intersects(hud.alarm.get_global_rect()),"Hunt preserves and clears a genuine warning")
+ # WP-69: the onboarding tip card is an obstacle too; put the card where the chip sits and the chip moves off it.
+ hud.alarm.hide()
+ var seat=chip(hud).get_global_rect()
+ hud.hints.panel.custom_minimum_size=seat.size+Vector2(40,40);hud.hints.panel.size=hud.hints.panel.custom_minimum_size
+ hud.hints.panel.global_position=seat.position-Vector2(20,20);hud.hints.panel.show()
+ Meter.sync(hud)
+ check(not chip(hud).get_global_rect().intersects(hud.hints.panel.get_global_rect()),"Hunt chip seats clear of the tip card")
+ hud.hints.panel.hide()
+ hud.alarm.text="HEARD PATROLLER · 040°";hud.alarm.show()
+ Meter.sync(hud)
  await tap(game.advanced_button.get_global_rect().get_center())
  hud.alarm.text="HEARD PATROLLER · 040°";hud.alarm.show()
  Meter.sync(hud)
@@ -162,7 +180,7 @@ func observed_lock_fixture(shape:Vector2i):
  var label="observed lock "+str(shape)
  var banner=Rect2(warning.global_position+warning.banner.position,warning.banner.size)
  var button=visible_chip(game,label+" basic")
- check(warning.visible and warning.locks.size()==1 and warning.show_hint,label+" earned countdown and break-sight hint are visible")
+ check(warning.visible and warning.locks.size()==1 and "Put rock between you." in warning.card_text,label+" earned countdown and the way out are on the lock card")
  check(Rect2(game.global_position,game.size).encloses(banner) and banner.has_area(),label+" lock banner fits the safe viewport")
  check(button!=null and not button.get_global_rect().intersects(banner),label+" Hunt chip clears the live lock banner")
  check(not banner.intersects(game.pause_button.get_global_rect()),label+" lock banner preserves Pause")
@@ -185,7 +203,7 @@ func manual_craft_fixture(shape:Vector2i):
  root.size=shape;await settle()
  var game=load("res://scenes/main.tscn").instantiate();game.set_script(load("res://tests/density_main.gd"));game.capture_scenario="route-telemetry-touch-fixture"
  if shape.x==2520:game.fixture_safe_area=Rect2(136,0,2384,1080)
- root.add_child(game);await settle();game.set_process(false);game._start_mission(0);await settle()
+ root.add_child(game);await settle();game.set_process(false);game._start_mission(0);await settle();preload("res://tests/fixtures/player_dive.gd").launch_drones(game.sim)
  var sim=game.sim;var hud=game.mission_hud;var fleet=hud.fleet
  sim.sirens=[];sim.mission.rocks=[];sim.mission.structures=[];sim.mission.objectives=[];sim._build_navigation()
  sim.units[0].pos=Vector2(450,620);sim.units[1].pos=Vector2(900,720);sim.units[2].pos=Vector2(1460,160)

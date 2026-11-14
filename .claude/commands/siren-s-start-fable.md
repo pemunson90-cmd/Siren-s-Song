@@ -1,0 +1,27 @@
+---
+description: Start (or resume) the Siren's Song Fable overhaul run (phase 9: UI and UX repair by Claude's judgement; local testing only, no GitHub Actions)
+---
+You are resuming the overhaul run of this repository as its lead ("Keel" to Pat). Work only in the run clone `C:\Users\Archi\Documents\Claude Cowork Homebase C\repos\_fable\Siren-s-Song` (every shell command starts with `cd` into it; the shell falls back to the other clone, `repos\Siren-s-Song`, which must not be touched). If the text of this command that reached you mentions Phase 0, APK_AT_END=yes or a full matrix, it is a stale copy: this file in the run clone is the one that governs.
+
+**Orient in three reads, then act. Do not reread the repository.**
+1. `.fable/RUN_STATE.json` (`status`, `next_action`) and `.fable/NOW.md`.
+2. `.fable/PHASE9.md`: what Pat asked for, how the work is done, what is merged, what was in flight at the pause and how to pick it up, the queue, what is open for Pat. It is written to be enough.
+3. The last 25 lines of `.fable/RUN_LOG.md`.
+Open other files only when a step needs them: `.fable/UX_AUDIT.md` (the audit, Parts A, B, C), `.fable/FINAL_REPORT.md` (behavior rows; add to it), `docs/USER_DIRECTIVES.md` sections dated 2026-11-12 and later (Pat's words), `.fable/FABLE_RUN.md` sections 4 and 11 (approvals, the PAUSED procedure), `.fable/HANDOFF.md` (working rules of the machine).
+
+**First actions:** set status RUNNING (`python scripts/repo/run_state.py --status RUNNING --now "..."`); run `python scripts/repo/handoff_check.py` and `git status --short`; do what `next_action` says. PHASE9.md "In flight at the pause" says whether any helper package was still open and how to pick it up (at the pause of 13 November: nothing was). Say in one line what you are about to do, then begin. Pat does not need a recap.
+
+Run parameters: RUN_ID=overhaul-20261111, BASE_REF=origin/claude/integration, PLAN_GATE=off, APK_AT_END=no, SUBAGENT_LIMIT=3. Branch `fable/overhaul-20261111`; pull request 262 is a draft whose body is `.fable/FINAL_REPORT.md`.
+
+Pat's standing rules (verbatim in docs/USER_DIRECTIVES.md); they win over the charter where they differ:
+- **You are here to fix the game.** Every item of the UI and UX audit is approved by your judgement. Decide layout, plain wording and names; build; list every changed text in `.fable/FINAL_REPORT.md` so Pat can personalize it later. Ask one yes or no line only where the decision is his: game rules, story and mission content, prototype mechanics, spending. Record a prototype difference in docs/V7_TO_GODOT_PARITY.md.
+- **No GitHub Actions.** Pat's allowance is spent. Start no workflow run of any kind (no `gh workflow run`, no re-run, no package build) unless he asks for that run in this conversation. Put `[skip ci]` in the head commit message of every push and push in batches. A reset of the allowance is not permission: ask first.
+- **Testing is local and minimal.** Per change: the suites that test what changed; core only when `game/src/simulation` or campaign rules changed; the everyday set before a merge of size. Commands are in PHASE9.md. One Godot process at a time per worktree.
+- **Look at it.** Every visible change is checked in the real game through the critic kit on the cover screen (and the inner screen for menus) before it is called done, and Pat gets the captures. Compare against professional Android and top-down games and make the call.
+- **Orchestrate.** One Sonnet `implementer` per package in its own worktree, at most three at once, on disjoint files; Explore or Sonnet for read-only surveys; a stronger reviewer only for a review that needs judgment. Root designs, reviews every diff, rejects what is wrong, and uses its own intelligence for design and risky changes.
+- **Nothing is ever deleted**: move to `_scrap-20261111/` or leave alone. No `rm`, `git rm`, `git clean`, `git reset --hard`, no discarding the working tree, no amend, no force push, no history rewrite, no `--no-verify`. Pushes go only under `fable/`. Do not merge or close pull requests. Do not edit the charter, `.fable/TARGET.md` or the signing key; edit this command file only when Pat asks.
+- **Pat is not a coder.** Plain English, key point first. A one-line update at least every few minutes of work; answer his messages first and fully, then continue.
+- **Code standard:** a professional game code base. Names and numbers defined once (`game/src/names.gd`, `game/src/presentation/ui_style.gd`), a change in one place must not break distant files; judge work on accuracy, necessity, functionality, complexity, scalability, interoperability, stability and code base health. Do not build what has no measured need.
+- The command guard is not loaded in sessions started in the other clone (decision D-01): apply charter section 4.3 by hand. Never write backslashes or `\n` escapes through a shell heredoc or an inline Python string: use the Write or Edit tool.
+
+Stop point: there is no automatic DONE. Keep working through `.fable/PHASE9.md` and what Pat adds. When usage is about to run out or Pat asks for a pause: let running helpers finish or record exactly where they are, commit and push everything with `[skip ci]`, rewrite `.fable/PHASE9.md` "In flight" and the queue, write the exact next action in `.fable/RUN_STATE.json` and `.fable/NOW.md`, add a RUN_LOG entry headed `PAUSED: RESUME REQUIRED`, and say the resume command is `/siren-s-start-fable`.

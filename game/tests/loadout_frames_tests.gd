@@ -7,6 +7,7 @@ const Upgrades=preload("res://src/equipment/craft_upgrades.gd")
 const Store=preload("res://src/persistence/save_store.gd")
 const Sonar=preload("res://src/simulation/advanced_sonar.gd")
 const View=preload("res://src/presentation/equipment_context.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 var checks=0
 var failures=0
 var game
@@ -19,8 +20,10 @@ func settle():
 func advance(s,seconds:float)->void:
  s.paused=false
  for n in roundi(seconds*60):s.advance(Sim.STEP)
-func open(fitted:Dictionary,index:int=0):
- var s=Sim.new();s.start(index,"endurance",{"fitted":fitted});s.sirens=[];s.mission.rocks=[];s.mission.structures=[];s._build_navigation()
+func open(fitted:Dictionary,index:int=0,legacy_rules:bool=false):
+ var launch={"fitted":fitted}
+ if legacy_rules:launch[PlayerDive.Rules.KEY]=false
+ var s=Sim.new();s.start(index,"endurance",launch);PlayerDive.launch_drones(s);s.sirens=[];s.mission.rocks=[];s.mission.structures=[];s._build_navigation()
  return s
 func model():
  var all=Kit.ITEMS.keys()
@@ -74,10 +77,11 @@ func budgets():
  var scout=open({"chassis_b":"scout"});advance(scout,20)
  check(scout.units[2].battery<std.units[2].battery and scout.passive_range(2)>std.passive_range(2),"scout trades battery for passive reach")
  # POWER: a bus drawn to capacity makes each SONAR pulse cost more reserve.
- var spare=open({"quietus":"quietus_decoder"});var full=open({"quietus":"quietus_decoder","quietus_2":"quietus_correlator","quietus_3":"quietus_baffles"})
+ # Quietus sonar costs no life support under the player rules (Pat, 2026-11-12), which hides the power-bus cost this check measures, so it runs on the explicit legacy cost path.
+ var spare=open({"quietus":"quietus_decoder"},0,true);var full=open({"quietus":"quietus_decoder","quietus_2":"quietus_correlator","quietus_3":"quietus_baffles"},0,true)
  var before=[spare.oxygen,full.oxygen];Sonar.emit(spare,0);Sonar.emit(full,0)
  check(absf((before[1]-full.oxygen)-(before[0]-spare.oxygen)*1.5)<0.0001 and before[0]-spare.oxygen>0,"full power bus makes a SONAR pulse cost half again as much reserve")
- var cheap=open({"hull":"fast"});var o=cheap.oxygen;Sonar.emit(cheap,0)
+ var cheap=open({"hull":"fast"},0,true);var o=cheap.oxygen;Sonar.emit(cheap,0)
  check(o-cheap.oxygen<before[0]-spare.oxygen,"fast hull power makes pulses cheaper")
  # CARGO: winch places limit how many lost modules a craft carries home.
  var fitted={"hull":"quiet","drone_a":"drone_deep_cells","drone_b":"drone_survey_array"}
@@ -112,11 +116,12 @@ func saves():
  check(not store.valid(unearned),"unrecovered items in an extra mount are rejected")
  for suffix in ["",".tmp",".bak"]:DirAccess.remove_absolute(path+suffix)
 func frame_button(unit:String,id:String="quiet") :
- for control in game.panel_box.get_children():
-  if control is Button and control.get_meta("action","")=="frame_"+unit+"_"+id:return control
+ # The wide briefing moves its rows into two columns, so search below the panel, not only its children.
+ for control in game.panel_box.find_children("*","Button",true,false):
+  if control.get_meta("action","")=="frame_"+unit+"_"+id:return control
  return null
 func fit_button(slot:String,name:String):
- for control in game.panel_box.get_children():
+ for control in game.panel_box.find_children("*","Button",true,false):
   if control is Button and control.get_meta("action","")=="fit_"+slot and name in control.text:return control
  return null
 func tap(control):
@@ -137,17 +142,19 @@ func ui():
   game.completed=[0];game.unlocked=1;game.expedition={"completed":[],"entitlements":["quietus_prism","quietus_decoder"]}
   game._briefing(1);await settle()
   var hull=frame_button("quietus")
-  check(hull!=null and "LOW NOISE HULL" in hull.text,"briefing lists the low noise hull directly")
+  check(hull!=null and "Low noise hull" in hull.text and not "CHOSEN" in hull.text,"briefing lists the low noise hull directly")
   var width=game.scroll.get_global_rect()
   check(game.panel_box.get_children().all(func(c):return not c is Control or c.get_global_rect().size.x<=width.size.x+1),"frame rows and budget bars fit the briefing width")
   await tap(hull)
   check(game.fitted_equipment.hull=="quiet" and game.screen=="briefing","tapping the hull row selects the low noise hull")
+  hull=frame_button("quietus")
+  check(hull.text.begins_with("CHOSEN · Low noise hull") and hull.disabled and not frame_button("quietus","standard").text.begins_with("CHOSEN"),"the selected hull card is marked CHOSEN and the others are not")
   await tap(fit_button("quietus","Reach directional prism"))
   check(Kit.has(game.fitted_equipment,0,"quietus_prism"),"prism fits the low noise hull sensor mount")
   var decoder=fit_button("quietus","Range service decoder")
-  check(decoder.disabled and "REFUSED" in decoder.text and "POWER" in decoder.text,"over budget decoder row is refused with its power reason: "+decoder.text)
+  check(decoder.disabled and "LOCKED · Cannot fit" in decoder.text and "POWER" in decoder.text,"over budget decoder card is locked with its power reason: "+decoder.text)
   hull=frame_button("quietus","fast")
-  check(hull!=null and not hull.disabled and "FAST TRANSIT HULL" in hull.text,"the legal fast hull stays available as a named choice")
+  check(hull!=null and not hull.disabled and "Fast transit hull" in hull.text,"the legal fast hull stays available as a named choice")
   await tap(frame_button("drone_a","scout"))
   check(game.fitted_equipment.chassis_a=="scout","drone A chassis selects scout directly")
   game._start_mission(1);await settle()

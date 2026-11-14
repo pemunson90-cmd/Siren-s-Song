@@ -1,4 +1,5 @@
 extends "res://tests/depth_sonar_ui_tests.gd"
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 # Source-known, accelerated opening journeys. Every consequential order enters
 # through real viewport input; simulation travel is stepped faster than wall time.
 # Every command may move into the scroll dock while threats own the top lane.
@@ -22,12 +23,22 @@ func acknowledge_warning(g):
   await click(hints.dismiss_button);await settle()
   check(not hints.panel.visible and g.sim.paused,"real touch acknowledges warning without resuming")
   await click(g.pause_button);await settle()
+# A craft that holds at the edge of charted water (CHART STOP) shows CONTINUE COURSE for the selected craft;
+# a player selects it and taps that. The craft then sails on through water the chart has grown to cover.
+func continue_course(g,id):
+ if not g.sim.outcome.is_empty() or not g.sim.units[id].alive or not g.sim.units[id].has("chart_stop"):return
+ await craft(g,id);g.mission_hud.dismiss();g._refresh();await settle()
+ var choice=g.mission_hud.chart_choice
+ if choice.panel.visible:await click(choice.continue_button);await settle()
 func run_seconds(g,seconds):
  if g.sim.paused:await click(g.pause_button)
  for n in roundi(seconds*60):
   g.sim.advance(1./60)
   if n%120==0:
    g._refresh();await process_frame;await acknowledge_warning(g)
+   # Trial rules (13 Nov): the game pauses itself on a new lock, at a route's end and when rock blocks a craft.
+   # A player resumes with the corner control; so does this journey.
+   if g.sim.paused and g.sim.outcome.is_empty():await click(g.pause_button)
  if not g.sim.paused:await click(g.pause_button)
  g._refresh();await settle()
 func shift(g,id,down):
@@ -74,10 +85,15 @@ func reveal(game,button):
    var drag=InputEventScreenDrag.new();drag.index=0;drag.position=point;drag.relative=point-previous;root.push_input(drag,true);previous=point;await process_frame
   touch=InputEventScreenTouch.new();touch.index=0;touch.position=finish;touch.pressed=false;root.push_input(touch,true);await settle()
  check(scroll.get_global_rect().encloses(button.get_global_rect()),"touch scrolling reveals "+str(button.get_meta("action","command")))
+# WP-35/WP-52: while a drone can be deployed or recalled that segment takes PLAN ROUTE's place on the main page;
+# PLAN ROUTE is then reached under ROUTE, as a player reaches it. Child suites open the planner through this too.
+func open_program(g):
+ if not g.order_buttons.program.is_visible_in_tree():await click(g.mission_hud.extra.route_menu)
+ await click(g.order_buttons.program)
 func plot(g,id,point):
  # FIT can overlap intended water with a craft's touch handle. The existing
  # paused planner exposes that same public route geometry through ordinary input.
- await craft(g,id);await click(g.order_buttons.program)
+ await craft(g,id);await open_program(g)
  check(g.route_editor.visible,"public ROUTE PROGRAM action opens the physical planner")
  await preview_point(g,point)
  var goals=g.sim.route_goals(id)
@@ -91,6 +107,9 @@ func travel(g,id,point):
   g.sim.advance(1./60)
   if n%120==0:
    g._refresh();await process_frame;await acknowledge_warning(g)
+   # Trial rules (13 Nov): the game pauses itself on a new lock, at a route's end and when rock blocks a craft.
+   # A player resumes with the corner control; so does this journey.
+   if g.sim.paused and g.sim.outcome.is_empty():await click(g.pause_button)
   if not g.sim.outcome.is_empty() or (g.sim.units[id].pos.distance_to(point)<15 and g.sim.units[id].vel.length()<2):break
  if not g.sim.paused:await click(g.pause_button)
  g._refresh();await settle()
@@ -130,7 +149,11 @@ func run():
    root.add_child(g);await settle();g.set_process(false)
    # The active-scout route spends two finite Disrupt charges through touch orders.
    g.tool_racks=preload("res://src/equipment/tool_racks.gd").empty();g.tool_racks.quietus.emp=2
-   g._start_mission(0);await settle()
+   g._start_mission(0);PlayerDive.launch_drones(g.sim)
+   for id in [1,2]:g.sim.units[id].pos=g.sim.units[0].pos+g.sim.LaunchLayout.offset(0,id) # drones at their authored launch stations, as before the player rules
+   g._refresh();await settle()
+   # As in depth_policy_journeys: under the player rules a calm Siren ignores the scout drone and the sweeper beams Quietus, so the touch journey runs on the legacy rules (flag cleared on this started mission; reported).
+   g.sim.mission[PlayerDive.Rules.KEY]=false
    await journey(g,active,shape)
    g.queue_free();await settle()
  print("DEPTH POLICY UI CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)

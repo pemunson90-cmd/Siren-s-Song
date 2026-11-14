@@ -17,13 +17,15 @@ static func _command(sim, order: String, args: Dictionary) -> bool:
 	match order:
 		"select":
 			var id=int(args.get("unit",0))
-			if id<0 or id>=sim.units.size() or not sim.units[id].alive: return false
+			if id<0 or id>=sim.units.size() or sim.DroneBay.lost(sim.units[id]): return false
 			sim.selected=id; sim._use_band(sim.units[id].band); sim.queue_mode=false
 			sim.message="%s selected · next tap replaces route" % sim.units[id].name
-		"waypoint_mode": sim.pass_through=not sim.pass_through; sim.message="Queued waypoints PASS through" if sim.pass_through else "Queued waypoints STOP before continuing"
+			if sim.DroneBay.aboard(sim.units[id]):sim.message="%s is aboard Quietus · tap water to deploy it" % sim.units[id].name
+		"waypoint_mode": sim.pass_through=not sim.pass_through; sim.message="New points: the craft keeps moving through them." if sim.pass_through else "New points: the craft stops at each one."
 		"queue": sim.queue_mode=not sim.queue_mode; sim.message="QUEUE: tap to add" if sim.queue_mode else "REPLACE: tap to set route"
 		"route", "emergency":
 			var append=sim.queue_mode and order!="emergency"
+			var had_route=not u.route.is_empty()
 			var plan=sim.route_goals() if append else []
 			if append and not plan.is_empty() and not plan.back().get("arrival_set",false): plan.back().stop=not sim.pass_through
 			plan.append({"pos":args.get("point",u.pos),"stop":true,"mode":"inherit"})
@@ -34,7 +36,7 @@ static func _command(sim, order: String, args: Dictionary) -> bool:
 			if order=="emergency":
 				sim.queue_mode=false; u.silent=false; u.erase("route_undo")
 				if sim.selected>0 and u.has("drone_drive"):u.drone_drive="transit"
-			sim.message="%s · %s route" % [u.name,"queued" if append else "replaced"]
+			sim.message="%s · %s route" % [u.name,"queued" if append else ("replaced" if had_route else "set")]
 		"route_edit", "route_insert", "route_delete", "route_undo":
 			if not sim._edit_program(order,args): return false
 		"order_undo":

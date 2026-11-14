@@ -1,4 +1,5 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 # The photograph as a picture. A stored or live frame is painted as a lit, noisy,
 # stylised underwater scene from the craft's own viewpoint: the terrain profile
 # across the field of view, the seabed under the lamp, backscatter and marine
@@ -239,22 +240,22 @@ static func _slab(ci:CanvasItem,l:float,r:float,t:float,b:float,side:float,body:
 	ci.draw_polygon(PackedVector2Array([Vector2(l,t),Vector2(r,t),Vector2(r,b),Vector2(l,b)]),PackedColorArray([body.lightened(0.1),body.lightened(0.1),body,body]))
 static func _siren(ctx:Dictionary,cx:float,base:float,s:float,a:float,front:float,side:float,body:Color,shade:Color,detail:float,al:float)->void:
 	var ci:CanvasItem=ctx.ci
-	var type:String=str(ctx.vm.get("type","patroller"))
+	var type:String=str(ctx.vm.get("type",Names.ROLE_PATROLLER))
 	var mid:float=base-s*0.5
 	var w:float=front*0.5;var h:float=s*0.28
 	var red:=Color(0.88,0.2,0.16,al)
-	var long_body:bool=type in ["patroller","hunter","interceptor","sweeper"]
+	var long_body:bool=type in [Names.ROLE_PATROLLER,Names.ROLE_HUNTER,Names.ROLE_INTERCEPTOR,Names.ROLE_SWEEPER]
 	var seam:Color=Color(red.r,red.g,red.b,al*clampf(0.3+float(ctx.light)+float(ctx.glow),0,1)*0.85*detail)
 	# Tail and fins first, so the body overlaps them.
 	var wag:float=sin(float(ctx.time)*1.6)*h*0.25
 	ci.draw_polygon(PackedVector2Array([Vector2(cx-w*0.8,mid),Vector2(cx-w*1.7,mid-h*0.5+wag),Vector2(cx-w*1.45,mid+wag*0.5),Vector2(cx-w*1.7,mid+h*0.5+wag)]),PackedColorArray([shade,shade.darkened(0.2),shade.darkened(0.2),shade.darkened(0.2)]))
 	for k in 3:
 		var fx:float=cx-w*0.3+k*w*0.45
-		ci.draw_polygon(PackedVector2Array([Vector2(fx,mid-h*0.8),Vector2(fx+w*0.12,mid-h*(1.5+(0.4 if type in ["hunter","interceptor"] else 0.0))),Vector2(fx+w*0.3,mid-h*0.7)]),PackedColorArray([shade,body.darkened(0.2),shade]))
+		ci.draw_polygon(PackedVector2Array([Vector2(fx,mid-h*0.8),Vector2(fx+w*0.12,mid-h*(1.5+(0.4 if type in [Names.ROLE_HUNTER,Names.ROLE_INTERCEPTOR] else 0.0))),Vector2(fx+w*0.3,mid-h*0.7)]),PackedColorArray([shade,body.darkened(0.2),shade]))
 	var pts:=PackedVector2Array([Vector2(cx-w,mid),Vector2(cx-w*0.3,mid-h),Vector2(cx+w*0.7,mid-h*0.55),Vector2(cx+w*(1.2 if long_body else 0.95),mid),Vector2(cx+w*0.7,mid+h*0.55),Vector2(cx-w*0.3,mid+h)])
 	ci.draw_polygon(pts,PackedColorArray([shade,body.lightened(0.08),body,body.lightened(0.05),shade,shade.darkened(0.2)]))
-	if type in ["sentinel","warden"]:ci.draw_arc(Vector2(cx,mid),h*1.2,0,TAU,24,Color(red.r,red.g,red.b,al*0.5*detail),2.0)
-	if type=="sweeper":ci.draw_arc(Vector2(cx+w*1.0,mid),h*0.8,-1.2,1.2,12,Color(red.r,red.g,red.b,al*0.6*detail),2.0)
+	if type in [Names.ROLE_SENTINEL,Names.ROLE_WARDEN]:ci.draw_arc(Vector2(cx,mid),h*1.2,0,TAU,24,Color(red.r,red.g,red.b,al*0.5*detail),2.0)
+	if type==Names.ROLE_SWEEPER:ci.draw_arc(Vector2(cx+w*1.0,mid),h*0.8,-1.2,1.2,12,Color(red.r,red.g,red.b,al*0.6*detail),2.0)
 	for k in 5:
 		var t:float=0.18+0.16*float(k)
 		var x:float=cx-w*0.9+w*1.8*t

@@ -1,1 +1,1 @@
-The concept-art image review is retained in its [canonical source PDF](../package/sources/SIRENS_SONG_CONCEPT_ART_IMAGE_REVIEW_HANDOFF.pdf).
+The concept-art image review PDF (`SIRENS_SONG_CONCEPT_ART_IMAGE_REVIEW_HANDOFF.pdf`) is preserved on the branch `archive/reference-package-20261022` under `references/package/sources/`. It is not in the active tree. See [the visual package entry](../package/START_HERE.md).

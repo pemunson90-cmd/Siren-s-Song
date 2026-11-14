@@ -1,6 +1,7 @@
 extends SceneTree
 # Source-known opening and forced-impact fixtures isolate friendly hulls from AI.
 const Sim=preload("res://src/simulation/simulation.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 var checks=0
 var failures=0
 func check(ok:bool,label:String):
@@ -8,7 +9,7 @@ func check(ok:bool,label:String):
  if not ok:failures+=1;printerr("FAIL ",label)
 func _initialize():
  for operation in 6:
-  var s=Sim.new();s.start(operation);s.sirens=[]
+  var s=Sim.new();s.start(operation);PlayerDive.launch_drones(s);s.sirens=[]
   for id in 3:
    s._use_band(s.units[id].band)
    check(not s.blocked(s.units[id].pos,12),"opening%d craft%d starts clear of terrain"%[operation,id])
@@ -21,13 +22,13 @@ func _initialize():
   print("OPENING ",operation," hull=",s.hull," pos=",s.units[0].pos," message=",s.message)
  # The changed opening must not put a stationary drone in the first decoy's
  # investigation path. This previously exposed an unintended spawn regression.
- var idle=Sim.new();idle.start(0);idle.command("decoy");idle.paused=false
+ var idle=Sim.new();idle.start(0);PlayerDive.launch_drones(idle);idle.command("decoy");idle.paused=false
  for n in 960:idle.advance(Sim.STEP)
  check(idle.units.all(func(u):return u.alive),"first decoy expires without exposing a stationary opening drone")
  check(idle.noises.is_empty() and idle.message=="Decoy launched · 15s transmission","opening layout preserves historical decoy feedback")
  # Recreate the old spawn alignment deliberately: damage must remain real and
  # the message must identify the friendly hull instead of hiding its cause.
- var forced=Sim.new();forced.start(0);forced.sirens=[];forced.mission["dev"]=true # 127: the pathfinder route is the dev/test path (Pat 2026-10-30).
+ var forced=Sim.new();forced.start(0);PlayerDive.launch_drones(forced);forced.sirens=[];forced.mission["dev"]=true # 127: the pathfinder route is the dev/test path (Pat 2026-10-30).
  forced.units[2].pos=forced.units[0].pos+Vector2(140,0)
  forced.command("route",{"point":forced.units[0].pos+Vector2(320,0)});forced.paused=false
  var impacts=[]

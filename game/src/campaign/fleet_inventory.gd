@@ -1,4 +1,5 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 # Entitlements describe discoveries; this ledger records physical modules left
 # on a first successful recovery. Failure, retry and replay never spend stock.
 const Catalog=preload("res://src/equipment/equipment_catalog.gd")
@@ -61,7 +62,7 @@ static func valid(value,earned:Array,completed:Array)->bool:
   if not result is Dictionary or result.size()!=2 or not result.get("recovered") is Array or not result.get("lost") is Array:return false
   var seen=[]
   for item in result.recovered+result.lost:
-   if (item not in Catalog.ITEMS or not Catalog.ITEMS[item].compatible_slots.any(func(slot):return slot in ["drone_a","drone_b"])) or item not in earned or item in seen or item in lost:return false
+   if (item not in Catalog.ITEMS or not Catalog.ITEMS[item].compatible_slots.any(func(slot):return slot in [Names.CRAFT_DRONE_A,Names.CRAFT_DRONE_B])) or item not in earned or item in seen or item in lost:return false
    seen.append(item)
   lost.append_array(result.lost)
  return true

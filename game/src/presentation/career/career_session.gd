@@ -15,18 +15,17 @@ var prior_mode=Node.PROCESS_MODE_INHERIT
 var prior_visibility:Array=[]
 var prior_sound_suspended=false
 var result_pending=false
+var dive_record=false
+var dive_abandoned=false
 var save_failed=false
 var snapshot_ready=false
 var active_envelope:Dictionary={}
 var pinned_path=""
 func freeze_campaign()->void:
-	prior_mode=campaign_host.process_mode;prior_sound_suspended=campaign_host.sound.system_suspended
-	for child in campaign_host.get_children():
-		if child is CanvasItem:prior_visibility.append({"node":child,"visible":child.visible});child.hide()
-	campaign_host.sound.suspend();campaign_host.process_mode=Node.PROCESS_MODE_DISABLED
+	preload("res://src/presentation/mode_host_freeze.gd").freeze(self)
 func _bind_state()->void:
 	economy=career_state.economy;expedition=career_state.progress;fitted_equipment=career_state.fitted
-	tool_racks=career_state.get("tool_racks",preload("res://src/equipment/tool_racks.gd").template("endurance")).duplicate(true)
+	tool_racks=career_state.get("tool_racks",preload("res://src/equipment/tool_racks.gd").template(Names.LOADOUT_ENDURANCE)).duplicate(true)
 func _ready()->void:
 	pinned_path=campaign_host.store.path
 	if DevState.marked(self):set_meta("dev_profile",true)
@@ -105,31 +104,26 @@ func _debrief(abandoned:bool=false)->void:
 	if result_pending:return
 	if not career_state.in_flight:return
 	sim.paused=true
-	career_state=Career.settle(career_state,{"outcome":"won" if not abandoned and sim.outcome=="won" else "lost","hull":sim.hull,"alive":[sim.units[1].alive,sim.units[2].alive],"mission":sim.mission,"rider":sim.rider_result()})
-	_bind_state();result_pending=true;_save_archive();_result_menu()
+	career_state=Career.settle(career_state,{"outcome":"won" if not abandoned and sim.outcome=="won" else "lost","hull":sim.hull,"alive":[sim.DroneBay.home(sim.units[1]),sim.DroneBay.home(sim.units[2])],"mission":sim.mission,"rider":sim.rider_result()})
+	_bind_state();result_pending=true;dive_record=true;dive_abandoned=abandoned;_save_archive();_result_menu()
 func _result_menu()->void:
 	sim.paused=true;screen="career_result";_clear_menu()
-	_menu_text("CONTRACT RESULT",30);_menu_text(career_state.report,18)
+	_menu_text("CONTRACT RESULT",30);_menu_text("\n".join(CareerBoard.ResultText.career_lines(career_state.report,not dive_record)),18)  # a dive just played shows its earnings once, in the ledger's "Earned:" line
+	if dive_record:preload("res://src/presentation/career/career_result.gd").show(self,dive_abandoned)
 	_show_photo_grade(sim.mission.objectives)
+	if dive_record:preload("res://src/presentation/flow/photo_review.gd").show_best_frame(self)
 	if save_failed:
-		_menu_text("RESULT NOT SAVED · "+str(campaign_host.get_meta("career_save_error","")),17)
-		_button(panel_box,"RETRY SAVE",func():_save_archive();_result_menu(),"career_retry")
+		preload("res://src/presentation/frontend/save_error_view.gd").menu_retry(self,"RESULT NOT SAVED · "+str(campaign_host.get_meta("career_save_error","")),17,"RETRY SAVE",func():_save_archive();_result_menu(),"career_retry")
 	else:
-		_button(panel_box,"RETURN TO CONTRACT BOARD",func():
-			result_pending=false;active_started=false;CareerBoard.show(self)
+		_button(panel_box,"BACK TO CONTRACT BOARD",func():
+			result_pending=false;dive_record=false;active_started=false;CareerBoard.show(self)
 		,"career_board")
 	call_deferred("_layout")
 func _show_economy()->void:CareerBoard.supplies(self)
 func _refresh()->void:
 	super._refresh()
 	if status_label==null:return
-	status_label.visible=screen=="mission" and not sim.rider_status().is_empty()
-	if status_label.visible:
-		status_label.text=sim.rider_status()
-		status_label.position=Vector2(12,ui_touch_height+24)
-		status_label.size=Vector2(maxf(1,size.x-24),ui_touch_height*2)
-		status_label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
-		status_label.mouse_filter=Control.MOUSE_FILTER_IGNORE
+	preload("res://src/presentation/mode_banner.gd").place(self,sim.rider_status())
 func _show_fittings()->void:CareerBoard.fittings(self)
 func _equipment_context()->Dictionary:
 	return {"slots":fitted_equipment,"available":_equipment_entitlements(),"catalog":preload("res://src/equipment/equipment_catalog.gd").public_catalog(_equipment_entitlements())}
@@ -156,8 +150,8 @@ func _notification(what:int)->void:
 	if what in [NOTIFICATION_APPLICATION_PAUSED,NOTIFICATION_APPLICATION_FOCUS_OUT,NOTIFICATION_WM_WINDOW_FOCUS_OUT]:
 		sim.paused=true;_save_archive();sound.suspend()
 	elif what in [NOTIFICATION_APPLICATION_RESUMED,NOTIFICATION_APPLICATION_FOCUS_IN,NOTIFICATION_WM_WINDOW_FOCUS_IN]:sound.resume()
-	elif what==NOTIFICATION_WM_GO_BACK_REQUEST:
-		sim.paused=true;call_deferred("_android_back")
+	# Back: Main._notification (which Godot also runs on this session) already pauses and queues _android_back once;
+	# a second queue here ran _return twice, and the second call failed after the session had left.
 	elif what==NOTIFICATION_WM_CLOSE_REQUEST:_save_archive();get_tree().quit()
 func _android_back()->void:
 	if screen=="career_board" and not active_started and not result_pending:_return()
@@ -173,10 +167,4 @@ func _return()->void:
 	if not DevState.marked(self):
 		_save_archive()
 		if save_failed:CareerBoard.show(self);return
-	for item in prior_visibility:
-		if is_instance_valid(item.node):item.node.visible=item.visible
-	campaign_host.process_mode=prior_mode
-	if not prior_sound_suspended:campaign_host.sound.resume()
-	get_parent().remove_child(self)
-	if return_to_list.is_valid():return_to_list.call()
-	queue_free()
+	preload("res://src/presentation/mode_host_freeze.gd").leave(self)

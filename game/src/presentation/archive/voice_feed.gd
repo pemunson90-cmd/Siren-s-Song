@@ -37,6 +37,32 @@ static func log_text(host,message:String)->String:
 	if state.at>=0.0 and host.sim.elapsed-state.at<=Table.HOLD and host.sim.elapsed>=state.at:
 		return "%s | %s"%[Voices.line(op,"mid"),message]
 	return message
+# ---- the two-line status strip ---------------------------------------------------
+# The strip is: head (craft, depth band, route mode) + newest message, then the standing depth hint.
+# The standing hint gives up first: a "x -> y" instruction clause it shares with the message is said once, and when
+# two lines still cannot hold it the whole standing hint is dropped. The message is never cut or ellipsised.
+const SEP=" · "
+const ARROW="→"
+# Standing hint clauses without an instruction the message already gives.
+static func standing_once(message:String,standing:String)->String:
+	var kept:PackedStringArray=[]
+	var said=message.to_lower()
+	for clause in standing.split(SEP,false):
+		var text=clause.strip_edges()
+		if text.contains(ARROW):
+			var target=text.get_slice(ARROW,1).strip_edges().trim_suffix(".").to_lower()
+			if not target.is_empty() and said.contains(target):continue
+		kept.append(text)
+	return SEP.join(kept)
+# fits(text) -> bool answers whether the strip's own label holds that text in two lines.
+# body is the strip so far (craft, band, mode, message and any task lines); message is its newest part.
+static func strip_text(body:String,message:String,standing:String,fits:Callable)->String:
+	var tail=standing_once(message,standing)
+	for candidate in [body+"\n"+tail if not tail.is_empty() else body,body]:
+		if fits.call(candidate):return candidate
+	# Task and held-dive lines (extra rows after the message) are warnings and stay. Otherwise the last resort is
+	# the newest message alone, whole; a message longer than two lines is the writer's to shorten.
+	return message if not message.is_empty() and body.contains(message) and not body.contains("\n") else body
 # ---- archive ---------------------------------------------------------------
 static func write(host,data:Dictionary)->void:
 	if not received(host).is_empty():data[Voices.FIELD]=received(host).duplicate()

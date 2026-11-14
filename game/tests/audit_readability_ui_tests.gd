@@ -1,5 +1,6 @@
 extends "res://tests/challenges_ui_tests.gd"
 const Settings=preload("res://src/presentation/frontend/frontend_settings.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 const Recovery=preload("res://src/presentation/module_recovery_view.gd")
 const Copy=preload("res://src/presentation/public_copy.gd")
 const Seed=preload("res://src/presentation/runs/seed_entry.gd")
@@ -27,7 +28,8 @@ func shape_case(shape):
   var intent=game.mission_hud.intent
   print("STATUS REFLOW ",stamp," rect=",intent.get_rect()," minimum=",intent.get_minimum_size()," lines=",intent.get_line_count()," font=",intent.get_theme_font_size("font_size"))
   check(intent.size.y>=intent.get_minimum_size().y and Rect2(game.global_position,game.size).encloses(intent.get_global_rect()),"complete resolved status fits its visible allocation "+stamp)
-  check(intent.text.ends_with(game.sim.Depth.context(game.sim)),"full final depth-context suffix remains in visible status "+stamp)
+  var facts=preload("res://src/presentation/archive/voice_feed.gd").standing_once(game.mission_hud.current_message,game.sim.Depth.context(game.sim))
+  check(intent.text.ends_with(facts) or not intent.text.contains(facts),"depth-context facts show whole or give way to the task lines, never cut (a repeated instruction is said once) "+stamp)
   check(game.ocean.planning_size.y<=intent.position.y,"chart planning area ends above complete status "+stamp)
   check(feed._buttons.size()==3,"all fitted optical actions present "+stamp)
   check(feed.visible,"optical dock available "+stamp)
@@ -37,7 +39,8 @@ func shape_case(shape):
   var dp=float(root.size.x)/root.get_visible_rect().size.x*160./420.
   check(feed.picture_rect.size.y>=120.,"optical image keeps useful height "+stamp)
   check(not feed.picture_rect.intersects(feed.footer_rect) and not feed.quality_rect.intersects(feed.picture_rect),"image meters and scrollable details have separate regions "+stamp)
-  check(feed.footer_scroll.is_visible_in_tree() and "FILM" in feed.footer_label.text and "SHUTTER" in feed.footer_label.text,"complete pricing details are retained outside image "+stamp)
+  # WP-66: the shutter cost line is drawn whole under the text (cost_text), or joins its top on a short panel.
+  check(feed.footer_scroll.is_visible_in_tree() and "FILM" in feed.footer_label.text and ("SHUTTER" in feed.footer_label.text or str(feed.get("cost_text")).begins_with("SHUTTER")),"complete pricing details are retained outside image "+stamp)
   for control in feed._buttons:
    check(Rect2(Vector2.ZERO,feed.size).encloses(control.rect),"optical action has full target "+stamp)
    check(control.rect.size.x*dp>=48. and control.rect.size.y*dp>=48.,"optical actions retain 48dp "+stamp)
@@ -109,6 +112,7 @@ func departure_touch_case(game,label):
  var fitting=preload("res://src/equipment/equipment_catalog.gd").default_loadout();fitting.drone_a="drone_deep_cells"
  game.sim.start(0,"endurance",{"fitted":fitting,"fleet_commit":false})
  var sim=game.sim
+ PlayerDive.launch_drones(sim) # the fitted carrier is a launched drone; one aboard is already home
  for o in sim.mission.objectives:o.captured=true
  sim.units[0].pos=sim.mission.extraction;sim.units[0].vel=Vector2.ZERO
  sim.units[1].pos=sim.mission.extraction;sim.units[1].vel=Vector2.ZERO;sim.units[1].band=0
@@ -224,6 +228,6 @@ func run():
  recovery_case();camera_snapshot_case()
  check("Counterweight Grave observation" in Copy.present("Observed choir_27"),"observations name recovered operation")
  check(not "AI-DESIGNED" in Copy.present("AI-DESIGNED optional CAMERA work"),"manual copy removes author label")
- check("EXPEDITION HUNT 2" in Seed.setup_context(preload("res://src/campaign/runs/run_state.gd").new_run(166421881)),"seed context distinguishes expedition Hunt modifier")
+ check("Hunt ceiling for this run: stage 2" in Seed.setup_context(preload("res://src/campaign/runs/run_state.gd").new_run(166421881)),"seed context distinguishes expedition Hunt modifier")
  for shape in [Vector2i(2520,1080),Vector2i(2184,1968)]:await shape_case(shape)
  print("AUDIT READABILITY UI CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)

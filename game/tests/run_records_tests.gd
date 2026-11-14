@@ -8,6 +8,10 @@ const Archive=preload("res://src/campaign/runs/run_archive.gd")
 const Run=preload("res://src/campaign/runs/expedition_run.gd")
 const Modes=preload("res://src/presentation/runs/modes_frontend.gd")
 const Seed=preload("res://src/presentation/runs/seed_entry.gd")
+const Briefing=preload("res://src/presentation/mode_briefing.gd")
+const Words=preload("res://src/presentation/runs/run_words.gd")
+const Racks=preload("res://src/equipment/tool_racks.gd")
+const Names=preload("res://src/names.gd")
 const Profiles=preload("res://src/persistence/profiles/profile_store.gd")
 var checks=0
 var failures=0
@@ -114,6 +118,9 @@ func run():
 	Modes.seed_screen(front,42);await settle()
 	await press(front,"run_seed_start")
 	check(Archive.restore(host)==active,"typed replay starts same sequence and modifiers")
+	var opened=host.get_node_or_null("ExpeditionSession")
+	check(opened!=null and opened.screen=="expedition_menu","START THIS SEED opens the new expedition's operation menu")
+	Modes.expeditions(front);await settle()
 	check(button(front,"run_record_0")!=null,"run history remains reachable during active run")
 	Modes.seed_screen(front,5)
 	check(front.screen=="expeditions" and Archive.restore(host)==active,"replay cannot overwrite active run")
@@ -140,6 +147,43 @@ func run():
 	check(profiles.replace(0,files,true) and profiles.parse_package(profiles.package_bytes(0))==files,"records travel through validated profile export/import")
 	var corrupt={"version":1,"run":lost,"records":records,"recorded":true}
 	check(not archive.valid(corrupt),"recorded marker must match current terminal summary")
+	# Plain words for what a scarcity means, from the run table's own numbers.
+	var Tools=preload("res://src/equipment/field_tools.gd")
+	var RacksView=preload("res://src/presentation/tool_racks_view.gd")
+	for loadout in State.Table.LOADOUTS:
+		check(Records.scarcity_line(loadout,0).begins_with("Supplied:") and Records.scarcity_line(loadout,0).contains("adds 2 of one tool"),"supplied line "+loadout)
+		for level in [1,2]:
+			var line=Records.scarcity_line(loadout,level);var held=State.Table.stock(loadout,level);var full=State.Table.stock(loadout,0)
+			check(line.begins_with(State.Table.SCARCITY[level].capitalize()+":"),"scarcity name leads "+loadout+str(level))
+			for key in State.Table.TOOLS:
+				var name=Tools.spec(key).name
+				var expected="no %s"%name if held[key]==0 else "%d %s"%[held[key],name]
+				check((held[key]<full[key])==line.contains(expected),"line names short tool "+key+loadout+str(level))
+		check(Records.scarcity_line(loadout,2).contains("recovered operations add no supplies"),"scarce run restocks nothing")
+	check(Seed.setup_context(State.new_run(7)).contains(Records.scarcity_line(State.new_run(7).loadout,State.new_run(7).scarcity)),"seed screen states what the supplies mean")
+	var hunt_row=Records.summary(completed(7));var ceiling=Records.hunt_ceiling(hunt_row.hunt_stage)
+	check(ceiling.contains(Names.HUNT_STAGES[hunt_row.hunt_stage]) and Records.modifiers(hunt_row).contains(ceiling.to_upper()) and Records.HUNT_CEILING_NOTE.contains("at most"),"run record words the Hunt as a ceiling with its stage name")
+	var briefing_racks=Briefing.carrying_line({Names.CRAFT_QUIETUS:{"decoy":3,"emp":2},Names.CRAFT_DRONE_A:{"sonobuoy":1},Names.CRAFT_DRONE_B:{}})
+	check(briefing_racks=="Carrying: QUIETUS %s 2, %s 3; DRONE A %s 1."%[Tools.spec("emp").name.to_upper(),Tools.spec("decoy").name.to_upper(),Tools.spec("sonobuoy").name.to_upper()] and Briefing.carrying_line(Racks.empty())=="Carrying: no tools.","briefing carrying line lists each craft's tools with counts")
+	check(RacksView.none_left({"emp":0,"decoy":3,"recon":0,"knock":0}).size()>=3 and RacksView.none_left({"emp":0,"decoy":3,"recon":0,"knock":0}).has(Tools.spec("emp").name) and not RacksView.none_left({"emp":0,"decoy":3}).has(Tools.spec("decoy").name),"empty tools gather into one list")
+	# WP-86: every screen states the same Hunt numbers, kit, stock and dive ledger.
+	for seed_value in [7,166421881,1234,99]:
+		var fresh=State.new_run(seed_value);var starts=State.starting_hunt(fresh,State.current_operation(fresh))
+		var hunt=Words.hunt_line(fresh)
+		check(hunt.contains("stage %d (%s)"%[fresh.hunt_stage,Names.HUNT_STAGES[fresh.hunt_stage]]) and hunt.contains("operation 1 starts at stage %d (%s)"%[starts,Names.HUNT_STAGES[starts]]),"hunt line states ceiling and start for seed %d"%seed_value)
+		check(Seed.setup_context(fresh).contains(hunt) and not Seed.setup_context(fresh).contains("Loadout:"),"seed screen uses the shared hunt line and kit words for seed %d"%seed_value)
+	check(Words.kit_line(Names.LOADOUT_EMP).contains("more EMP") and Words.kit_line(Names.LOADOUT_ENDURANCE).contains("standard kit"),"kit line says what the loadout adds")
+	var offered=State.new_run(7);offered.results=[result(offered)];offered.stock=offered.results[0].tools.duplicate()
+	offered.stock.hull_patch+=2;offered.results[0].tools.recon=2;offered.results[0].tools.knock=2;offered.stock.recon=2;offered.stock.knock=2
+	var offer_lines=Words.stock_lines(offered)
+	check(offer_lines[0].contains(Tools.spec("recon").name) and offer_lines[0].contains(Tools.spec("knock").name),"the stock line lists every tool, Survey and Torpedo included")
+	check(offer_lines.size()==2 and offer_lines[1].contains("+2 "+Tools.spec("hull_patch").name),"the stock line says what the recovery added")
+	check(Words.spare_line({"emp":3,"hull_patch":3},{Names.CRAFT_QUIETUS:{"emp":3,"hull_patch":1}}).contains("2 "+Tools.spec("hull_patch").name) and Words.spare_line({"emp":3},{Names.CRAFT_QUIETUS:{"emp":3}})=="","tools held beyond the racks are named")
+	var trade=Offers.describe(offered,"route:%d"%offered.operations[offered.operations.size()-1]).detail
+	check(trade.contains("Trade 1 "+Tools.spec("decoy").name+" for 2 "+Tools.spec("emp").name+" charges"),"the route offer reads as a trade: "+trade)
+	var dive=Words.dive_ledger({"emp":3,"decoy":3},{"emp":2,"decoy":3},{"emp":2,"decoy":3,"hull_patch":2})
+	check(dive[0]=="THIS DIVE" and dive[1]=="Spent: 1 EMP." and dive[2]=="Earned: +2 Hull patch." and dive[3]=="Kept: 2 EMP, 3 Decoy, 2 Hull patch.","the dive ledger reads spent, earned, kept: "+str(dive))
+	check(Words.dive_ledger({"emp":1},{"emp":1},{"emp":1})[1]=="Spent: nothing.","an unused dive spent nothing")
 	host.queue_free();await settle()
 	for suffix in ["",".bak",".tmp"]:DirAccess.remove_absolute(archive.path+suffix)
 	print("RUN RECORDS CHECKS ",checks," FAILURES ",failures)

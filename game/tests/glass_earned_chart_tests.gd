@@ -1,6 +1,7 @@
 extends SceneTree
 const Sim=preload("res://src/simulation/simulation.gd")
 const Store=preload("res://src/persistence/save_store.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 var checks=0
 var failures=0
 func check(ok,label):
@@ -37,9 +38,12 @@ func _initialize():
   var loaded=store.load_game();var restored=Sim.new()
   check(not loaded.is_empty() and restored.restore(loaded.active),"existing checked save reloads mid-operation "+str(id))
   check(restored.snapshot()==state and restored.public_chart()==s.public_chart(),"resume retains measurements in every depth band and drone course "+str(id))
+ # These ops keep their authored chart only with charts known; the player rules otherwise give them an earned chart. Known-charts developer switch.
+ var charts_before=PlayerDive.known_water(true)
  for id in [0,10,17,18,19,21]:
   var s=Sim.new();s.start(id)
   check(not s.mission.get("earned_terrain",false) and s.public_chart().is_empty(),"legacy authored chart preserved "+str(id))
+ PlayerDive.known_water(charts_before)
  for item in [[14,{"thread":"shelf"}],[15,{"facts":{"warning_chain":"service_local_receipt"}}],[16,{"facts":{"confluence_route":"overt"}}]]:
   var plain=Sim.Missions.make(item[0]);var carried=Sim.Missions.make(item[0],item[1])
   check(carried.earned_terrain and carried.launch_seed==plain.launch_seed and carried.rocks==plain.rocks and carried.depth_geometry==plain.depth_geometry,"carry keeps earned policy and physical depth geometry "+str(item[0]))

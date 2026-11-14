@@ -1,4 +1,5 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 # Campaign economy data and master switch (AI-DESIGNED numbers, Pat to tune).
 # Seam: economy.gd reads every price, income and preset here; glass_research.gd reads only
 # `enabled`. Revert: set enabled=false. Launches become free, research is automatic again,
@@ -32,8 +33,8 @@ const REFINE={"scrap":6,"alloy":1}
 const UNLOCK_PRICE={"hull:quiet":{"alloy":4},"hull:fast":{"alloy":4},"chassis:scout":{"alloy":2},"chassis:heavy":{"alloy":2},
  "chassis:endurance":{"alloy":2}}
 const REPAIR_HULL_PER_STEP=25
-const TARGETS=["quietus","drone_a","drone_b"]
-const LABELS={"quietus":"QUIETUS HULL","drone_a":"DRONE A","drone_b":"DRONE B"}
+const TARGETS=Names.CRAFT_IDS
+const LABELS={Names.CRAFT_QUIETUS:"QUIETUS HULL",Names.CRAFT_DRONE_A:"DRONE A",Names.CRAFT_DRONE_B:"DRONE B"}
 
 # 110 AI-DESIGNED bounded setup controls. Starting stock scales START (alloy stays zero).
 # Preset price applies first; repair is an additional multiplier for repairs ONLY.

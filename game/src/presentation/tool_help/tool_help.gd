@@ -5,12 +5,12 @@ const Settings=preload("res://src/presentation/frontend/frontend_settings.gd")
 const Depth=preload("res://src/presentation/frontend/settings_depth.gd")
 const TEXT = {
  "decoy":"DECOY: This craft carries charges; place a noise source to draw Sirens away.",
- "emp":"DISRUPT: This craft carries charges; briefly interrupt nearby Sirens.",
+ "emp":"EMP: This craft carries charges; a pulse briefly interrupts every Siren in range. No target needed.",
  "recon":"SURVEY: This craft carries charges; inspect its local area.",
- "sonar_emit":"EMIT: spend reserve on an audible sonar pulse.",
+ "sonar_emit":"PING SONAR: spend reserve on a sonar ping that Sirens can hear.",
  "sonar_sector":"SECTOR: choose all-around or forward sonar coverage.",
  "sonar_power":"POWER: choose low or high sonar pulse power.",
- "sonar_history":"HISTORY: read the sonar signals this craft has received.",
+ "sonar_history":"PAST PINGS: read the sonar signals this craft has received.",
  "sonobuoy":"SONOBUOY: drop a passive listener here for 90 s. Its bearings give direction, never range.",
  "silt_screen":"SILT SCREEN: an audible release blocks sight through this band for 25 s, for your craft and Sirens.",
  "hull_patch":"HULL PATCH: audible work repairs up to 30% collision hull damage on live Quietus. It cannot repair other damage.",

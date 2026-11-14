@@ -22,12 +22,15 @@ func process(host, _dt:float)->void:
 	if host.ocean!=null:
 		host.ocean.quality_tier=Settings.current.quality
 		host.ocean.quality_gesture_active=host.map_gesture.active()
-	if not governor.suggestion().is_empty() and not is_instance_valid(notice):_build_notice(host)
-	if is_instance_valid(notice):
-		notice.visible=host.screen=="mission" and not governor.suggestion().is_empty()
-		notice.position=Vector2(12,host.ocean.instrument_top+host.ui_touch_height*2.8)
-		# Shrink back to the current minimum after width-driven text wrapping.
-		notice.size=Vector2(maxf(1,host.size.x-24),0)
+	_place_notice(host)
+# Critic 13 and 14 Nov: the offer appeared in the middle of a dive, even paused, over the camera panel.
+# It now sits at the top of the Operations screen, the next time the player is there, and never in a dive.
+func _place_notice(host)->void:
+	var offered=not governor.suggestion().is_empty()
+	if offered and host.screen=="menu" and (not is_instance_valid(notice) or notice.get_parent()!=host.panel_box):_build_notice(host)
+	if is_instance_valid(notice) and (host.screen!="menu" or not offered):
+		if notice.get_parent()!=null:notice.get_parent().remove_child(notice)
+		notice.queue_free()
 func refresh(host,periodic:bool)->bool:
 	if not periodic:
 		governor.invalidate()
@@ -38,7 +41,7 @@ func refresh(host,periodic:bool)->bool:
 	var redraw=not periodic or governor.should_redraw(wall_seconds,host.sim.paused,changed,false,host.map_gesture.active())
 	return redraw
 func _build_notice(host)->void:
-	notice=PanelContainer.new();notice.name="QualitySuggestion";host.hud.add_child(notice)
+	notice=PanelContainer.new();notice.name="QualitySuggestion";host.panel_box.add_child(notice);host.panel_box.move_child(notice,0)
 	var box=VBoxContainer.new();notice.add_child(box)
 	var label=Label.new();label.text="LOW EFFECTS may improve frame rate.";label.autowrap_mode=TextServer.AUTOWRAP_WORD;label.size_flags_horizontal=Control.SIZE_EXPAND_FILL;box.add_child(label)
 	for row in [["USE LOW EFFECTS","quality_accept"],["DISMISS","quality_dismiss"]]:

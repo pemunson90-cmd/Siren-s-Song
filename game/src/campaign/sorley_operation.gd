@@ -1,4 +1,5 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 const W=preload("res://src/campaign/encounters/work_sites.gd")
 static func supports_config(c:Dictionary)->bool:return c.size()==2 and c.get("history")==true and c.get("source_id")==41
 static func supports_identity(id:int,c:Dictionary)->bool:return id==c.source_id
@@ -16,9 +17,9 @@ static func build(c:Dictionary,history:Dictionary={})->Dictionary:
  m.corridors=[{"pos":m.start,"name":"SOUTH BOAT LIFT","route":"deep"}]
  m.signal_sources=[{"id":"sorley_boy","label":"AIR-POCKET WINDOW","pos":Vector2(1450,980),"evidence":"A boy waits inside the trawler's air pocket. Winch the sealed pod locally, then LAND at the south boat.","located":false,"cadence":[1.,2.,1.]}]
  preload("res://src/campaign/divergence_missions.gd")._patrol(m,Vector2(1660,1180),[Vector2(1660,1180)])
- m.sirens[0].type="sentinel";m.sirens[0].band=0
+ m.sirens[0].type=Names.ROLE_SENTINEL;m.sirens[0].band=0
  preload("res://src/campaign/divergence_missions.gd")._patrol(m,Vector2(900,1180),[Vector2(900,1180),Vector2(1150,1550),Vector2(1650,1540),Vector2(1600,1160)])
- m.sirens[1].type="hunter";m.sirens[1].band=1
+ m.sirens[1].type=Names.ROLE_HUNTER;m.sirens[1].band=1
  m.endurance={"oxygen_seconds":600.,"drone_seconds":480.}
  m.brief="Sorley's boy is at the SHALLOW air-pocket window (1450,980). Approach below the eastern patrol, ascend outside the wreck, then WINCH the sealed pod within60m after settling. LAND at SOUTH BOAT LIFT (300,1500) in MIDDLE; recover Quietus there too.\nThe 4s winch is audible. Bare Quietus can wait for the patrol and use depth and the long southern return. Bringing him home earns MIDDLE-water pilotage charts for Needle Strait and Furnace Drift. An intact drone can keep Quietus safely at the lift: scout first, reserve power, and use finite Disrupt or silt to protect the transfer."
  m.record="Sorley's boy was landed at the south boat. Pilotage charts from his father are aboard Brannock."

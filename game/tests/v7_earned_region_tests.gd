@@ -1,6 +1,7 @@
 extends SceneTree
 const Sim=preload("res://src/simulation/simulation.gd")
 const Missions=preload("res://src/campaign/missions.gd")
+const Rules=preload("res://src/simulation/parity_rules/parity_rules.gd")
 var checks=0
 var failures=0
 func check(ok,label):
@@ -27,7 +28,10 @@ func _initialize():
   check(sim.public_chart()!=original,"unpaused sensor measurement earns terrain")
   check(sim.course_segments(0).is_empty(),"idle craft has no fabricated course")
   sim.paused=true;var saved=sim.snapshot();var restored=Sim.new()
-  check(restored.restore(saved) and restored.public_chart()==sim.public_chart(),"current active region restores measured chart")
-  var other=Sim.new();other.start(10)
+  # Player rule (Pat, 2026-11-12; terrain_chart.gd): a saved chart holds only what a craft mapped; a survey's passing picture is not kept. So the restored chart is the measured part of the live one.
+  var shown=sim.public_chart()
+  check(restored.restore(saved) and not restored.public_chart().clear_cells.is_empty() and restored.public_chart().clear_cells.all(func(cell):return cell in shown.clear_cells) and restored.public_chart().generation==shown.generation,"current active region restores measured chart")
+  # The tutorial-style authored chart is the older rule set: the player rules make this operation discover its chart, so this check opts out of them explicitly.
+  var other=Sim.new();other.start(10,"endurance",{Rules.KEY:false})
   check(other.public_chart().is_empty(),"other existing operations keep their intended authored charts")
  print("V7 EARNED REGION CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)

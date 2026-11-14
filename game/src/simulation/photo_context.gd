@@ -1,4 +1,5 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 # Read-only fallback after mission jobs: available optional frames, then visible Sirens.
 # Seam: Simulation.camera_context, before existing band/rules/pricing annotations.
 # Revert: remove that call and this module; no saved fields or game rules change.
@@ -22,7 +23,7 @@ static func resolve(sim,context:Dictionary)->Dictionary:
   return {"target":best,"ready":true,"text":"READY · %s · exposure %.0fs"%[Photo.label(sim.mission.objectives[best]),sim._capture_duration(sim.mission.objectives[best],sim.selected)]}
  var siren=Photo.siren_candidate(sim,sim.selected)
  if siren<0:return context
- return {"target":-2,"siren":siren,"ready":true,"text":"READY · S%d %s · PHOTO 8s · observe its form and movement from clear water"%[siren+1,str(sim.sirens[siren].get("type","patroller")).to_upper()]}
+ return {"target":-2,"siren":siren,"ready":true,"text":"READY · S%d %s · PHOTO 8s · observe its form and movement from clear water"%[siren+1,str(sim.sirens[siren].get("type",Names.ROLE_PATROLLER)).to_upper()]}
 # Presentation gives PHOTO priority only for the same resolved photographic context.
 static func is_photo(sim,context:Dictionary)->bool:
  var target=int(context.get("target",-1))

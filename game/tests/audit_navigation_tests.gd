@@ -1,4 +1,5 @@
 extends "res://tests/fix2_menu_ui_tests.gd"
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 # Handoff 120 (audit 091 F4/F9/F10/F11): repeat-stop continue-or-replan choice, direct
 # newest-record and current-branch access, compact launch economics, debrief damage record.
 # Presentation and input only: every check that touches the simulation compares against
@@ -163,8 +164,9 @@ func damage_case()->void:
  rows=log.events()
  check(rows.size()==2 and rows[1].kind=="COLLISION" and rows[1].note=="terrain at 9m/s","collision is attributed only from the collision ledger and strike text")
  var text=log.summary()
- check(text.contains("HULL -36%") and text.contains("00:12") and text.contains("NOT A COLLISION"),"debrief record states what, when and how much")
+ check(text.contains("HULL -36%") and text.contains("00:12") and text.contains("HULL -30% to 60% · a cause the game does not record"),"debrief record states what, when and how much, and names an unrecorded cause plainly")
  check(not text.contains("—"),"damage record has no em dash")
+ PlayerDive.launch_drones(s);s.elapsed+=1.;log.sample() # a drone aboard Quietus is not lost; launch it, then lose it in the water
  s.units[1].alive=false;s.elapsed+=1.;log.sample()
  check(log.summary().contains("LOST"),"a lost drone is recorded")
  # Continuous hazard fields damage hull by less than half a percent per frame.

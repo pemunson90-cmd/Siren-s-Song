@@ -14,7 +14,7 @@ func make_game(id:int,shape:Vector2i):
  root.add_child(game);await settle();game.set_process(false)
  var settings=Store.DEFAULTS.duplicate(true);settings.text_scale=1.5
  Settings.apply(settings,game);await settle()
- game._start_mission(id);game._layout();await settle()
+ game._start_mission(id);preload("res://tests/fixtures/player_dive.gd").launch_drones(game.sim);game._layout();await settle()
  return game
 var settle_frames=0
 var settle_usec=0
@@ -84,6 +84,8 @@ func capture_case(shape:Vector2i):
  if not baseline:
   hud.guard.pending={"unit":0,"point":sim.units[0].pos+Vector2(100,0)}
   game._refresh();await settle()
+  # While the prompt is open the lock card shows no move buttons (one decision at a time), so the prompt clears the stack.
+  if game.lock_warning!=null:check(game.lock_warning.buttons.all(func(b):return not b.visible),"the lock card hides its move buttons while the route prompt is open")
   for rect in hud.threat_rects():check(not hud.guard.panel.get_rect().intersects(rect),"route confirmation clears threat stack")
   check(Rect2(Vector2.ZERO,hud.size).encloses(hud.guard.panel.get_rect()),"route confirmation stays in viewport")
   await picture("%d-confirm"%shape.x)
@@ -147,7 +149,12 @@ func repair_threat_case(shape:Vector2i,mirrored:bool):
   await picture(tag+"-threats")
   var received=hud.get("contact_scroll")
   if received!=null and received.visible:
-   check(hud.contact_list.get_child_count()>=game.ocean.contact_entries().size()+1,tag+" every received row retained")
+   # WP-51 (row 79): the lock row of the Siren the lock card already states is shown by the
+   # card, not repeated in the list. Every other row must stay, so only that one row may be missing.
+   var raw=game.ocean.contact_entries()
+   var stated=raw.filter(func(entry):return entry.get("locking",false) and entry.key==game.ocean.lock_card_source and entry.get("report","").is_empty()).size()
+   check(stated<=1,tag+" at most the one stated lock row is left to the card")
+   check(hud.contact_list.get_child_count()>=raw.size()-stated+1,tag+" every received row retained")
    var before=sim.snapshot();await swipe_region(received.get_global_rect())
    check(received.scroll_vertical>0 and sim.snapshot()==before,tag+" received list scroll owns touch without orders")
   # Each stack proves every craft-page action; the extreme stack also exercises every menu.
@@ -165,7 +172,7 @@ func repair_threat_case(shape:Vector2i,mirrored:bool):
   var paused=sim.paused;await tap(game.pause_button.get_global_rect().get_center());check(sim.paused!=paused,tag+" actual Pause touch toggles pause")
   await tap(game.pause_button.get_global_rect().get_center());check(sim.paused==paused,tag+" actual Resume touch restores pause state")
   hud.dismiss();game._refresh();await settle()
- game._start_mission(0);sim=game.sim;sim.paused=true;game._refresh();await settle()
+ game._start_mission(0);preload("res://tests/fixtures/player_dive.gd").launch_drones(game.sim);sim=game.sim;sim.paused=true;game._refresh();await settle()
  for mode in ["free","follow","overview"]:
   var ocean=game.ocean
   if mode=="free":ocean.zoom_at(2.,ocean.size/2);ocean.pan_chart(Vector2(40,20))
@@ -198,7 +205,7 @@ func choose_special(game,point:Vector2,subkind:String):
  hud.dismiss();game._refresh();await settle()
 func repair_special_case(shape:Vector2i):
  var game=await make_game(7,shape);var sim=game.sim;var ocean=game.ocean
- game.tool_racks=preload("res://src/equipment/tool_racks.gd").empty();game.tool_racks.drone_b.recon=2;game._start_mission(7);sim=game.sim
+ game.tool_racks=preload("res://src/equipment/tool_racks.gd").empty();game.tool_racks.drone_b.recon=2;game._start_mission(7);preload("res://tests/fixtures/player_dive.gd").launch_drones(game.sim);sim=game.sim
  sim.units[2].pos=Vector2(650,1120);sim.command("select",{"unit":2});sim.paused=false;sim.advance(.8);sim.paused=true
  check(sim.command("recon"),"tender fixture spends own Survey");game._refresh();await settle()
  var known=game.mission_hud.Rendezvous.projection(sim)

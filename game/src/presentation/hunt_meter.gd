@@ -7,7 +7,9 @@ const StatusView=preload("res://src/presentation/status_text/status_view.gd")
 const Table=preload("res://src/presentation/hunt_meter/meter_table.gd")
 const Palette=preload("res://src/presentation/accessibility/palette.gd")
 const Settings=preload("res://src/presentation/frontend/frontend_settings.gd")
+const Text=preload("res://src/campaign/onboarding_text.gd")
 const CHIP="hunt_meter_button"
+const INTRO="hunt_meter_intro"
 const PENDING="hunt_meter_fit_pending"
 const HELP_HOOK="hunt_meter_help_resize_hook"
 static func label(view:Dictionary,compact:bool=false,tight:bool=false)->String:
@@ -28,13 +30,14 @@ static func tone(view:Dictionary,elapsed:float,hz:float=Table.PULSE_HZ)->Color:
 static func explanation(view:Dictionary)->String:
  var last=str(view.get("cause","")).replace("_"," ").strip_edges()
  if last.is_empty():last=Table.TEXT.no_rise
- return Table.TEXT.help%[str(view.stage),float(view.scale),last,float(view.floor),float(view.cap)]+Palette.legend()
+ return Table.TEXT.help%[str(view.stage),float(view.scale),float(view.cap),last,float(view.floor)]+Palette.legend()
 static func _open(hud)->void:
  var view=Pressure.view(hud.host.sim)
  if not view.active:return
  hud.host.sim.paused=true
  hud.help_return=hud.page if hud.host.advanced_orders else "water"
  hud.help_text=explanation(view)
+ _retire_intro(hud)
  hud.open("order_help")
 static func _button(hud)->Button:
  var existing=hud.get_meta(CHIP) if hud.has_meta(CHIP) else null
@@ -51,9 +54,11 @@ static func sync(hud)->void:
  var button=_button(hud) if view.active else (hud.get_meta(CHIP) if hud.has_meta(CHIP) else null)
  if not view.active or hud.host.screen!="mission":
   if is_instance_valid(button):button.hide()
+  if hud.has_meta(INTRO) and is_instance_valid(hud.get_meta(INTRO)):hud.get_meta(INTRO).hide()
   return
  if hud.page=="order_help":
   button.hide()
+  if hud.has_meta(INTRO) and is_instance_valid(hud.get_meta(INTRO)):hud.get_meta(INTRO).hide()
   if own_help(hud) and hud.touch_height>Table.COMPACT_TOUCH_HEIGHT:
    hook_help(hud)
    fit_help(hud)
@@ -83,6 +88,54 @@ static func sync(hud)->void:
  if not hud.host.advanced_orders and hud.alarm.visible and hud.alarm.text.begins_with("OP PRESSURE"):hud.alarm.hide()
  fit(hud)
  schedule_fit(hud)
+ intro(hud,button)
+# The one-line meaning beside the chip the first time it is shown in a profile (critic 14 Nov: three players never understood it).
+# The flag is kept with the profile's other first-use flags; a mode session keeps it on its campaign.
+static func _flags_owner(hud):
+ var campaign=hud.host.get("campaign_host")
+ return campaign if campaign!=null and is_instance_valid(campaign) else hud.host
+static func _intro_label(hud)->Label:
+ var existing=hud.get_meta(INTRO) if hud.has_meta(INTRO) else null
+ if is_instance_valid(existing):return existing
+ var label=Label.new()
+ label.name="HuntMeterIntro";label.mouse_filter=Control.MOUSE_FILTER_IGNORE;label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+ label.text=Table.TEXT.intro;label.z_index=1;label.hide()
+ var style=StyleBoxFlat.new();style.bg_color=Color(.018,.055,.075,.95);style.border_color=Color("e9cb8c");style.set_border_width_all(1);style.set_corner_radius_all(6)
+ style.content_margin_left=10;style.content_margin_right=10;style.content_margin_top=6;style.content_margin_bottom=6
+ label.add_theme_stylebox_override("normal",style)
+ hud.add_child(label);hud.set_meta(INTRO,label)
+ return label
+static func _retire_intro(hud)->void:
+ hud.set_meta("hunt_meter_intro_done",true)
+ var label=hud.get_meta(INTRO) if hud.has_meta(INTRO) else null
+ if is_instance_valid(label):label.hide()
+ var flags=_flags_owner(hud).hints_seen
+ if not Text.HUNT_METER_HINT in flags:flags.append(Text.HUNT_METER_HINT)
+static func intro(hud,button:Button)->void:
+ if hud.get_meta("hunt_meter_intro_done",false):return
+ var flags=_flags_owner(hud).hints_seen
+ var now=float(hud.host.sim.elapsed)
+ if not hud.has_meta("hunt_meter_intro_since"):
+  # Shown in an earlier dive of this profile: nothing more to say. Otherwise count running seconds from now.
+  if Text.HUNT_METER_HINT in flags:hud.set_meta("hunt_meter_intro_done",true);return
+  hud.set_meta("hunt_meter_intro_since",now)
+  flags.append(Text.HUNT_METER_HINT)
+ var label=_intro_label(hud)
+ if now-float(hud.get_meta("hunt_meter_intro_since"))>Table.INTRO_SECONDS:_retire_intro(hud);return
+ if not button.visible:label.hide();return
+ var area=Rect2(Vector2.ZERO,StatusView.content_bounds(hud,hud.size))
+ var width=minf(area.size.x-Table.MARGIN*2.0,Table.INTRO_MAX_WIDTH)
+ label.add_theme_font_size_override("font_size",roundi(float(button.get_theme_font_size("font_size"))*Table.INTRO_FONT_FACTOR))
+ label.custom_minimum_size=Vector2(width,0);label.size=Vector2(width,0)
+ label.size=Vector2(width,label.get_combined_minimum_size().y)
+ # Below the chip, else above it; with no clear place it waits hidden, so it never covers a lock card, a prompt or a control.
+ var obstacles=_obstacles(hud,button,false)
+ var x=clampf(button.position.x+(button.size.x-width)/2.0,Table.MARGIN,maxf(Table.MARGIN,area.end.x-width-Table.MARGIN))
+ for y in [button.position.y+button.size.y+Table.INTRO_GAP,button.position.y-label.size.y-Table.INTRO_GAP]:
+  var rect=Rect2(Vector2(x,y),label.size)
+  if area.encloses(rect) and not obstacles.any(func(other):return rect.intersects(other)):
+   label.position=rect.position;label.show();return
+ label.hide()
 static func own_help(hud)->bool:
  return Pressure.view(hud.host.sim).active and hud.page=="order_help" and hud.help_text.begins_with("HUNT ·")
 static func help_rects(hud)->Array:
@@ -142,6 +195,16 @@ static func _obstacles(hud,button:Button,craft:bool=true)->Array:
  var optics=hud.host.ocean.optical_feed
  if optics.is_visible_in_tree():result.append(Rect2(optics.global_position-hud.global_position,optics.size))
  if hud.intent.visible and area.encloses(hud.intent.get_rect()):result.append(hud.intent.get_rect())
+ # WP-11 (I2): the first-notice chip and note, and a mode banner (Expedition), are not controls but must stay readable.
+ var cue=hud.host.hud.get_node_or_null("FirstSirenCue") if hud.host.get("hud")!=null else null
+ if cue!=null and cue.is_visible_in_tree():
+  for r in [cue.marker_rect,cue.note_rect]:
+   if r.has_area():result.append(Rect2(cue.global_position-hud.global_position+r.position,r.size))
+ # WP-69: the onboarding tip card is read once at the top left; the chip seats elsewhere while it is up.
+ var tip=hud.get("hints")
+ if tip!=null and tip.panel.is_visible_in_tree():result.append(Rect2(tip.panel.global_position-hud.global_position,tip.panel.size))
+ var banner=hud.host.get("status_label")
+ if banner is Control and banner.is_visible_in_tree():result.append(Rect2(banner.global_position-hud.global_position,banner.size))
  if hud.fleet!=null and hud.fleet.is_visible_in_tree():
   for reading in hud.fleet.readouts:result.append(Rect2(hud.fleet.position+reading.rect.position,reading.rect.size))
  if craft:result.append_array(_craft_touch_rects(hud))
@@ -161,6 +224,13 @@ static func fit(hud)->void:
  var bottom=area.end.y-body.y-Table.MARGIN
  var near_top=hud.touch_height+Table.MARGIN
  var middle=maxf(Table.MARGIN,(area.size.x-body.x)/2)
+ # WP-11 (I2): hold the chip where it is while the layout is the same and its seat
+ # stays clear, so it moves for a resize, mirroring, text scale or a panel, not per frame.
+ var signature=str([area.size,hud.touch_height,hud.text_scale,Settings.current.get("mirrored_hud",false),hud.host.advanced_orders,hud.page,hud.order_dock.visible])
+ if Table.STICKY and button.get_meta("hunt_meter_fitted",false) and button.get_meta("hunt_meter_signature","")==signature:
+  var held=Rect2(old_position,body)
+  if area.encloses(held) and not obstacles.any(func(other):return held.intersects(other)):return
+ button.set_meta("hunt_meter_signature",signature)
  var candidates=[Vector2(right,near_top),Vector2(Table.MARGIN,near_top),Vector2(right,Table.MARGIN),Vector2(middle,Table.MARGIN),Vector2(Table.MARGIN,Table.MARGIN),Vector2(right,bottom),Vector2(middle,bottom),Vector2(Table.MARGIN,bottom)]
  # Try exact obstacle edges before the coarse scan: a full touch target can fit
  # between the header and a craft even when the scan step skips that gap.

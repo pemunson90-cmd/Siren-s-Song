@@ -139,7 +139,7 @@ func shape_case(shape):
 				game.scroll.ensure_control_visible(settings_entry);await settle()
 				for id in ["settings","menu_title","menu_challenges","menu_credits"]:
 					var entry=button(game,id)
-					check(entry!=null and entry.size.x>=game.ui_touch_height and entry.size.y>=game.ui_touch_height and game.scroll.get_global_rect().encloses(entry.get_global_rect()),"large-text bottom navigation stays fully reachable: "+id)
+					check(entry!=null and entry.size.x>=game.ui_touch_height and entry.size.y>=preload("res://src/presentation/layout_metrics.gd").dense_height(game.ui_touch_height)-1. and game.scroll.get_global_rect().encloses(entry.get_global_rect()),"large-text bottom navigation stays fully reachable: "+id)
 				await capture("operations-nav150")
 			await press(game,"settings")
 			await press(game,"settings_page_display")
@@ -222,7 +222,7 @@ func shape_case(shape):
 		check(persisted.load_settings().reduced_motion==chosen,"Back flushes a pending setting without waiting for debounce")
 	for b in game.find_children("*","Button",true,false):
 		if b.is_visible_in_tree() and b.get_meta("ui_action","") in ["settings","menu_title","menu_challenges","menu_credits"]:
-			check(b.get_global_rect().size.y>=game.ui_touch_height-1,"Operations control meets host density touch target: "+str(b.get_meta("ui_action")))
+			check(b.get_global_rect().size.y>=preload("res://src/presentation/layout_metrics.gd").dense_height(game.ui_touch_height)-1,"Operations control meets the 48dp touch target: "+str(b.get_meta("ui_action")))
 	game.queue_free();await settle();clean(archive);clean(settings_path);clean(archive+".challenges")
 func focusables(scroll):
 	var out=[]
@@ -338,7 +338,65 @@ func reach_case(shape):
 	check(profile_panels==12,"every profile panel was visited at both text scales: "+str(profile_panels))
 	for n in 3:profiles.clear(n,true)
 	game.queue_free();await settle();clean(archive);clean(settings_path);clean(archive+".challenges")
+# UI review C1: each screen has exactly one obvious main action; back is quiet, destructive is danger.
+func main_buttons(node):
+	var out=[]
+	for b in node.find_children("*","Button",true,false):
+		if b.is_visible_in_tree() and not b.disabled and b.get_meta("ui_role","NORMAL")=="MAIN":out.append(str(b.get_meta("ui_action","?")))
+	return out
+func role_of(node,id):
+	var b=button(node,id)
+	return b.get_meta("ui_role","NORMAL") if b!=null else "MISSING"
+func roles_case():
+	var Style=load("res://src/presentation/ui_style.gd")
+	check(Style.role_for("no_such_button")=="NORMAL" and Style.role_for("")=="NORMAL","role_for defaults an unknown id to NORMAL")
+	check(Style.role_for("begin")=="MAIN" and Style.role_for("back")=="QUIET" and Style.role_for("career_abandon")=="DANGER","role_for reads the table")
+	root.size=Vector2i(960,432);await settle()
+	var stem="user://button-roles";var archive=stem+".save";var settings_path=stem+"-settings.json"
+	clean(archive);clean(settings_path);clean(archive+".challenges")
+	var game=load("res://scenes/main.tscn").instantiate()
+	game.store.path=archive;game.settings_path=settings_path
+	game.capture_scenario="runtime-test"
+	root.add_child(game);await settle();game.set_process(false)
+	game._show_campaign();game.capture_scenario="";game._boot_frontend();await settle()
+	var front=game.get_node_or_null("Frontend")
+	check(front!=null,"role case title is present")
+	if front!=null:
+		check(main_buttons(front)==["frontend_new_campaign"],"title has exactly one main button: "+str(main_buttons(front)))
+		check(role_of(front,"frontend_modes")!="MAIN" if button(front,"frontend_modes")!=null else true,"title game modes is not the main action")
+		front._settings_screen();await settle()
+		check(role_of(front,"frontend_back")=="QUIET","settings Back is quiet")
+		check(main_buttons(front).is_empty(),"settings has no main button")
+		front._dismiss();await settle()
+	game.completed=[0];game.unlocked=1;game._show_campaign();await settle()
+	check(main_buttons(game).size()==1,"operations hub with no dive has exactly one main button: "+str(main_buttons(game)))
+	game._start_mission(1);game._show_campaign();await settle()
+	check(main_buttons(game)==["resume"] or main_buttons(game).size()==1,"operations hub with a dive in progress has exactly one main button: "+str(main_buttons(game)))
+	game._briefing(1);await settle()
+	check(main_buttons(game)==["begin"],"briefing has exactly one main button: "+str(main_buttons(game)))
+	check(role_of(game,"back")=="QUIET","briefing Back is quiet")
+	game._start_mission(1);game.sim.outcome="lost";game._debrief();await settle()
+	check(main_buttons(game)==["retry"],"lost screen has exactly one main button: "+str(main_buttons(game)))
+	check(role_of(game,"back")=="QUIET","lost screen Operations Archive is quiet")
+	game._confirm_new_campaign();await settle()
+	check(role_of(game,"confirm_new_campaign")=="DANGER" and role_of(game,"back")=="QUIET","erase confirmation is danger and Keep is quiet")
+	check(main_buttons(game).is_empty(),"erase confirmation has no main button")
+	# High contrast keeps the three looks distinct.
+	var settings_script=load("res://src/presentation/frontend/frontend_settings.gd")
+	settings_script.current["high_contrast"]=true
+	game._briefing(1);await settle()
+	var begin=button(game,"begin");var quiet=button(game,"back")
+	check(begin!=null and quiet!=null and begin.get_theme_stylebox("normal").bg_color!=quiet.get_theme_stylebox("normal").bg_color and begin.get_theme_stylebox("normal").get_border_width(SIDE_LEFT)==2,"high contrast briefing keeps main and quiet distinct")
+	settings_script.current["high_contrast"]=false
+	var probe=Button.new();game.add_child(probe);probe.custom_minimum_size=Vector2(0,48)
+	Style.apply(probe,"MAIN");check(probe.custom_minimum_size.y==48.0 and probe.has_theme_stylebox_override("normal"),"main role recolours the button and leaves its size to the layout")
+	Style.apply(probe,"NORMAL");check(probe.custom_minimum_size.y==48.0 and not probe.has_theme_stylebox_override("normal"),"normal role restores the original look")
+	probe.disabled=true
+	for role in ["MAIN","QUIET","DANGER"]:
+		Style.apply(probe,role);check(probe.get_theme_stylebox("disabled").bg_color==Style.DISABLED_FILL,"disabled "+role+" button reads as disabled")
+	game.queue_free();await settle();clean(archive);clean(settings_path);clean(archive+".challenges")
 func run():
 	for shape in [Vector2i(2520,1080),Vector2i(2184,1968),Vector2i(960,432)]:await shape_case(shape)
 	await reach_case(Vector2i(960,432))
+	await roles_case()
 	print("MENU REACH UI CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)

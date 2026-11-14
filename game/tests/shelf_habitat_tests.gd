@@ -1,5 +1,6 @@
 extends SceneTree
 const Sim=preload("res://src/simulation/simulation.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 var checks=0
 var failures=0
 func check(ok:bool,label:String)->void:
@@ -60,7 +61,7 @@ func _initialize()->void:
  check(guard.sirens[0].target==-1 and guard.command("shelf_alarm"),"common call starts without an invented visual lock")
  advance(guard,1)
  check(guard.sirens[0].mode=="INVESTIGATE" and guard.sirens[0].goal.distance_to(Habitat.ALARM)<90,"common alarm actually draws the authored hunter toward its heard source")
- var front=Sim.new();front.start(8);front.sirens=[];front.units[1].pos=Vector2(540,1600)
+ var front=Sim.new();front.start(8);PlayerDive.launch_drones(front);front.sirens=[];front.units[1].pos=Vector2(540,1600)
  var target=Vector2(840,1600)
  check(front.line_clear(front.units[1].pos,target) and front.visible(target),"optical truth stays clear across the exhaust front")
  check(1 not in front.passive_receivers(target) and front.acoustic_paths.arrivals(front.units[1].pos,target,700).is_empty(),"exhaust physically attenuates passive contact and emitted sound across it")

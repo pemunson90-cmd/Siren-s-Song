@@ -39,6 +39,7 @@ static func debrief(main)->bool:
  if mission.id not in preload("res://src/campaign/operation_catalog.gd").campaign_ids():return false
  main._retain_evidence()
  var previous=main.expedition.duplicate(true)
+ var lift_at=-1
  main.expedition=Campaign.recover(main.expedition,mission)
  if main.get("economy") is Dictionary:main.expedition=preload("res://src/campaign/economy.gd").after_recover(main.economy,previous,main.expedition)
  preload("res://src/persistence/save_states/save2_controller.gd").recovered(main,previous)
@@ -66,6 +67,8 @@ static func debrief(main)->bool:
   preload("res://src/presentation/module_recovery_view.gd").debrief(main)
   var grade=preload("res://src/simulation/recon_consequences.gd").grade(mission.get("objectives",[]))
   if grade.photos>0:main._menu_text("INTEL PHOTO GRADE %s · %d %s · average %d%%, sharpest %d%%"%[grade.grade,grade.photos,"record" if grade.photos==1 else "records",roundi(grade.quality*100),roundi(grade.best*100)],20)
+  if grade.photos>0:preload("res://src/presentation/flow/photo_review.gd").show_best_frame(main)
+  preload("res://src/presentation/photo_pay/photo_pay.gd").debrief(main)
   if mission.id==6:
    main._menu_text("PHYSICAL ROUTE / %s\nRecovered carrier facts: %s"%[mission.chosen_route.to_upper(),", ".join(mission.expedition_facts.keys())],17)
   for item in main.expedition.get("entitlements",[]):
@@ -83,14 +86,16 @@ static func debrief(main)->bool:
   preload("res://src/presentation/witness_evacuation_view.gd").arrival(main)
   preload("res://src/presentation/warning_recipient_view.gd").arrival(main)
   main._menu_text(main.sim.message,20)
+  lift_at=main.panel_box.get_child_count()
   main._menu_text(preload("res://src/presentation/loss_summary.gd").line(main.sim),17)
   preload("res://src/presentation/death_cause/cause_log.gd").debrief(main)
   preload("res://src/presentation/damage_log/damage_log.gd").debrief(main)
   main._menu_text("Field observations remain in the archive. This operation grants no new recovered fitting, continuation or committed history.",17)
   preload("res://src/presentation/module_recovery_view.gd").debrief(main)
- if not main.recovered_evidence.is_empty():main._button(main.panel_box,"REVIEW FIELD RECORDS",func():main._evidence_gallery(0),"evidence")
+ if not main.recovered_evidence.is_empty():main._button(main.panel_box,preload("res://src/presentation/flow/photo_review.gd").GALLERY_BUTTON,func():main._evidence_gallery(0),"evidence")
  main._button(main.panel_box,"RETRY OPERATION",func():main._briefing(mission.id),"retry")
  main._button(main.panel_box,"OPERATIONS ARCHIVE",main._show_campaign,"back")
+ preload("res://src/presentation/debrief_actions.gd").lift(main,lift_at)
  if mission.id>=14:main._menu_text(preload("res://src/campaign/glass_research.gd").detail(main.expedition),17)
  main._save_archive();main.call_deferred("_layout")
  return true

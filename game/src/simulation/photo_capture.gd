@@ -1,4 +1,5 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 # Reconnaissance photography. A frame is computed from where a craft is, how it
 # is oriented, what its optics can resolve and what it chose to frame. Nothing
 # here changes combat, beams, collision or detection: it only reads them, and a
@@ -23,13 +24,14 @@ const Findings=preload("res://src/simulation/photo_findings.gd")
 const Pricing=preload("res://src/simulation/photo_pricing/photo_pricing.gd")
 const BandPhoto=preload("res://src/photo_depth/band_photo.gd")
 const Rules=preload("res://src/photo_rules/photo_rules.gd")
+const SirenTag=preload("res://src/simulation/siren_tag.gd")
 const COLS:=36
 const MAX_SHOTS:=24
 const TURN_RATE:=1.8
 const FLASH_CHARGES:=[4,2,2]
 const STUDY:=1000
 const MAX_STUDIES:=8
-const SIREN_TYPES:=["patroller","hunter","sentinel","warden","sweeper","interceptor","buoy","relay"]
+const SIREN_TYPES:=[Names.ROLE_PATROLLER,Names.ROLE_HUNTER,Names.ROLE_SENTINEL,Names.ROLE_WARDEN,Names.ROLE_SWEEPER,Names.ROLE_INTERCEPTOR,Names.ROLE_BUOY,Names.ROLE_RELAY]
 
 static func state(sim)->Dictionary:
 	if not sim.mission.get("photo") is Dictionary:
@@ -67,13 +69,18 @@ static func target_in(mission:Dictionary,t:int)->Dictionary:
 static func label(o:Dictionary)->String:
 	return str(o.get("alias","UNIDENTIFIED CONTACT")) if o.get("unknown",false) and o.has("alias") else str(o.name)
 static func stage(o:Dictionary)->String:
-	if not o.get("unknown",false):return "resolved"
+	# WP-16: a named objective the player has not found yet is a search area too (parity_rules/site_search.gd).
+	if not o.get("unknown",false):return "lead" if preload("res://src/simulation/parity_rules/site_search.gd").hidden(o) else "resolved"
 	return "lead" if o.has("lead") and not o.get("sighted",false) else "sighted"
 static func lead_pos(o:Dictionary)->Vector2:
 	return o.pos+o.lead.get("off",Vector2.ZERO) if o.has("lead") else o.pos
 # The public view of an objective: unresolved subjects are named only as unknown.
 static func masked(o:Dictionary)->Dictionary:
-	if not o.get("unknown",false):return o
+	if not o.get("unknown",false):
+		if stage(o)!="lead":return o
+		var area:Dictionary=o.duplicate(true)
+		area["stage"]="lead";area["pos"]=lead_pos(o);area["lead_r"]=float(o.lead.get("r",150.0))
+		return area
 	var m:Dictionary=o.duplicate(true)
 	m["name"]=label(o);m["stage"]=stage(o)
 	if m.stage=="lead":m["pos"]=lead_pos(o);m["lead_r"]=float(o.lead.get("r",150.0))
@@ -84,7 +91,7 @@ static func applies(o:Dictionary)->bool:
 static func default_subject(facing:float=0.0,size:float=70.0)->Dictionary:
 	return {"facing":facing,"size":size,"glow":0.0,"required":["overview"],"features":[{"id":"overview","label":"SUBJECT","bearing":0.0,"arc":3.2,"detail":0.06,"lat":0.0,"dwell":1.0}]}
 static func siren_subject(s:Dictionary)->Dictionary:
-	var type:String=s.get("type","patroller")
+	var type:String=s.get("type",Names.ROLE_PATROLLER)
 	return {"facing":float(s.get("angle",0.0)),"size":56.0,"glow":0.1,"live":true,"type":type,"required":["form"],"features":[
 		{"id":"form","label":"BODY","bearing":0.0,"arc":3.2,"detail":0.08,"lat":0.0,"dwell":1.0,"gloss":"Angular body, red-lit seams."},
 		{"id":"array","label":"SENSOR ARRAY","bearing":0.0,"arc":0.9,"detail":0.42,"lat":-0.35,"dwell":1.5,"intel":"siren_"+type,"gloss":"A forward array, the part that listens."},
@@ -212,7 +219,7 @@ static func frame(sim,uid:int,o:Dictionary,t:float=0.0,with_view:bool=false)->Di
 		elif why.is_empty() and tight and f.id!=focus:why="OUT OF FOCUS"
 		elif why.is_empty() and not tight and detail>0.6:why="FINE DETAIL · use a TIGHT frame"
 		elif why.is_empty() and not _window(f,sim.elapsed):why="WAITING FOR ITS CYCLE"
-		elif why.is_empty() and local<detail:why="TOO SOFT · closer, lit or still"
+		elif why.is_empty() and local<detail:why=Pricing.Table.SOFT_REASON
 		var ready:bool=why.is_empty()
 		rows.append({"id":f.id,"label":f.label,"art":str(f.get("art","")),"y":float(f.get("y",0.4)),"ready":ready,"why":why,"apparent":inframe and side,"x":x/maxf(half,1.0),"q":clampf((local-detail*0.6)/(1.0-detail*0.6),0.0,1.0) if ready else 0.0,"dwell":float(f.get("dwell",1.2))})
 	var result={"unit":uid,"craft":u.name,"dist":dist,"bearing":bearing,"off":off,"aim":aim,"pivot":pivot,"aspect":aspect,"fov":fov,"mode":cfg.mode,"focus":focus,"flash":flashing,"light":light,"clarity":clarity,"shimmer":shimmer,"sharp":sharp,"steady":steady,"res":res,"range":op.range,"in_range":dist<=float(op.range),"rows":rows,"size":size,"facing":float(s.get("facing",0.0)),"heading":u.angle,"pos":u.pos,"glow":float(s.get("glow",0.0)),"depth":depth_dark,"thermal":bool(op.thermal)}
@@ -275,6 +282,13 @@ static func progress_text(sim,uid:int,o:Dictionary)->String:
 	if f.pivot>0.0:return "TURNING onto subject · %d° off"%roundi(rad_to_deg(f.pivot))
 	return "SHARP %d%% · LIGHT %d%% · CLARITY %d%%"%[roundi(f.sharp*100),roundi(f.light*100),roundi(f.clarity*100)]
 # Resolves the exposure: appends a structured observation and updates the objective.
+# The one filing rule for a frame: whether it is usable, and its quality. finish() files with it and the SHUTTER
+# forecast (photo_grade/frame_forecast.gd) predicts with it, so the two cannot drift apart.
+static func frame_usable(required:Array,seen:Array,mode:String,focus:String)->bool:
+	var usable:bool=required.all(func(id):return id in seen) if not required.is_empty() else not seen.is_empty()
+	return usable or (mode=="tight" and focus in seen)
+static func frame_quality(usable:bool,sharp:float,coverage:float)->float:
+	return clampf(sharp*0.55+minf(1.0,coverage)*0.45,0.0,1.0) if usable else clampf(sharp*0.3,0.0,0.4)
 static func finish(sim,uid:int,o:Dictionary)->Dictionary:
 	var st=state(sim);var acc:Dictionary=st.acc.get(uid,{});var oi=index_of(sim,o)
 	var f=frame(sim,uid,o,float(acc.get("t",0.0)),true)
@@ -289,18 +303,16 @@ static func finish(sim,uid:int,o:Dictionary)->Dictionary:
 			marks.append({"id":r.id,"x":snappedf(r.x,0.01),"q":fq[r.id],"label":r.label,"art":r.art,"y":snappedf(r.y,0.01)})
 		elif r.apparent:
 			marks.append({"id":r.id,"x":snappedf(r.x,0.01),"q":0.0,"label":"","art":"","y":snappedf(r.y,0.01)})
-	var required:Array=s.get("required",[])
-	var usable:bool=required.all(func(id):return id in seen) if not required.is_empty() else not seen.is_empty()
-	if f.mode=="tight" and str(f.focus) in seen:usable=true
+	var usable:bool=frame_usable(s.get("required",[]),seen,str(f.mode),str(f.focus))
 	var mean_sharp:float=float(acc.get("sharp",0.0))/maxf(float(acc.get("t",0.0)),0.001)
 	var total:float=float(s.features.size())
 	var gained:float=0.0
 	for id in seen:gained+=float(fq[id])
 	var coverage:float=gained/maxf(1.0,1.0 if f.mode=="tight" else total)
-	var quality:float=clampf(mean_sharp*0.55+minf(1.0,coverage)*0.45,0.0,1.0) if usable else clampf(mean_sharp*0.3,0.0,0.4)
+	var quality:float=frame_quality(usable,mean_sharp,coverage)
 	var shot={"id":int(st.next),"op":int(sim.mission.id),"obj":oi,"key":str(o.get("optical",o.get("site_id",oi))),"name":label(o),"unit":uid,"craft":str(f.craft),"pos":[snappedf(f.pos.x,0.1),snappedf(f.pos.y,0.1)],"heading":snappedf(f.heading,0.01),"dist":snappedf(f.dist,0.1),"aspect":snappedf(f.aspect,0.01),"mode":f.mode,"flash":f.flash,"q":snappedf(quality,0.01),"sharp":snappedf(mean_sharp,0.01),"light":snappedf(f.light,0.01),"clarity":snappedf(f.clarity,0.01),"shimmer":snappedf(f.shimmer,0.01),"features":seen,"fq":fq,"intel":intel,"usable":usable,"time":snappedf(sim.elapsed,0.1),"frame":{"fov":snappedf(f.fov,0.01),"aim":snappedf(f.aim,0.01),"cols":f.cols,"marks":marks,"size":s.get("size",70.0),"dist":snappedf(f.dist,1.0),"facing":snappedf(f.facing,0.01),"aspect":snappedf(f.aspect,0.01),"bearing":snappedf(f.bearing,0.01),"glow":snappedf(f.glow,0.01),"seed":int(st.next)*7919%1000,"kind":"siren" if o.has("siren") else "site","depth":snappedf(f.depth,0.01),"thermal":f.thermal}}
 	if o.has("siren"):
-		shot["path"]=acc.get("path",[]);shot["siren"]=int(o.siren);shot["type"]=str(sim.sirens[o.siren].get("type","patroller"));shot["mode_seen"]=str(sim.sirens[o.siren].get("mode",""))
+		shot["path"]=acc.get("path",[]);shot["siren"]=int(o.siren);shot["type"]=str(sim.sirens[o.siren].get("type",Names.ROLE_PATROLLER));shot["mode_seen"]=str(sim.sirens[o.siren].get("mode",""))
 		if shot.path.size()>=4:st.paths.append({"siren":int(o.siren),"pts":shot.path.duplicate(),"time":sim.elapsed})
 	if usable:
 		var found:Array=Findings.from_subject(o,s,seen,fq,int(sim.mission.id),int(shot.id))
@@ -404,8 +416,8 @@ static func siren_objective(sim,i:int)->int:
 	var st=state(sim)
 	for n in st.studies.size():
 		if st.studies[n].get("siren",-1)==i:return STUDY+n
-	var s=sim.sirens[i];var type=str(s.get("type","patroller"))
-	var study={"pos":s.pos,"name":"S%d %s"%[i+1,type.to_upper()],"captured":false,"optional":true,"kind":"","duration":8.0,"siren":i,"subject":siren_subject(s),"optical":"siren_"+type,"site_id":"siren_"+type,"evidence":""}
+	var s=sim.sirens[i];var type=str(s.get("type",Names.ROLE_PATROLLER))
+	var study={"pos":s.pos,"name":"%s %s"%[SirenTag.tag(i),type.to_upper()],"captured":false,"optional":true,"kind":"","duration":8.0,"siren":i,"subject":siren_subject(s),"optical":"siren_"+type,"site_id":"siren_"+type,"evidence":""}
 	# Study indices are persistent identities: never evict/reindex a live or archived subject.
 	if st.studies.size()>=maxi(MAX_STUDIES,sim.sirens.size()):return -1
 	st.studies.append(study)
@@ -435,7 +447,7 @@ static func preview(sim,uid:int)->Dictionary:
 	var t=int(ctx.get("target",-1))
 	if t==-2:
 		var i=int(ctx.siren);var s=sim.sirens[i]
-		return {"o":{"pos":s.pos,"name":"S%d %s"%[i+1,str(s.get("type","patroller")).to_upper()],"subject":siren_subject(s),"siren":i},"index":-2,"unit":uid,"ctx":ctx}
+		return {"o":{"pos":s.pos,"name":"%s %s"%[SirenTag.tag(i),str(s.get("type",Names.ROLE_PATROLLER)).to_upper()],"subject":siren_subject(s),"siren":i},"index":-2,"unit":uid,"ctx":ctx}
 	if t>=0 and t<sim.mission.objectives.size() and applies(sim.mission.objectives[t]):
 		var o=sim.mission.objectives[t]
 		if not sim.Depth.optical_clear(sim,sim.units[uid].pos,o.pos,sim.units[uid].band):return {}

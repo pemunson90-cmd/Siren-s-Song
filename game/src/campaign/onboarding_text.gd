@@ -3,6 +3,11 @@ extends RefCounted
 # Prompts are shown once per campaign (ids are saved); warnings pause for reading.
 const MAX_OPERATION := 4
 const FIRST_USE_HINTS := ["first_depth", "first_emit", "first_research", "first_field_tool"]
+# How long a tip's moment stays open (WP-51): a first-use tip queued behind a warning is dropped after this many
+# seconds of play, the pause tip after the first twelve, and the noise tip while Quietus is making more than this noise radius.
+const FIRST_USE_MOMENT := 6.0
+const PAUSE_MOMENT := 12.0
+const NOISE_RADIUS := 180.0
 const Priced = preload("res://src/simulation/photo_pricing/photo_pricing_table.gd")
 # Short briefing lines for the opening operations. The full rules stay in the field manual.
 const GOALS := {
@@ -14,25 +19,31 @@ const GOALS := {
 	5: "GOAL: photograph the crown and wakes, then LISTEN at the lee receiver and return home.\nDANGER: Quietus must collect the six-second listening record. Use the southern rocks for cover."
 }
 const HINTS := {
-	"move": {"text": "Tap QUIETUS or a drone, then tap open water to plan a route. Nothing moves until you press RESUME.", "ops": [0]},
-	"pause": {"text": "PAUSE is the top corner button: top left, or top right with the mirrored HUD. Time stops, and you can plan, inspect and change orders as long as you like.", "ops": [0]},
+	"move": {"text": "Tap QUIETUS or a drone, then tap open water to plan a route. Time starts stopped (the control reads PAUSED). Tap ▶ RUN to let it run; while it reads RUNNING, tap || PAUSE to stop time whenever you like.", "ops": [0]},
+	"pause": {"text": "The control in the top left corner (top right when the HUD is mirrored) says RUNNING or PAUSED: tap it to stop time, then plan, inspect and change orders for as long as you like.", "ops": [0]},
 	"drone": {"text": "Send a drone ahead to look. Drones are expendable. Quietus is not.", "ops": [0]},
-	"sweep": {"text": "A Siren heard noise and is walking to that spot. The cue gives its bearing and seconds. Time is paused. Slow down or go SILENT, and keep rock between you and it.", "ops": [0, 1, 2, 3]},
-	"warning": {"text": "A Siren has noticed you, so time is paused. Its warning shows the bearing and seconds left. Break line of sight, slow down or go SILENT, then press RESUME.", "ops": [0, 1, 2, 3]},
+	"sweep": {"text": "A Siren heard noise and is walking to that spot. The cue gives its bearing and seconds. Time is stopped. Slow down or tap GO SILENT, and keep rock between you and it.", "ops": [0, 1, 2, 3]},
+	"warning": {"text": "A Siren has noticed you, so time is stopped. Its warning shows the bearing and seconds left. Break line of sight, slow down or GO SILENT.", "ops": [0, 1, 2, 3]},
 	"noise": {"text": "Speed makes noise. Fast movement is heard from farther away. SILENT running is slower and quieter.", "ops": [0, 1, 2]},
 	"priced_reach": Priced.HINTS.priced_reach,
 	"priced_light": Priced.HINTS.priced_light,
 	"priced_window": Priced.HINTS.priced_window,
 	"priced_film": Priced.HINTS.priced_film,
 	"first_depth": {"text": "Depth changes hold the craft still and expose it in both bands. A normal crossing takes four seconds; the pressure sleeve shortens it.", "ops": []},
-	"first_emit": {"text": "EMIT spends reserve and makes noise. Returns take time; SECTOR and POWER set the next pulse's coverage and reach.", "ops": []},
+	"first_emit": {"text": "PING SONAR spends reserve and makes noise. Returns take time; PING ARC and PING POWER set the next ping's coverage and reach.", "ops": []},
 	"first_research": {"text": "Recovered material and its regional account unlock research. Check RESEARCH or SUPPLIES for the project and its cost before choosing it.", "ops": []},
 	"first_field_tool": {"text": "Field tools spend finite stock. Hold a tool button for its rules; SUPPLIES prepares the next launch, while RESUME keeps this dive's stock.", "ops": []}
 }
 # Keep the legacy priced-shots rollback marker for existing saves.
-static var SAVED_HINT_IDS=HINTS.keys()+["priced_gone"]
+# The Hunt chip's one-line meaning is shown once per profile (hunt_meter.gd); it is not a queued tip, so it is not in HINTS.
+const HUNT_METER_HINT := "hunt_meter"
+static var SAVED_HINT_IDS=HINTS.keys()+["priced_gone",HUNT_METER_HINT]
 static func goal(index: int) -> String:
 	return GOALS.get(index, "")
+# Operation 01 only, until it is recovered: what the opening briefing leaves out (drones, silent running, what kills you).
+const PRIMER := "Quietus is slow and quiet when SILENT is on, fast and loud when it is off.\nDrones scout ahead for you. Once deployed they stay out.\nWhen a Siren notices you, time pauses: stop, or put rock between you."
+static func primer(index: int, completed: Array) -> String:
+	return PRIMER if index == 0 and not 0 in completed else ""
 static func hint_text(id: String) -> String:
 	return HINTS.get(id, {}).get("text", "")
 static func applies(id: String, operation: int) -> bool:
@@ -46,5 +57,3 @@ static func valid_seen(value: Variant) -> bool:
 		if not id is String or not id in SAVED_HINT_IDS or id in unique: return false
 		unique.append(id)
 	return true
-static func reference_text(brief: String) -> String:
-	return "FIELD MANUAL\n\n" + brief + "\n\nORDERS\nTap a craft for its command ring; FLEET chooses a station. Tap empty water to mark a route, then confirm it if the craft already has orders. Craft → ROUTE → REPLACE / QUEUE changes append intent; PASS / STOP decides whether queued points are flown through or stopped at. PAUSE stays available. Drag / pinch inspects freely; FOCUS follows the craft and FIT shows the region.\n\nLAYERS AND NOISE\nPAUSE gives unlimited planning time. Silent running is slower and quieter. Changing depth layer takes 4 stationary seconds during which the craft is exposed in both layers. Sweeper Sirens hear farther than patrols and search longer, but follow only the last noise they heard; their cue shows direction and seconds since it was heard. Disruption interrupts nearby Sirens for 12 seconds. Quietus torpedoes travel noisily up to 150m; impact pins one Siren for 8s. Cover blocks sonar, enemy sight and torpedoes."

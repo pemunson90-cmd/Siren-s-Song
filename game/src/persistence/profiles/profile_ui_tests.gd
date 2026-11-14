@@ -18,6 +18,8 @@ func capture(label,shape):
  var visible=front().scroll.get_global_rect()
  for control in front().column.get_children():
   check(visible.encloses(control.get_global_rect()),"150 percent captured controls and text stay in viewport: "+label)
+ # The picture needs a real renderer; with none (the headless sweep) the layout checks above still run.
+ if DisplayServer.get_name()=="headless" or root.get_texture().get_image()==null:return
  var path="user://profiles-%s-%dx%d-150.png"%[label,shape.x,shape.y]
  check(root.get_texture().get_image().save_png(path)==OK,"save native profile capture")
  print("PROFILE CAPTURE ",ProjectSettings.globalize_path(path))

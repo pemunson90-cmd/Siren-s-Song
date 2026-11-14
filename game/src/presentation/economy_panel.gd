@@ -1,4 +1,7 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
+const UiStyle=preload("res://src/presentation/ui_style.gd")
+const FitCard=preload("res://src/presentation/fit_surface/fit_card.gd")
 # Between-operation economy controls: balances, costs, preset, repair, manufacturing,
 # research and frame unlocks. Main owns state; every action saves and redraws so prices
 # stay current. Nothing here changes sensing, pause or combat.
@@ -12,6 +15,11 @@ const Save2Table=preload("res://src/persistence/save_states/save2_table.gd")
 const Catalog=preload("res://src/equipment/equipment_catalog.gd")
 const Research=preload("res://src/campaign/glass_research.gd")
 const Inventory=preload("res://src/campaign/fleet_inventory.gd")
+const PrepColumns=preload("res://src/presentation/prep_columns.gd")
+const Hulls=preload("res://src/equipment/hulls.gd")
+const HAVE_LINE="You have: %s."
+const SOURCES_LINE="Scrap and cells come from each dive's salvage; alloy comes from alien material you recover, or from refining %d scrap into %d alloy."
+const SHORT_LINE="You are short by %s."
 static func _redraw(host,action:Callable)->void:
 	var reading_position=host.scroll.scroll_vertical
 	action.call()
@@ -22,24 +30,71 @@ static func _redraw(host,action:Callable)->void:
 		await host.get_tree().process_frame
 		if is_instance_valid(heading) and heading.get_parent()==host.panel_box:host.scroll.scroll_vertical=reading_position
 	).call_deferred()
-static func _spend_button(host,text:String,cost:Dictionary,action:Callable,id:String)->Button:
+const IRONMAN_RISK="Ironman permanently loses unrecovered drones and fittings. Replacements cost supplies. Empty bays can launch. Ironman charges every fitting on every launch and locks the preset once play begins."
+const EASIER_LINE="An easier preset cannot be switched back."
+const BARE_LINE="Clears every fitting from the next launch. You keep them all."
+const HEADING_DIFFICULTY="DIFFICULTY"
+const ARMED_EASIER="economy_easier_armed"
+# What a frame changes against the standard frame of its unit, worked out from the frame table itself.
+# A hull has life support, speed and pulse cost; a drone has battery and passive reach.
+static func frame_effect(unit:int,id:String)->String:
+	var frames=Catalog.frames(unit);var base=frames.standard;var frame=frames[id];var parts=[]
+	_ratio(parts,frame.noise/base.noise,"motion sound %d%% %s","higher","lower")
+	_ratio(parts,frame.endurance/base.endurance,("life support" if unit==0 else "battery")+" %d%% %s","longer","shorter")
+	_ratio(parts,frame.get("speed",1.0)/base.get("speed",1.0),"%d%% %s","faster","slower")
+	_ratio(parts,frame.get("reach",1.0)/base.get("reach",1.0),"passive reach %d%% %s","longer","shorter")
+	_ratio(parts,frame.get("pulse",1.0)/base.get("pulse",1.0),"SONAR pulses cost %d%% %s","more","less")
+	for mount in Hulls.MOUNT_TYPES:
+		if mount=="CARGO":continue
+		var have=frame.mounts.count(mount);var standard=base.mounts.count(mount)
+		if have==0 and standard>0:parts.append("no %s mount"%mount.to_lower())
+		elif have>standard:parts.append("%d %s mounts"%[have,mount.to_lower()])
+	if frame.cargo!=base.cargo:parts.append("no winch cargo" if frame.cargo==0 else "%d cargo %s (standard %d)"%[frame.cargo,"place" if frame.cargo==1 else "places",base.cargo])
+	if frame.power!=base.power:parts.append("power %d (standard %d)"%[frame.power,base.power])
+	if parts.is_empty():return "Same as the standard frame."
+	var line="; ".join(parts)
+	return line[0].to_upper()+line.substr(1)+"."
+static func _ratio(parts:Array,ratio:float,pattern:String,up:String,down:String)->void:
+	var pct=roundi(absf(ratio-1.0)*100.0)
+	if pct>0:parts.append(pattern%[pct,up if ratio>1.0 else down])
+static func _spend_button(host,text:String,cost:Dictionary,action:Callable,id:String,note:String="")->Button:
 	var button=host._button(host.panel_box,"%s · %s"%[text,Economy.fmt(cost)],func():_redraw(host,action),id)
 	button.disabled=not Economy.can_pay(host.economy,cost)
+	if not note.is_empty():host._menu_text(note,14)
+	# A dim button says why, in the words the frame cards on Fittings use.
+	if button.disabled:host._menu_text(SHORT_LINE%Economy.shortfall(host.economy,cost),14)
 	return button
+# One plain line of what the player holds, and the first time per visit where each kind comes from.
+static func currency_text(e:Dictionary)->String:
+	return HAVE_LINE%" · ".join(Table.RES.map(func(key):return "%d %s"%[e.stock.get(key,0),Table.NAMES[key].to_lower()]))
+static func currency(host,fresh:bool)->void:
+	currency_line(host)
+	if fresh:currency_hint(host)
+static func currency_line(host)->void:
+	if Table.enabled:host._menu_text(currency_text(host.economy),16)
+static func currency_hint(host)->void:
+	if Table.enabled:host._menu_text(SOURCES_LINE%[Table.REFINE.scrap,Table.REFINE.alloy],14)
 # Operations entry: a supplies button.
 static func entry(host)->void:
 	if Table.enabled:
 		host._button(host.panel_box,"SUPPLIES",host._show_economy,"economy")
 		if not host._campaign_pristine() or host.active_started or Options.state(host.economy).started:
-			_easier_picker(host,host._show_campaign)
-static func _easier_picker(host,redraw:Callable)->void:
+			_easier_picker(host,host._show_campaign,false)
+# with_note: the line that the change cannot be undone, on SUPPLIES; the hub keeps its rows (the confirming tap says it).
+static func _easier_picker(host,redraw:Callable,with_note:bool=true)->void:
 	var e=host.economy
 	var pending=Options.state(e).pending
-	if not pending.is_empty():host._menu_text("%s queued / effective at the next dock after a dive. Current dive keeps its rules."%Table.PRESETS[pending].name,14)
+	if not pending.is_empty():host._menu_text("%s is queued. It takes effect at the next dock after a dive; the current dive keeps its rules."%Table.PRESETS[pending].name.capitalize(),14)
 	for id in Options.choices(e):
-		host._button(host.panel_box,"EASIER PRESET / %s / NEXT DOCK"%Table.PRESETS[id].name,func():
+		# The change cannot be undone, so the first tap arms it and the second applies it.
+		var armed=host.get_meta(ARMED_EASIER,"")==id
+		host._button(host.panel_box,("CONFIRM EASIER: %s · CANNOT BE UNDONE" if armed else "MAKE IT EASIER: %s, FROM THE NEXT DOCK")%Table.PRESETS[id].name,func():
+			if not armed:
+				host.set_meta(ARMED_EASIER,id);redraw.call();return
+			host.remove_meta(ARMED_EASIER)
 			if Options.request(e,id):host._save_archive();redraw.call()
 		,"eco_easier_"+id)
+	if with_note and not Options.choices(e).is_empty():host._menu_text(EASIER_LINE,14)
 
 # The preset choice, shown at the top of Operations while the campaign is pristine.
 static func pristine_picker(host)->void:
@@ -51,12 +106,13 @@ static func picker(host,e:Dictionary,changed:Callable)->void:
 	host._menu_text("CAMPAIGN PRESET · %s%s"%[Options.label(e)," · IRONMAN" if e.ironman else ""],17)
 	for id in Table.ORDER:
 		var chosen=e.preset==id
-		var button=host._button(host.panel_box,"%s%s · %s"%[Table.PRESETS[id].name," · SELECTED" if chosen else "",Table.PRESETS[id].note],
+		var button=host._button(host.panel_box,"%s%s · %s"%[FitCard.CHOSEN+" · " if chosen else "",Table.PRESETS[id].name,Table.PRESETS[id].note],
 			func():changed.call(id,e.ironman,Options.state(e).custom),"eco_pick_"+id)
 		button.disabled=chosen
+		UiStyle.apply_card(button,chosen,false)
 	host._button(host.panel_box,"IRONMAN · ON (TAP TO TURN OFF)" if e.ironman else "IRONMAN · OFF (TAP TO TURN ON)",
 		func():changed.call(e.preset,not e.ironman,Options.state(e).custom),"eco_pick_ironman")
-	host._menu_text("Ironman permanently loses unrecovered drones and fittings. Replacements cost supplies. Empty bays can launch. Ironman charges every fitting on every launch and locks the preset once play begins.\n"+Save2Table.IRONMAN_LINE,14)
+	host._menu_text(IRONMAN_RISK+"\n"+Save2Table.IRONMAN_LINE,14)
 	var custom=Options.state(e).custom
 	host._button(host.panel_box,"ADVANCED / "+("OFF" if custom.is_empty() else "ON / CUSTOM"),func():
 		var values={}
@@ -128,7 +184,7 @@ static func settle(host,first_recovery:bool,fleet_before:Dictionary)->void:
 	var artifact=mission.get("recovered",false) and state.get("retrieved",false) and state.get("artifact",{}).get("state","")=="recovered"
 	artifact=artifact and state.artifact.get("id","") not in host.expedition.get("research",{}).get("materials",[])
 	var recovered=mission.get("module_recovery",{}).get("result",{}).get("recovered",[])
-	Economy.settle(host.economy,{"outcome":host.sim.outcome,"hull":host.sim.hull,"alive":[host.sim.units[1].alive,host.sim.units[2].alive],
+	Economy.settle(host.economy,{"outcome":host.sim.outcome,"hull":host.sim.hull,"alive":[host.sim.DroneBay.home(host.sim.units[1]),host.sim.DroneBay.home(host.sim.units[2])],
 		"mission":mission,"first":first_recovery and won,"recovered":recovered.size() if first_recovery and won else 0,"artifact":artifact,
 		"blackwater_handoff":preload("res://src/simulation/blackwater_delivery.gd").handoff_paid(mission),
 		"key":"%d|%s|%d"%[host.mission_index,host.sim.outcome,roundi(host.sim.elapsed*100.)]})
@@ -136,38 +192,70 @@ static func settle(host,first_recovery:bool,fleet_before:Dictionary)->void:
 		for item in Economy.Losses.state(host.economy).last:
 			if item not in Economy.Losses.state(host.economy).modules:host.fleet=Inventory.rebuild(host.fleet,item)
 # ---- the supplies screen -----------------------------------------------------
+# WP-62: on a wide screen what you hold and what the next launch costs are the left column, and the repairs and
+# purchases the right (PrepColumns, as on Fittings). A narrow screen keeps the one list in its old order.
 static func show(host)->void:
-	var e=host.economy
+	# A redraw after a purchase is not a new visit, so the first-visit note stays away.
+	var fresh=host.screen!="economy"
 	host.screen="economy";host.sim.paused=true;host._clear_menu()
-	host._button(host.panel_box,"BACK TO OPERATIONS",host._show_campaign,"back")
-	host._menu_text("SUPPLIES / COSTS",30)
-	host._menu_text("%s\nPRESET · %s · %s%s"%[Economy.balance_text(e),Options.label(e),Economy.preset(e).note," · IRONMAN" if e.ironman else ""],16)
-	host._menu_text(e.report,14)
+	PrepColumns.back_line(host,"SUPPLIES / COSTS","BACK TO OPERATIONS",host._show_campaign,"back")
+	var columns=PrepColumns.open(host,show.bind(host))
+	var left=columns[0];var right=columns[1];var wide=PrepColumns.is_wide(host)
+	# A confirmation armed on an earlier visit does not carry over.
+	if fresh:
+		for key in [ARMED_EASIER,"economy_iron_armed"]:
+			if host.has_meta(key):host.remove_meta(key)
+	PrepColumns.into(host,left,_holdings.bind(host,fresh))
+	PrepColumns.into(host,left,_launch_note.bind(host))
+	PrepColumns.into(host,right,_purchases.bind(host))
+	# The risky one-way choices come last, under their own heading.
+	PrepColumns.into(host,right,_preset_controls.bind(host))
+	host.call_deferred("_layout")
+# What the player holds: supplies, preset, the last dive's report and the crew.
+static func _holdings(host,fresh:bool)->void:
+	var e=host.economy
+	currency(host,fresh)
+	host._menu_text("PRESET · %s · %s%s"%[Options.label(e),Economy.preset(e).note," · IRONMAN" if e.ironman else ""],16)
+	# A dive that can be resumed is the current state; the default "No dive yet" report would be false.
+	var diving=host.active_started and host.sim.outcome.is_empty()
+	if diving:host._menu_text(host.CampaignFlow.in_progress_line(host),14)
+	if not (diving and e.report.begins_with("No dive yet")):host._menu_text(e.report,14)
 	preload("res://src/presentation/crew/crew_view.gd").supplies(host)
+# The campaign preset and the one-way Ironman switch.
+static func _preset_controls(host)->void:
+	var e=host.economy
+	host._menu_text(HEADING_DIFFICULTY,17)
 	if e.ironman:
 		host._button(host.panel_box,"PRESET LOCKED · IRONMAN",func():pass,"eco_preset").disabled=true
 		host._menu_text(Save2Table.IRONMAN_LINE,15)
 	else:
 		_easier_picker(host,show.bind(host))
 		var armed=host.get_meta("economy_iron_armed",false)
-		host._menu_text(Save2Table.IRONMAN_LINE,15)
+		host._menu_text(IRONMAN_RISK+"\n"+Save2Table.IRONMAN_LINE,15)
 		var iron_button=host._button(host.panel_box,"CONFIRM IRONMAN · CANNOT BE UNDONE" if armed else "IRONMAN · OFF → ON (ONE WAY)",
 			_ironman.bind(host),"eco_ironman")
 		if not Options.state(e).pending.is_empty():
 			iron_button.disabled=true
 			iron_button.text="IRONMAN / EASIER PRESET QUEUED"
 			host._menu_text("Easier preset queued; Ironman can be enabled after the next dock.",14)
-	host._menu_text("NEXT LAUNCH REFIT · %s\nA craft keeps what it carried last launch for free. A bare standard Quietus always launches free."%
-		Economy.fmt(launch_cost(host)),15)
+# The note sits inside the same side margin as the cards, clear of the panel edge.
+static func _launch_note(host)->void:
+	var note=MarginContainer.new();note.add_theme_constant_override("margin_left",UiStyle.PREP_TEXT_INSET);note.add_theme_constant_override("margin_right",UiStyle.PREP_TEXT_INSET)
+	var note_box=VBoxContainer.new();note.add_child(note_box);host.panel_box.add_child(note)
+	PrepColumns.into(host,note_box,func():host._menu_text("NEXT LAUNCH REFIT · %s\nA craft keeps what it carried last launch for free. A bare standard Quietus always launches free."%
+		Economy.fmt(launch_cost(host)),15))
+# Repairs, manufacturing, research, unlocks and the free refits.
+static func _purchases(host)->void:
+	var e=host.economy
 	_repairs(host)
 	_manufacturing(host)
 	_research(host)
 	_unlocks(host)
 	_spend_button(host,"REFINE SCRAP TO %d ALLOY"%Table.REFINE.alloy,Economy.refine_cost(e),func():Economy.refine(e),"eco_refine")
 	host._button(host.panel_box,"STRIP ALL TO BARE · FREE",func():_redraw(host,func():host.fitted_equipment=Catalog.default_loadout()),"eco_bare")
+	host._menu_text(BARE_LINE,14)
 	if e.last_fit!=host.fitted_equipment:
 		host._button(host.panel_box,"REVERT TO LAST LAUNCH FIT · FREE",func():_redraw(host,_revert_last.bind(host)),"eco_last")
-	host.call_deferred("_layout")
 static func _ironman(host)->void:
 	if host.get_meta("economy_iron_armed",false):
 		host.remove_meta("economy_iron_armed");_redraw(host,Economy.set_ironman.bind(host.economy))
@@ -183,7 +271,7 @@ static func _do_research(host,material:String)->void:
 static func _repairs(host)->void:
 	var e=host.economy
 	for target in Table.TARGETS:
-		if (target=="drone_a" and Economy.Losses.missing(e,1)) or (target=="drone_b" and Economy.Losses.missing(e,2)):
+		if (target==Names.CRAFT_DRONE_A and Economy.Losses.missing(e,1)) or (target==Names.CRAFT_DRONE_B and Economy.Losses.missing(e,2)):
 			host._menu_text("%s / BAY EMPTY / MANUFACTURE REPLACEMENT"%Table.LABELS[target],14);continue
 		var cost=Economy.repair_cost(e,target)
 		if cost.is_empty():
@@ -217,4 +305,4 @@ static func _unlocks(host)->void:
 			if unlock.is_empty() or unlock in seen or Economy.is_unlocked(e,host.expedition,unlock):continue
 			seen.append(unlock)
 			_spend_button(host,"UNLOCK %s"%Catalog.frames(unit)[id].name.to_upper(),Economy.unlock_cost(e,unlock),
-				func():Economy.buy_unlock(e,unlock),"eco_unlock_"+unlock.replace(":","_"))
+				func():Economy.buy_unlock(e,unlock),"eco_unlock_"+unlock.replace(":","_"),frame_effect(unit,id))

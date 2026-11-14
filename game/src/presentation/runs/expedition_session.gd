@@ -7,7 +7,12 @@ const RunSimulation=preload("res://src/campaign/runs/expedition_run.gd")
 const RunTable=preload("res://src/campaign/runs/run_table.gd")
 const RunOffers=preload("res://src/campaign/runs/run_offers.gd")
 const SummaryView=preload("res://src/presentation/runs/run_summary_view.gd")
+const RunWords=preload("res://src/presentation/runs/run_words.gd")
 const OfferView=preload("res://src/presentation/runs/offer_view.gd")
+const Briefing=preload("res://src/presentation/mode_briefing.gd")
+const PrepColumns=preload("res://src/presentation/prep_columns.gd")
+# The rules of an expedition that are neither goal nor danger.
+const EXPEDITION_RULES=["Tools you carry stay with you from one operation to the next.","Film and oxygen refill for every dive.","The Hunt meter in the dive shows the current pressure.","Lose a dive and the whole expedition ends."]
 var campaign_host
 var run_state:Dictionary={}
 var return_to_list:Callable
@@ -15,16 +20,17 @@ var prior_mode=Node.PROCESS_MODE_INHERIT
 var prior_visibility:Array=[]
 var prior_sound_suspended=false
 var recorded=false
-var accept_rider=true
+# Trial rule 6 (trial_rules.gd): an Expedition operation's rider starts switched off; the player can switch it on.
+# Naval Career has its own variable (career_session.gd) and keeps accepting the rider by default.
+var accept_rider=TrialRules.expedition_rider_default_on()
+# The dive just finished: spent, earned, kept (run_words.gd). Empty until a dive ends in this session.
+var dive_ledger:Array=[]
 var snapshot_ready=false
 var save_failed=false
 var active_envelope:Dictionary={}
 var pinned_path=""
 func freeze_campaign()->void:
-	prior_mode=campaign_host.process_mode;prior_sound_suspended=campaign_host.sound.system_suspended
-	for child in campaign_host.get_children():
-		if child is CanvasItem:prior_visibility.append({"node":child,"visible":child.visible});child.hide()
-	campaign_host.sound.suspend();campaign_host.process_mode=Node.PROCESS_MODE_DISABLED
+	preload("res://src/presentation/mode_host_freeze.gd").freeze(self)
 func _ready()->void:
 	pinned_path=campaign_host.store.path
 	if DevState.marked(self):set_meta("dev_profile",true)
@@ -72,29 +78,57 @@ func _show_campaign()->void:
 	sim.paused=true;screen="expedition_menu";_clear_menu()
 	_menu_text("EXPEDITION · SEED %d"%run_state.seed,30)
 	_menu_text("OPERATION %d / %d · %s"%[run_state.cursor+1,run_state.operations.size(),sim.mission.title.to_upper()],20)
-	_menu_text(sim.mission.brief,17)
-	_menu_text("%s LOADOUT · %s · OPERATION START HUNT %d\nThe expedition Hunt modifier is capped for this operation. The in-dive meter shows current pressure.\nTools carry across recovered operations. Film and oxygen replenish for each dive."%[run_state.loadout.to_upper(),RunTable.SCARCITY[run_state.scarcity].to_upper(),RunState.starting_hunt(run_state,RunState.current_operation(run_state))],17)
+	# WP-62: on a wide screen the briefing is the left column and the rider and the tools the right; narrow screens
+	# keep the one list in its old order.
+	var columns=PrepColumns.open(self,_show_campaign)
+	PrepColumns.into(self,columns[0],func():
+		Briefing.show(self,RunState.current_operation(run_state),sim.mission.brief,EXPEDITION_RULES)
+		_menu_text(RunWords.kit_line(run_state.loadout),17)
+		_menu_text(preload("res://src/campaign/runs/run_records.gd").scarcity_line(run_state.loadout,run_state.scarcity),17)
+		_menu_text(RunWords.hunt_line(run_state),17)
+		var racks:Dictionary=run_state.get("tool_racks",preload("res://src/equipment/tool_racks.gd").from_stock(run_state.stock))
+		_menu_text(Briefing.carrying_line(racks),17)
+		var spare=RunWords.spare_line(run_state.stock,racks)
+		if not spare.is_empty():_menu_text(spare,17))
 	if active_started:
-		if save_failed:
-			_menu_text("SAVE PENDING · "+str(campaign_host.get_meta("runs_save_error","")),17)
-			_button(panel_box,"RETRY SAVE",func():_save_archive();_show_campaign(),"run_retry_save")
-		_menu_text(sim.rider_status(),17)
-		_button(panel_box,"RESUME DIVE",_enter_water,"run_resume")
-		_button(panel_box,"END DIVE · LOSE RUN",func():_debrief(true),"run_abandon")
+		PrepColumns.into(self,columns[1],func():
+			if save_failed:
+				preload("res://src/presentation/frontend/save_error_view.gd").menu_retry(self,"SAVE PENDING · "+str(campaign_host.get_meta("runs_save_error","")),17,"RETRY SAVE",func():_save_archive();_show_campaign(),"run_retry_save")
+			_menu_text(sim.rider_status(),17)
+			_button(panel_box,"RESUME DIVE",_enter_water,"run_resume")
+			_button(panel_box,"END DIVE · LOSE RUN",_confirm_end,"run_abandon"))
 	else:
-		var rider=RunState.rider_offer(run_state)
-		_menu_text(RunState.Riders.description(rider,RunState.rider_bonus_text(rider)),17)
-		if not rider.is_empty():
-			_button(panel_box,"RIDER · "+("ACCEPTED" if accept_rider else "DECLINED"),preload("res://src/presentation/rider_choice.gd").toggle.bind(self,_show_campaign),"run_rider")
-		tool_racks=run_state.get("tool_racks",preload("res://src/equipment/tool_racks.gd").from_stock(run_state.stock)).duplicate(true)
-		preload("res://src/presentation/mode_racks_view.gd").show(self,true)
-		_button(panel_box,"BEGIN OPERATION · START PAUSED",_begin,"run_begin")
-		_button(panel_box,"RETURN TO MODES",_return,"run_return")
+		PrepColumns.into(self,columns[1],_rider_and_tools)
+		# WP-11 (I6): the launch and return actions sit in the pinned footer, not
+		# at the end of a page several screens tall.
+		_button(menu_footer,"BEGIN OPERATION · START PAUSED",_begin,"run_begin")
+		_button(menu_footer,"BACK TO EXPEDITIONS",_return,"run_return")
+		menu_footer.show()
+	call_deferred("_layout")
+# The rider offer and the tool racks. The racks stay one stacked column inside the right-hand column.
+func _rider_and_tools()->void:
+	var rider=RunState.rider_offer(run_state)
+	_menu_text(RunState.Riders.description(rider,RunState.rider_bonus_text(rider)),17)
+	if not rider.is_empty():
+		_button(panel_box,"RIDER: ON · TAP TO REMOVE" if accept_rider else "RIDER: OFF · TAP TO ACCEPT",preload("res://src/presentation/rider_choice.gd").toggle.bind(self,_show_campaign),"run_rider")
+	tool_racks=run_state.get("tool_racks",preload("res://src/equipment/tool_racks.gd").from_stock(run_state.stock)).duplicate(true)
+	PrepColumns.nested(self,func():preload("res://src/presentation/mode_racks_view.gd").show(self,true))
+# WP-34: ending a live dive asks first. KEEP returns to the paused menu untouched.
+func _confirm_end()->void:
+	sim.paused=true;screen="expedition_confirm_end";_clear_menu()
+	_menu_text("END THIS EXPEDITION?",30)
+	_menu_text("The run will be recorded as lost. Campaign progress stays as it was.",17)
+	_button(panel_box,"KEEP EXPEDITION",_show_campaign,"run_dive_keep")
+	_button(panel_box,"END DIVE · LOSE RUN",func():_debrief(true),"run_dive_confirm_end")
 	call_deferred("_layout")
 func _begin()->void:
 	if active_started or run_state.in_flight or RunOffers.pending(run_state):return
 	if not RunArchive._available(campaign_host):
-		_menu_text("LAUNCH PAUSED · "+str(campaign_host.get_meta("runs_save_error","")),17);return
+		# BEGIN is pinned in the footer (WP-11), so its refusal is stated at the
+		# top of the page and the page returns there. One note, replaced on a repeat.
+		var note:Label=panel_box.get_meta("launch_paused_note") if panel_box.has_meta("launch_paused_note") and is_instance_valid(panel_box.get_meta("launch_paused_note")) else _menu_text("",17)
+		note.text="LAUNCH PAUSED · "+str(campaign_host.get_meta("runs_save_error",""))
+		panel_box.set_meta("launch_paused_note",note);panel_box.move_child(note,0);scroll.scroll_vertical=0;return
 	var launched=RunState.launch(run_state,accept_rider)
 	if not launched.in_flight:return
 	run_state=launched;sim.configure(run_state);recorded=false;active_envelope={}
@@ -105,34 +139,45 @@ func _debrief(abandoned:bool=false)->void:
 	if DevState.block_debrief(self):return
 	if recorded:return
 	recorded=true;sim.paused=true;screen="expedition_result";_clear_menu()
-	run_state=RunState.settle(run_state,sim.result(abandoned))
+	var stock_before:Dictionary=run_state.stock.duplicate()
+	var dive_result:Dictionary=sim.result(abandoned)
+	run_state=RunState.settle(run_state,dive_result)
+	dive_ledger=RunWords.dive_ledger(stock_before,dive_result.tools,run_state.stock)
 	run_state=RunOffers.prepare(run_state);active_envelope={}
 	_result_menu()
 func _result_menu()->void:
 	screen="expedition_result";_clear_menu()
 	_menu_text("EXPEDITION LOST" if run_state.status=="lost" else "EXPEDITION RECOVERED" if run_state.status=="won" else "OPERATION RECOVERED",30)
-	_menu_text("SEED %d · %d / %d RECOVERED"%[run_state.seed,run_state.cursor,run_state.operations.size()],20)
-	_menu_text(sim.message,17)
+	_menu_text("Seed %d: %d of %d operations recovered."%[run_state.seed,run_state.cursor,run_state.operations.size()],20)
+	# Only a real outcome has a reason to state; an ended dive still holds the opening hint.
+	# A loss states its cause from what happened; a rider's failure replaces sim.message after the fact.
+	if sim.outcome=="lost":
+		var cause=preload("res://src/presentation/loss_summary.gd").line(sim)
+		if not cause.is_empty():_menu_text(cause,17)
+	elif not sim.outcome.is_empty():_menu_text(sim.message,17)
 	_menu_text(CampaignFlow.stats_line(sim),17)
+	if sim.outcome=="lost":preload("res://src/presentation/death_cause/cause_log.gd").debrief(self)
 	if not run_state.results.is_empty():
 		var r:Dictionary=run_state.results.back().get("rider",{})
 		if not r.get("assignment",{}).is_empty():
-			_menu_text("RIDER %s · BONUS %s"%["PASSED" if r.passed else "FAILED",RunState.rider_bonus_text(r.assignment) if r.passed else "NONE"],17)
+			_menu_text("Rider passed. Bonus: %s."%RunState.rider_bonus_text(r.assignment).to_lower() if r.passed else "Rider failed. No bonus.",17)
+	# What the dive spent, earned and kept; only for the dive just finished (a result restored after a reload has no dive to read).
+	for line in dive_ledger:_menu_text(line,17)
 	if run_state.status!="active":SummaryView.session(self)
 	else:_show_photo_grade(sim.mission.objectives)
+	preload("res://src/presentation/flow/photo_review.gd").show_best_frame(self)
 	save_failed=not _persist_state(run_state)
 	if save_failed:
-		_menu_text("RESULT NOT SAVED · "+str(campaign_host.get_meta("runs_save_error","")),17)
-		_button(panel_box,"RETRY SAVE",_result_menu,"run_retry_save")
+		preload("res://src/presentation/frontend/save_error_view.gd").menu_retry(self,"RESULT NOT SAVED · "+str(campaign_host.get_meta("runs_save_error","")),17,"RETRY SAVE",_result_menu,"run_retry_save")
 		call_deferred("_layout");return
 	if run_state.status=="active":
 		_button(panel_box,"NEXT OPERATION",func():
 			if RunOffers.pending(run_state):OfferView.show(self);return
 			active_started=false;sim.configure(run_state);_start_mission(RunState.current_operation(run_state));active_started=false
 			# The saved result is consumed only when explicitly preparing the next dive.
-			recorded=false;_show_campaign()
+			recorded=false;dive_ledger=[];_show_campaign()
 		,"run_next")
-	_button(panel_box,"RETURN TO EXPEDITIONS",_return,"run_return")
+	_button(panel_box,"BACK TO EXPEDITIONS",_return,"run_return")
 	call_deferred("_layout")
 func _pick_offer(id:String)->void:
 	if not RunState.valid(run_state) or not RunOffers.pending(run_state):return
@@ -142,7 +187,7 @@ func _pick_offer(id:String)->void:
 		OfferView.show(self)
 		_menu_text("CHOICE NOT SAVED · "+str(campaign_host.get_meta("runs_save_error","Retry when storage is available.")),17)
 		return
-	run_state=picked;recorded=false;active_started=false
+	run_state=picked;recorded=false;dive_ledger=[];active_started=false
 	sim.configure(run_state);_start_mission(RunState.current_operation(run_state));active_started=false
 	_show_campaign()
 func _enter_water()->void:
@@ -154,18 +199,9 @@ func _unhandled_key_input(event:InputEvent)->void:
 func _refresh()->void:
 	super._refresh()
 	if status_label==null:return
-	status_label.visible=screen=="mission"
-	if not status_label.visible:return
-	status_label.text="EXPEDITION · %d / %d · SEED %d"%[run_state.cursor+1,run_state.operations.size(),run_state.seed]
-	if not sim.rider_status().is_empty():status_label.text+="\n"+sim.rider_status()
-	status_label.position=Vector2(12,ui_touch_height+24);status_label.size=Vector2(maxf(1,size.x-24),ui_touch_height*2)
-	status_label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;status_label.mouse_filter=Control.MOUSE_FILTER_IGNORE
+	var text="EXPEDITION · %d / %d · SEED %d"%[run_state.cursor+1,run_state.operations.size(),run_state.seed]
+	if not sim.rider_status().is_empty():text+="\n"+sim.rider_status()
+	preload("res://src/presentation/mode_banner.gd").place(self,text)
 func _return()->void:
 	if not is_inside_tree():return
-	for item in prior_visibility:
-		if is_instance_valid(item.node):item.node.visible=item.visible
-	campaign_host.process_mode=prior_mode
-	if not prior_sound_suspended:campaign_host.sound.resume()
-	get_parent().remove_child(self)
-	if return_to_list.is_valid():return_to_list.call()
-	queue_free()
+	preload("res://src/presentation/mode_host_freeze.gd").leave(self)

@@ -143,7 +143,10 @@ function Read-SuiteRegistry {
 }
 
 function New-IsolatedRoot([string]$Base) {
-    if (-not $Base) { $Base = Join-Path $script:ToolchainCache 'isolated-userdata' }
+    # A fresh folder per run: a suite that keeps files under user:// must not see
+    # what an earlier run left (career_tests failed on a rerun for that reason).
+    # Old run folders are left in the cache; nothing is deleted here.
+    if (-not $Base) { $Base = Join-Path (Join-Path $script:ToolchainCache 'isolated-userdata') ("run-{0}-{1}" -f (Get-Date -Format 'yyyyMMdd-HHmmss-fff'), $PID) }
     New-Item -ItemType Directory -Force -Path $Base | Out-Null
     return $Base
 }

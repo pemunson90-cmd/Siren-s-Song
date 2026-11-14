@@ -1,4 +1,5 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 # 126: read-only command wording and approach selection. No saved state or rules.
 const Work=preload("res://src/presentation/work_task/work_task.gd")
 const Racks=preload("res://src/equipment/tool_racks.gd")
@@ -21,9 +22,25 @@ static func brief_stock(racks:Dictionary)->String:
   rows.append(Work.NAMES[unit]+": "+" / ".join(counts))
  return "\n".join(rows)
 
-static func launch_stock(host)->String:
- var q=host.tool_racks.get("quietus",{})
- return "NEXT DIVE / RETRY / %s / QUIETUS\nO₂ %d%% · DISRUPT %d · SURVEY %d"%[host.upgrade.to_upper(),host._loadout_stock(host.upgrade)[0],int(q.get("emp",0)),int(q.get("recon",0))]
+static func launch_stock(host,index:int=-1)->String:
+ var q=host.tool_racks.get(Names.CRAFT_QUIETUS,{})
+ var text="NEXT DIVE / RETRY / %s / QUIETUS\nO₂ %d%% · EMP %d · SURVEY %d"%[Tools.loadout_label(host.upgrade),host._loadout_stock(host.upgrade)[0],int(q.get("emp",0)),int(q.get("recon",0))]
+ # Operation 0 keeps its short opening briefing (a goal and one danger, under 420 characters).
+ if index>0:text+="\n"+life_support_line(host,index)
+ return text
+# WP-11 (G6): the operation's life-support limit at the base rate, from the same
+# budget, stock and fitted frame the launch uses. Facts only; no rule changes.
+static func life_support_line(host,index:int)->String:
+ var Endurance=preload("res://src/simulation/operation_endurance.gd")
+ var Missions=host.Simulation.Missions
+ # Same precedence as Simulation.start: an operation's own budget, else its catalog profile.
+ var budget=Missions.make(index,host._launch_context(index)).get("endurance",Endurance.profile(Missions.Catalog.definition(index).config.source_id))
+ var fit=preload("res://src/presentation/economy_panel.gd").fitted(host)
+ var per_second:float=Endurance.oxygen_drain({"id":index,"endurance":budget,"launch_equipment":fit},1.0)
+ if per_second<=0.0:return ""
+ var seconds=int(float(host._loadout_stock(host.upgrade)[0])/per_second)
+ # One short clause: the opening briefing has a 420 character budget (onboarding_tests).
+ return "LIFE SUPPORT %d:%02d at the base rate"%[seconds/60,seconds%60]
 
 static func recovery_name(sim)->String:
  var names=[]
@@ -126,9 +143,12 @@ static func route(hud,key:String)->void:
  if result.ready:hud.host._order("route",{"point":result.point,"travel":key}) # TRAVEL:route_here TRAVEL:glass_route TRAVEL:choir_route
  else:hud.host.sim.message=result.reason;hud.host._refresh()
 
+# Why a craft that is not in the water cannot take an order: a drone still aboard Quietus is not a lost craft.
+static func gone(sim,u:Dictionary)->String:
+ return "Aboard Quietus" if sim.DroneBay.aboard(u) else "Craft lost"
 static func depth_reason(sim,direction:int)->String:
  var u=sim.units[sim.selected];var band=int(u.band)+direction
- if not u.alive:return "Craft lost"
+ if not u.alive:return gone(sim,u)
  if band<0:return "Already SHALLOW"
  if band>2:return "Already DEEP"
  if not u.transition.is_empty():return "Depth change / %.1fs remaining"%u.transition.remaining
@@ -200,7 +220,7 @@ static func reason_token(reason:String)->String:
  if "zero stock" in lower:return "NONE ABOARD"
  if "no measured approach" in lower:return "SURVEY SIDE"
  if "needs " in lower:
-  for band in ["SHALLOW","MIDDLE","DEEP"]:
+  for band in Names.BANDS:
    if band.to_lower() in lower:return "NEEDS "+band
  if "already " in lower:return reason.to_upper()
  if "changing depth" in lower or "depth change" in lower:return "CHANGING DEPTH"
@@ -325,7 +345,7 @@ static func apply(hud)->void:
  # currently resolves a different nearby receiver.
  if target>=0 and target<sites.size() and sites[target].get("own_origin",false) and hud.host.order_buttons.camera.disabled:
   var site=sites[target]
-  hud.host.order_buttons.camera.tooltip_text="Quietus required" if sim.selected!=0 else "Craft lost" if not u.alive else "Finish changing depth" if not u.transition.is_empty() else "Needs MIDDLE" if u.band!=1 else "Enter the charted transmission sector" if not site.get("origin_region",Rect2()).has_point(u.pos) else "Settle below 12m/s" if u.vel.length()>=12 else "Finish this craft's active work first"
+  hud.host.order_buttons.camera.tooltip_text="Quietus required" if sim.selected!=0 else gone(sim,u) if not u.alive else "Finish changing depth" if not u.transition.is_empty() else "Needs MIDDLE" if u.band!=1 else "Enter the charted transmission sector" if not site.get("origin_region",Rect2()).has_point(u.pos) else "Settle below 12m/s" if u.vel.length()>=12 else "Finish this craft's active work first"
  if hud.host.order_buttons.camera.disabled:
   if hud.host.order_buttons.camera.tooltip_text.is_empty():hud.host.order_buttons.camera.tooltip_text="Finish this craft's active work first" if camera_busy(sim) else str(context.get("text","Locate a site first"))
  var buttons=hud.extra.duplicate()
@@ -339,7 +359,7 @@ static func apply(hud)->void:
   if key=="arrivals" and b.disabled:why="No received arrivals on this craft" if not hud.host.advanced_orders else "No received fleet arrivals"
   if key=="sonar_emit" and b.disabled:why="Finish changing depth" if not u.transition.is_empty() else "Sonar recharging / %.1fs"%sim.ping_time
   if key=="glass_transfer" and b.disabled:why="Material must be aboard a drone"
-  if b.disabled and why.is_empty():why="Craft lost" if not u.alive else "Quietus required" if key=="all_stop" else "No local work available" if key.ends_with("route") else "Unavailable here"
+  if b.disabled and why.is_empty():why=gone(sim,u) if not u.alive else "Quietus required" if key=="all_stop" else "No local work available" if key.ends_with("route") else "Unavailable here"
   if key=="glass_withdraw":
    b.set_meta("truthful_reason",why);b.tooltip_text=why
   else:reason_button(b,why,hud.text_scale>=1.5 and hud.host.advanced_orders and key!="choose_object")

@@ -1,13 +1,14 @@
 extends SceneTree
 # 127 (Pat 2026-10-30): scripted journeys here fly the dev/test pathfinder route; hand_pilot_journeys covers release play.
 const Sim=preload('res://src/simulation/simulation.gd')
+const PlayerDive=preload('res://tests/fixtures/player_dive.gd')
 var checks=0
 var failures=0
 func check(ok:bool,label:String):
  checks+=1
  if not ok:failures+=1;printerr('FAIL: ',label)
 func fresh():
- var s=Sim.new();s.start(0);s.mission["dev"]=true;return s
+ var s=Sim.new();s.start(0);PlayerDive.launch_drones(s);s.mission["dev"]=true;return s
 func advance(s,seconds:float):
  s.paused=false
  for i in roundi(seconds*60):s.advance(1./60)
@@ -44,7 +45,7 @@ func _initialize():
  check(not s.contacts.get(0,{}).get('seen_by',[]).has(1),'global survey observation does not claim a drone passive receiver')
  s=fresh();s.command('select',{'unit':1});s.command('contact_hold');s.command('emergency',{'point':Vector2(350,700)})
  check(s.units[1].hold=='' and not s.units[1].route.is_empty(),'emergency replacement clears scout condition and installs normal route')
- s=fresh();s.start(3);s.units[1].pos=Vector2(980,850);s.sirens[0].pos=Vector2(1220,850)
+ s=fresh();s.start(3);PlayerDive.launch_drones(s);s.units[1].pos=Vector2(980,850);s.sirens[0].pos=Vector2(1220,850)
  s.command('select',{'unit':1});s.command('contact_hold');s.command('recon');s._observe();advance(s,.1)
  check(s.units[1].hold=='SCOUT' and s.contacts.has(0) and not 1 in s.contacts[0].seen_by,'thermal front weakens local reception; survey-only contact cannot trip scout')
  s.sirens[0].pos=Vector2(1100,850);s._observe();advance(s,.1)
@@ -68,9 +69,11 @@ func _initialize():
  advance(s,2.5);check(s.units[1].vel.length()<.1,'scout braking settles through the existing deceleration')
  var visual_targets=[]
  for profile in [true,false]:
-  s=fresh();s.units[1].pos=Vector2(420,130);s.units[1].silent=profile;advance(s,1./60);visual_targets.append(s.sirens[0].target)
+  s=fresh();s.units[1].pos=Vector2(420,130);s.units[1].silent=profile;s.sirens[0].mode='SEARCH';advance(s,1./60);visual_targets.append(s.sirens[0].target) # a calm Siren ignores a drone (Pat, 2026-11-12); this Siren is alerted so the 180/290 sight distance is what is measured
  check(visual_targets==[-1,1],'low/open drone profile preserves the actual180/290 visual acquisition distinction')
- s=fresh();s.start(4);s.mission["dev"]=true
+ # Scripted drone legs through authored water, not discovery: known-charts developer switch (the player rules leave this water uncharted, so the legs would stop short).
+ var charts_before=PlayerDive.known_water(true)
+ s=fresh();s.start(4);PlayerDive.launch_drones(s);s.mission["dev"]=true
  for id in [1,2]:
   s.command('select',{'unit':id});s.command('route',{'point':[Vector2(760,200),Vector2(1370,450)][id-1]});s.command('contact_hold')
  s.paused=false
@@ -80,4 +83,5 @@ func _initialize():
  var lost_observer=s.contacts.values().any(func(c):return 2 in c.get('seen_by',[]) and s.elapsed-c.time<.3)
  var after_loss=Sim.new()
  check(not s.units[2].alive and s.units[2].hold=='SCOUT_STOP' and lost_observer and after_loss.restore(bytes_to_var(var_to_bytes(s.snapshot()))),'legitimate drone loss preserves stopped hold and fresh historical observer attribution through restore')
+ PlayerDive.known_water(charts_before)
  print('DRONE OPERATIONS CHECKS ',checks,' FAILURES ',failures);quit(1 if failures else 0)

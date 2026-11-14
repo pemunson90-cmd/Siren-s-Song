@@ -1,4 +1,5 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 const Catalog=preload("res://src/campaign/operation_catalog.gd")
 const Sampler=preload("res://src/equipment/field_sampler.gd")
 const Authored=preload("res://src/campaign/resolution_missions.gd")
@@ -54,7 +55,7 @@ static func feedback(sim)->Dictionary:
   var cost:Dictionary=site.get("completion_emission",{})
   var operation={"site_id":site.site_id,"name":site.name,"action":"TRANSMIT" if own_origin(site) else "ACTUATE","unit":unit,"duration":sim._capture_duration(site,unit),"optional":site.get("optional",false),"repeatable":own_origin(site),"completed":site.captured,"emission":cost.duplicate(true),"qualification":"Open-water emission reach; reception remains unknown."}
   var sampler=Sampler.capture_spec(unit,sim.mission.get("launch_equipment",{}),site)
-  if not sampler.is_empty():operation["start_emission"]={"radius":sampler.noise_radius,"duration":2.0,"label":"CAMERA"}
+  if not sampler.is_empty():operation["start_emission"]={"radius":sampler.noise_radius,"duration":2.0,"label":Names.NOISE_CAMERA}
   if active:
    operation["attempt"]={"unit":unit,"elapsed":work.elapsed,"duration":operation.duration}
    if site.has("attempt_origin"):operation.attempt["origin"]=site.attempt_origin

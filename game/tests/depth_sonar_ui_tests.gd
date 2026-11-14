@@ -55,7 +55,8 @@ func run():
   # are separate. Only our craft pose is staged; contacts must be physically earned.
   g.sim.units[0].pos=Vector2(790,550);g.sim.units[0].angle=-1.33;g._refresh()
   h.open("acoustics");await settle();var reserve=g.sim.oxygen;await click(h.extra.sonar_emit)
-  check(g.sim.oxygen<reserve and not g.sim.sonar.pending.is_empty(),"actual pulse spends energy and waits for echoes")
+  # Until 2026-11-12 (player rules, Pat: Quietus sonar "shouldn't cost oxygen") this was: check(g.sim.oxygen<reserve and not g.sim.sonar.pending.is_empty(),"actual pulse spends energy and waits for echoes")
+  check(is_equal_approx(g.sim.oxygen,reserve) and not g.sim.sonar.pending.is_empty(),"actual Quietus pulse costs no life support and waits for echoes")
   g.sim.paused=false
   for n in 156:g.sim.advance(1./60)
   g.sim.paused=true;g._refresh()
@@ -63,7 +64,7 @@ func run():
   h.open("acoustics");await settle()
   check(not h.hints.panel.visible or h.command_controls().all(func(b):return not b.get_global_rect().intersects(h.hints.panel.get_global_rect())),"received tutorial leaves every acoustic command visible and tappable")
   await click(h.extra.sonar_history)
-  check(h.page=="inspect" and h.sonar_waterfall.visible and h.instrument_info.text.contains("BEARING"),"received evidence history owns a readable waterfall")
+  check(h.page=="inspect" and h.sonar_waterfall.visible and h.instrument_info.text.contains("PAST PINGS"),"received evidence history owns a readable waterfall")
   check(not h.hints.panel.visible or not h.sheet.get_global_rect().intersects(h.hints.panel.get_global_rect()),"received history sheet stays clear of the tutorial card")
   await capture(str(dimensions.x)+"-sonar-history")
   # Source-known custody fixture tests the visible radial, not its hidden info sheet.
@@ -80,7 +81,8 @@ func run():
   check(h.acoustics_carry_caption()=="ASCENT 8s / SETTLE 6s","depth radial previews carried ascent and settle duration")
   await click(h.extra.depth_up);h.open("acoustics");await settle()
   check(h.acoustics_carry_caption()=="SURVIVOR ASCENT 8.0s","visible radial reports the carried ascent countdown")
-  check(h.caption_rects.size()==3 and h.caption_rects.all(func(r):return Rect2(Vector2.ZERO,h.size).encloses(r) and not r.intersects(h.close_button.get_rect())),"carried radial captions fit the safe area and clear BACK")
+  # WP-31: a caption too wide for the disc now wraps onto another line instead of ending in an ellipsis.
+  check(h.caption_rects.size()>=3 and h.caption_texts.all(func(t):return not str(t).ends_with("…")) and h.caption_rects.all(func(r):return Rect2(Vector2.ZERO,h.size).encloses(r) and not r.intersects(h.close_button.get_rect())),"carried radial captions fit the safe area and clear BACK")
   check(h.caption_rects.all(func(r):return not h.command_controls().any(func(b):return r.intersects(b.get_rect()))),"carried captions clear every depth radial control")
   for control in h.command_controls():
    check(control.size.x>=h.touch_height and control.size.y>=h.touch_height,"survivor guidance preserves full depth touch targets")

@@ -113,7 +113,7 @@ func run():
  var e={"stock":{"scrap":0,"cells":0,"alloy":0},"report":""}
  S.credit(e,p,recovered);check(e.stock.scrap==0 and e.stock.cells==0 and e.report.contains("PILOTAGE CHARTS"),"ordinary rescue receives pilotage charts")
  S.credit(e,recovered,recovered);check(e.stock.scrap==0,"replay cannot duplicate reward")
- var fleet=ObservedSim.new();fleet.start(41,"endurance",{"tool_racks":{"quietus":{},"drone_a":{"emp":1},"drone_b":{}}})
+ var fleet=ObservedSim.new();fleet.start(41,"endurance",{"tool_racks":{"quietus":{},"drone_a":{"emp":1},"drone_b":{}}});PlayerDive.launch_drones(fleet) # the independent drone starts aboard; it is launched before its depth orders
  var fleet_tools=fleet.tools.duplicate(true)
  fleet.command("select",{"unit":1})
  # Quiet propulsion limits the approach report; one local Disrupt covers the winch.
@@ -136,7 +136,9 @@ func run():
  check(Endings.resolve(ending).story.contains(S.LEFT),"unfound boy has different ending placeholder")
  ending.facts.sorley_boy="rescued"
  check(Endings.resolve(ending).story.contains(S.RESCUED) and Endings.resolve(ending).id=="silent_exodus","rescue epilogue preserves ending family and thread")
- check(Ledger.build(ending,{})[0].rows.has(S.RESCUED) and Ledger.build(progress(),{})[0].rows.has(S.LEFT),"ledger distinguishes rescue and no recorded landing")
+ var heard=progress();heard.notes={S.FACT:"100"}
+ check(Ledger.build(ending,{})[0].rows.has(S.RESCUED) and Ledger.build(heard,{})[0].rows.has(S.LEFT),"ledger distinguishes rescue and no recorded landing")
+ check(not Ledger.build(progress(),{})[0].rows.has(S.LEFT),"the ledger names Sorley's boy only after a recorder log was heard")
  var archive={"version":1,"unlocked":5,"completed":[0,1,2,3,4,5],"upgrade":"endurance","settings":{},"expedition":recovered,"active":s.snapshot()}
  var store=Store.new();store.path="user://sorley-test.save"
  check(store.save(archive) and store.load_game()==archive,"current binary archive roundtrips logs, rescue and active mission")

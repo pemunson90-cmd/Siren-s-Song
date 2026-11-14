@@ -1,0 +1,153 @@
+# Rows removed from game/tests/suites.txt on 2026-11-12. To restore a suite: move its .gd (and .gd.uid) back to game/tests/ and its row back.
+well_signature_save_shape_tests|WELL SAVE SHAPE|5|183
+recon_grade_main_tests|RECON GRADE MAIN|14|163
+current_propulsion_tests|CURRENT PROPULSION|15|118
+current_chart_seam_tests|CURRENT CHART SEAM|17|117
+v7_terrain_chart_tests|V7 TERRAIN CHART|19|181
+campaign_endings_tests|CAMPAIGN ENDINGS|23|103
+late_ending_tests|LATE ENDING|591|691
+polygon_bound_tests|POLYGON BOUND|25|158
+divergence_tests|DIVERGENCE|26|125
+expedition_menu_tests|EXPEDITION MENU|28|134
+depth_policy_journeys|DEPTH POLICY|34|23
+opening_depth_ui_tests|OPENING DEPTH UI|39|28
+opening_depth_policy_cover_ui_tests|OPENING POLICY UI|-|29
+opening_depth_policy_inner_ui_tests|OPENING POLICY UI|-|403
+glass_work_tests|GLASS WORK|43|32
+glass_fleet_pairs_tests|GLASS FLEET PAIRS|321|422
+glass_reach_ui_tests|GLASS REACH UI|46|35
+iron_choir_tests|IRON CHOIR|47|36
+iron_choir_ui_tests|IRON CHOIR UI|52|43
+onward_mission_tests|ONWARD MISSIONS|53|44
+wake_crossing_journey_tests|WAKE CROSSING JOURNEY|55|17
+warning_chain_journey_tests|WARNING CHAIN JOURNEY|58|75
+shelf_habitat_ui_tests|SHELF HABITAT UI|61|15
+confluence_resolution_ui_tests|CONFLUENCE RESOLUTION UI|67|114
+resolution_geometry_tests|RESOLUTION GEOMETRY|68|166
+resolution_operations_tests|RESOLUTION OPERATIONS|69|169
+resolution_hook_tests|RESOLUTION HOOKS|70|167
+operation_emission_feedback_tests|OPERATION EMISSION FEEDBACK|71|149
+resolution_controls_ui_tests|RESOLUTION CONTROLS UI|73|165
+earned_equipment_tests|EARNED EQUIPMENT|74|130
+independent_capture_ui_tests|INDEPENDENT CAPTURE UI|79|140
+earned_course_continuity_tests|EARNED COURSE CONTINUITY|81|64
+expanded_region_tests|EXPANDED REGION|83|132
+expanded_region_journeys|EXPANDED JOURNEYS|84|131
+drone_drive_ui_tests|DRONE DRIVE UI|87|127
+drone_operations_ui_tests|DRONE OPERATIONS UI|89|129
+radio_operation_tests|RADIO OPERATION|756|856
+contact_reports_ui_tests|CONTACT REPORT UI|91|47
+blackwater_courier_tests|COURIER|92|98
+blackwater_delivery_tests|BLACKWATER DELIVERY|93|63
+concealed_harbour_journey_tests|CONCEALED HARBOUR JOURNEY|95|11
+witness_evacuation_tests|WITNESS EVACUATION|97|50
+witness_evacuation_ui_tests|WITNESS EVACUATION UI|99|52
+warning_recipient_journey_tests|WARNING RECIPIENT JOURNEY|101|59
+warning_recipient_ui_tests|WARNING RECIPIENT UI|102|60
+blackwater_delivery_runtime_ui_tests|BLACKWATER DELIVERY RUNTIME UI|104|62
+route_program_ui_tests|ROUTE PROGRAM UI|105|171
+planner_navigation_ui_tests|PLANNER NAVIGATION|106|155
+planner_space_ui_tests|PLANNER SPACE UI|107|156
+fleet_instruments_ui_tests|FLEET INSTRUMENTS UI|109|5
+route_telemetry_touch_tests|ROUTE TELEMETRY TOUCH|111|8
+recovery_route_ui_tests|RECOVERY ROUTE UI|112|9
+module_recovery_runtime_ui_tests|MODULE RECOVERY RUNTIME UI|114|68
+module_inventory_main_tests|MODULE INVENTORY MAIN|115|69
+view_controls_menu_tests|VIEW CONTROLS MENU|117|182
+expedition_instruments_ui_tests|EXPEDITION INSTRUMENT UI|118|133
+campaign_instruments_ui_tests|CAMPAIGN INSTRUMENT UI|120|7
+campaign_main_dispatch_tests|CAMPAIGN MAIN DISPATCH|122|105
+campaign_capture_progress_tests|CAMPAIGN CAPTURE PROGRESS|123|101
+received_audio_retry_tests|RECEIVED AUDIO RETRY|124|161
+planner_metrics_tests|PLANNER METRICS|125|154
+acoustic_path_tests|ACOUSTIC PATH|126|93
+acoustic_hearing_tests|ACOUSTIC HEARING|127|91
+acoustic_path_ui_tests|ACOUSTIC PATH UI|130|94
+decoy_aim_ui_tests|DECOY AIM UI|132|119
+knockdown_scenarios|KNOCKDOWN|133|141
+knockdown_ui_scenarios|KNOCKDOWN UI|134|142
+thermal_operation_tests|THERMAL OPERATION|754|854
+thermal_ui_tests|THERMAL UI|139|177
+extraction_survival_tests|EXTRACTION SURVIVAL|141|135
+tactics_composition_tests|TACTICS COMPOSITION|142|172
+warning_chain_ui_tests|WARNING CHAIN UI|144|76
+sonar_zero_bearing_tests|SONAR ZERO BEARING|-|21
+rules_witness_menu_tests|RULES WITNESS MENU|-|54
+t_pressure_tuning_tests|T PRESSURE|-|55
+photo_study_save_tests|PHOTO STUDY SAVE|-|81
+photo_rules_ui_tests|PHOTO RULES UI|-|87
+all_stop_ui_tests|ALL STOP UI|-|89
+archive_recap_ui_tests|ARCHIVE RECAP UI|148|96
+blackwater_tests|BLACKWATER|149|99
+blackwater_ui_tests|BLACKWATER UI|150|100
+confluence_completion_tests|CONFLUENCE COMPLETION|154|110
+confluence_parallel_tests|CONFLUENCE PARALLEL|155|112
+fit_label_scenarios|FIT LABEL|156|137
+known_water_observation_tests|KNOWN WATER|157|143
+lock_warning_ui_tests|LOCK WARNING UI|159|146
+order_row_scenarios|ORDER ROW|160|151
+order_task_ui_scenarios|TASK UI|161|152
+work_task_recipient_tests|WORK TASK|752|852
+nav_clearance_tests|NAV CLEARANCE|163|184
+planner_chart_render_tests|PLANNER CHART RENDER|167|188|render
+well_camera_feed_render_tests|WELL CAMERA RENDER|168|189|render
+cold_review_ui_tests|COLD REVIEW UI|170|191|render
+audit_photo_ui_tests|AUDIT PHOTO UI|173|194
+audit_findings_provenance_tests|AUDIT FINDINGS PROVENANCE|174|195
+fix2_save_ui_tests|FIX2 SAVE UI|178|199
+fix2_optional_recovery_tests|FIX2 OPTIONAL RECOVERY|179|200
+fix2_photo_routing_tests|FIX2 PHOTO ROUTING|181|202
+fix2_camera_ui_tests|FIX2 CAMERA UI|183|204|render
+audit_optics_touch_tests|AUDIT OPTICS TOUCH|760|863|render
+pr_audit_layout_tests|PR AUDIT LAYOUT|761|864|render
+fix2_feedback_ui_tests|FIX2 FEEDBACK UI|184|205|render
+fix2_study_ui_tests|FIX2 STUDY UI|186|207|render
+first_siren_cue_tests|FIRST SIREN CUE|188|209
+first_siren_cue_ui_tests|FIRST SIREN CUE UI|189|210|render
+route_map_ui_tests|ROUTE MAP UI|194|215|render
+landmark_tests|LANDMARKS|196|217
+onboard2_ui_tests|ONBOARD2 UI|202|223|render
+consequence_lines_ui_tests|CONSEQUENCE LINES UI|207|230|render
+a11y_cues_ui_tests|A11Y CUES UI|-|228|render
+roster_tests|ROSTER|217|240
+ops_home_cover_ui_tests|OPS HOME UI|-|260|render
+ops_home_inner_ui_tests|OPS HOME UI|-|287|render
+ops_home_desktop_ui_tests|OPS HOME UI|-|288|render
+settings_lifecycle_ui_tests|SETTINGS LIFECYCLE UI|242|262|render
+settings_depth_ui_tests|SETTINGS DEPTH UI|581|681|render
+finale_provisional_ui_tests|FINALE UI|244|264|render
+authored_closure_tests|AUTHORED CLOSURE|762|865
+early_reward2_tests|EARLY REWARD2|231|255
+early_reward2_ui_tests|EARLY REWARD2 UI|232|256|render
+death_cause_ui_tests|DEATH CAUSE UI|236|254|render
+first_siren_cue_ext_ui_tests|FIRST SIREN CUE EXT UI|229|252|render
+photo_row_tender_door_journey_tests|PHOTO ROW TENDER DOOR JOURNEY|248|268
+photo_row_relay_blink_journey_tests|PHOTO ROW RELAY BLINK JOURNEY|249|269
+photo_row_structure_edge_journey_tests|PHOTO ROW STRUCTURE EDGE JOURNEY|250|270
+photo_row_buoy_blind_journey_tests|PHOTO ROW BUOY BLIND JOURNEY|251|271
+photo_row_vane_crack_journey_tests|PHOTO ROW VANE CRACK JOURNEY|252|272
+photo_row_keel_mark_journey_tests|PHOTO ROW KEEL MARK JOURNEY|253|273
+photo_row_boat_keel_journey_tests|PHOTO ROW BOAT KEEL JOURNEY|254|274
+photo_row_locker_latch_journey_tests|PHOTO ROW LOCKER LATCH JOURNEY|255|275
+photo_row_shutter_order_journey_tests|PHOTO ROW SHUTTER ORDER JOURNEY|256|276
+photo_row_bus_cable_journey_tests|PHOTO ROW BUS CABLE JOURNEY|257|277
+photo_row_spindle_wear_journey_tests|PHOTO ROW SPINDLE WEAR JOURNEY|258|278
+photo_row_slide_mark_journey_tests|PHOTO ROW SLIDE MARK JOURNEY|259|279
+photo_row_bell_name_journey_tests|PHOTO ROW BELL NAME JOURNEY|260|280
+status_text_table_ui_tests|STATUS TEXT UI|-|862|render
+status_text_cover_ui_tests|STATUS TEXT UI|-|859|render
+status_text_inner_ui_tests|STATUS TEXT UI|-|860|render
+calder_fleet_journey_tests|CALDER FLEET JOURNEY|315|416
+optional_cache_journey_tests|OPTIONAL CACHE JOURNEY|304|405
+runs_offer_ui_tests|RUNS OFFER UI|309|409|render
+rider_ui_tests|RIDER UI|313|414|render
+stable_board_cover_mirror_ui_tests|STABLE BOARD UI|766|869|render
+stable_board_inner_normal_ui_tests|STABLE BOARD UI|767|870|render
+stable_board_inner_mirror_ui_tests|STABLE BOARD UI|768|871|render
+dive_end_stats_ui_tests|DIVE END STATS UI|1400|1400|render
+recovery_manifest_ui_tests|RECOVERY MANIFEST|1300|1300|render
+never_disabled_tests|NEVER DISABLED|1406|1406
+threat_read_ui_tests|THREAT READ UI|1408|1408
+hud_chips_ui_tests|HUD CHIPS UI|1417|1417
+debrief_reach_ui_tests|DEBRIEF REACH UI|1418|1418
+ops_title_control_tests|OPS TITLE CONTROL|1419|1419

@@ -1,6 +1,4 @@
-> **Current authority:** Pat continued locally on 25 October 2026 Eastern. Read USER_DIRECTIVES and RESUME; follow the live codex/handoffs board. Earlier cloud-stop prose is historical. Preserve frozen baselines and current merge/verification rules.
-
-> **Historical 23 October cloud-boundary banner, superseded by local resumption:** **Former cloud-session order:** read docs/USER_DIRECTIVES.md first. Observe Pat's cloud stop and Windows desktop handover in docs/RESUME.md. The approved full-release program remains the standing plan when Pat resumes work. Preserve accepted Pass0/V7 systems. One implementation worker and one independent integration reviewer; human playtesting never gates authorized development.
+> Governing rules: [AGENTS.md](../AGENTS.md). Pat's rulings: [USER_DIRECTIVES.md](USER_DIRECTIVES.md). Current status: [STATUS.md](STATUS.md).
 
 # v7 → Godot mechanics reconciliation ledger · 2026-10-19
 Status: started19October; current capability rows reconciled25 October 2026 Eastern. Inventory grounded in playable `reference/original-prototype/sirens_song_prototype_v7.html`, historical prototype materials retained at [archived source snapshot](https://github.com/pemunson90-cmd/Siren-s-Song/tree/archive/gauntlet-evidence-2026-10-19/archive/prototypes) and current Godot code. Historical `https://github.com/pemunson90-cmd/Siren-s-Song/blob/archive/gauntlet-evidence-2026-10-19-stage2/docs/reviews/2026-10-19-original-prototype-mechanics-audit.md` is useful but source-revision-specific, not current status authority. Details and future disposition governed by `docs/CURRENT_GAME_SPEC.md`.
@@ -67,3 +65,59 @@ The following rows described source 0fb3873e and remain as provenance. The curre
 > | Global Hunt and action pressure | V7 stage multiplies sight only; spikes, delay, decay and photo floor | Global action estimate and locally earned alert floors exist; no global Hunt radius buff is built at this checkpoint | **Open approved restoration050**: Pat25 October selected sight-only first, hearing/speed/lock unchanged. Earlier shared-readiness/hearing proposal is superseded. Existing local/received evidence and no remote goals remain; see HUNT_RESTORE proposal plus current USER_DIRECTIVES. |
 
 > |2| Hunt no longer globally strengthens every guard | Existing meter/local floors remain current; Pat approved queued sight-only050 | Implement/test visible sight-only Hunt with off switch and tunable caps; hearing/speed/lock unchanged |
+
+## Audit of 12 November 2026: differences this ledger had not recorded
+
+[AI-DESIGNED audit] Pat asked for this audit on 2026-11-12, after the drone launch turned out to have been dropped without a row here ("That was a core gameplay design even all the way back in the prototype"). A bounded read-only agent read the v7 prototype, its functional specification, development notes and pressure design in full and compared each mechanic with the Godot source; the root session spot-checked the drone, Disrupt, survey and objective rows against the code. Line numbers are those of `reference/original-prototype/sirens_song_prototype_v7.html` and of the Godot source at commit `ea7ad6c0`.
+
+Every row below was a difference with no recorded comparison or rationale. "Disposition" says what has been done. Nothing except the first row has been changed in the game; the rest wait for Pat's ruling, and until he rules the Godot behavior stays.
+
+| # | Mechanic | v7 prototype | Godot today | Disposition |
+| --- | --- | --- | --- | --- |
+| 1 | Drone launch | A drone does not exist until the player launches it at the submarine's position (lines 231 to 234); stock of four, one in the water at a time (line 163) | Was: two drones placed in the water 100 m from Quietus at the start of every dive | **Restored 2026-11-12 (WP-13, `game/src/simulation/drone_bay/`)**: drones start aboard and launch on their first route order. Pat's rulings for this first version: no extra launch noise, two drones and no spares, recovery unchanged. Spare drones stay an open question. |
+| 2 | Objectives found by sensing | Objectives are hidden until a ping, the survey or a craft senses them (lines 486 to 494); "ping or recon to locate" is part of the loop | Objectives are drawn from the start as briefed marks (`ocean_view.gd` 393 to 425); only `unknown` leads are hidden | **Restored 2026-11-12 (WP-16, `parity_rules/site_search.gd`)** on Pat's ruling ("should be left as a debug option but not primary for gameplay release"): after operations 0 to 2 an objective is a search area until a craft's passive sensing or sonar finds it; a survey shows it for 30 s. Developer command `known` shows everything. |
+| 3 | Disrupt with nothing in range | Refused: no charge spent, a message shown (line 254) | The charge is spent and 650 m of noise is made even when no Siren is in range (`orders/weapon_orders.gd` 10 to 15) | **Restored 2026-11-12 (WP-16)** on Pat's ruling ("Yeah that's a failure"): refused, charge kept. The refusal is decided on true Siren positions, as in v7, so it also tells the player that nothing is within range. |
+| 4 | Survey (recon) is quiet | Costs one charge and 9 suspicion; summons no Siren; lasts 3.2 s (lines 108, 250) | An 1100 m "RECON UPLINK" noise that Sirens investigate, louder than a low sonar pulse; lasts 8 s (`orders/sensor_orders.gd` 21 to 24, `tuning.gd` 15 to 17) | Open. Pat, 2026-11-12: "That doesn't really make sense because it's supposed to be a recon plane in universe, we can discuss that." Unchanged until he rules. |
+| 5 | Drones do not lure Sirens | Removed on purpose: "drones no longer lure" (line 358); the decoy is the lure | A drone's motion noise is heard and investigated (`simulation.gd` 1155, 1239) | Kept. Pat, 2026-11-12: "That's fine they should be stealthier than the sub but still able to fuck up and die". **Changed 2026-11-12 (WP-16, `parity_rules/drone_stealth.gd`)**, Pat's choice "D with B": a calm Siren (not investigating, searching or locking, no target, Hunt below SEARCHING) does not acquire a drone by sight, as in v7 line 379; an alerted one does, with the usual lock and beam; a drone's movement noise reaches 0.6 times as far. |
+| 6 | Hull damage from terrain | None: the submarine slides and slows (line 307); hull falls only from Siren grazes | Terrain and craft strikes cost hull, up to 35 per strike, with a patch tool (`simulation.gd` 250 to 267). Pat's 30 October ruling ("You should still be able to crash") covers crashing; the damage numbers were never compared with v7 | Recorded now. Consistent with Pat's 30 October ruling; numbers are protected. |
+| 7 | Factory proximity heat | Being within 340 m of the factory raises suspicion (lines 334 to 335) | Not found; only a "FACTORY RESPONSE" noise in one operation | **Restored 2026-11-12 (WP-16, `parity_rules/factory_sensors.gd`)** on Pat's ruling ("It's an alien factory with sensors and protection. It should know you're there."): a craft within 340 m of a factory raises Hunt by up to 8 per second (the v7 numbers, applied to Hunt because the game has no suspicion meter). Sites are authored for operations 3 and 11, the two whose data names a factory. Which other Siren works should sense craft is open. |
+| 8 | Siren sight radius drawn | Each Siren's detection disc is drawn (line 504) | Not drawn; the player cannot see how far a Siren sees | **Restored in part 2026-11-12 (WP-16, `parity_rules/sight_range.gd`)**, Pat's choice of option A ("fine for now even though it doesn't make a ton of sense we can figure out a way to explain it later"): an estimated sight ring at the last known position of an identified contact whose Siren type has been photographed. |
+| 9 | Sonar pulse cost and cooldown | Suspicion only; 1.3 s cooldown (lines 106, 248) | Costs oxygen (Quietus) or battery (drone); 3.5 s between pulses (`advanced_sonar.gd`, `tuning.gd` 12) | **Changed 2026-11-12 (WP-16)** on Pat's ruling ("I don't think it should cost oxygen ... On the drones it costing battery makes sense."): Quietus's pulse costs nothing on a player dive; drones still pay battery. The 3.5 s interval is kept. |
+| 10 | Occlusion picture | Passive range ring, lit bubble and shadow wedges (lines 408 to 414, 470) | Fog cells; sonar rays only on some charts; no passive range ring | Unrecorded until now. Presentation only. Awaiting Pat. |
+| 11 | Smaller numbers | Extraction within 78 m at any speed (line 396); Quietus top speed 96 (line 104); a stun clears a Siren's investigation; time eases 30 percent while aiming a tool (line 585) | Extraction within 65 m under 12 m/s; cruise 78; a stun keeps the investigation goal; tactical pause replaces eased time | Kept for the playtest. Pat, 2026-11-12: "I'll have to try that for testing." |
+
+Not settled by the audit, with what would settle each: whether the factory outline turns red at Hunt stage 3 (read `_draw_pressure_overlay` in `ocean_view.gd`); marine snow and wake bubbles (search the presentation folder); per-role Siren sight radii (read `enemy_types.gd` and `sweeper_senses.gd`); which operations use the newer acoustic model (`acoustic_revision`).
+
+### Charts: discovered, not given (Pat, 2026-11-12)
+
+The "Terrain discovery / chart knowledge" row and the "Earned terrain stage 1" table above recorded that only Confluence and four Glass Reach operations earned their charts and that all other operations stayed precharted. Pat ruled on 2026-11-12: "That's a complete fail. It's acceptable in maybe the first one to three missions as a tutorial in known waters, but the whole point is it's a recon and survey mission. You have to discover through exploration, sonar, photographs, recon sweeps but are temporary until you map them."
+
+**Changed 2026-11-12 (WP-16, `parity_rules/parity_rules.gd`):** on a player dive every operation after 0, 1 and 2 starts with only a small window of known water around the launch point and earns the rest with the craft's own sensors, through the existing earned-chart system. A survey sweep's picture stays for 30 seconds and lapses unless a craft maps that water. Not verified by play: whether each of those operations is still finishable and fair on a discovered chart; their authored journeys were not rerun (Pat's minimum-testing rule).
+
+
+### Tests that still fly on the older rules (code audit fix A5, 2026-11-12)
+
+Every dive now starts on the player rules, in tests as in play. 137 test suites written for the older game were converted: most launch the drones first, or switch on known charts for a scripted route. The ones below still use an older rule, each for a stated reason. Each is a question for Pat's play, not a decision made here.
+
+| Test | What it still uses | Why | What Pat may want to check |
+|---|---|---|---|
+| `photo_row_tender_door_journey_tests` (retired) | all older rules | The route relied on the older, louder drone drawing a guard away. With quiet drones the guard stays and the drone is lost at its depth change. | Can the tender door (operation 7) be photographed by a quiet drone? |
+| `depth_policy_journeys` (retired), `depth_policy_ui_tests` | all older rules | The "active scout" opening plan loses Quietus at about 48 seconds on the player rules; it wins on the older ones. Likely because a calm Siren no longer turns toward the scout drone. | Is sending a scout ahead still a sound opening? |
+| `hand_pilot_journeys`, `bare_contact_tests` (operations 17 and 30 only) | known charts | The careful scripted pilot is destroyed on the first legs when it has to discover the chart. | Can operations 17 (Silt Archive) and 30 be finished by hand on discovered charts? |
+| `calder_fleet_journey_tests` (retired) | drones start in the water | Its controller orders drone depths before a drone can be launched. | Nothing; test plumbing. |
+| `loadout_frames_tests` (power bus cost checks) | sonar cost | Quietus sonar is free on the player rules, which hides the cost these checks measure. | Nothing; the drone cost is still tested. |
+
+## Trial rules, 13 November 2026 (Pat: "Yes for testing")
+
+Six rules the prototype does not have, all on trial and put to Pat again after he has played. The table is `game/src/trial_rules.gd`; the constant in the last column switches each one back, and with it switched back the game behaves as before.
+
+| Rule | What it changes | Switch back |
+|---|---|---|
+| 1 | Dive time stands still while the wheel, a page, the status sheet, PAST PINGS, the contact card or FLEET is open (`sim.paused` is not changed). | `WHEEL_HOLDS_TIME=false` |
+| 2 | The first dive of the Campaign (operation 01; not Expedition, Career or Challenge) warns 6 seconds before a lock fires, not 4. Read through `sim.lock_seconds()`. | `FIRST_DIVE_LOCK_SECONDS=4.0` |
+| 3 | The game pauses when a moving craft reaches the end of its route (not ALL STOP, aboard, lost; intermediate stop points do not wait for the player). | `PAUSE_AT_ROUTE_END=false` |
+| 4 | The game pauses when a new Siren lock starts on any of the player's craft, whatever the accessibility setting says. | `PAUSE_ON_EVERY_LOCK=false` |
+| 5 | The game pauses once when rock blocks a craft's leg and it holds. | `PAUSE_WHEN_BLOCKED=false` |
+| 6 | An Expedition operation's rider starts switched off (Naval Career unchanged). | `EXPEDITION_RIDER_DEFAULT_ON=true` |
+
+Every automatic pause (these three and the accessibility aids) goes through `presentation/auto_pause.gd`.

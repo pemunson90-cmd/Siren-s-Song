@@ -18,10 +18,10 @@ func configure(state:Dictionary)->bool:
 	run_state=state.duplicate(true)
 	super.configure(RunState.rider_assignment(state))
 	return true
-func start(_index:int,_upgrade:String="endurance",_launch:Dictionary={})->void:
+func start(_index:int,_upgrade:String=Names.LOADOUT_ENDURANCE,_launch:Dictionary={})->void:
 	if run_state.is_empty():return
 	var op=RunState.current_operation(run_state)
-	super.start(op,run_state.loadout,{"fitted":Equipment.default_loadout(),"context":RunState.context(run_state),"fleet_commit":false})
+	super.start(op,run_state.loadout,{"fitted":Equipment.default_loadout(),"context":RunState.context(run_state),"fleet_commit":false,DroneBay.FLAG:true,ParityRules.KEY:true}) # every player dive runs the player rules (Pat, 2026-11-12)
 	if run_state.has("tool_racks"):
 		var rack_launch={}
 		if preload("res://src/equipment/tool_racks.gd").prepare_launch(rack_launch,Equipment.default_loadout(),run_state.tool_racks).is_empty():

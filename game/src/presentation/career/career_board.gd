@@ -8,6 +8,15 @@ const Catalog=preload("res://src/equipment/equipment_catalog.gd")
 const Research=preload("res://src/campaign/glass_research.gd")
 const EquipmentView=preload("res://src/presentation/equipment_context.gd")
 const Riders=preload("res://src/campaign/career/riders.gd")
+const Briefing=preload("res://src/presentation/mode_briefing.gd")
+const PrepColumns=preload("res://src/presentation/prep_columns.gd")
+const ResultText=preload("res://src/presentation/mode_result_text.gd")
+const NAME="NAVAL CAREER"
+const RIDER_FOR="OPTIONAL RIDER FOR %s"
+const RIDER_PREFIX="OPTIONAL RIDER · " # how Riders.description begins
+const RIDER_NOTE="Riders are drawn again after every dive, so a contract can offer a different rider next time. The one shown is the one you get if you accept now."
+# The rules of a contract that are neither goal nor danger.
+const CONTRACT_RULES=["The dive starts paused. A dive you leave resumes paused.","Oxygen, film and field tools refill for every dive.","Hull damage stays with your boat until you repair it.","Giving up a contract counts as a loss."]
 static func heading(host,title:String,screen:String)->void:
 	host.sim.paused=true;host.screen=screen;host._clear_menu();host._menu_text(title,30)
 	host._menu_text(Economy.balance_text(host.economy),17)
@@ -16,15 +25,25 @@ static func heading(host,title:String,screen:String)->void:
 		host._button(host.panel_box,"RETRY SAVE",func():host._save_archive();host._show_campaign(),"career_retry")
 	host.call_deferred("_layout")
 static func show(host)->void:
-	heading(host,"NAVAL CAREER / CONTRACT BOARD","career_board")
+	heading(host,NAME+"\nCONTRACT BOARD","career_board")
 	if host.active_started:
 		host._button(host.panel_box,"RESUME CONTRACT DIVE",host._enter_water,"career_resume")
 		host._button(host.panel_box,"ABANDON CONTRACT · LOSE STANDING",func():confirm_abandon(host),"career_abandon")
 		host._menu_text("Finish or abandon this contract before selecting another. Equipment changes apply between dives.",17)
 		host._menu_text(host.sim.rider_status(),17)
 		return
-	host._button(host.panel_box,"RETURN TO MODES",host._return,"career_return")
-	host._menu_text("RECOVERY: standing +%d and contract pay plus salvage. LOSS: standing %d and no contract pay. Recovery jobs remain open at every standing. Pay and tuning are provisional."%[Table.SUCCESS,Table.LOSS],16)
+	# WP-62: on a wide screen the contracts (each faction with its standing, each contract with its rider) are the
+	# left column and the rules, supplies, fittings and the record the right. Narrow: one list in the old order.
+	var columns=PrepColumns.open(host,host._show_campaign)
+	PrepColumns.into(host,columns[1],_board_rules.bind(host))
+	PrepColumns.into(host,columns[0],_contracts.bind(host))
+	PrepColumns.into(host,columns[1],_board_links.bind(host))
+static func _board_rules(host)->void:
+	host._button(host.panel_box,"BACK TO GAME MODES",host._return,"career_return")
+	# Developer note, not shown to the player: pay and tuning are provisional.
+	host._menu_text("Recover a contract: standing +%d, contract pay and salvage. Lose one: standing %d and no pay. Recovery jobs are open at any standing."%[Table.SUCCESS,Table.LOSS],16)
+	host._menu_text(RIDER_NOTE,16)
+static func _contracts(host)->void:
 	for faction in Table.FACTIONS:
 		host._menu_text("%s · STANDING %d"%[Table.FACTIONS[faction],host.career_state.standing[faction]],22)
 		for id in Table.CONTRACTS:
@@ -32,12 +51,26 @@ static func show(host)->void:
 			if c.faction!=faction:continue
 			var available=State.open(host.career_state,id)
 			var title=host.Simulation.Missions.make(c.op,host._launch_context(c.op)).title
-			var button=host._button(host.panel_box,"%s\n%s · PAY %s"%[title.to_upper(),"OPEN" if available else "LOCKED · NEED STANDING %d"%c.get("standing",Table.MIN_STANDING),Economy.fmt(c.reward)],host._select_contract.bind(id),"career_contract_"+id)
+			var button=host._button(host.panel_box,"%s\n%s · REWARD %s · SALVAGE %s"%[title.to_upper(),"OPEN" if available else "LOCKED · NEED STANDING %d"%c.get("standing",Table.MIN_STANDING),Economy.fmt(c.reward),Economy.fmt(salvage(host,c))],host._select_contract.bind(id),"career_contract_"+id)
 			button.disabled=not available or host.save_failed
-			host._menu_text(Riders.description(State.rider_offer(host.career_state,id)),16)
+			# The rider names its own contract and a rule closes the block, so it cannot read as the next one's.
+			host._menu_text(rider_line(title,State.rider_offer(host.career_state,id)),16)
+			host.panel_box.add_child(HSeparator.new())
+# WP-97: what a recovery pays on top of the contract. The same rule Economy.settle applies to a career dive (a first
+# recovery of the operation pays more than a replay; the preset and options scale it; a career dive banks no module scrap).
+static func salvage(host,c:Dictionary)->Dictionary:
+	var base=Economy.Table.INCOME.first if c.op not in host.career_state.progress.completed else Economy.Table.INCOME.replay
+	var pay={}
+	for key in Economy.RES:
+		var n=base[key]
+		pay[key]=int(ceil(n*Economy.preset(host.economy).income*Economy.Options.multiplier(host.economy,"income")-0.0001)) if n>0 else 0
+	return pay
+static func _board_links(host)->void:
 	host._button(host.panel_box,"SUPPLIES / RESEARCH",host._show_economy,"career_supplies")
 	host._button(host.panel_box,"FLEET / FITTINGS",host._show_fittings,"career_fittings")
-	host._menu_text("%d RECOVERED · %d LOST\n%s"%[host.career_state.recovered,host.career_state.lost,host.career_state.report],17)
+	host._menu_text("%d RECOVERED · %d LOST\n%s"%[host.career_state.recovered,host.career_state.lost,"\n".join(ResultText.career_lines(host.career_state.report))],17)
+static func rider_line(title:String,rider:Dictionary)->String:
+	return "%s · %s"%[RIDER_FOR%title.to_upper(),Riders.description(rider).trim_prefix(RIDER_PREFIX)]
 static func confirm_abandon(host)->void:
 	heading(host,"ABANDON THIS CONTRACT?","career_abandon")
 	host._menu_text("This records a loss, reduces the client's standing and forfeits contract pay. Your regional career continues.",17)
@@ -46,14 +79,15 @@ static func confirm_abandon(host)->void:
 static func briefing(host)->void:
 	var c=Table.CONTRACTS[host.selected_contract]
 	var mission=host.Simulation.Missions.make(c.op,host._launch_context(c.op))
-	heading(host,"CAREER / "+mission.title.to_upper(),"career_briefing")
-	host._menu_text("%s\n%s\n%s"%[Table.FACTIONS[c.faction],c.brief,mission.brief],18)
-	host._menu_text("RECOVERY PAY · %s\nSTANDING %d · SUCCESS +%d / LOSS %d\nNEXT LAUNCH · %s"%[Economy.fmt(c.reward),host.career_state.standing[c.faction],Table.SUCCESS,Table.LOSS,Economy.fmt(preload("res://src/presentation/economy_panel.gd").launch_cost(host))],17)
-	host._menu_text("Paused physical operation. Oxygen, film and field tools replenish each dive. Damage persists through the existing economy; bare standard equipment always launches free. Interrupted dives resume paused; abandoning records a contract loss.",16)
+	heading(host,NAME+"\n"+mission.title.to_upper(),"career_briefing")
+	host._menu_text("%s: %s"%[Table.FACTIONS[c.faction],c.brief],18)
+	Briefing.show(host,c.op,c.brief,CONTRACT_RULES)
+	host._menu_text(Briefing.carrying_line(host.tool_racks),17)
+	host._menu_text("Reward if you recover it: %s, plus salvage %s.\nStanding with %s: %d. Recover it for +%d, lose it for %d.\nNext launch costs: %s."%[Economy.fmt(c.reward).to_lower(),Economy.fmt(salvage(host,c)).to_lower(),Table.FACTIONS[c.faction].capitalize(),host.career_state.standing[c.faction],Table.SUCCESS,Table.LOSS,Economy.fmt(preload("res://src/presentation/economy_panel.gd").launch_cost(host)).to_lower()],17)
 	var rider=State.rider_offer(host.career_state,host.selected_contract)
 	host._menu_text(Riders.description(rider),17)
 	if not rider.is_empty():
-		host._button(host.panel_box,"RIDER · "+("ACCEPTED" if host.accept_rider else "DECLINED"),preload("res://src/presentation/rider_choice.gd").toggle.bind(host,briefing.bind(host)),"career_rider")
+		host._button(host.panel_box,"RIDER: ON · TAP TO REMOVE" if host.accept_rider else "RIDER: OFF · TAP TO ACCEPT",preload("res://src/presentation/rider_choice.gd").toggle.bind(host,briefing.bind(host)),"career_rider")
 	var begin=host._button(host.panel_box,"ACCEPT CONTRACT · START PAUSED",host._begin,"career_begin")
 	begin.disabled=host.save_failed or not preload("res://src/presentation/economy_panel.gd").can_begin(host)
 	host._button(host.panel_box,"FLEET / FITTINGS",host._show_fittings,"career_fittings")
@@ -63,7 +97,7 @@ static func spend(host,title:String,cost:Dictionary,action:Callable,id:String)->
 	button.disabled=host._mutations_blocked() or not Economy.can_pay(host.economy,cost)
 static func supplies(host)->void:
 	if host.active_started:return
-	heading(host,"CAREER / SUPPLIES AND RESEARCH","career_supplies")
+	heading(host,NAME+"\nSUPPLIES AND RESEARCH","career_supplies")
 	host._button(host.panel_box,"BACK TO CONTRACT BOARD",host._show_campaign,"career_board")
 	host._menu_text("Fleet condition and resources belong to this career. Research requires material physically recovered on a contract and its received record.",17)
 	for target in Economy.TARGETS:
@@ -80,7 +114,7 @@ static func supplies(host)->void:
 		spend(host,"BUILD "+Catalog.ITEMS[item].name,Economy.item_cost(item,host.economy),func():State.manufacture(host.career_state,item),"career_build_"+item)
 static func fittings(host)->void:
 	if host.active_started:return
-	heading(host,"CAREER / FLEET DEVELOPMENT","career_fittings")
+	heading(host,NAME+"\nFLEET DEVELOPMENT","career_fittings")
 	host._button(host.panel_box,"BACK TO CONTRACT BOARD",host._show_campaign,"career_board")
 	host._button(host.panel_box,"SUPPLIES / MANUFACTURE / RESEARCH",host._show_economy,"career_supplies")
 	host._menu_text("Unlock hulls and chassis with existing alloy prices. Manufacture conventional modules or research recovered alien material, then fit it for the next dive.",17)

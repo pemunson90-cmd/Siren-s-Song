@@ -1,5 +1,6 @@
 extends SceneTree
 const Sim=preload("res://src/simulation/simulation.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 var checks=0
 var failures=0
 func check(ok:bool,label:String)->void:
@@ -21,7 +22,7 @@ func _initialize():
  run(s,3.5)
  check(s.outcome=="lost" and s.hull==0.0 and s.message==Sim.VAPORIZED_TEXT,"fired beam vaporizes Quietus at once")
  s=beam_fixture();e=s.sirens[0];e.type="sentinel";e.angle=PI;e.lock=4.;e.target=0
- s.units[1].alive=true;s.units[1].pos=Vector2(1400,840)
+ PlayerDive.Bay.launch(s,1);s.units[1].pos=Vector2(1400,840)
  var second=e.duplicate(true);second.pos=Vector2(1560,840);second.home=second.pos;second.goal=second.pos;second.target=1;s.sirens.append(second)
  run(s,Sim.STEP)
  check(s.hull==0 and not s.units[1].alive and s.message==Sim.VAPORIZED_TEXT,"simultaneous drone beam loss preserves Quietus vaporization cause")
@@ -35,7 +36,7 @@ func _initialize():
  run(s,3.0)
  check(s.outcome.is_empty() and s.hull==100.0,"disrupted siren cannot fire")
  # Drones still die at once to a beam.
- s=beam_fixture();s.units[1].alive=true;s.units[1].pos=Vector2(900,840);s.units[0].pos=Vector2(400,2000);e=s.sirens[0];run(s,6.0)
+ s=beam_fixture();PlayerDive.Bay.launch(s,1);s.units[1].pos=Vector2(900,840);s.units[0].pos=Vector2(400,2000);e=s.sirens[0];e.mode="SEARCH";run(s,6.0) # a calm Siren ignores a drone (Pat, 2026-11-12); this one is alerted
  check(not s.units[1].alive and s.outcome.is_empty(),"drone beam kill is unchanged and does not end the dive")
  # Collision damage scaling.
  s=beam_fixture();var u=s.units[0]
@@ -50,7 +51,7 @@ func _initialize():
  check(s.hull==after,"hit cooldown prevents a per-frame drain")
  s.elapsed+=Sim.COLLISION_COOLDOWN+0.1;s._course_collision(u,true,70.0)
  check(s.hull<after,"damage resumes after the cooldown")
- s=beam_fixture();s.units[1].alive=true;s._course_collision(s.units[1],true,70.0)
+ s=beam_fixture();PlayerDive.Bay.launch(s,1);s._course_collision(s.units[1],true,70.0)
  check(s.hull==100.0,"drone impacts never touch Quietus hull")
  # Real physical impact: fast craft driven at charted rock.
  s=beam_fixture();s.mission.rocks=[];s.mission.structures=[Rect2(1000,700,60,300)];s._build_navigation()

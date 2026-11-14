@@ -1,4 +1,5 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 # Campaign economy. Three resources (scrap, cells, alloy) come from physically recovered
 # material and salvage; they pay for repair, refit, manufacturing, research and frame
 # unlocks between operations. A bare standard launch is always free, so no balance can
@@ -19,7 +20,7 @@ const ORDER=Table.ORDER
 const TARGETS=Table.TARGETS
 static func new_state(preset:String="standard",ironman:bool=false)->Dictionary:
  return {"preset":preset,"ironman":ironman,"stock":Table.START.duplicate(),"spares":{},"unlocks":[],
-  "cond":{"quietus":100,"drone_a":100,"drone_b":100},"last_fit":Catalog.default_loadout(),"settled":"",
+  "cond":{Names.CRAFT_QUIETUS:100,Names.CRAFT_DRONE_A:100,Names.CRAFT_DRONE_B:100},"last_fit":Catalog.default_loadout(),"settled":"",
   "report":"No dive yet. Starter supplies aboard.","permanent_losses":Losses.fresh(),"economy_options":Options.fresh()}
 # An archive saved before the economy keeps the frames it already flew with.
 static func legacy_state(fit:Dictionary)->Dictionary:
@@ -101,11 +102,11 @@ static func repair_scaled(cost:Dictionary,e:Dictionary)->Dictionary:
 static func repair_cost(e:Dictionary,target:String)->Dictionary:
  var missing=100-e.cond.get(target,100)
  if missing<=0:return {}
- if target=="quietus":return repair_scaled({"cells":int(ceil(missing/float(Table.REPAIR_HULL_PER_STEP)))},e)
+ if target==Names.CRAFT_QUIETUS:return repair_scaled({"cells":int(ceil(missing/float(Table.REPAIR_HULL_PER_STEP)))},e)
  return repair_scaled({"cells":1,"scrap":1},e)
 static func repair(e:Dictionary,target:String)->bool:
  var cost=repair_cost(e,target)
- if (target=="drone_a" and Losses.missing(e,1)) or (target=="drone_b" and Losses.missing(e,2)):return false
+ if (target==Names.CRAFT_DRONE_A and Losses.missing(e,1)) or (target==Names.CRAFT_DRONE_B and Losses.missing(e,2)):return false
  if cost.is_empty() or not pay(e,cost):return false
  e.cond[target]=100
  return true
@@ -123,7 +124,7 @@ static func drone_cost(e:Dictionary)->Dictionary:return scaled(Table.DRONE_PRICE
 static func rebuild_drone(e:Dictionary,id:int)->bool:
  if not Losses.missing(e,id) or not pay(e,drone_cost(e)):return false
  e.permanent_losses.drones.erase(id)
- e.cond["drone_a" if id==1 else "drone_b"]=100
+ e.cond[Names.CRAFT_DRONE_A if id==1 else Names.CRAFT_DRONE_B]=100
  return true
 static func rebuild(e:Dictionary,fleet:Dictionary,item:String)->Dictionary:
  var permanent=Losses.active(e) and item in Losses.state(e).modules
@@ -131,7 +132,7 @@ static func rebuild(e:Dictionary,fleet:Dictionary,item:String)->Dictionary:
  if permanent:e.permanent_losses.modules.erase(item)
  return Fleet.rebuild(fleet,item)
 static func spare_allowed(item:String)->bool:
- return Catalog.ITEMS.has(item) and Catalog.ITEMS[item].compatible_slots.any(func(s):return s in ["drone_a","drone_b"])
+ return Catalog.ITEMS.has(item) and Catalog.ITEMS[item].compatible_slots.any(func(s):return s in [Names.CRAFT_DRONE_A,Names.CRAFT_DRONE_B])
 static func build_spare(e:Dictionary,item:String)->bool:
  if not spare_allowed(item) or e.spares.get(item,0)>=1 or not pay(e,item_cost(item,e)):return false
  e.spares[item]=1

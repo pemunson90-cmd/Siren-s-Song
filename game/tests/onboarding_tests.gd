@@ -39,15 +39,36 @@ func run() -> void:
 	# No dive text wall, no manual wording on a fresh campaign.
 	game._briefing(0); await settle()
 	var shown=""
-	for c in game.panel_box.get_children():
-		if c is Label: shown+=c.text+"\n"
-	check(shown.length()<420 and "GOAL" in shown and "DANGER" in shown and "exposed" not in shown,"opening briefing is a goal and one danger")
+	# The briefing's facts sit in the left column of a two-column layout on wide screens, so search below the box.
+	for c in game.panel_box.find_children("*","Label",true,false):
+		shown+=c.text+"\n"
+	check(shown.length()<700 and "GOAL" in shown and "DANGER" in shown and "exposed" not in shown,"opening briefing is a goal, one danger and the primer")
+	check("SILENT" in shown and "Drones scout ahead" in shown and "Sirens hunt by sound" in shown,"opening briefing carries the three-line primer until operation 01 is recovered")
+	check(buttons(game.panel_box,"manual").text.begins_with("FIELD MANUAL") and "take photographs" in buttons(game.panel_box,"manual").text,"the manual button names the topics it covers")
 	check(buttons(game.panel_box,"manual")!=null,"rules live behind a field manual button")
 	game._reference(0); await settle()
 	shown=""
 	for c in game.panel_box.get_children():
 		if c is Label: shown+=c.text+"\n"
-	check("stationary seconds" in shown and "FIELD MANUAL" in shown,"field manual keeps the full rules")
+	var Table=preload("res://src/presentation/field_manual_table.gd")
+	check(game.get_meta("field_manual_open","")==Table.TOPICS[0].id,"the first topic is open on entry")
+	for entry in Table.TOPICS:
+		var topic=buttons(game.panel_box,"manual_topic_"+entry.id)
+		check(topic!=null and topic.size.y>=game.ui_touch_height-1,"topic button "+entry.id+" is at least touch height")
+		topic.pressed.emit(); await settle()
+		var open_count=0
+		for other in Table.TOPICS:
+			if buttons(game.panel_box,"manual_topic_"+other.id).get_meta("chosen",false):open_count+=1
+		check(open_count==1 and game.get_meta("field_manual_open","")==entry.id and topic.get_meta("chosen",false),"exactly one topic is open: "+entry.id)
+		for c in game.panel_box.find_children("*","Label",true,false):
+			check(not c.is_visible_in_tree() or c.get_minimum_size().x<=game.size.x,"card text fits the width: "+entry.id)
+		if entry.id!=Table.OPERATION_ID:
+			check(entry.lines.size()<=5,"a card has at most five lines: "+entry.id)
+	var manual_text=""
+	for entry in Table.TOPICS:
+		for text in entry.lines:manual_text+=text+" "
+	check("SILENT" in manual_text and "DEPLOY DRONE" in manual_text and "RECALL" in manual_text and "EMP" in manual_text and "290m" in manual_text,"the cards keep the interface terms and numbers")
+	check(buttons(game.menu_footer,"back")!=null,"the manual offers its way back")
 	game._show_campaign(); await settle()
 	var resume=false; var erase=false
 	for c in game.panel_box.get_children():
@@ -76,7 +97,7 @@ func run() -> void:
 	await click(water_point(Vector2(780,640))); await settle()
 	var before=game.sim.route_goals().size()
 	await click(guard.add_button.get_global_rect().get_center()); await settle()
-	check(game.sim.route_goals().size()==before+1 and not game.sim.queue_mode,"ADD TO ROUTE extends without leaving queue mode on")
+	check(game.sim.route_goals().size()==before+1 and game.sim.queue_mode,"ADD TO ROUTE extends and leaves taps on QUEUE (WP-89)")
 	await click(guard.undo_button.get_global_rect().get_center()); await settle()
 	check(game.sim.route_goals().size()==before,"undo removes the added stop")
 	# Undo of a first plan clears it.
@@ -90,6 +111,8 @@ func run() -> void:
 	var hints=game.mission_hud.hints
 	check(hints.panel.visible and hints.current=="move" and game.sim.paused,"the first prompt teaches one verb while paused")
 	check("move" in game.hints_seen,"a shown prompt is remembered")
+	check(hints.label.text.contains("PAUSED") and hints.label.text.contains("RUNNING") and hints.label.text.contains("stop time"),"the first prompt, shown before time starts, says how to run and how to stop time")
+	check(Text.valid_seen([Text.HUNT_METER_HINT]),"the Hunt chip's first-sight flag is a valid saved flag")
 	game.sim.command("route",{"point":Vector2(400,700)}); game._refresh(); await settle()
 	check(not hints.panel.visible,"taking the step retires its prompt")
 	game.sim.paused=false; game.sim.elapsed=1.0; game._refresh(); await settle()
@@ -100,12 +123,12 @@ func run() -> void:
 	check(not hints.panel.visible and game.hints_seen.size()==count,"a prompt does not show twice")
 	# Contextual action reads before the tap.
 	var caption=game.mission_hud.camera_caption()
-	check(caption.size()>=2 and caption.size()<=3 and (caption.size()==2 and "NO SITE" in caption[1] or "NOT READY" in caption[2]),"the action button says it is not ready before the tap")
+	check(caption.size()>=1 and caption.size()<=4 and (caption.size()==1 and "NO SITE" in caption[0] or "NOT READY" in caption[1]),"the action button says it is not ready before the tap")
 	game.sim.units[0].pos=game.sim.mission.objectives[0].pos+Vector2(60,0); game.sim.units[0].vel=Vector2.ZERO
 	game.sim.units[0].angle=PI
 	game.sim.Photo.discover(game.sim)
 	game._refresh(); caption=game.mission_hud.camera_caption()
-	check(caption.size()==3 and game.sim.Photo.label(game.sim.mission.objectives[0]).to_upper().substr(0,18) in caption[1] and caption[2].begins_with("READY"),"the action button uses its target's known label and says it is ready")
+	check(caption.size()==3 and game.sim.Photo.label(game.sim.mission.objectives[0]).to_upper().substr(0,18) in caption[0] and caption[1].begins_with("READY"),"the action button uses its target's known label and says it is ready")
 	# Text size reaches the dive HUD without shrinking touch targets.
 	var normal_font=game.mission_hud.host.pause_button.get_theme_font_size("font_size")
 	var h=game.ui_touch_height

@@ -30,6 +30,8 @@ func recover_approach(game):
  game.mission_hud.dismiss();game._refresh();await settle()
  await tap(game.advanced_button.get_global_rect().get_center())
  await tap(game.unit_buttons[0].get_global_rect().get_center())
+ # WP-35/WP-52: RECALL ALL or DEPLOY takes PLAN ROUTE's place on the main page; PLAN ROUTE is under ROUTE then.
+ if not game.order_buttons.program.is_visible_in_tree():await tap(game.mission_hud.extra.route_menu.get_global_rect().get_center())
  await tap(game.order_buttons.program.get_global_rect().get_center())
  var preview=game.route_editor.preview;var point=game.sim.mission.extraction
  for attempt in 8:
@@ -58,7 +60,7 @@ func run():
   root.add_child(game);await settle();game.set_process(false)
   # The tender's measured hull is revealed by the selected Drone B's Survey.
   game.tool_racks=preload("res://src/equipment/tool_racks.gd").empty();game.tool_racks.drone_b.recon=2
-  game.completed=[0,1,2,3,4,5];game.unlocked=5;game.fitted_equipment.drone_a="drone_deep_cells";game._start_mission(7);await settle()
+  game.completed=[0,1,2,3,4,5];game.unlocked=5;game.fitted_equipment.drone_a="drone_deep_cells";game._start_mission(7);await settle();preload("res://tests/fixtures/player_dive.gd").launch_drones(game.sim)
   var sim=game.sim;sim.sirens=[];var label="cover" if dimensions.x==2520 else "inner"
   check(game.sound.cues.has("berth_release"),"soundscape registers the berth release event as a real player machinery cue")
   var samples=game.sound.samples("berth_release");var peak=0.;var energy=0.

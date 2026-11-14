@@ -23,14 +23,17 @@ static func entries(sim)->Array:
   var distance=u.pos.distance_to(mouth.pos)
   var inside=u.alive and u.band==1 and u.transition.is_empty() and distance<REACH and u.vel.length()<SPEED and sim.Depth.clear(sim,u.pos,mouth.pos,u.band)
   if u.alive and id>0 and sim.HandPilot.recalled(sim,id):inside=true
-  rows.append({"name":u.name,"in":inside,"lost":not u.alive,"distance":distance})
+  # WP-13: a drone that was never launched is aboard Quietus and comes home with it.
+  if sim.DroneBay.aboard(u):inside=true
+  rows.append({"name":u.name,"in":inside,"lost":sim.DroneBay.lost(u),"distance":distance,"aboard":sim.DroneBay.aboard(u)})
  return rows
 
 static func lines(rows:Array)->Array:
  var result:=[]
  for row in rows:
   var name=str(row.name).to_upper()
-  if row.lost:result.append(name+" · OUT · LOST")
+  if row.get("aboard",false):result.append(name+" · IN · ABOARD")
+  elif row.lost:result.append(name+" · OUT · LOST")
   elif row.in:result.append(name+" · IN")
   else:result.append("%s · OUT · %dm TO RECOVERY"%[name,roundi(row.distance)])
  return result

@@ -2,10 +2,13 @@ extends SceneTree
 # Source-known diagnostic: independently measures planned line/terrain distances.
 # No gameplay outcome or balance conclusions; --sweep expands the sampled endpoints.
 const Sim=preload("res://src/simulation/simulation.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 var checks=0
 var failures=0
 const Measure=preload("res://tests/nav_clearance_measure.gd")
 func _initialize():
+ # Navigation geometry over authored water, not a discovery test: known-charts developer switch (the player rules leave this water uncharted).
+ var charts_before=PlayerDive.known_water(true)
  var sweep="--sweep" in OS.get_cmdline_user_args()
  var corners="--corners" in OS.get_cmdline_user_args()
  for operation in [0,1,3,4,5]:
@@ -38,4 +41,5 @@ func _initialize():
      tight+=1
      if tight<=2:print("TIGHT ",operation," from=",start," to=",endpoint," clearance=",clearance," route=",route)
   print("NAV PROBE op=",operation," accepted=",accepted," clipped=",clipped," below_planner_margin=",tight," minimum=",minimum)
+ PlayerDive.known_water(charts_before)
  print("NAV CLEARANCE PROBE CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)

@@ -1,48 +1,142 @@
 extends Control
 const Palette=preload("res://src/presentation/accessibility/palette.gd")
+const UiStyle=preload("res://src/presentation/ui_style.gd")
+const ThreatRead=preload("res://src/presentation/threat_read/threat_read.gd")
+const MoveTiming=preload("res://src/presentation/lock_move_timing.gd")
+const Words=preload("res://src/presentation/hud_words.gd")
+const SirenTag=preload("res://src/simulation/siren_tag.gd")
 # Read-only, receiver-earned lock cues. Never inspect the live enemy roster.
 # Visual revert: remove Main construction/refresh only; retain frames() and tests
 # because Soundscape and accessibility consume the same received-lock data.
 static func frames(sim)->Array:
  var result:Array=[]
  if sim.units.is_empty() or not sim.units[0].alive or not sim.outcome.is_empty():return result
+ var seconds:float=sim.lock_seconds()
  for id in sim.contacts:
   var c=sim.contacts[id];var age=sim.elapsed-float(c.time)
   if age<0 or age>=.3 or c.get("target",-1)!=0 or c.get("recipient_target",false):continue
   if preload("res://src/simulation/observed_stun.gd").remaining(c,sim.elapsed)>0:continue
-  if c.get("mode","")!="LOCKING" or c.get("lock",0)<=0 or c.lock>=4:continue
+  if c.get("mode","")!="LOCKING" or c.get("lock",0)<=0 or c.lock>=seconds:continue
   if not preload("res://src/simulation/depth_bands.gd").sight(sim,c,sim.units[0]):continue
-  result.append({"id":id,"pos":c.pos,"progress":c.lock/4.,"remaining":4.-c.lock})
+  result.append({"id":id,"pos":c.pos,"progress":c.lock/seconds,"remaining":seconds-c.lock})
  result.sort_custom(func(a,b):return a.progress>b.progress)
  return result
 var host
 var locks:Array=[]
 var episodes=0
-var show_hint=false
 var previous_clock=-1.
 var previous_ids:Array=[]
-var banner=Rect2()
-func _init():mouse_filter=Control.MOUSE_FILTER_IGNORE
+var banner=Rect2():
+ set(value):
+  banner=value;_place_buttons()
+# One tap per counter-move the card lists (ThreatRead.move_list), shown only while the game is paused or held.
+# They send the wheel's own orders through Main._order; the card owns their taps (blocks(), mission_hud.blocks).
+const MOVE_BUTTONS=3
+const BUTTON_GAP=6.
+const BUTTON_PAD=8.
+var buttons:Array=[]
+var button_top=0.
+# The ONE statement of a lock. The card names the Siren's type and direction, the threatened craft (any of
+# ours, not only Quietus), the seconds left and the way out, from the same received-lock rows the chart's
+# threat line uses. Nothing else says it: the contact readout, the craft tag and the notice chip stand down
+# while it shows (ocean_view.lock_card_source). A "NEW SIREN TYPE" note joins it as its last line.
+var rows:Array=[]
+var card_text=""
+var note=""
+func _init():
+ mouse_filter=Control.MOUSE_FILTER_IGNORE
+ for i in MOVE_BUTTONS:
+  var button=Button.new();button.visible=false;button.mouse_filter=Control.MOUSE_FILTER_STOP;button.focus_mode=Control.FOCUS_NONE
+  button.pressed.connect(_press.bind(button));add_child(button);buttons.append(button)
 func update_state(sim,active:bool):
  if sim.elapsed<previous_clock:previous_ids.clear()
  previous_clock=sim.elapsed
  locks=frames(sim) if active else []
+ rows=ThreatRead.lock_rows(sim) if active else []
  var ids=locks.map(func(frame):return frame.id)
- if ids.any(func(id):return id not in previous_ids):
-  episodes+=1;show_hint=episodes<=3
- if locks.is_empty():show_hint=false
+ if ids.any(func(id):return id not in previous_ids):episodes+=1
  previous_ids=ids
- visible=not locks.is_empty();queue_redraw()
+ card_text=_card_text()
+ visible=not locks.is_empty() or not rows.is_empty();queue_redraw()
+func _card_text()->String:
+ if rows.is_empty():
+  return "%s LOCK · %.1fs"%[SirenTag.tag(int(locks[0].id)),locks[0].remaining] if not locks.is_empty() else ""
+ var aim=ThreatRead.Table.TEXT.decoy_aim if host!=null and host.get("decoy_armed")==true and int(host.decoy_unit)==int(rows[0].craft) else ""
+ # While the move buttons show (paused), they are the moves: the card does not print them again as an "Or:" line.
+ var advice:String=rows[0].advice
+ var all_moves:Array=rows[0].get("moves",[]);var moves:Array=MoveTiming.useful(all_moves)
+ if host!=null and host.sim.paused and not moves.is_empty():advice=advice.get_slice("\n",0)
+ elif moves.size()<all_moves.size():
+  # The decoy is not offered against a running lock: the "Or:" line lists only the moves that can help.
+  advice=advice.get_slice("\n",0)+("" if moves.is_empty() else "\n"+ThreatRead.Table.TEXT.moves%ThreatRead.Table.TEXT.move_join.join(moves.map(func(m):return m.label)))
+ # One decision at a time: the note is left off while the route prompt is open, so the card stays as short as before.
+ var asking:bool=host!=null and host.mission_hud!=null and host.mission_hud.guard!=null and not host.mission_hud.guard.pending.is_empty()
+ var decoy_note:String=Words.TEXT.decoy_note if not asking and moves.size()<all_moves.size() and all_moves.any(func(m):return m.order=="decoy") else ""
+ return rows[0].sentence+"\n"+advice+("\n"+decoy_note if not decoy_note.is_empty() else "")+("\n"+aim if not aim.is_empty() else "")+("\n"+note if not note.is_empty() else "")
 func refresh(owner):
  host=owner;position=Vector2.ZERO;size=host.size
+ var cue=host.hud.get_node_or_null("FirstSirenCue") if host.get("hud")!=null else null
+ note=cue.note_text() if cue!=null and host.screen=="mission" else ""
  update_state(host.sim,host.screen=="mission")
+ host.ocean.lock_card_source=int(rows[0].source) if not rows.is_empty() else -1
  var h=host.ui_touch_height
- var width=minf(size.x-32,h*5.)
- banner=Rect2(Vector2((size.x-width)/2,h+24),Vector2(width,h*(1.55 if show_hint else .85)))
+ var width=minf(size.x-32,h*UiStyle.LOCK_CARD_WIDTH)
+ var tall=h*.85
+ if not rows.is_empty():
+  var text_h=ThemeDB.fallback_font.get_multiline_string_size(card_text,HORIZONTAL_ALIGNMENT_LEFT,maxf(1.,width-h*.9-12.),_font_size(h)).y
+  tall=maxf(tall,text_h+h*.25)
+ button_top=tall
+ tall+=_fit_buttons(h,width)
+ banner=Rect2(Vector2((size.x-width)/2,h+24),Vector2(width,tall))
+# Sets up the move buttons from the card's moves (only while paused) and flows them into rows that fit the card's
+# width; returns the height they add under the text. Rows' offsets are kept in each button's "offset" meta.
+func _fit_buttons(h:float,width:float)->float:
+ # One decision at a time: while the route prompt is open the card shows its text only; the buttons return after it.
+ var prompt_open:bool=host.mission_hud!=null and host.mission_hud.guard!=null and not host.mission_hud.guard.pending.is_empty()
+ var moves:Array=MoveTiming.useful(rows[0].moves) if not rows.is_empty() and host.sim.paused and not prompt_open else []
+ var font_size=_font_size(h)
+ var inner=width-BUTTON_PAD*2
+ var x=0.;var y=0.;var used=0.;var row_step=h
+ for i in buttons.size():
+  var button:Button=buttons[i]
+  button.visible=i<moves.size()
+  if not button.visible:continue
+  var move=moves[i]
+  # Second line: how long the move takes to work on this lock, from the simulation's own rules. A move that cannot
+  # work before the lock completes keeps its tap but is drawn in the warning colour with its reason.
+  var timing:Dictionary=MoveTiming.read(host.sim,rows[0],move)
+  button.text=move.label+"\n"+timing.line;button.set_meta("order",move.order);button.set_meta("craft",int(rows[0].craft));button.set_meta("in_time",timing.in_time)
+  button.add_theme_font_size_override("font_size",font_size)
+  button.add_theme_color_override("font_color",Color.WHITE if timing.in_time else Palette.color("warning",Color("ffb18b")))
+  button.disabled=move.order=="decoy" and host.get("decoy_armed")==true and int(host.decoy_unit)==int(rows[0].craft)
+  # Two lines need more than the touch height on a small card: the button's own font and margins say how much.
+  var font:Font=button.get_theme_font("font")
+  var box:Vector2=button.get_theme_stylebox("normal").get_minimum_size()
+  var row:float=maxf(h,font.get_height(font_size)*2.+box.y)
+  var wide:float=maxf(font.get_string_size(move.label,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x,font.get_string_size(timing.line,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x)
+  var w=minf(inner,maxf(h*1.2,wide+box.x+h*.25))
+  if x>0 and x+w>inner:x=0.;y+=row_step+BUTTON_GAP
+  row_step=row
+  button.size=Vector2(w,row);button.set_meta("offset",Vector2(x,y));x+=w+BUTTON_GAP;used=y+row
+ return 0. if moves.is_empty() else used+BUTTON_PAD*2
+func _place_buttons()->void:
+ for button in buttons:
+  if button.visible:button.position=banner.position+Vector2(BUTTON_PAD,button_top+BUTTON_PAD)+button.get_meta("offset",Vector2.ZERO)
+# True when a tap at this screen point belongs to the card (its whole rectangle while buttons show).
+func blocks(point:Vector2)->bool:
+ return visible and buttons.any(func(b):return b.visible) and Rect2(global_position+banner.position,banner.size).has_point(point)
+# One tap: select the locked craft, then send the wheel's own order. DECOY arms placement and the chart waits for a point.
+func _press(button:Button)->void:
+ if host==null:return
+ var craft=int(button.get_meta("craft"))
+ if host.sim.selected!=craft:host._order("select",{"unit":craft})
+ host._order(str(button.get_meta("order")))
+func _font_size(h:float)->int:
+ return maxi(18,roundi(h*.25))
 func marker(point:Vector2)->Vector2:
  return point.clamp(Vector2.ONE*26,size-Vector2.ONE*26)
 func _draw():
- if host==null or locks.is_empty():return
+ if host==null or (locks.is_empty() and rows.is_empty()):return
  var h=host.ui_touch_height;var font=ThemeDB.fallback_font
  var warning=preload("res://src/presentation/accessibility/palette.gd").color("warning",Color("ffb18b"));var ink=Color("160b13")
  for frame in locks:
@@ -53,16 +147,17 @@ func _draw():
   Palette.marker(self,source,29.,"warning")
   draw_circle(source,25,ink)
   draw_arc(source,25,-PI/2,-PI/2+TAU*frame.progress,40,warning,5,true)
-  draw_string(font,source+Vector2(-15,6),"S%d"%(int(frame.id)+1),HORIZONTAL_ALIGNMENT_LEFT,-1,18,warning)
+  draw_string(font,source+Vector2(-15,6),SirenTag.tag(int(frame.id)),HORIZONTAL_ALIGNMENT_LEFT,-1,18,warning)
  draw_style_box(_panel(),banner)
+ var progress=rows[0].progress if not rows.is_empty() else locks[0].progress
  var radius=h*.26;var at=banner.position+Vector2(h*.45,h*.42)
  draw_arc(at,radius,0,TAU,40,Color(.4,.25,.24),5,true)
- draw_arc(at,radius,-PI/2,-PI/2+TAU*(1.-locks[0].progress),40,warning,7,true)
- var font_size=maxi(18,roundi(h*.25))
- draw_string(font,banner.position+Vector2(h*.9,h*.5),"S%d LOCK · %.1fs"%[int(locks[0].id)+1,locks[0].remaining],HORIZONTAL_ALIGNMENT_LEFT,-1,font_size,warning)
- if show_hint:
-  draw_string(font,banner.position+Vector2(12,h),"Break sight with cover.",HORIZONTAL_ALIGNMENT_LEFT,-1,font_size,Color.WHITE)
-  draw_string(font,banner.position+Vector2(12,h*1.35),"DISRUPT or torpedo impact interrupts.",HORIZONTAL_ALIGNMENT_LEFT,-1,maxi(16,roundi(h*.21)),Color.WHITE)
+ draw_arc(at,radius,-PI/2,-PI/2+TAU*(1.-progress),40,warning,7,true)
+ var font_size=_font_size(h)
+ if rows.is_empty():
+  draw_string(font,banner.position+Vector2(h*.9,h*.5),card_text,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size,warning)
+  return
+ draw_multiline_string(font,banner.position+Vector2(h*.9,h*.2+font.get_ascent(font_size)),card_text,HORIZONTAL_ALIGNMENT_LEFT,maxf(1.,banner.size.x-h*.9-12.),font_size,-1,Color.WHITE)
 func _panel()->StyleBoxFlat:
  var panel=StyleBoxFlat.new();panel.bg_color=Color(.06,.015,.025,.97);panel.border_color=preload("res://src/presentation/accessibility/palette.gd").color("warning",Color("ffb18b"));panel.set_border_width_all(int(Palette.stroke(2)));panel.set_corner_radius_all(10)
  return panel

@@ -64,8 +64,9 @@ static func badge_rect(view,sim,touch:float,blocked:Array)->Rect2:
  return Rect2()
 static func pick(view,sim,point:Vector2,touch:float)->Dictionary:
  if not active(sim):return {}
- for index in sim.observable_sites().size():
-  var site=sim.observable_sites()[index]
+ var sites=sim.observable_sites()
+ for index in sites.size():
+  var site=sites[index]
   if site.get("own_origin",false) and transmission_badge(view,site,touch).has_point(point):
    return {"kind":"objective","subkind":"transmission","index":index,"name":"TRANSMISSION SECTOR","pos":site.pos}
  # Only charted physical corridors are targets, never received fan directions.
