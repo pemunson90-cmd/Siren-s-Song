@@ -40,13 +40,16 @@ static func column(separation:int=SEPARATION)->VBoxContainer:
 static func plain_arc_heading(arc:Dictionary,completed:Array,with_count:bool=true)->String:
  if not with_count:return "ARC %d: %s"%[arc.number,arc.name]
  return "ARC %d: %s (%d of %d recovered)"%[arc.number,arc.name,arc.ids.filter(func(id):return id in completed).size(),arc.ids.size()]
+# What opens a locked operation (shared with the route map): the operation before it, by number and name.
+static func lock_reason(id:int,titles:Array)->String:
+ return "Recover %02d %s first"%[id,titles[id-1]] if id>0 else ""
 # What a card shows for an operation row: number, name, state tag and (when locked) the reason.
 static func card_data(host,button:Button)->Dictionary:
  var id=operation_id(button)
  if action(button).begins_with("mission"):
   var titles=host.Simulation.Missions.TITLES
   var state="RECOVERED" if id in host.completed else ("AVAILABLE" if id<=host.unlocked else "LOCKED")
-  var reason="Recover %02d %s first"%[id,titles[id-1]] if state=="LOCKED" and id>0 else ""
+  var reason=lock_reason(id,titles) if state=="LOCKED" else ""
   return {"id":id,"num":"%02d"%(id+1),"name":titles[id],"state":state,"reason":reason}
  var parts=str(button.text).rsplit(" · ",true,1)
  return {"id":id,"num":"%02d"%(id+1),"name":parts[0],"state":parts[1] if parts.size()>1 else "AVAILABLE","reason":""}

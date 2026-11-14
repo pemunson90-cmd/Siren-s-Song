@@ -15,4 +15,13 @@ const VIEW={
  "chart_top":1.9,"chart_reserve":3.2,"detail_font":.23,
  "stroke":3.,"line_dash":12.,"node_dash":9.,"padding":12.}
 const COLORS={"RECOVERED":"75d7b0","AVAILABLE":"b8e7ed","LOCKED":"415862","KNOWN FROM PHOTOS":"e8c58b"}
+# An operation not yet charted is a small dim mark, not a box; the key lists it last.
+const NOT_CHARTED="NOT YET CHARTED"
+const MARK_COLOR="5d7a86"
+const MARK_GLYPH="?"
+const KEY_ORDER=["RECOVERED","AVAILABLE","KNOWN FROM PHOTOS","LOCKED","NOT YET CHARTED"]
+const KEY_SWATCH={"mark_size":.9,"gap":8,"item_gap":16,"font":.22,"line_pad":4}
+# Available and recovered operations open their briefing on a tap (replay for recovered); the others explain themselves here.
+const DETAIL={"hint":"Drag to pan. + / − changes chart size. CURRENT finds the next available branch. Tap an available or recovered operation for its briefing; tap any other to see what opens it.",
+ "photos":"%s: known from recovered film. Its route is not available yet.","locked":"%s: locked. %s.","not_charted":"Not yet charted: recover the operations next to it."}
 const THEME={"background":"07151e","edge":"304953","recovered_fill":"193832","node_fill":"0c202b"}

@@ -28,6 +28,6 @@ static func build(completed:Array,progress:Dictionary,intel:Dictionary,unlocked:
   var prerequisite_known=opening.all(func(required):return required in completed) if opening!=null else Catalog.prerequisites_met(id,recovered)
   var named=state!="LOCKED" and (id in recovered or id in known or prerequisite_known)
   var label=str(Catalog.make(id).title) if named else "UNKNOWN"
-  nodes.append({"id":id,"state":state,"label":label,"can_open":named and state in ["AVAILABLE","RECOVERED"],"position":Table.POSITIONS.get(id,Meta.position(id)),"route":definition.route,"required_facts":definition.required_facts.duplicate(true)})
+  nodes.append({"id":id,"state":state,"label":label,"can_open":named and state in ["AVAILABLE","RECOVERED"],"mark":state=="LOCKED" and not named,"position":Table.POSITIONS.get(id,Meta.position(id)),"route":definition.route,"required_facts":definition.required_facts.duplicate(true)})
   for prerequisite in Meta.map_sources(id,definition.prerequisites):edges.append({"from":prerequisite,"to":id})
  return {"enabled":Table.enabled,"nodes":nodes,"edges":edges,"rumors":rumors}
