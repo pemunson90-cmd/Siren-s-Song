@@ -97,9 +97,10 @@ Second sweep (13 Nov, read on resume): every one of the 245 registered suites ha
 
 - WP-75 to WP-92 merged (rows 104 to 122). Sweeps 6 (91702f14) and 7 (150b9fa9) were green on every registered suite except the two this PC cannot run (`cold_review_archive_tests`, `art_render_measurements`); `opening_depth_policy_ui_tests` runs alone (its summary prefix is "OPENING POLICY UI", 571 checks). Core 856/0 on 150b9fa9.
 - The eighth sweep (74337ca1, WP-88 to WP-92 in) was green except `ops_home_ui_tests`, which hit the sweep's 480-s render limit (it passes alone in about 500 s). `full-sweep.ps1` now gives render suites 1700 s and also runs `opening_depth_policy_ui_tests` (the one suite in neither list).
-- Sixth critic round done and ranked (below). WP-93 to WP-97 merged at about 09:30 on 14 Nov (rows 123 to 128), with Core 856/0 and their touched suites green; WP-96 merged last, its suites running; then push and the ninth full sweep.
+- The ninth sweep (57f2762d) was green on all 257 registered suites this PC can run (the first sweep with no suite missing).
+- Seventh critic round done and ranked (below). WP-98 to WP-105 merged on 14 Nov afternoon (rows 129 to 136) with Core 856/0 and their touched suites green; WP-105's suites running at the last update; then push and the tenth full sweep.
 - No helper running.
-- Next: the ninth full sweep, then the rest of the sixth round's list (camera panel and wheel over map taps, chart labels stacking at one bearing, the Hunt meter's changes explained in the dive, the Route Map overview's crushed SHELF column and clipped "CONFLUENCE", FIELD RECORDS width on the cover screen, the briefing's half-empty right column), then a seventh critic round.
+- Next: the tenth full sweep, then an eighth critic round. Small follow-ups left: the Expedition's "RETRY OPERATION" (operations 7 and later, `expedition_operations.gd`) does not state the carried hull; a SHARP frame that files UNUSABLE and duplicate shots spend film without warning (C2 F6); dive labels overprint the Expedition banner and the wheel centre overflows on long Expedition texts (C2 F7).
 - Pull request 262's body: `.fable/FINAL_REPORT.md` is now about 117 KB, over GitHub's 65,536-character body limit, so `gh pr edit 262 --body-file .fable/FINAL_REPORT.md` would fail. Write a short body (what phase 9 changed, the open questions for Pat, and a link to the file on the branch) instead.
 
 The resume command for an Opus session is `/siren-s-start-opus`; `/siren-s-start-fable` is the same run on the Fable model.
