@@ -273,6 +273,10 @@ static func _repairs(host)->void:
 	for target in Table.TARGETS:
 		if (target==Names.CRAFT_DRONE_A and Economy.Losses.missing(e,1)) or (target==Names.CRAFT_DRONE_B and Economy.Losses.missing(e,2)):
 			host._menu_text("%s / BAY EMPTY / MANUFACTURE REPLACEMENT"%Table.LABELS[target],14);continue
+		# WP-117: mid-dive the bay is not yet marked empty, but a drone the dive has lost reads as lost, not "CONDITION 100%".
+		var craft:int=1 if target==Names.CRAFT_DRONE_A else 2 if target==Names.CRAFT_DRONE_B else -1
+		if craft>0 and host.get("sim")!=null and craft<host.sim.units.size() and not host.sim.units[craft].alive:
+			host._menu_text("%s · LOST THIS DIVE"%Table.LABELS[target],14);continue
 		var cost=Economy.repair_cost(e,target)
 		if cost.is_empty():
 			host._menu_text("%s · CONDITION %d%%"%[Table.LABELS[target],e.cond[target]],14)

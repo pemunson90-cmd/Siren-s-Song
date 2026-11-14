@@ -274,3 +274,4 @@ result_actions_ui_tests|RESULT ACTIONS UI|-|2265|render
 wp111_briefing_chart_ui_tests|WP111 BRIEFING CHART UI|-|2265|render
 unusable_reason_tests|UNUSABLE REASON|-|2280
 float_pile_ui_tests|FLOAT PILE UI|-|2272|render
+wp117_ui_tests|WP117 UI|-|2290|render

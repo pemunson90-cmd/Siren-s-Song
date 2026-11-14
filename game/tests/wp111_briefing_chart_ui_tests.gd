@@ -79,7 +79,8 @@ func briefing_case(g,shape,scale,index):
 	check(cue.visible==more,"%s: the cue is shown exactly when there is more below (more %s, cue %s)"%[tag,str(more),str(cue.visible)])
 	if more:
 		overflowed+=1
-		check(g.scroll.get_global_rect().grow(1.0).encloses(cue.get_global_rect()),"%s: the cue sits on the scroll area %s of %s"%[tag,cue.get_global_rect(),g.scroll.get_global_rect()])
+		# WP-117: the cue sits in the margin under the scrolling body, never over a line of its text.
+		check(not g.scroll.get_global_rect().grow(-1.0).intersects(cue.get_global_rect()) and g.menu.get_global_rect().grow(1.0).encloses(cue.get_global_rect()),"%s: the cue sits under the scroll area %s, inside the panel (%s of %s)"%[tag,g.scroll.get_global_rect(),cue.get_global_rect(),g.menu.get_global_rect()])
 		check(cue.mouse_filter==Control.MOUSE_FILTER_IGNORE,"%s: the cue takes no taps"%tag)
 		g.scroll.scroll_vertical=int(g.scroll.get_v_scroll_bar().max_value);await settle()
 		check(not cue.more_below() and not cue.visible,"%s: the cue is gone at the end of the text"%tag)

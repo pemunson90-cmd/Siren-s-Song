@@ -70,7 +70,27 @@ func _notification(what: int) -> void:
 func _process(delta: float) -> void:
 	if frozen or FrontendSettings.reduced_motion(): return
 	elapsed += delta
+	_apply_clearance()
 	craft_layer.queue_redraw()
+# WP-117 (blind critic round 9): the drifting craft and its sonar ring must not pass behind menu buttons or sliders,
+# which reads as a bug. The screen rectangle of the menu controls (global pixels) is kept clear: inside it, plus the
+# craft's own reach, the craft is invisible, and it fades in over a short run beyond that edge. Empty rect = no menu.
+const CLEAR_REACH := 180.0	# design pixels: the craft's half length plus its sonar ring's first reach
+const CLEAR_FADE := 90.0
+var keep_out := Rect2()
+func set_keep_out(global_rect: Rect2) -> void:
+	if keep_out == global_rect: return
+	keep_out = global_rect; _apply_clearance(); craft_layer.queue_redraw()
+# 0 inside the keep-out zone, 1 well clear of it.
+func craft_alpha(at: Vector2 = craft_position()) -> float:
+	if keep_out.size == Vector2.ZERO: return 1.0
+	var zone := Rect2(keep_out.position - global_position, keep_out.size).grow(CLEAR_REACH * unit)
+	if zone.has_point(at): return 0.0
+	var dx := maxf(maxf(zone.position.x - at.x, at.x - zone.end.x), 0.0)
+	var dy := maxf(maxf(zone.position.y - at.y, at.y - zone.end.y), 0.0)
+	return clampf(Vector2(dx, dy).length() / (CLEAR_FADE * unit), 0.0, 1.0)
+func _apply_clearance() -> void:
+	craft_layer.modulate.a = craft_alpha()
 # Where the craft is now, on screen. Starts a quarter of the way across and loops.
 func craft_position(at: float = elapsed) -> Vector2:
 	var margin := 200.0 * unit

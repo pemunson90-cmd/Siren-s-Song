@@ -96,6 +96,10 @@ func setup(main: Control, use_live_values:=false) -> bool:
 func _process(delta: float) -> void:
 	# Any host navigation away from the boot menu (mission, briefing, ending) supersedes the overlay.
 	if host != null and host.get("screen") != ("settings" if embedded_settings else "menu"): _dismiss(); return
+	# WP-117: keep the drifting craft out from behind the menu controls (the visible part of the column, or the host's panel).
+	if title_backdrop != null and is_instance_valid(column) and is_instance_valid(scroll):
+		var cover: Rect2 = host.menu.get_global_rect() if embedded_settings and host.get("menu") != null else column.get_global_rect().intersection(scroll.get_global_rect())
+		title_backdrop.set_keep_out(cover)
 	if title_label == null or not is_instance_valid(title_label) or screen != "title": return
 	if FrontendSettings.reduced_motion(): drift = 0.0; title_label.modulate.a = 1.0; return
 	drift += delta
