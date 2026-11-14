@@ -11,17 +11,17 @@ This guide lets a session with an empty context resume run `overhaul-20261111` f
 2. **Read** `.fable/RUN_STATE.json`, `.fable/NOW.md`, `.fable/PHASE9.md` and the last 25 lines of `.fable/RUN_LOG.md`. `PHASE9.md` holds what Pat asked for, the working loop with its commands, what is merged, what was in flight, the queue and what is open for Pat.
 3. **Check and go:** `python scripts/repo/handoff_check.py`, `git status --short`, then `next_action`. Do not start any GitHub run to check anything. Record each step with `python scripts/repo/run_state.py --now "..."`.
 
-## 2. Where the run stands (pause of 2026-11-13 16:40, in phase 9)
+## 2. Where the run stands (14 November, early morning, in phase 9, resumed on Opus)
 
-Paused because Pat's weekly usage on the model was about to run out; he may continue with another model. Branch `fable/overhaul-20261111`, pushed; pull request 262 is a draft.
+Branch `fable/overhaul-20261111`, pushed; pull request 262 is a draft. Pat approved every item of `.fable/UX_AUDIT.md` by Claude's judgement, and on 13 November six trial rules with the words "Yes for testing". Merged and pushed: work packages WP-31 to WP-74, behavior rows 57 to 103 of `.fable/FINAL_REPORT.md`. Four blind critic rounds; the fourth (critics on their own kits) found the repeating lock pause, trial rule 3 never firing at real frame rates, contradictory result screens and narrow menus on the unfolded screen, all fixed. `.fable/PHASE9.md` lists every package, the rankings, what root has not seen in a capture, and the queue.
 
-Pat approved every item of `.fable/UX_AUDIT.md` by Claude's judgement, and on 13 November six trial rules with the words "Yes for testing". Merged and pushed: work packages WP-31 to WP-55, behavior rows 57 to 85 of `.fable/FINAL_REPORT.md`. Two blind critic rounds were run on 13 November; in the second a critic finished operation 1 for the first time. `.fable/PHASE9.md` lists every package, the two rankings, what root has not yet seen in a capture, and the queue.
-
-The head is NOT yet known to be clean: the proof is the second full sweep of every registered suite (section 3).
+The fourth full sweep (head 5c77a0e9) found four regressions, all fixed and rerun green on the merged head (rows 103, WP-74). The proof for the final head is the fifth full sweep (section 3).
 
 ## 3. In-flight work and how to recover it
 
-No helper is running. One background job was started at 16:18 on 13 November: the second full sweep (every registered suite, about 85 minutes), on merge commit 345dfe8e. Its record is the per-suite logs in `%USERPROFILE%\.cache\sirens-song-toolchain\artifacts\fable-root\`: read each `*.log` newer than 2026-11-13 16:18 for its last "CHECKS n FAILURES m" line. If the job did not finish, run it again: `scripts\toolchain\win\full-sweep.ps1` (command in `.fable/PHASE9.md`). `cold_review_archive_tests` and `art_render_measurements` do not run on this PC.
+No helper is running. One background job was started at about 01:10 on 14 November: the fifth full sweep (every registered suite, about 90 minutes), on merge commit 519185e4. Its record is the per-suite logs in `%USERPROFILE%\.cache\sirens-song-toolchain\artifacts\fable-root\`: read each `*.log` newer than the sweep's start for its last "CHECKS n FAILURES m" line (result file in the session scratchpad, `sweep5.txt`). If it did not finish, run it again: `scripts\toolchain\win\full-sweep.ps1`. Check first that no other sweep runs (two once ran at once). `cold_review_archive_tests` and `art_render_measurements` do not run on this PC; `opening_depth_policy_ui_tests` leaves no log inside the sweep (time limit): run it alone with `-TimeoutSec 1200` (571 checks).
+
+Blind critics: one kit per critic, each critic's command file inside its own `KIT/audit/<session>/` folder (parallel critics shared a working folder and one command file and drove each other's games on 13 November).
 
 Incident of 13 November: one helper (WP-55) was created in the other clone, `repos\Siren-s-Song`, because the session's working directory had fallen back to it. That clone gained a worktree folder under `.claude\worktrees\` and a local branch `wp-55`; nothing else changed there and nothing was removed. Before every Agent dispatch, run a shell command that starts with `cd` into the run clone.
 
@@ -51,4 +51,4 @@ Listed in `.fable/PHASE9.md`, "Open for Pat": three things to judge in play, thr
 
 ## 7. What comes next
 
-The queue in `.fable/PHASE9.md`: read the second full sweep and fix what it finds; a third blind critic round that captures what root has not seen (the Siren warning after WP-51, Fittings on the inner screen, the fitting cards, the trial pauses in play); the items left from the second round's ranking; then the everyday set, a full sweep, the pull request body and `docs/STATUS.md`. Ask Pat about the six trial rules again after he has played.
+The queue in `.fable/PHASE9.md`: read the fifth full sweep and fix what it finds; look at the lock card's buttons and a Career result in a kit (root has not seen them); a fifth blind critic round; the items left in the queue (Route Map regions and a briefing chart preview, the arc story card, 150% text in the dive, the empty archive and dossier pages); then refresh the pull request body from `.fable/FINAL_REPORT.md` and `docs/STATUS.md`. Ask Pat about the six trial rules again after he has played (evidence from the critics in `.fable/PHASE9.md`).

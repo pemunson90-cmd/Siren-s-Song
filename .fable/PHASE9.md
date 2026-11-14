@@ -95,9 +95,7 @@ Second sweep (13 Nov, read on resume): every one of the 245 registered suites ha
 
 ## In flight
 
-- **WP-61** (helper): photographs you can judge: SHUTTER shows the forecast frame and how far it is heard; a C or B frame says what a better one needs and gains; the camera panel holds still; toasts clear its buttons. Owns `camera_feed.gd`, `photo_shutter/`, `photo_grade/`, record wording in `simulation.gd` / `photo_capture.gd`.
-- **WP-62** (helper): big-screen menus: GAME MODES as cards, SUPPLIES, SETTINGS, Career board and Expedition operation menu in two columns on wide screens; backdrop behind centred screens. Owns `presentation/frontend/`, `runs/modes_frontend.gd`, `runs/expedition_session.gd` menus, `runs/offer_view.gd`, `career_board.gd`, `career_frontend.gd`, `economy_panel.gd`, `layout_metrics.gd`, `prep_columns.gd`.
-- Root: journey suites rerunning on the merged head (WP-60 merged); after WP-61 and WP-62: a full sweep, then a fourth critic round.
+- No helper running. WP-56 to WP-74 merged (rows 86 to 103). Fifth full sweep running on 519185e4 (started about 01:10, 14 Nov): read it first (see HANDOFF section 3).
 
 The resume command for an Opus session is `/siren-s-start-opus`; `/siren-s-start-fable` is the same run on the Fable model.
 

@@ -2,7 +2,7 @@
 
 The one live status file. Keep it short. Update it in the change that alters the base, the active work, the top weaknesses, the blockers or the next action. History is in git and in [CHANGELOG.md](../CHANGELOG.md).
 
-Updated: 2026-11-13
+Updated: 2026-11-14
 
 ## Current integrated base
 
@@ -11,14 +11,14 @@ Updated: 2026-11-13
 
 ## Active work
 
-- Chartered overhaul run `overhaul-20261111` on branch `fable/overhaul-20261111`, in phase 9: UI and UX repair by Claude's judgement, paused on 2026-11-13 16:40. Merged and pushed: work packages WP-31 to WP-55 (report rows 57 to 85), two blind critic rounds, and six trial rules Pat approved "for testing" (`game/src/trial_rules.gd`). No helper is running. Plan, rankings, what is unseen and the queue: `.fable/PHASE9.md`. Pull request 262 is a draft (report `.fable/FINAL_REPORT.md`).
+- Chartered overhaul run `overhaul-20261111` on branch `fable/overhaul-20261111`, in phase 9: UI and UX repair by Claude's judgement (resumed on Opus 13 to 14 November). Merged and pushed: work packages WP-31 to WP-74 (report rows 57 to 103), four blind critic rounds, and six trial rules Pat approved "for testing" (`game/src/trial_rules.gd`). Plan, rankings, what is unseen and the queue: `.fable/PHASE9.md`. Pull request 262 is a draft (report `.fable/FINAL_REPORT.md`).
 - Parked: item 134, route flow (superseded by the release controls of item 127; reopen only if a critic finds route stops again).
 
 ## Top weaknesses
 
 From `.fable/UX_AUDIT.md` (interface and looks), `.fable/CODE_AUDIT.md` (code) and `.fable/COLD_REVIEW_6.md` (whole game). What is still open, most costly first:
 
-1. Menus outside the Campaign still read as a settings app beside the dive: Career and Expedition briefings are rules text; fittings and results are rows of numbers; the title screen has no art. (The Campaign hub and briefing were rebuilt on 13 November: mission cards, two columns on wide screens.)
+1. Preparation still reads as text more than as a chart: the Route Map has no region names or reward and risk tags; a briefing has no chart preview; the archive and dossier are empty pages for a new player. (Fixed 13 to 14 November: two columns on both screens, cards for modes and challenges, unlock effects, honest result screens, a lock card with one-tap moves, a camera that forecasts the frame.)
 2. Photo payoff still favors distance and tools over photo quality (waits for Pat's playtest and the pay retune he approved).
 3. Late-operation variety and the branching route graph.
 4. Three play questions raised by Pat's own rules (tender door with quiet drones, the scout-ahead opening, operations 17 and 30 on discovered charts).
