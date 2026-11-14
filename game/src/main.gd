@@ -374,10 +374,17 @@ func _order(order: String,args: Dictionary={}) -> void:
 	_refresh(); _save_archive()
 	if accepted and order=="camera": call_deferred("_report_targets")
 func _pause() -> void:
-	# RESUME closes an open ring or order dialog in the same press; the dialog's marker is dropped.
-	if sim.paused and mission_hud!=null:
-		if not mission_hud.guard.pending.is_empty():mission_hud.guard.cancel()
+	# WP-103: the plate says what a tap does (hud_words.plate_kind). A pending route prompt is never dropped by the plate:
+	# the tap says what is waiting and the prompt stays up (CANCEL is the prompt's own button). An open menu that holds
+	# time is closed by the tap, which lets time run again, as the plate says (CLOSE MENU).
+	var kind:String=HudWords.plate_kind(sim,self) if mission_hud!=null else ""
+	if kind=="answer":sim.message=HudWords.TEXT.plate_answer;_refresh();return
+	if kind=="close":
 		if advanced_orders:mission_hud.dismiss()
+		if mission_hud.contact_card!=null:mission_hud.contact_card.close()
+		_refresh();return
+	# RESUME closes an open ring in the same press.
+	if sim.paused and mission_hud!=null and advanced_orders:mission_hud.dismiss()
 	sim.paused=not sim.paused; tactical_aids.auto_pause.clear(); ReleaseControls.debug_print(["SS_PAUSE paused=",sim.paused]); _release_view(); _refresh(); _save_archive()
 # While paused, a selection keeps the view still: a follow view becomes a still view on the
 # same centre and scale. FOCUS recentres explicitly; running play keeps following.
