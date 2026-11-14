@@ -89,7 +89,8 @@ func run():
  await audit("dive, contact card open",func(g):await dive(g);await open_card(g),"mission",false,func(g):check(not g.mission_hud.contact_card.is_open(),"Back closes the contact card"))
  await audit("result after a dive",func(g):await dive(g);g.sim.outcome="lost";g._debrief();await settle(),"menu")
  # Mode sessions run on their own Main; the session reports its own screen.
-# Career board is audited by hand: Back there runs CareerSession._return twice (see the report), which raises a script error.
+ # The contract board's button says BACK TO GAME MODES; Android Back lands on the same screen (critic 14 Nov).
+ await audit("career contract board",func(g):await mode(g,"career"),"Frontend:modes")
  await audit("expedition menu",func(g):await mode(g,"expedition"),"Frontend:expeditions")
  await audit("challenge dive",func(g):await mode(g,"challenge"),"ChallengeSession:challenge_menu")
  await audit("expedition dive",func(g):await mode(g,"expedition");await mode_dive(g,"ExpeditionSession"),"ExpeditionSession:expedition_menu")

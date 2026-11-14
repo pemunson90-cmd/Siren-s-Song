@@ -111,6 +111,8 @@ func run() -> void:
 	var hints=game.mission_hud.hints
 	check(hints.panel.visible and hints.current=="move" and game.sim.paused,"the first prompt teaches one verb while paused")
 	check("move" in game.hints_seen,"a shown prompt is remembered")
+	check(hints.label.text.contains("PAUSED") and hints.label.text.contains("RUNNING") and hints.label.text.contains("stop time"),"the first prompt, shown before time starts, says how to run and how to stop time")
+	check(Text.valid_seen([Text.HUNT_METER_HINT]),"the Hunt chip's first-sight flag is a valid saved flag")
 	game.sim.command("route",{"point":Vector2(400,700)}); game._refresh(); await settle()
 	check(not hints.panel.visible,"taking the step retires its prompt")
 	game.sim.paused=false; game.sim.elapsed=1.0; game._refresh(); await settle()

@@ -89,7 +89,15 @@ func touch_shape(shape:Vector2i):
  var before=game.sim.snapshot()
  var button=visible_chip(game,label+" basic")
  await picture("hunt-%d-basic"%shape.x)
+ var intro=hud.find_child("HuntMeterIntro",true,false) as Label
+ check(intro!=null and intro.text==MeterTable.TEXT.intro and MeterTable.TEXT.intro.contains("how hard the Sirens are searching"),label+" the first sight of the chip carries its one-line meaning")
+ check("hunt_meter" in game.hints_seen,label+" the one-line meaning is remembered with the profile's first-use flags")
+ if intro!=null and intro.visible and button!=null:
+  check(not intro.get_global_rect().intersects(button.get_global_rect()) and Rect2(game.global_position,game.size).encloses(intro.get_global_rect()),label+" the one-line meaning sits clear of the chip and inside the screen")
+  for other in hud.action_controls().values():
+   if other.is_visible_in_tree():check(not intro.get_global_rect().intersects(other.get_global_rect()),label+" the one-line meaning stays clear of "+str(other.get_meta("action","control")))
  if button!=null:await tap(button.get_global_rect().get_center())
+ check(intro==null or not intro.visible,label+" opening the help retires the one-line meaning")
  check(hud.page=="order_help" and game.advanced_orders and game.sim.paused,label+" actual basic Hunt touch opens paused explanation")
  check(not chip(hud).is_visible_in_tree(),label+" explanation sheet is clear of its opener")
  check(hud.instrument_info.is_visible_in_tree() and "sight" in hud.instrument_info.text.to_lower() and "hearing" in hud.instrument_info.text.to_lower() and "heard you" in hud.instrument_info.text.to_lower(),label+" visible explanation identifies sight-only global factor and local alert")

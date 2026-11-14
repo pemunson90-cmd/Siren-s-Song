@@ -30,4 +30,4 @@ static func show(front)->void:
 static func start(front)->void:
 	var state=Archive.restore(front.host)
 	if state.is_empty() or front.host.get_meta("career_archive_dirty",false):show(front);return
-	load("res://src/presentation/frontend/mode_launcher.gd").launch(front,load("res://src/presentation/career/career_session.gd"),"CareerSession",{"career_state":state.duplicate(true),"return_to_list":func():show(front)})
+	load("res://src/presentation/frontend/mode_launcher.gd").launch(front,load("res://src/presentation/career/career_session.gd"),"CareerSession",{"career_state":state.duplicate(true),"return_to_list":func():load("res://src/presentation/runs/modes_frontend.gd").show(front)})  # the board's BACK TO GAME MODES, and Android Back, both land here
