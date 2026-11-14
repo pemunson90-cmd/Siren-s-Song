@@ -174,6 +174,13 @@ func _fit_zoom(h:float)->float:
   var ratio:float=minf(chart.size.x/extent.x,chart.size.y/extent.y)
   if ratio>=1. and z>=Table.VIEW.zoom_start:return Table.VIEW.zoom_start
   z=clampf(z*ratio*Table.OVERVIEW.fit_slack,Table.OVERVIEW.zoom_floor,Table.VIEW.zoom_start)
+ # The fit is not exactly linear (padding, text floors), so check the result and keep shrinking until the board really fits
+ # the chart's visible area: the width left after a scroll bar the board would otherwise need, and the height.
+ for step in Table.OVERVIEW.fit_guard_steps:
+  var extent:Vector2=_metrics(h,z)["extent"]
+  var room:Vector2=chart.size-Vector2(chart.get_v_scroll_bar().get_combined_minimum_size().x if extent.y>chart.size.y else 0.,0.)
+  if (extent.x<=room.x and extent.y<=room.y) or z<=Table.OVERVIEW.zoom_floor:break
+  z=maxf(Table.OVERVIEW.zoom_floor,z*Table.OVERVIEW.fit_guard_shrink)
  return z
 func _look_only(node_size:Vector2)->bool:return minf(node_size.x,node_size.y)<Table.OVERVIEW.min_target
 func _nodes(h):
@@ -268,6 +275,9 @@ func _board_input(event:InputEvent)->void:
  if event is InputEventMouseButton and event.pressed and event.button_index==MOUSE_BUTTON_LEFT and tap_board(event.position):board.accept_event()
 func tap_board(point:Vector2)->bool:
  if zoom>=Table.OVERVIEW.compact_below:return false
+ # A node's own box belongs to the node: its press passes up to the board (the buttons let the chart pan), and taking it here
+ # zoomed on the region and freed the button before its release, so a tap on an open operation never opened its briefing.
+ if board.boxes.values().any(func(box:Rect2):return box.has_point(point)):return false
  for region in board.regions:
   if region.area.has_point(point) or region.rect.has_point(point):
    zoom=clampf(maxf(zoom,Table.OVERVIEW.look_zoom),zoom_floor,Table.VIEW.zoom_max)
