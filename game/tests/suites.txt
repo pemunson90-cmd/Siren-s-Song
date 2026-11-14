@@ -261,3 +261,5 @@ stuck_craft_ui_tests|STUCK CRAFT UI|-|1454|render
 large_text_screen_ui_tests|LARGE TEXT SCREEN UI|-|1453|render
 result_numbers_ui_tests|RESULT NUMBERS UI|-|2261|render
 camera_next_step_tests|CAMERA NEXT STEP|-|1455
+briefing_boat_column_ui_tests|BRIEFING BOAT COLUMN UI|-|2262|render
+panel_taps_labels_note_ui_tests|PANEL TAPS LABELS NOTE UI|-|2262|render

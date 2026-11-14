@@ -10,6 +10,7 @@ const Research=preload("res://src/campaign/glass_research.gd")
 const Voices=preload("res://src/campaign/voices/voices.gd")
 const Feed=preload("res://src/presentation/archive/voice_feed.gd")
 const Dossier=preload("res://src/presentation/siren_dossier/siren_dossier.gd")
+const PrepColumns=preload("res://src/presentation/prep_columns.gd")
 const LedgerView=preload("res://src/presentation/ledger/ledger_view.gd")
 static func region_of(op:int)->String:
 	for region in Table.REGIONS:
@@ -53,12 +54,28 @@ static func show(host)->void:
 	host._menu_text("ARCHIVE",30)
 	host._menu_text("Best photographs, evidence and recovered material by region. Only what you recovered is listed.",15)
 	host._button(host.panel_box,"SIREN DOSSIER · OBSERVED ROLES",func():Dossier.show(host,true),"siren_dossier")
+	# A wide screen reads in two columns: the ledger and what is still to photograph on the left, the photographs,
+	# evidence and field log on the right. Built in the narrow order (ledger, regions, slots, log), so a phone is unchanged.
+	var columns=PrepColumns.open(host,show.bind(host))
+	var cache={}
+	var done=host._campaign_completed()
+	var collected=_collect(host,done)
+	PrepColumns.into(host,columns[0],_ledger.bind(host))
+	PrepColumns.into(host,columns[1],_regions.bind(host,collected.groups))
+	PrepColumns.into(host,columns[0],_empty_slots.bind(host,done,cache))
+	PrepColumns.into(host,columns[1],_field_log.bind(host,collected.evidence_by_op,cache))
+	host.call_deferred("_layout")
+	(func():
+		await host.get_tree().process_frame
+		if host.screen=="archive":host.scroll.scroll_vertical=reading_position
+	).call_deferred()
+static func _ledger(host)->void:
 	host._menu_text("CAMPAIGN LEDGER",24)
 	var ledger_progress=host.expedition.duplicate(false)
 	ledger_progress["completed"]=host._campaign_completed()
 	LedgerView.render(host,ledger_progress,host.photo_intel)
-	var cache={}
-	var done=host._campaign_completed()
+# What the recovered record holds, grouped by region, and the evidence by operation (for the field log).
+static func _collect(host,done:Array)->Dictionary:
 	var groups={}
 	for region in Table.REGIONS:groups[region[0]]={"photos":[],"evidence":[],"artifacts":[],"done":0,"total":0}
 	groups[Table.OTHER_REGION]={"photos":[],"evidence":[],"artifacts":[],"done":0,"total":0}
@@ -81,6 +98,9 @@ static func show(host)->void:
 		if not evidence_by_op.has(op):evidence_by_op[op]=[]
 		evidence_by_op[op].append(entry)
 	for artifact in artifacts(host):groups[region_of(artifact.op)].artifacts.append(artifact)
+	return {"groups":groups,"evidence_by_op":evidence_by_op}
+static func _regions(host,groups:Dictionary)->void:
+	var cache={}
 	var any=false
 	for name in groups:
 		var group=groups[name]
@@ -98,13 +118,6 @@ static func show(host)->void:
 		for artifact in group.artifacts:
 			host._menu_text("ARTIFACT · %s · %s"%[artifact.name,"CONSUMED IN RESEARCH" if artifact.spent else "AWAITING RESEARCH"],15)
 	if not any:host._menu_text("Nothing recovered yet.",16)
-	_empty_slots(host,done,cache)
-	_field_log(host,evidence_by_op,cache)
-	host.call_deferred("_layout")
-	(func():
-		await host.get_tree().process_frame
-		if host.screen=="archive":host.scroll.scroll_vertical=reading_position
-	).call_deferred()
 # Operations of the region being played (the first unfinished one's) that have no photograph yet, in order.
 static func empty_slot_ops(host,done:Array)->Array:
 	var ids:Array=Catalog.registered_ids().filter(func(id):return preload("res://src/campaign/sorley_rescue.gd").visible(id,host.expedition))

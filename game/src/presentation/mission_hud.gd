@@ -951,7 +951,7 @@ func blocks(point:Vector2) -> bool:
  if host.lock_warning!=null and host.lock_warning.blocks(point):return true  # the lock card's move buttons own their taps
  for b in action_controls().values():
   if b.get_global_rect().has_point(point):return true
- return host.ocean.optical_feed!=null and host.ocean.optical_feed.is_visible_in_tree() and host.ocean.optical_feed.get_global_rect().has_point(point)
+ return host.ocean.optical_feed!=null and host.ocean.optical_feed.blocks_point(point)
 func occupied_rects() -> Array:
  var result=[]
  for c in action_controls().values():result.append(c.get_global_rect())

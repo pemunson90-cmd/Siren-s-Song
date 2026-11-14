@@ -74,6 +74,7 @@ func _ready() -> void:
 	var chip:=StyleBoxFlat.new();chip.bg_color=Color(ShutterTable.COLORS.fill);chip.content_margin_left=6;chip.content_margin_right=6;more_label.add_theme_stylebox_override("normal",chip)
 	more_label.add_theme_color_override("font_color",Color(ShutterTable.COLORS.ready))
 func _process(dt: float) -> void:
+	mouse_filter=Control.MOUSE_FILTER_IGNORE if compact else Control.MOUSE_FILTER_STOP
 	if not Settings.reduced_motion():time+=dt
 	_vm_age+=dt;queue_redraw()
 	if sim!=null and sim.mission.has("id"):
@@ -125,6 +126,18 @@ func route_input(event:InputEvent)->bool:
 	owned_pointers[id]=true
 	var local=event.duplicate();local.position=point;_gui_input(local)
 	return true
+# Folded to its strip, the panel owns only its OPEN button: every other tap on the strip reaches the chart
+# (critic 14 Nov: a tap meant for a craft or relay under it opened the panel). Unfolded it is a solid panel.
+func blocks_point(global_point:Vector2)->bool:
+	if not is_visible_in_tree():return false
+	return toggle_rect.has_point(global_point-global_position) if compact else get_global_rect().has_point(global_point)
+func _compact_title()->String:
+	return "OPTICS / "+sim.units[sim.selected].name if sim!=null and sim.selected>=0 and sim.selected<sim.units.size() else "OPTICS"
+# The folded strip is as wide as its title and button need, not the whole dock lane, so it hides little of the chart.
+func compact_width()->float:
+	var fs:=maxi(17,receiver_font_size)
+	var button:=maxf(touch_height,fs*6.)
+	return ceilf(ThemeDB.fallback_font.get_string_size(_compact_title(),HORIZONTAL_ALIGNMENT_LEFT,-1,receiver_font_size).x+button+40.)
 func _hit(point:Vector2)->bool:
 	return toggle_rect.has_point(point) or shutter_rect.has_point(point) or stop_rect.has_point(point) or _buttons.any(func(b):return b.rect.has_point(point))
 func _gui_input(event: InputEvent) -> void:
@@ -358,7 +371,7 @@ func _draw() -> void:
 	var subject:=subject_view()
 	if compact:
 		draw_rect(Rect2(Vector2.ZERO,size),Color("07151d"));_draw_toggle()
-		draw_string(ThemeDB.fallback_font,Vector2(10,receiver_font_size+10),"OPTICS / "+sim.units[sim.selected].name,HORIZONTAL_ALIGNMENT_LEFT,size.x-toggle_rect.size.x-30,receiver_font_size,PHOSPHOR)
+		draw_string(ThemeDB.fallback_font,Vector2(10,receiver_font_size+10),_compact_title(),HORIZONTAL_ALIGNMENT_LEFT,size.x-toggle_rect.size.x-30,receiver_font_size,PHOSPHOR)
 		return
 	if not subject.is_empty():_draw_photo(subject);return
 	if sim.capture_unit<0: return

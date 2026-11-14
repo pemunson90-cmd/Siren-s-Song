@@ -66,6 +66,8 @@ var selected_contact:=-1
 # UI review C10: chart labels queue during the world pass, then are placed in priority order and drawn on a backing plate.
 var _label_queue:Array=[]
 var _label_open:=false
+var _lead_pending:Array=[]
+const LeadLabels=preload("res://src/presentation/threat_read/lead_labels.gd")
 var _tag_rects:Array=[]
 const LABEL_PAD:=3.
 # Free space kept between two label plates, and between a plate and a panel.
@@ -324,7 +326,7 @@ func _process(dt: float) -> void:
 		for r in threat_rects_seen:
 			if r.end.x>left_edge and r.position.x<size.x-14.:top=maxf(top,r.end.y+12.)
 		var height=minf(optical_feed.preferred_height(),maxf(1.,size.y-top-14.))
-		if optical_feed.compact:height=maxf(optical_feed.touch_height,optical_feed.receiver_font_size+14.)+8.
+		if optical_feed.compact:height=maxf(optical_feed.touch_height,optical_feed.receiver_font_size+14.)+8.;width=minf(width,optical_feed.compact_width())
 		optical_feed.size=Vector2(width,height)
 		optical_feed.position=Vector2(size.x-width-14.,top)
 		planning_size=Vector2(chart_width(),status_floor if status_floor>0. else size.y)
@@ -412,7 +414,7 @@ func _depth_contours(extent: Vector2) -> Array:
 	_contour_extent=extent;_contour_points=lines
 	return lines
 func _draw() -> void:
-	world_label_rects.clear();label_targets.clear();_label_queue.clear();_label_open=false;_tag_rects=[]
+	world_label_rects.clear();label_targets.clear();_label_queue.clear();_lead_pending.clear();_label_open=false;_tag_rects=[]
 	if sim==null or ocean==null: return
 	_sync_camera()
 	_label_open=true;_tag_rects=_contact_tag_rects()
@@ -668,7 +670,8 @@ func _lead_area(o:Dictionary)->void:
 		if k%2==0:draw_arc(o.pos,r,TAU*k/n,TAU*(k+1)/n,6,c,2.0/world_scale)
 	for k in 4:draw_line(o.pos+Vector2.from_angle(k*PI/2)*6,o.pos+Vector2.from_angle(k*PI/2)*16,Color(c,0.7),1.2/world_scale)
 	var from:Vector2=sim.units[sim.selected].pos
-	_label(o.pos+Vector2(r*0.72,-r*0.72),"%s · AREA · BRG %03d"%[o.name,preload("res://src/presentation/compass.gd").bearing(o.pos-from)],c,16)
+	# The label waits for _flush_labels, which merges areas of one name at nearly one bearing into a single label.
+	_lead_pending.append({"pos":o.pos+Vector2(r*0.72,-r*0.72),"name":str(o.name),"color":c,"bearing":preload("res://src/presentation/compass.gd").degrees(o.pos-from)})
 # Observations the player resolved on film, and marks cut from earlier film.
 const FINDING_COLORS={"loop":Color(0.95,0.6,0.35),"gap":Color(0.5,0.95,0.6),"post":Color(0.95,0.4,0.35),"route":Color(0.5,0.9,0.85),"cycle":Color(0.95,0.8,0.4),"person":Color(0.9,0.95,0.7),"hazard":Color(0.95,0.5,0.3),"weak":Color(0.95,0.8,0.4),"lane":Color(1.0,0.6,0.3)}
 func _draw_findings()->void:
@@ -974,6 +977,8 @@ func _label(p:Vector2,text:String,color:Color,font_size:int,context:Dictionary={
 	_place_label(p,text,color,font_size,context)
 # Place and draw the queued labels, most important first (call order within one priority).
 func _flush_labels()->void:
+	for entry in LeadLabels.group(_lead_pending):_label(entry.pos,LeadLabels.text(entry),entry.color,16)
+	_lead_pending.clear()
 	_label_open=false
 	var queue=_label_queue.duplicate();_label_queue.clear()
 	queue.sort_custom(func(a,b):return a.order<b.order if a.priority==b.priority else a.priority<b.priority)

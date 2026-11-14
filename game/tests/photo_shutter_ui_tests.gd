@@ -85,9 +85,10 @@ func shape_case(shape:Vector2i):
 	var held_position:Vector2=feed.position
 	s.message="x";game.ocean.threat_bottom=game.ocean.instrument_top+60.;await view(game)
 	var raised:Vector2=feed.position;game.ocean.threat_bottom=0.
-	feed.compact=true;await view(game);var folded_position:Vector2=feed.position
+	feed.compact=true;await view(game);var folded_position:Vector2=feed.position;var folded_right:float=feed.position.x+feed.size.x
 	feed.compact=false;await view(game)
-	check(feed.position.y>=held_position.y and raised.y>=held_position.y and folded_position==raised and feed.position==raised,"fold and open never move the camera panel up or sideways "+stamp)
+	# WP-99: the folded strip is only as wide as it needs, so its left edge moves; its right edge (and so the OPEN button) stays.
+	check(feed.position.y>=held_position.y and raised.y>=held_position.y and folded_position.y==raised.y and is_equal_approx(folded_right,raised.x+feed.size.x) and feed.position==raised,"fold and open never move the camera panel up or sideways "+stamp)
 	game.ocean.threat_bottom=0.;await view(game)
 	# A first-notice toast stays clear of the camera panel.
 	var cue=game.find_child("FirstSirenCue",true,false)
