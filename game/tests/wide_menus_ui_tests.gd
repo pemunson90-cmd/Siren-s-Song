@@ -135,11 +135,27 @@ func main_case(shape:Vector2i,wide:bool):
    var index=contract.get_index()
    var rider=column.get_child(index+1)
    check(rider is Label and rider.text.begins_with("OPTIONAL RIDER FOR") and column.get_child(index+2) is HSeparator,"each rider line stays in its contract's block"+tag)
+  # WP-114: the contract briefing is two columns on a wide screen, and its buttons are on screen without scrolling.
+  career._select_contract(career.selected_contract);await settle()
+  career_briefing_checks(career,wide,tag)
+  career._show_campaign();await settle()
   var tapped=await press(career,"career_supplies")
   check(tapped and career.screen=="career_supplies","contract board links still open"+tag)
   career._show_campaign();await settle()
   check(inside(rect(career,"career_return")),"contract board Back is reachable again"+tag)
  await finish(game,path)
+# WP-114: `wide` is whether two columns are expected; the pinned footer buttons are on screen either way.
+func career_briefing_checks(career,wide:bool,tag:String)->void:
+ check(career.screen=="career_briefing","the contract briefing opens"+tag)
+ check(career.get_meta("prep_wide",false)==wide,"the contract briefing uses two columns only when two fit"+tag)
+ var two:bool=career.get_meta("prep_wide",false)
+ var goal=label_rect(career,"GOAL:");var rules=label_rect(career,"RULES OF THIS MODE");var reward=label_rect(career,"Reward if you recover")
+ check(goal.size.x>0 and rules.size.x>0 and reward.size.x>0,"the contract briefing shows goal, rules and reward"+tag)
+ check(beside(goal,rules)==two,"contract briefing: goal and rules are "+("two columns" if two else "one column")+tag)
+ check(not two or absf(goal.position.x-reward.position.x)<2.,"contract briefing: the reward stays in the goal's column"+tag)
+ for id in ["career_begin","career_fittings","career_board"]:check(onscreen(rect(career,id)),"contract briefing: "+id+" is on screen without scrolling"+tag)
+ var rider=button(career,"career_rider")
+ if rider!=null:check(onscreen(rider.get_global_rect()),"contract briefing: the rider switch is on screen without scrolling"+tag)
 func run():
  for shape in [[Vector2i(2520,1080),true],[Vector2i(2184,1968),true],[Vector2i(960,432),false]]:
   await front_case(shape[0],shape[1])

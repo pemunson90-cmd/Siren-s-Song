@@ -96,19 +96,28 @@ static func briefing(host)->void:
 	var c=Table.CONTRACTS[host.selected_contract]
 	var mission=host.Simulation.Missions.make(c.op,host._launch_context(c.op))
 	heading(host,NAME+"\n"+mission.title.to_upper(),"career_briefing")
-	host._menu_text("%s: %s"%[Table.FACTIONS[c.faction],c.brief],18)
-	Briefing.show(host,c.op,c.brief,CONTRACT_RULES)
-	host._menu_text(Briefing.carrying_line(host.tool_racks),17)
-	# WP-109: the total the player receives, the replay reduction, and what a loss still pays.
-	host._menu_text("%s\nStanding with %s: %d. Recover it for +%d.\n%s\nNext launch costs: %s."%[reward_text(host,c),Table.FACTIONS[c.faction].capitalize(),host.career_state.standing[c.faction],Table.SUCCESS,LOSS_LINE%[Table.LOSS,Economy.fmt(scaled_income(host,Economy.Table.INCOME.lost)).to_lower()],Economy.fmt(preload("res://src/presentation/economy_panel.gd").launch_cost(host)).to_lower()],17)
+	# WP-114: on a wide screen the contract (client, goal, danger, reward) is the left column and the rules, what the boat
+	# carries and the rider the right; the action buttons sit in the pinned footer so none needs a scroll. A narrow screen
+	# keeps one column in the old reading order (the left and right parts below interleave to that order).
+	var columns=PrepColumns.open(host,briefing.bind(host))
 	var rider=State.rider_offer(host.career_state,host.selected_contract)
-	host._menu_text(Riders.description(rider),17)
+	PrepColumns.into(host,columns[0],func():
+		host._menu_text("%s: %s"%[Table.FACTIONS[c.faction],c.brief],18)
+		Briefing.show(host,c.op,c.brief,[]))
+	PrepColumns.into(host,columns[1],func():
+		host._menu_text(Briefing.rule_lines(CONTRACT_RULES),Briefing.RULES_SIZE)
+		host._menu_text(Briefing.carrying_line(host.tool_racks),17))
+	PrepColumns.into(host,columns[0],func():
+		# WP-109: the total the player receives, the replay reduction, and what a loss still pays.
+		host._menu_text("%s\nStanding with %s: %d. Recover it for +%d.\n%s\nNext launch costs: %s."%[reward_text(host,c),Table.FACTIONS[c.faction].capitalize(),host.career_state.standing[c.faction],Table.SUCCESS,LOSS_LINE%[Table.LOSS,Economy.fmt(scaled_income(host,Economy.Table.INCOME.lost)).to_lower()],Economy.fmt(preload("res://src/presentation/economy_panel.gd").launch_cost(host)).to_lower()],17))
+	PrepColumns.into(host,columns[1],func():host._menu_text(Riders.description(rider),17))
 	if not rider.is_empty():
-		host._button(host.panel_box,"RIDER: ON · TAP TO REMOVE" if host.accept_rider else "RIDER: OFF · TAP TO ACCEPT",preload("res://src/presentation/rider_choice.gd").toggle.bind(host,briefing.bind(host)),"career_rider")
-	var begin=host._button(host.panel_box,"ACCEPT CONTRACT · START PAUSED",host._begin,"career_begin")
+		host._button(host.menu_footer,"RIDER: ON · TAP TO REMOVE" if host.accept_rider else "RIDER: OFF · TAP TO ACCEPT",preload("res://src/presentation/rider_choice.gd").toggle.bind(host,briefing.bind(host)),"career_rider")
+	var begin=host._button(host.menu_footer,"ACCEPT CONTRACT · START PAUSED",host._begin,"career_begin")
 	begin.disabled=host.save_failed or not preload("res://src/presentation/economy_panel.gd").can_begin(host)
-	host._button(host.panel_box,"FLEET / FITTINGS",host._show_fittings,"career_fittings")
-	host._button(host.panel_box,"BACK TO CONTRACT BOARD",host._show_campaign,"career_board")
+	host._button(host.menu_footer,"FLEET / FITTINGS",host._show_fittings,"career_fittings")
+	host._button(host.menu_footer,"BACK TO CONTRACT BOARD",host._show_campaign,"career_board")
+	host.menu_footer.show()
 static func spend(host,title:String,cost:Dictionary,action:Callable,id:String)->void:
 	var button=host._button(host.panel_box,"%s · %s"%[title,Economy.fmt(cost)],host._change.bind(action,host._show_economy),id)
 	button.disabled=host._mutations_blocked() or not Economy.can_pay(host.economy,cost)
