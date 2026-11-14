@@ -36,6 +36,17 @@ static func career_lines(report:String)->Array:
 		elif not row.begins_with("LAST DIVE"):changes.append(row)
 	out.append_array(changes if not changes.is_empty() else [NOTHING])
 	return out
+# What a Career dive earned, as one phrase, from the same report lines career_lines reads: contract pay, salvage and a rider bonus.
+static func career_earned(report:String)->String:
+	var parts:Array=[]
+	for row in report.split("\n"):
+		var standing=_career_standing.search(row)
+		var salvage=_career_salvage.search(row)
+		var rider=_career_rider.search(row)
+		if standing!=null and standing.get_string(3)!=NONE_WORD:parts.append("contract pay %s"%plus_list(standing.get_string(3)))
+		elif salvage!=null and salvage.get_string(1)!=NONE_WORD:parts.append("salvage %s"%plus_list(salvage.get_string(1)))
+		elif rider!=null and rider.get_string(1)=="PASSED":parts.append("rider bonus %s"%plus_list(rider.get_string(2)))
+	return ", ".join(parts) if not parts.is_empty() else "nothing"
 # Tools used and gained over a run, one line per tool that moved.
 static func tool_change(name:String,spent:int,gained:int)->String:
 	var parts:Array=[]

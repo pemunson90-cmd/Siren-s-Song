@@ -7,6 +7,7 @@ const RunSimulation=preload("res://src/campaign/runs/expedition_run.gd")
 const RunTable=preload("res://src/campaign/runs/run_table.gd")
 const RunOffers=preload("res://src/campaign/runs/run_offers.gd")
 const SummaryView=preload("res://src/presentation/runs/run_summary_view.gd")
+const RunWords=preload("res://src/presentation/runs/run_words.gd")
 const OfferView=preload("res://src/presentation/runs/offer_view.gd")
 const Briefing=preload("res://src/presentation/mode_briefing.gd")
 const PrepColumns=preload("res://src/presentation/prep_columns.gd")
@@ -22,6 +23,8 @@ var recorded=false
 # Trial rule 6 (trial_rules.gd): an Expedition operation's rider starts switched off; the player can switch it on.
 # Naval Career has its own variable (career_session.gd) and keeps accepting the rider by default.
 var accept_rider=TrialRules.expedition_rider_default_on()
+# The dive just finished: spent, earned, kept (run_words.gd). Empty until a dive ends in this session.
+var dive_ledger:Array=[]
 var snapshot_ready=false
 var save_failed=false
 var active_envelope:Dictionary={}
@@ -80,9 +83,13 @@ func _show_campaign()->void:
 	var columns=PrepColumns.open(self,_show_campaign)
 	PrepColumns.into(self,columns[0],func():
 		Briefing.show(self,RunState.current_operation(run_state),sim.mission.brief,EXPEDITION_RULES)
-		_menu_text("Loadout: %s. Supplies: %s. The Hunt meter starts at stage %d."%[preload("res://src/equipment/field_tools.gd").loadout_label(run_state.loadout),RunTable.SCARCITY[run_state.scarcity],RunState.starting_hunt(run_state,RunState.current_operation(run_state))],17)
+		_menu_text(RunWords.kit_line(run_state.loadout),17)
 		_menu_text(preload("res://src/campaign/runs/run_records.gd").scarcity_line(run_state.loadout,run_state.scarcity),17)
-		_menu_text(Briefing.carrying_line(run_state.get("tool_racks",preload("res://src/equipment/tool_racks.gd").from_stock(run_state.stock))),17))
+		_menu_text(RunWords.hunt_line(run_state),17)
+		var racks:Dictionary=run_state.get("tool_racks",preload("res://src/equipment/tool_racks.gd").from_stock(run_state.stock))
+		_menu_text(Briefing.carrying_line(racks),17)
+		var spare=RunWords.spare_line(run_state.stock,racks)
+		if not spare.is_empty():_menu_text(spare,17))
 	if active_started:
 		PrepColumns.into(self,columns[1],func():
 			if save_failed:
@@ -132,7 +139,10 @@ func _debrief(abandoned:bool=false)->void:
 	if DevState.block_debrief(self):return
 	if recorded:return
 	recorded=true;sim.paused=true;screen="expedition_result";_clear_menu()
-	run_state=RunState.settle(run_state,sim.result(abandoned))
+	var stock_before:Dictionary=run_state.stock.duplicate()
+	var dive_result:Dictionary=sim.result(abandoned)
+	run_state=RunState.settle(run_state,dive_result)
+	dive_ledger=RunWords.dive_ledger(stock_before,dive_result.tools,run_state.stock)
 	run_state=RunOffers.prepare(run_state);active_envelope={}
 	_result_menu()
 func _result_menu()->void:
@@ -151,6 +161,8 @@ func _result_menu()->void:
 		var r:Dictionary=run_state.results.back().get("rider",{})
 		if not r.get("assignment",{}).is_empty():
 			_menu_text("Rider passed. Bonus: %s."%RunState.rider_bonus_text(r.assignment).to_lower() if r.passed else "Rider failed. No bonus.",17)
+	# What the dive spent, earned and kept; only for the dive just finished (a result restored after a reload has no dive to read).
+	for line in dive_ledger:_menu_text(line,17)
 	if run_state.status!="active":SummaryView.session(self)
 	else:_show_photo_grade(sim.mission.objectives)
 	save_failed=not _persist_state(run_state)
@@ -162,7 +174,7 @@ func _result_menu()->void:
 			if RunOffers.pending(run_state):OfferView.show(self);return
 			active_started=false;sim.configure(run_state);_start_mission(RunState.current_operation(run_state));active_started=false
 			# The saved result is consumed only when explicitly preparing the next dive.
-			recorded=false;_show_campaign()
+			recorded=false;dive_ledger=[];_show_campaign()
 		,"run_next")
 	_button(panel_box,"BACK TO EXPEDITIONS",_return,"run_return")
 	call_deferred("_layout")
@@ -174,7 +186,7 @@ func _pick_offer(id:String)->void:
 		OfferView.show(self)
 		_menu_text("CHOICE NOT SAVED · "+str(campaign_host.get_meta("runs_save_error","Retry when storage is available.")),17)
 		return
-	run_state=picked;recorded=false;active_started=false
+	run_state=picked;recorded=false;dive_ledger=[];active_started=false
 	sim.configure(run_state);_start_mission(RunState.current_operation(run_state));active_started=false
 	_show_campaign()
 func _enter_water()->void:
