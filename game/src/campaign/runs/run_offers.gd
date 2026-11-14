@@ -51,7 +51,9 @@ static func describe(state:Dictionary,id:String)->Dictionary:
 	if id.begins_with("route:"):op=state.operations[int(id.get_slice(":",1))]
 	var title:String=Catalog.make(op,{}).title
 	if id.begins_with("route:"):
-		return {"title":"ROUTE · "+title,"detail":"Next: %s. Spend up to 1 Decoy for 2 EMP charges."%title}
+		var give:String=Tools.spec(Table.ROUTE_COST).name;var gain:String=Tools.spec(Table.ROUTE_REWARD.keys()[0]).name;var count:int=Table.ROUTE_REWARD.values()[0]
+		var swap:String="Trade 1 %s for %d %s charges."%[give,count,gain] if state.stock[Table.ROUTE_COST]>0 else "Gain %d %s charges; you hold no %s to give up."%[count,gain,give]
+		return {"title":"ROUTE · "+title,"detail":"Next operation: %s. %s"%[title,swap]}
 	if id=="refit":
 		return {"title":"REPAIR KIT / REFIT","detail":"Next: %s. Gain 2 Hull patches and 1 Decoy. Use patches during a dive to repair collision damage."%title}
 	var tool:String=id.get_slice(":",1)

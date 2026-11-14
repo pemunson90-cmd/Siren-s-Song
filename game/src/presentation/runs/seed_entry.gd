@@ -3,6 +3,7 @@ extends RefCounted
 # access or physical keyboard required. Revert: remove this start-screen seam.
 const State=preload("res://src/campaign/runs/run_state.gd")
 const Records=preload("res://src/campaign/runs/run_records.gd")
+const Words=preload("res://src/presentation/runs/run_words.gd")
 const MAX_LENGTH=10
 static func sanitize(text:String)->String:
 	var out=""
@@ -51,5 +52,4 @@ static func show(front,seed_value:int,back:Callable,start:Callable)->void:
 	refresh.call(edit.text)
 
 static func setup_context(state:Dictionary)->String:
-	var op=State.current_operation(state)
-	return "Loadout: %s. Supplies: %s. Expedition Hunt stage: %d.\n%s\nThe first operation starts at Hunt stage %d. Each operation limits how high the Hunt can start; the meter in the dive shows the current pressure."%[preload("res://src/equipment/field_tools.gd").loadout_label(state.loadout),State.Table.SCARCITY[state.scarcity],state.hunt_stage,Records.scarcity_line(state.loadout,state.scarcity),State.starting_hunt(state,op)]
+	return "%s\n%s\n%s"%[Words.kit_line(state.loadout),Records.scarcity_line(state.loadout,state.scarcity),Words.hunt_line(state)]

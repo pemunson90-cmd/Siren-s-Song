@@ -21,6 +21,8 @@ const CAUSE_BURST="an Interceptor burst"
 const CAUSE_FIELD="a Warden pressure field"
 const CAUSE_UNKNOWN="a cause the game does not record"
 const FLOOR_LINE="Quietus came home at %d%% and is recorded at %d%%, the lowest this difficulty records after a loss."
+const FLOOR_LINE_LOST="Quietus was lost at %d%% hull. It is recovered and recorded at %d%%, the lowest this difficulty records after a loss."
+const FLOOR_LINE_ENDED="Quietus ended the dive at %d%% hull. It is recorded at %d%%, the lowest this difficulty records after a loss."
 const REPAIR_LINE="Quietus hull is recorded at %d%%. It stays that way until repaired: open SUPPLIES and choose REPAIR QUIETUS HULL (%s) before the next dive."
 const REPAIR_FREE="Quietus hull is recorded at %d%%. It stays that way until repaired in SUPPLIES (REPAIR QUIETUS HULL)."
 var sim
@@ -34,6 +36,8 @@ var rows:Array=[]
 var total_loss=0.0
 var start_hull=100.
 var trimmed=false
+# True once the dive has run: from then on a hull change is damage, even while the dive is paused.
+var ran=false
 static func install(owner)->void:
  var log=load("res://src/presentation/damage_log/damage_log.gd").new()
  log.name="DamageLog";log.owner_ref=owner;owner.hud.add_child(log);log.bind(owner.sim)
@@ -52,7 +56,9 @@ static func floor_line(host)->String:
  if not e is Dictionary or not Economy.Table.enabled or Economy.preset(e).replenish or host.get("sim")==null:return ""
  var cond:int=int(e.cond.get(Names.CRAFT_QUIETUS,100))
  var ended:int=roundi(host.sim.hull)
- return FLOOR_LINE%[ended,cond] if cond>ended and cond==int(Economy.preset(e).floor) else ""
+ if cond<=ended or cond!=int(Economy.preset(e).floor):return ""
+ var template=FLOOR_LINE if host.sim.outcome=="won" else FLOOR_LINE_LOST if host.sim.outcome=="lost" else FLOOR_LINE_ENDED
+ return template%[ended,cond]
 # Where the Campaign and Career offer a hull repair; "" when the hull is whole or mends by itself.
 static func repair_line(host)->String:
  var e=host.get("economy")
@@ -66,7 +72,7 @@ func bind(source)->void:
 func _collision_ledger()->float:
  return float(Effects.state(sim).get("repairable_collision_loss",0.0)) if sim!=null and sim.mission.has(Effects.KEY) else 0.0
 func _reset()->void:
- rows.clear();total_loss=0.0;trimmed=false;mission_ref=sim.mission if sim!=null else {}
+ rows.clear();total_loss=0.0;trimmed=false;ran=false;mission_ref=sim.mission if sim!=null else {}
  clock=sim.elapsed if sim!=null else -1.;hull=float(sim.hull) if sim!=null else -1.
  start_hull=hull
  collision=_collision_ledger();alive=sim.units.map(func(u):return u.get("alive",true)) if sim!=null else []
@@ -80,9 +86,11 @@ func sample()->void:
  if sim==null:return
  if not is_same(mission_ref,sim.mission) or sim.elapsed<clock:_reset();return
  var now:float=float(sim.hull);var ledger=_collision_ledger()
- # Launch condition and other set-up writes happen without time passing: rebase silently.
- if sim.elapsed<=clock:
+ # Launch condition and other set-up writes happen before the dive has run: rebase silently. Once it has run,
+ # a pause holds the clock still, and a hull change made then is damage, not set-up.
+ if sim.elapsed<=clock and not ran:
   hull=now;start_hull=now;collision=ledger;clock=sim.elapsed;return
+ if sim.elapsed>clock:ran=true
  var loss:float=hull-now
  if loss>=MIN_LOSS:
   total_loss+=loss
@@ -102,7 +110,7 @@ func _strike_text()->String:
  return ""
 # The cause of a hull loss that was not a collision, read from state the simulation already keeps.
 func _cause_text()->String:
- if LossSummary.beam_struck(sim):return CAUSE_BEAM
+ if LossSummary.beam_struck(sim):return beam_cause(sim)
  var quietus=sim.units[0]
  for siren in sim.sirens:
   var state=siren.get("industry")
@@ -112,6 +120,10 @@ func _cause_text()->String:
    for patch in state.get("patches",[]):
     if quietus.pos.distance_to(patch.pos)<float(patch.radius):return CAUSE_FIELD
  return CAUSE_UNKNOWN
+# "a Sweeper's beam" when the firing Siren is known, else "a Siren beam".
+func beam_cause(source)->String:
+ var attacker:String=LossSummary.beam_attacker(source)
+ return "%s %s's beam"%[LossSummary.article(attacker).to_lower(),attacker] if not attacker.is_empty() else CAUSE_BEAM
 func _record(kind:String,amount:float,after:float,note:String)->void:
  var t:float=sim.elapsed
  if not rows.is_empty() and rows[-1].kind==kind and t-rows[-1].t1<=MERGE_SECONDS:
@@ -137,6 +149,6 @@ func summary()->String:
    _:
     var note:String=row.note if not row.note.is_empty() else CAUSE_UNKNOWN
     # The final row may have been written a moment before the lock showed in the contacts.
-    if note==CAUSE_UNKNOWN and is_same(row,rows[-1]) and LossSummary.beam_struck(sim):note=CAUSE_BEAM
+    if note==CAUSE_UNKNOWN and is_same(row,rows[-1]) and LossSummary.beam_struck(sim):note=beam_cause(sim)
     lines.append("%s · QUIETUS HULL -%d%% to %d%% · %s"%[when,roundi(row.loss),roundi(row.after),note])
  return "\n".join(lines)

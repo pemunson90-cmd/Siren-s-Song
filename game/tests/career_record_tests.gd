@@ -6,6 +6,7 @@ const Log=preload("res://src/presentation/damage_log/damage_log.gd")
 const Board=preload("res://src/presentation/career/career_board.gd")
 const State=preload("res://src/campaign/career/career_state.gd")
 const Economy=preload("res://src/campaign/economy.gd")
+const LossSummary=preload("res://src/presentation/loss_summary.gd")
 var checks=0
 var failures=0
 func check(ok,label):
@@ -32,8 +33,28 @@ func run():
  # The recorded hull differs from the hull at the end of a dive: one line says why.
  var f=Economy.new_state();f.cond.quietus=Economy.preset(f).floor
  var host=_host(f);host.sim=bs
- check(Log.floor_line(host)=="Quietus came home at 0%% and is recorded at %d%%, the lowest this difficulty records after a loss."%Economy.preset(f).floor,"the floor is explained: "+Log.floor_line(host))
+ check(Log.floor_line(host)==Log.FLOOR_LINE_LOST%[0,Economy.preset(f).floor],"the floor is explained: "+Log.floor_line(host))
+ check(not Log.floor_line(host).contains("came home") and Log.floor_line(host).contains("was lost"),"a lost Quietus is not said to have come home")
+ bs.outcome="won";check(Log.floor_line(host).begins_with("Quietus came home at 0%"),"a recovered Quietus came home")
+ bs.outcome="lost"
  bs.hull=Economy.preset(f).floor;check(Log.floor_line(host)=="","no floor line when the hull ended at the recorded value")
+ # A Sweeper's finished lock is named from the Siren that holds the fired beam, with no fresh contact and no beam message.
+ var sw=Sim.new();sw.start(0);sw.paused=false
+ var sweep=Log.new();sweep.bind(sw)
+ sw.sirens=[{"type":"sweeper","mode":"BEAM","target":0,"pos":sw.units[0].pos+Vector2(0,-200)}]
+ sw.elapsed+=86.;sw.hull=0.;sw.outcome="lost";sw.message="RIDER FAILED · a launched craft was lost";sw.contacts={}
+ sweep.sample()
+ check(sweep.summary().contains("-100% to 0% · a Sweeper's beam") and sweep.summary().contains("01:26") and not sweep.summary().contains("does not record"),"a Sweeper's lock is named with its attacker and time: "+sweep.summary())
+ check(LossSummary.line(sw).begins_with("A Sweeper's beam") and not LossSummary.line(sw).contains("remaining hull"),"the loss line names the Sweeper: "+LossSummary.line(sw))
+ # Pausing after damage does not rewrite where the dive began.
+ var p=Sim.new();p.start(0);p.paused=false
+ var paused=Log.new();paused.bind(p)
+ p.elapsed+=10.;paused.sample()
+ p.elapsed+=76.;p.hull=86.;paused.sample()
+ paused.sample();paused.sample()
+ check(not paused.summary().contains("began at Hull") and paused.start_hull==100.,"a pause after damage keeps the start at full hull: "+paused.summary())
+ p.hull=70.;paused.sample()
+ check(paused.summary().contains("QUIETUS HULL -30% OBSERVED"),"hull lost while paused is still recorded: "+paused.summary())
  # A loss with no recorded source says so instead of guessing.
  var t=Sim.new();t.start(0);t.paused=false
  var other=Log.new();other.bind(t)
@@ -55,7 +76,7 @@ func run():
  var a=State.rider_offer(career,"brannock_watch");var b=State.rider_offer(career,"brannock_watch")
  check(a==b,"the same contract shows the same rider on every view")
  check(Board.rider_line("Brannock Watch",a).begins_with("OPTIONAL RIDER FOR BRANNOCK WATCH · "),"rider line names its contract")
- for node in [log,other,field,beam]:node.free()
+ for node in [log,other,field,beam,sweep,paused]:node.free()
  print("CAREER RECORD CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)
 class FakeHost:
  var economy

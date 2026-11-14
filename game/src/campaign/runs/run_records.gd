@@ -68,7 +68,7 @@ static func add(records:Dictionary,state:Dictionary)->Dictionary:
 	out.last.resize(mini(LIMIT,out.last.size()))
 	return out
 # The run's Hunt stage is a ceiling: each operation starts at most at its own cap (the seed screen says the same).
-const HUNT_CEILING="Expedition Hunt stage %d · %s"
+const HUNT_CEILING="Hunt ceiling for this run: stage %d · %s"
 const HUNT_CEILING_NOTE=" (each operation starts at most at its own cap)"
 static func hunt_ceiling(stage:int)->String:
 	return HUNT_CEILING%[stage,preload("res://src/names.gd").HUNT_STAGES[stage]]
