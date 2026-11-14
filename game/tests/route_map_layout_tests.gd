@@ -19,6 +19,13 @@ func text_fits(button):
  return need.y<=inner.y+1.
 func judge(view,known_arcs):
  var board=view.board;var rects=[]
+ # The board gets most of a short, wide screen (the key and arc lines stand in a column beside it); the key stays inside the screen.
+ var screen:Rect2=Rect2(Vector2.ZERO,view.size)
+ if view.size.x>=view.size.y*Table.VIEW.wide_ratio:
+  check(view.chart.size.y>=view.size.y*.5,"the board's visible height is at least half the screen "+str([view.chart.size.y,view.size.y]))
+  check(view.legend_pan.position.x+view.legend_pan.size.x<=view.chart.position.x,"the key column does not overlap the board")
+ check(screen.encloses(Rect2(view.legend_pan.position,view.legend_pan.size)) and screen.encloses(Rect2(view.chart.position,view.chart.size)),"key and board lie inside the screen")
+ check(view.legend.get_children().size()==1+Arcs.ARCS.size(),"the key and one line per arc are all present")
  for id in board.boxes:rects.append(["node %d"%id,board.boxes[id]])
  var names=board.regions.map(func(region):return region.text)
  check(names==known_arcs.map(func(arc):return arc.name),"only arcs with a named operation are named once each "+str(names))

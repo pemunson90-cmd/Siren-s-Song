@@ -83,11 +83,18 @@ func home_case(shape, recovered, scale):
  var anchor=button(game,"fittings").get_global_rect().position
  game.active_started=true;game._show_campaign();await settle()
  check(button(game,"resume")!=null,"active dive offers resume")
+ # One way to each place: while a dive is in flight RESUME DIVE stands alone in CONTINUE; TITLE appears once, in the reach row.
+ check(button(game,"next_operation")==null,"no second CONTINUE button names the dive's operation while resume is offered")
+ var titles=game.panel_box.find_children("*","Button",true,false).filter(func(c):return c.text=="TITLE")
+ check(titles.size()==1 and titles[0].get_parent().get_children().any(func(c):return str(c.get_meta("ui_action",c.get_meta("action","")))=="settings"),"TITLE appears once, in the bottom row with SETTINGS")
  if not button(game,"fittings").get_global_rect().position.is_equal_approx(anchor):
   print("HOME_RESUME_DIAG ",case_label," before=",anchor," after=",button(game,"fittings").get_global_rect()," scroll=",game.scroll.scroll_vertical," panel=",game.panel_box.size," bar=",game.scroll.get_v_scroll_bar().visible)
  # Two columns may share the extra width a little differently once Resume is present; rows must not move vertically.
  check(is_equal_approx(button(game,"fittings").get_global_rect().position.y,anchor.y) and absf(button(game,"fittings").get_global_rect().position.x-anchor.x)<=8.,"resume preserves row positions")
  if recovered==OperationCatalog.registered_ids().size() and shape==Vector2i(2520,1080):check(game.panel_box.size.y/game.scroll.size.y<3.,"all recovered home is under three screens")
+ # Without a dive in flight the NEXT OPERATION button is back, and TITLE is still single.
+ game.active_started=false;game._show_campaign();await settle()
+ check(button(game,"next_operation")!=null and button(game,"resume")==null,"without a dive NEXT OPERATION stands alone")
  if recovered==0:
   await press(game,"next_operation");check(game.screen=="briefing" and game.get_meta("onboard2_fit_index",-1)==0,"next opens first available briefing by touch")
  elif recovered==OperationCatalog.registered_ids().size():check(button(game,"next_operation").disabled,"fully recovered campaign offers no invented next operation")

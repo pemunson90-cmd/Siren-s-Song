@@ -12,7 +12,7 @@ const VIEW={
  "font_touch":.23,"font_min":16,"zoom_min":1.,"zoom_max":2.,"zoom_step":.25,
  "header_gap":12,"height_tagged":2.1,"region_font":.26,"region_pad":6,"back_width":2.,"current_width":2.,"header_font":.3,
  "legend_font":.22,"legend_margin":1.5,"legend_height":.6,
- "chart_top":1.9,"chart_reserve":3.2,"detail_font":.23,
+ "wide_ratio":1.5,"column_share":.34,"chart_top":1.9,"chart_reserve":3.2,"detail_font":.23,
  "stroke":3.,"line_dash":12.,"node_dash":9.,"padding":12.}
 const COLORS={"RECOVERED":"75d7b0","AVAILABLE":"b8e7ed","LOCKED":"415862","KNOWN FROM PHOTOS":"e8c58b"}
 # An operation not yet charted is a small dim mark, not a box; the key lists it last.

@@ -33,6 +33,7 @@ var chart:ScrollContainer
 var board:Board
 var header:HBoxContainer
 var legend:VBoxContainer
+var legend_pan:ScrollContainer
 var key:HFlowContainer
 var detail:Label
 var zoom:float=Table.VIEW.zoom_min
@@ -54,7 +55,9 @@ func setup(main)->void:
  _button(header,"CURRENT",_focus_current,"route_map_current",Table.VIEW.current_width)
  _button(header,"−",func():_zoom(-1),"route_map_zoom_out")
  _button(header,"+",func():_zoom(1),"route_map_zoom_in")
- legend=VBoxContainer.new();legend.add_theme_constant_override("separation",LEGEND_GAP);add_child(legend)
+ # The key and arc lines sit in a pan: a column beside the board on a wide screen (scrolls if the text is large), a strip above it otherwise.
+ legend_pan=ScrollContainer.new();legend_pan.name="LegendPan";legend_pan.horizontal_scroll_mode=ScrollContainer.SCROLL_MODE_DISABLED;add_child(legend_pan)
+ legend=VBoxContainer.new();legend.add_theme_constant_override("separation",LEGEND_GAP);legend_pan.add_child(legend)
  _build_key()
  var arcs=preload("res://src/campaign/arcs/arc_table.gd")
  if arcs.enabled:
@@ -105,15 +108,27 @@ func _fit():
   control.add_theme_font_size_override("font_size",_font(h,Table.VIEW.header_font))
   if control is Button:control.custom_minimum_size=Vector2(h*control.get_meta("width_touch"),h)
  # The legend takes the height its wrapped lines need (measured, so nothing is cut); the chart gets the rest.
- var width:float=size.x-margin*2;var legend_height:float=_key_height(h,width)+LEGEND_GAP
+ var full:float=size.x-margin*2
+ var wide:bool=size.x>=size.y*Table.VIEW.wide_ratio
+ var width:float=roundf(full*Table.VIEW.column_share) if wide else full
+ var legend_height:float=_key_height(h,width)+LEGEND_GAP
  key.custom_minimum_size.x=width
  for label in legend.get_children().filter(func(node):return node is Label):
   var font_size:=_font(h,Table.VIEW.legend_font);label.add_theme_font_size_override("font_size",font_size)
   label.custom_minimum_size.x=width
   legend_height+=label.get_theme_font("font").get_multiline_string_size(label.text,HORIZONTAL_ALIGNMENT_LEFT,width,font_size,-1,TextServer.BREAK_WORD_BOUND|TextServer.BREAK_MANDATORY).y+LEGEND_LINE_PAD+LEGEND_GAP
- legend.position=Vector2(margin,h+margin);legend.size=Vector2(width,legend_height)
- chart.position=Vector2(margin,legend.position.y+legend_height+margin)
- chart.size=Vector2(width,maxf(h,size.y-chart.position.y-h-margin*2))
+ legend.custom_minimum_size=Vector2(width,legend_height)
+ var top:float=h+margin*2
+ var bottom:float=h+margin*2
+ if wide:
+  # Beside the board: the column takes what its lines need up to the board's height and scrolls past that.
+  var room:float=maxf(h,size.y-top-bottom)
+  legend_pan.position=Vector2(margin,top);legend_pan.size=Vector2(width,minf(legend_height,room))
+  chart.position=Vector2(margin*2+width,top);chart.size=Vector2(full-width-margin,room)
+ else:
+  legend_pan.position=Vector2(margin,h+margin);legend_pan.size=Vector2(width,legend_height)
+  chart.position=Vector2(margin,legend_pan.position.y+legend_height+margin)
+  chart.size=Vector2(width,maxf(h,size.y-chart.position.y-bottom))
  detail.add_theme_font_size_override("font_size",_font(h,Table.VIEW.detail_font));detail.position=Vector2(margin,chart.position.y+chart.size.y+margin);detail.size=Vector2(size.x-margin*2,h)
  # Wrapped Label minimum height is recomputed after its width/font changes.
  # Apply the bounded height after that deferred update, including first layout.
