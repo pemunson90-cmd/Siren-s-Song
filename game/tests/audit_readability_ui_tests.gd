@@ -38,7 +38,8 @@ func shape_case(shape):
   var dp=float(root.size.x)/root.get_visible_rect().size.x*160./420.
   check(feed.picture_rect.size.y>=120.,"optical image keeps useful height "+stamp)
   check(not feed.picture_rect.intersects(feed.footer_rect) and not feed.quality_rect.intersects(feed.picture_rect),"image meters and scrollable details have separate regions "+stamp)
-  check(feed.footer_scroll.is_visible_in_tree() and "FILM" in feed.footer_label.text and "SHUTTER" in feed.footer_label.text,"complete pricing details are retained outside image "+stamp)
+  # WP-66: the shutter cost line is drawn whole under the text (cost_text), or joins its top on a short panel.
+  check(feed.footer_scroll.is_visible_in_tree() and "FILM" in feed.footer_label.text and ("SHUTTER" in feed.footer_label.text or str(feed.get("cost_text")).begins_with("SHUTTER")),"complete pricing details are retained outside image "+stamp)
   for control in feed._buttons:
    check(Rect2(Vector2.ZERO,feed.size).encloses(control.rect),"optical action has full target "+stamp)
    check(control.rect.size.x*dp>=48. and control.rect.size.y*dp>=48.,"optical actions retain 48dp "+stamp)

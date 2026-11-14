@@ -207,13 +207,13 @@ func _draw_photo(t:Dictionary) -> void:
 	if not cost_text.is_empty():fixed_lines.append([cost_text,ShutterTable.COLORS.weak])
 	var fixed_h:=0.0
 	for fixed in fixed_lines:fixed_h+=font.get_multiline_string_size(fixed[0],HORIZONTAL_ALIGNMENT_LEFT,wide,fs).y+4.
-	# On a short panel the picture gives way first, to a strip, so the text always has a few lines to scroll.
-	# When even that leaves the text under two lines, the fixed lines join the top of the scrolling text instead.
+	# On a short panel the picture keeps a useful height first (ShutterTable.PICTURE_KEEP); when the fixed lines and a line and a half of text do not fit beside it, they join the top of the scrolling text; only then does the picture give way.
+	# The shutter cost line is therefore always either drawn whole under the text or the first line of it.
 	var remaining=maxf(1.,size.y-picture_top-16.)
-	if remaining-fixed_h-8.-fs*1.5<fs*2.2 and not fixed_lines.is_empty():
+	if not fixed_lines.is_empty() and remaining-ShutterTable.PICTURE_KEEP-8.-fixed_h<fs*1.5:
 		lines=fixed_lines.map(func(f):return f[0])+lines
 		fixed_lines=[];fixed_h=0.0
-	var picture_min:=fs*1.5 if remaining-fixed_h-8.-fs*1.5>=fs*2.2 else 20.
+	var picture_min:=minf(ShutterTable.PICTURE_KEEP,maxf(20.,remaining-fixed_h-8.-fs*1.5))
 	picture.size.y=clampf(remaining*.52,picture_min,maxf(picture_min,remaining-fixed_h-8.-fs*3.4))
 	picture_rect=picture
 	var footer_h:=maxf(1.,size.y-picture.end.y-16-fixed_h)
