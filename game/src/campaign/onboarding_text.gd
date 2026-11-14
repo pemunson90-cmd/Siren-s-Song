@@ -19,7 +19,7 @@ const GOALS := {
 	5: "GOAL: photograph the crown and wakes, then LISTEN at the lee receiver and return home.\nDANGER: Quietus must collect the six-second listening record. Use the southern rocks for cover."
 }
 const HINTS := {
-	"move": {"text": "Tap QUIETUS or a drone, then tap open water to plan a route. Nothing moves until you tap the PAUSED control to resume.", "ops": [0]},
+	"move": {"text": "Tap QUIETUS or a drone, then tap open water to plan a route. Time starts stopped: tap the PAUSED control to run it, and tap it again (it then says RUNNING) to stop time whenever you like.", "ops": [0]},
 	"pause": {"text": "The control in the top left corner (top right when the HUD is mirrored) says RUNNING or PAUSED: tap it to stop time, then plan, inspect and change orders for as long as you like.", "ops": [0]},
 	"drone": {"text": "Send a drone ahead to look. Drones are expendable. Quietus is not.", "ops": [0]},
 	"sweep": {"text": "A Siren heard noise and is walking to that spot. The cue gives its bearing and seconds. Time is paused. Slow down or tap GO SILENT, and keep rock between you and it.", "ops": [0, 1, 2, 3]},
@@ -35,7 +35,9 @@ const HINTS := {
 	"first_field_tool": {"text": "Field tools spend finite stock. Hold a tool button for its rules; SUPPLIES prepares the next launch, while RESUME keeps this dive's stock.", "ops": []}
 }
 # Keep the legacy priced-shots rollback marker for existing saves.
-static var SAVED_HINT_IDS=HINTS.keys()+["priced_gone"]
+# The Hunt chip's one-line meaning is shown once per profile (hunt_meter.gd); it is not a queued tip, so it is not in HINTS.
+const HUNT_METER_HINT := "hunt_meter"
+static var SAVED_HINT_IDS=HINTS.keys()+["priced_gone",HUNT_METER_HINT]
 static func goal(index: int) -> String:
 	return GOALS.get(index, "")
 # Operation 01 only, until it is recovered: what the opening briefing leaves out (drones, silent running, what kills you).

@@ -7,7 +7,9 @@ const StatusView=preload("res://src/presentation/status_text/status_view.gd")
 const Table=preload("res://src/presentation/hunt_meter/meter_table.gd")
 const Palette=preload("res://src/presentation/accessibility/palette.gd")
 const Settings=preload("res://src/presentation/frontend/frontend_settings.gd")
+const Text=preload("res://src/campaign/onboarding_text.gd")
 const CHIP="hunt_meter_button"
+const INTRO="hunt_meter_intro"
 const PENDING="hunt_meter_fit_pending"
 const HELP_HOOK="hunt_meter_help_resize_hook"
 static func label(view:Dictionary,compact:bool=false,tight:bool=false)->String:
@@ -35,6 +37,7 @@ static func _open(hud)->void:
  hud.host.sim.paused=true
  hud.help_return=hud.page if hud.host.advanced_orders else "water"
  hud.help_text=explanation(view)
+ _retire_intro(hud)
  hud.open("order_help")
 static func _button(hud)->Button:
  var existing=hud.get_meta(CHIP) if hud.has_meta(CHIP) else null
@@ -51,9 +54,11 @@ static func sync(hud)->void:
  var button=_button(hud) if view.active else (hud.get_meta(CHIP) if hud.has_meta(CHIP) else null)
  if not view.active or hud.host.screen!="mission":
   if is_instance_valid(button):button.hide()
+  if hud.has_meta(INTRO) and is_instance_valid(hud.get_meta(INTRO)):hud.get_meta(INTRO).hide()
   return
  if hud.page=="order_help":
   button.hide()
+  if hud.has_meta(INTRO) and is_instance_valid(hud.get_meta(INTRO)):hud.get_meta(INTRO).hide()
   if own_help(hud) and hud.touch_height>Table.COMPACT_TOUCH_HEIGHT:
    hook_help(hud)
    fit_help(hud)
@@ -83,6 +88,54 @@ static func sync(hud)->void:
  if not hud.host.advanced_orders and hud.alarm.visible and hud.alarm.text.begins_with("OP PRESSURE"):hud.alarm.hide()
  fit(hud)
  schedule_fit(hud)
+ intro(hud,button)
+# The one-line meaning beside the chip the first time it is shown in a profile (critic 14 Nov: three players never understood it).
+# The flag is kept with the profile's other first-use flags; a mode session keeps it on its campaign.
+static func _flags_owner(hud):
+ var campaign=hud.host.get("campaign_host")
+ return campaign if campaign!=null and is_instance_valid(campaign) else hud.host
+static func _intro_label(hud)->Label:
+ var existing=hud.get_meta(INTRO) if hud.has_meta(INTRO) else null
+ if is_instance_valid(existing):return existing
+ var label=Label.new()
+ label.name="HuntMeterIntro";label.mouse_filter=Control.MOUSE_FILTER_IGNORE;label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+ label.text=Table.TEXT.intro;label.z_index=1;label.hide()
+ var style=StyleBoxFlat.new();style.bg_color=Color(.018,.055,.075,.95);style.border_color=Color("e9cb8c");style.set_border_width_all(1);style.set_corner_radius_all(6)
+ style.content_margin_left=10;style.content_margin_right=10;style.content_margin_top=6;style.content_margin_bottom=6
+ label.add_theme_stylebox_override("normal",style)
+ hud.add_child(label);hud.set_meta(INTRO,label)
+ return label
+static func _retire_intro(hud)->void:
+ hud.set_meta("hunt_meter_intro_done",true)
+ var label=hud.get_meta(INTRO) if hud.has_meta(INTRO) else null
+ if is_instance_valid(label):label.hide()
+ var flags=_flags_owner(hud).hints_seen
+ if not Text.HUNT_METER_HINT in flags:flags.append(Text.HUNT_METER_HINT)
+static func intro(hud,button:Button)->void:
+ if hud.get_meta("hunt_meter_intro_done",false):return
+ var flags=_flags_owner(hud).hints_seen
+ var now=float(hud.host.sim.elapsed)
+ if not hud.has_meta("hunt_meter_intro_since"):
+  # Shown in an earlier dive of this profile: nothing more to say. Otherwise count running seconds from now.
+  if Text.HUNT_METER_HINT in flags:hud.set_meta("hunt_meter_intro_done",true);return
+  hud.set_meta("hunt_meter_intro_since",now)
+  flags.append(Text.HUNT_METER_HINT)
+ var label=_intro_label(hud)
+ if now-float(hud.get_meta("hunt_meter_intro_since"))>Table.INTRO_SECONDS:_retire_intro(hud);return
+ if not button.visible:label.hide();return
+ var area=Rect2(Vector2.ZERO,StatusView.content_bounds(hud,hud.size))
+ var width=minf(area.size.x-Table.MARGIN*2.0,Table.INTRO_MAX_WIDTH)
+ label.add_theme_font_size_override("font_size",roundi(float(button.get_theme_font_size("font_size"))*Table.INTRO_FONT_FACTOR))
+ label.custom_minimum_size=Vector2(width,0);label.size=Vector2(width,0)
+ label.size=Vector2(width,label.get_combined_minimum_size().y)
+ # Below the chip, else above it; with no clear place it waits hidden, so it never covers a lock card, a prompt or a control.
+ var obstacles=_obstacles(hud,button,false)
+ var x=clampf(button.position.x+(button.size.x-width)/2.0,Table.MARGIN,maxf(Table.MARGIN,area.end.x-width-Table.MARGIN))
+ for y in [button.position.y+button.size.y+Table.INTRO_GAP,button.position.y-label.size.y-Table.INTRO_GAP]:
+  var rect=Rect2(Vector2(x,y),label.size)
+  if area.encloses(rect) and not obstacles.any(func(other):return rect.intersects(other)):
+   label.position=rect.position;label.show();return
+ label.hide()
 static func own_help(hud)->bool:
  return Pressure.view(hud.host.sim).active and hud.page=="order_help" and hud.help_text.begins_with("HUNT ·")
 static func help_rects(hud)->Array:

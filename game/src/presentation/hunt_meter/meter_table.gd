@@ -24,7 +24,13 @@ const STICKY=true
 const SCAN_TOUCH_FACTOR=0.5
 const PIP_COUNT=5
 const COMPACT_PIP_SPLIT=3
+# The first time the chip is shown in a profile, its one-line meaning sits beside it for this many seconds of running time.
+const INTRO_SECONDS=12.0
+const INTRO_FONT_FACTOR=0.9
+const INTRO_MAX_WIDTH=380.0
+const INTRO_GAP=4.0
 const TEXT={
+	"intro":"HUNT: how hard the Sirens are searching; it rises when they hear you. Tap it any time for more.",
 	"compact":"HUNT\n%s\n%s\n×%.2f\n%s\n%s",
 	"tight":"HUNT ×%.2f\n%s\n%s",
 	"standard":"HUNT · %s ×%.2f\n%s",

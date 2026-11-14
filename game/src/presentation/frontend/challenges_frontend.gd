@@ -6,6 +6,18 @@ const Catalog=preload("res://src/campaign/challenges/challenge_catalog.gd")
 const Records=preload("res://src/campaign/challenges/challenge_records.gd")
 const Session=preload("res://src/presentation/frontend/challenge_session.gd")
 const SaveErrorView=preload("res://src/presentation/frontend/save_error_view.gd")
+const Missions=preload("res://src/campaign/missions.gd")
+# Words for a locked card (critic 14 Nov: "recover operation 01" did not say it meant the Campaign).
+const TEXT={"lock":"LOCKED · Recover %02d %s in the Campaign","note":"Recover %02d %s in the Campaign to unlock this challenge.","progress":"Campaign so far: %d operations recovered.","fresh":"Campaign so far: no operation recovered yet."}
+static func operation_name(row:Dictionary)->String:
+	var op:int=int(row.op)
+	if op<Missions.TITLES.size():return str(Missions.TITLES[op])
+	return str(row.title).split(" / ")[0].capitalize()
+static func lock_line(row:Dictionary,key:String="lock")->String:
+	return TEXT[key]%[int(row.op)+1,operation_name(row)]
+static func lock_note(front,row:Dictionary)->String:
+	var done:int=completed(front).size()
+	return lock_line(row,"note")+"\n"+(TEXT.progress%done if done>0 else TEXT.fresh)
 static func completed(front)->Array:
 	return front.host._campaign_completed() if front.host.has_method("_campaign_completed") else []
 static func history(front)->Dictionary:
@@ -26,10 +38,18 @@ static func show(front)->void:
 	for row in Catalog.all():
 		var id:String=row.id;var available=Catalog.unlocked(row,recovered)
 		var best=saved.get(id,{}).get("best",{})
-		var detail=Records.summary(best) if available else Catalog.description(row)+"\nLOCKED · recover operation %02d"%[int(row.op)+1]
+		var detail=Records.summary(best) if available else Catalog.description(row)+"\n"+lock_line(row)
 		var add=func():
-			var b=front._button(row.title+"\n"+detail,func():details(front,id),"challenge_"+id,not available)
-			b.set_meta("challenge_id",id)
+			var note:Array=[null]  # a lambda copies plain variables, so the label is held in an array it can read later
+			# A locked card stays tappable: a tap shows what unlocks it, and where the Campaign stands, under the card.
+			var tap=func():
+				if available:details(front,id);return
+				if is_instance_valid(note[0]):note[0].text=lock_note(front,row);note[0].show()
+			var b=front._button(row.title+"\n"+detail,tap,"challenge_"+id)
+			b.set_meta("challenge_id",id);b.set_meta("locked",not available)
+			if not available:
+				b.modulate=Color(1,1,1,.62)
+				var label=front._text("",15,Color("e9cb8c"));label.hide();label.name="LockNote_"+id;note[0]=label
 		if grid!=null:front._into(front._card(grid),add)
 		else:add.call()
 static func details(front,id:String)->void:
