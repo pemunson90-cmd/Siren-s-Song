@@ -60,6 +60,9 @@ func layout_case(shape:Vector2i,scale:float):
 		if hunted:game.sim.contacts[0]=contact(game.sim,"SEARCH")
 		game._refresh();await settle()
 		var rect:=speed.get_global_rect()
+		var room:float=speed.size.x-speed.get_theme_stylebox("normal").get_minimum_size().x
+		for word in speed.text.replace("\n"," ").split(" ",false):
+			check(speed.get_theme_font("font").get_string_size(word,HORIZONTAL_ALIGNMENT_LEFT,-1,speed.get_theme_font_size("font_size")).x<=room+.5,"the speed word '"+word+"' is not broken "+stamp)
 		check(speed.is_visible_in_tree(),"the speed control shows "+stamp)
 		check(rect.size.y>=game.ui_touch_height-.5 and rect.size.x>=game.ui_touch_height-.5,"the speed control is at least a touch target "+stamp+" "+str(rect.size))
 		check(not rect.intersects(pause.get_global_rect()),"the speed control does not cover the pause plate "+stamp)

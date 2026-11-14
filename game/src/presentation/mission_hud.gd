@@ -480,8 +480,10 @@ func layout(bounds:Vector2,h:float):
   host.advanced_button.position.x=12
  # WP-120: the speed control sits against the pause plate, on its inner side, with the plate's height.
  var speed_gap=8.
- host.speed_button.show();host.speed_button.size=Vector2(bw,bh)
- host.speed_button.position=Vector2(host.pause_button.position.x+(-bw-speed_gap if host.pause_button.position.x>bounds.x/2. else bw+speed_gap),12)
+ # The control is a touch target wide (wider only as its widest word needs) so that it takes little of the header.
+ var speed_width=_speed_width(font)
+ host.speed_button.show();host.speed_button.custom_minimum_size=Vector2(speed_width,bh);host.speed_button.size=Vector2(speed_width,bh)
+ host.speed_button.position=Vector2(host.pause_button.position.x+(-speed_width-speed_gap if host.pause_button.position.x>bounds.x/2. else bw+speed_gap),12)
  var line_height=ceili(intent.get_theme_font("font").get_height(font))
  intent.position=Vector2(16,bounds.y-line_height*2-14);intent.size=Vector2(bounds.x-32,line_height*2+8);intent.add_theme_font_size_override("font_size",font);intent.custom_minimum_size=Vector2(bounds.x-32,line_height*2+8)
  intent.visible=not host.advanced_orders
@@ -514,9 +516,10 @@ func layout(bounds:Vector2,h:float):
   _schedule_sheet_fit()
   close_button.position=Vector2(center.x-h*.775,minf(bounds.y-h-16,sheet.position.y+sheet.size.y+8));sheet.move_to_front();close_button.move_to_front()
  for label in [host.title_label,host.detail_label,instrument_info]:label.add_theme_font_size_override("font_size",font)
- alarm.position=Vector2(bw+32,12);alarm.size=Vector2(maxf(1,bounds.x-h*6.*text_scale-64),h)
+ alarm.position=Vector2(bw+32,12);alarm.size=Vector2(maxf(1,bounds.x-h*6.*text_scale-64),h);alarm.add_theme_font_size_override("font_size",font)
  # WP-120: the alarm lane starts after the speed control when that control is on the alarm's side (the plate at the left).
- if host.speed_button.position.x<bounds.x/2.:alarm.position.x+=bw+speed_gap;alarm.size.x=maxf(1.,alarm.size.x-bw-speed_gap);alarm.add_theme_font_size_override("font_size",font)
+ if host.speed_button.position.x<bounds.x/2.:
+  alarm.position.x+=speed_width+speed_gap;alarm.size.x=maxf(1.,alarm.size.x-speed_width-speed_gap)
  host.pause_button.move_to_front();alarm.move_to_front();refresh();queue_redraw()
 # Measure the Label's resolved wrapping, rather than a separate Font estimate.
 # Its complete status grows upward; the chart reserves the space beside it.
@@ -897,8 +900,16 @@ func plate(b:Button,role:String):
  b.add_theme_constant_override("outline_size",0 if role==UiStyle.MAIN else 3)
 # The pause control's hit area always covers its whole wrapped label, so a tap on the
 # visible RESUME line is never lost to the chart below it.
-# WP-120: the speed control's words and plate; the plate is the pause plate's width and at least its height
-# (it grows only if the words need more).
+# WP-120: the speed control is one touch height wide, or as wide as the widest word it can show needs (every word
+# stays whole: the wrapping is between words). Its text size is the layout's text size.
+func _speed_width(px:int)->float:
+ var b:Button=host.speed_button
+ var font=b.get_theme_font("font");var margin=b.get_theme_stylebox("normal").get_minimum_size().x
+ var widest=0.
+ for text in [Words.speed_text(1.,false),Words.speed_text(4.,false),Words.speed_text(1.,true)]:
+  for word in text.replace("\n"," ").split(" ",false):widest=maxf(widest,font.get_string_size(word,HORIZONTAL_ALIGNMENT_LEFT,-1,px).x)
+ return maxf(touch_height,ceilf(widest+margin+6.))
+# The words and plate; the plate is at least the pause plate's height (it grows only if the words need more).
 func _sync_speed_button():
  var b:Button=host.speed_button
  var hunted:bool=preload("res://src/time_speed.gd").hunting(host.sim)

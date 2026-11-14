@@ -354,6 +354,17 @@ static func fit(hud)->void:
     button.set_meta("hunt_meter_fitted",true)
     return
  # Never paint over a received threat when a crowded viewport has no slot.
+ # WP-120: the Hunt chip keeps its place on a screen with no other room: the speed control (next to the pause
+ # plate) steps aside, and shows again the next time the layout is made (mission_hud.layout).
+ var speed=hud.host.speed_button
+ if speed!=null and speed.is_visible_in_tree():
+  var speed_rect=Rect2(speed.global_position-hud.global_position,speed.size)
+  var others=obstacles.filter(func(other):return not other.is_equal_approx(speed_rect))
+  for point in candidates:
+   var rect=Rect2(point,body)
+   if area.encloses(rect) and not others.any(func(other):return rect.intersects(other)):
+    speed.hide();button.position=point;button.set_meta("hunt_meter_fitted",true)
+    return
  button.hide()
  button.set_meta("hunt_meter_fitted",false)
 static func schedule_fit(hud)->void:
