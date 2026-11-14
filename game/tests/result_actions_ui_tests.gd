@@ -93,7 +93,7 @@ func career_case(shape:Vector2i,scale:float)->void:
   pinned(career,"career_board",tag+" (career lost)")
   var card=labels_text(career.panel_box)
   check(card.contains("Field tools refill at the next launch") and not card.contains("Spent:"),"the card says tools refill, and does not call their use a cost"+tag)
-  check(card.contains("never records a hull below") and card.contains("next dive starts with that hull") and not card.contains("lowest this difficulty records after a loss"),"the card says why the hull is recorded as it is"+tag)
+  check(card.contains("the lowest hull this difficulty allows") and card.contains("The next dive starts at") and not card.contains("lowest this difficulty records after a loss"),"the card says why the hull is recorded as it is"+tag)
   check(card.contains(ResultText.CAREER_PHOTOS_LOST),"a lost contract says its photographs are lost and none are kept"+tag)
  await finish(game,path)
 func words_case()->void:
@@ -106,12 +106,12 @@ func words_case()->void:
  check(FileAccess.get_file_as_string("res://src/presentation/expedition_operations.gd").contains("retry_label(main,true)"),"the Expedition result's retry button reads that label")
  cover.queue_free();await settle()
  # (2) Photo pay says what it is made of.
- check(PayTable.TEXT.head.contains("no scrap or cells") and PayTable.TEXT.head.contains("intel"),"photo pay says it pays intel, not scrap or cells: "+PayTable.TEXT.head)
+ check(PayTable.TEXT.head.contains("not scrap or cells") and PayTable.TEXT.head.contains("intel"),"photo pay says it pays intel, not scrap or cells: "+PayTable.TEXT.head)
  check(PayTable.TEXT.record.contains("frame quality"),"each photo pay row names its figure as frame quality")
  check(PayTable.TEXT.unused.contains("%s") and PayTable.TEXT.credited.contains("%d%%"),"intel with no use says so; credited intel gives its figure")
  # (3) The words the Career card uses.
  check(Words.career_ledger("2 EMP","nothing","x")[1]=="Used: 2 EMP. Field tools refill at the next launch.","the Career ledger's second line is the tool use and the refill")
- check(DamageLog.FLOOR_LINE_LOST.contains("never records a hull below"),"the hull floor line states the floor as a rule of the difficulty")
+ check(DamageLog.FLOOR_LINE_LOST.contains("the lowest hull this difficulty allows"),"the hull floor line states the floor as a rule of the difficulty")
 func run():
  await words_case()
  for shape in [Vector2i(2520,1080),Vector2i(2184,1968)]:

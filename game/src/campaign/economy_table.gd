@@ -7,6 +7,8 @@ const Names=preload("res://src/names.gd")
 static var enabled=true
 const RES=["scrap","cells","alloy"]
 const NAMES={"scrap":"SCRAP","cells":"CELLS","alloy":"ALLOY"}
+# WP-109 (root): the name for an amount of one ("1 CELL", not "1 CELLS"); scrap and alloy read the same either way.
+const NAMES_ONE={"cells":"CELL"}
 const ORDER=["standard","accessible","survival"]
 # cost: price multiplier; income: salvage multiplier; floor: lowest condition a dive can leave
 # a craft at; replenish: supplies refill and craft mend between operations.

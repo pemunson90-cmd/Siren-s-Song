@@ -44,7 +44,7 @@ static func fmt(cost:Dictionary)->String:
  if cost.is_empty():return "FREE"
  var parts=[]
  for key in RES:
-  if cost.get(key,0)>0:parts.append("%d %s"%[cost[key],Table.NAMES[key]])
+  if cost.get(key,0)>0:parts.append("%d %s"%[cost[key],Table.NAMES_ONE.get(key,Table.NAMES[key]) if cost[key]==1 else Table.NAMES[key]])
  return " + ".join(parts)
 static func can_pay(e:Dictionary,cost:Dictionary)->bool:
  for key in cost:

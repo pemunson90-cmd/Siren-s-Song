@@ -8,10 +8,10 @@ extends RefCounted
 static var enabled:=true
 const TEXT:={
 	# WP-109: the head says what the pay is (intel, never scrap or cells) and each row gives its figures: frame quality, intel value, the needed value.
-	"head":"PHOTO PAY · film pays no scrap or cells; it adds intel to the archive",
+	"head":"PHOTO PAY · film earns intel for the archive, not scrap or cells",
 	"record":"%s · grade %s %d%% frame quality · %s",
 	"credited":"INTEL %s %d%%",
-	"unused":"NO CAMERA RESEARCH · %s opens none and adds no returned-film chart mark; it stays in the archive",
+	"unused":"%s · kept in the archive; it opens no camera research and marks no chart",
 	"kept":"%s %d%% · archive already holds %d%% from dive %d",
 	"none":"no intel detail on film",
 	"cut":"CAMERA RESEARCH · %s cut from %s %d%%",

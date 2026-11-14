@@ -21,9 +21,9 @@ const CAUSE_BURST="an Interceptor burst"
 const CAUSE_FIELD="a Warden pressure field"
 const CAUSE_UNKNOWN="a cause the game does not record"
 # WP-109: the floor is the lowest hull this difficulty records after ANY dive (Economy.settle), not only after a loss; the line says what the next dive starts with.
-const FLOOR_LINE="Quietus came home at %d%% hull. This difficulty never records a hull below %d%%, so Quietus is recorded at %d%% and the next dive starts with that hull."
-const FLOOR_LINE_LOST="Quietus was lost at %d%% hull. It is brought back, and this difficulty never records a hull below %d%%, so Quietus is recorded at %d%% and the next dive starts with that hull."
-const FLOOR_LINE_ENDED="Quietus ended the dive at %d%% hull. This difficulty never records a hull below %d%%, so Quietus is recorded at %d%% and the next dive starts with that hull."
+const FLOOR_LINE="Quietus came home at %d%% hull and is raised to %d%%, the lowest hull this difficulty allows. The next dive starts at %d%%."
+const FLOOR_LINE_LOST="Quietus was lost at %d%% hull. It is brought back at %d%%, the lowest hull this difficulty allows. The next dive starts at %d%%."
+const FLOOR_LINE_ENDED="Quietus ended the dive at %d%% hull and is raised to %d%%, the lowest hull this difficulty allows. The next dive starts at %d%%."
 const REPAIR_LINE="Quietus hull is recorded at %d%%. It stays that way until repaired: open SUPPLIES and choose REPAIR QUIETUS HULL (%s) before the next dive."
 const REPAIR_FREE="Quietus hull is recorded at %d%%. It stays that way until repaired in SUPPLIES (REPAIR QUIETUS HULL)."
 var sim
