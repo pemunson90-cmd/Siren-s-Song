@@ -135,7 +135,7 @@ static func _alive(sim)->Array:
 static func observe(sim)->Array:
 	if not Table.enabled or sim==null:return []
 	if _state.get("sim",-1)!=sim.get_instance_id() or not is_same(_state.get("mission"),sim.mission) or sim.elapsed<float(_state.get("clock",-1.0)):
-		_state={"sim":sim.get_instance_id(),"mission":sim.mission,"clock":sim.elapsed,"alive":_alive(sim),"exposing":_exposing(sim),"rows":[]}
+		_state={"sim":sim.get_instance_id(),"mission":sim.mission,"clock":sim.elapsed,"alive":_alive(sim),"exposing":_exposing(sim),"rows":[],"lost":[]}
 		return []
 	_state.clock=sim.elapsed
 	var alive:Array=_alive(sim);var fresh:Array=[]
@@ -149,6 +149,8 @@ static func observe(sim)->Array:
 			row["exposing"]=(was.size()>i and was[i]) or (now.size()>i and now[i])
 			_annotate_message(sim,row)
 			_state.rows.append(row);fresh.append(row)
+			# WP-119: the result needs the cause after the loss card has expired.
+			_state.lost.append({"name":str(sim.units[i].get("name","DRONE")),"bearing":row.bearing,"siren":row.siren,"label":source_label(sim,int(row.siren)).trim_prefix(" · ") if int(row.siren)>=0 else "","battery":str(row.cause)==Table.TEXT.loss_battery})
 	_state.alive=alive;_state.exposing=_exposing(sim)
 	_state.rows=_state.rows.filter(func(r):return sim.elapsed-float(r.time)<=Table.LOSS_SECONDS)
 	return fresh
@@ -156,6 +158,11 @@ static func observe(sim)->Array:
 static func loss_rows(sim)->Array:
 	if not Table.enabled or sim==null or _state.get("sim",-1)!=sim.get_instance_id() or not is_same(_state.get("mission"),sim.mission):return []
 	return _state.rows.filter(func(r):return sim.elapsed-float(r.time)<=Table.LOSS_SECONDS and sim.elapsed>=float(r.time))
+# WP-119: every drone this dive lost, with its cause, for the result screens (empty for any other dive).
+# Each row: name ("DRONE A"), bearing (degrees from the drone to the firing Siren, -1 when none), label ("S1 PATROL" or ""), battery (true when it ran flat).
+static func dive_losses(sim)->Array:
+	if not Table.enabled or sim==null or _state.get("sim",-1)!=sim.get_instance_id() or not is_same(_state.get("mission"),sim.mission):return []
+	return _state.get("lost",[]).duplicate(true)
 static func _loss_event(sim,at:Vector2):
 	for e in sim.events:
 		if e is Dictionary and e.get("type","")=="loss" and e.get("pos",Vector2.INF) is Vector2 and e.pos.distance_to(at)<=Table.EVENT_MATCH:return e

@@ -65,6 +65,7 @@ static func debrief(main)->bool:
   var plant=preload("res://src/presentation/warning_chain_view.gd").debrief_text(main.sim)
   if not plant.is_empty():main._menu_text(plant,19)
   preload("res://src/presentation/module_recovery_view.gd").debrief(main)
+  preload("res://src/presentation/economy_panel.gd").debrief_block(main) # WP-119: earned and spent, before the photograph
   var grade=preload("res://src/simulation/recon_consequences.gd").grade(mission.get("objectives",[]))
   if grade.photos>0:main._menu_text("INTEL PHOTO GRADE %s · %d %s · average %d%%, sharpest %d%%"%[grade.grade,grade.photos,"record" if grade.photos==1 else "records",roundi(grade.quality*100),roundi(grade.best*100)],20)
   if grade.photos>0:preload("res://src/presentation/flow/photo_review.gd").show_best_frame(main)
@@ -89,6 +90,7 @@ static func debrief(main)->bool:
   lift_at=main.panel_box.get_child_count()
   main._menu_text(preload("res://src/presentation/loss_summary.gd").line(main.sim),17)
   preload("res://src/presentation/death_cause/cause_log.gd").debrief(main)
+  preload("res://src/presentation/economy_panel.gd").debrief_block(main) # WP-119
   preload("res://src/presentation/damage_log/damage_log.gd").debrief(main)
   main._menu_text("Field observations remain in the archive. This operation grants no new recovered fitting, continuation or committed history.",17)
   preload("res://src/presentation/module_recovery_view.gd").debrief(main)

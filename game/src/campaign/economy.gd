@@ -207,8 +207,9 @@ static func lock_frames(e:Dictionary,expedition:Dictionary,fit:Dictionary)->Dict
 # ---- settlement after a dive -------------------------------------------------
 # facts: outcome, hull, alive [bool,bool], first (first recovery), recovered (modules
 # brought home), artifact (new alien material), key (once-only guard).
-static func settle(e:Dictionary,facts:Dictionary)->void:
- if e.settled==facts.key:return
+static func settle(e:Dictionary,facts:Dictionary)->Dictionary:
+ # WP-119: returns the income the dive credited (after the stock cap), so a result can state it; {} when this dive was already settled.
+ if e.settled==facts.key:return {}
  e.settled=facts.key
  Options.dock(e)
  Losses.settle(e,facts)
@@ -221,10 +222,11 @@ static func settle(e:Dictionary,facts:Dictionary)->void:
  # The caller supplies the physical receipt; replay and failed dives pay none.
  if facts.outcome=="won" and facts.first and facts.get("blackwater_handoff",false):gain.cells+=2
  if facts.artifact:gain.alloy+=Table.INCOME.artifact_alloy
- var income={}
+ var income={};var applied={}
  for key in gain:
   var n=int(ceil(gain[key]*preset(e).income*Options.multiplier(e,"income")-0.0001)) if gain[key]>0 else 0
-  income[key]=n;e.stock[key]=mini(Table.CAP,e.stock[key]+n)
+  var held:int=e.stock[key]
+  income[key]=n;e.stock[key]=mini(Table.CAP,held+n);applied[key]=e.stock[key]-held
  var floor_cond=preset(e).floor
  e.cond.quietus=maxi(floor_cond,mini(e.cond.quietus,roundi(facts.hull)))
  for i in 2:
@@ -233,6 +235,7 @@ static func settle(e:Dictionary,facts:Dictionary)->void:
  e.report="LAST DIVE · %s\nSALVAGE RECOVERED · %s"%[facts.outcome.to_upper(),fmt(income).replace("FREE","NONE")]
  e.report+="\n"+"\n".join(Losses.lines(e,true)) if not Losses.lines(e,true).is_empty() else ""
  if preset(e).replenish:refill(e)
+ return applied
 static func refill(e:Dictionary)->void:
  for key in RES:e.stock[key]=maxi(e.stock[key],Table.REFILL[key])
  for target in TARGETS:e.cond[target]=100
