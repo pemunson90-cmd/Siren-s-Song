@@ -95,7 +95,10 @@ Second sweep (13 Nov, read on resume): every one of the 245 registered suites ha
 
 ## In flight
 
-- No helper running. WP-56 to WP-74 merged (rows 86 to 103). Fifth full sweep running on 519185e4 (started about 01:10, 14 Nov): read it first (see HANDOFF section 3).
+- WP-75 to WP-81 merged and pushed (rows 104 to 111; head 91702f14). The fifth sweep (519185e4) found two guard tests not updated for STOP EXPOSURE (fixed, row 111); `save_profiles_ui_tests` failed the same way in sweeps 4 and 5 (its `capture` saves a PNG under the dummy renderer): fix the test to skip the capture when headless.
+- Sixth full sweep running on 91702f14 (started about 02:55, 14 Nov; result `scratchpad\sweep6.txt`). Core 856/0 on 91702f14.
+- Helpers running: WP-82 (ROUTE MAP gives the board the height on the cover screen; Operations shows RESUME DIVE alone while a dive is in flight, one TITLE button) and WP-83 (the dive's bottom message strip: at most two lines at every text size, no repeated instruction).
+- After the sweep: the fifth blind critic round (one kit per critic, slot a), then merge WP-82/83.
 
 The resume command for an Opus session is `/siren-s-start-opus`; `/siren-s-start-fable` is the same run on the Fable model.
 
@@ -112,8 +115,11 @@ The WP-55 helper was created in `repos\Siren-s-Song` (the clone that must not be
 - The fitting cards and scale bars of WP-41: a new campaign has none until operation 1 is recovered.
 - Trial rules 2 to 6 in play (rule 1 seen in kit 36); the widened pause plate at large text.
 - The Career board, the Expedition operation menu, the damaged-start briefing line, the "short by" lines on Supplies.
+- Seen on 14 Nov (kits 75 and 91, cover screen): the chart preview on the region card and briefing, the two-line UNDO chip (normal text only), the archive's "STILL TO PHOTOGRAPH" rows and the honest new-campaign ledger, the Route Map's region name and tags, the new wheel centre, Back in a dive (wheel closes, then Operations with RESUME DIVE). Not seen: any of these on the inner screen or at 150% text; the CHOOSE TARGET list for overlapping craft; WHICH CRAFT?; the chart labels near the camera panel.
 
 ## Queue, in order
+
+**State on 14 Nov, 03:00 (read this before the older lists below).** Done since those lists were written: B F3 region names and tags (row 107), B F5 chart preview (104), B F14 UNDO and craft chip (105), map labels clipped ("HUTTER REACH") and overlapping craft opening FLEET (108), B F8 Back consistency (109). Found already done: locked challenges show their rule (102), the Expedition Hunt worded as a ceiling (99), the lost-drone photo line (97), "not ready" reasons (98). In helpers now: WP-82, WP-83. Still open and small: the order wheel's tether ring is drawn under segment labels; Escape in a dive (desktop) still goes straight to Operations (`dive_input.gd`; make it call `back_levels.dive`); a Career dive's Back goes to the Career board (resumable; `career_tests` pins it). Next big step: the fifth blind critic round, then rank again.
 
 1. **Merge WP-61 and WP-62** (one at a time; radial hud and HUD words after each), look at both in a kit (cover and inner), rows 90 and 91, then the **full sweep** (`scripts\toolchain\win\full-sweep.ps1`; check no other sweep is running first: two ran at once on 13 Nov).
 2. **Fourth blind critic round** (running 13 Nov evening: A on kit 42, B on kit 43, C on kit 44). **One kit per critic, each on slot a**: in the first attempt critic B sent 33 commands to slot c (critic C's game) despite `--slot` being required; B's and C's results were discarded and both rerun on their own kits. Ask for captures of everything under "Not yet seen".
