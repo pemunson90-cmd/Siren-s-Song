@@ -19,6 +19,8 @@ const MENU_COLUMN=800.
 const MENU_MARGIN=48.
 const MENU_COLUMN_GAP=24.
 const MENU_PANEL_PADDING=56.
+# The gap between the budget bars of one craft (POWER, CARGO, NOISE, ENDURANCE), across and between rows.
+const BAR_STRIP_GAP=12.
 static func hub_wide(viewport_size: Vector2,touch_h: float,text_scale: float=1.) -> bool:
 	var column_min=maxf(640.,touch_h*7.)
 	if viewport_size.x>=viewport_size.y*1.6 and viewport_size.x-MENU_MARGIN>=2.*column_min+MENU_COLUMN_GAP+MENU_PANEL_PADDING:return true
@@ -57,6 +59,18 @@ static func menu_column_width(viewport_size: Vector2,wide: bool,touch_h: float) 
 static func menu_width(viewport_size: Vector2,wide: bool,touch_h: float) -> float:
 	if wide: return minf(2.*MENU_COLUMN+MENU_COLUMN_GAP+MENU_PANEL_PADDING,viewport_size.x-MENU_MARGIN)
 	return minf(reading_column(viewport_size,touch_h),viewport_size.x-MENU_MARGIN)
+# WP-93: a button that wraps its text breaks only between words. Its width is never less than its longest word
+# and the button's own padding, at whatever font size it carries now (Main._button calls this on every theme change).
+static func keep_words_whole(button:Button)->void:
+	if button.autowrap_mode==TextServer.AUTOWRAP_OFF or button.text.is_empty():return
+	# Buttons that share a row split its width between them, so a row of several keeps its own wrapping.
+	var row=button.get_parent()
+	if row is HBoxContainer and row.get_children().filter(func(c):return c is Button).size()>1:return
+	var font:Font=button.get_theme_font("font");var font_px:int=button.get_theme_font_size("font_size")
+	var widest:=0.
+	for word in button.text.replace("\n"," ").split(" ",false):widest=maxf(widest,font.get_string_size(word,HORIZONTAL_ALIGNMENT_LEFT,-1,font_px).x)
+	var need:=ceilf(widest+button.get_theme_stylebox("normal").get_minimum_size().x)
+	if need>button.custom_minimum_size.x:button.custom_minimum_size.x=need
 # Hub rows are touch targets at the 48dp gate; the 56dp touch height is the roomy default for other screens.
 static func dense_height(touch_h: float) -> float:
 	return maxf(48.,roundf(touch_h*48./56.))

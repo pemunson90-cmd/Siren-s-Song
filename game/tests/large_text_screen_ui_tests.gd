@@ -22,6 +22,28 @@ func clipped(node)->Array:
   if control is Label and (control.clip_text or control.text_overrun_behavior!=TextServer.OVERRUN_NO_TRIMMING) and control.get_minimum_size().x>r.size.x+1.:out.append("trimmed '"+control.text.left(24)+"'")
   if control is Button and (control.clip_text or control.text_overrun_behavior!=TextServer.OVERRUN_NO_TRIMMING) and control.get_minimum_size().x>r.size.x+1.:out.append("trimmed '"+control.text.left(24)+"'")
  return out
+# WP-93: nothing is drawn past the left or right edge of the screen, and the menu panel is never wider than it.
+func off_screen(node)->Array:
+ var out:Array=[];var screen:=Rect2(Vector2.ZERO,node.size)
+ var panel=node.get("menu")
+ if panel is Control and panel.visible and (panel.get_global_rect().position.x<-1. or panel.get_global_rect().end.x>screen.end.x+1.):out.append("menu panel "+str(panel.get_global_rect()))
+ for control in node.find_children("*","Control",true,false):
+  if not control.is_visible_in_tree() or not (control is Label or control is Button or control.has_meta("bar_label")):continue
+  var r=control.get_global_rect()
+  if r.size.x>0. and (r.position.x<-1. or r.end.x>screen.end.x+1.):out.append("off screen "+control.name+" '"+str(control.get("text")).left(24)+"' "+str(r))
+ return out
+# WP-93: a button that wraps its text breaks only between words, never inside one.
+func word_breaks(node)->Array:
+ var out:Array=[]
+ for b in node.find_children("*","Button",true,false):
+  if not b.is_visible_in_tree() or b.text.is_empty() or b is CheckBox or b is OptionButton:continue
+  # Buttons that share one row (hub links, the rack tabs) divide its width and keep their own wrapping.
+  if b.get_parent() is HBoxContainer and b.get_parent().get_children().filter(func(c):return c is Button).size()>1:continue
+  var room:float=b.size.x-b.get_theme_stylebox("normal").get_minimum_size().x
+  var font:Font=b.get_theme_font("font");var size:int=b.get_theme_font_size("font_size")
+  for word in b.text.replace("\n"," ").split(" ",false):
+   if font.get_string_size(word,HORIZONTAL_ALIGNMENT_LEFT,-1,size).x>room+1.:out.append("word '"+word+"' broken in '"+b.text.left(24).replace("\n"," ")+"'");break
+ return out
 func short_buttons(node)->Array:
  var out:Array=[]
  for b in node.find_children("*","Button",true,false):
@@ -29,7 +51,7 @@ func short_buttons(node)->Array:
  return out
 # `columns` is 2 when the screen must keep two columns at this text size, 1 when it must stay one, 0 when either will do.
 func audit(node,label:String,columns_wanted:int=0)->void:
- var problems:Array=clipped(node);problems.append_array(short_buttons(node))
+ var problems:Array=clipped(node);problems.append_array(short_buttons(node));problems.append_array(off_screen(node));problems.append_array(word_breaks(node))
  var width=0.
  var panel=node.get("panel_box") if node.get("panel_box")!=null else null
  if panel!=null:width=panel.get_global_rect().size.x
@@ -59,6 +81,13 @@ func game_screens(shape:Vector2i,scale:float,two:bool)->void:
  game.set_meta("ops_home_details_open",false)
  for index in [0,1]:
   game._briefing(index);await settle();await audit(game,"briefing %02d %s"%[index+1,tag],2 if two else 1)
+  # WP-93: the briefing with LOADOUT DETAILS open (HIDE LOADOUT DETAILS showing) stays inside the screen.
+  var fold=game.menu.find_children("*","Button",true,false).filter(func(b):return b.get_meta("action","")=="fit_fold")
+  if not fold.is_empty():
+   if fold[0].text.begins_with("SHOW"):fold[0].pressed.emit();await settle();await settle()
+   var opened=game.menu.find_children("*","Button",true,false).any(func(b):return b.text.begins_with("HIDE LOADOUT"))
+   check(opened,"briefing %02d %s LOADOUT DETAILS opens"%[index+1,tag])
+   await audit(game,"briefing %02d LOADOUT DETAILS open %s"%[index+1,tag],2 if two else 1)
  game._show_fittings();await settle();await audit(game,"FITTINGS "+tag,2 if two else 1)
  game._show_economy();await settle();await audit(game,"SUPPLIES "+tag,2 if two else 1)
  game._show_campaign();await settle()

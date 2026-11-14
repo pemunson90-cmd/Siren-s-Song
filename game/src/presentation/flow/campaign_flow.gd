@@ -191,9 +191,25 @@ static func briefing(host, index: int) -> void:
 		var columns=HBoxContainer.new();columns.add_theme_constant_override("separation",int(preload("res://src/presentation/layout_metrics.gd").MENU_COLUMN_GAP));host.panel_box.add_child(columns)
 		var left=OpsHome.column(14);var right=OpsHome.column(14);columns.add_child(left);columns.add_child(right)
 		for i in nodes.size():nodes[i].reparent(left if i<split else right)
+		# WP-93: each column holds what its half of the panel holds, so the panel never outgrows the screen.
+		var room=preload("res://src/presentation/layout_metrics.gd").menu_column_width(host.size,true,host.ui_touch_height)
+		for column in [left,right]:preload("res://src/presentation/equipment_context.gd").fit_to_column(column,room)
 	if compact:preload("res://src/campaign/onboarding2/briefing_layout.gd").attach(host)
 	preload("res://src/presentation/arcs/arc_card.gd").intro(host,index)
 	host.call_deferred("_layout")
+	(func():fit_footer(host,index)).call_deferred()
+
+# WP-93: after the layout has set the font size, a footer whose buttons need more than the panel holds (a phone's
+# tall touch rows) gives up its fixed two-line labels and lets each button wrap between words.
+static func fit_footer(host,index:int)->void:
+	if not is_instance_valid(host) or host.screen!="briefing" or not host.menu_footer.visible:return
+	var Metrics=preload("res://src/presentation/layout_metrics.gd")
+	var room=Metrics.menu_width(host.size,host.get_meta("hub_wide",false),host.ui_touch_height)-Metrics.MENU_PANEL_PADDING
+	if host.menu_footer.get_combined_minimum_size().x<=room:return
+	for button in host.menu_footer.get_children():
+		if not button is Button:continue
+		button.text=button.text.replace("\n"," ");button.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+		button.custom_minimum_size.x=0
 
 static func launch_now(host,index:int)->void:
 	PhotoReview.retain_abandoned(host)
