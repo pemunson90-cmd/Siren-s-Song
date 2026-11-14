@@ -32,8 +32,9 @@ func home_case(shape, recovered, scale):
  if next!=null:
   check(game.scroll.get_global_rect().encloses(next.get_global_rect()),"next operation requires no scrolling")
   check(next.size.y>=Metrics.dense_height(game.ui_touch_height)-1.,"next operation touch height (48dp row)")
- var wide_shape=shape!=Vector2i(2184,1968)
- check(game.get_meta("hub_wide",false)==wide_shape,"landscape shapes use two columns, the tall inner screen one")
+ # The inner screen (near square) uses two columns at normal text and one at 150% text, where a card column would not fit.
+ var wide_shape=shape!=Vector2i(2184,1968) or scale==1.
+ check(game.get_meta("hub_wide",false)==wide_shape,"landscape shapes and the inner screen at normal text use two columns, the inner screen at large text one")
  check(wide_shape==game.panel_box.get_children().any(func(n):return n is HBoxContainer and n.get_child_count()==2 and n.get_child(0) is VBoxContainer and n.get_child(1) is VBoxContainer),"the hub builds a column pair only when wide")
  # Shortcuts sit below Operations in one column; with two columns they are on the first screen.
  for id in ["route_map","fittings"]:

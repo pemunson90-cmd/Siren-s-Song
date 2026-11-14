@@ -246,7 +246,7 @@ func _layout(cancel_gesture:bool=true) -> void:
 		ocean.ui_blocked_rects=mission_hud.occupied_rects().map(func(r):return Rect2(r.position-ocean.global_position,r.size))
 	if menu!=null:
 		# A turned or resized screen rebuilds the hub when its one-or-two column choice changes.
-		if screen in ["menu","briefing"] and has_meta("hub_wide") and get_meta("hub_wide")!=preload("res://src/presentation/layout_metrics.gd").hub_wide(size,h):
+		if screen in ["menu","briefing"] and has_meta("hub_wide") and get_meta("hub_wide")!=preload("res://src/presentation/layout_metrics.gd").hub_wide(size,h,FrontendSettings.text_scale()):
 			# The hub takes no argument; only the briefing is rebuilt for an operation index.
 			if screen=="menu": call_deferred("_show_campaign")
 			else: call_deferred("_briefing",int(get_meta("onboard2_fit_index",0)))

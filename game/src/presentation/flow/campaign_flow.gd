@@ -179,7 +179,7 @@ static func briefing(host, index: int) -> void:
 	if index>0 and not host._campaign_pristine() and not EconomyPanel.briefing_line(host).is_empty():host._button(host.menu_footer,"COSTS AND\nRETRY",func():preload("res://src/presentation/launch_summary.gd").show(host,index),"launch_costs")
 	host.menu_footer.show()
 	# Wide landscape screens: facts and orders on the left, loadout controls on the right.
-	var wide=preload("res://src/presentation/layout_metrics.gd").hub_wide(host.size,host.ui_touch_height)
+	var wide=preload("res://src/presentation/layout_metrics.gd").hub_wide(host.size,host.ui_touch_height,preload("res://src/presentation/frontend/frontend_settings.gd").text_scale())
 	host.set_meta("hub_wide",wide)
 	# The compact (029) briefings already run full width on the cover screen; only the opening briefings split.
 	if wide and not compact:
