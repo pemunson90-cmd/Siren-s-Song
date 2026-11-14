@@ -6,7 +6,7 @@ const BUTTON_TEXT="FIELD MANUAL\nHow to move, stay quiet, use drones and take ph
 const OPERATION_ID="operation"
 const TOPICS=[
 	{"id":"moving","title":"MOVING","lines":[
-		"Tap the RUNNING control to pause and plan for as long as you like. Tap Quietus or a drone, then tap open water to place a straight leg. Nothing moves until you tap the PAUSED control to resume.",
+		"Tap || PAUSE (top left) to stop time and plan for as long as you like. Tap Quietus or a drone, then tap open water to place a straight leg. Nothing moves until you tap ▶ RUN.",
 		"A craft does not steer around rock. A red leg crosses charted rock and can crash. Tap the marker a second time to send a route across rock anyway.",
 		"A craft that already has a route asks first: REPLACE ROUTE swaps it, ADD TO ROUTE extends it.",
 		"The switch STOP AT EACH NEW POINT decides whether the craft halts at added points or keeps moving through them.",
@@ -16,7 +16,7 @@ const TOPICS=[
 		"Speed makes noise. Fast movement is heard from farther away.",
 		"GO SILENT is slower and quieter: Sirens see Quietus from 290m, or from 180m when it runs silent. GO LOUD gives the speed back. The segment names what a tap does and its small line says how things stand; tap it once to read the cost, tap again to confirm.",
 		"A Siren that hears noise goes to that spot, then searches. When one notices you, or starts to lock on, time pauses and shows its bearing and the seconds left.",
-		"Break line of sight, slow down or GO SILENT, then tap the PAUSED control to resume.",
+		"Break line of sight, slow down or GO SILENT, then tap ▶ RUN.",
 		"Cover blocks sonar, enemy sight and torpedoes. Keep rock between you and a Siren.",
 	]},
 	{"id":"drones","title":"DRONES","lines":[
@@ -48,7 +48,7 @@ const TOPICS=[
 	{"id":"home","title":"GOING HOME","lines":[
 		"Return Quietus to its extraction point once the records are secured.",
 		"Quietus carries limited life support (O₂), and some actions spend it. Plan your way back before you spend it.",
-		"The RUNNING / PAUSED control stays available all the way home.",
+		"The ▶ RUN / || PAUSE control stays available all the way home.",
 		"The game also pauses when a craft reaches the end of its route, and time stands still while the command wheel, a status sheet or the FLEET panel is open.",
 	]},
 	{"id":OPERATION_ID,"title":"THIS OPERATION","lines":[]},
