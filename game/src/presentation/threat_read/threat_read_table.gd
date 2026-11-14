@@ -66,6 +66,8 @@ const TEXT={
 	"moves":"Or: %s",
 	"move_count":"%s ×%d",
 	"move_join":" · ",
+	# Shown on the card once a DECOY button has armed the placement (the chart then waits for a point in reach).
+	"decoy_aim":"Tap the water inside the ring to drop the decoy.",
 	"source":" · S%d %s",
 	"unseen":" · UNSEEN SIREN",
 	"pause":"AUTO PAUSE: %s",
