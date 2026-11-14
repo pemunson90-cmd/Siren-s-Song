@@ -15,7 +15,15 @@ const Quality=preload("res://src/presentation/quality/quality_table.gd")
 const Shutter=preload("res://src/presentation/photo_shutter/shutter.gd")
 const ShutterTable=preload("res://src/presentation/photo_shutter/shutter_table.gd")
 const ForecastRule=preload("res://src/photo_grade/frame_forecast.gd")
+const GradeRule=preload("res://src/photo_grade/grade_on_secure.gd")
+const ThreatRead=preload("res://src/presentation/threat_read/threat_read.gd")
+const PricingTable=preload("res://src/simulation/photo_pricing/photo_pricing_table.gd")
 var shutter_rect:=Rect2()
+var stop_rect:=Rect2()
+var lock_text:=""
+var cost_text:=""
+var more_text:=""
+var more_label:Label
 var shutter_refusal:=""
 var forecast_text:=""
 var _vm:Dictionary={}
@@ -61,6 +69,9 @@ func _ready() -> void:
 	clip_contents=true; mouse_filter=Control.MOUSE_FILTER_STOP
 	footer_scroll=ScrollContainer.new();footer_scroll.horizontal_scroll_mode=ScrollContainer.SCROLL_MODE_DISABLED;add_child(footer_scroll)
 	footer_label=Label.new();footer_label.autowrap_mode=TextServer.AUTOWRAP_WORD;footer_label.size_flags_horizontal=Control.SIZE_EXPAND_FILL;footer_scroll.add_child(footer_label)
+	more_label=Label.new();more_label.mouse_filter=Control.MOUSE_FILTER_IGNORE;more_label.hide();add_child(more_label)
+	var chip:=StyleBoxFlat.new();chip.bg_color=Color(ShutterTable.COLORS.fill);chip.content_margin_left=6;chip.content_margin_right=6;more_label.add_theme_stylebox_override("normal",chip)
+	more_label.add_theme_color_override("font_color",Color(ShutterTable.COLORS.ready))
 func _process(dt: float) -> void:
 	if not Settings.reduced_motion():time+=dt
 	_vm_age+=dt;queue_redraw()
@@ -98,7 +109,7 @@ func route_input(event:InputEvent)->bool:
 	if event is InputEventMouse and event.device==InputEvent.DEVICE_ID_EMULATION:
 		if event is InputEventMouseButton and event.button_index==MOUSE_BUTTON_LEFT and event.pressed:
 			var point=event.position-global_position
-			owned_emulated_mouse=is_visible_in_tree() and (toggle_rect.has_point(point) or shutter_rect.has_point(point) or _buttons.any(func(b):return b.rect.has_point(point)))
+			owned_emulated_mouse=is_visible_in_tree() and _hit(point)
 		var owned=owned_emulated_mouse
 		if event is InputEventMouseButton and event.button_index==MOUSE_BUTTON_LEFT and not event.pressed:owned_emulated_mouse=false
 		return owned
@@ -109,10 +120,12 @@ func route_input(event:InputEvent)->bool:
 	if not press:return owned_pointers.has(id)
 	if not is_visible_in_tree():return false
 	var point=event.position-global_position
-	if not toggle_rect.has_point(point) and not shutter_rect.has_point(point) and not _buttons.any(func(b):return b.rect.has_point(point)):return false
+	if not _hit(point):return false
 	owned_pointers[id]=true
 	var local=event.duplicate();local.position=point;_gui_input(local)
 	return true
+func _hit(point:Vector2)->bool:
+	return toggle_rect.has_point(point) or shutter_rect.has_point(point) or stop_rect.has_point(point) or _buttons.any(func(b):return b.rect.has_point(point))
 func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.device==InputEvent.DEVICE_ID_EMULATION:return
 	var tap=(event is InputEventMouseButton and event.pressed and event.button_index==MOUSE_BUTTON_LEFT) or (event is InputEventScreenTouch and event.pressed)
@@ -122,6 +135,8 @@ func _gui_input(event: InputEvent) -> void:
 		compact=not compact;accept_event();queue_redraw();return
 	if shutter_rect.has_point(point):
 		Shutter.press(self);_vm_age=1.0;accept_event();return
+	if stop_rect.has_point(point):
+		Shutter.stop(self);_vm_age=1.0;accept_event();return
 	for button in _buttons:
 		if button.rect.has_point(point):
 			sim.command("frame",button.args);_vm_age=1.0;accept_event();return
@@ -148,7 +163,8 @@ func _draw_photo(t:Dictionary) -> void:
 	if op.flash:specs.append(["FLASH %d"%Photo.flash_left(sim,uid) if cfg.flash else "NO FLASH",{"flash":not cfg.flash}])
 	if cfg.mode=="tight":specs.append(["FOCUS",{"cycle_focus":true}])
 	var columns=maxi(1,floori((size.x-16)/bw))
-	var quality_top:=control_top+ceili(float(specs.size())/columns)*(bh+4)+8
+	var stop_top:=control_top+ceili(float(specs.size())/columns)*(bh+4)
+	var quality_top:=stop_top+(bh+4 if live else 0.)+8
 	var picture_top:=quality_top+fs+24
 	var picture:=Rect2(8,picture_top,size.x-16,maxf(20,size.y-picture_top-fs*2-22))
 	picture_rect=picture
@@ -168,23 +184,56 @@ func _draw_photo(t:Dictionary) -> void:
 	if not live:
 		for r in _frame.get("rows",[]):
 			if r.apparent and not r.ready and not r.why.is_empty():status="%s: %s"%[r.label,r.why];break
-	var remaining=maxf(1.,size.y-picture_top-16.)
-	picture.size.y=maxf(120.,remaining*.52)
-	picture_rect=picture
-	footer_rect=Rect2(8,picture.end.y+8,size.x-16,maxf(1.,size.y-picture.end.y-16))
-	footer_scroll.position=footer_rect.position;footer_scroll.size=footer_rect.size;footer_scroll.show()
-	var lines=[Photo.label(o),status]
 	var pricing=preload("res://src/simulation/photo_pricing/photo_pricing.gd")
 	var readout=pricing.readout(sim,uid,o)
+	var lines:Array=[Photo.label(o),status]
+	cost_text=""
 	if not readout.is_empty():
 		lines.append("FILM %d / %d"%[readout.film,readout.cap])
-		for line in readout.lines:lines.append(str(line.text))
+		var heard_prefix:String=PricingTable.TEXT.heard.get_slice("%",0)
+		for line in readout.lines:
+			# The shutter cost line is never scrolled: it is drawn in fixed lines under the text.
+			if str(line.text).begins_with(heard_prefix):cost_text=str(line.text)
+			else:lines.append(str(line.text))
 		for line in pricing.windows(sim,o,_frame):lines.append(str(line.text))
-	footer_label.text="\n".join(lines);footer_label.add_theme_font_size_override("font_size",fs)
+	lock_text=_lock_note(o,uid,t.get("ctx",{})) if not live else ""
+	var since:=time-_filed_at
+	var result:Array=_result_lines(readout) if not live and since>=0.0 and since<ShutterTable.RESULT_SECONDS and not _filed.is_empty() else []
+	var wide:=size.x-16.
+	# Fixed lines under the text: the shutter cost, and the lock note when the header cannot hold it whole.
+	var small:=maxi(12,fs-3)
+	var fixed_lines:Array=[]
+	if not lock_text.is_empty() and font.get_string_size(lock_text,HORIZONTAL_ALIGNMENT_LEFT,-1,small).x>_header_room(fs):fixed_lines.append([lock_text,ShutterTable.COLORS.refused_text])
+	if not cost_text.is_empty():fixed_lines.append([cost_text,ShutterTable.COLORS.weak])
+	var fixed_h:=0.0
+	for fixed in fixed_lines:fixed_h+=font.get_multiline_string_size(fixed[0],HORIZONTAL_ALIGNMENT_LEFT,wide,fs).y+4.
+	# On a short panel the picture gives way first, to a strip, so the text always has a few lines to scroll.
+	# When even that leaves the text under two lines, the fixed lines join the top of the scrolling text instead.
+	var remaining=maxf(1.,size.y-picture_top-16.)
+	if remaining-fixed_h-8.-fs*1.5<fs*2.2 and not fixed_lines.is_empty():
+		lines=fixed_lines.map(func(f):return f[0])+lines
+		fixed_lines=[];fixed_h=0.0
+	var picture_min:=fs*1.5 if remaining-fixed_h-8.-fs*1.5>=fs*2.2 else 20.
+	picture.size.y=clampf(remaining*.52,picture_min,maxf(picture_min,remaining-fixed_h-8.-fs*3.4))
+	picture_rect=picture
+	var footer_h:=maxf(1.,size.y-picture.end.y-16-fixed_h)
+	footer_label.text="\n".join(result+lines);footer_label.add_theme_font_size_override("font_size",fs)
+	footer_rect=Rect2(8,picture.end.y+8,wide,footer_h)
+	footer_scroll.position=footer_rect.position;footer_scroll.size=footer_rect.size;footer_scroll.show()
+	# Text that does not fit is reached by dragging it; a chip on its last line says so.
+	var content_h:=font.get_multiline_string_size(footer_label.text,HORIZONTAL_ALIGNMENT_LEFT,wide-16.,fs).y*1.08
+	more_text=ShutterTable.TEXT.more if content_h>footer_h else ""
+	more_label.visible=not more_text.is_empty()
+	if more_label.visible:
+		more_label.text=more_text;more_label.add_theme_font_size_override("font_size",small)
+		more_label.size=more_label.get_minimum_size();more_label.position=footer_rect.end-more_label.size
+	var fixed_y:=footer_rect.end.y+4.
+	for fixed in fixed_lines:
+		draw_multiline_string(font,Vector2(8,fixed_y+font.get_ascent(fs)),fixed[0],HORIZONTAL_ALIGNMENT_LEFT,wide,fs,-1,Color(fixed[1]))
+		fixed_y+=font.get_multiline_string_size(fixed[0],HORIZONTAL_ALIGNMENT_LEFT,wide,fs).y+4.
 	PhotoView.draw(self,picture,_vm,time,fs)
 	if not live and Quality.decorative_enabled("ambient_sea_life",Settings.current.get("quality",Quality.STANDARD)):_draw_ambient_sea_life(picture)
 	_draw_quality(quality_rect,fs)
-	var since:=time-_filed_at
 	if not Settings.reduced_motion() and since>=0.0 and since<4.6 and not _filed.is_empty():
 		# Shutter: the iris shuts, the lamp pops, then the plate comes up out of the dark.
 		if since<0.26:
@@ -201,11 +250,6 @@ func _draw_photo(t:Dictionary) -> void:
 			model["develop"]=clampf((since-0.26)/1.7,0,1);model["labels"]=false
 			PhotoView.draw(self,inset,model,since,maxi(10,fs-3))
 			draw_rect(inset.grow(4),Color(("e0bf83" if good else "e08a73")).darkened(0.1*(1.0-fade)),false,2)
-			var names:PackedStringArray=[]
-			for m in _filed.frame.marks:
-				if float(m.q)>0:names.append(str(m.label))
-			var cap:String=("FRAME %d FILED · %d%%"%[int(_filed.id),roundi(float(_filed.q)*100)]) if good else "UNUSABLE · NOT FILED"
-			footer_label.text+="\n"+cap+"\n"+(("RESOLVED " if not names.is_empty() else "NOTHING RESOLVED")+", ".join(names))
 	_buttons=[]
 	art_lamp_strength=float(op.lamp)
 	preload("res://src/presentation/art/art_renderer.gd").cache_lamp(art_lamp_fov,art_lamp_range,art_lamp_strength)
@@ -216,6 +260,13 @@ func _draw_photo(t:Dictionary) -> void:
 		draw_string(font,r.position+Vector2(6,bh*0.7),spec[0],HORIZONTAL_ALIGNMENT_LEFT,r.size.x-8,fs,PHOSPHOR)
 		_buttons.append({"rect":r,"args":spec[1]})
 
+	# While the exposure runs, one full-width button ends it; the controls above keep their places.
+	stop_rect=Rect2()
+	if live:
+		stop_rect=Rect2(8,stop_top,size.x-16,bh)
+		var stop_ink:=Color(ShutterTable.COLORS.refused_text)
+		draw_rect(stop_rect,Color(ShutterTable.COLORS.fill));draw_rect(stop_rect,stop_ink,false,2)
+		draw_string(font,stop_rect.position+Vector2(8,bh*.68),ShutterTable.TEXT.stop,HORIZONTAL_ALIGNMENT_LEFT,stop_rect.size.x-16,fs,stop_ink)
 	_draw_toggle()
 	# WP-10 shutter: same order as the ring's PHOTO, in the header beside FOLD.
 	shutter_rect=Rect2();shutter_refusal="";forecast_text=""
@@ -244,8 +295,37 @@ func _draw_shutter_forecast(baseline:Vector2,room:float,fs:int,o:Dictionary,hear
 	var ink:=Color(ShutterTable.COLORS.ready if guess.grade=="A" and guess.usable else ShutterTable.COLORS.weak if guess.usable else ShutterTable.COLORS.refused_text)
 	var small:=maxi(12,fs-3)
 	var text:String=grade_text+ShutterTable.TEXT.heard%roundi(heard)
+	# A hold that outlasts a Siren's lock on this craft comes first, in warning colour. The player may still shoot.
+	if not lock_text.is_empty():text=lock_text;ink=Color(ShutterTable.COLORS.refused_text)
 	forecast_text=text
 	draw_string(ThemeDB.fallback_font,baseline,fit_caption(text,room,small),HORIZONTAL_ALIGNMENT_LEFT,-1,small,ink)
+# Width of the header line beside SHUTTER, the room the forecast and the lock note share.
+func _header_room(fs:int)->float:
+	return size.x-maxf(touch_height,fs*6.)-30-Shutter.rect(size.x,touch_height,fs,Rect2(),false).size.x-8
+# "HOLD 8 s · LOCK IN 6 s" when a Siren's lock on this craft runs out before the exposure the game will ask for ends.
+func _lock_note(o:Dictionary,uid:int,ctx:Dictionary)->String:
+	if sim==null or not Shutter.offered(sim,ctx):return ""
+	for row in ThreatRead.lock_rows(sim):
+		if int(row.craft)!=uid:continue
+		var hold:float=float(sim._capture_duration(o,uid))
+		if hold>float(row.remaining):return ShutterTable.TEXT.lock_outlasts%[ceili(hold),floori(float(row.remaining))]
+	return ""
+# The filed frame's result, shown above the other text: grade, what resolved, and what a better frame needs.
+func _result_lines(readout:Dictionary)->Array:
+	var good:bool=_filed.get("usable",true)
+	var names:PackedStringArray=[]
+	for m in _filed.frame.marks:
+		if float(m.q)>0:names.append(str(m.label))
+	var q:float=float(_filed.q)
+	var lines:Array=[]
+	if not good:lines.append("UNUSABLE · NOT FILED")
+	elif GradeRule.enabled:lines.append(GradeRule.TEXT.panel_filed%[int(_filed.id),roundi(q*100),GradeRule.letter(q)])
+	else:lines.append("FRAME %d FILED · %d%%"%[int(_filed.id),roundi(q*100)])
+	lines.append(("RESOLVED " if not names.is_empty() else "NOTHING RESOLVED")+", ".join(names))
+	if good and GradeRule.enabled and GradeRule.letter(q)!="A":
+		var hint:String=ForecastRule.hint(_frame,readout)
+		if not hint.is_empty():lines.append(GradeRule.TEXT.panel_better%hint)
+	return lines
 func _draw_ambient_sea_life(picture:Rect2)->void:
 	# Viewfinder atmosphere only: no species data, collision, chart marks, sonar
 	# return, photo finding or archived-frame modification. Olive is not contact cyan.
@@ -268,8 +348,9 @@ func _draw_quality(picture:Rect2,fs:int)->void:
 		draw_rect(Rect2(x,y+5,width*value,6),PHOSPHOR)
 func _draw() -> void:
 	if footer_scroll!=null:footer_scroll.hide()
+	if more_label!=null:more_label.hide()
 	_buttons=[]
-	shutter_rect=Rect2()
+	shutter_rect=Rect2();stop_rect=Rect2();lock_text="";cost_text="";more_text=""
 	art_lamp_strength=0.0
 	if sim==null:return
 	var subject:=subject_view()

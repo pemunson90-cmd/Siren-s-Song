@@ -81,6 +81,23 @@ static func press(node:Node)->bool:
 	host._primary_action()
 	return true
 
+# STOP EXPOSURE: the simulation has no order of its own that only ends an exposure. A new
+# (replacing) route order ends it, so this plots a route to where the craft is: the craft
+# stays put, the exposure ends, the film already spent stays spent. Queue mode would append
+# instead of replace, so it is switched off for the one order and put back.
+static func stop(node:Node)->bool:
+	var host:=host_of(node)
+	if host==null or host.sim==null or host.sim.capture_unit<0 or host.sim.capture_unit!=host.sim.selected:return false
+	var sim=host.sim
+	var queued:bool=sim.queue_mode
+	if queued:host._order("queue")
+	host._order("route",{"point":sim.units[sim.selected].pos})
+	if queued:host._order("queue")
+	var stopped:bool=sim.captures[sim.selected].is_empty()
+	if stopped:sim.message=Table.TEXT.stopped
+	host._refresh()
+	return stopped
+
 # Panel rectangle for the shutter in the header row, beside the FOLD toggle.
 # Mirrored HUD puts it at the left end of the header, next to the left-hand dock.
 static func rect(panel_width:float,touch_height:float,font_size:int,toggle:Rect2,mirrored:bool)->Rect2:

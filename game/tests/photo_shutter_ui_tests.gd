@@ -111,6 +111,52 @@ func shape_case(shape:Vector2i):
 	check(game.mission_hud.task_result.get("ok",false) and "Camera exposure" in str(game.mission_hud.task_result.get("text","")),"the forced exposure reports the ring order's result "+stamp)
 	await view(game)
 	check(not shutter_rect(feed).has_area(),"no shutter is offered while the exposure runs "+stamp)
+	# STOP EXPOSURE: while the exposure runs one button ends it where the craft is; the film stays spent.
+	var fr:Rect2=feed.get("stop_rect")
+	check(fr.has_area() and Rect2(Vector2.ZERO,feed.size).encloses(fr) and not fr.intersects(feed.toggle_rect) and not fr.intersects(feed.picture_rect) and not feed._buttons.any(func(b):return b.rect.intersects(fr)),"a running exposure offers STOP EXPOSURE inside the panel, clear of every control "+stamp)
+	var held_buttons:Array=feed._buttons.map(func(b):return b.rect)
+	var at:Vector2=u.pos
+	await tap(feed.global_position+fr.get_center())
+	check(idle(s) and u.pos==at and Pricing.film_left(s,0)==film-1,"tapping STOP EXPOSURE ends the exposure, the craft stays and no film comes back "+stamp)
+	check("EXPOSURE STOPPED" in s.message,"the stop says so "+stamp)
+	await view(game)
+	check(not feed.get("stop_rect").has_area() and shutter_rect(feed).has_area(),"after the stop the button is gone and SHUTTER is back "+stamp)
+	# Queue mode is put back after the stop.
+	s.command("queue");await press_shutter(game);await press_shutter(game)
+	if idle(s):Shutter.warned={};await press_shutter(game)
+	await view(game);fr=feed.get("stop_rect")
+	if fr.has_area():await tap(feed.global_position+fr.get_center())
+	check(idle(s) and s.queue_mode,"STOP EXPOSURE ends the exposure with queue mode on, and queue mode stays on "+stamp)
+	s.queue_mode=false
+	reset_capture(s);film=Pricing.film_left(s,0);noises=s.noises.size()
+	# A Siren's lock that runs out before the exposure does is named beside SHUTTER, in warning colour.
+	Photo.set_frame(s,0,{"mode":"tight"});feed._vm_age=1.0;await view(game)
+	var plain_forecast:String=str(feed.get("forecast_text"))
+	check("LOCK IN" not in plain_forecast,"no lock: the forecast line is the frame forecast "+stamp)
+	s.contacts[0]={"target":0,"time":s.elapsed,"mode":"LOCKING","lock":s.lock_seconds()-1.0,"pos":u.pos+Vector2(60,0),"angle":0.0,"band":u.band,"transition":{},"source":"optical","confidence":1.0,"type":"patroller"}
+	await view(game)
+	var hold:int=ceili(float(s._capture_duration(spire,0)))
+	check(str(feed.get("lock_text"))=="HOLD %d s · LOCK IN 1 s"%hold and feed.get("forecast_text")==feed.get("lock_text"),"a lock ending before the hold: the forecast line says HOLD n s · LOCK IN m s "+stamp)
+	check(shutter_rect(feed).has_area() and s.camera_context().get("ready",false),"the player may still shoot "+stamp)
+	s.contacts.erase(0);feed._vm_age=1.0;await view(game)
+	check(str(feed.get("lock_text"))=="" and str(feed.get("forecast_text"))==plain_forecast,"the lock note leaves with the lock "+stamp+" ["+str(feed.get("lock_text"))+"] ["+str(feed.get("forecast_text"))+"] ["+plain_forecast+"]")
+	Photo.set_frame(s,0,{"mode":"wide"})
+	# Nothing in the panel is cut off, at normal and 150% text: the cost line is drawn whole; the rest scrolls inside the panel.
+	for scale in [1.0,1.5]:
+		Settings.current["text_scale"]=scale;await view(game)
+		var inside:=Rect2(Vector2.ZERO,feed.size)
+		check(inside.encloses(feed.footer_rect) and feed.footer_rect.size.y>=feed.receiver_font_size*1.4 and feed.footer_rect.end.y<=feed.size.y,"the text area lies inside the panel and holds at least a line and a half at text x%.1f %s %s %s %s fs=%s"%[scale,stamp,feed.size,feed.footer_rect,feed.picture_rect,feed.receiver_font_size])
+		check(feed.footer_scroll.size==feed.footer_rect.size and feed.picture_rect.end.y<=feed.footer_rect.position.y,"the scrolling text sits under the viewfinder picture at text x%.1f %s"%[scale,stamp])
+		check(str(feed.get("cost_text")).begins_with("SHUTTER heard to"),"the shutter cost line is kept out of the scrolling text at text x%.1f %s"%[scale,stamp])
+		var cost_h:float=ThemeDB.fallback_font.get_multiline_string_size(feed.cost_text,HORIZONTAL_ALIGNMENT_LEFT,feed.size.x-16,feed.receiver_font_size).y
+		check(feed.footer_rect.end.y+cost_h<=feed.size.y or feed.footer_label.text.begins_with(feed.cost_text),"the shutter cost line is whole under the text area, or first in the scrolling text, at text x%.1f %s"%[scale,stamp])
+	Settings.current["text_scale"]=1.0;await view(game)
+	# The result of a shot is read in the panel: grade, what resolved, and the better-frame advice on its own line.
+	feed._filed={"usable":true,"id":1,"q":0.47,"frame":{"marks":[]}};feed._filed_at=feed.time;feed._vm_age=1.0;await view(game)
+	var shown:Array=Array(feed.footer_label.text.split("\n"))
+	check(shown[0]=="FRAME 1 FILED · 47% C" and shown.has("NOTHING RESOLVED"),"the panel files the result: FRAME 1 FILED · 47% C "+stamp+" "+str(shown.slice(0,4))+" vis="+str(feed.visible)+" live="+str(s.capture_unit))
+	check(shown.any(func(l):return l.begins_with("BETTER FRAME: ") and "intel kept for camera research" in l),"the better-frame advice has its own line in the panel "+stamp)
+	feed._filed={};feed._filed_at=-10.0
 	reset_capture(s);film=Pricing.film_left(s,0);noises=s.noises.size()
 	# The ring's PHOTO follows the same rule.
 	if Shutter!=null:Shutter.warned={}

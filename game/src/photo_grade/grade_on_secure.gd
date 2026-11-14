@@ -11,7 +11,9 @@ extends RefCounted
 # REVERT: set `enabled` to false (or revert the one wrapper in
 # Simulation._record_secured); behavior returns to the old message exactly.
 const TABLE:={"grade_a":0.85,"grade_b":0.6}
-const TEXT:={"frame":" · frame %d%% grade %s","better":" · a better frame needs: %s · it raises the intel kept for camera research"}
+# The log line stays short: "Record secured · 47% C · better: closer, lit or still". The camera panel
+# keeps the longer words (what a better frame changes) on its own line.
+const TEXT:={"frame":" · %d%% %s","better":" · better: %s","panel_filed":"FRAME %d FILED · %d%% %s","panel_better":"BETTER FRAME: %s · it raises the intel kept for camera research"}
 static var enabled:=true
 static func letter(quality:float)->String:
 	return "A" if quality>=float(TABLE.grade_a) else "B" if quality>=float(TABLE.grade_b) else "C"
