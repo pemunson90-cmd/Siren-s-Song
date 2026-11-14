@@ -26,8 +26,9 @@ func judge(view,known_arcs):
  var screen:Rect2=Rect2(Vector2.ZERO,view.size)
  if view.size.x>=view.size.y*Table.VIEW.wide_ratio:
   check(view.chart.size.y>=view.size.y*.5,"the board's visible height is at least half the screen "+str([view.chart.size.y,view.size.y]))
-  check(view.legend_pan.position.x+view.legend_pan.size.x<=view.chart.position.x,"the key column does not overlap the board")
- check(screen.encloses(Rect2(view.legend_pan.position,view.legend_pan.size)) and screen.encloses(Rect2(view.chart.position,view.chart.size)),"key and board lie inside the screen")
+  # WP-116: a folded legend takes no room
+  check(not view.legend_pan.visible or view.legend_pan.position.x+view.legend_pan.size.x<=view.chart.position.x,"the key column does not overlap the board")
+ check((not view.legend_pan.visible or screen.encloses(Rect2(view.legend_pan.position,view.legend_pan.size))) and screen.encloses(Rect2(view.chart.position,view.chart.size)),"key and board lie inside the screen")
  check(view.legend.get_children().size()==1+Arcs.ARCS.size(),"the key and one line per arc are all present")
  for id in board.boxes:rects.append(["node %d"%id,board.boxes[id]])
  var names=board.regions.map(func(region):return region.text)
@@ -172,6 +173,22 @@ func look_tap(view):
   view._select(id);await settle();await settle()
   check(view.get_parent()!=null and view.host.screen=="route_map" and view.zoom>=look_at,"a tap in the overview zooms in instead of opening a briefing")
   check(view.buttons.values().all(func(button):return button.size.x>=48. and button.size.y>=48.),"after zooming in every node is tappable")
+# WP-116: the legend is folded behind a LEGEND button, so the chart has at least three quarters of the screen width;
+# opened, it shows the key and every arc line inside the screen, the chart keeps its share and stays usable, and it folds again.
+func legend_case(view):
+ var screen:Rect2=Rect2(Vector2.ZERO,view.size)
+ check(not view.legend_open and not view.legend_pan.visible,"the legend starts folded")
+ check(view.legend_button!=null and view.legend_button.text==Table.VIEW.legend_label and view.legend_button.get_meta("ui_action")=="route_map_legend","a LEGEND button is in the header")
+ check(view.chart.size.x>=view.size.x*.75,"the chart is at least three quarters of the screen width "+str([view.chart.size.x,view.size.x]))
+ check(view.legend_button.get_global_rect().size.y>=48. and screen.encloses(view.legend_button.get_global_rect()),"the LEGEND button is tappable and inside the screen")
+ view._toggle_legend();await settle();await settle()
+ check(view.legend_open and view.legend_pan.visible and view.legend_button.text==Table.VIEW.legend_open_label,"LEGEND opens the key and the arc lines")
+ check(screen.encloses(Rect2(view.legend_pan.position,view.legend_pan.size)) and screen.encloses(Rect2(view.chart.position,view.chart.size)),"opened, the legend and the chart lie inside the screen")
+ if view.size.x>=view.size.y*Table.VIEW.wide_ratio:check(view.chart.size.x>=view.size.x*.7,"opened beside the chart, the legend leaves it at least 70% of the width "+str(view.chart.size.x))
+ check(view.chart.size.y>=48.,"opened, the chart still has height")
+ check(view.legend.get_children().size()==1+Arcs.ARCS.size(),"the opened legend has the key and one line per arc")
+ view._toggle_legend();await settle();await settle()
+ check(not view.legend_open and view.chart.size.x>=view.size.x*.75,"the legend folds again and the chart takes the width back")
 func map_case(shape,scale):
  case_label=str([shape,scale,touch_override])
  root.size=shape;await settle()
@@ -196,6 +213,7 @@ func map_case(shape,scale):
   check(fixture!="late" or known.size()==6,"a late profile names every region")
   check(view.board.regions.size()==Arcs.ARCS.size(),"every region has an area even when it is not yet known")
   judge(view,known)
+  await legend_case(view)
   # Node labels at the opening zoom follow the text size setting.
   var label_font:int=view.buttons[0].get_theme_font_size("font_size")
   if scale==1.:label_fonts[[shape,fixture]]=label_font
