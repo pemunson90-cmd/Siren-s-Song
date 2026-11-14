@@ -47,7 +47,7 @@ Batch the usual loop to save commands, for example tap, wait, look:
   {"command":"screenshot","path":"C:/.../evidence/NAME/012.png","scale":0.5}]}
 ```
 
-In JSON on a command line, wrap the whole JSON in single quotes. In PowerShell, pass it through a file or escape the inner double quotes if single quotes fail.
+In JSON on a command line, wrap the whole JSON in single quotes. In PowerShell, escape the inner double quotes, or pass it through a file **inside your own folder** `KIT/audit/<session>/` (for example `KIT/audit/<session>/cmd.json`), always by its full path. Never use a relative path or a file outside your folder: other critics may be playing at the same time from the same working folder, and a shared command file sends your taps into their game and theirs into yours.
 
 ## Evidence
 
