@@ -35,6 +35,9 @@ const TEXT={
 	"profile_low_line": "%s\nSirens see this drone from %d m, not %d m\nIts speed is unchanged",
 	"profile_open_line": "%s\nSirens see this drone from %d m, not %d m\nIts speed is unchanged",
 	"confirm": "Tap again to confirm",
+	# The target chooser's centre question: only craft to pick from, or craft and objects mixed.
+	"choose_craft": "WHICH CRAFT?",
+	"choose_any": "CRAFT OR OBJECT?",
 	"depth_menu": "DEPTH AND\nSONAR",
 	"all_stop": "ALL STOP",
 	"audio_log_empty": "No sounds logged yet",
@@ -129,6 +132,10 @@ static func silent_caption(sim)->Array:
 	var speed:=speeds(sim)
 	if sim.units[0].silent:return (TEXT.silent_on_line%[TEXT.silent_on,roundi(speed.cruise),roundi(sight.open)]).split("\n")
 	return (TEXT.silent_off_line%[TEXT.silent_off,roundi(speed.silent),roundi(sight.silent)]).split("\n")
+
+# The question in the wheel's centre on the target chooser.
+static func choose_prompt(choices:Array)->String:
+	return TEXT.choose_craft if not choices.is_empty() and choices.all(func(c):return c.get("kind","")=="craft") else TEXT.choose_any
 
 # Sonar page segments.
 static func ping_label(cost:float)->String:

@@ -1,7 +1,8 @@
 extends RefCounted
 # Center text and BACK share the free space inside the real command rectangles.
 # Revert: remove CenterLayout seams in mission_hud.gd; no saved state.
-const STYLE={"back_max":.65,"back_min":-.35,"back_step":.05,"caption_gap":.1,"line_gap":5.,"caption_top":-.65,"min_gap":4.}
+const STYLE={"back_max":.65,"back_min":-.35,"back_step":.05,"caption_gap":.1,"line_gap":5.,"caption_top":-.65,"min_gap":4.,"floor_px":14}
+const MeterTable=preload("res://src/presentation/hunt_meter/meter_table.gd")
 static func back_rect(center:Vector2,body:Vector2,h:float,scale:float,commands:Array)->Rect2:
  var steps=roundi((STYLE.back_max-STYLE.back_min)/STYLE.back_step)
  for n in steps+1:
@@ -89,7 +90,25 @@ static func wrap_disc(lines:Array,font:Font,font_size:int,center:Vector2,radii:V
    else:out.append(current);current=word
   if not current.is_empty() or str(line).strip_edges().is_empty():out.append(current)
  return out
-static func fit_disc(lines:Array,font:Font,font_size:int,center:Vector2,radii:Vector2,max_height:float,first_y:Callable)->Dictionary:
+# The smallest centre type: 14 px on the canvas, or the 14 dp reading floor (hunt_meter/meter_table.gd) where
+# the screen's density makes that larger. The type is never shrunk below it.
+static func reading_floor(hud)->int:
+ var stretch_y:=float(hud.get_window().size.y)/maxf(1.,float(hud.get_viewport_rect().size.y))
+ return maxi(STYLE.floor_px,ceili(MeterTable.MIN_READABLE_DP*float(hud.host.ui_density_dpi())/MeterTable.BASE_DPI/stretch_y))
+# Shrinks the type down to floor_px. If the stack still does not fit there, the first line of `droppable`
+# (lowest priority first) that is in the stack is removed and the fit starts again from font_size.
+static func fit_disc(lines:Array,font:Font,font_size:int,center:Vector2,radii:Vector2,max_height:float,first_y:Callable,floor_px:int=MIN_SIZE,droppable:Array=[])->Dictionary:
+ var stack:=lines.duplicate()
+ var queue:=droppable.duplicate()
+ while true:
+  var fitted:=_fit_stack(stack,font,font_size,center,radii,max_height,first_y,floor_px)
+  if fitted.fits:return fitted
+  var drop:=-1
+  while drop<0 and not queue.is_empty():drop=stack.find(queue.pop_front())
+  if drop<0:return fitted
+  stack.remove_at(drop)
+ return {}
+static func _fit_stack(lines:Array,font:Font,font_size:int,center:Vector2,radii:Vector2,max_height:float,first_y:Callable,floor_px:int)->Dictionary:
  var size=font_size
  while true:
   var count=lines.size();var out=[];var first=0.
@@ -101,9 +120,9 @@ static func fit_disc(lines:Array,font:Font,font_size:int,center:Vector2,radii:Ve
   var fits=out.size()*(size+STYLE.line_gap)<=max_height
   for n in out.size():
    if not inside(line_rect(out[n],font,size,center.x,first+n*(size+STYLE.line_gap)),center,radii):fits=false;break
-  if fits or size<=MIN_SIZE:return {"lines":out,"size":size,"first_y":first}
+  if fits or size<=floor_px:return {"lines":out,"size":size,"first_y":first,"fits":fits}
   size-=1
- return {"lines":lines,"size":font_size,"first_y":first_y.call(lines.size(),font_size)}
+ return {}
 static func ellipsize(text:String,font:Font,font_size:int,max_width:float)->String:
  if font.get_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x<=max_width:return text
  var cut=text.length()

@@ -75,6 +75,7 @@ var hints
 var text_scale=1.0
 var caption_rects:Array=[]
 var caption_texts:Array=[]
+var caption_size:=0  # the type size the centre text was last drawn at
 var tool_help=preload("res://src/presentation/tool_help/tool_help.gd").new()
 var help_return="tools"
 var help_text=""
@@ -831,7 +832,7 @@ func _clear_hint_overlap():
 func _draw():
  caption_rects.clear()
  if host==null or not host.advanced_orders:return
- var h=touch_height;var font=ThemeDB.fallback_font;var text_size=maxi(14,roundi(h*.26*text_scale))
+ var h=touch_height;var font=ThemeDB.fallback_font;var text_size=maxi(CenterLayout.STYLE.floor_px,roundi(h*.26*text_scale))
  var tether=anchor.clamp(Vector2.ONE*12,size-Vector2.ONE*12)
  draw_line(tether,center,Color(.3,.8,.8,.32),1.5)
  draw_circle(tether,5,Color("80cbc8"),false,1.5)
@@ -867,9 +868,10 @@ func _draw():
   var hull=Rendezvous.projection(host.sim).hull
   if not hull.is_empty():caption=str(hull.phase).to_upper()+" · LOCAL FIX" if hull.live else "STALE · %ds AGO"%floori(hull.age)
  var lines=[title,caption]
+ var optional:Array=[]  # lowest priority first: dropped, not shrunk, when the lines do not fit at the reading floor
  if page=="acoustics":
   var carry=acoustics_carry_caption()
-  if not carry.is_empty():lines.append(carry)
+  if not carry.is_empty():lines.append(carry);optional.append(carry)
  if page=="cache":lines.append_array(Cache.captions(host.sim))
  # WP-52: an armed two-tap segment, or the segment under the finger, puts its cost in the centre; a greyed segment's reason follows a tap on it.
  var focus_key:String=segments.armed
@@ -883,15 +885,17 @@ func _draw():
  elif page=="craft" and host.order_buttons.camera in ring_buttons:lines.append_array(camera_caption())
  var refusal=get_meta(SegmentState.FEEDBACK_META,{})
  if refusal.get("reason","")==host.sim.message and refusal.get("page","")==page and refusal.get("unit",-1)==host.sim.selected and not refusal.get("reason","").is_empty():lines.append(refusal.reason)
- if page=="acoustics":lines.append(Words.TEXT.ping_caption)
- if page in ["object","salvage","plant","habitat"]:lines.append_array(WorkTask.captions(host.sim,subject))
- if page=="choose":lines.append("CRAFT OR OBJECT?")
+ if page=="acoustics":lines.append(Words.TEXT.ping_caption);optional.push_front(Words.TEXT.ping_caption)
+ if page in ["object","salvage","plant","habitat"]:
+  var work=WorkTask.captions(host.sim,subject);lines.append_array(work);optional.append_array(work)
+ if page=="choose":lines.append(Words.choose_prompt(target_choices))
+ optional.append(caption)  # the page's own heading goes last of all
  lines=StatusView.captions(self,lines)
  # WP-36: each line wraps to the disc's chord at its own height, then the type shrinks until every line lies inside the disc.
  var radii=(ring_radius-h*.7)*(get_meta(StatusView.AXES)/ring_radius if has_meta(StatusView.AXES) else Vector2.ONE)
  var disc_top=center.y-radii.y+4.
- var fitted=CenterLayout.fit_disc(lines,font,text_size,center,radii,close_button.position.y-maxf(CenterLayout.STYLE.min_gap,h*text_scale*CenterLayout.STYLE.caption_gap)-disc_top,func(count,size_):return CenterLayout.first_baseline(center.y,close_button.get_rect(),h,text_scale,count,font,size_))
- lines=fitted["lines"];text_size=fitted["size"]
+ var fitted=CenterLayout.fit_disc(lines,font,text_size,center,radii,close_button.position.y-maxf(CenterLayout.STYLE.min_gap,h*text_scale*CenterLayout.STYLE.caption_gap)-disc_top,func(count,size_):return CenterLayout.first_baseline(center.y,close_button.get_rect(),h,text_scale,count,font,size_),CenterLayout.reading_floor(self),optional)
+ lines=fitted["lines"];text_size=fitted["size"];caption_size=text_size
  caption_texts=lines.duplicate()
  var first_y=fitted["first_y"]
  for n in lines.size():
@@ -902,22 +906,23 @@ func _draw():
 func acoustics_carry_caption()->String:
  var sim=host.sim
  return sim.Depth.SurvivorAscent.line(sim.mission,sim.selected,sim.units[sim.selected],true)
-# What the contextual action is and what it will aim at, shown before the tap (two short lines).
+# What the contextual action will aim at and whether it is ready, shown before the tap. The segment already
+# names the action, so the lines are the target, then one state line (READY or the one reason, reach once).
 func camera_caption() -> Array:
- var sim=host.sim;var button=host.order_buttons.camera
- var verb=button.text.replace("\n"," ")
+ var sim=host.sim
  var held=WorkTask.held_reason(sim,task)
- if not held.is_empty():return [verb,"▸ TASK "+WorkTask.label(sim,WorkTask.site(sim,task)),"HELD · OPEN THE OTHER JOB"]
+ if not held.is_empty():return ["TASK "+WorkTask.label(sim,WorkTask.site(sim,task)),"HELD · OPEN THE OTHER JOB"]
  var context=sim.camera_context();var target=int(context.get("target",-1))
- if target==-2:return [verb,"▸ SIREN S%d"%(int(context.get("siren",0))+1)]
+ if target==-2:return ["SIREN S%d"%(int(context.get("siren",0))+1)]
  if target>=0 and target<sim.mission.objectives.size():
   var site=sim.mission.objectives[target]
   var Range=preload("res://src/presentation/photo_shutter/range_caption.gd")
-  var lines=[verb,"▸ %s"%sim.Photo.label(site).to_upper(),Range.line(sim,site,context.get("ready",false))]
-  var why:String=Range.why(context)
+  var lines=[sim.Photo.label(site).to_upper()]
+  lines.append_array(Range.line(sim,site,context.get("ready",false)).split("\n"))  # a search-area line breaks before its reach
+  var why:String=Range.why(context,site)
   if not why.is_empty():lines.append(why)
   return lines
- return [verb,"▸ NO SITE IN RANGE"]
+ return ["NO SITE IN RANGE"]
 func action_controls() -> Dictionary:
  var result={}
  for c in find_children("*","Button",true,false)+host.zoom_buttons:

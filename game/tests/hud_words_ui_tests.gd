@@ -33,6 +33,7 @@ func run():
 			await plate_case(shape,scale)
 	Settings.current=saved
 	Settings.current["text_scale"]=1.0
+	await centre_case()
 	await silent_case()
 	await two_tap_case()
 	await slot_case()
@@ -91,6 +92,57 @@ func silent_case():
 	game.queue_free();await settle()
 func touch(point:Vector2,down:bool):
 	var e=InputEventScreenTouch.new();e.index=0;e.position=point;e.pressed=down;root.push_input(e,true);await process_frame
+# WP-81: the wheel's centre says each fact once, never below the reading floor, with no glyph the font lacks; a
+# segment's second line stays clear of its name; the target chooser asks the right question.
+func centre_case():
+	var CenterLayout=preload("res://src/presentation/radial_layout/center_layout.gd")
+	for shape in [Vector2i(2520,1080),Vector2i(2184,1968)]:
+		for scale in [1.0,1.5]:
+			var stamp="%dx%d %d%%"%[shape.x,shape.y,roundi(scale*100)]
+			var game=await make(shape,scale)
+			var s=game.sim;var hud=game.mission_hud;s.selected=0
+			var o:Dictionary=s.mission.objectives[0]
+			var floor_px:int=CenterLayout.reading_floor(hud)
+			game._refresh();hud.open("craft");await settle()
+			centre_checks(hud,floor_px,"camera not ready, lead "+stamp)
+			var joined=" ".join(hud.caption_texts)
+			check("UNKNOWN SIGNAL SOURCE" in joined.replace("\n"," ") and "NOT READY" in joined and joined.count("240")==1,"the target, NOT READY and the reach once: "+str(hud.caption_texts)+" "+stamp)
+			# Resolved and in reach: READY with the distance and reach.
+			o.erase("unknown");var u=s.units[0];u.pos=o.pos+Vector2.from_angle(o.subject.facing)*100.0;u.vel=Vector2.ZERO;u.angle=u.pos.angle_to_point(o.pos)
+			game._refresh();hud.queue_redraw();await settle()
+			centre_checks(hud,floor_px,"camera ready "+stamp)
+			check("READY" in " ".join(hud.caption_texts),"the ready camera says READY: "+str(hud.caption_texts)+" "+stamp)
+			# Armed two-tap segment: cost lines and the confirm line.
+			s.units[0].silent=false;game._refresh();hud.open("craft");await settle()
+			await click(game.order_buttons.silent)
+			centre_checks(hud,floor_px,"armed segment "+stamp)
+			check(hud.caption_texts.any(func(t):return "Tap again to confirm" in t),"the armed segment keeps its confirm line: "+str(hud.caption_texts)+" "+stamp)
+			hud.segments.disarm()
+			segment_marks(game,"craft "+stamp)
+			hud.open("acoustics");await settle()
+			centre_checks(hud,floor_px,"acoustics page "+stamp)
+			game.queue_free();await settle()
+	var game=await make(Vector2i(2520,1080),1.0)
+	var hud=game.mission_hud
+	hud.target_choices=[{"kind":"craft","unit":0},{"kind":"craft","unit":1}]
+	check(Words.choose_prompt(hud.target_choices)=="WHICH CRAFT?","only craft to choose from: "+Words.choose_prompt(hud.target_choices))
+	hud.target_choices.append({"kind":"objective","name":"SITE"})
+	check(Words.choose_prompt(hud.target_choices)=="CRAFT OR OBJECT?","craft and an object: "+Words.choose_prompt(hud.target_choices))
+	game.queue_free();await settle()
+func centre_checks(hud,floor_px:int,label:String):
+	var seen={}
+	for t in hud.caption_texts:
+		check(not seen.has(t),"no line repeats in the centre: "+str(t)+" ("+label+")")
+		seen[t]=true
+		check(not "▸" in t,"no glyph the font lacks: "+str(t)+" ("+label+")")
+	check(hud.caption_size>=floor_px,"the centre type %d is at or above the floor %d (%s)"%[hud.caption_size,floor_px,label])
+	check(hud.caption_texts.size()<=7,"the centre stays short: "+str(hud.caption_texts)+" ("+label+")")
+func segment_marks(game,label:String):
+	for b in game.mission_hud.ring_buttons:
+		var mark:Label=b.get_node_or_null("StateLine")
+		if mark==null or not mark.visible:continue
+		var margin=b.get_theme_stylebox("normal").content_margin_bottom
+		check(mark.get_global_rect().position.y>=b.get_global_rect().position.y+b.size.y-margin-1.,"the second line sits below the segment's name: "+b.text+" ("+label+")")
 func click(button):
 	var point=button.get_global_rect().get_center()
 	for down in [true,false]:
