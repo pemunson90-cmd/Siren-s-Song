@@ -25,6 +25,41 @@ static func has_orders(sim,id:int)->bool:
 	var u=sim.units[id]
 	if not u.alive or sim.DroneBay.aboard(u):return false
 	return not u.route.is_empty() or not str(u.get("hold","")).is_empty() or (id<sim.captures.size() and not sim.captures[id].is_empty())
+# WP-118: a craft the player launched that stands with no orders while time runs. Not a craft that was told to wait (a hold,
+# a job, a photograph), is changing depth, is at ALL STOP, is aboard, is recalled, or is Quietus waiting inside its recovery area.
+const RECOVERY_REACH=65.0 # simulation.gd: Quietus recovers within this many metres of the extraction
+static var _since:Dictionary={}
+static var _clock:=-1.0
+static var _sim_id:=0
+static func _idle(sim,id:int)->bool:
+	var u=sim.units[id]
+	if not has_orders_free(sim,id) or not u.get("transition",{}).is_empty() or u.get("recall",false):return false
+	if AllStop.stopped(u) or AllStop.restarting(u) or u.vel.length()>Words.MOVING_SPEED:return false
+	return not (id==0 and sim.mission.has("extraction") and u.pos.distance_to(sim.mission.extraction)<RECOVERY_REACH)
+static func has_orders_free(sim,id:int)->bool:
+	var u=sim.units[id]
+	return u.alive and not sim.DroneBay.aboard(u) and not has_orders(sim,id)
+# The standing line while time runs: names every craft that has stood idle for IDLE_SECONDS, "" when none has.
+static func idle_line(sim)->String:
+	if sim.paused or not sim.outcome.is_empty() or sim.elapsed<_clock or sim.get_instance_id()!=_sim_id:
+		_since.clear()
+	_sim_id=sim.get_instance_id();_clock=sim.elapsed
+	if sim.paused or not sim.outcome.is_empty():return ""
+	var names:Array=[];var quietus:=false
+	for id in sim.units.size():
+		if not _idle(sim,id):
+			_since.erase(id);continue
+		if not _since.has(id):_since[id]=sim.elapsed
+		if sim.elapsed-float(_since[id])>=Words.IDLE_SECONDS:
+			names.append(str(sim.units[id].name).to_upper());quietus=quietus or id==0
+	if names.is_empty():return ""
+	var line:String=(Words.TEXT.idle_one if names.size()==1 else Words.TEXT.idle_many)%Words.TEXT.idle_and.join(names)
+	return line+(Words.TEXT.idle_oxygen if quietus else "")
+# The status line with the next step added once the record is secured and Quietus has no route.
+static func home_step(sim,text:String)->String:
+	var q=sim.units[0]
+	if not text.contains(Words.TEXT.return_old) or not q.alive or not q.route.is_empty():return text
+	return text.replace(Words.TEXT.return_old,Words.TEXT.return_steps)
 static func run_line(sim)->String:
 	if not sim.paused or not sim.outcome.is_empty():return ""
 	var locks:Array=LockWarning.frames(sim)

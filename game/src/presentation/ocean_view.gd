@@ -9,6 +9,7 @@ const RegionArt=preload("res://src/presentation/art/region_renderer.gd")
 const Quality=preload("res://src/presentation/quality/quality_table.gd")
 const FeatureViews=preload("res://src/presentation/feature_views.gd")
 const RouteNotes=preload("res://src/presentation/route_notes.gd")
+const Words=preload("res://src/presentation/hud_words.gd")  # WP-118
 const HullBand=preload("res://src/presentation/route_clearance/hull_band.gd")
 const Shelf=preload("res://src/presentation/shelf_habitat_view.gd")
 const Priced=preload("res://src/presentation/photo_pricing/photo_pricing_overlay.gd")
@@ -694,10 +695,12 @@ func _draw_findings()->void:
 		if f.has("pts") and f.pts.size()>=2:
 			var pts:=PackedVector2Array()
 			for p in f.pts:pts.append(Vector2(float(p[0]),float(p[1])))
-			for n in pts.size()-1:draw_dashed_line(pts[n],pts[n+1],Color(c,0.85),w,(7.0 if kind=="loop" else 14.0)/world_scale)
+			if kind=="route":c=Palette.chart_color("evidence",UiStyle.INTEL_ROUTE_INK)  # WP-118: intel about a way through, never an order: lilac short dots, no arrow
+			for n in pts.size()-1:draw_dashed_line(pts[n],pts[n+1],Color(c,0.8 if kind=="route" else 0.85),w*(.6 if kind=="route" else 1.),(3.0 if kind=="route" else 7.0 if kind=="loop" else 14.0)/world_scale)
 			if kind=="route":
-				var tip:Vector2=pts[-1];var back:Vector2=(pts[-2]-tip).normalized()
-				draw_colored_polygon(PackedVector2Array([tip,tip+back.rotated(0.5)*18/world_scale,tip+back.rotated(-0.5)*18/world_scale]),Color(c,0.9))
+				# WP-118: no arrow tip (it read as a heading to follow); the line says what it is instead
+				_label(pts[0].lerp(pts[1],.5)+Vector2(10,-8),Words.TEXT.intel_route%label.get_slice(" · ",0),c,15)
+				continue
 			_label(pts[0]+Vector2(10,-8),label,c,15)
 			continue
 		match kind:

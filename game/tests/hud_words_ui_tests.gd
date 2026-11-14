@@ -4,6 +4,7 @@ extends SceneTree
 # that runs out of route says so once without pausing the dive; a route dialog is named as the reason time is held.
 const Settings=preload("res://src/presentation/frontend/frontend_settings.gd")
 const Words=preload("res://src/presentation/hud_words.gd")
+const UiStyle=preload("res://src/presentation/ui_style.gd")
 const TrialRules=preload("res://src/trial_rules.gd")
 const LifeChip=preload("res://src/presentation/life_support_chip.gd")
 const Pricing=preload("res://src/simulation/photo_pricing/photo_pricing_table.gd")
@@ -44,6 +45,10 @@ func run():
 	await planner_case()
 	await route_end_case()
 	await run_notes_case()
+	# WP-118: the cover screen (1680x720) and the inner screen (1280x1153) at 100% and 150% text.
+	for shape in [Vector2i(1680,720),Vector2i(1280,1153)]:
+		for scale in [1.0,1.5]:
+			await idle_case(shape,scale)
 	Settings.current=saved
 	TrialRules.reset()
 	print("HUD WORDS UI CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)
@@ -430,4 +435,58 @@ func run_notes_case():
 	s.captures[0]={}
 	s.paused=false;game._refresh();await settle()
 	check(not game.mission_hud.intent.text.contains("▶ RUN:"),"the RUN line goes once time runs: "+game.mission_hud.intent.text)
+	game.queue_free();await settle()
+
+# WP-118: a craft with no orders while time runs is named on the strip in the warning colour; the way a craft came is dim dots
+# marked TRAIL, never a dashed line; and the next step home is spelled out.
+func idle_case(shape:Vector2i,scale:float):
+	var RouteNotes=preload("res://src/presentation/route_notes.gd")
+	var stamp="%dx%d %d%%"%[shape.x,shape.y,roundi(scale*100)]
+	var game=await make(shape,scale)
+	var s=game.sim
+	for u in s.units:u.route=[];u.hold=""
+	for id in s.captures.size():s.captures[id]={}
+	s.units[0].vel=Vector2.ZERO;s.units[0].pos=s.mission.extraction+Vector2(400,0)
+	s.paused=false;s.elapsed=100.0;game._refresh();await settle()
+	var idle:String=Words.TEXT.idle_one%"QUIETUS"+Words.TEXT.idle_oxygen
+	check(not game.mission_hud.intent.text.contains("HAS NO ORDERS"),"no warning in the first seconds "+stamp)
+	s.elapsed=100.0+Words.IDLE_SECONDS+1.0;game._refresh();await settle()
+	check(RouteNotes.idle_line(s)==idle,"Quietus idle for five seconds is named: "+RouteNotes.idle_line(s)+" "+stamp)
+	check(game.mission_hud.intent.text.contains(idle),"the strip says Quietus has no orders and oxygen runs "+stamp+": "+game.mission_hud.intent.text)
+	check(game.mission_hud.intent.has_theme_color_override("font_color"),"the idle line is in the warning colour "+stamp)
+	var strip_font:int=game.mission_hud.intent.get_theme_font_size("font_size")
+	var wide:float=game.mission_hud.intent.get_theme_font("font").get_string_size(idle,HORIZONTAL_ALIGNMENT_LEFT,-1,strip_font).x
+	check(wide<game.mission_hud.intent.size.x,"the idle line fits one strip line "+stamp)
+	s.units[0].hold="HOLD"
+	check(RouteNotes.idle_line(s)=="","a hold the player chose is not idle "+stamp)
+	s.units[0].hold="";s.units[0].route=[{"pos":s.units[0].pos+Vector2(300,0),"stop":true,"goal":true}]
+	check(RouteNotes.idle_line(s)=="","a craft with a route is not idle "+stamp)
+	s.units[0].route=[];s.captures[0]={"target":0}
+	check(RouteNotes.idle_line(s)=="","a craft on a photograph is not idle "+stamp)
+	s.captures[0]={}
+	RouteNotes.idle_line(s);s.elapsed+=Words.IDLE_SECONDS+1.0  # the first look starts the count
+	check(RouteNotes.idle_line(s)==idle,"the warning returns once the craft is idle again "+stamp)
+	s.paused=true
+	check(RouteNotes.idle_line(s)=="","no warning while the dive is stopped "+stamp)
+	s.paused=false;game._refresh();await settle()
+	check(RouteNotes.idle_line(s)=="","a pause starts the count again "+stamp)
+	game._refresh();await settle()
+	check(not game.mission_hud.intent.has_theme_color_override("font_color"),"the colour override goes when nothing is idle "+stamp)
+	s.units[0].pos=s.mission.extraction+Vector2(20,0)
+	s.elapsed+=Words.IDLE_SECONDS*3
+	check(RouteNotes.idle_line(s)=="","Quietus waiting inside its recovery area is not idle "+stamp)
+	# The way home, spelled out only while Quietus has no route.
+	var old:String="Record secured. "+Words.TEXT.return_old
+	check(RouteNotes.home_step(s,old)=="Record secured. "+Words.TEXT.return_steps,"the next step is spelled out "+stamp)
+	check(Words.TEXT.return_steps.contains("tap Quietus, then tap the water near EXTRACTION"),"the next step names both taps")
+	s.units[0].route=[{"pos":s.units[0].pos+Vector2(300,0),"stop":true,"goal":true}]
+	check(RouteNotes.home_step(s,old)==old,"with a route set the line is left alone "+stamp)
+	s.units[0].route=[]
+	# An intel route finding (a photographed sheltered way) says on its line that it is not an order, in a colour no route uses.
+	var intel:String=Words.TEXT.intel_route%"LEE CHANNEL"
+	check(intel=="LEE CHANNEL · INTEL ROUTE · not an order","the intel route line names the finding and says it is not an order: "+intel)
+	check(UiStyle.INTEL_ROUTE_INK!=game.ocean.CYAN and UiStyle.INTEL_ROUTE_INK!=Color(0.5,0.9,0.85),"the intel colour is not the route cyan "+stamp)
+	s.mission["photo_marks"]=[{"kind":"route","text":"LEE CHANNEL · a sheltered way","pts":[[s.units[0].pos.x-300,s.units[0].pos.y+100],[s.units[0].pos.x-600,s.units[0].pos.y+200]]}]
+	game.ocean.queue_redraw();await settle()
+	check(game.ocean.get_child_count()>=0,"a chart with an intel route finding draws "+stamp)
 	game.queue_free();await settle()

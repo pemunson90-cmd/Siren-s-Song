@@ -49,6 +49,7 @@ var sheet_body:VBoxContainer
 var sheet_fit_pending=false
 var intent_fit_pending=false
 var strip_standing=""
+var strip_idle=""  # WP-118: the no-orders warning row on the strip ("" when no craft is idle)
 var current_message=""
 var sheet_scroll:ScrollContainer
 var details_return="water"
@@ -562,7 +563,9 @@ func _tidy_strip()->void:
   var wide:float=maxf(1.,host.ocean.chart_width()-32)-8.
   var line_h:float=font.get_height(font_size)
   # The standing hint is left to _one_strip (it gives way first and has its own last resort); other lines drop from the end.
-  var has_standing:bool=kept.size()>1 and not strip_standing.is_empty() and kept[kept.size()-1]==strip_standing
+  # WP-118: the no-orders warning is kept like the standing hint: it is the last line to go.
+  var tail:String=strip_standing if not strip_standing.is_empty() else strip_idle
+  var has_standing:bool=kept.size()>1 and not tail.is_empty() and kept[kept.size()-1]==tail
   while kept.size()>(2 if has_standing else 1) and font.get_multiline_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,wide,font_size).y>line_h*UiStyle.STRIP_MAX_LINES_LARGE+1.:
    kept.remove_at(kept.size()-(2 if has_standing else 1));text="\n".join(kept)
  if text!=intent.text:intent.text=text
@@ -701,8 +704,8 @@ func refresh():
  _fit_pause_button()
  host.advanced_button.text="FLEET";plate(host.advanced_button,UiStyle.NORMAL)
  focus_button.text="FOLLOW" if host.ocean.chart_camera.mode=="follow" else "FOCUS"
- var current=host.targeting_feedback if not host.targeting_feedback.is_empty() else "DECOY · TAP CLEAR WATER ≤160m · TAP CANCEL" if host.decoy_armed else "TORPEDO · TAP FRESH CONTACT · TAP CANCEL" if host.knock_armed else strip_message.current(sim)
- current_message=current;strip_standing=""
+ var current=host.targeting_feedback if not host.targeting_feedback.is_empty() else "DECOY · TAP CLEAR WATER ≤160m · TAP CANCEL" if host.decoy_armed else "TORPEDO · TAP FRESH CONTACT · TAP CANCEL" if host.knock_armed else RouteNotes.home_step(sim,strip_message.current(sim))  # WP-118: the record is secured and Quietus has no route: say how to send it home
+ current_message=current;strip_standing="";strip_idle=""
  intent.text="%s · %s"%[sim.units[sim.selected].name+" · "+sim.Depth.NAMES[sim.units[sim.selected].band],"QUEUE" if sim.queue_mode else "REPLACE"]+(" · "+current if not current.is_empty() else "")
  host.title_label.visible=page not in ["signals","recovery","order_help"];host.detail_label.visible=page not in ["signals","recovery","order_help"]
  host.order_buttons.home.text="WITHDRAW" if Expedition.entry(sim) else "EXTRACT"
@@ -802,8 +805,15 @@ func refresh():
   # WP-106: while the dive is stopped the standing line says what RUN will do first (it gives up first like the depth hint,
   # so the strip stays two lines).
   var run_line:String=RouteNotes.run_line(sim) if Words.plate_kind(sim,host)=="run" else ""
-  strip_standing=run_line if not run_line.is_empty() else sim.Depth.context(sim)
-  intent.text+="\n"+strip_standing
+  # WP-118: while time runs, a launched craft with no orders is named in the warning colour (oxygen runs, nothing moves).
+  # It is a warning row, so it stays (the standing hint gives way to it) rather than being the first line to drop.
+  var idle_line:String=RouteNotes.idle_line(sim) if run_line.is_empty() else ""
+  strip_idle=idle_line
+  strip_standing=run_line if not run_line.is_empty() else "" if not idle_line.is_empty() else sim.Depth.context(sim)
+  if not idle_line.is_empty():intent.text+="\n"+idle_line
+  if not strip_standing.is_empty():intent.text+="\n"+strip_standing
+  if idle_line.is_empty():intent.remove_theme_color_override("font_color")
+  else:intent.add_theme_color_override("font_color",Palette.color("warning",UiStyle.WARNING))
  Truthful.apply(self)
  _place_threat_stack()
  host.ocean.threat_bottom=threat_floor();host.ocean.threat_rects_seen=threat_rects()
