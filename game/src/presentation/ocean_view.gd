@@ -68,6 +68,10 @@ var _label_queue:Array=[]
 var _label_open:=false
 var _tag_rects:Array=[]
 const LABEL_PAD:=3.
+# Free space kept between two label plates, and between a plate and a panel.
+const LABEL_GAP:=4.
+# Free space kept between a label plate and the edge of the chart.
+const LABEL_EDGE:=6.
 const PRIORITY_THREAT:=0
 const PRIORITY_OBJECTIVE:=1
 const PRIORITY_OWN:=2
@@ -888,24 +892,28 @@ func own_craft_rects() -> Array:
 		var half=(Vector2(74,32) if id==0 else Vector2(26,20))*world_scale
 		result.append(Rect2(screen_position(sim.units[id].pos)-half,half*2))
 	return result
+# Where a whole label plate may sit: the chart, not the optical lane beside it. The camera panel opens in that lane, and a
+# label placed under it was cut by the panel's edge. The plate's padding stays inside, so no label is drawn cut by an edge.
+func label_fit_rect()->Rect2:
+	return stable_chart_rect().grow(-(LABEL_PAD+LABEL_EDGE))
 func world_label_position(p:Vector2,text:String,font_size:int) -> Vector2:
 	var font=ThemeDB.fallback_font;var actual=label_font(font_size);var extent=font.get_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,-1,actual)*world_scale
-	var origin=chart_camera.to_screen(p);var height=extent.y+6
+	var origin=chart_camera.to_screen(p);var height=extent.y+6;var fit:=label_fit_rect()
 	var blocked=ui_blocked_rects+ship_instrument_rects()+own_craft_rects()+world_label_rects+_tag_rects
 	if optical_feed!=null and optical_feed.is_visible_in_tree():blocked.append(optical_feed.get_rect().grow(6))
 	for horizontal in [0,extent.x*.75,-extent.x*.75,extent.x*1.5,-extent.x*1.5]:
 		for step in [0,-1,-2,1,-3,2,-4,3]:
 			var point=origin+Vector2(horizontal,step*height)
-			point.x=clampf(point.x,12,maxf(12,size.x-extent.x-12))
+			point.x=clampf(point.x,fit.position.x,maxf(fit.position.x,fit.end.x-extent.x))
 			var area=Rect2(point-Vector2(0,font.get_ascent(actual)*world_scale),extent)
-			if Rect2(Vector2.ZERO,size).encloses(area) and not blocked.any(func(r):return r.intersects(area.grow(3))):return chart_camera.to_world(point)
+			if fit.encloses(area) and not blocked.any(func(r):return r.intersects(area.grow(LABEL_GAP))):return chart_camera.to_world(point)
 	# Dense public contacts can exhaust the nearby slots. Keep the hint readable
 	# elsewhere on the chart, with the ordinary leader back to its subject.
 	for row in range(1,maxi(2,ceili(size.y/height))):
-		for x in [12.,maxf(12.,(chart_width()-extent.x)*.5),maxf(12.,chart_width()-extent.x-12.)]:
-			var point=Vector2(x,row*height)
+		for x in [fit.position.x,maxf(fit.position.x,fit.position.x+(fit.size.x-extent.x)*.5),maxf(fit.position.x,fit.end.x-extent.x)]:
+			var point=Vector2(x,fit.position.y+row*height)
 			var area=Rect2(point-Vector2(0,font.get_ascent(actual)*world_scale),extent)
-			if Rect2(Vector2.ZERO,size).encloses(area) and not blocked.any(func(r):return r.intersects(area.grow(3))):return chart_camera.to_world(point)
+			if fit.encloses(area) and not blocked.any(func(r):return r.intersects(area.grow(LABEL_GAP))):return chart_camera.to_world(point)
 	return Vector2.INF
 # WP-31: a chart label keeps a constant readable on-screen size. Zooming out never goes
 # below 12 px; zooming in never grows it past its nominal size.

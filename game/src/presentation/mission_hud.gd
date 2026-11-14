@@ -102,8 +102,6 @@ var target_buttons:Array=[]
 func open_targets(choices:Array):
  if choices.is_empty():return
  if choices.size()==1:_open_target(choices[0]);return
- if choices.all(func(c):return c.kind=="craft"):
-  open("fleet",{"kind":"fleet","pos":choices[0].pos});return
  ring_buttons=ring_buttons.filter(func(b):return b not in target_buttons)
  for b in target_buttons:b.free()
  target_buttons.clear();target_choices=choices.duplicate(true)
