@@ -44,6 +44,8 @@ func data_rules():
 			if objective.has("siren"):check(areas.all(func(a):return not a.pos.is_equal_approx(objective.pos)),"operation %d keeps a Siren-linked site off the picture"%id)
 	check(any_rock,"some operation shows charted rock");check(any_area,"some operation shows a briefed area")
 func briefing_case(g,shape,index):
+	# The first call for a region's first operation shows the region entry card over the briefing (the player presses
+	# CONTINUE TO BRIEFING); the second call opens the briefing itself, which is what is measured here.
 	g._briefing(index);await settle()
 	g._briefing(index);await settle()
 	await capture("briefing_%d_%d"%[shape.x,index])
