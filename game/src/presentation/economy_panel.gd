@@ -43,7 +43,7 @@ static func frame_effect(unit:int,id:String)->String:
 	_ratio(parts,frame.endurance/base.endurance,("life support" if unit==0 else "battery")+" %d%% %s","longer","shorter")
 	_ratio(parts,frame.get("speed",1.0)/base.get("speed",1.0),"%d%% %s","faster","slower")
 	_ratio(parts,frame.get("reach",1.0)/base.get("reach",1.0),"passive reach %d%% %s","longer","shorter")
-	_ratio(parts,frame.get("pulse",1.0)/base.get("pulse",1.0),"SONAR pulses %d%% %s","dearer","cheaper")
+	_ratio(parts,frame.get("pulse",1.0)/base.get("pulse",1.0),"SONAR pulses cost %d%% %s","more","less")
 	for mount in Hulls.MOUNT_TYPES:
 		if mount=="CARGO":continue
 		var have=frame.mounts.count(mount);var standard=base.mounts.count(mount)

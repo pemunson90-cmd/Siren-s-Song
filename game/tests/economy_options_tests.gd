@@ -60,7 +60,7 @@ func run():
  var panel=preload("res://src/presentation/economy_panel.gd")
  var quiet=panel.frame_effect(0,"quiet");var fast=panel.frame_effect(0,"fast");var scout=panel.frame_effect(1,"scout")
  check(quiet.contains("Motion sound 30% lower") and quiet.contains("15% slower") and quiet.contains("life support 20% longer") and quiet.contains("no propulsion mount"),"low noise hull effect line reads from the hull table: "+quiet)
- check(fast.contains("15% faster") and fast.contains("SONAR pulses 25% cheaper") and fast.contains("Motion sound 30% higher"),"fast hull effect line: "+fast)
+ check(fast.contains("15% faster") and fast.contains("SONAR pulses cost 25% less") and fast.contains("Motion sound 30% higher"),"fast hull effect line: "+fast)
  check(scout.contains("passive reach 25% longer") and scout.contains("battery 30% shorter") and scout.contains("no winch cargo"),"scout drone effect line: "+scout)
  check(panel.frame_effect(0,"standard")=="Same as the standard frame.","standard frame has no differences")
  await surfaces()
