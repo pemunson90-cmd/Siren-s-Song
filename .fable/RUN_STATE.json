@@ -2,11 +2,11 @@
   "run_id": "overhaul-20261111",
   "status": "RUNNING",
   "phase": "9-ux-repair",
-  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: Read the sixth sweep (scratchpad sweep6.txt, head 91702f14); fix save_profiles_ui_tests capture under headless; review and merge WP-82 and WP-83 when they report; then the fifth blind critic round (one kit per critic).",
+  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: Push; run the eighth full sweep on the merged head (WP-88 to WP-92 not yet swept); then a sixth blind critic round (one kit per critic) and rank again. Pat's open question: a 2x speed button while no Siren hunts (recommended yes).",
   "base_ref": "origin/claude/integration",
   "base_sha": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
   "run_branch": "fable/overhaul-20261111",
-  "run_head": "91702f149c06517f56aaa7d93909bfc7be6ad2a3",
+  "run_head": "574111e511a442168800c275039f4347fcff0069",
   "shared_tips": {
     "claude/integration": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
     "main": "f5b66a198e3878950325f8c45a0bc6bc29dcba84",
@@ -97,10 +97,19 @@
     "WP-79": "merged",
     "WP-80": "merged",
     "WP-81": "merged",
-    "WP-82": "building",
-    "WP-83": "building"
+    "WP-82": "merged",
+    "WP-83": "merged",
+    "WP-84": "merged",
+    "WP-85": "merged",
+    "WP-86": "merged",
+    "WP-87": "merged",
+    "WP-88": "merged",
+    "WP-89": "merged",
+    "WP-90": "merged",
+    "WP-91": "merged",
+    "WP-92": "merged"
   },
   "decisions_open": 0,
   "last_checkpoint": "Paused at Pat's request on 2026-11-13 16:40 (weekly usage on the model about to run out; he may continue with another model). WP-31 to WP-55 merged and pushed, behavior rows 57 to 85. First full sweep (b352f808): 244 suites, 8 failing, all 8 fixed by WP-55 and rerun green with 18 neighbours; WP-54 on top: Core 856/0 and 15 suites green. Second full sweep started 16:18 on 345dfe8e and NOT yet read: the head is not known to be clean.",
-  "updated": "2026-11-14 03:05:26"
+  "updated": "2026-11-14 07:13:43"
 }

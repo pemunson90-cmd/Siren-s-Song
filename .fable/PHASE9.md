@@ -95,10 +95,10 @@ Second sweep (13 Nov, read on resume): every one of the 245 registered suites ha
 
 ## In flight
 
-- WP-75 to WP-81 merged and pushed (rows 104 to 111; head 91702f14). The fifth sweep (519185e4) found two guard tests not updated for STOP EXPOSURE (fixed, row 111); `save_profiles_ui_tests` failed the same way in sweeps 4 and 5 (its `capture` saves a PNG under the dummy renderer): fix the test to skip the capture when headless.
-- Sixth full sweep running on 91702f14 (started about 02:55, 14 Nov; result `scratchpad\sweep6.txt`). Core 856/0 on 91702f14.
-- Helpers running: WP-82 (ROUTE MAP gives the board the height on the cover screen; Operations shows RESUME DIVE alone while a dive is in flight, one TITLE button) and WP-83 (the dive's bottom message strip: at most two lines at every text size, no repeated instruction).
-- After the sweep: the fifth blind critic round (one kit per critic, slot a), then merge WP-82/83.
+- WP-75 to WP-92 merged (rows 104 to 122). Sweeps 6 (91702f14) and 7 (150b9fa9) were green on every registered suite except the two this PC cannot run (`cold_review_archive_tests`, `art_render_measurements`); `opening_depth_policy_ui_tests` runs alone (its summary prefix is "OPENING POLICY UI", 571 checks). Core 856/0 on 150b9fa9.
+- WP-88 to WP-92 merged on top of 150b9fa9 at about 06:50 on 14 Nov, with their touched suites run; not yet pushed and not yet in a full sweep (the eighth sweep is the next step).
+- No helper running. Fifth critic round done and ranked (below); its findings are fixed except the items marked Pat's and the Route Map's cramped SHELF column at the overview zoom (minor).
+- Next: push, eighth full sweep, a sixth blind critic round on the merged head (one kit per critic), then rank again.
 
 The resume command for an Opus session is `/siren-s-start-opus`; `/siren-s-start-fable` is the same run on the Fable model.
 
