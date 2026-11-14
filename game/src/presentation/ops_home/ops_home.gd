@@ -198,7 +198,7 @@ static func arrange(host)->void:
  if hint!=null:hint.reparent(cont);hint.modulate.a=1.0 if resume!=null else 0.0
  # --- Prepare and review ---
  var prep=column();prep.add_child(heading(host,"PREPARE AND REVIEW"))
- var column_width=(host.size.x-Metrics.MENU_MARGIN-Metrics.MENU_PANEL_PADDING-Metrics.MENU_COLUMN_GAP)/2. if wide else Metrics.menu_width(host.size,false)-Metrics.MENU_PANEL_PADDING
+ var column_width=(host.size.x-Metrics.MENU_MARGIN-Metrics.MENU_PANEL_PADDING-Metrics.MENU_COLUMN_GAP)/2. if wide else Metrics.menu_width(host.size,false,host.ui_touch_height)-Metrics.MENU_PANEL_PADDING
  var grid=GridContainer.new();grid.columns=3 if column_width>=host.ui_touch_height*6.5 and Prefs.text_scale()<=1.25 else 2
  grid.add_theme_constant_override("h_separation",Table.GAP);grid.add_theme_constant_override("v_separation",Table.GAP);grid.size_flags_horizontal=Control.SIZE_EXPAND_FILL;prep.add_child(grid)
  var names={"fittings":"FITTINGS","economy":"SUPPLIES","archive":"FIELD RECORDS"}

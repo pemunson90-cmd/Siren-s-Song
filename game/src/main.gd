@@ -251,7 +251,7 @@ func _layout(cancel_gesture:bool=true) -> void:
 			if screen=="menu": call_deferred("_show_campaign")
 			else: call_deferred("_briefing",int(get_meta("onboard2_fit_index",0)))
 		preload("res://src/presentation/prep_columns.gd").relayout(self)
-		var panel_width=preload("res://src/presentation/layout_metrics.gd").menu_width(size,get_meta("hub_wide",false) or get_meta("prep_wide",false))
+		var panel_width=preload("res://src/presentation/layout_metrics.gd").menu_width(size,get_meta("hub_wide",false) or get_meta("prep_wide",false),ui_touch_height)
 		menu.position=Vector2(maxf(24,(size.x-panel_width)/2),24); menu.size=Vector2(panel_width,size.y-48)
 		if screen=="reference" and get_meta("launch_costs_open",false):menu.position=Vector2(16,16);menu.size=size-Vector2(32,32)
 		if archive_status_text!=null:archive_status_text.add_theme_font_size_override("font_size",maxi(17,roundi(h*.26*FrontendSettings.text_scale())))

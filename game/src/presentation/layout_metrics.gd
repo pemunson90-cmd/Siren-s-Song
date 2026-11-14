@@ -1,8 +1,5 @@
 extends RefCounted
 const Settings=preload("res://src/presentation/frontend/frontend_settings.gd")
-# The touch height of the latest layout, so a width question that is not given one (Main._layout asks only for
-# the viewport) can still size a reading column to the current text.
-static var last_touch:=48.
 # Android reports safe area in physical display pixels; UI uses scaled canvas coordinates.
 static func content_rect(viewport_size: Vector2,window_size: Vector2,safe_area: Rect2) -> Rect2:
 	if window_size.x<=0 or window_size.y<=0 or safe_area.size.x<=0 or safe_area.size.y<=0: return Rect2(Vector2.ZERO,viewport_size)
@@ -14,8 +11,7 @@ static func touch_height(viewport_size: Vector2,window_size: Vector2,density_dpi
 	var scale=minf(window_size.x/maxf(1,viewport_size.x),window_size.y/maxf(1,viewport_size.y))
 	# A 56dp row accommodates two 14dp text lines plus themed padding.
 	# 48dp remains the minimum external hit-size gate, not a required row height.
-	last_touch=ceil(maxf(48,56*maxf(96,density_dpi)/160.0/maxf(0.01,scale)))
-	return last_touch
+	return ceil(maxf(48,56*maxf(96,density_dpi)/160.0/maxf(0.01,scale)))
 
 # Menu panel width. One column is 800 wide on a portrait screen (more on a landscape one, see reading_column); the campaign hub uses two columns when
 # the screen is landscape and each column can still hold a full-size touch row (cover screen, tablets).
@@ -50,17 +46,17 @@ static func prep_wide(viewport_size: Vector2,touch_h: float,text_scale: float) -
 # phone keeps its 800.
 const MENU_READING_CHARS=75.
 const MENU_CHAR_EM=.5
-static func reading_column(viewport_size: Vector2) -> float:
+static func reading_column(viewport_size: Vector2,touch_h: float) -> float:
 	if viewport_size.x<viewport_size.y:return MENU_COLUMN
-	var font_px=maxi(17,roundi(last_touch*.29*Settings.text_scale()))
+	var font_px=maxi(17,roundi(touch_h*.29*Settings.text_scale()))
 	return maxf(MENU_COLUMN,MENU_READING_CHARS*MENU_CHAR_EM*font_px+MENU_PANEL_PADDING)
 # Width of one text column inside the menu panel (the whole inner width when not wide).
-static func menu_column_width(viewport_size: Vector2,wide: bool) -> float:
-	var inner=menu_width(viewport_size,wide)-MENU_PANEL_PADDING
+static func menu_column_width(viewport_size: Vector2,wide: bool,touch_h: float) -> float:
+	var inner=menu_width(viewport_size,wide,touch_h)-MENU_PANEL_PADDING
 	return (inner-MENU_COLUMN_GAP)/2. if wide else inner
-static func menu_width(viewport_size: Vector2,wide: bool) -> float:
+static func menu_width(viewport_size: Vector2,wide: bool,touch_h: float) -> float:
 	if wide: return minf(2.*MENU_COLUMN+MENU_COLUMN_GAP+MENU_PANEL_PADDING,viewport_size.x-MENU_MARGIN)
-	return minf(reading_column(viewport_size),viewport_size.x-MENU_MARGIN)
+	return minf(reading_column(viewport_size,touch_h),viewport_size.x-MENU_MARGIN)
 # Hub rows are touch targets at the 48dp gate; the 56dp touch height is the roomy default for other screens.
 static func dense_height(touch_h: float) -> float:
 	return maxf(48.,roundf(touch_h*48./56.))

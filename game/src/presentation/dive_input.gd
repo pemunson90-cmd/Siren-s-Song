@@ -129,7 +129,5 @@ static func unhandled_key(host,event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo:
 		# SPACE pauses only live play; menus, briefing and settings never touch mission pause.
 		if event.keycode==KEY_SPACE and host.screen=="mission": host._pause()
-		if event.keycode==KEY_ESCAPE:
-			if host.advanced_orders:host.mission_hud._back()
-			elif host.knock_armed or host.decoy_armed:host._primary_action()
-			else:host.sim.paused=true;host._show_campaign()
+		# Escape is Android Back: close what is open, else the dive's MENU button.
+		if event.keycode==KEY_ESCAPE:preload("res://src/presentation/back_exit/back_levels.gd").dive(host)

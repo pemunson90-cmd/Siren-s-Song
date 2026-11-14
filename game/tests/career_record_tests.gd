@@ -76,6 +76,15 @@ func run():
  var a=State.rider_offer(career,"brannock_watch");var b=State.rider_offer(career,"brannock_watch")
  check(a==b,"the same contract shows the same rider on every view")
  check(Board.rider_line("Brannock Watch",a).begins_with("OPTIONAL RIDER FOR BRANNOCK WATCH · "),"rider line names its contract")
+ # WP-92: after a dive the result says the earnings once, in the ledger's "Earned:" line; the board keeps them in its own lines.
+ var Text=preload("res://src/presentation/mode_result_text.gd")
+ var report="BRANNOCK WATCH · RECOVERED\nSTANDING +2 → 5 · CONTRACT PAY 40 FUEL + 10 SALVAGE\nSALVAGE RECOVERED · 3 SCRAP\nRIDER PASSED · BONUS 5 FUEL"
+ var full="\n".join(Text.career_lines(report))
+ check(full.contains("Contract pay:") and full.contains("Salvage:") and full.contains("Bonus:"),"the board lists pay, salvage and bonus: "+full)
+ var once="\n".join(Text.career_lines(report,false))
+ check(once.contains("Standing up 3, now 5") or once.contains("Standing up"),"the dive result keeps the standing change: "+once)
+ check(not once.contains("Contract pay") and not once.contains("Salvage:") and not once.contains("Bonus:") and once.contains("Rider passed."),"the dive result leaves the amounts to Earned: "+once)
+ check(Text.career_earned(report).contains("contract pay") and Text.career_earned(report).contains("salvage") and Text.career_earned(report).contains("rider bonus"),"Earned: holds pay, salvage and bonus: "+Text.career_earned(report))
  for node in [log,other,field,beam,sweep,paused]:node.free()
  print("CAREER RECORD CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)
 class FakeHost:

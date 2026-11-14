@@ -61,7 +61,7 @@ static func back_line(host,title:String,back_text:String,back_action:Callable,ba
 	return label
 # What a text column can be asked to hold: one column's width less the room for the right column's scroll bar.
 static func text_width(host)->float:
-	return Metrics.menu_column_width(host.size,is_wide(host))-(UiStyle.PREP_SCROLLBAR_ALLOWANCE if is_wide(host) else 0.)
+	return Metrics.menu_column_width(host.size,is_wide(host),host.ui_touch_height)-(UiStyle.PREP_SCROLLBAR_ALLOWANCE if is_wide(host) else 0.)
 # The minimum width of a strip of bars: 610 as ever on a narrow screen, less than a column on a wide one.
 static func strip_width(host)->float:
 	return minf(610.,minf(host.size.x-120.,text_width(host)) if is_wide(host) else host.size.x-120.)

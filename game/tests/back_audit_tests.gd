@@ -11,6 +11,7 @@ var failures=0
 var now=100000
 var quits=0
 var rows=[]
+var use_escape=false  # the Escape key in place of Android Back
 func check(ok,label):
  checks+=1
  if not ok:failures+=1;printerr("FAIL ",label)
@@ -39,7 +40,10 @@ func audit(label:String,open:Callable,expect:String,expect_toast:=false,after_ch
  var game=await fresh()
  await open.call(game)
  var before=where(game)
- root.propagate_notification(Node.NOTIFICATION_WM_GO_BACK_REQUEST);await settle()
+ if use_escape:
+  var key=InputEventKey.new();key.keycode=KEY_ESCAPE;key.pressed=true;game._unhandled_key_input(key);await settle()
+ else:
+  root.propagate_notification(Node.NOTIFICATION_WM_GO_BACK_REQUEST);await settle()
  var after=where(game)
  var armed=game.back_exit.armed
  rows.append("%-34s | %-34s | %s%s"%[label,before,after," (toast armed)" if armed else ""])
@@ -88,6 +92,14 @@ func run():
  await audit("dive, route editor open",func(g):await dive(g);g._order("program");await settle(),"mission",false,func(g):check(not g.route_editor.visible,"Back closes the route editor"))
  await audit("dive, contact card open",func(g):await dive(g);await open_card(g),"mission",false,func(g):check(not g.mission_hud.contact_card.is_open(),"Back closes the contact card"))
  await audit("result after a dive",func(g):await dive(g);g.sim.outcome="lost";g._debrief();await settle(),"menu")
+ # Escape in a dive does what Back does (WP-92): the same four rows with the keyboard.
+ use_escape=true
+ await audit("Escape, dive nothing open",func(g):await dive(g),"menu",false,dive_kept)
+ await audit("Escape, dive torpedo armed",func(g):await dive(g);g.knock_armed=true;g.ocean.knock_targeting=true,"mission",false,func(g):check(not g.knock_armed,"Escape disarms the torpedo"))
+ await audit("Escape, dive order wheel open",func(g):await dive(g);g._toggle_advanced();await settle(),"mission",false,func(g):check(not g.advanced_orders,"Escape closes the order wheel"))
+ await audit("Escape, dive contact card open",func(g):await dive(g);await open_card(g),"mission",false,func(g):check(not g.mission_hud.contact_card.is_open(),"Escape closes the contact card"))
+ await audit("Escape, route editor open",func(g):await dive(g);g._order("program");await settle(),"mission",false,func(g):check(not g.route_editor.visible,"Escape closes the route editor"))
+ use_escape=false
  # Mode sessions run on their own Main; the session reports its own screen.
  # The contract board's button says BACK TO GAME MODES; Android Back lands on the same screen (critic 14 Nov).
  await audit("career contract board",func(g):await mode(g,"career"),"Frontend:modes")

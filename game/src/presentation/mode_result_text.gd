@@ -13,7 +13,8 @@ static func plus_list(text:String)->String:
 	return ", ".join(Array(text.to_lower().split(" + ")))
 # The saved Career report as short lines. A report written before any dive
 # (or any line this does not know) passes through untouched.
-static func career_lines(report:String)->Array:
+# With earnings=false the pay, salvage and rider bonus amounts are left out: the dive's "Earned:" line (career_earned) says them once.
+static func career_lines(report:String,earnings:bool=true)->Array:
 	var rows=report.split("\n")
 	var head=_career_head.search(rows[0])
 	if head==null:return Array(rows)
@@ -27,13 +28,14 @@ static func career_lines(report:String)->Array:
 		if standing!=null:
 			var before=int(standing.get_string(1));var after=int(standing.get_string(2))
 			if after!=before:changes.append("Standing %s %d, now %d."%["up" if after>before else "down",absi(after-before),after])
-			if standing.get_string(3)!=NONE_WORD:changes.append("Contract pay: %s."%plus_list(standing.get_string(3)))
+			if earnings and standing.get_string(3)!=NONE_WORD:changes.append("Contract pay: %s."%plus_list(standing.get_string(3)))
 		elif salvage!=null:
-			if salvage.get_string(1)!=NONE_WORD:changes.append("Salvage: %s."%plus_list(salvage.get_string(1)))
+			if earnings and salvage.get_string(1)!=NONE_WORD:changes.append("Salvage: %s."%plus_list(salvage.get_string(1)))
 		elif rider!=null:
-			if rider.get_string(1)=="PASSED":changes.append("Rider passed. Bonus: %s."%plus_list(rider.get_string(2)))
+			if rider.get_string(1)=="PASSED":changes.append("Rider passed. Bonus: %s."%plus_list(rider.get_string(2)) if earnings else "Rider passed.")
 			else:changes.append("Rider failed. No bonus.")
 		elif not row.begins_with("LAST DIVE"):changes.append(row)
+	if changes.is_empty() and not earnings:return out  # the ledger's "Earned:" line says what came in
 	out.append_array(changes if not changes.is_empty() else [NOTHING])
 	return out
 # What a Career dive earned, as one phrase, from the same report lines career_lines reads: contract pay, salvage and a rider bonus.

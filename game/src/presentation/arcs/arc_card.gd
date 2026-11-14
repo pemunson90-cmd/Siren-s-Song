@@ -78,7 +78,7 @@ func setup(main,arc:Dictionary,outro:bool)->void:
  _fit()
 # Same geometry the briefing panel gets in Main._layout.
 func _fit()->void:
- var width:float=Metrics.menu_width(host.size,host.get_meta("hub_wide",false))
+ var width:float=Metrics.menu_width(host.size,host.get_meta("hub_wide",false),host.ui_touch_height)
  frame.position=Vector2(maxf(24,(host.size.x-width)/2),24);frame.size=Vector2(width,host.size.y-48)
 func _process(_delta):
  _fit()
