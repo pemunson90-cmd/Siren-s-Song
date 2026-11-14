@@ -67,8 +67,8 @@ static func difference(more:Dictionary,less:Dictionary)->Dictionary:
 	for key in Table.TOOLS:out[key]=maxi(0,int(more.get(key,0))-int(less.get(key,0)))
 	return out
 # An Expedition dive: it started with `before`, ended with `after_dive` (the result's tools) and the run now holds `kept`.
-static func dive_ledger(before:Dictionary,after_dive:Dictionary,kept:Dictionary,recovered:String="",photo:float=-1.)->Array:
-	return ledger(count_text(difference(before,after_dive)),earned_text(count_text(difference(kept,after_dive),true),recovered,photo),count_text(kept))
+static func dive_ledger(before:Dictionary,after_dive:Dictionary,kept:Dictionary,recovered:String="",photo:float=-1.,lost:Array=[])->Array:
+	return ledger(count_text(difference(before,after_dive)),earned_text(count_text(difference(kept,after_dive),true),recovered,photo),count_text(kept),lost) # WP-119: lost craft sit under what was spent
 # What a dive earned: the archive it recovered and its photograph grade (when it recovered one), then the supplies it added.
 static func earned_text(supplies:String,recovered:String="",photo:float=-1.)->String:
 	var parts:Array=[]
@@ -76,8 +76,31 @@ static func earned_text(supplies:String,recovered:String="",photo:float=-1.)->St
 	if not recovered.is_empty() and photo>=0.:parts.append(ResultText.photo_word(photo))
 	if supplies!=NOTHING:parts.append(supplies)
 	return ", ".join(parts) if not parts.is_empty() else NOTHING
-static func ledger(spent:String,earned:String,kept:String)->Array:
-	return [LEDGER_TITLE,SPENT_LINE%spent,EARNED_LINE%earned,KEPT_LINE%kept]
+static func ledger(spent:String,earned:String,kept:String,lost:Array=[])->Array:
+	return [LEDGER_TITLE,SPENT_LINE%spent]+lost+[EARNED_LINE%earned,KEPT_LINE%kept]
 
-static func career_ledger(used:String,earned:String,kept:String)->Array:
-	return [LEDGER_TITLE,USED_REFILL_LINE%used,EARNED_LINE%earned,KEPT_LINE%kept]
+static func career_ledger(used:String,earned:String,kept:String,lost:Array=[])->Array:
+	return [LEDGER_TITLE,USED_REFILL_LINE%used]+lost+[EARNED_LINE%earned,KEPT_LINE%kept]
+# WP-119: the craft a dive lost and why, one line each, from ThreatRead.dive_losses (the cause the dive already knew).
+const LOST_LINE="Lost: %s%s."
+const LOST_BEAM=", to a Siren beam from %03d°%s"
+const LOST_LABEL=" (%s)"
+const LOST_BATTERY=", its battery ran flat"
+# WP-119: the run ended because the player chose END DIVE · LOSE RUN, not because the dive was lost.
+const ABANDONED_LINE="You ended the dive with END DIVE · LOSE RUN, so the run is lost."
+static func lost_cause(row:Dictionary)->String:
+	if float(row.bearing)>=0.:return LOST_BEAM%[roundi(float(row.bearing))%360,LOST_LABEL%row.label if not str(row.label).is_empty() else ""]
+	return LOST_BATTERY if bool(row.battery) else ""
+static func lost_lines(losses:Array)->Array:
+	var out:Array=[]
+	for row in losses:out.append(LOST_LINE%[str(row.name).capitalize(),lost_cause(row)])
+	return out
+# WP-119: the Campaign result's block. Every amount is what the economy applied (Economy.settle's income, the launch's actual charge, the balance now).
+const CAMPAIGN_TITLE="THIS DIVE · EARNED AND SPENT"
+const CAMPAIGN_SPENT="Spent: %s on the launch."
+const CAMPAIGN_SPENT_FREE="Spent: nothing (the launch was free)."
+const CAMPAIGN_BALANCE="Balance now: %s."
+const DRONE_RECORDED=" Its battery is recorded at %d%%; repair in SUPPLIES costs %s."
+const DRONE_RECORDED_FREE=" Its battery is recorded at %d%%."
+const DRONE_RESTORED=" The difficulty restores it for the next dive."
+const DRONE_GONE=" It is gone for good; a replacement in SUPPLIES costs %s."

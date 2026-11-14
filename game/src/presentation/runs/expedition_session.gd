@@ -25,6 +25,7 @@ var recorded=false
 var accept_rider=TrialRules.expedition_rider_default_on()
 # The dive just finished: spent, earned, kept (run_words.gd). Empty until a dive ends in this session.
 var dive_ledger:Array=[]
+var dive_abandoned=false # WP-119: the dive just finished ended by END DIVE · LOSE RUN
 var snapshot_ready=false
 var save_failed=false
 var active_envelope:Dictionary={}
@@ -142,7 +143,8 @@ func _debrief(abandoned:bool=false)->void:
 	var stock_before:Dictionary=run_state.stock.duplicate()
 	var dive_result:Dictionary=sim.result(abandoned)
 	run_state=RunState.settle(run_state,dive_result)
-	dive_ledger=RunWords.dive_ledger(stock_before,dive_result.tools,run_state.stock,str(sim.mission.title) if dive_result.outcome=="won" else "",float(dive_result.get("photo",-1.)))
+	dive_ledger=RunWords.dive_ledger(stock_before,dive_result.tools,run_state.stock,str(sim.mission.title) if dive_result.outcome=="won" else "",float(dive_result.get("photo",-1.)),RunWords.lost_lines(preload("res://src/presentation/threat_read/threat_read.gd").dive_losses(sim))) # WP-119: lost craft and their cause
+	dive_abandoned=abandoned
 	run_state=RunOffers.prepare(run_state);active_envelope={}
 	_result_menu()
 func _result_menu()->void:
@@ -151,7 +153,8 @@ func _result_menu()->void:
 	_menu_text("Seed %d: %d of %d operations recovered."%[run_state.seed,run_state.cursor,run_state.operations.size()],20)
 	# Only a real outcome has a reason to state; an ended dive still holds the opening hint.
 	# A loss states its cause from what happened; a rider's failure replaces sim.message after the fact.
-	if sim.outcome=="lost":
+	if dive_abandoned:_menu_text(RunWords.ABANDONED_LINE,17) # WP-119: say plainly that the player ended the run
+	elif sim.outcome=="lost":
 		var cause=preload("res://src/presentation/loss_summary.gd").line(sim)
 		if not cause.is_empty():_menu_text(cause,17)
 	elif not sim.outcome.is_empty():_menu_text(sim.message,17)
@@ -163,9 +166,10 @@ func _result_menu()->void:
 			_menu_text("Rider passed. Bonus: %s."%RunState.rider_bonus_text(r.assignment).to_lower() if r.passed else "Rider failed. No bonus.",17)
 	# What the dive spent, earned and kept; only for the dive just finished (a result restored after a reload has no dive to read).
 	for line in dive_ledger:_menu_text(line,17)
-	if run_state.status!="active":SummaryView.session(self)
-	else:_show_photo_grade(sim.mission.objectives)
+	# WP-119: what was earned and lost, then the photograph, then the run's set-up lines.
+	if run_state.status=="active":_show_photo_grade(sim.mission.objectives)
 	preload("res://src/presentation/flow/photo_review.gd").show_best_frame(self)
+	if run_state.status!="active":SummaryView.session(self)
 	save_failed=not _persist_state(run_state)
 	if save_failed:
 		preload("res://src/presentation/frontend/save_error_view.gd").menu_retry(self,"RESULT NOT SAVED · "+str(campaign_host.get_meta("runs_save_error","")),17,"RETRY SAVE",_result_menu,"run_retry_save")
@@ -176,7 +180,7 @@ func _result_menu()->void:
 			if RunOffers.pending(run_state):OfferView.show(self);return
 			active_started=false;sim.configure(run_state);_start_mission(RunState.current_operation(run_state));active_started=false
 			# The saved result is consumed only when explicitly preparing the next dive.
-			recorded=false;dive_ledger=[];_show_campaign()
+			recorded=false;dive_ledger=[];dive_abandoned=false;_show_campaign()
 		,"run_next")
 	_button(panel_box,"BACK TO EXPEDITIONS",_return,"run_return")
 	preload("res://src/presentation/debrief_actions.gd").footer(self) # WP-109: NEXT OPERATION and BACK stay on screen
@@ -189,7 +193,7 @@ func _pick_offer(id:String)->void:
 		OfferView.show(self)
 		_menu_text("CHOICE NOT SAVED · "+str(campaign_host.get_meta("runs_save_error","Retry when storage is available.")),17)
 		return
-	run_state=picked;recorded=false;dive_ledger=[];active_started=false
+	run_state=picked;recorded=false;dive_ledger=[];dive_abandoned=false;active_started=false
 	sim.configure(run_state);_start_mission(RunState.current_operation(run_state));active_started=false
 	_show_campaign()
 func _enter_water()->void:

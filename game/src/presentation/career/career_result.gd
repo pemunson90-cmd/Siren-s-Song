@@ -29,4 +29,4 @@ static func ledger(host)->Array:
 	for key in Words.Table.TOOLS:used[key]=maxi(0,racks.total(host.tool_racks,key)-int(left.get(key,0)))
 	var economy:Dictionary=host.economy
 	var kept="Quietus hull recorded at %d%%, %s in stock"%[int(economy.cond.get(preload("res://src/names.gd").CRAFT_QUIETUS,100)),Economy.fmt(economy.stock).to_lower().replace(" + ",", ")]
-	return Words.career_ledger(Words.count_text(used),ResultText.career_earned(host.career_state.report),kept)
+	return Words.career_ledger(Words.count_text(used),ResultText.career_earned(host.career_state.report),kept,Words.lost_lines(preload("res://src/presentation/threat_read/threat_read.gd").dive_losses(host.sim))) # WP-119: lost drones and their cause

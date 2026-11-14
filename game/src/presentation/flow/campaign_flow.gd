@@ -368,6 +368,7 @@ static func debrief(host) -> void:
 		host.EarlyReward.debrief(host)
 		host.BlackwaterDelivery.debrief(host)
 		host.ModuleRecovery.debrief(host)
+		EconomyPanel.debrief_block(host) # WP-119: what the dive earned and cost, before the photograph
 		host._show_photo_grade(host.sim.mission.objectives);PhotoReview.show_best_frame(host)
 		preload("res://src/presentation/photo_pay/photo_pay.gd").debrief(host)
 		host._menu_text(stats_line(host.sim),17)
@@ -382,7 +383,7 @@ static func debrief(host) -> void:
 			if 6 in host.ExpeditionCampaign.available(host.completed,host.expedition):host._button(host.panel_box,"BEYOND THE WARNING / THE DIVERGENCE",func():host._briefing(6),"expedition6")
 		else: host._button(host.panel_box,"NEXT DIVE",func(): host._briefing(host.mission_index+1),"next_dive")
 	else:
-		host._menu_text("SIGNAL LOST",32); host._menu_text(host.sim.message,22); lift_at=host.panel_box.get_child_count(); host._menu_text(preload("res://src/presentation/loss_summary.gd").line(host.sim),17); host._menu_text(stats_line(host.sim),17); preload("res://src/presentation/death_cause/cause_log.gd").debrief(host); preload("res://src/presentation/damage_log/damage_log.gd").debrief(host); var shots_text:String=PhotoReview.loss_photo_lines(host); if not shots_text.is_empty():host._menu_text(shots_text,17)
+		host._menu_text("SIGNAL LOST",32); host._menu_text(host.sim.message,22); lift_at=host.panel_box.get_child_count(); host._menu_text(preload("res://src/presentation/loss_summary.gd").line(host.sim),17); host._menu_text(stats_line(host.sim),17); EconomyPanel.debrief_block(host); preload("res://src/presentation/death_cause/cause_log.gd").debrief(host); preload("res://src/presentation/damage_log/damage_log.gd").debrief(host); var shots_text:String=PhotoReview.loss_photo_lines(host); if not shots_text.is_empty():host._menu_text(shots_text,17)
 		host._menu_text(PhotoReview.loss_note(host,not shots_text.is_empty()),17)
 		host.BlackwaterDelivery.debrief(host)
 		host.ModuleRecovery.debrief(host)

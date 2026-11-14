@@ -28,7 +28,8 @@ static func session(host)->void:
 	var row=Records.summary(host.run_state)
 	if row.is_empty():return
 	# The result header already states the seed and the recovered count; skip the repeat.
-	for line in lines(row).slice(1):host._menu_text(line,17)
+	# WP-119: the best photo of each operation comes before the set-up lines, so it is on the first screen.
+	for line in operation_lines(row)+summary_lines(row).slice(1):host._menu_text(line,17)
 static func detail(front,row:Dictionary,back:Callable,replay:Callable)->void:
 	front._reset("run_record")
 	front._button("BACK",back,"frontend_back")

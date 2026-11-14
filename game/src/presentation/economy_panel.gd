@@ -17,6 +17,8 @@ const Research=preload("res://src/campaign/glass_research.gd")
 const Inventory=preload("res://src/campaign/fleet_inventory.gd")
 const PrepColumns=preload("res://src/presentation/prep_columns.gd")
 const Hulls=preload("res://src/equipment/hulls.gd")
+const Words=preload("res://src/presentation/runs/run_words.gd") # WP-119
+const ThreatRead=preload("res://src/presentation/threat_read/threat_read.gd") # WP-119
 const HAVE_LINE="You have: %s."
 const SOURCES_LINE="Scrap and cells come from each dive's salvage; alloy comes from alien material you recover, or from refining %d scrap into %d alloy."
 const SHORT_LINE="You are short by %s."
@@ -168,8 +170,16 @@ static func begin(host,index:int)->void:
 	var previous=host.sim.mission
 	host._start_mission(index)
 	if host.screen=="mission" and host.active_started and not is_same(previous,host.sim.mission):
-		Economy.pay(host.economy,tool_cost)
-		Economy.charge_launch(host.economy,cost_fit);Economy.apply_launch(host.economy,host.sim)
+		var refit:Dictionary=Economy.refit_cost(host.economy,cost_fit)
+		var paid:Dictionary={}
+		var tools_paid:bool=Economy.pay(host.economy,tool_cost)
+		var fit_paid:bool=Economy.charge_launch(host.economy,cost_fit)
+		for key in tool_cost:
+			if tools_paid:paid[key]=paid.get(key,0)+tool_cost[key]
+		for key in refit:
+			if fit_paid:paid[key]=paid.get(key,0)+refit[key]
+		host.set_meta(META_PAID,paid) # WP-119: the launch's actual cost, for the result's block
+		Economy.apply_launch(host.economy,host.sim)
 		host._save_archive()
 static func briefing_line(host)->String:
 	if not Table.enabled:return ""
@@ -184,13 +194,51 @@ static func settle(host,first_recovery:bool,fleet_before:Dictionary)->void:
 	var artifact=mission.get("recovered",false) and state.get("retrieved",false) and state.get("artifact",{}).get("state","")=="recovered"
 	artifact=artifact and state.artifact.get("id","") not in host.expedition.get("research",{}).get("materials",[])
 	var recovered=mission.get("module_recovery",{}).get("result",{}).get("recovered",[])
-	Economy.settle(host.economy,{"outcome":host.sim.outcome,"hull":host.sim.hull,"alive":[host.sim.DroneBay.home(host.sim.units[1]),host.sim.DroneBay.home(host.sim.units[2])],
+	var cond_before:Dictionary=host.economy.cond.duplicate()
+	var applied:Dictionary=Economy.settle(host.economy,{"outcome":host.sim.outcome,"hull":host.sim.hull,"alive":[host.sim.DroneBay.home(host.sim.units[1]),host.sim.DroneBay.home(host.sim.units[2])],
 		"mission":mission,"first":first_recovery and won,"recovered":recovered.size() if first_recovery and won else 0,"artifact":artifact,
 		"blackwater_handoff":preload("res://src/simulation/blackwater_delivery.gd").handoff_paid(mission),
 		"key":"%d|%s|%d"%[host.mission_index,host.sim.outcome,roundi(host.sim.elapsed*100.)]})
+	# WP-119: what this settlement credited, kept for the result's block (a result drawn again keeps the first settlement's numbers).
+	if not applied.is_empty():host.set_meta(META_DIVE,{"earned":applied,"cond_before":cond_before})
 	if Economy.Losses.active(host.economy):
 		for item in Economy.Losses.state(host.economy).last:
 			if item not in Economy.Losses.state(host.economy).modules:host.fleet=Inventory.rebuild(host.fleet,item)
+# WP-119: the Campaign result's EARNED block: what the dive credited, what the launch cost, the drones it lost and the balance now.
+# Empty when no dive was settled in this session (a result opened from a save has no dive to read) or the economy is off.
+const META_DIVE="economy_dive"
+const META_PAID="economy_launch_paid"
+static func _words(cost:Dictionary)->String:
+	return Economy.fmt(cost).to_lower().replace(" + ",", ")
+static func dive_block(host)->Array:
+	if not Table.enabled or not host.has_meta(META_DIVE):return []
+	var dive:Dictionary=host.get_meta(META_DIVE);var e=host.economy
+	var paid:Dictionary=host.get_meta(META_PAID,{})
+	var earned:Dictionary={}
+	for key in dive.earned:
+		if int(dive.earned[key])>0:earned[key]=int(dive.earned[key])
+	var out:Array=[Words.CAMPAIGN_TITLE,Words.EARNED_LINE%(_words(earned).replace("free","nothing")),Words.CAMPAIGN_SPENT%_words(paid) if not paid.is_empty() else Words.CAMPAIGN_SPENT_FREE]
+	var losses:Array=ThreatRead.dive_losses(host.sim)
+	for i in [1,2]:
+		var target:String=Economy.TARGETS[i];var name:String=host.sim.units[i].name
+		var cause:=""
+		var known:=false
+		for row in losses:
+			if str(row.name)==name:cause=Words.lost_cause(row);known=true
+		var before:int=int(dive.cond_before.get(target,100));var now:int=int(e.cond.get(target,100))
+		var gone:bool=Economy.Losses.active(e) and target in Economy.Losses.state(e).last # lost in this dive, not an earlier one
+		if not known and not gone and now>=before:continue
+		var line:String=Words.LOST_LINE%[name.capitalize(),cause]
+		if gone:line+=Words.DRONE_GONE%_words(Economy.drone_cost(e))
+		elif now>=100:line+=Words.DRONE_RESTORED
+		else:
+			var repair:Dictionary=Economy.repair_cost(e,target)
+			line+=Words.DRONE_RECORDED%[now,_words(repair)] if not repair.is_empty() else Words.DRONE_RECORDED_FREE%now
+		out.append(line)
+	out.append(Words.CAMPAIGN_BALANCE%_words(e.stock).replace("free","nothing"))
+	return out
+static func debrief_block(host)->void:
+	for line in dive_block(host):host._menu_text(line,17)
 # ---- the supplies screen -----------------------------------------------------
 # WP-62: on a wide screen what you hold and what the next launch costs are the left column, and the repairs and
 # purchases the right (PrepColumns, as on Fittings). A narrow screen keeps the one list in its old order.
