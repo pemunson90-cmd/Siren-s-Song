@@ -27,7 +27,7 @@ func copy():
 	for c in game.panel_box.find_children("*","Control",true,false):
 		if c is Label or c is Button:text+=c.text+"\n"
 	return text
-func stock(s):return "O₂ %d%% · EMP %d · SURVEY %d"%[s.oxygen,s.tools.emp,s.tools.recon]
+func stock(s):return "%s · EMP %d · SURVEY %d"%[preload("res://src/presentation/oxygen_reading.gd").tank(s.oxygen),s.tools.emp,s.tools.recon]
 # Explicit loading keeps this test about selected stock, launch and resume,
 # while the default templates preserve winch room rather than granting tools.
 func load_tools(host):
@@ -51,7 +51,7 @@ func run():
 		var text=copy();var expected=stock(starts[choice])
 		check("Loadout:" in text and preload("res://src/equipment/field_tools.gd").loadout_label(choice) in text and expected in text,"selected "+choice+" starting stock is advertised before launch")
 		for option in starts:
-			var s=starts[option];var row="%s: O₂ %d%%, EMP %d, SURVEY %d"%[preload("res://src/equipment/field_tools.gd").loadout_label(option),s.oxygen,s.tools.emp,s.tools.recon]
+			var s=starts[option];var row="%s: %s, EMP %d, SURVEY %d"%[preload("res://src/equipment/field_tools.gd").loadout_label(option),preload("res://src/presentation/oxygen_reading.gd").tank(s.oxygen),s.tools.emp,s.tools.recon]
 			check("COMPARE STOCK" in text and row in text,"comparison exposes actual "+option+" stock while "+choice+" selected")
 		var ordinary=starts[choice];var drones=ordinary.units.slice(1).filter(func(u):return u.alive or PlayerDive.Bay.aboard(u)).size() # drones aboard Quietus count: they are launched from it
 		check("TOOLS:" in text and ("%d DECOYS"%ordinary.tools.decoy) in text and ("%d DRONES"%drones) in text,"common equipment matches actual start while "+choice+" selected")
