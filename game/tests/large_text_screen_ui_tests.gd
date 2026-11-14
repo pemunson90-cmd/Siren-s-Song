@@ -105,11 +105,30 @@ func settings_screens(shape:Vector2i,scale:float)->void:
   report.append("Settings %s %s | %s"%[page,tag,"ok" if problems.is_empty() else str(problems.slice(0,4))])
   check(problems.is_empty(),"Settings "+page+" "+tag+" shows no clipped text and no short button "+str(problems.slice(0,4)))
  await finish(game,path)
+# WP-114: the Naval Career contract briefing at each size: two columns where they fit, buttons on screen either way.
+func career_screens(shape:Vector2i,scale:float)->void:
+ root.size=shape;await settle()
+ Settings.current["text_scale"]=scale
+ var path="user://large-text-career-%d.save"%shape.x
+ var game=await make_game(path)
+ var front=Front.new();front.settings_store.path=path+".settings";game.add_child(front);front.setup(game,true)
+ var tag=" %dx%d at %d%%"%[shape.x,shape.y,roundi(scale*100)]
+ check(CareerArchive.persist(game,CareerState.new_career()),"a career is saved"+tag)
+ CareerFront.start(front);await settle()
+ var career=game.get_node_or_null("CareerSession")
+ check(career!=null,"the career session opens"+tag)
+ if career!=null:
+  career._select_contract(career.selected_contract);await settle();await settle()
+  career_briefing_checks(career,career.get_meta("prep_wide",false),tag)
+  if shape==Vector2i(2520,1080) and scale<1.2:check(career.get_meta("prep_wide",false),"the contract briefing keeps two columns on the cover screen at 100%"+tag)
+  await audit(career,"contract briefing"+tag)
+ await finish(game,path)
 func run():
  for shape in [Vector2i(2184,1968),Vector2i(2520,1080),Vector2i(1080,2400)]:
   for scale in [1.,1.3,1.5]:
    await game_screens(shape,scale,shape.x>shape.y)
    await settings_screens(shape,scale)
+   await career_screens(shape,scale)
  Settings.current["text_scale"]=1.
  for line in report:print("LT ",line)
  print("LARGE TEXT SCREEN UI CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)
