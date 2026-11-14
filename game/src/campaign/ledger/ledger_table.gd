@@ -3,6 +3,7 @@ const Names=preload("res://src/names.gd")
 # 078 campaign ledger data. Maps saved facts to short lines; rewrite text here only.
 # AI-DESIGNED placeholder text, Pat to rewrite. No new plot: each line restates a saved fact.
 const NOT_RECORDED="not recorded"
+const NOTHING_YET="Nothing yet."	# a panel's only row while no operation has been recovered
 const UNKNOWN_VALUE="recorded as %s"
 const MAX_VALUE_CHARS=24
 const HEAD_SIZE=20
