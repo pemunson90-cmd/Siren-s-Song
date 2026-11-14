@@ -39,6 +39,7 @@ func width_case(shape:Vector2i,text_scale:float):
  check(fit.end.x<=panel.position.x or panel.size.x<=0.,"open, labels may not reach under the panel "+tag)
  for plate in ocean.world_label_rects:check(not panel.intersects(plate),"open, no label plate under the panel "+tag+" "+str(plate))
 
+ check(not panel.has_point(ocean.screen_position(sim.units[0].pos)),"open, the followed craft is not under the panel "+tag)
  check(feed.blocks_point(feed.global_position+panel.size*.5),"open, taps on the panel belong to it "+tag)
  feed.compact=true;game._refresh();await settle()
  check(ocean.screen_position(sim.units[0].pos).distance_to(anchor)<.1 and is_equal_approx(ocean.world_scale,scale_before),"folding the panel does not move or rescale the chart "+tag)

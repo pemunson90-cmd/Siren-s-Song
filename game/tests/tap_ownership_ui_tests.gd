@@ -33,7 +33,7 @@ func water(g,from:Vector2,exclude:Array=[])->Vector2:
 			var p:Vector2=from+Vector2.from_angle(TAU*k/24.0)*r
 			if not open_water(g,p,40) or exclude.any(func(q):return q.distance_to(p)<90):continue
 			var s=screen(g,p)
-			if not g.ocean.get_global_rect().grow(-70).has_point(s) or g.mission_hud.blocks(s) or g.ocean.optical_feed.blocks_point(s):continue
+			if not g.ocean.get_global_rect().grow(-70).has_point(s) or g.mission_hud.blocks(s):continue
 			var local=s-g.ocean.global_position
 			if not g.ocean.contexts_at(local,g.ui_touch_height*1.6).is_empty() or g.ocean.information_at(local):continue
 			return p
@@ -283,11 +283,9 @@ func outside_spots(g)->Array:
 		for x in range(160,1560,170):
 			var p=Vector2(x,y)
 			var world=g.ocean.map_position(p-g.ocean.global_position)
-			if not chart.has_point(p) or not open_water(g,world,60) or g.ocean.optical_feed.blocks_point(p):continue
+			if not chart.has_point(p) or not open_water(g,world,60):continue
 			if hud.sheet.visible and hud.sheet.get_global_rect().grow(20).has_point(p):continue
 			if hud.order_dock.visible and hud.order_dock.get_global_rect().grow(20).has_point(p):continue
-			# The chart now reaches the screen edge: keep clear of the corner controls and drawn objectives too.
-			if hud.action_controls().values().any(func(b):return b.get_global_rect().grow(20).has_point(p)) or not g.ocean.contexts_at(p-g.ocean.global_position,g.ui_touch_height*1.6).is_empty():continue
 			if g.advanced_orders and p.distance_to(hud.center)<hud.ring_radius*1.8:continue
 			if crafts.any(func(c):return c.distance_to(p)<160):continue
 			found.append(p)
@@ -302,8 +300,6 @@ func closing_tap_checks(g)->void:
 			await opened(g,how)
 			var spots=outside_spots(g)
 			if how=="silent":spots=[Vector2(740,780)/1.5,Vector2(740,380)/1.5]
-			# Those native points were open water at the old chart scale; where the wider chart puts rock there, use open water instead.
-			if how=="silent" and not spots.all(func(p):return open_water(g,g.ocean.map_position(p-g.ocean.global_position),60)):spots=outside_spots(g).slice(0,2)
 			count=mini(spots.size(),5) if how!="silent" else 2
 			check(not spots.is_empty(),how+": there is open water to tap")
 			if spots.is_empty():break

@@ -284,7 +284,7 @@ func salvage_markers()->Array:
 	return preload("res://src/presentation/module_recovery_view.gd").markers(self,sim,instrument_height)
 func chart_width()->float:
 	if command_dock_width>0:return size.x-command_dock_width-28.
-	if not presenting_mission or sim==null or optical_feed==null or not optical_feed.viewfinder_visible(sim) or optical_feed.compact:return size.x
+	if not presenting_mission or sim==null or optical_feed==null or not optical_feed.viewfinder_visible(sim):return size.x
 	return size.x-minf(size.x*.52,optical_feed.preferred_width())-28.
 func chart_origin()->Vector2:
 	return Vector2(command_dock_width+28.,0.) if command_dock_left and command_dock_width>0. else Vector2.ZERO
@@ -296,6 +296,8 @@ func stable_chart_rect()->Rect2:
 	return Rect2(Vector2.ZERO,Vector2(maxf(1.,size.x),size.y))
 func _sync_camera() -> void:
 	var chart=stable_chart_rect()
+	var lane:=(minf(size.x*.52,optical_feed.preferred_width()) if optical_feed!=null else size.x*.52)+28.
+	chart_camera.follow_width=maxf(1.,size.x-lane);chart_camera.follow_reserve=lane
 	chart_camera.configure(chart.size,world_size(),chart.position)
 	if chart_camera.mode=="follow" and sim!=null:chart_camera.follow(sim.units[sim.selected].pos)
 	world_scale=chart_camera.scale;world_offset=chart_camera.offset

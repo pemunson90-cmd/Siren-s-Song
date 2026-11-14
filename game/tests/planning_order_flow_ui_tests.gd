@@ -46,7 +46,7 @@ func water(g,from:Vector2,exclude:Array=[])->Vector2:
 			var p:Vector2=from+Vector2.from_angle(TAU*k/24.0)*r
 			if not open_water(g,p,40) or exclude.any(func(q):return q.distance_to(p)<90):continue
 			var s=screen(g,p)
-			if not g.ocean.get_global_rect().grow(-70).has_point(s) or g.mission_hud.blocks(s) or g.ocean.optical_feed.blocks_point(s) or g.mission_hud.occupied_rects().any(func(r):return r.grow(30).has_point(s)):continue
+			if not g.ocean.get_global_rect().grow(-70).has_point(s) or g.mission_hud.blocks(s):continue
 			var local=s-g.ocean.global_position
 			if not g.ocean.contexts_at(local,g.ui_touch_height*1.6).is_empty() or g.ocean.information_at(local):continue
 			return p
