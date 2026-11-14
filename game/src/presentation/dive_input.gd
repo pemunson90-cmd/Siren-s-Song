@@ -103,6 +103,17 @@ static func water_tap(host,world:Vector2)->void:
 	if sim.selected>=sim.units.size() or sim.units[sim.selected].route!=route_before:return
 	sim.message=Words.TEXT.tap_over if not sim.outcome.is_empty() else Words.TEXT.tap_idle
 	host._refresh()
+# WP-104: the press that closed a craft's order wheel, handed to the chart as a normal press (the wheel is already
+# closed). Its release then gives the tap its usual meaning: route, route prompt, craft or site card, rock answer.
+# `origin` is where the wheel's blocker sits, so event.position+origin is the screen point. Returns whether the chart took it.
+static func press_through(host,event:InputEvent,origin:Vector2) -> bool:
+	var point:Vector2=event.position+origin
+	var press=event.duplicate();press.position=point
+	if press is InputEventMouse:press.global_position=point
+	# A craft's own fleet chip takes the press first, as it does when no wheel is open.
+	if host.mission_hud.fleet.handle_input(press):return true
+	if not host.ocean.get_global_rect().has_point(point) or host.mission_hud.blocks(point):return false
+	return map_event(host,press)
 static func target_knockdown(host,point: Vector2,intended:int=-2) -> void:
 	var chosen=host.ocean.knock_aim_key(point-host.ocean.global_position) if intended==-2 else intended
 	if chosen<0 or not host.ocean.knock_visible_targets().any(func(c):return c.key==chosen):

@@ -18,6 +18,7 @@ const Witness=preload("res://src/presentation/witness_evacuation_view.gd")
 const CenterLayout=preload("res://src/presentation/radial_layout/center_layout.gd")
 const StatusView=preload("res://src/presentation/status_text/status_view.gd")
 const AllStop=preload("res://src/simulation/all_stop/all_stop.gd")
+const DiveInput=preload("res://src/presentation/dive_input.gd")
 const Truthful=preload("res://src/presentation/truthful_commands.gd")
 const WorkTask=preload("res://src/presentation/work_task/work_task.gd")
 const ReleaseControls=preload("res://src/presentation/release_controls.gd")
@@ -388,7 +389,14 @@ func _outside(event):
  # of this same tap away from the chart. Closing on the emulated press let the touch half order the craft.
  if event is InputEventMouseButton and event.device==InputEvent.DEVICE_ID_EMULATION:return
  if event is InputEventMouseButton and event.button_index in [MOUSE_BUTTON_WHEEL_UP,MOUSE_BUTTON_WHEEL_DOWN]:dismiss();accept_event();return
- if (event is InputEventScreenTouch and event.pressed) or (event is InputEventMouseButton and event.pressed):dismiss();accept_event()
+ if (event is InputEventScreenTouch and event.pressed) or (event is InputEventMouseButton and event.pressed):
+  # WP-104: a press on open chart while a craft's wheel is open closes the wheel and is then an ordinary chart press,
+  # so routing is craft, water. Any other open surface still only closes.
+  var through:bool=page=="craft" and (event is InputEventScreenTouch or event.button_index==MOUSE_BUTTON_LEFT)
+  dismiss();accept_event()
+  if through and DiveInput.press_through(host,event,blocker.global_position):
+   draining_popup=false
+   if event is InputEventScreenTouch:owned_touches.erase(event.index)
 func command_controls() -> Array:
  return ReleaseControls.filter(self,_page_controls())
 func _page_controls() -> Array:
