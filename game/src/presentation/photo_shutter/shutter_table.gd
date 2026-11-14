@@ -22,5 +22,13 @@ const TEXT:={
 	"forecast":"FRAME ~%d%% %s",
 	"forecast_none":"NO USABLE FRAME",
 	"heard":" · HEARD TO %dm",
+	# The exposure the game will ask for is longer than the time left on a Siren's lock on this craft.
+	"lock_outlasts":"HOLD %d s · LOCK IN %d s",
+	# While an exposure runs: ends it where the craft is, with the film already spent.
+	"stop":"STOP EXPOSURE",
+	"stopped":"EXPOSURE STOPPED · the film is spent",
+	"more":"MORE v · drag the text",
 }
+# The result lines under the viewfinder stay this many seconds after a frame is filed.
+const RESULT_SECONDS:=30.0
 const COLORS:={"ready":"e0bf83","refused":"4a6a6e","fill":"1d2a22","weak":"e0a46a","refused_text":"e08a73"}
