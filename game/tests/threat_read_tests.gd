@@ -291,11 +291,22 @@ func threat_line_checks():
 	for r in rows:
 		if r.craft==1:row=r
 	check(TR.last_draw.chips.is_empty(),"a lock draws no chip at the craft: the line's countdown and the card state it once")
-	check(not row.is_empty() and row.sentence.begins_with("GUARD TO THE EAST") and "locks DRONE A in " in row.sentence and row.sentence.ends_with(" s"),"the card names the Siren's type and the direction that matches the bearing: %s"%str(row.get("sentence")))
+	check(not row.is_empty() and row.sentence.begins_with("S1 GUARD TO THE EAST") and "locks DRONE A in " in row.sentence and row.sentence.ends_with(" s"),"the card names the Siren's type and the direction that matches the bearing: %s"%str(row.get("sentence")))
 	check(not row.is_empty() and row.advice.begins_with(TT.TEXT.lock_exit_drone) and TT.TEXT.lock_exit_drone=="Move it behind rock, or let it go.","a lock on a drone gets the drone's advice")
 	check(not row.is_empty() and row.siren_pos==s.contacts[row.source].pos and roundi(row.bearing)==90,"the line and the words use the contact's known position")
+	# WP-110: the card, the chart tag and the contact list name the Siren one way, and the direction word is read from the
+	# LOCKED craft (drone A: the Siren lies east of it), not from Quietus, which lies elsewhere.
+	var ContactFeedback=preload("res://src/presentation/contact_feedback.gd")
+	var listed=ContactFeedback.entries(s.contacts,s.elapsed,s.units)
+	var named=""
+	for entry in listed:
+		if entry.key==row.source:named=entry.name
+	check(not named.is_empty() and named==ContactFeedback.siren_name(row.source,s.contacts[row.source]) and row.sentence.begins_with(named+" TO THE "),"the lock card, chart tag and contact list say the Siren's name the same way: "+named)
+	check(named.begins_with("S%d "%(row.source+1)) and named.ends_with(ContactFeedback.role_word(s.contacts[row.source])) and ContactFeedback.role_word(s.contacts[row.source])!="","the name is the id then the kind")
+	var from_quietus:String=preload("res://src/presentation/compass.gd").word(row.siren_pos-s.units[0].pos)
+	check(from_quietus!="EAST" and "TO THE EAST" in row.sentence and "TO THE "+from_quietus not in row.sentence,"the direction is from the locked drone (%s), not from Quietus (%s)"%["EAST",from_quietus])
 	var card=Warning.new();card.update_state(s,true)
-	check(card.visible and "GUARD TO THE EAST" in card.card_text and "locks DRONE A in " in card.card_text and TT.TEXT.lock_exit_drone in card.card_text,"the lock card carries the type, direction, craft and way out for a drone")
+	check(card.visible and "S1 GUARD TO THE EAST" in card.card_text and "locks DRONE A in " in card.card_text and TT.TEXT.lock_exit_drone in card.card_text,"the lock card carries the type, direction, craft and way out for a drone")
 	card.free()
 	moves_checks(s)
 	# The Siren is off the chart: the line is cut at the chart edge, not dropped.

@@ -30,6 +30,7 @@ const BandPhoto=preload("res://src/photo_depth/band_photo.gd")
 const Identity=preload("res://src/simulation/contact_identity.gd")
 const Stun=preload("res://src/simulation/observed_stun.gd")
 const Compass=preload("res://src/presentation/compass.gd")
+const ContactFeedback=preload("res://src/presentation/contact_feedback.gd")
 const ThreatLine=preload("res://src/presentation/threat_read/threat_line.gd")
 const HudWords=preload("res://src/presentation/hud_words.gd")
 const Racks=preload("res://src/equipment/tool_racks.gd")
@@ -86,8 +87,9 @@ static func lock_rows(sim)->Array:
 		var row:Dictionary=by_craft[target]
 		row["text"]=Table.TEXT.lock_one%[row.source+1,row.remaining] if row.count==1 else Table.TEXT.lock_many%[row.count,row.remaining]
 		row["bearing"]=Compass.degrees(row.siren_pos-sim.units[target].pos)
-		var kind:String=Identity.contact_type(sim.contacts[row.source])
-		var word:String=Table.SIREN_WORD if kind in Table.COARSE_KINDS else Table.ROLE_WORDS.get(kind,Table.SIREN_WORD)
+		# WP-110: the Siren's one name (id and kind, as the chart tag and contact list say it); the direction is read from
+		# the locked craft (units[target]) to the contact's known position, the same two points the chart draws.
+		var word:String=ContactFeedback.siren_name(int(row.source),sim.contacts[row.source])
 		row["sentence"]=Table.TEXT.lock_sentence%[word,Compass.point(row.bearing),str(sim.units[target].get("name","CRAFT")),row.remaining]
 		var moves:String=counter_moves(sim,target,row.siren_pos)
 		row["moves"]=move_list(sim,target,row.siren_pos)

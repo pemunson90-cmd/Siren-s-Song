@@ -1,6 +1,13 @@
 extends RefCounted
 const Names=preload("res://src/names.gd")
 const TrialRules=preload("res://src/trial_rules.gd")
+# WP-110: the ONE name of a Siren on every screen: its tag and its kind word ("S1 SWEEPER"); its state is a separate
+# word after it. The contact list, the chart tag, the lock card and the route program screen all take it from here.
+const ROLE_WORDS={Names.ROLE_HUNTER:"HUNTER",Names.ROLE_SENTINEL:"GUARD",Names.ROLE_SWEEPER:"SWEEPER",Names.ROLE_BUOY:"LISTENER",Names.ROLE_RELAY:"RELAY",Names.ROLE_INTERCEPTOR:"INTERCEPTOR",Names.ROLE_WARDEN:"WARDEN","unknown":"UNCLASSIFIED","STATIC":"STATIC","PATROLLER":"PATROLLER","UNCLASSIFIED":"UNCLASSIFIED"}
+static func role_word(c:Dictionary)->String:
+	return ROLE_WORDS.get(preload("res://src/simulation/contact_identity.gd").contact_type(c),"PATROL")
+static func siren_name(id:int,c:Dictionary)->String:
+	return "S%d %s"%[id+1,role_word(c)]
 # Only cached observations enter this readout. A stale mode is never live truth.
 # lock_seconds: the dive's lock length, sim.lock_seconds() (the caller passes it; the default is the standard length).
 static func entries(contacts: Dictionary,elapsed: float,units: Array,clear_view: Callable=Callable(),target_lookup:Callable=Callable(),lock_seconds:float=TrialRules.STANDARD_LOCK_SECONDS) -> Array:
@@ -9,7 +16,7 @@ static func entries(contacts: Dictionary,elapsed: float,units: Array,clear_view:
 		var c=contacts[id];var age=maxf(0,elapsed-float(c.time))
 		if age>20:continue
 		var tag="S%d"%(int(id)+1)
-		var role={Names.ROLE_HUNTER:"HUNTER",Names.ROLE_SENTINEL:"GUARD",Names.ROLE_SWEEPER:"SWEEPER",Names.ROLE_BUOY:"LISTENER",Names.ROLE_RELAY:"RELAY",Names.ROLE_INTERCEPTOR:"INTERCEPTOR",Names.ROLE_WARDEN:"WARDEN","unknown":"UNCLASSIFIED","STATIC":"STATIC","PATROLLER":"PATROLLER","UNCLASSIFIED":"UNCLASSIFIED"}.get(preload("res://src/simulation/contact_identity.gd").contact_type(c),"PATROL")
+		var role=role_word(c)
 		var fresh=age<0.3;var urgent=false
 		var text="%s %s · %s"%[tag,role,preload("res://src/simulation/contact_identity.gd").contact_mode(c)] if fresh else "%s %s · LAST SEEN %ds"%[tag,role,int(age)]
 		if c.get("source","") in ["active","triangulation"]:text+=" · %d%%"%roundi(c.get("confidence",0.)*100)
@@ -28,6 +35,6 @@ static func entries(contacts: Dictionary,elapsed: float,units: Array,clear_view:
 		text+=report
 		# locking: a lock countdown the warning card also states. ocean_view.unstated_entries drops it while the card
 		# shows, keeping "plain" (the same row without the lock sentence) when it also carries a report.
-		result.append({"key":id,"tag":tag,"text":text,"pos":c.pos,"fresh":fresh,"urgent":urgent,"locking":urgent and c.lock<lock_seconds,"report":report,"plain":plain+report,"order":result.size()})
+		result.append({"key":id,"tag":tag,"name":"%s %s"%[tag,role],"text":text,"pos":c.pos,"fresh":fresh,"urgent":urgent,"locking":urgent and c.lock<lock_seconds,"report":report,"plain":plain+report,"order":result.size()})
 	result.sort_custom(func(a,b):return a.urgent if a.urgent!=b.urgent else a.order<b.order)
 	return result
