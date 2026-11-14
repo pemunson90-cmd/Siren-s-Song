@@ -104,6 +104,21 @@ func settings_screens(shape:Vector2i,scale:float)->void:
   var first=front.find_children("*","HSlider",true,false)
   report.append("Settings %s %s | %s"%[page,tag,"ok" if problems.is_empty() else str(problems.slice(0,4))])
   check(problems.is_empty(),"Settings "+page+" "+tag+" shows no clipped text and no short button "+str(problems.slice(0,4)))
+  # WP-116: every row of a Settings column keeps the standard gap (8 px or more) to the row above it, at every text size.
+  var crowded:Array=[]
+  for box in front.find_children("*","VBoxContainer",true,false):
+   if not box.is_visible_in_tree():continue
+   var above:Control=null
+   for child in box.get_children():
+    if not child is Control or not child.visible:continue
+    if above!=null and child.get_global_rect().position.y-above.get_global_rect().end.y<8.-.5 and child.get_global_rect().size.x>0. and not (child is HSlider):crowded.append("%s under %s"%[child.name,above.name])
+    above=child
+  check(crowded.is_empty(),"Settings "+page+" "+tag+" rows keep the standard spacing "+str(crowded.slice(0,4)))
+  if page=="display":
+   var sizes=front.find_children("*","Button",true,false).filter(func(b):return b.get_meta("ui_action","")=="text_scale_100")
+   var caps=front.find_children("*","Button",true,false).filter(func(b):return b.get_meta("ui_action","")=="frame_cap_30")
+   check(not sizes.is_empty() and not caps.is_empty() and caps[0].get_global_rect().position.y-sizes[0].get_global_rect().end.y>=24.,"Settings display "+tag+": the frame-rate buttons stand clear of the text-size row, under their own caption")
+   check(front.find_children("*","Label",true,false).any(func(l):return l.text=="FRAME RATE"),"Settings display "+tag+": the frame-rate row has its caption")
  await finish(game,path)
 func run():
  for shape in [Vector2i(2184,1968),Vector2i(2520,1080),Vector2i(1080,2400)]:

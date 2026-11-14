@@ -324,6 +324,7 @@ func _display_choices() -> void:
 		var scale: float = s
 		var b := _choice_button(sizes, "%d%%" % roundi(scale * 100), "text_scale_%d" % roundi(scale * 100), is_equal_approx(values.text_scale, scale))
 		b.pressed.connect(func(): _set_value("text_scale", scale); _settings_screen(), CONNECT_DEFERRED)
+	_text("FRAME RATE", 17) # WP-116: the cap row had no caption, so it read as part of the text-size row
 	var caps := _choice_row()
 	for cap in [30, 60]:
 		var selected_cap: int = cap

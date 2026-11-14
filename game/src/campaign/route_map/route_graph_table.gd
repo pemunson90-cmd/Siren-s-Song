@@ -12,7 +12,9 @@ const VIEW={
  "font_touch":.23,"font_min":16,"zoom_start":1.,"zoom_max":2.,"zoom_step":.25,
  "header_gap":12,"height_tagged":2.1,"region_font":.26,"region_pad":6,"back_width":2.,"current_width":2.,"header_font":.3,
  "legend_font":.22,"legend_margin":1.5,"legend_height":.6,
- "wide_ratio":1.5,"column_share":.34,"chart_top":1.9,"chart_reserve":3.2,"detail_font":.23,
+ # WP-116: the key and arc lines are folded behind a LEGEND button; the chart has the whole width until the player opens them, and an open column is narrower (was .34).
+ "legend_width":3.,"legend_open_label":"HIDE LEGEND","legend_label":"LEGEND",
+ "wide_ratio":1.5,"column_share":.24,"chart_top":1.9,"chart_reserve":3.2,"detail_font":.23,
  "stroke":3.,"line_dash":12.,"node_dash":9.,"padding":12.}
 # Overview: the player may zoom out until the whole board fits the chart (never below zoom_floor, fit_slack leaves a small margin).
 # Below compact_below a node shows its number (and its title while the box is title_min_width wide); text never drops under font_floor.

@@ -44,6 +44,8 @@ var header:HBoxContainer
 var legend:VBoxContainer
 var legend_pan:ScrollContainer
 var key:HFlowContainer
+var legend_button:Button
+var legend_open:bool=false	# WP-116: folded by default so the chart gets the room
 var detail:Label
 var zoom:float=Table.VIEW.zoom_start
 var zoom_floor:float=Table.VIEW.zoom_start
@@ -64,6 +66,7 @@ func setup(main)->void:
  header=HBoxContainer.new();header.add_theme_constant_override("separation",Table.VIEW.header_gap);add_child(header)
  _button(header,"BACK",_back,"route_map_back",Table.VIEW.back_width)
  var title=Label.new();title.text="ROUTE MAP";title.size_flags_horizontal=Control.SIZE_EXPAND_FILL;header.add_child(title)
+ legend_button=_button(header,Table.VIEW.legend_label,_toggle_legend,"route_map_legend",Table.VIEW.legend_width) # WP-116: the legend opens on demand
  _button(header,"CURRENT",_focus_current,"route_map_current",Table.VIEW.current_width)
  _button(header,"−",func():_zoom(-1),"route_map_zoom_out")
  _button(header,"+",func():_zoom(1),"route_map_zoom_in")
@@ -84,6 +87,8 @@ func setup(main)->void:
  detail=Label.new();detail.text=Table.DETAIL.hint;detail.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;add_child(detail)
  _fit()
  call_deferred("_focus_current")
+func _toggle_legend()->void: # WP-116
+ legend_open=not legend_open;_remember_focus();_fit();_show_focus()
 func _key_color(name:String)->Color:return Color(Table.MARK_COLOR if name==Table.NOT_CHARTED else Table.COLORS[name])
 func _build_key():
  key=HFlowContainer.new();key.add_theme_constant_override("h_separation",Table.KEY_SWATCH.item_gap);key.add_theme_constant_override("v_separation",LEGEND_GAP);legend.add_child(key)
@@ -132,7 +137,13 @@ func _fit():
  legend.custom_minimum_size=Vector2(width,legend_height)
  var top:float=h+margin*2
  var bottom:float=h+margin*2
- if wide:
+ legend_button.text=Table.VIEW.legend_open_label if legend_open else Table.VIEW.legend_label
+ legend_pan.visible=legend_open
+ if not legend_open:
+  # WP-116: folded, the chart takes the whole width (and, on a narrow screen, the strip's height).
+  legend_pan.position=Vector2(margin,top);legend_pan.size=Vector2.ZERO
+  chart.position=Vector2(margin,top);chart.size=Vector2(full,maxf(h,size.y-top-bottom))
+ elif wide:
   # Beside the board: the column takes what its lines need up to the board's height and scrolls past that.
   var room:float=maxf(h,size.y-top-bottom)
   legend_pan.position=Vector2(margin,top);legend_pan.size=Vector2(width,minf(legend_height,room))
