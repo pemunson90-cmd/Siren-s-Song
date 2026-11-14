@@ -22,6 +22,7 @@ const COST_FREE="Extra charges for the next launch: free."
 const COST_PAID="Extra charges for the next launch cost %s."
 const COST_NOTE="The quick fills are free; anything you add on top is paid for at every launch."
 const FULL_RACKS_HINT=". Unload charges or choose a larger frame before launch."
+const NONE_LEFT="None left in expedition stock: %s."
 const QUIETUS_ONLY_NOTE="Torpedoes and hull patches fit the Quietus only."
 const DRONE_NOTE="Tools you load here deploy from this drone. "
 const NO_TOOLS="%s carries no tools."
@@ -71,6 +72,17 @@ static func show_mode(host,is_run:bool,change:Callable)->void:
   var columns=PrepColumns.open(host,rebuild)
   PrepColumns.into(host,columns[0],_bars.bind(host,Racks.UNITS.find(slot)))
   PrepColumns.into(host,columns[1],controls.bind(host,[slot],change,"mode_rack",host.run_state.stock if is_run else {},false,is_run))
+ # An Expedition names the tools it has none of once, instead of a reason under every tool.
+ if is_run:
+  var none=none_left(host.run_state.stock)
+  if not none.is_empty():host._menu_text(NONE_LEFT%", ".join(none),15)
+# The tools an Expedition's stock has none of, in tool order, as the racks would list them.
+static func none_left(stock:Dictionary)->Array:
+ var names=[]
+ for id in Tools.ids():
+  if id in Tools.field_ids() and not Tools.is_enabled(id):continue
+  if int(stock.get(id,0))==0:names.append(Tools.spec(id).name)
+ return names
 # One row per tool: name, count, what it does and its locker cost on the left; minus and plus on the right.
 static func controls(host,slots:Array,change:Callable,prefix:String,stock:Dictionary={},_detailed:bool=false,stock_limited:bool=false)->void:
  if not Racks.enabled:return
@@ -79,6 +91,8 @@ static func controls(host,slots:Array,change:Callable,prefix:String,stock:Dictio
    if slot!=Names.CRAFT_QUIETUS and id in Racks.QUIETUS_ONLY:continue
    if id in Tools.field_ids() and not Tools.is_enabled(id):continue
    var n=int(host.tool_racks[slot].get(id,0))
+   # Expedition: a tool with none in stock has no row; show_mode lists those in one line.
+   if stock_limited and prefix=="mode_rack" and n==0 and int(stock.get(id,0))==0:continue
    var candidate=host.tool_racks.duplicate(true);candidate[slot][id]=n+1
    var slot_key=slot+"_" if prefix=="mode_rack" else ""
    var row=HBoxContainer.new();row.size_flags_horizontal=Control.SIZE_EXPAND_FILL;host.panel_box.add_child(row)
@@ -95,7 +109,8 @@ static func controls(host,slots:Array,change:Callable,prefix:String,stock:Dictio
    if add.disabled:
     var why=REASONS.get(load_reason(host,candidate,prefix,stock,stock_limited),"")
     add.tooltip_text=why
-    if not why.is_empty():_text(host,host.panel_box,why,UiStyle.RACK_DETAIL_SIZE)
+    # In an Expedition the grey plus keeps the reason in its tooltip; the page does not repeat it under every tool.
+    if not why.is_empty() and not (prefix=="mode_rack" and stock_limited and why==REASONS["NONE ASHORE"]):_text(host,host.panel_box,why,UiStyle.RACK_DETAIL_SIZE)
    # Narrow screens: the bars are far above, so the row just changed says where the craft stands now.
    if not PrepColumns.is_wide(host) and host.get_meta(CHANGED_META,[])==[slot,id]:
     _text(host,host.panel_box,feedback_text(host,Racks.UNITS.find(slot)),UiStyle.RACK_DETAIL_SIZE)

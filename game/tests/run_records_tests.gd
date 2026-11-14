@@ -143,6 +143,21 @@ func run():
 	check(profiles.replace(0,files,true) and profiles.parse_package(profiles.package_bytes(0))==files,"records travel through validated profile export/import")
 	var corrupt={"version":1,"run":lost,"records":records,"recorded":true}
 	check(not archive.valid(corrupt),"recorded marker must match current terminal summary")
+	# Plain words for what a scarcity means, from the run table's own numbers.
+	var Tools=preload("res://src/equipment/field_tools.gd")
+	var RacksView=preload("res://src/presentation/tool_racks_view.gd")
+	for loadout in State.Table.LOADOUTS:
+		check(Records.scarcity_line(loadout,0).begins_with("Supplied:") and Records.scarcity_line(loadout,0).contains("adds 2 of one tool"),"supplied line "+loadout)
+		for level in [1,2]:
+			var line=Records.scarcity_line(loadout,level);var held=State.Table.stock(loadout,level);var full=State.Table.stock(loadout,0)
+			check(line.begins_with(State.Table.SCARCITY[level].capitalize()+":"),"scarcity name leads "+loadout+str(level))
+			for key in State.Table.TOOLS:
+				var name=Tools.spec(key).name
+				var expected="no %s"%name if held[key]==0 else "%d %s"%[held[key],name]
+				check((held[key]<full[key])==line.contains(expected),"line names short tool "+key+loadout+str(level))
+		check(Records.scarcity_line(loadout,2).contains("recovered operations add no supplies"),"scarce run restocks nothing")
+	check(Seed.setup_context(State.new_run(7)).contains(Records.scarcity_line(State.new_run(7).loadout,State.new_run(7).scarcity)),"seed screen states what the supplies mean")
+	check(RacksView.none_left({"emp":0,"decoy":3,"recon":0,"knock":0}).size()>=3 and RacksView.none_left({"emp":0,"decoy":3,"recon":0,"knock":0}).has(Tools.spec("emp").name) and not RacksView.none_left({"emp":0,"decoy":3}).has(Tools.spec("decoy").name),"empty tools gather into one list")
 	host.queue_free();await settle()
 	for suffix in ["",".bak",".tmp"]:DirAccess.remove_absolute(archive.path+suffix)
 	print("RUN RECORDS CHECKS ",checks," FAILURES ",failures)

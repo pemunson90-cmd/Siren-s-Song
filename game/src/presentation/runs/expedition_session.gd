@@ -80,7 +80,8 @@ func _show_campaign()->void:
 	var columns=PrepColumns.open(self,_show_campaign)
 	PrepColumns.into(self,columns[0],func():
 		Briefing.show(self,RunState.current_operation(run_state),sim.mission.brief,EXPEDITION_RULES)
-		_menu_text("Loadout: %s. Supplies: %s. The Hunt meter starts at stage %d."%[preload("res://src/equipment/field_tools.gd").loadout_label(run_state.loadout),RunTable.SCARCITY[run_state.scarcity],RunState.starting_hunt(run_state,RunState.current_operation(run_state))],17))
+		_menu_text("Loadout: %s. Supplies: %s. The Hunt meter starts at stage %d."%[preload("res://src/equipment/field_tools.gd").loadout_label(run_state.loadout),RunTable.SCARCITY[run_state.scarcity],RunState.starting_hunt(run_state,RunState.current_operation(run_state))],17)
+		_menu_text(preload("res://src/campaign/runs/run_records.gd").scarcity_line(run_state.loadout,run_state.scarcity),17))
 	if active_started:
 		PrepColumns.into(self,columns[1],func():
 			if save_failed:
