@@ -87,8 +87,11 @@ func run():
   before=g.sim.snapshot();await tap(ship);await tap(g.global_position+Vector2(g.size.x-20,g.size.y-20))
   check(not g.advanced_orders and g.sim.snapshot()==before,"outside dismissal consumes its release without route")
   preload("res://tests/fixtures/player_dive.gd").launch_drones(g.sim);g.sim.units[1].pos=g.sim.units[0].pos;g.sim.units[2].pos=g.sim.units[0].pos;g._refresh();await settle();before=g.sim.snapshot()
-  await tap(ship);check(h.page=="fleet" and g.sim.snapshot()==before,"overlapping own craft open explicit identity choices")
-  g.ocean.pan_chart(Vector2(-60,0));var camera=g.ocean.chart_camera.snapshot();await click(g.unit_buttons[1])
+  # WP-78: overlapping craft offer the CHOOSE TARGET list (one button per craft), not the FLEET page.
+  await tap(ship);check(h.page=="choose" and h.target_buttons.size()==3 and g.sim.snapshot()==before,"overlapping own craft open explicit identity choices")
+  g.ocean.pan_chart(Vector2(-60,0));var camera=g.ocean.chart_camera.snapshot()
+  var drone_a=h.target_choices.find_custom(func(c):return c.kind=="craft" and c.unit==1)
+  await click(h.target_buttons[drone_a])
   check(g.sim.selected==1 and g.ocean.chart_camera.mode=="free" and g.ocean.chart_camera.snapshot()==camera,"choosing a craft preserves FREE camera intent")
   h.dismiss();g.ocean.fit_chart();await settle();before=g.sim.snapshot()
   var site=g.ocean.observable_sites()[0];await tap(g.ocean.global_position+g.ocean.screen_position(site.pos))
