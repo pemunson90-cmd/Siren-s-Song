@@ -21,6 +21,15 @@ static func rider_bonus_text(assignment:Dictionary)->String:
 	var key:String=pay.keys()[0]
 	return "+%d %s charge"%[pay[key],preload("res://src/equipment/field_tools.gd").spec(key).name]
 static func new_run(seed:int)->Dictionary:
+	return _build(seed,true)
+# WP-121: a run saved before the easiest-first ruling holds the same operations in the old shuffled order. It keeps
+# loading and playing in its saved order; legacy_run() is that order, rebuilt, so validity can replay it.
+static func legacy_run(seed:int)->Dictionary:
+	return _build(seed,false)
+# The start a saved run replays from: the sorted order, or the legacy one when the run was saved in it.
+static func start_for(state:Dictionary)->Dictionary:
+	return legacy_run(state.seed) if not _valid(state,true) and _valid(state,false) else new_run(state.seed)
+static func _build(seed:int,ordered:bool)->Dictionary:
 	seed=posmod(seed,Table.MAX_SEED+1)
 	var rng=RandomNumberGenerator.new();rng.seed=seed
 	var pool=Table.POOL.duplicate()
@@ -31,7 +40,7 @@ static func new_run(seed:int)->Dictionary:
 	# which is the game's own difficulty ladder for these six: their Hunt caps (hunt_table.gd CAPS 1.0, 1.0, 1.0, 1.15, 1.15,
 	# 1.15) never fall as the number rises. The shuffle and its random draws are unchanged, so a seed is still deterministic
 	# and still picks the same set, loadout, scarcity and hunt stage; only the order of the picked set is sorted.
-	pool.sort()
+	if ordered:pool.sort()
 	var loadout:String=Table.LOADOUTS[rng.randi_range(0,Table.LOADOUTS.size()-1)]
 	var scarcity=rng.randi_range(0,2)
 	return {"version":1,"seed":seed,"operations":pool,"cursor":0,"status":"active","in_flight":false,
@@ -109,6 +118,8 @@ static func interrupted(state:Dictionary)->Dictionary:
 	if not state.get("in_flight",false):return state.duplicate(true)
 	return settle(state,{"op":current_operation(state),"outcome":"lost","time":0.,"hull":0.,"tools":state.stock.duplicate(),"story":{}})
 static func valid(value)->bool:
+	return _valid(value,true) or _valid(value,false)
+static func _valid(value,ordered:bool)->bool:
 	if not value is Dictionary:return false
 	if value.is_empty():return true
 	if not value.has_all(["version","seed","operations","cursor","status","in_flight","loadout","scarcity","hunt_stage","stock","story","results"]):return false
@@ -118,7 +129,7 @@ static func valid(value)->bool:
 	if not value.scarcity is int or not value.hunt_stage is int or not value.loadout is String:return false
 	for op in value.operations:
 		if not op is int:return false
-	var expected=new_run(value.seed)
+	var expected=_build(value.seed,ordered)
 	if value.has("riders"):
 		var ledger=value.riders
 		if not ledger is Dictionary or ledger.size()!=2 or not ledger.has_all(["start","choices"]):return false

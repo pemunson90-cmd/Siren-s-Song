@@ -12,6 +12,7 @@ const Oxygen=preload("res://src/presentation/oxygen_reading.gd")
 const RunState=preload("res://src/campaign/runs/run_state.gd")
 const Meta=preload("res://src/campaign/operation_meta.gd")
 const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
+const Offers=preload("res://src/campaign/runs/run_offers.gd")
 const TrialRules=preload("res://src/trial_rules.gd")
 var checks=0
 var failures=0
@@ -127,6 +128,28 @@ func trial_and_order_cases():
 	TrialRules.override("PAUSE_AT_ROUTE_END",true)
 	check(TrialRules.pause_at_route_end(),"the switch still works when set true")
 	TrialRules.reset()
+	# A run saved before the ruling (the old shuffled order) keeps loading, resumes at its saved operation and plays on in
+	# its saved order; it is never re-sorted.
+	var found=0
+	for seed in range(0,200):
+		var old=RunState.legacy_run(seed)
+		var sorted_ops=old.operations.duplicate();sorted_ops.sort()
+		if old.operations==sorted_ops:continue
+		found+=1
+		check(RunState.valid(old) and RunState.new_run(seed).operations==sorted_ops,"seed %d: old-order run validates, new runs are sorted"%seed)
+		var state=old;var played=[]
+		for step in old.operations.size():
+			var op=RunState.current_operation(state);played.append(op)
+			var launched=RunState.launch(state)
+			state=RunState.settle(launched,{"op":op,"outcome":"won","time":50.,"hull":95.,"tools":launched.stock.duplicate(),"story":{}})
+			if state.status=="active" and Offers.pending(state):break
+			check(RunState.valid(state),"seed %d: old-order run valid after %d recoveries"%[seed,step+1])
+			if step==0:
+				var resumed=state.duplicate(true)
+				check(RunState.valid(resumed) and RunState.current_operation(resumed)==old.operations[1],"seed %d: resumes at its saved operation %d"%[seed,old.operations[1]])
+		check(played==old.operations.slice(0,played.size()),"seed %d: plays on in its saved order %s"%[seed,str(played)])
+		if found>=4:break
+	check(found>=1,"the check found old-order runs that differ from the sorted order")
 	for seed in [0,1,7,31,99,12345,2147483647]:
 		var run=RunState.new_run(seed)
 		var ops:Array=run.operations
