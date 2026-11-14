@@ -14,6 +14,7 @@ static func draw_terrain(view,data:Dictionary,scale:float)->void:
   var cache=ChartCache.request(view,"earned",data,[],func(_tile):return Color(.065,.18,.205,.7))
   cache.draw_fill(view)
   cache.draw_faces(view,Color("132b32"),7./maxf(scale,.01),Color("819c96"),2./maxf(scale,.01))
+  cache.draw_orphans(view,Color("132b32")) # WP-107: route-blocking return cells with no drawn face
   return
  var cell=float(data.get("cell_size",40.))
  for key in data.get("clear_cells",[]):
@@ -24,6 +25,7 @@ static func draw_terrain(view,data:Dictionary,scale:float)->void:
   if face.size()!=2:continue
   view.draw_line(face[0],face[1],Color("132b32"),7./maxf(scale,.01))
   view.draw_line(face[0],face[1],Color("819c96"),2./maxf(scale,.01))
+ ChartCache.draw_orphan_list(view,ChartCache.orphans(data),Color("132b32")) # WP-107
 static func draw_course(view,parts:Array,scale:float,selected:bool)->void:
  for part in parts:
   var color=CONFIRMED if part.confirmed else TENTATIVE

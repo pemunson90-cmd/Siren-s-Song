@@ -25,6 +25,9 @@ var quads:PackedVector2Array=PackedVector2Array()
 var colors:PackedColorArray=PackedColorArray()
 var mesh:ArrayMesh=null
 var face_points:PackedVector2Array=PackedVector2Array()
+# WP-107: return cells (the route check and the red leg warning treat them as rock) that no drawn face touches.
+var orphan_rects:Array=[]
+var orphan_mesh:ArrayMesh=null
 var rebuilds:int=0
 static func active(data:Dictionary)->bool:
 	# Charts without a generation counter cannot be keyed safely: draw uncached.
@@ -40,7 +43,8 @@ static func request(view,slot:String,data:Dictionary,extra:Array,color_fn:Callab
 	# The content hashes matter: one view outlives many dives, and a new dive or a
 	# restored save can reuse a generation number with the same counts but other cells.
 	var clear:Array=data.get("clear_cells",[]);var faces:Array=data.get("surface_segments",[])
-	var wanted:Array=[data.get("generation"),float(data.get("cell_size",40.)),clear.size(),faces.size(),clear.hash(),faces.hash(),Palette.high_contrast(),extra]
+	var back:Array=data.get("return_cells",[])
+	var wanted:Array=[data.get("generation"),float(data.get("cell_size",40.)),clear.size(),faces.size(),clear.hash(),faces.hash(),back.size(),back.hash(),Palette.high_contrast(),extra]
 	if cache.key!=wanted:cache._rebuild(data,wanted,color_fn)
 	return cache
 func _rebuild(data:Dictionary,wanted:Array,color_fn:Callable)->void:
@@ -77,6 +81,36 @@ func _rebuild(data:Dictionary,wanted:Array,color_fn:Callable)->void:
 	for face in data.get("surface_segments",[]):
 		if face.size()!=2:continue
 		face_points.append(face[0]);face_points.append(face[1])
+	orphan_rects=orphans(data)
+	orphan_mesh=null
+	if not orphan_rects.is_empty():
+		var points=PackedVector2Array();var order=PackedInt32Array()
+		for rect in orphan_rects:
+			var first=points.size()
+			points.append_array(PackedVector2Array([rect.position,Vector2(rect.end.x,rect.position.y),rect.end,Vector2(rect.position.x,rect.end.y)]))
+			order.append_array(PackedInt32Array([first,first+1,first+2,first,first+2,first+3]))
+		var parts=[];parts.resize(Mesh.ARRAY_MAX);parts[Mesh.ARRAY_VERTEX]=points;parts[Mesh.ARRAY_INDEX]=order
+		orphan_mesh=ArrayMesh.new();orphan_mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES,parts)
+# WP-107: every return cell blocks a route and sets off the red CROSSES CHARTED ROCK warning, so every one must show as rock.
+# A cell that a drawn face already crosses is rock to the eye; a cell with no drawn face gets a stone block here.
+static func orphans(data:Dictionary)->Array:
+	var cell=float(data.get("cell_size",40.))
+	var faces:Array=[]
+	for face in data.get("surface_segments",[]):
+		if face.size()==2:faces.append(face)
+	var result:Array=[]
+	for key in data.get("return_cells",[]):
+		var rect=Rect2(Vector2(key)*cell,Vector2.ONE*cell)
+		var touched=false
+		for face in faces:
+			if rect.grow(1.).has_point(face[0]) or rect.grow(1.).has_point(face[1]) or _crosses(rect,face[0],face[1]):touched=true;break
+		if not touched:result.append(rect)
+	return result
+static func _crosses(rect:Rect2,a:Vector2,b:Vector2)->bool:
+	var corners=[rect.position,Vector2(rect.end.x,rect.position.y),rect.end,Vector2(rect.position.x,rect.end.y)]
+	for n in 4:
+		if Geometry2D.segment_intersects_segment(a,b,corners[n],corners[(n+1)%4])!=null:return true
+	return false
 # The grid corner `corner` touches four cells; its opacity is the share of them that are measured water.
 func _feathered(color:Color,clear:Dictionary,corner:Vector2i)->Color:
 	var share=0
@@ -90,3 +124,8 @@ func draw_faces(view,stone:Color,stone_width:float,edge:Color,edge_width:float)-
 	if face_points.is_empty():return
 	view.draw_multiline(face_points,stone,stone_width)
 	view.draw_multiline(face_points,edge,edge_width)
+# WP-107: one stone-coloured mesh for the return cells that no drawn face touches (a rock's inside, or a cell a survey only clipped).
+func draw_orphans(view,stone:Color)->void:
+	if orphan_mesh!=null:view.draw_mesh(orphan_mesh,null,Transform2D.IDENTITY,stone)
+static func draw_orphan_list(view,rects:Array,stone:Color)->void:
+	for rect in rects:view.draw_rect(rect,stone)

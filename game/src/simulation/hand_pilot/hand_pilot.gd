@@ -32,19 +32,32 @@ static func _cell(chart,p:Vector2)->Vector2i:return Vector2i((p/chart.TILE).floo
 # Measured rock only: the earned chart's received rock cells, or the opening
 # chart's public physical terrain. Unknown water is never reported as rock.
 static func rock_at(sim,p:Vector2)->bool:
- if sim.terrain_chart!=null:return sim.terrain_chart.return_cells.has(_cell(sim.terrain_chart,p))
+ # WP-107: a return cell is 40 m wide, so a tap inside one that is open water by the hull's own 12 m (a craft sitting beside the wall)
+ # is no longer refused as rock; a tap that really is rock still is.
+ if sim.terrain_chart!=null:return sim.terrain_chart.return_cells.has(_cell(sim.terrain_chart,p)) and sim.blocked(p,12)
  return sim.blocked(p,12)
 
 static func crosses_rock(sim,a:Vector2,b:Vector2)->bool:
  if sim.terrain_chart==null:return not sim._player_leg_safe(a,b)
+ return rock_point(sim,a,b)!=null
+
+# WP-107: where along the leg the rock check first trips (null when the leg is clear), so the red tag sits on the rock, not at the leg's middle.
+static func rock_point(sim,a:Vector2,b:Vector2):
+ if sim.terrain_chart==null:
+  if sim._player_leg_safe(a,b):return null
+  var count=maxi(1,ceili(a.distance_to(b)/10.0))
+  for n in count+1:
+   var p=a.lerp(b,float(n)/count)
+   if sim.blocked(p,12):return p
+  return a.lerp(b,.5)
  var count=maxi(1,ceili(a.distance_to(b)/10.0))
  for n in count+1:
   var p=a.lerp(b,float(n)/count)
   # A measured clear cell already certifies the whole hull footprint.
   if sim.terrain_chart.clear_cells.has(_cell(sim.terrain_chart,p)):continue
   for offset in [Vector2.ZERO,Vector2(12,0),Vector2(-12,0),Vector2(0,12),Vector2(0,-12)]:
-   if sim.terrain_chart.return_cells.has(_cell(sim.terrain_chart,p+offset)):return true
- return false
+   if sim.terrain_chart.return_cells.has(_cell(sim.terrain_chart,p+offset)):return p
+ return null
 
 # Release leg compiler: the operator's point, unchanged. Only a point inside
 # measured rock is refused; a leg may still be plotted through danger.
@@ -68,7 +81,8 @@ static func warnings(sim,unit_id:int)->Array:
  sim._use_band(u.band)
  var origin:Vector2=u.pos
  for node in u.route:
-  if crosses_rock(sim,origin,node.pos):result.append({"from":origin,"to":node.pos,"reason":ROCK_REASON})
+  var rock=rock_point(sim,origin,node.pos)
+  if rock!=null:result.append({"from":origin,"to":node.pos,"reason":ROCK_REASON,"at":rock}) # WP-107: "at" = first rock on the leg
   var craft=own_craft_on_leg(sim,u,origin,node.pos)
   if craft!="":result.append({"from":origin,"to":node.pos,"reason":"Passes "+craft})
   origin=node.pos

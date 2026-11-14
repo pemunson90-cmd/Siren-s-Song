@@ -35,6 +35,7 @@ static func chart_terrain(view,data:Dictionary,scale:float,style:Dictionary)->vo
   var cache=ChartCache.request(view,"region",data,[floor_color,style.stone,style.edge],func(_tile):return floor_color)
   cache.draw_fill(view)
   cache.draw_faces(view,Color(style.stone,.95),7./maxf(scale,.01),style.edge,Palette.stroke(2.)/maxf(scale,.01))
+  cache.draw_orphans(view,Color(style.stone,.95)) # WP-107: route-blocking return cells with no drawn face
   return
  var cell=float(data.get("cell_size",40.))
  for tile in data.get("clear_cells",[]):
@@ -44,3 +45,4 @@ static func chart_terrain(view,data:Dictionary,scale:float,style:Dictionary)->vo
   if face.size()!=2:continue
   view.draw_line(face[0],face[1],Color(style.stone,.95),7./maxf(scale,.01))
   view.draw_line(face[0],face[1],style.edge,Palette.stroke(2.)/maxf(scale,.01))
+ ChartCache.draw_orphan_list(view,ChartCache.orphans(data),Color(style.stone,.95)) # WP-107

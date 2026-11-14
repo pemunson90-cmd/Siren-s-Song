@@ -213,7 +213,11 @@ func point_blocked(point:Vector2,margin:float=CLEARANCE)->bool:
    if return_cells.has(Vector2i(x,y)):return true
  return false
 func segment_safe(a:Vector2,b:Vector2,margin:float=CLEARANCE)->bool:
- if point_blocked(a,margin) or point_blocked(b,margin):return false
+ if point_blocked(b,margin):return false
+ # WP-107: a craft that stopped inside the margin beside a wall (never inside rock itself) may take a leg that only gains
+ # distance from the rock; before this every leg from there was refused and the craft could never move again.
+ var leaving:=point_blocked(a,margin)
+ if leaving and _rock_gap(a)<=0.0:return false
  var delta=b-a;var times=[0.0,1.0]
  for axis in 2:
   if absf(delta[axis])<0.00001:continue
@@ -223,8 +227,18 @@ func segment_safe(a:Vector2,b:Vector2,margin:float=CLEARANCE)->bool:
    if t>0 and t<1:times.append(t)
  times.sort()
  for n in range(times.size()-1):
-  if point_blocked(a.lerp(b,(times[n]+times[n+1])*0.5),margin):return false
+  var sample:Vector2=a.lerp(b,(times[n]+times[n+1])*0.5)
+  if not point_blocked(sample,margin):continue
+  if not leaving or _rock_gap(sample)<=0.0 or _rock_gap(sample)<_rock_gap(a)-0.01:return false
  return true
+# WP-107: true distance from a point to the nearest rock edge (0 inside rock); the craft's own surroundings, used only to let it back out.
+func _rock_gap(point:Vector2)->float:
+ var best:=1000000.0
+ for shape in _shapes:
+  if Geometry2D.is_point_in_polygon(point,shape):return 0.0
+  for n in shape.size():
+   best=minf(best,point.distance_to(Geometry2D.get_closest_point_to_segment(point,shape[n],shape[(n+1)%shape.size()])))
+ return best
 func _build_grid()->void:
  if _grid_generation==generation:return
  _grid=AStarGrid2D.new();_grid.region=Rect2i(Vector2i.ZERO,Vector2i(dimensions/TILE));_grid.cell_size=Vector2.ONE*TILE;_grid.offset=Vector2.ONE*TILE/2
