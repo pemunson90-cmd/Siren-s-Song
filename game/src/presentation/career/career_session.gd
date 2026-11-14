@@ -6,7 +6,6 @@ const CareerArchive=preload("res://src/campaign/career/career_archive.gd")
 const CareerTable=preload("res://src/campaign/career/career_table.gd")
 const CareerBoard=preload("res://src/presentation/career/career_board.gd")
 const RiderDive=preload("res://src/presentation/career/rider_dive.gd")
-var accept_rider=true
 var campaign_host
 var career_state:Dictionary={}
 var return_to_list:Callable
@@ -87,11 +86,11 @@ func _show_campaign()->void:
 func _briefing(_index:int)->void:CareerBoard.briefing(self)
 func _select_contract(id:String)->void:
 	if active_started or save_failed or not Career.open(career_state,id):return
-	selected_contract=id;accept_rider=true;CareerBoard.briefing(self)
+	selected_contract=id;CareerBoard.briefing(self)
 func _begin()->void:
 	if active_started or career_state.in_flight or save_failed:return
 	career_state.tool_racks=tool_racks.duplicate(true)
-	var launched=Career.launch(career_state,selected_contract,accept_rider)
+	var launched=Career.launch(career_state,selected_contract) # WP-122: the rider is always on
 	if not launched.in_flight:return
 	career_state=launched;_bind_state();result_pending=false;active_envelope={}
 	_start_mission(CareerTable.CONTRACTS[selected_contract].op)

@@ -12,8 +12,8 @@ const Briefing=preload("res://src/presentation/mode_briefing.gd")
 const PrepColumns=preload("res://src/presentation/prep_columns.gd")
 const ResultText=preload("res://src/presentation/mode_result_text.gd")
 const NAME="NAVAL CAREER"
-const RIDER_FOR="OPTIONAL RIDER FOR %s"
-const RIDER_PREFIX="OPTIONAL RIDER · " # how Riders.description begins
+const RIDER_FOR="BONUS CHALLENGE FOR %s" # WP-122: was "OPTIONAL RIDER FOR %s"
+const RIDER_PREFIX="BONUS CHALLENGE · " # how Riders.description begins
 const RIDER_NOTE="Riders are drawn again after every dive, so a contract can offer a different rider next time. The one shown is the one you get if you accept now."
 # The rules of a contract that are neither goal nor danger.
 const CONTRACT_RULES=["The dive starts paused. A dive you leave resumes paused.","Oxygen, film and field tools refill for every dive.","Hull damage stays with your boat until you repair it.","Giving up a contract counts as a loss."]
@@ -111,8 +111,7 @@ static func briefing(host)->void:
 		# WP-109: the total the player receives, the replay reduction, and what a loss still pays.
 		host._menu_text("%s\nStanding with %s: %d. Recover it for +%d.\n%s\nNext launch costs: %s."%[reward_text(host,c),Table.FACTIONS[c.faction].capitalize(),host.career_state.standing[c.faction],Table.SUCCESS,LOSS_LINE%[Table.LOSS,Economy.fmt(scaled_income(host,Economy.Table.INCOME.lost)).to_lower()],Economy.fmt(preload("res://src/presentation/economy_panel.gd").launch_cost(host)).to_lower()],17))
 	PrepColumns.into(host,columns[1],func():host._menu_text(Riders.description(rider),17))
-	if not rider.is_empty():
-		host._button(host.menu_footer,"RIDER: ON · TAP TO REMOVE" if host.accept_rider else "RIDER: OFF · TAP TO ACCEPT",preload("res://src/presentation/rider_choice.gd").toggle.bind(host,briefing.bind(host)),"career_rider")
+	# WP-122: the bonus challenge is always on; there is no accept or decline button.
 	var begin=host._button(host.menu_footer,"ACCEPT CONTRACT · START PAUSED",host._begin,"career_begin")
 	begin.disabled=host.save_failed or not preload("res://src/presentation/economy_panel.gd").can_begin(host)
 	host._button(host.menu_footer,"FLEET / FITTINGS",host._show_fittings,"career_fittings")

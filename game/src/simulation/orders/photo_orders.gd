@@ -12,7 +12,7 @@ static func command(sim, order: String, args: Dictionary) -> bool:
 			return sim.Photo.set_frame(sim,sim.selected,args)
 		"camera":
 			if not sim.module_recovery_status().jobs[sim.selected].is_empty() or sim.Delivery.busy(sim,sim.selected) or sim.Witness.busy(sim,sim.selected) or sim.Glass.busy(sim,sim.selected) or sim.Choir.busy(sim,sim.selected) or sim._warning_chain_busy(sim.selected):sim.message="Finish this craft's wreck recovery first";return false
-			var context=sim.camera_context()
+			var context=sim.photo_context() if args.get("photo",false) else sim.camera_context() # WP-122: PHOTO beside a charted operation
 			if not context.ready: sim.message=context.text; return false
 			var photo_target:int=context.target if context.target>=0 else sim.Photo.siren_objective(sim,context.siren)
 			if photo_target<0:sim.message="No available photographic subject";return false

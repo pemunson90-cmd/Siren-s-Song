@@ -311,6 +311,10 @@ func _primary_action() -> void:
 	if photographic.get("ready",false) and preload("res://src/simulation/photo_context.gd").is_photo(sim,photographic):
 		if preload("res://src/presentation/photo_shutter/shutter.gd").refuse(self):return
 		_order("camera");return
+	# WP-122: a charted operation holds the camera context; PHOTO beside it takes the frame in reach.
+	if mission_hud!=null and mission_hud.operation_beside_photo(sim):
+		if preload("res://src/presentation/photo_shutter/shutter.gd").refuse(self):return
+		_order("camera",{"photo":true});return
 	var shelter=preload("res://src/presentation/shelf_habitat_view.gd").nearest(sim)
 	if not shelter.is_empty():mission_hud.open("habitat",shelter);return
 	var station=WarningChain.nearest_station(sim)
@@ -456,7 +460,7 @@ func _refresh() -> void:
 	order_buttons.waypoint_mode.text="PASS\nPOINTS" if sim.pass_through else "STOP AT\nPOINTS"
 	ocean.optical_feed.receiver_font_size=maxi(17,roundi(ui_touch_height*0.29*FrontendSettings.text_scale()))
 	ocean.optical_feed.touch_height=ui_touch_height
-	order_buttons.camera.text="DECODE" if sim.mission.get("blackwater_revision",0)==1 else "CAMERA\nLISTEN" if sim.mission.get("finale_revision",0)==1 else ("CAMERA\nLINK" if mission_index==1 else "CAMERA")
+	order_buttons.camera.text="DECODE" if sim.mission.get("blackwater_revision",0)==1 else "CAMERA\nLISTEN" if sim.mission.get("finale_revision",0)==1 else ("CAMERA\nLINK" if mission_index==1 and sim.selected==0 else "CAMERA") # WP-122: only Quietus links; a drone's slot reads CAMERA
 	var camera_hint:Dictionary=sim.camera_context()
 	var camera_target:int=int(camera_hint.get("target",-1))
 	if camera_target==-2 or (camera_target>=0 and PhotoCapture.applies(PhotoCapture.obj(sim,camera_target))):order_buttons.camera.text="PHOTO"

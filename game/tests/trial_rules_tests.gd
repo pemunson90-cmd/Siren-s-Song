@@ -11,7 +11,6 @@ const Words=preload("res://src/presentation/hud_words.gd")
 const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 const ExpeditionSession=preload("res://src/presentation/runs/expedition_session.gd")
 const CareerSession=preload("res://src/presentation/career/career_session.gd")
-const RiderChoice=preload("res://src/presentation/rider_choice.gd")
 class Host extends RefCounted:
 	var sim=Sim.new()
 	var screen="mission"
@@ -41,7 +40,6 @@ func table_case():
 	# WP-121: Pat's 14 Nov ruling switched rule 3 (pause at route end) off by default.
 	check(TrialRules.wheel_holds_time() and not TrialRules.pause_at_route_end() and TrialRules.pause_on_every_lock() and TrialRules.pause_when_blocked(),"rules 1, 4 and 5 are on by default and rule 3 (route-end pause) is off")
 	check(is_equal_approx(TrialRules.first_dive_lock_seconds(),6.0) and is_equal_approx(TrialRules.STANDARD_LOCK_SECONDS,4.0),"the first dive lock is 6 s, the standard 4 s")
-	check(not TrialRules.expedition_rider_default_on(),"the Expedition rider starts off by default")
 	TrialRules.override("PAUSE_WHEN_BLOCKED",false)
 	check(not TrialRules.pause_when_blocked(),"an override changes the answer")
 	TrialRules.reset()
@@ -153,22 +151,14 @@ func blocked_case():
 	next.observe()
 	check(not other.sim.paused,"rule 5 off: a rock hold does not pause")
 	TrialRules.reset()
-# Rule 6: the Expedition rider. Career has its own variable and keeps its default.
+# Rule 6 (WP-122): riders are always on. Neither session keeps an accept/decline switch, and the old trial constant is not read.
 func rider_case():
 	TrialRules.reset()
 	var expedition=ExpeditionSession.new()
-	check(expedition.accept_rider==false,"rule 6 on: an Expedition's rider starts off")
-	RiderChoice.toggle(expedition,func():pass)
-	check(expedition.accept_rider==true,"the player can still switch the rider on")
-	expedition.free()
-	TrialRules.override("EXPEDITION_RIDER_DEFAULT_ON",true)
-	var old=ExpeditionSession.new()
-	check(old.accept_rider==true,"rule 6 off: an Expedition's rider starts on as before")
-	old.free()
-	TrialRules.reset()
 	var career=CareerSession.new()
-	check(career.accept_rider==true,"Naval Career's rider default is unchanged")
-	career.free()
+	check(not "accept_rider" in expedition and not "accept_rider" in career,"rule 6: no rider accept switch in an Expedition or in Naval Career")
+	check(not TrialRules.DEFAULTS.has("EXPEDITION_RIDER_DEFAULT_ON"),"rule 6: the old rider default is no longer a live trial rule")
+	expedition.free();career.free()
 # Rules 1 and 3 through the real game: the wheel holds time; a finished route pauses.
 func make_game():
 	root.size=Vector2i(1280,720);await process_frame

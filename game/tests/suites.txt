@@ -277,3 +277,4 @@ float_pile_ui_tests|FLOAT PILE UI|-|2272|render
 earned_block_ui_tests|EARNED BLOCK UI|-|2290|render
 wp117_ui_tests|WP117 UI|-|2290|render
 rock_warning_tests|ROCK WARNING|-|2291
+photo_beside_job_tests|PHOTO BESIDE JOB|-|2300|render

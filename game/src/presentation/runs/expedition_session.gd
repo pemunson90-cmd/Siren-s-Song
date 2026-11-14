@@ -22,7 +22,6 @@ var prior_sound_suspended=false
 var recorded=false
 # Trial rule 6 (trial_rules.gd): an Expedition operation's rider starts switched off; the player can switch it on.
 # Naval Career has its own variable (career_session.gd) and keeps accepting the rider by default.
-var accept_rider=TrialRules.expedition_rider_default_on()
 # The dive just finished: spent, earned, kept (run_words.gd). Empty until a dive ends in this session.
 var dive_ledger:Array=[]
 var dive_abandoned=false # WP-119: the dive just finished ended by END DIVE · LOSE RUN
@@ -110,8 +109,7 @@ func _show_campaign()->void:
 func _rider_and_tools()->void:
 	var rider=RunState.rider_offer(run_state)
 	_menu_text(RunState.Riders.description(rider,RunState.rider_bonus_text(rider)),17)
-	if not rider.is_empty():
-		_button(panel_box,"RIDER: ON · TAP TO REMOVE" if accept_rider else "RIDER: OFF · TAP TO ACCEPT",preload("res://src/presentation/rider_choice.gd").toggle.bind(self,_show_campaign),"run_rider")
+	# WP-122: the bonus challenge is always on; there is no accept or decline button.
 	tool_racks=run_state.get("tool_racks",preload("res://src/equipment/tool_racks.gd").from_stock(run_state.stock)).duplicate(true)
 	PrepColumns.nested(self,func():preload("res://src/presentation/mode_racks_view.gd").show(self,true))
 # WP-34: ending a live dive asks first. KEEP returns to the paused menu untouched.
@@ -130,7 +128,7 @@ func _begin()->void:
 		var note:Label=panel_box.get_meta("launch_paused_note") if panel_box.has_meta("launch_paused_note") and is_instance_valid(panel_box.get_meta("launch_paused_note")) else _menu_text("",17)
 		note.text="LAUNCH PAUSED · "+str(campaign_host.get_meta("runs_save_error",""))
 		panel_box.set_meta("launch_paused_note",note);panel_box.move_child(note,0);scroll.scroll_vertical=0;return
-	var launched=RunState.launch(run_state,accept_rider)
+	var launched=RunState.launch(run_state,true) # WP-122: every offered rider is active
 	if not launched.in_flight:return
 	run_state=launched;sim.configure(run_state);recorded=false;active_envelope={}
 	_start_mission(RunState.current_operation(run_state));_save_archive()

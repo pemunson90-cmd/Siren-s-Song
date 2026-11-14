@@ -338,7 +338,9 @@ static func apply(hud)->void:
  if hud.page=="object" and hud.subject.get("kind","")=="objective" and int(hud.subject.get("index",-1))>=0:target=int(hud.subject.index)
  var sites=sim.observable_sites()
  if target>=0 and target<sites.size() and preload("res://src/presentation/operation_instruments.gd").operation(sim,target).is_empty() and sites[target].get("site_id","")!="rendezvous" and hud.host.order_buttons.camera.text not in ["WATCH\nORDERS","PLANT\nCONTROLS","WITNESS\nWINCH","GATE\nCONTROLS","RECIPIENT\nCONTROLS"]:
-  hud.host.order_buttons.camera.text=verb(sites[target])
+  # WP-122: beside a ready photo subject the job's verb goes to its own segment and the camera slot stays PHOTO.
+  if hud.operation_beside_photo(sim):hud.extra.operation.text=verb(sites[target])
+  else:hud.host.order_buttons.camera.text=verb(sites[target])
  if target>=0 and target<sites.size() and sites[target].has("glass_effect"):
   for label in [hud.intent,hud.instrument_info,hud.host.detail_label]:label.text=label.text.replace("Camera exposure","Machinery work").replace("CAMERA exposure","Machinery work")
  # A chosen transmission sector owns its refusal even when the generic camera

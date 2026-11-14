@@ -134,7 +134,7 @@ func main_case(shape:Vector2i,wide:bool):
    var column=contract.get_parent()
    var index=contract.get_index()
    var rider=column.get_child(index+1)
-   check(rider is Label and rider.text.begins_with("OPTIONAL RIDER FOR") and column.get_child(index+2) is HSeparator,"each rider line stays in its contract's block"+tag)
+   check(rider is Label and rider.text.begins_with("BONUS CHALLENGE FOR") and column.get_child(index+2) is HSeparator,"each rider line stays in its contract's block"+tag)
   # WP-114: the contract briefing is two columns on a wide screen, and its buttons are on screen without scrolling.
   career._select_contract(career.selected_contract);await settle()
   career_briefing_checks(career,wide,tag)
@@ -154,8 +154,7 @@ func career_briefing_checks(career,wide:bool,tag:String)->void:
  check(beside(goal,rules)==two,"contract briefing: goal and rules are "+("two columns" if two else "one column")+tag)
  check(not two or absf(goal.position.x-reward.position.x)<2.,"contract briefing: the reward stays in the goal's column"+tag)
  for id in ["career_begin","career_fittings","career_board"]:check(onscreen(rect(career,id)),"contract briefing: "+id+" is on screen without scrolling"+tag)
- var rider=button(career,"career_rider")
- if rider!=null:check(onscreen(rider.get_global_rect()),"contract briefing: the rider switch is on screen without scrolling"+tag)
+ check(button(career,"career_rider")==null,"contract briefing: no rider accept switch (WP-122)"+tag)
 func run():
  for shape in [[Vector2i(2520,1080),true],[Vector2i(2184,1968),true],[Vector2i(960,432),false]]:
   await front_case(shape[0],shape[1])

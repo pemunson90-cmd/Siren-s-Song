@@ -178,6 +178,8 @@ func setup(owner):
  for entry in [["concealed_attach","ATTACH TOW"],["concealed_release","RELEASE TOW"],["concealed_seat","SEAT HERE"],["concealed_work","WITNESS ACCOUNT"]]:
   var key=entry[0];extra[key]=host._button(self,entry[1],func():_extra(key),key)
  instrument_button=extra.inspect
+ # WP-122: a charted operation (LINK, TRANSMIT, FIELD SAMPLE) gets its own segment when a photo subject is also in reach, so PHOTO keeps the camera slot.
+ extra.operation=host._button(self,"OPERATE",func():host._order("camera"),"operation_action")
  extra.witness_land=host._button(self,"LAND\nWITNESS",func():host._order("witness_land"),"witness_land")
  for entry in [["blackwater_handoff","TRANSFER\nTO Q"],["blackwater_data","DATA\nTRANSFER"],["blackwater_a","TRANSFER A\nTO QUIETUS"],["blackwater_b","TRANSFER B\nTO QUIETUS"]]:
   var key=entry[0];extra[key]=host._button(self,entry[1],func():_extra(key),key)
@@ -403,6 +405,14 @@ func _outside(event):
    if event is InputEventScreenTouch:owned_touches.erase(event.index)
 func command_controls() -> Array:
  return ReleaseControls.filter(self,_page_controls())
+# WP-122: true when a job (a charted operation, an uplink, a listening post) holds the camera context and a different photo
+# subject is also ready for this craft. The wheel then shows PHOTO and the job as two segments.
+func operation_beside_photo(sim)->bool:
+ var rule=preload("res://src/simulation/photo_context.gd")
+ var held=sim.camera_context()
+ if int(held.get("target",-1))<0 or rule.is_photo(sim,held):return false
+ var photo=sim.photo_context()
+ return rule.is_photo(sim,photo) and photo.get("ready",false) and int(photo.target)!=int(held.target)
 func _page_controls() -> Array:
  match page:
   "cache":return Cache.controls(self)
@@ -442,6 +452,7 @@ func _page_controls() -> Array:
  if host.sim.selected==0 and AllStop.available(host.sim):controls[6]=extra.all_stop
  if not host.sim.choir_context().is_empty():controls.append(extra.choir_work)
  if not host.sim.glass_context().is_empty():controls.append(extra.glass_work)
+ if operation_beside_photo(host.sim):controls.append(extra.operation) # WP-122
  if Witness.carries(host.sim,host.sim.selected):controls[0]=extra.witness_land
  if Concealed.status(host.sim).get("known",false):controls.append(extra.concealed_work)
  if not Delivery.status(host.sim).is_empty():
@@ -739,8 +750,13 @@ func refresh():
  if (host.knock_armed or host.decoy_armed) and not host.targeting_feedback.is_empty():
   intent.text=sim.units[sim.selected].name+" · "+host.targeting_feedback
  var photographic=sim.camera_context()
+ var job_text:String=host.order_buttons.camera.text;var job_off:bool=host.order_buttons.camera.disabled or not photographic.get("ready",false)
  if preload("res://src/simulation/photo_context.gd").is_photo(sim,photographic):
   host.order_buttons.camera.text="PHOTO";host.order_buttons.camera.disabled=false
+ # WP-122: PHOTO keeps the camera slot and the job that held the camera (LINK, TRANSMIT, FIELD SAMPLE...) moves to its own segment.
+ if operation_beside_photo(sim):
+  host.order_buttons.camera.text="PHOTO";host.order_buttons.camera.disabled=false
+  extra.operation.text=job_text;extra.operation.disabled=job_off
  # 119: an object's CAMERA works that object only; the main CAMERA never
  # swaps the owner's unfinished chosen task for a different optional job.
  host.order_buttons.camera.tooltip_text=""

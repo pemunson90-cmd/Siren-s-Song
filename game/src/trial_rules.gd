@@ -23,8 +23,8 @@ const PAUSE_AT_ROUTE_END=false
 const PAUSE_ON_EVERY_LOCK=true
 # 5. The game pauses once when a craft holds because rock blocks its leg. Switch back: PAUSE_WHEN_BLOCKED=false.
 const PAUSE_WHEN_BLOCKED=true
-# 6. An Expedition operation's optional rider starts switched on (true) or off (false). The player can still
-#    switch it on. Naval Career has its own variable and is not affected. Switch back: EXPEDITION_RIDER_DEFAULT_ON=true.
+# 6. (WP-122, Pat 14 Nov) Riders are always on: every offered rider is a bonus challenge with no accept or decline
+#    control, in Naval Career and Expeditions. This constant no longer applies and nothing reads it; it stays only as a record.
 const EXPEDITION_RIDER_DEFAULT_ON=false
 
 const DEFAULTS={
@@ -33,7 +33,6 @@ const DEFAULTS={
 	"PAUSE_AT_ROUTE_END": PAUSE_AT_ROUTE_END,
 	"PAUSE_ON_EVERY_LOCK": PAUSE_ON_EVERY_LOCK,
 	"PAUSE_WHEN_BLOCKED": PAUSE_WHEN_BLOCKED,
-	"EXPEDITION_RIDER_DEFAULT_ON": EXPEDITION_RIDER_DEFAULT_ON,
 }
 # Test seam. Only test suites call override() and reset(); the game never does.
 static var _overrides:Dictionary={}
@@ -50,4 +49,3 @@ static func first_dive_lock_seconds()->float:return float(_read("FIRST_DIVE_LOCK
 static func pause_at_route_end()->bool:return bool(_read("PAUSE_AT_ROUTE_END"))
 static func pause_on_every_lock()->bool:return bool(_read("PAUSE_ON_EVERY_LOCK"))
 static func pause_when_blocked()->bool:return bool(_read("PAUSE_WHEN_BLOCKED"))
-static func expedition_rider_default_on()->bool:return bool(_read("EXPEDITION_RIDER_DEFAULT_ON"))

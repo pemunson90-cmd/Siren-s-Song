@@ -75,7 +75,7 @@ func run():
  var career=State.new_career()
  var a=State.rider_offer(career,"brannock_watch");var b=State.rider_offer(career,"brannock_watch")
  check(a==b,"the same contract shows the same rider on every view")
- check(Board.rider_line("Brannock Watch",a).begins_with("OPTIONAL RIDER FOR BRANNOCK WATCH · "),"rider line names its contract")
+ check(Board.rider_line("Brannock Watch",a).begins_with("BONUS CHALLENGE FOR BRANNOCK WATCH · "),"rider line names its contract")
  # WP-92: after a dive the result says the earnings once, in the ledger's "Earned:" line; the board keeps them in its own lines.
  var Text=preload("res://src/presentation/mode_result_text.gd")
  var report="BRANNOCK WATCH · RECOVERED\nSTANDING +2 → 5 · CONTRACT PAY 40 FUEL + 10 SALVAGE\nSALVAGE RECOVERED · 3 SCRAP\nRIDER PASSED · BONUS 5 FUEL"
