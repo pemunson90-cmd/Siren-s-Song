@@ -261,6 +261,8 @@ func order_text_checks(g)->void:
 	await fresh(g)
 	await tap(screen(g,first))
 	check(guard.undo_button.visible and "no route" in guard.undo_button.text.to_lower(),"UNDO after a first leg says it returns to no route")
+	check(guard.undo_button.text.split("\n").size()==2 and guard.undo_button.text.begins_with("UNDO\n"),"the UNDO chip is two lines: UNDO, then what it restores")
+	check(guard.undo_button.get_global_rect().size.x<=g.ocean.chart_width()-24+1.,"the UNDO chip fits inside the chart width")
 	await click(guard.undo_button)
 	check(g.sim.route_goals().is_empty(),"UNDO removes the first leg")
 	await tap(screen(g,second))

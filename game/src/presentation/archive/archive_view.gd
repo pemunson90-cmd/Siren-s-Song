@@ -98,12 +98,28 @@ static func show(host)->void:
 		for artifact in group.artifacts:
 			host._menu_text("ARTIFACT · %s · %s"%[artifact.name,"CONSUMED IN RESEARCH" if artifact.spent else "AWAITING RESEARCH"],15)
 	if not any:host._menu_text("Nothing recovered yet.",16)
+	_empty_slots(host,done,cache)
 	_field_log(host,evidence_by_op,cache)
 	host.call_deferred("_layout")
 	(func():
 		await host.get_tree().process_frame
 		if host.screen=="archive":host.scroll.scroll_vertical=reading_position
 	).call_deferred()
+# Operations of the region being played (the first unfinished one's) that have no photograph yet, in order.
+static func empty_slot_ops(host,done:Array)->Array:
+	var ids:Array=Catalog.registered_ids().filter(func(id):return preload("res://src/campaign/sorley_rescue.gd").visible(id,host.expedition))
+	ids.sort()
+	var current=ids.filter(func(id):return id not in done)
+	if current.is_empty():return []
+	var region:=region_of(current[0])
+	var photographed:Array=photos(host).map(func(p):return p.op)
+	return ids.filter(func(id):return region_of(id)==region and id not in photographed)
+# One empty slot per operation still to photograph, so a new player sees what will fill the archive.
+static func _empty_slots(host,done:Array,cache:Dictionary)->void:
+	var ops:=empty_slot_ops(host,done)
+	if ops.is_empty():return
+	host._menu_text("STILL TO PHOTOGRAPH · %s"%region_of(ops[0]),20)
+	for op in ops:host._menu_text("%s · not yet photographed"%title_of(op,cache),15)
 # Messages received and evidence recovered, by operation.
 static func _field_log(host,evidence_by_op:Dictionary,cache:Dictionary)->void:
 	host._menu_text(Table.TEXT.log,24)

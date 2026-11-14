@@ -215,7 +215,11 @@ func refresh(blocked:Array):
    reading.add_theme_color_override("font_color",Color("ffc097") if critical else Color("b6dcd7"))
    var measured=0.
    for line in reading.text.split("\n"):measured=maxf(measured,font.get_string_size(line,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x)
-   var extent=Vector2(minf(measured+20,h*4.6),reading.get_combined_minimum_size().y)
+   # A line wider than the chip wraps onto another line; no word is cut with an ellipsis.
+   var wide:=minf(measured+20,h*4.6)
+   reading.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;reading.text_overrun_behavior=TextServer.OVERRUN_NO_TRIMMING
+   var wrapped:=font.get_multiline_string_size(reading.text,HORIZONTAL_ALIGNMENT_LEFT,wide-16,font_size,-1,TextServer.BREAK_MANDATORY|TextServer.BREAK_WORD_BOUND|TextServer.BREAK_ADAPTIVE)
+   var extent=Vector2(wide,wrapped.y+16+4)
    var desired=box.position+Vector2(h+10,0)
    var detail_box=Rect2(desired.clamp(safe.position,safe.end-extent),extent)
    var candidates=[detail_box]
