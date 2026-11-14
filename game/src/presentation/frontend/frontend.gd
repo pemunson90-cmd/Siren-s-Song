@@ -13,6 +13,8 @@ const ReachTable=preload("res://src/presentation/frontend/menu_reach_table.gd")
 const UiStyle=preload("res://src/presentation/ui_style.gd")
 const TITLE_ART=preload("res://assets/title/splash.svg")
 const TitleBackdrop=preload("res://src/presentation/frontend/title_backdrop.gd")
+const PrepColumns=preload("res://src/presentation/prep_columns.gd")
+const Metrics=preload("res://src/presentation/layout_metrics.gd")
 enum Profile { NONE, OK, RECOVERED, UNREADABLE }
 var profile_picker = preload("res://src/persistence/profiles/profile_picker.gd").new()
 var host: Control
@@ -32,6 +34,11 @@ var title_backdrop: Control
 var embedded_settings=false
 var operations_entry=""
 var settings_dirty=false
+# WP-62: a screen that shows a list beside details asks for two columns (_split, _grid) when the screen is wide
+# enough (PrepColumns.wide, the test the Fittings screen uses). `again` redraws it if a resize changes the answer.
+var wide_built=false
+var rebuild:Callable
+var relayout_pending=false
 func setup_settings(main:Control)->void:
 	host=main;embedded_settings=true;name="Frontend"
 	settings_store.path=host.settings_path;values=FrontendSettings.current.duplicate(true)
@@ -113,10 +120,57 @@ func touch_height() -> float:
 func _fit_column() -> void:
 	if embedded_settings:return
 	if column == null: return
-	column.custom_minimum_size.x = clampf(size.x - 64.0, 240.0, 620.0)
+	column.custom_minimum_size.x = clampf(size.x - 64.0, 240.0, minf(Metrics.menu_width(size, true), size.x - 64.0) if wide_built else 620.0)
+	# The plate behind the column follows its width, so a two-column page has the same dark ground a narrow one has.
+	if title_backdrop != null: title_backdrop.set_plate(column.custom_minimum_size.x + 2.0 * PLATE_MARGIN if wide_built else 0.0)
+	if rebuild.is_valid() and not relayout_pending and host != null and PrepColumns.wide(host) != wide_built:
+		relayout_pending = true; _redraw.call_deferred()
+func _redraw() -> void:
+	relayout_pending = false
+	if rebuild.is_valid(): rebuild.call()
+# True when the screen being built has two columns.
+func _register(again: Callable) -> bool:
+	rebuild = again
+	wide_built = host != null and PrepColumns.wide(host)
+	_fit_column()
+	return wide_built
+# [left, right]: two columns side by side on a wide screen, the page's own column twice on a narrow one, so a
+# screen adds its parts in reading order and the narrow layout is unchanged. Embedded settings use Main's frame.
+func _split(again: Callable) -> Array:
+	var wide := _register(again)
+	if embedded_settings: return PrepColumns.open(host, again)
+	if not wide: return [column, column]
+	var row := HBoxContainer.new(); row.size_flags_horizontal = Control.SIZE_EXPAND_FILL; row.add_theme_constant_override("separation", roundi(Metrics.MENU_COLUMN_GAP)); column.add_child(row)
+	var boxes := []
+	for n in 2:
+		var box := VBoxContainer.new(); box.size_flags_horizontal = Control.SIZE_EXPAND_FILL; box.add_theme_constant_override("separation", 14); row.add_child(box); boxes.append(box)
+	return boxes
+# Two columns of equal cards on a wide screen, or null on a narrow one (cards then stack in the page's column).
+func _grid(again: Callable) -> GridContainer:
+	if not _register(again): return null
+	var grid := GridContainer.new(); grid.columns = 2; grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	grid.add_theme_constant_override("h_separation", roundi(Metrics.MENU_COLUMN_GAP)); grid.add_theme_constant_override("v_separation", UiStyle.MODE_CARD_GAP)
+	column.add_child(grid)
+	return grid
+# One card for a button and its note: a panel holding a column. Added to `grid`; returns the column inside.
+func _card(grid: Container) -> VBoxContainer:
+	var panel := PanelContainer.new(); panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL; panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	panel.add_theme_stylebox_override("panel", UiStyle.mode_card_box()); panel.mouse_filter = Control.MOUSE_FILTER_PASS
+	var box := VBoxContainer.new(); box.add_theme_constant_override("separation", 8); panel.add_child(box); grid.add_child(panel)
+	return box
+# Run `build` so that _text, _button and _choice_row add into `box`.
+func _into(box: VBoxContainer, build: Callable) -> void:
+	var previous = column
+	column = box
+	if embedded_settings: PrepColumns.into(host, box, build)
+	else: build.call()
+	column = previous
+const PLATE_MARGIN := 16.0
 func _reset(next: String) -> void:
 	screen = next; title_label = null
-	if title_backdrop != null: title_backdrop.visible = next == "title" # hidden screens stop its processing
+	rebuild = Callable(); wide_built = false; relayout_pending = false
+	# The chart stays behind every front-end screen; only its drifting craft stops when the title is not shown.
+	if title_backdrop != null: title_backdrop.visible = true; title_backdrop.set_frozen(next != "title")
 	if embedded_settings:
 		host._clear_menu();host.screen="settings"
 	for child in column.get_children(): column.remove_child(child); child.queue_free()
@@ -198,9 +252,14 @@ func _settings_screen() -> void:
 		var id: String = page
 		var tab := _choice_button(tabs, Depth.PAGE_LABELS[id], "settings_page_" + id, settings_page == id)
 		tab.pressed.connect(func(): settings_page = id; _settings_screen(), CONNECT_DEFERRED)
-	if settings_page == "audio": _audio_page()
-	if settings_page == "display": _display_page()
-	if settings_page == "controls": _controls_page()
+	# Wide: the page's independent rows go in two columns and the page buttons close the right one.
+	var boxes := _split(_settings_screen)
+	if settings_page == "audio": _audio_page(boxes)
+	if settings_page == "display": _display_page(boxes)
+	if settings_page == "controls": _controls_page(boxes)
+	_into(boxes[1], _settings_actions)
+	if embedded_settings:host.call_deferred("_layout")
+func _settings_actions() -> void:
 	if host.has_method("_save_archive"):
 		_button("SHOW FIRST-DIVE TIPS AGAIN",func():host.hints_seen=[];host._save_archive();_settings_screen(),"reset_tips")
 	_button("RESET TO DEFAULTS", func(): values = SettingsStore.DEFAULTS.duplicate(); _set_value("master", 1.0); _settings_screen(), "settings_reset")
@@ -208,7 +267,6 @@ func _settings_screen() -> void:
 		UiStyle.apply(_button("ERASE PROGRESS · NEW CAMPAIGN", _new_campaign, "frontend_new_campaign"), UiStyle.DANGER)
 	if OS.is_debug_build() and host.get("debug_console")!=null:
 		_button("DEVELOPER",func():host.debug_console.open(),"developer")
-	if embedded_settings:host.call_deferred("_layout")
 func _choice_row() -> HBoxContainer:
 	var row := HBoxContainer.new(); row.add_theme_constant_override("separation", 8); column.add_child(row)
 	return row
@@ -226,7 +284,10 @@ func _choice_setting(title: String, key: String, id_prefix: String, labels: Arra
 		var picked: int = n + first
 		var b := _choice_button(row, labels[n], "%s_%d" % [id_prefix, picked], int(values[key]) == picked)
 		b.pressed.connect(func(): _set_value(key, picked); _settings_screen(), CONNECT_DEFERRED)
-func _audio_page() -> void:
+func _audio_page(boxes: Array) -> void:
+	_into(boxes[0], _volume_rows)
+	_into(boxes[1], _audio_modes_rows)
+func _volume_rows() -> void:
 	var rows: Array = Depth.MIXER
 	for row in rows:
 		var key: String = row[0]
@@ -234,13 +295,17 @@ func _audio_page() -> void:
 		var slider := HSlider.new(); slider.min_value = 0; slider.max_value = 1; slider.step = 0.05; slider.value = values[key]
 		slider.custom_minimum_size.y = touch_height(); slider.set_meta("ui_action", ("volume_" if embedded_settings else "setting_") + key); column.add_child(slider)
 		slider.value_changed.connect(func(v: float): _set_value(key, v); caption.text = "%s  %d%%" % [row[1], roundi(v * 100)])
+func _audio_modes_rows() -> void:
 	var audio_modes := _choice_row()
 	var mute_button := _button("MUTE: %s" % ("ON" if values.master<=0 else "OFF"),_toggle_mute,"mute")
 	var night_button := _button("NIGHT MODE: %s" % ("ON" if values.night_mode else "OFF"), func(): _set_value("night_mode", not values.night_mode); _settings_screen(), "setting_night_mode")
 	for button in [mute_button, night_button]:
 		button.reparent(audio_modes); button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_text(Depth.NIGHT_NOTE, 14)
-func _display_page() -> void:
+func _display_page(boxes: Array) -> void:
+	_into(boxes[0], _display_choices)
+	_into(boxes[1], _display_toggles)
+func _display_choices() -> void:
 	_quality_row()
 	_text("TEXT SIZE", 17)
 	var sizes := _choice_row()
@@ -253,6 +318,7 @@ func _display_page() -> void:
 		var selected_cap: int = cap
 		var cap_button := _choice_button(caps, "CAP %d FPS" % selected_cap, "frame_cap_%d" % selected_cap, values.frame_cap == selected_cap)
 		cap_button.pressed.connect(func(): _set_value("frame_cap", selected_cap); _settings_screen(), CONNECT_DEFERRED)
+func _display_toggles() -> void:
 	var rows := [["high_contrast", "HIGH CONTRAST"], ["reduced_motion", "REDUCED MOTION"], ["safe_palette", "SAFE PALETTE"], ["audio_captions", "AUDIO CAPTIONS"]]
 	for row in rows: _toggle_row(row[0], row[1])
 func _quality_row() -> void:
@@ -262,7 +328,10 @@ func _quality_row() -> void:
 		var picked: String = tier
 		var b := _choice_button(choices, picked.replace("_", " "), "quality_" + picked.to_lower(), values.quality == picked)
 		b.pressed.connect(func(): _set_value("quality", picked); _settings_screen(), CONNECT_DEFERRED)
-func _controls_page() -> void:
+func _controls_page(boxes: Array) -> void:
+	_into(boxes[0], _control_aids)
+	_into(boxes[1], _control_touch)
+func _control_aids() -> void:
 	_toggle_row("mirrored_hud", "MIRRORED HUD")
 	_text("Swap left and right controls for one-handed play.", 14)
 	_toggle_row("auto_pause_notice", "TACTICAL AID: PAUSE ON FIRST NOTICE")
@@ -270,6 +339,7 @@ func _controls_page() -> void:
 	# THREAT READ seam: optional craft-loss pause, hidden when the module is off.
 	if preload("res://src/presentation/threat_read/threat_read_table.gd").enabled: _toggle_row("auto_pause_loss", "TACTICAL AID: PAUSE ON CRAFT LOSS")
 	_text("Optional Accessible aids for any preset. Resume when ready; warning time freezes during pause.", 14)
+func _control_touch() -> void:
 	_toggle_row("haptics", "HAPTICS")
 	_choice_setting("HAPTIC STRENGTH · pulse length", "haptic_strength", "haptic_strength", Depth.HAPTIC_LABELS.slice(1), 1)
 	_text("Pulses cover lock, sweeper warning, film empty, loss, impact, torpedo launch, recovery and shutter.", 14)

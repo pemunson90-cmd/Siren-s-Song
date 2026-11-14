@@ -156,13 +156,24 @@ static func settle(host,first_recovery:bool,fleet_before:Dictionary)->void:
 		for item in Economy.Losses.state(host.economy).last:
 			if item not in Economy.Losses.state(host.economy).modules:host.fleet=Inventory.rebuild(host.fleet,item)
 # ---- the supplies screen -----------------------------------------------------
+# WP-62: on a wide screen what you hold and what the next launch costs are the left column, and the repairs and
+# purchases the right (PrepColumns, as on Fittings). A narrow screen keeps the one list in its old order.
 static func show(host)->void:
-	var e=host.economy
 	# A redraw after a purchase is not a new visit, so the first-visit note stays away.
 	var fresh=host.screen!="economy"
 	host.screen="economy";host.sim.paused=true;host._clear_menu()
-	host._button(host.panel_box,"BACK TO OPERATIONS",host._show_campaign,"back")
-	host._menu_text("SUPPLIES / COSTS",30)
+	PrepColumns.back_line(host,"SUPPLIES / COSTS","BACK TO OPERATIONS",host._show_campaign,"back")
+	var columns=PrepColumns.open(host,show.bind(host))
+	var left=columns[0];var right=columns[1];var wide=PrepColumns.is_wide(host)
+	PrepColumns.into(host,left,_holdings.bind(host,fresh))
+	if wide:PrepColumns.into(host,left,_launch_note.bind(host))
+	PrepColumns.into(host,left,_preset_controls.bind(host))
+	if not wide:PrepColumns.into(host,left,_launch_note.bind(host))
+	PrepColumns.into(host,right,_purchases.bind(host))
+	host.call_deferred("_layout")
+# What the player holds: supplies, preset, the last dive's report and the crew.
+static func _holdings(host,fresh:bool)->void:
+	var e=host.economy
 	currency(host,fresh)
 	host._menu_text("PRESET · %s · %s%s"%[Options.label(e),Economy.preset(e).note," · IRONMAN" if e.ironman else ""],16)
 	# A dive that can be resumed is the current state; the default "No dive yet" report would be false.
@@ -170,6 +181,9 @@ static func show(host)->void:
 	if diving:host._menu_text(host.CampaignFlow.in_progress_line(host),14)
 	if not (diving and e.report.begins_with("No dive yet")):host._menu_text(e.report,14)
 	preload("res://src/presentation/crew/crew_view.gd").supplies(host)
+# The campaign preset and the one-way Ironman switch.
+static func _preset_controls(host)->void:
+	var e=host.economy
 	if e.ironman:
 		host._button(host.panel_box,"PRESET LOCKED · IRONMAN",func():pass,"eco_preset").disabled=true
 		host._menu_text(Save2Table.IRONMAN_LINE,15)
@@ -183,11 +197,15 @@ static func show(host)->void:
 			iron_button.disabled=true
 			iron_button.text="IRONMAN / EASIER PRESET QUEUED"
 			host._menu_text("Easier preset queued; Ironman can be enabled after the next dock.",14)
-	# The note sits inside the same side margin as the cards, clear of the panel edge.
+# The note sits inside the same side margin as the cards, clear of the panel edge.
+static func _launch_note(host)->void:
 	var note=MarginContainer.new();note.add_theme_constant_override("margin_left",UiStyle.PREP_TEXT_INSET);note.add_theme_constant_override("margin_right",UiStyle.PREP_TEXT_INSET)
 	var note_box=VBoxContainer.new();note.add_child(note_box);host.panel_box.add_child(note)
 	PrepColumns.into(host,note_box,func():host._menu_text("NEXT LAUNCH REFIT · %s\nA craft keeps what it carried last launch for free. A bare standard Quietus always launches free."%
 		Economy.fmt(launch_cost(host)),15))
+# Repairs, manufacturing, research, unlocks and the free refits.
+static func _purchases(host)->void:
+	var e=host.economy
 	_repairs(host)
 	_manufacturing(host)
 	_research(host)
@@ -196,7 +214,6 @@ static func show(host)->void:
 	host._button(host.panel_box,"STRIP ALL TO BARE · FREE",func():_redraw(host,func():host.fitted_equipment=Catalog.default_loadout()),"eco_bare")
 	if e.last_fit!=host.fitted_equipment:
 		host._button(host.panel_box,"REVERT TO LAST LAUNCH FIT · FREE",func():_redraw(host,_revert_last.bind(host)),"eco_last")
-	host.call_deferred("_layout")
 static func _ironman(host)->void:
 	if host.get_meta("economy_iron_armed",false):
 		host.remove_meta("economy_iron_armed");_redraw(host,Economy.set_ironman.bind(host.economy))

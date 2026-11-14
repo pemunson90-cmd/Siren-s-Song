@@ -12,6 +12,7 @@ const WIDE_META="prep_wide"
 const REBUILD_META="prep_rebuild"
 const SCROLL_META="prep_scroll"
 const PENDING_META="prep_pending"
+const NESTED_META="prep_nested"
 static func wide(host)->bool:
 	return Metrics.prep_wide(host.size,host.ui_touch_height,Settings.text_scale())
 # Whether the screen being built has two columns (false for a screen that has not called open()).
@@ -19,6 +20,8 @@ static func is_wide(host)->bool:
 	return host.get_meta(WIDE_META,false)
 # `rebuild` redraws the whole screen; Main calls it when a turn or resize changes the column count.
 static func open(host,rebuild:Callable,scrolling:bool=false)->Array:
+	# Inside a column of an outer frame (see nested) a screen section keeps its narrow, stacked form.
+	if host.get_meta(NESTED_META,false):return [host.panel_box,host.panel_box]
 	var columns:=wide(host)
 	host.set_meta(WIDE_META,columns);host.set_meta(REBUILD_META,rebuild)
 	if not columns:return [host.panel_box,host.panel_box]
@@ -38,6 +41,24 @@ static func open(host,rebuild:Callable,scrolling:bool=false)->Array:
 static func _column(separation:int)->VBoxContainer:
 	var box:=VBoxContainer.new();box.size_flags_horizontal=Control.SIZE_EXPAND_FILL;box.add_theme_constant_override("separation",separation)
 	return box
+# Run `build` as a section of one column of an outer frame: a section that would open its own two columns
+# (the tool racks) stays one stacked column inside it.
+static func nested(host,build:Callable)->void:
+	host.set_meta(NESTED_META,true)
+	build.call()
+	host.remove_meta(NESTED_META)
+# BACK and the screen title: one above the other on a narrow screen (as ever), on one line on a wide one.
+# Returns the title label.
+static func back_line(host,title:String,back_text:String,back_action:Callable,back_id:String)->Label:
+	if not wide(host):
+		host._button(host.panel_box,back_text,back_action,back_id)
+		return host._menu_text(title,30)
+	var line:=HBoxContainer.new();line.add_theme_constant_override("separation",roundi(Metrics.MENU_COLUMN_GAP));host.panel_box.add_child(line)
+	var back=host._button(line,back_text,back_action,back_id)
+	back.custom_minimum_size.x=host.ui_touch_height*UiStyle.PREP_BACK_TOUCHES
+	var label=host._menu_text(title,30)
+	label.reparent(line);label.custom_minimum_size.x=0;label.size_flags_horizontal=Control.SIZE_EXPAND_FILL;label.vertical_alignment=VERTICAL_ALIGNMENT_CENTER
+	return label
 # What a text column can be asked to hold: one column's width less the room for the right column's scroll bar.
 static func text_width(host)->float:
 	return Metrics.menu_column_width(host.size,is_wide(host))-(UiStyle.PREP_SCROLLBAR_ALLOWANCE if is_wide(host) else 0.)
@@ -76,6 +97,6 @@ static func relayout(host)->void:
 	rebuild.call_deferred()
 # Main._clear_menu: a new screen starts with no columns.
 static func forget(host)->void:
-	for key in [WIDE_META,REBUILD_META,SCROLL_META,PENDING_META]:
+	for key in [WIDE_META,REBUILD_META,SCROLL_META,PENDING_META,NESTED_META]:
 		if host.has_meta(key):host.remove_meta(key)
 	host.panel_box.size_flags_vertical=Control.SIZE_FILL

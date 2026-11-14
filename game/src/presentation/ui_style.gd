@@ -217,3 +217,11 @@ const PREP_SCROLLBAR_ALLOWANCE=24.0
 const PREP_SUMMARY_SEPARATION=4
 const PREP_CONTROLS_SEPARATION=14
 const PREP_BACK_TOUCHES=3.0
+# Front-end mode cards (WP-62): a card that holds a button and its one-line description.
+const MODE_CARD_FILL=Color("0b1c26")
+const MODE_CARD_PADDING=14
+const MODE_CARD_GAP=12
+static func mode_card_box()->StyleBoxFlat:
+	var box:=_box(MODE_CARD_FILL,BUTTON_BORDER,1)
+	for side in ["left","right","top","bottom"]:box.set("content_margin_"+side,MODE_CARD_PADDING)
+	return box
