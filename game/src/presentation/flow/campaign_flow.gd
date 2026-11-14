@@ -146,6 +146,13 @@ static func briefing(host, index: int) -> void:
 		manual_control=host._button(host.panel_box,FieldManualTable.BUTTON_TEXT,func(): host._reference(index),"manual")
 	# The chart picture sits under the goal lines; a two-column briefing moves it above the loadout (below).
 	var chart_preview:=ChartPreview.attach(host.panel_box,briefing,host.size.y,host.ui_touch_height/48.0*preload("res://src/presentation/frontend/frontend_settings.gd").text_scale(),manual_control.get_index())
+	# WP-111: say how each unresolved target is marked in the dive, right under the chart that shows it (a two-column
+	# briefing carries these lines to the right column with the picture).
+	var marked_at:int=chart_preview.get_index()+1
+	for line in ChartPreview.marked_lines(briefing):
+		var marked=host._menu_text(line,BriefRows029.STYLE.photo if compact else 17)
+		host.panel_box.move_child(marked,marked_at);marked_at+=1
+		carried_nodes.insert(marked_at-chart_preview.get_index()-2,marked)
 	var thermal_line=preload("res://src/simulation/thermal_front.gd").briefing(briefing)
 	if not thermal_line.is_empty():host._menu_text(thermal_line,17)
 	preload("res://src/presentation/archive/voice_feed.gd").briefing(host,index)
