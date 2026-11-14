@@ -79,7 +79,13 @@ func run():
  o.contacts={0:{"time":10.,"pos":o.units[0].pos+Vector2(140,0),"mode":"BEAM","target":0,"source":"optical"}}
  check("sight line" in l2.line(),"a fresh optical contact alone gives the sight line")
  o.oxygen=0.;check(l2.line()=="","oxygen losses keep their line and get no cause")
- o.oxygen=50.;o.message="Quietus lost.";o.hull=0.;check(l2.line()=="","hull losses get no cause")
+ o.oxygen=50.;o.message="Quietus lost.";o.hull=0.;o.contacts={};check(l2.line()=="","hull losses with no beam get no cause")
+ # The beam is known from the finished lock even when a later message (a rider's failure) replaced the beam message.
+ o.message="RIDER FAILED · a launched craft was lost · base contract continues"
+ o.contacts={0:{"time":10.,"pos":o.units[0].pos+Vector2(140,0),"mode":"BEAM","target":0,"source":"optical"}}
+ check(Summary.beam_struck(o),"a finished lock is a beam kill although the message was replaced")
+ check("beam from the" in Summary.line(o) and not ("base contract" in Summary.line(o)),"the cause line names the beam, not the rider message: "+Summary.line(o))
+ o.contacts={}
  o.message=o.VAPORIZED_TEXT;o.outcome="won";check(l2.line()=="","only losses get a cause line")
  o.outcome="lost";Table.enabled=false
  check(l2.line()=="","flag off restores today's debrief (no line)")

@@ -139,8 +139,13 @@ func _result_menu()->void:
 	_menu_text("EXPEDITION LOST" if run_state.status=="lost" else "EXPEDITION RECOVERED" if run_state.status=="won" else "OPERATION RECOVERED",30)
 	_menu_text("Seed %d: %d of %d operations recovered."%[run_state.seed,run_state.cursor,run_state.operations.size()],20)
 	# Only a real outcome has a reason to state; an ended dive still holds the opening hint.
-	if not sim.outcome.is_empty():_menu_text(sim.message,17)
+	# A loss states its cause from what happened; a rider's failure replaces sim.message after the fact.
+	if sim.outcome=="lost":
+		var cause=preload("res://src/presentation/loss_summary.gd").line(sim)
+		if not cause.is_empty():_menu_text(cause,17)
+	elif not sim.outcome.is_empty():_menu_text(sim.message,17)
 	_menu_text(CampaignFlow.stats_line(sim),17)
+	if sim.outcome=="lost":preload("res://src/presentation/death_cause/cause_log.gd").debrief(self)
 	if not run_state.results.is_empty():
 		var r:Dictionary=run_state.results.back().get("rider",{})
 		if not r.get("assignment",{}).is_empty():

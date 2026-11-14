@@ -22,6 +22,18 @@ func run():
  # A Siren beam kill names the beam.
  s.elapsed+=1.;s.hull=0.;s.outcome="lost";s.message=Sim.VAPORIZED_TEXT;log.sample()
  check(log.summary().contains("· a Siren beam"),"beam loss names the beam")
+ # A beam kill is named from the finished lock, even after a rider's message replaced the beam message.
+ var bs=Sim.new();bs.start(0);bs.paused=false
+ var beam=Log.new();beam.bind(bs)
+ bs.elapsed+=1.;bs.hull=0.;bs.outcome="lost";bs.message="RIDER FAILED · a launched craft was lost · base contract continues"
+ bs.contacts={0:{"pos":bs.units[0].pos+Vector2(0,-200),"time":bs.elapsed,"mode":"BEAM","target":0,"type":"sweeper","source":"optical"}}
+ beam.sample()
+ check(beam.summary().contains("· a Siren beam") and not beam.summary().contains("does not record"),"beam loss is named from the lock, not the message")
+ # The recorded hull differs from the hull at the end of a dive: one line says why.
+ var f=Economy.new_state();f.cond.quietus=Economy.preset(f).floor
+ var host=_host(f);host.sim=bs
+ check(Log.floor_line(host)=="Quietus came home at 0%% and is recorded at %d%%, the lowest this difficulty records after a loss."%Economy.preset(f).floor,"the floor is explained: "+Log.floor_line(host))
+ bs.hull=Economy.preset(f).floor;check(Log.floor_line(host)=="","no floor line when the hull ended at the recorded value")
  # A loss with no recorded source says so instead of guessing.
  var t=Sim.new();t.start(0);t.paused=false
  var other=Log.new();other.bind(t)
@@ -43,9 +55,10 @@ func run():
  var a=State.rider_offer(career,"brannock_watch");var b=State.rider_offer(career,"brannock_watch")
  check(a==b,"the same contract shows the same rider on every view")
  check(Board.rider_line("Brannock Watch",a).begins_with("OPTIONAL RIDER FOR BRANNOCK WATCH · "),"rider line names its contract")
- for node in [log,other,field]:node.free()
+ for node in [log,other,field,beam]:node.free()
  print("CAREER RECORD CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)
 class FakeHost:
  var economy
+ var sim
 func _host(e):
  var h=FakeHost.new();h.economy=e;return h
