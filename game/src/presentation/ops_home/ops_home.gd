@@ -120,7 +120,7 @@ static func arrange(host)->void:
   elif node.get_meta(GROUP_META,"")=="difficulty":diff.append(node)
   elif node.get_meta(GROUP_META,"")=="continue":hint=node
   elif node.get_meta(GROUP_META,"")=="note":notes.append(node)
-  elif node is HBoxContainer and node.get_children().any(func(c):return action(c)=="settings"):reach=node
+  elif node is HFlowContainer and node.get_children().any(func(c):return action(c)=="settings"):reach=node
   else:extras.append(node)
  # Which card is the next thing to do, and which open rows exist (for the current-branch shortcut).
  var next=null;var open_rows={};var datas={}

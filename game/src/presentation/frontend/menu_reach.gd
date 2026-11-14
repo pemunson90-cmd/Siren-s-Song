@@ -3,12 +3,13 @@ extends RefCounted
 # Seams: CampaignFlow.show_campaign and Main._settings_menu.
 # No simulation commands, direct campaign writes or new setting/save keys.
 const Table=preload("res://src/presentation/frontend/menu_reach_table.gd")
+const Metrics=preload("res://src/presentation/layout_metrics.gd")
 const Front=preload("res://src/presentation/frontend/frontend.gd")
 static func entries(host)->void:
  host._button(host.panel_box,"GAME MODES",func():open(host,"modes"),"menu_modes")
  # Share the existing bottom Settings row so navigation cannot push the
  # selected stock and all three comparison rows above the scrolled viewport.
- var nav=HBoxContainer.new();nav.add_theme_constant_override("separation",Table.NAV_GAP);host.panel_box.add_child(nav)
+ var nav=Metrics.flow_row(host.panel_box,Table.NAV_GAP)
  var controls=[]
  for node in host.panel_box.get_children():
   if node is Button and node.get_meta("action","")=="menu_modes":
@@ -19,8 +20,7 @@ static func entries(host)->void:
   var destination=row[2]
   controls.append(host._button(nav,row[0],func():open(host,destination),row[1]))
  for control in controls:
-  control.size_flags_horizontal=Control.SIZE_EXPAND_FILL
-  control.custom_minimum_size.x=maxf(control.custom_minimum_size.x,host.ui_touch_height)
+  Metrics.flow_button(control,host.ui_touch_height)
   control.mouse_filter=Control.MOUSE_FILTER_PASS
 static func dismiss_existing(host)->void:
  var front=host.get_node_or_null("Frontend")

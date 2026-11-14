@@ -9,6 +9,7 @@ const Racks=preload("res://src/equipment/tool_racks.gd")
 const Tools=preload("res://src/equipment/field_tools.gd")
 const Catalog=preload("res://src/equipment/equipment_catalog.gd")
 const Economy=preload("res://src/campaign/economy.gd")
+const LayoutMetrics=preload("res://src/presentation/layout_metrics.gd")
 const UiStyle=preload("res://src/presentation/ui_style.gd")
 const FitBar=preload("res://src/presentation/fit_surface/fit_bar.gd")
 const FitCard=preload("res://src/presentation/fit_surface/fit_card.gd")
@@ -200,10 +201,10 @@ static func _summary(host,wide:bool)->void:
 static func _rows(host)->void:
  host._button(host.panel_box,"EMPTY ALL RACKS",func():_redraw(host,func():host.tool_racks=Racks.empty()),"rack_empty")
  var selected=host.get_meta("rack_craft",Names.CRAFT_QUIETUS)
- var picker=HBoxContainer.new();picker.size_flags_horizontal=Control.SIZE_EXPAND_FILL;host.panel_box.add_child(picker)
+ var picker=LayoutMetrics.flow_row(host.panel_box,0)
  for slot in Racks.UNITS:
   var button=host._button(picker,"EDIT "+Catalog.NAMES[slot],func():_redraw(host,func():host.set_meta("rack_craft",slot)),"rack_craft_"+slot)
-  button.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+  LayoutMetrics.flow_button(button,host.ui_touch_height)
   UiStyle.apply_card(button,slot==selected,false)
   button.disabled=slot==selected
  host._menu_text(Catalog.NAMES[selected]+": "+(QUIETUS_ONLY_NOTE if selected==Names.CRAFT_QUIETUS else DRONE_NOTE+QUIETUS_ONLY_NOTE),15)

@@ -37,8 +37,6 @@ func word_breaks(node)->Array:
  var out:Array=[]
  for b in node.find_children("*","Button",true,false):
   if not b.is_visible_in_tree() or b.text.is_empty() or b is CheckBox or b is OptionButton:continue
-  # Buttons that share one row (hub links, the rack tabs) divide its width and keep their own wrapping.
-  if b.get_parent() is HBoxContainer and b.get_parent().get_children().filter(func(c):return c is Button).size()>1:continue
   var room:float=b.size.x-b.get_theme_stylebox("normal").get_minimum_size().x
   var font:Font=b.get_theme_font("font");var size:int=b.get_theme_font_size("font_size")
   for word in b.text.replace("\n"," ").split(" ",false):
