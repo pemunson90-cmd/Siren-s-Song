@@ -60,8 +60,10 @@ func card_case(shape:Vector2i,scale:float,stamp:String):
 		check(rect.encloses(b.get_global_rect()),"%s sits inside the card %s"%[order,stamp])
 		var warned:bool=b.get_theme_color("font_color")==Palette.color("warning",Color("ffb18b"))
 		check(warned==not bool(b.get_meta("in_time")),"%s is drawn in the warning colour exactly when it cannot work in time %s"%[order,stamp])
-		if order=="decoy":check(lines.size()==2 and lines[1]==Words.TEXT.move_decoy and not b.get_meta("in_time"),"the decoy says it cannot break a lock %s: %s"%[stamp,b.text.replace("\n"," / ")])
+		check(order!="decoy","the decoy is not offered against a running lock "+stamp)
 		if order=="silent":check(not b.get_meta("in_time") and lines[1].begins_with("Siren inside"),"silent says a Siren 80 m away still sees it %s: %s"%[stamp,b.text.replace("\n"," / ")])
+	check(Words.TEXT.decoy_note in card.card_text,"the card says in one line what a decoy is for "+stamp+": "+card.card_text.replace("\n"," / "))
+	check(Rect2(Vector2.ZERO,Vector2(shape)).encloses(rect),"the card stays on the screen "+stamp)
 	game.queue_free();await settle()
 # A route order, then dive time: the strip shows the order while it is new and what the craft does after.
 func strip_case(shape:Vector2i,scale:float,stamp:String):

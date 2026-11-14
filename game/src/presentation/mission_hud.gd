@@ -929,7 +929,7 @@ func camera_caption() -> Array:
  var held=WorkTask.held_reason(sim,task)
  if not held.is_empty():return ["TASK "+WorkTask.label(sim,WorkTask.site(sim,task)),"HELD · OPEN THE OTHER JOB"]
  var context=sim.camera_context();var target=int(context.get("target",-1))
- if target==-2:return ["SIREN S%d"%(int(context.get("siren",0))+1)]
+ if target==-2:return ["SIREN "+preload("res://src/simulation/siren_tag.gd").tag(int(context.get("siren",0)))]
  if target>=0 and target<sim.mission.objectives.size():
   var site=sim.mission.objectives[target]
   var Range=preload("res://src/presentation/photo_shutter/range_caption.gd")

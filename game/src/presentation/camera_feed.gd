@@ -15,6 +15,7 @@ const Quality=preload("res://src/presentation/quality/quality_table.gd")
 const Shutter=preload("res://src/presentation/photo_shutter/shutter.gd")
 const ShutterTable=preload("res://src/presentation/photo_shutter/shutter_table.gd")
 const ForecastRule=preload("res://src/photo_grade/frame_forecast.gd")
+const NextStep=preload("res://src/photo_grade/next_step.gd")
 const GradeRule=preload("res://src/photo_grade/grade_on_secure.gd")
 const ThreatRead=preload("res://src/presentation/threat_read/threat_read.gd")
 const PricingTable=preload("res://src/simulation/photo_pricing/photo_pricing_table.gd")
@@ -181,11 +182,12 @@ func _draw_photo(t:Dictionary) -> void:
 	var status=Photo.progress_text(sim,uid,o) if live else str(t.get("ctx",{}).get("text",""))
 	status=status.split(" "+String.chr(0xb7)+" SHARP")[0]
 	status=status.replace(" "+String.chr(0xb7)+" "+Photo.label(o),"")
-	if not live:
-		for r in _frame.get("rows",[]):
-			if r.apparent and not r.ready and not r.why.is_empty():status="%s: %s"%[r.label,r.why];break
 	var pricing=preload("res://src/simulation/photo_pricing/photo_pricing.gd")
 	var readout=pricing.readout(sim,uid,o)
+	if not live:
+		# The panel leads with one plain next step for the first detail held back (photo_grade/next_step.gd).
+		var step:Dictionary=NextStep.read(_frame,readout,Photo.optics(sim,uid),Photo.flash_left(sim,uid))
+		if not step.is_empty():status="%s: %s"%[step.label,step.text]
 	var lines:Array=[Photo.label(o),status]
 	cost_text=""
 	if not readout.is_empty():

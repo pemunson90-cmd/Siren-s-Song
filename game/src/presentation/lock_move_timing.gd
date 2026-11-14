@@ -13,6 +13,10 @@ const Pricing=preload("res://src/simulation/photo_pricing/photo_pricing_table.gd
 const HuntPressure=preload("res://src/simulation/hunt_pressure/hunt_pressure.gd")
 # Seconds from the tap until the move takes effect, by order. A move not listed never ends a lock.
 const DELAY={"silent": 0.0, "emp": 0.0}
+# The moves worth offering against a lock that is running: a move not in DELAY (the decoy) cannot end it, so the card
+# does not list it. A decoy only draws Sirens that have not seen the craft (Words.TEXT.decoy_note says so).
+static func useful(moves:Array)->Array:
+	return moves.filter(func(m):return DELAY.has(str(m.order)))
 # {"line": the second line of the move's button, "in_time": whether the move can end the lock before it completes}.
 # row is one of ThreatRead.lock_rows(); move is one of its "moves".
 static func read(sim,row:Dictionary,move:Dictionary)->Dictionary:

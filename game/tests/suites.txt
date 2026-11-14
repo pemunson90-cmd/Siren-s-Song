@@ -260,3 +260,4 @@ stuck_craft_tests|STUCK CRAFT|-|1453
 stuck_craft_ui_tests|STUCK CRAFT UI|-|1454|render
 large_text_screen_ui_tests|LARGE TEXT SCREEN UI|-|1453|render
 result_numbers_ui_tests|RESULT NUMBERS UI|-|2261|render
+camera_next_step_tests|CAMERA NEXT STEP|-|1455

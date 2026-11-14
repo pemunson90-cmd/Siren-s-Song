@@ -19,7 +19,7 @@ const TEXT:={
 	"label":"SHUTTER",
 	"refused":"NO EXPOSURE · %s needs a TIGHT frame · tap WIDE to switch, or press again to expose anyway · no film spent",
 	# Beside the button, before the tap: the frame it would file now, and the shutter's reach.
-	"forecast":"FRAME ~%d%% %s",
+	"forecast":"FRAME ~%d%% · grade %s",
 	"forecast_none":"NO USABLE FRAME",
 	"heard":" · HEARD TO %dm",
 	# The exposure the game will ask for is longer than the time left on a Siren's lock on this craft.
