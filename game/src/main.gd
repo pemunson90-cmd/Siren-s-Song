@@ -430,7 +430,7 @@ func _refresh() -> void:
 	if not knock_armed and not decoy_armed:targeting_feedback=""
 	title_label.text="SIREN'S SONG    /    %02d  %s"%[mission_index+1,sim.mission.title.to_upper()]
 	status_label.text="DEPTH %dm    O₂ %03d%%    HULL %03d%%    RECORDS %d / %d    %s"%[sim.mission.depth,int(sim.oxygen),int(sim.hull),sim.mission.objectives.filter(func(o): return o.captured and not o.get("optional",false)).size(),sim.mission.objectives.filter(func(o): return not o.get("optional",false)).size(),"TACTICAL PAUSE" if sim.paused else "REAL TIME"]
-	pause_button.text=HudWords.plate_state(sim.paused)+"\n"+HudWords.plate_action(sim,false)
+	pause_button.text=HudWords.plate_text(sim,false)
 	for i in 3:
 		var work=sim.capture_feedback(i)
 		var capture_task=WorkTaskView.action_verb(PhotoCapture.obj(sim,work.target)) if work.unit>=0 else ""

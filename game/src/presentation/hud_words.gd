@@ -16,11 +16,13 @@ const TEXT={
 	# Time stands still only while a menu or the route prompt is open (trial rule 1); closing it lets time run.
 	"held": "HELD",
 	"running": "RUNNING",
-	"tap_resume": "TAP TO RESUME",
-	"tap_pause": "TAP TO PAUSE",
-	"route_prompt": "ANSWER ROUTE PROMPT",
-	"close_to_resume": "CLOSE TO RESUME",
+	# WP-94: the plate's first line is what a tap does now, never the state. A play mark while stopped, a pause mark
+	# while time runs or a menu holds it (a tap then stops the dive for good).
+	"act_run": "▶ RUN",
+	"act_pause": "|| PAUSE",
 	"join": " · ",
+	# Last line of a tip card while the dive is stopped: GOT IT only closes the card, the plate restarts time.
+	"hint_stopped": "GOT IT only closes this note. Time stays stopped until you tap ▶ RUN.",
 	# A toggle segment names the action a tap performs (first line) and the state it is in now (small second line).
 	"silent_off": "GO SILENT",
 	"silent_on": "GO LOUD",
@@ -112,15 +114,16 @@ static func speeds(sim)->Dictionary:
 	var fitted:Dictionary=sim.mission.get("launch_equipment",{})
 	return {"silent": CraftUpgrades.frame_speed(fitted,0,RuleTable.CRAFT_SPEED.silent), "cruise": CraftUpgrades.cruise_speed(fitted)}
 
-# The pause plate: state first, then what a tap does, then the oxygen reading when it fits.
+# The pause plate (WP-94): what a tap does first, then the state, then the oxygen reading when it fits.
 # paused: the player or an automatic pause stopped the dive (it stays stopped until resumed). held: an open menu
 # or the route prompt holds time, which runs again when it closes; the plate says so, not PAUSED.
 static func plate_state(paused:bool,held:bool=false)->String:
 	return TEXT.paused if paused else TEXT.held if held else TEXT.running
-static func plate_action(sim,dialog_open:bool,menu_open:bool=false)->String:
-	if dialog_open and not sim.paused:return TEXT.route_prompt
-	if menu_open and not sim.paused:return TEXT.close_to_resume
-	return TEXT.tap_resume if sim.paused else TEXT.tap_pause
+static func plate_action(sim)->String:
+	return TEXT.act_run if sim.paused else TEXT.act_pause
+# The plate without the oxygen reading: the action a tap performs over the state of the dive.
+static func plate_text(sim,held:bool)->String:
+	return plate_action(sim)+"\n"+plate_state(sim.paused,held)
 
 # The segments whose tap costs something that cannot be read before it lands: the first tap arms the segment and
 # shows its cost in the wheel's centre, the second tap on the same segment performs it. Keys are the segments'

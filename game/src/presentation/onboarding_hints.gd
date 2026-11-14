@@ -9,6 +9,7 @@ extends Control
 # back only if its moment is still open (_moment_open), otherwise it is dropped. The card owns every tap on it and
 # within one touch height of GOT IT (blocks()), so a tap near it never reaches the chart.
 const Text = preload("res://src/campaign/onboarding_text.gd")
+const Words = preload("res://src/presentation/hud_words.gd")
 const Bay = preload("res://src/simulation/drone_bay/drone_bay.gd")
 const WARNING_TIPS := ["warning", "sweep"]
 const SWEEP := [preload("res://src/simulation/sweeper_senses.gd").WARNING]
@@ -20,6 +21,7 @@ var label: Label
 var dismiss_button: Button
 var current := ""
 var extra_line := ""
+var joined: Array = []  # warning tips that arrived while another warning card was up; they share its card
 # Read-only first-use observations; no simulation, session or new save fields.
 # Revert 067 by removing these observations/menu tip and the first_* text rows.
 var observed_mission: Dictionary = {}
@@ -80,11 +82,11 @@ func seen(id: String) -> bool:
 func show_hint(id: String) -> void:
 	# A tip that was parked for a warning and is replaced by the warning's own tip is not lost: it may return.
 	if parked and not current.is_empty() and current != id: host.hints_seen.erase(current)
-	current = id; extra_line = ""; parked = false; placed_top = -1.0
+	current = id; extra_line = ""; joined.clear(); parked = false; placed_top = -1.0
 	if not seen(id):
 		host.hints_seen.append(id)  # saved with the next ordinary archive write
 func dismiss() -> void:
-	current = ""; parked = false; placed_top = -1.0; panel.hide()
+	current = ""; joined.clear(); parked = false; placed_top = -1.0; panel.hide()
 # The card and one touch height round GOT IT belong to the card: a tap there never reaches the chart.
 func zones() -> Array:
 	return [panel.get_global_rect(), dismiss_button.get_global_rect().grow(touch)]
@@ -167,11 +169,17 @@ func refresh(bounds: Vector2, h: float, font: int, top: float) -> void:
 	var busy: bool = host.advanced_orders or host.decoy_armed or host.knock_armed
 	if busy and wanted not in WARNING_TIPS and current not in WARNING_TIPS:
 		panel.hide(); return
-	if not wanted.is_empty() and wanted != current and (current.is_empty() or wanted in WARNING_TIPS):
+	if not wanted.is_empty() and wanted != current and current in WARNING_TIPS and wanted in WARNING_TIPS:
+		# WP-94: a second warning in the same stopped moment shares the card that is up: one card, one GOT IT.
+		if not seen(wanted): host.hints_seen.append(wanted)
+		if wanted not in joined: joined.append(wanted)
+	elif not wanted.is_empty() and wanted != current and (current.is_empty() or wanted in WARNING_TIPS):
 		show_hint(wanted)
 		if wanted in WARNING_TIPS:
-			# Independent saved acknowledgements; GOT IT never resumes time.
-			sim.paused = true; host.call_deferred("_refresh")
+			# Independent saved acknowledgements; GOT IT never resumes time. A dive already stopped (by a lock or
+			# another trial-rule pause) is left as it is: no second pause, no second refresh.
+			if not sim.paused:
+				sim.paused = true; host.call_deferred("_refresh")
 	if current == "sweep" and extra_line.is_empty(): extra_line = _sweep_cue()
 	if current.is_empty():
 		panel.hide(); return
@@ -180,7 +188,11 @@ func refresh(bounds: Vector2, h: float, font: int, top: float) -> void:
 	var width := minf(bounds.x - 24, 620.0)
 	label.custom_minimum_size.x = maxf(1, width - 40 - h * 1.4)
 	label.size.x = label.custom_minimum_size.x
-	label.text = Text.hint_text(current) + ("\n" + extra_line if not extra_line.is_empty() else "")
+	var body: String = Text.hint_text(current)
+	for id in joined: body += "\n" + Text.hint_text(id)
+	if not extra_line.is_empty(): body += "\n" + extra_line
+	if sim.paused: body += "\n" + Words.TEXT.hint_stopped
+	label.text = body
 	label.add_theme_font_size_override("font_size", font); dismiss_button.add_theme_font_size_override("font_size", font)
 	dismiss_button.custom_minimum_size = Vector2(h * 1.4, h)
 	panel.custom_minimum_size = Vector2(width, 0); panel.reset_size()
