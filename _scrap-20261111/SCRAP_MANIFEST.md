@@ -17,6 +17,7 @@ Reasons follow the run charter: **Carried** means every live statement now exist
 | `docs/DESKTOP_HANDOFF.md` | 2026-10-24 | Historical | The 23 Oct cloud-to-Windows handover is finished. Carried first: user-data paths, the evidence archive pointer and the key rule, into `docs/TESTING.md` "Environment". |
 | `docs/design/HUMAN_TEST_READINESS.md` | 2026-10-24 | Pat's decision D-02 A (2026-11-12) | Nowhere: the gate was never ratified, and Pat's 1 November package ruling and this run's playtest overtook it |
 | `docs/design/AUTHORED_ENDING_125.md` | 2026-10-30 | Pat's decision D-02 A (2026-11-12) | The ending copy lives in the game source (`game/src/campaign/endings.gd`) |
+| `game/src/presentation/rider_choice.gd` (and its `.uid`) | 2026-11-14 | WP-122: riders are always on (Pat, 14 Nov), so the accept/decline toggle has no use | Nowhere: every offered rider is active; see `docs/V7_TO_GODOT_PARITY.md` trial rule 6 |
 | `docs/PAUSE_CHECKPOINT_2026-10-21.md` | 2026-10-20 | Historical | The 21 Oct pause ended. The story ruling it quotes is in `docs/USER_DIRECTIVES.md`, which links here. |
 
 Also in this folder, as copies and not moves: `AGENTS.md`, `CLAUDE.md` and `README.md` hold the text of those three files as it stood on `claude/integration` at `cabd5bd5`, before they were rewritten in place. The files themselves stay at the repository root.

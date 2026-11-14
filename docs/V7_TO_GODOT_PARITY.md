@@ -118,6 +118,6 @@ Six rules the prototype does not have, all on trial and put to Pat again after h
 | 3 | The game pauses when a moving craft reaches the end of its route (not ALL STOP, aboard, lost; intermediate stop points do not wait for the player). | `PAUSE_AT_ROUTE_END=false` |
 | 4 | The game pauses when a new Siren lock starts on any of the player's craft, whatever the accessibility setting says. | `PAUSE_ON_EVERY_LOCK=false` |
 | 5 | The game pauses once when rock blocks a craft's leg and it holds. | `PAUSE_WHEN_BLOCKED=false` |
-| 6 | An Expedition operation's rider starts switched off (Naval Career unchanged). | `EXPEDITION_RIDER_DEFAULT_ON=true` |
+| 6 | Riders are always on (WP-122, Pat 14 Nov): every offered rider is an optional bonus challenge in Naval Career and Expeditions with no accept or decline control. Failing it forfeits only its bonus. | None (the old `EXPEDITION_RIDER_DEFAULT_ON` is kept only as a record and is not read) |
 
 Every automatic pause (these three and the accessibility aids) goes through `presentation/auto_pause.gd`.

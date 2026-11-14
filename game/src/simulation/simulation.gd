@@ -656,6 +656,16 @@ func _blackwater_context_text(target:int,station:int) -> String:
 	if c.quiet:return "%s · quiet receiver ready · SAMPLE 2s"%name
 	var learned=mission.objectives.any(func(o):return o.captured)
 	return "%s · %dm / quiet %.0fm%s"%[name,c.distance,c.quiet_range," · learned: SONAR + SAMPLE within 240m" if learned else " · move closer to listen"]
+# WP-122: a non-photo job (LINK, TRANSMIT, FIELD SAMPLE, a listening post) can take the camera context before a photo subject.
+# photo_context() answers the same question with those jobs set aside, so PHOTO can be offered beside them; the camera
+# order takes {"photo":true} to start that frame. Set only for the length of one call; nothing is saved.
+var _photo_only:=false
+func photo_context() -> Dictionary:
+	var was:=_photo_only
+	_photo_only=true
+	var context:=camera_context()
+	_photo_only=was
+	return context
 func camera_context() -> Dictionary:
 	return Pricing.annotate(self,PhotoRules.camera_hint(self,BandPhoto.gate(self,preload("res://src/simulation/photo_context.gd").resolve(self,_camera_context_base()))))
 func _camera_context_base() -> Dictionary:
@@ -680,6 +690,7 @@ func _camera_context_base() -> Dictionary:
 	for id in mission.objectives.size():
 		var objective=mission.objectives[id]
 		if not preload("res://src/campaign/sorley_rescue.gd").camera_candidate(self,objective):continue
+		if _photo_only and (Operations.own_origin(objective) or not Photo.applies(objective)):continue # WP-122
 		if objective.captured and Photo.applies(objective) and not Operations.own_origin(objective) and Photo.seen_before(self,id).size()<objective.subject.features.size():
 			# A resolved record can be re-shot from a better viewpoint for what it missed.
 			if reshoot<0 and unit.pos.distance_to(objective.pos)<Photo.reach(self,selected) and Depth.optical_clear(self,unit.pos,objective.pos,unit.band):reshoot=id
