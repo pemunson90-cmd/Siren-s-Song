@@ -38,10 +38,15 @@ func rock_marks() -> Array:
  var u=sim.units[sim.selected]
  var key=[sim.selected,u.pos,u.route.map(func(node):return node.pos)]
  if key!=_rock_key:
-  _rock_key=key;_rock_marks=[]
+  _rock_key=key;_rock_marks=[];_rock_legs=[]
   for w in HandPilot.warnings(sim,sim.selected):
-   if w.reason==HandPilot.ROCK_REASON and w.has("at"):_rock_marks.append(w.at)
+   if w.reason==HandPilot.ROCK_REASON and w.has("at"):_rock_marks.append(w.at);_rock_legs.append([w.from,w.to])
  return _rock_marks
+# WP-117: the legs the dive chart draws red (the same HandPilot.warnings), so this screen draws them red too, not just a mark.
+var _rock_legs:Array=[]
+func rock_legs() -> Array:
+ rock_marks()
+ return _rock_legs
 # The Sirens the player knows about, drawn as the dive chart shows them: last-seen position (dashed ring), name tag
 # and the sight ring of a photographed type. Only sim.contacts and the sight rule's public rows; never the live roster.
 func known_sirens() -> Array:
@@ -198,6 +203,8 @@ func _draw():
   draw_string(font,spot+Vector2(8,-6),str(other.name),HORIZONTAL_ALIGNMENT_LEFT,-1,navigation_font_size,Color("9ecac5"))
  draw_circle(chart_camera.to_screen(u.pos),5,Color.WHITE)
  # WP-110: the red mark sits on the rock the leg meets, not on the leg's middle.
+ # WP-117: the leg itself turns red (over the teal course line), as on the dive chart, then the mark on the rock.
+ for leg in rock_legs():draw_line(chart_camera.to_screen(leg[0]),chart_camera.to_screen(leg[1]),UiStyle.DANGER_RED,3.)
  for rock in rock_marks():_draw_rock_mark(rock)
  if pending_point!=null:
   var marker=chart_camera.to_screen(pending_point);draw_arc(marker,touch_height*.42,0,TAU,40,UiStyle.WARNING,2.5)

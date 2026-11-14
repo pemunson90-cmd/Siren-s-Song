@@ -319,8 +319,8 @@ func rock_case():
 	check(p!=null,"the opening chart has a water point behind charted rock to test with")
 	if p!=null:
 		guard.tap_water(p);await settle()
-		check(s.units[0].route.is_empty() and not guard.pending.is_empty() and s.message==Words.TEXT.rock_route,"a red leg is not ordered by the first tap and the status line says why: "+s.message)
-		check(guard.panel.visible and guard.prompt.text==Words.TEXT.rock_route,"the pending dialog names the rock: "+guard.prompt.text)
+		check(s.units[0].route.is_empty() and not guard.pending.is_empty() and s.message==Words.TEXT.rock_strip,"a red leg is not ordered by the first tap and the status line says the card waits (WP-117): "+s.message)
+		check(guard.panel.visible and guard.prompt.text in [Words.TEXT.rock_card_send,Words.TEXT.rock_card_both,Words.TEXT.rock_card_replace],"the pending dialog names the rock in words that match its buttons: "+guard.prompt.text)
 		guard.tap_water(p);await settle()
 		check(not s.units[0].route.is_empty() and guard.pending.is_empty(),"the second tap on the marker sends it anyway")
 		# Open water elsewhere moves the marker without ordering.

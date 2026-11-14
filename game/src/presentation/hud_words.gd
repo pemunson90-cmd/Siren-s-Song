@@ -76,6 +76,12 @@ const TEXT={
 	"all_stop": "ALL STOP",
 	"audio_log_empty": "No sounds logged yet",
 	"rock_route": "This route crosses charted rock. Tap the marker again to send it anyway, or tap open water.",
+	# WP-117: the card's own sentence names its buttons (the planner's sentence above is for a second tap on the marker),
+	# and the status strip says only that the card is waiting, so the card's sentence is not printed twice.
+	"rock_card_send": "SEND ANYWAY sends it through the rock; CANCEL, or tap open water, to choose again.",
+	"rock_card_both": "REPLACE ROUTE or ADD TO ROUTE sends it through the rock; CANCEL, or tap open water, to choose again.",
+	"rock_card_replace": "REPLACE ROUTE sends it through the rock; CANCEL, or tap open water, to choose again.",
+	"rock_strip": "Marker set across charted rock · choose on the card",
 	"rock_route_replace": "REPLACE ROUTE would cross charted rock; ADD TO ROUTE would not. Tap open water to move the marker.",
 	"rock_route_add": "ADD TO ROUTE would cross charted rock; REPLACE ROUTE would not. Tap open water to move the marker.",
 	# WP-69: a tap on open water that orders nothing says what a water tap needs (or that the dive is over).

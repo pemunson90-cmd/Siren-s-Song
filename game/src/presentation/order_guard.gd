@@ -117,7 +117,7 @@ func tap_water(world: Vector2) -> void:
 	if sim.queue_mode and can_add(): rock = Words.TEXT.rock_route if leg_crosses_rock(world, true) else ""
 	if replaces_plan() or rock != "":
 		pending = {"unit": sim.selected, "point": world}; undo = {}
-		if rock != "": sim.message = rock
+		if rock != "": sim.message = Words.TEXT.rock_strip # WP-117: the card carries the sentence; the strip does not repeat it
 		else: sim.message = "Marker set · REPLACE ROUTE replaces %s's orders%s · tap elsewhere to move the marker" % [sim.units[sim.selected].name, ", ADD TO ROUTE extends its route" if not sim.units[sim.selected].route.is_empty() else ""]
 		host._refresh(); return
 	pending = {}
@@ -176,7 +176,11 @@ func refresh(bounds: Vector2, h: float, font: int, floor_y: float) -> void:
 		var rock := rock_text(pending.point)
 		if rock != "":
 			prompt.text = rock
-			if rock == Words.TEXT.rock_route and stops == 0 and sim.units[sim.selected].hold == "": go_button.text = Words.TEXT.send_anyway
+			if rock == Words.TEXT.rock_route:
+				# WP-117: the sentence matches the buttons shown: SEND ANYWAY alone, or REPLACE ROUTE and ADD TO ROUTE.
+				var sends_anyway: bool = stops == 0 and sim.units[sim.selected].hold == ""
+				if sends_anyway: go_button.text = Words.TEXT.send_anyway
+				prompt.text = Words.TEXT.rock_card_send if sends_anyway else Words.TEXT.rock_card_both if can_add() else Words.TEXT.rock_card_replace
 		# ADD and its pass/stop choice exist only when there is a route to add to; the switch row and ADD's slot stay reserved.
 		var offer_add := can_add()
 		add_button.visible = offer_add; add_button.disabled = not offer_add; points_button.visible = offer_add; add_slot.visible = not offer_add
