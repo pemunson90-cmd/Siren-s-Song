@@ -66,7 +66,7 @@ func run():
  check(quits==q0 and c.armed,"the first Back after returning shows the toast again and does not quit")
  game.screen="mission";c.armed=false
  await back()
- check(quits==1 and not c.armed and game.screen=="menu","Back during a dive keeps its existing return and never reaches the exit confirm")
+ check(quits==1 and not c.armed and game.screen=="mission","Back during a dive stays in the dive and never reaches the exit confirm")
  game.queue_free();await settle()
  print("BACK EXIT CHECKS %d FAILURES %d"%[checks,failures])
  quit(1 if failures>0 else 0)

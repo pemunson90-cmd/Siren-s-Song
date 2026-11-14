@@ -52,7 +52,7 @@ static func show(host)->void:
 	Nav.header(host,"archive")
 	host._menu_text("ARCHIVE",30)
 	host._menu_text("Best photographs, evidence and recovered material by region. Only what you recovered is listed.",15)
-	host._button(host.panel_box,"SIREN DOSSIER · OBSERVED ROLES",func():Dossier.show(host),"siren_dossier")
+	host._button(host.panel_box,"SIREN DOSSIER · OBSERVED ROLES",func():Dossier.show(host,true),"siren_dossier")
 	host._menu_text("CAMPAIGN LEDGER",24)
 	var ledger_progress=host.expedition.duplicate(false)
 	ledger_progress["completed"]=host._campaign_completed()
