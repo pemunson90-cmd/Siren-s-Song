@@ -660,3 +660,15 @@ I don't understand five or six.
 7. That's just bad design in the first place why would you add artificial stoppages?"
 
 How it is applied (Claude's reading): (1) 2x and 4x time while no Siren is hunting, and a planned set of debug settings so testing is fast. (2) Ramming stays; add an audio warning for nearby rock and for ramming speed. (3) Okafor's line takes the real time left as a variable. (4), (8), (9), (10) yes. (5), (6) explained again, no change until Pat answers. (7) Trial rule 3 (the game pauses itself when a route ends) is switched off: an artificial stoppage; the "HAS NO ORDERS" warning tells the player instead. One switch in `game/src/trial_rules.gd` brings it back.
+
+## 2026-11-14: the post-stun lock grace (question 4, again)
+
+Claude had dropped question 4 (a Sentinel cannot start a new lock for 8 s after a stun ends) because its evidence came from a critic stuck against a wall by a bug since fixed, and said so. Pat said, verbatim: "Q4 that sounds fine and it could be a balanced lever for easy medium and hard difficulties."
+
+How it is applied (Claude's reading): build the grace after a stun as one value per difficulty preset, longer on the easiest and shorter on the hardest, 8 s on the standard preset; the numbers sit in one table for Pat to tune.
+
+## 2026-11-14: pull requests grouped by kind
+
+Pat said, verbatim: "Also possibly off topic but I've noticed this with other projects, you don't need a PR for every change. You need to make sure that everything is committed and then once you have a large enough section of commits of a specific type say ui and documentation, or gameplay fixes, or bug fixes, those should get their own dedicated PRS with all of those commits wrapped up in them. Just easier to organize and Trace rather than having a single PR per change"
+
+How it is applied (Claude's reading): commit everything; open a pull request only for a sizeable group of commits of one kind (interface and documentation, gameplay and rule changes, bug fixes, testing and tools), each PR holding all the commits of its kind. This run's single draft PR 262 (the whole run) is split into such grouped PRs at the staged move toward `main` (Pat's yes of the same day), not one PR per change.
