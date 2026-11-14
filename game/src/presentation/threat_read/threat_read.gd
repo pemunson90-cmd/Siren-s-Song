@@ -123,6 +123,8 @@ static func _charges(sim,craft:int,id:String)->int:
 	return Racks.count(sim,id)
 
 # --- 3. drone loss ---------------------------------------------------------------
+static func _exposing(sim)->Array:
+	return sim.captures.map(func(c):return not c.is_empty())
 static func _alive(sim)->Array:
 	return sim.units.map(func(u):return bool(u.get("alive",true)))
 # Call after simulation steps (tactical_aids.observe). Returns the drone losses
@@ -131,7 +133,7 @@ static func _alive(sim)->Array:
 static func observe(sim)->Array:
 	if not Table.enabled or sim==null:return []
 	if _state.get("sim",-1)!=sim.get_instance_id() or not is_same(_state.get("mission"),sim.mission) or sim.elapsed<float(_state.get("clock",-1.0)):
-		_state={"sim":sim.get_instance_id(),"mission":sim.mission,"clock":sim.elapsed,"alive":_alive(sim),"rows":[]}
+		_state={"sim":sim.get_instance_id(),"mission":sim.mission,"clock":sim.elapsed,"alive":_alive(sim),"exposing":_exposing(sim),"rows":[]}
 		return []
 	_state.clock=sim.elapsed
 	var alive:Array=_alive(sim);var fresh:Array=[]
@@ -140,9 +142,12 @@ static func observe(sim)->Array:
 		# a craft removed at launch by a mode rule is not a loss in the dive.
 		if i<_state.alive.size() and _state.alive[i] and not alive[i] and _loss_event(sim,sim.units[i].pos)!=null:
 			var row:Dictionary=loss_row(sim,i)
+			# WP-69: an exposure under way, as last seen or now (the simulation clears it a step after the loss).
+			var was:Array=_state.get("exposing",[]);var now:Array=_exposing(sim)
+			row["exposing"]=(was.size()>i and was[i]) or (now.size()>i and now[i])
 			_annotate_message(sim,row)
 			_state.rows.append(row);fresh.append(row)
-	_state.alive=alive
+	_state.alive=alive;_state.exposing=_exposing(sim)
 	_state.rows=_state.rows.filter(func(r):return sim.elapsed-float(r.time)<=Table.LOSS_SECONDS)
 	return fresh
 # Recent loss rows for drawing, empty for any other dive.
@@ -179,6 +184,7 @@ static func loss_card(sim)->String:
 	if newest.is_empty():return ""
 	var lines:Array=[Table.TEXT.lost%str(sim.units[newest.unit].get("name","DRONE"))]
 	if not str(newest.cause).is_empty():lines.append(newest.cause)
+	if bool(newest.get("exposing",false)):lines.append(Table.TEXT.loss_photo)
 	var cost:String=_loss_cost(sim)
 	if not cost.is_empty():lines.append(cost)
 	return "\n".join(lines)

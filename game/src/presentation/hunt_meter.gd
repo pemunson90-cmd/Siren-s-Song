@@ -147,6 +147,9 @@ static func _obstacles(hud,button:Button,craft:bool=true)->Array:
  if cue!=null and cue.is_visible_in_tree():
   for r in [cue.marker_rect,cue.note_rect]:
    if r.has_area():result.append(Rect2(cue.global_position-hud.global_position+r.position,r.size))
+ # WP-69: the onboarding tip card is read once at the top left; the chip seats elsewhere while it is up.
+ var tip=hud.get("hints")
+ if tip!=null and tip.panel.is_visible_in_tree():result.append(Rect2(tip.panel.global_position-hud.global_position,tip.panel.size))
  var banner=hud.host.get("status_label")
  if banner is Control and banner.is_visible_in_tree():result.append(Rect2(banner.global_position-hud.global_position,banner.size))
  if hud.fleet!=null and hud.fleet.is_visible_in_tree():
