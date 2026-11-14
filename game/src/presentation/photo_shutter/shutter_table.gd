@@ -31,4 +31,7 @@ const TEXT:={
 }
 # The result lines under the viewfinder stay this many seconds after a frame is filed.
 const RESULT_SECONDS:=30.0
+# The viewfinder picture keeps at least this height (px) while the panel can hold it and a line and a half of
+# text: the photograph is the point; the text scrolls (audit_readability_ui_tests pins it).
+const PICTURE_KEEP:=120.0
 const COLORS:={"ready":"e0bf83","refused":"4a6a6e","fill":"1d2a22","weak":"e0a46a","refused_text":"e08a73"}
