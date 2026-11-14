@@ -250,3 +250,4 @@ tap_ownership_ui_tests|TAP OWNERSHIP UI|-|1425
 hud_words_ui_tests|HUD WORDS UI|-|1426|render
 trial_rules_tests|TRIAL RULES|-|1427
 career_record_tests|CAREER RECORD|-|1450
+wide_menus_ui_tests|WIDE MENUS UI|-|1451|render

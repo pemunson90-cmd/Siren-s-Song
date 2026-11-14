@@ -9,6 +9,7 @@ const Research=preload("res://src/campaign/glass_research.gd")
 const EquipmentView=preload("res://src/presentation/equipment_context.gd")
 const Riders=preload("res://src/campaign/career/riders.gd")
 const Briefing=preload("res://src/presentation/mode_briefing.gd")
+const PrepColumns=preload("res://src/presentation/prep_columns.gd")
 const ResultText=preload("res://src/presentation/mode_result_text.gd")
 const NAME="NAVAL CAREER"
 const RIDER_FOR="OPTIONAL RIDER FOR %s"
@@ -31,10 +32,18 @@ static func show(host)->void:
 		host._menu_text("Finish or abandon this contract before selecting another. Equipment changes apply between dives.",17)
 		host._menu_text(host.sim.rider_status(),17)
 		return
+	# WP-62: on a wide screen the contracts (each faction with its standing, each contract with its rider) are the
+	# left column and the rules, supplies, fittings and the record the right. Narrow: one list in the old order.
+	var columns=PrepColumns.open(host,host._show_campaign)
+	PrepColumns.into(host,columns[1],_board_rules.bind(host))
+	PrepColumns.into(host,columns[0],_contracts.bind(host))
+	PrepColumns.into(host,columns[1],_board_links.bind(host))
+static func _board_rules(host)->void:
 	host._button(host.panel_box,"BACK TO GAME MODES",host._return,"career_return")
 	# Developer note, not shown to the player: pay and tuning are provisional.
 	host._menu_text("Recover a contract: standing +%d, contract pay and salvage. Lose one: standing %d and no pay. Recovery jobs are open at any standing."%[Table.SUCCESS,Table.LOSS],16)
 	host._menu_text(RIDER_NOTE,16)
+static func _contracts(host)->void:
 	for faction in Table.FACTIONS:
 		host._menu_text("%s · STANDING %d"%[Table.FACTIONS[faction],host.career_state.standing[faction]],22)
 		for id in Table.CONTRACTS:
@@ -47,6 +56,7 @@ static func show(host)->void:
 			# The rider names its own contract and a rule closes the block, so it cannot read as the next one's.
 			host._menu_text(rider_line(title,State.rider_offer(host.career_state,id)),16)
 			host.panel_box.add_child(HSeparator.new())
+static func _board_links(host)->void:
 	host._button(host.panel_box,"SUPPLIES / RESEARCH",host._show_economy,"career_supplies")
 	host._button(host.panel_box,"FLEET / FITTINGS",host._show_fittings,"career_fittings")
 	host._menu_text("%d RECOVERED · %d LOST\n%s"%[host.career_state.recovered,host.career_state.lost,"\n".join(ResultText.career_lines(host.career_state.report))],17)

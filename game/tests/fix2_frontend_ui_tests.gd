@@ -21,7 +21,7 @@ func shape_case(shape):
   var wordmark_ok=front.title_label!=null and bd.get_global_rect().encloses(front.title_label.get_global_rect())
   check(wordmark_ok,"C4 wordmark lies inside the backdrop plate area")
   front._settings_screen();await settle()
-  check(not bd.visible and not bd.is_processing(),"C4 backdrop stops processing when the title is not shown")
+  check(bd.visible and bd.get_global_rect().encloses(root.get_visible_rect()) and not bd.is_processing(),"C4 backdrop stays behind the other screens and stops its drift when the title is not shown")
   front._title_screen();await settle()
   check(bd.visible and bd.is_processing(),"C4 backdrop resumes when the title returns")
   bd.set_frozen(true)

@@ -31,6 +31,7 @@ var elapsed := 0.0
 var static_layer: Control
 var craft_layer: Control
 var unit := 1.0		# screen pixels per design pixel
+var plate_pixels := 0.0
 class Layer extends Control:
 	var painter: Callable
 	var quietus = preload("res://assets/craft/quietus.png")	# art_renderer.gd reads view.quietus
@@ -60,6 +61,10 @@ func _sync_processing() -> void:
 	set_process(is_inside_tree() and is_visible_in_tree() and not frozen)
 func set_frozen(value: bool) -> void:
 	frozen = value; _sync_processing()
+# The dark plate behind the menu column, in screen pixels; 0 is the title's own width. A two-column page widens it.
+func set_plate(pixels: float) -> void:
+	if is_equal_approx(plate_pixels, pixels): return
+	plate_pixels = pixels; static_layer.queue_redraw()
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_ENTER_TREE or what == NOTIFICATION_EXIT_TREE: _sync_processing()
 func _process(delta: float) -> void:
@@ -99,7 +104,7 @@ func _paint_static(canvas: Control) -> void:
 		for p in outline: origin = Vector2(minf(origin.x, p.x), minf(origin.y, p.y))
 		RockPainter.rock(canvas, outline, origin, BASALT, RockPainter.STONE, RockPainter.TINT, RockPainter.EDGE, 2.0 * unit, unit)
 	# Soft plate behind the wordmark and the menu column: feathered edges, readable text.
-	var plate := minf(MENU_WIDTH * unit, s.x)
+	var plate := minf(plate_pixels if plate_pixels > 0.0 else MENU_WIDTH * unit, s.x)
 	var left := (s.x - plate) * 0.5
 	var feather := 10
 	for i in feather:

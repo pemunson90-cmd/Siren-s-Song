@@ -9,6 +9,7 @@ const RunOffers=preload("res://src/campaign/runs/run_offers.gd")
 const SummaryView=preload("res://src/presentation/runs/run_summary_view.gd")
 const OfferView=preload("res://src/presentation/runs/offer_view.gd")
 const Briefing=preload("res://src/presentation/mode_briefing.gd")
+const PrepColumns=preload("res://src/presentation/prep_columns.gd")
 # The rules of an expedition that are neither goal nor danger.
 const EXPEDITION_RULES=["Tools you carry stay with you from one operation to the next.","Film and oxygen refill for every dive.","The Hunt meter in the dive shows the current pressure.","Lose a dive and the whole expedition ends."]
 var campaign_host
@@ -74,27 +75,35 @@ func _show_campaign()->void:
 	sim.paused=true;screen="expedition_menu";_clear_menu()
 	_menu_text("EXPEDITION · SEED %d"%run_state.seed,30)
 	_menu_text("OPERATION %d / %d · %s"%[run_state.cursor+1,run_state.operations.size(),sim.mission.title.to_upper()],20)
-	Briefing.show(self,RunState.current_operation(run_state),sim.mission.brief,EXPEDITION_RULES)
-	_menu_text("Loadout: %s. Supplies: %s. The Hunt meter starts at stage %d."%[preload("res://src/equipment/field_tools.gd").loadout_label(run_state.loadout),RunTable.SCARCITY[run_state.scarcity],RunState.starting_hunt(run_state,RunState.current_operation(run_state))],17)
+	# WP-62: on a wide screen the briefing is the left column and the rider and the tools the right; narrow screens
+	# keep the one list in its old order.
+	var columns=PrepColumns.open(self,_show_campaign)
+	PrepColumns.into(self,columns[0],func():
+		Briefing.show(self,RunState.current_operation(run_state),sim.mission.brief,EXPEDITION_RULES)
+		_menu_text("Loadout: %s. Supplies: %s. The Hunt meter starts at stage %d."%[preload("res://src/equipment/field_tools.gd").loadout_label(run_state.loadout),RunTable.SCARCITY[run_state.scarcity],RunState.starting_hunt(run_state,RunState.current_operation(run_state))],17))
 	if active_started:
-		if save_failed:
-			preload("res://src/presentation/frontend/save_error_view.gd").menu_retry(self,"SAVE PENDING · "+str(campaign_host.get_meta("runs_save_error","")),17,"RETRY SAVE",func():_save_archive();_show_campaign(),"run_retry_save")
-		_menu_text(sim.rider_status(),17)
-		_button(panel_box,"RESUME DIVE",_enter_water,"run_resume")
-		_button(panel_box,"END DIVE · LOSE RUN",_confirm_end,"run_abandon")
+		PrepColumns.into(self,columns[1],func():
+			if save_failed:
+				preload("res://src/presentation/frontend/save_error_view.gd").menu_retry(self,"SAVE PENDING · "+str(campaign_host.get_meta("runs_save_error","")),17,"RETRY SAVE",func():_save_archive();_show_campaign(),"run_retry_save")
+			_menu_text(sim.rider_status(),17)
+			_button(panel_box,"RESUME DIVE",_enter_water,"run_resume")
+			_button(panel_box,"END DIVE · LOSE RUN",_confirm_end,"run_abandon"))
 	else:
-		var rider=RunState.rider_offer(run_state)
-		_menu_text(RunState.Riders.description(rider,RunState.rider_bonus_text(rider)),17)
-		if not rider.is_empty():
-			_button(panel_box,"RIDER: ON · TAP TO REMOVE" if accept_rider else "RIDER: OFF · TAP TO ACCEPT",preload("res://src/presentation/rider_choice.gd").toggle.bind(self,_show_campaign),"run_rider")
-		tool_racks=run_state.get("tool_racks",preload("res://src/equipment/tool_racks.gd").from_stock(run_state.stock)).duplicate(true)
-		preload("res://src/presentation/mode_racks_view.gd").show(self,true)
+		PrepColumns.into(self,columns[1],_rider_and_tools)
 		# WP-11 (I6): the launch and return actions sit in the pinned footer, not
 		# at the end of a page several screens tall.
 		_button(menu_footer,"BEGIN OPERATION · START PAUSED",_begin,"run_begin")
 		_button(menu_footer,"BACK TO EXPEDITIONS",_return,"run_return")
 		menu_footer.show()
 	call_deferred("_layout")
+# The rider offer and the tool racks. The racks stay one stacked column inside the right-hand column.
+func _rider_and_tools()->void:
+	var rider=RunState.rider_offer(run_state)
+	_menu_text(RunState.Riders.description(rider,RunState.rider_bonus_text(rider)),17)
+	if not rider.is_empty():
+		_button(panel_box,"RIDER: ON · TAP TO REMOVE" if accept_rider else "RIDER: OFF · TAP TO ACCEPT",preload("res://src/presentation/rider_choice.gd").toggle.bind(self,_show_campaign),"run_rider")
+	tool_racks=run_state.get("tool_racks",preload("res://src/equipment/tool_racks.gd").from_stock(run_state.stock)).duplicate(true)
+	PrepColumns.nested(self,func():preload("res://src/presentation/mode_racks_view.gd").show(self,true))
 # WP-34: ending a live dive asks first. KEEP returns to the paused menu untouched.
 func _confirm_end()->void:
 	sim.paused=true;screen="expedition_confirm_end";_clear_menu()
