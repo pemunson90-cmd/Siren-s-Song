@@ -6,6 +6,7 @@ extends SceneTree
 # 3. The order dialog and its status line name controls that exist and say what is true now.
 # 4. While the route confirm dialog is open the simulation does not advance.
 const Settings=preload("res://src/presentation/frontend/frontend_settings.gd")
+const Words=preload("res://src/presentation/hud_words.gd")
 var checks=0
 var failures=0
 func check(ok:bool,label:String)->void:
@@ -200,10 +201,16 @@ func resume_checks(g)->void:
 	await tap(screen(g,second))
 	check(g.mission_hud.guard.panel.visible,"a second water tap opens the order dialog")
 	var goals=g.sim.route_goals().duplicate(true)
+	# WP-103: the plate reads ANSWER while the dialog is up; a tap on it never drops the marker (it said "Marker cancelled"
+	# and the craft never moved). The dialog's own CANCEL drops it, and the plate then resumes as usual.
+	check(g.pause_button.text.begins_with(Words.TEXT.act_answer),"the plate offers ANSWER with the order dialog open: "+g.pause_button.text)
 	await click(g.pause_button)
-	check(not g.sim.paused,"RESUME with the order dialog open resumes")
-	check(not g.mission_hud.guard.panel.visible and g.mission_hud.guard.pending.is_empty(),"RESUME closes the order dialog")
-	check(g.sim.route_goals()==goals,"closing the dialog through RESUME leaves the orders unchanged")
+	check(g.mission_hud.guard.panel.visible and not g.mission_hud.guard.pending.is_empty() and g.sim.message==Words.TEXT.plate_answer,"a tap on ANSWER keeps the order dialog and says what waits: "+g.sim.message)
+	check(g.sim.route_goals()==goals,"and leaves the orders unchanged")
+	await click(g.mission_hud.guard.cancel_button)
+	check(not g.mission_hud.guard.panel.visible and g.mission_hud.guard.pending.is_empty() and g.sim.route_goals()==goals,"CANCEL closes the dialog and leaves the orders unchanged")
+	await click(g.pause_button)
+	check(not g.sim.paused,"with the dialog answered the plate resumes")
 func mirrored_resume_check(g)->void:
 	await fresh(g)
 	await tap(screen(g,g.sim.units[0].pos))

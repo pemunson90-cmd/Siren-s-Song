@@ -30,6 +30,18 @@ static func _under_way(sim,id:int,u:Dictionary)->bool:
 	if not u.alive or u.route.is_empty() or not str(u.get("hold","")).is_empty() or not u.get("transition",{}).is_empty():return false
 	if AllStop.stopped(u) or AllStop.restarting(u) or sim.DroneBay.aboard(u):return false
 	return not (id<sim.captures.size() and not sim.captures[id].is_empty())
+# WP-103: a craft that has a route and holds in place on a hold the player (or a guard) set. The stall look above
+# ignores holds on purpose (a held craft is meant to stand still), but nothing said why it did not move (critic 14 Nov:
+# "DEEP · HOLD · ROUTE KEPT" for 14 s). Returns the hold's key (a "hold_<key>" line in hud_words.gd) while the craft
+# stands still on it, "" otherwise. It does not pause the dive: the hold was ordered, so only the strip says it.
+const HOLD_KEYS=["HOLD","CONTACT","DRONE","SCOUT_STOP"]
+static func holding(sim,id:int)->String:
+	var u=sim.units[id]
+	var hold:String=str(u.get("hold",""))
+	if hold not in HOLD_KEYS or not u.alive or u.route.is_empty() or not u.get("transition",{}).is_empty():return ""
+	if sim.DroneBay.aboard(u) or u.vel.length()>2.0:return ""
+	if id<sim.captures.size() and not sim.captures[id].is_empty():return ""
+	return hold
 # The reason a craft's leg does not go. {"key": a key of hud_words.gd AUTO_PAUSE_KEYS, "extra": the depth that is open}.
 # held: the craft holds because rock blocks the leg (hand_pilot's edge_hold), so the plain rock line is the default.
 static func why(sim,id:int,held:bool=false)->Dictionary:

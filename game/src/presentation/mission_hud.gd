@@ -28,6 +28,7 @@ const Palette=preload("res://src/presentation/accessibility/palette.gd")
 const Words=preload("res://src/presentation/hud_words.gd")
 const RouteEnd=preload("res://src/presentation/route_end_notice.gd")
 const StripMessage=preload("res://src/presentation/strip_message.gd")
+const StandingNotes=preload("res://src/presentation/standing_notes.gd")
 const SegmentState=preload("res://src/presentation/radial_layout/segment_state.gd")
 # A tap opens an object-owned projection. A separate tap chooses an action.
 var host
@@ -647,8 +648,8 @@ func refresh():
  var time_held=sim.paused or host._time_held()
  # The state word alone first: LifeChip.sync below composes the full plate at a size that fits it, so no
  # frame ever wraps the longer wording at the layout's text size and grows the plate for good.
- host.pause_button.text=Words.plate_action(sim)
- if not LifeChip.active(self):host.pause_button.text=Words.plate_text(sim,time_held)
+ host.pause_button.text=Words.plate_action(sim,host)
+ if not LifeChip.active(self):host.pause_button.text=Words.plate_text(sim,time_held,host)
  plate(host.pause_button,UiStyle.MAIN if time_held else UiStyle.QUIET)
  LifeChip.sync(self)
  _fit_pause_button()
@@ -751,7 +752,7 @@ func refresh():
   # WP-48: why the dive is held when the player did not hold it, and which craft ran out of route.
   var urgent=alarm.visible or (host.lock_warning!=null and host.lock_warning.visible)
   var reason=Words.pause_reason(host)
-  for held_line in ([reason] if not reason.is_empty() else [])+route_end.lines(sim,urgent):intent.text+="\n"+held_line
+  for held_line in ([reason] if not reason.is_empty() else [])+route_end.lines(sim,urgent)+StandingNotes.lines(sim,urgent):intent.text+="\n"+held_line
   strip_standing=sim.Depth.context(sim)
   intent.text+="\n"+strip_standing
  Truthful.apply(self)

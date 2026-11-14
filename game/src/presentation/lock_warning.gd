@@ -72,7 +72,10 @@ func _card_text()->String:
  # One decision at a time: the note is left off while the route prompt is open, so the card stays as short as before.
  var asking:bool=host!=null and host.mission_hud!=null and host.mission_hud.guard!=null and not host.mission_hud.guard.pending.is_empty()
  var decoy_note:String=Words.TEXT.decoy_note if not asking and moves.size()<all_moves.size() and all_moves.any(func(m):return m.order=="decoy") else ""
- return rows[0].sentence+"\n"+advice+("\n"+decoy_note if not decoy_note.is_empty() else "")+("\n"+aim if not aim.is_empty() else "")+("\n"+note if not note.is_empty() else "")
+ # WP-103: the one line that says what a landed lock does, read from the craft the lock is on (simulation.gd).
+ # Left off while the route prompt is open (one decision at a time), like the decoy note below, so the prompt still clears the stack.
+ var lands:String=Words.lock_lands(host.sim,int(rows[0].craft)) if host!=null and not asking else ""
+ return rows[0].sentence+("\n"+lands if not lands.is_empty() else "")+"\n"+advice+("\n"+decoy_note if not decoy_note.is_empty() else "")+("\n"+aim if not aim.is_empty() else "")+("\n"+note if not note.is_empty() else "")
 func refresh(owner):
  host=owner;position=Vector2.ZERO;size=host.size
  var cue=host.hud.get_node_or_null("FirstSirenCue") if host.get("hud")!=null else null
@@ -122,9 +125,10 @@ func _fit_buttons(h:float,width:float)->float:
 func _place_buttons()->void:
  for button in buttons:
   if button.visible:button.position=banner.position+Vector2(BUTTON_PAD,button_top+BUTTON_PAD)+button.get_meta("offset",Vector2.ZERO)
-# True when a tap at this screen point belongs to the card (its whole rectangle while buttons show).
+# True when a tap at this screen point belongs to the card: its whole rectangle whenever the card shows, with or without
+# move buttons (WP-103: a tap on the card's text, to read it, used to fall through to the chart as a route order).
 func blocks(point:Vector2)->bool:
- return visible and buttons.any(func(b):return b.visible) and Rect2(global_position+banner.position,banner.size).has_point(point)
+ return visible and not (locks.is_empty() and rows.is_empty()) and Rect2(global_position+banner.position,banner.size).has_point(point)
 # One tap: select the locked craft, then send the wheel's own order. DECOY arms placement and the chart waits for a point.
 func _press(button:Button)->void:
  if host==null:return

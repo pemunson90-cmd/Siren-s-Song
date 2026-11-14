@@ -196,7 +196,10 @@ func game_cases():
 	game._process(0.5)
 	check(sim.elapsed>before and not sim.paused and Words.pause_reason(game)=="","closing the menu lets time run again")
 	# The player's own pause stays the player's.
-	game.mission_hud.open("craft");game._pause();game.mission_hud.dismiss();game._refresh()
+	# WP-103: with the wheel open the plate offers CLOSE (a tap closes it and time runs); the pause is made with the menu closed.
+	game.mission_hud.open("craft");game._pause()
+	check(not game.advanced_orders and not sim.paused,"a tap on the plate while the wheel holds time closes the wheel and does not pause")
+	game._pause();game.mission_hud.open("craft");game.mission_hud.dismiss();game._refresh()
 	check(sim.paused,"a pause the player made stays after the menu closes")
 	check(game.pause_button.text.begins_with(Words.TEXT.act_run) and not game.pause_button.text.contains(Words.TEXT.held),"a dive the player paused offers RUN, not HELD: "+game.pause_button.text)
 	game._pause()

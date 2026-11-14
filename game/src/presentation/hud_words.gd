@@ -20,6 +20,23 @@ const TEXT={
 	# while time runs or a menu holds it (a tap then stops the dive for good).
 	"act_run": "▶ RUN",
 	"act_pause": "|| PAUSE",
+	# WP-103: while something other than the player holds time, the plate's first line is what a tap does then, never
+	# "|| PAUSE". A pending route prompt keeps its marker (a tap on the plate says so and changes nothing); an open
+	# menu is closed by the tap, which lets time run again.
+	"act_answer": "ANSWER",
+	"act_close": "CLOSE",
+	"plate_answer": "Route marker waiting: tap REPLACE ROUTE, ADD TO ROUTE or CANCEL. Time stays held until you answer.",
+	# The lock card's consequence line: what the simulation does when a lock lands (Quietus is destroyed, a drone is lost).
+	"lock_lands_quietus": "When it lands, %s is destroyed.",
+	"lock_lands_drone": "When it lands, %s is lost.",
+	# A craft with a route that is holding in place: why, and the control that lets it go on (presentation/no_progress.gd).
+	"hold_HOLD": "%s is holding · route kept · ROUTE page: tap HOLD to go on",
+	"hold_CONTACT": "%s is on IF CONTACT guard · route kept · GUARD page: tap IF CONTACT to go on",
+	"hold_DRONE": "%s is waiting for a drone · route kept · GUARD page: tap WAIT DRONE to go on",
+	"hold_SCOUT_STOP": "%s stopped on a contact · route kept · GUARD page: tap SCOUT to go on",
+	# Quietus is in a recovery area but cannot be recovered there yet (presentation/extraction_hint.gd).
+	"extract_depth": "Extraction: settle %s in %s to recover",
+	"extract_slow": "Extraction: slow %s to under %d m/s to recover",
 	"join": " · ",
 	# Last line of a tip card while the dive is stopped: GOT IT only closes the card, the plate restarts time.
 	"hint_stopped": "GOT IT only closes this note. Time stays stopped until you tap ▶ RUN.",
@@ -121,11 +138,28 @@ static func speeds(sim)->Dictionary:
 # or the route prompt holds time, which runs again when it closes; the plate says so, not PAUSED.
 static func plate_state(paused:bool,held:bool=false)->String:
 	return TEXT.paused if paused else TEXT.held if held else TEXT.running
-static func plate_action(sim)->String:
-	return TEXT.act_run if sim.paused else TEXT.act_pause
+# What a tap on the plate does now (WP-103): "answer" a pending route prompt (the marker stays, time stays held),
+# "close" an open menu that holds time (the tap closes it and time runs), "run" a stopped dive, "pause" a running one.
+# Without a host (tests of the words alone) only the dive's own state is known.
+static func plate_kind(sim,host=null)->String:
+	# A marker waiting counts at once, before the next refresh shows its panel, so a tap in that frame cannot drop it.
+	if host!=null and (host._order_dialog_open() or (host.mission_hud!=null and host.mission_hud.guard!=null and not host.mission_hud.guard.pending.is_empty())):return "answer"
+	if sim.paused:return "run"
+	if host!=null and host._time_held():return "close"
+	return "pause"
+static func plate_action(sim,host=null)->String:
+	match plate_kind(sim,host):
+		"answer":return TEXT.act_answer
+		"close":return TEXT.act_close
+		"run":return TEXT.act_run
+	return TEXT.act_pause
 # The plate without the oxygen reading: the action a tap performs over the state of the dive.
-static func plate_text(sim,held:bool)->String:
-	return plate_action(sim)+"\n"+plate_state(sim.paused,held)
+static func plate_text(sim,held:bool,host=null)->String:
+	return plate_action(sim,host)+"\n"+plate_state(sim.paused,held)
+# The lock card's consequence line for the craft a lock is on (simulation.gd: Quietus is vaporized, a drone is lost).
+static func lock_lands(sim,craft:int)->String:
+	var name:String=str(sim.units[craft].get("name","CRAFT")).to_upper()
+	return (TEXT.lock_lands_quietus if craft==0 else TEXT.lock_lands_drone)%name
 
 # The segments whose tap costs something that cannot be read before it lands: the first tap arms the segment and
 # shows its cost in the wheel's centre, the second tap on the same segment performs it. Keys are the segments'
