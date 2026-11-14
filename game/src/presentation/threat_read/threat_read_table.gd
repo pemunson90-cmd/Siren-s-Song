@@ -44,9 +44,7 @@ const ROLE_WORDS={Names.ROLE_HUNTER:"HUNTER",Names.ROLE_SENTINEL:"GUARD",Names.R
 # Display classes that name no role: the card says SIREN for these instead of a type word.
 const COARSE_KINDS=["unknown","STATIC","PATROLLER","UNCLASSIFIED"]
 const SIREN_WORD="SIREN"
-# Names of the tools on the lock card, the same words as their buttons (main.gd); the silent word is hud_words.gd's.
-const MOVE_DECOY="DECOY"
-const MOVE_EMP="EMP"
+# Tool names on the lock card come from equipment/field_tools.gd (threat_read._tool_word); the silent word is hud_words.gd's.
 
 const TEXT={
 	"shutter":"SHUTTER HEARD %dm",

@@ -104,10 +104,13 @@ static func counter_moves(sim,craft:int,siren_pos:Vector2)->String:
 	var u=sim.units[craft];var moves:Array=[]
 	if not u.get("silent",false):moves.append(HudWords.TEXT.silent_off if craft==0 else HudWords.TEXT.profile_low)
 	var decoys:int=_charges(sim,craft,"decoy")
-	if decoys>0:moves.append(Table.TEXT.move_count%[Table.MOVE_DECOY,decoys])
+	if decoys>0:moves.append(Table.TEXT.move_count%[_tool_word("decoy"),decoys])
 	var pulses:int=_charges(sim,craft,"emp")
-	if pulses>0 and u.pos.distance_to(siren_pos)<=Tuning.EMP_RADIUS:moves.append(Table.TEXT.move_count%[Table.MOVE_EMP,pulses])
+	if pulses>0 and u.pos.distance_to(siren_pos)<=Tuning.EMP_RADIUS:moves.append(Table.TEXT.move_count%[_tool_word("emp"),pulses])
 	return "" if moves.is_empty() else Table.TEXT.moves%Table.TEXT.move_join.join(moves)
+# A tool's name as the card writes it: the tool table's own name (equipment/field_tools.gd), in capitals.
+static func _tool_word(id:String)->String:
+	return str(preload("res://src/equipment/field_tools.gd").spec(id).get("name",id)).to_upper()
 # The charges one craft carries: its own rack when the dive has racks, else the shared stock.
 static func _charges(sim,craft:int,id:String)->int:
 	if sim.mission.has("tool_racks"):return int(sim.mission.tool_racks[Racks.UNITS[craft]].get(id,0))
