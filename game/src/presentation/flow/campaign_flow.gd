@@ -25,10 +25,17 @@ static func plain_stock(host,index:int=-1) -> String:
 
 # The hull the next dive starts with (the launch applies the recorded condition); empty when it starts whole.
 const CARRIED_HULL="Quietus starts at hull %d%%: damage from the last dive is not repaired."
+# The result screen's RETRY DIVE says the same number, so the player knows what a retry starts with.
+const RETRY_HULL="RETRY DIVE · Quietus starts at hull %d%%"
+static func carried_hull(host) -> int:
+	if not EconomyPanel.Table.enabled:return 100
+	return int(host.economy.get("cond",{}).get(Names.CRAFT_QUIETUS,100))
 static func carried_damage_line(host) -> String:
-	if not EconomyPanel.Table.enabled:return ""
-	var hull:int=int(host.economy.get("cond",{}).get(Names.CRAFT_QUIETUS,100))
+	var hull:int=carried_hull(host)
 	return CARRIED_HULL%hull if hull<100 else ""
+static func retry_label(host) -> String:
+	var hull:int=carried_hull(host)
+	return RETRY_HULL%hull if hull<100 else "RETRY DIVE"
 
 static func show_campaign(host) -> void:
 	host.screen="menu"; host._clear_menu()
@@ -307,7 +314,7 @@ static func choose_equipment(host, slot:String,item:String,index:int)->void:
 static func stats_line(sim)->String:
 	var elapsed=int(sim.elapsed)
 	# WP-97: life support is time left at the base drain, the same words as the pause plate and the craft readout.
-	return "Dive time %02d:%02d  /  Hull %d%%  /  Life support %s"%[elapsed/60,elapsed%60,int(sim.hull),preload("res://src/presentation/oxygen_reading.gd").text(sim)]
+	return "Dive time %02d:%02d  /  Hull %d%%  /  Life support %s"%[elapsed/60,elapsed%60,roundi(sim.hull),preload("res://src/presentation/oxygen_reading.gd").text(sim)]
 
 # The expedition debrief owns its own text; give it the same single line, in place when it already has one.
 static func expedition_stats(host)->void:
@@ -369,7 +376,7 @@ static func debrief(host) -> void:
 		host._menu_text(PhotoReview.loss_note(host,not shots_text.is_empty()),17)
 		host.BlackwaterDelivery.debrief(host)
 		host.ModuleRecovery.debrief(host)
-	host._button(host.panel_box,"RETRY DIVE",func(): host._briefing(host.mission_index),"retry")
+	host._button(host.panel_box,retry_label(host),func(): host._briefing(host.mission_index),"retry")
 	host._button(host.panel_box,"OPERATIONS ARCHIVE",host._show_campaign,"back")
 	preload("res://src/presentation/debrief_actions.gd").lift(host,lift_at)
 	host._save_archive()

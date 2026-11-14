@@ -121,6 +121,10 @@ static func describe(id:String)->String:
 static func _step(host,row:Node,text:String,action:Callable,action_id:String)->Button:
  var button=host._button(row,text,action,action_id)
  button.custom_minimum_size=Vector2(host.ui_touch_height,host.ui_touch_height)
+ # Minus and plus draw from the same font at the same weight (critic 14 Nov: one was a large square, the other a tiny faint cross).
+ # The menu layout sets the size of every menu button alike, so the two stay the same size; only the weight is set here.
+ var weight:=FontVariation.new();weight.base_font=button.get_theme_font("font");weight.variation_embolden=UiStyle.RACK_STEP_EMBOLDEN
+ button.add_theme_font_override("font",weight)
  return button
 static func _text(host,parent:Node,text:String,size:int)->Label:
  var scaled=roundi(size*host.ui_touch_height/48.0*preload("res://src/presentation/frontend/frontend_settings.gd").text_scale())

@@ -10,7 +10,7 @@ static func lines(row:Dictionary)->Array:
 	return summary_lines(row)+operation_lines(row)
 # The left column of the run record: the run's modifiers and what it spent and gained.
 static func summary_lines(row:Dictionary)->Array:
-	var out=["Seed %d: %d of %d operations cleared."%[row.seed,row.depth,row.total],"%s %s%s."%[Words.kit_line(row.loadout),Records.hunt_ceiling(row.hunt_stage),Records.HUNT_CEILING_NOTE],Records.scarcity_line(row.loadout,row.scarcity)]
+	var out=["Seed %d: %d of %d operations recovered."%[row.seed,row.depth,row.total],"%s %s%s."%[Words.kit_line(row.loadout,row.scarcity),Records.hunt_ceiling(row.hunt_stage),Records.HUNT_CEILING_NOTE],Records.scarcity_line(row.loadout,row.scarcity)]
 	# Only tools that were spent or gained are listed; an unused run has no block.
 	var used:Array=[]
 	for key in Records.Table.TOOLS:
@@ -32,7 +32,7 @@ static func session(host)->void:
 static func detail(front,row:Dictionary,back:Callable,replay:Callable)->void:
 	front._reset("run_record")
 	front._button("BACK",back,"frontend_back")
-	front._text("EXPEDITION LOST" if row.status=="lost" else "EXPEDITION CLEARED",30)
+	front._text("EXPEDITION LOST" if row.status=="lost" else "EXPEDITION RECOVERED",30)
 	# Wide: the summary on the left, the operations and the replay on the right.
 	var boxes=front._split(func():detail(front,row,back,replay))
 	front._into(boxes[0],func():

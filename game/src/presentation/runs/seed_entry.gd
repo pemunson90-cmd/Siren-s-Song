@@ -52,4 +52,4 @@ static func show(front,seed_value:int,back:Callable,start:Callable)->void:
 	refresh.call(edit.text)
 
 static func setup_context(state:Dictionary)->String:
-	return "%s\n%s\n%s"%[Words.kit_line(state.loadout),Records.scarcity_line(state.loadout,state.scarcity),Words.hunt_line(state)]
+	return "%s\n%s\n%s"%[Words.kit_line(state.loadout,state.scarcity),Records.scarcity_line(state.loadout,state.scarcity),Words.hunt_line(state)]

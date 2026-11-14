@@ -166,6 +166,10 @@ func _into(box: VBoxContainer, build: Callable) -> void:
 	else: build.call()
 	column = previous
 const PLATE_MARGIN := 16.0
+# The title's own text follows the screen's touch height as the hub's does, up to this many times the 48 px base.
+const TITLE_DENSITY_MAX := 1.6
+func _density() -> float:
+	return clampf(touch_height() / 48.0, 1.0, TITLE_DENSITY_MAX) if screen == "title" else 1.0
 func _reset(next: String) -> void:
 	screen = next; title_label = null
 	rebuild = Callable(); wide_built = false; relayout_pending = false
@@ -182,7 +186,7 @@ func _text(text: String, size_px: int = 17, color: Color = Color(0, 0, 0, 0)) ->
 		if color.a>0:label.add_theme_color_override("font_color",color)
 		return label
 	var l := Label.new(); l.text = text; l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	l.add_theme_font_size_override("font_size", roundi(size_px * FrontendSettings.text_scale()))
+	l.add_theme_font_size_override("font_size", roundi(size_px * FrontendSettings.text_scale() * _density()))
 	if color.a > 0: l.add_theme_color_override("font_color", color)
 	column.add_child(l); return l
 func _button(text: String, action: Callable, id: String, disabled := false) -> Button:
@@ -195,6 +199,8 @@ func _button(text: String, action: Callable, id: String, disabled := false) -> B
 	var b := Button.new(); b.text = text; b.custom_minimum_size = Vector2(0, touch_height()); b.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	b.focus_mode = Control.FOCUS_ALL; b.disabled = disabled; b.mouse_filter = Control.MOUSE_FILTER_PASS
 	b.set_meta("action", id); b.set_meta("ui_action", id)
+	# The title's buttons carry the hub's font (touch height and text size), so 130% is plainly larger there too.
+	if screen == "title": b.add_theme_font_size_override("font_size", Metrics.button_font(touch_height(), FrontendSettings.text_scale()))
 	b.pressed.connect(action, CONNECT_DEFERRED); column.add_child(b)
 	if not id.is_empty(): UiStyle.apply_for(b, id)
 	return b
@@ -219,6 +225,11 @@ func _title_screen() -> void:
 	_button("CREDITS", _credits_screen, "frontend_credits")
 func _mode_select() -> void:
 	load("res://src/presentation/runs/modes_frontend.gd").show(self)
+# CHALLENGES opened from GAME MODES goes back to GAME MODES; from the title or Operations it goes back where it came from.
+var challenges_origin := ""
+func leave_challenges() -> void:
+	if challenges_origin == "modes": _mode_select()
+	else: _return()
 func _dismiss() -> void:
 	_flush_pending()
 	set_process(false)
@@ -391,7 +402,8 @@ func back() -> void:
 	if screen in ["run_seed","run_record","run_end"]:load("res://src/presentation/runs/modes_frontend.gd").expeditions(self);return
 	if screen=="expeditions":_mode_select();return
 	if screen=="career":_mode_select();return # same as the on-screen BACK; it used to fall through to the title
-	if screen == "challenge_details":
+	if screen == "challenges": leave_challenges()
+	elif screen == "challenge_details":
 		load("res://src/presentation/frontend/challenges_frontend.gd").show(self)
 	elif screen != "title" or not operations_entry.is_empty():
 		_return()

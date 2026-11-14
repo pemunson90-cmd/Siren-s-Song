@@ -91,6 +91,15 @@ func shape_quality(shape):
  check(button(game,"quality_dismiss")==null,"a paused dive shows no LOW EFFECTS offer")
  game._show_campaign();await settle();await settle()
  check(button(game,"quality_dismiss")!=null,"synthetically triggered suggestion is dismissible")
+ # WP-105: the offer stands in the footer row under the page; showing or hiding it moves no row of the page.
+ var offer=game.quality_runtime.notice
+ check(is_instance_valid(offer) and offer.get_parent()==game.menu_footer and game.menu_footer.visible and not game.panel_box.is_ancestor_of(offer),"the LOW EFFECTS offer stands outside the scrolling page "+str(shape))
+ var firsts:Array=game.panel_box.get_children().filter(func(c):return c!=offer and c is Control and c.visible)
+ var shown_y:Array=firsts.map(func(c):return c.get_global_rect().position)
+ offer.hide();await settle()
+ var hidden_y:Array=firsts.map(func(c):return c.get_global_rect().position)
+ offer.show();await settle()
+ check(not firsts.is_empty() and shown_y==hidden_y,"showing the LOW EFFECTS offer does not move the rows above it "+str(shape))
  var dismiss=button(game,"quality_dismiss")
  check(root.get_visible_rect().has_point(dismiss.get_global_rect().get_center()),"suggestion actions stay inside the viewport")
  await press(game,"quality_dismiss");check(governor.suggestion().is_empty(),"dismiss keeps current tier")

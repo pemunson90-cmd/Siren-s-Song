@@ -7,9 +7,12 @@ const State=preload("res://src/campaign/runs/run_state.gd")
 const Table=preload("res://src/campaign/runs/run_table.gd")
 const Tools=preload("res://src/equipment/field_tools.gd")
 const Racks=preload("res://src/equipment/tool_racks.gd")
+const ResultText=preload("res://src/presentation/mode_result_text.gd")
 const KIT_LINE="Starting kit: %s loadout, %s."
 const KIT_STANDARD="the standard kit"
 const KIT_MORE="with more %s than the standard kit"
+# The kit is the loadout at full stock; the run's scarcity then takes a fixed number from every tool, and the scarcity line gives the result.
+const KIT_SCARCITY=" This run is %s: it starts with %d fewer of each tool than the full kit."
 const HUNT_LINE="Hunt ceiling for this run: stage %d (%s). Each operation also caps how high the Hunt can start, so operation %d starts at stage %d (%s). The meter in the dive shows the current stage and rises as the Sirens notice you."
 const STOCK_LINE="Stock: %s."
 const STOCK_NONE="nothing"
@@ -19,14 +22,16 @@ const SPARE_LINE="In the depot, not in the racks for this dive: %s."
 const SPENT_LINE="Spent: %s."
 const EARNED_LINE="Earned: %s."
 const KEPT_LINE="Kept: %s."
+const RECOVERED_RECORD="archive recovered (%s)"
 const NOTHING="nothing"
 const LEDGER_TITLE="THIS DIVE"
 # What a loadout adds to the standard kit, from the tool table: "with more EMP, Decoy than the standard kit".
-static func kit_line(loadout:String)->String:
+static func kit_line(loadout:String,scarcity:int=0)->String:
 	var more:Array=[]
 	for key in Table.TOOLS:
 		if Tools.loadout_count(key,loadout)>Tools.loadout_count(key,Names.LOADOUT_ENDURANCE):more.append(Tools.spec(key).name)
-	return KIT_LINE%[Tools.loadout_label(loadout),KIT_MORE%", ".join(more) if not more.is_empty() else KIT_STANDARD]
+	var line:String=KIT_LINE%[Tools.loadout_label(loadout),KIT_MORE%", ".join(more) if not more.is_empty() else KIT_STANDARD]
+	return line+KIT_SCARCITY%[Table.SCARCITY[scarcity],scarcity] if scarcity>0 else line
 # The ceiling and where this operation starts, the same sentence on the seed screen and the briefing.
 static func hunt_line(state:Dictionary)->String:
 	var stage:int=State.starting_hunt(state,State.current_operation(state))
@@ -60,7 +65,14 @@ static func difference(more:Dictionary,less:Dictionary)->Dictionary:
 	for key in Table.TOOLS:out[key]=maxi(0,int(more.get(key,0))-int(less.get(key,0)))
 	return out
 # An Expedition dive: it started with `before`, ended with `after_dive` (the result's tools) and the run now holds `kept`.
-static func dive_ledger(before:Dictionary,after_dive:Dictionary,kept:Dictionary)->Array:
-	return ledger(count_text(difference(before,after_dive)),count_text(difference(kept,after_dive),true),count_text(kept))
+static func dive_ledger(before:Dictionary,after_dive:Dictionary,kept:Dictionary,recovered:String="",photo:float=-1.)->Array:
+	return ledger(count_text(difference(before,after_dive)),earned_text(count_text(difference(kept,after_dive),true),recovered,photo),count_text(kept))
+# What a dive earned: the archive it recovered and its photograph grade (when it recovered one), then the supplies it added.
+static func earned_text(supplies:String,recovered:String="",photo:float=-1.)->String:
+	var parts:Array=[]
+	if not recovered.is_empty():parts.append(RECOVERED_RECORD%recovered)
+	if not recovered.is_empty() and photo>=0.:parts.append(ResultText.photo_word(photo))
+	if supplies!=NOTHING:parts.append(supplies)
+	return ", ".join(parts) if not parts.is_empty() else NOTHING
 static func ledger(spent:String,earned:String,kept:String)->Array:
 	return [LEDGER_TITLE,SPENT_LINE%spent,EARNED_LINE%earned,KEPT_LINE%kept]

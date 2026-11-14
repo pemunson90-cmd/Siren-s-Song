@@ -24,13 +24,16 @@ func process(host, _dt:float)->void:
 		host.ocean.quality_gesture_active=host.map_gesture.active()
 	_place_notice(host)
 # Critic 13 and 14 Nov: the offer appeared in the middle of a dive, even paused, over the camera panel.
-# It now sits at the top of the Operations screen, the next time the player is there, and never in a dive.
+# It now sits in the footer row under the Operations screen, the next time the player is there, and never in a dive.
+# Critic 14 Nov (round 7): at the top of the page it pushed the page down when it appeared. The footer is outside the
+# scrolling page, so no row of the page moves, and it is one touch row high, shown only while the offer is open.
 func _place_notice(host)->void:
 	var offered=not governor.suggestion().is_empty()
-	if offered and host.screen=="menu" and (not is_instance_valid(notice) or notice.get_parent()!=host.panel_box):_build_notice(host)
+	if offered and host.screen=="menu" and (not is_instance_valid(notice) or notice.get_parent()!=host.menu_footer):_build_notice(host)
 	if is_instance_valid(notice) and (host.screen!="menu" or not offered):
 		if notice.get_parent()!=null:notice.get_parent().remove_child(notice)
 		notice.queue_free()
+		if host.screen=="menu" and host.menu_footer.get_children().all(func(c):return c==notice or not c.visible):host.menu_footer.hide()
 func refresh(host,periodic:bool)->bool:
 	if not periodic:
 		governor.invalidate()
@@ -41,19 +44,24 @@ func refresh(host,periodic:bool)->bool:
 	var redraw=not periodic or governor.should_redraw(wall_seconds,host.sim.paused,changed,false,host.map_gesture.active())
 	return redraw
 func _build_notice(host)->void:
-	notice=PanelContainer.new();notice.name="QualitySuggestion";host.panel_box.add_child(notice);host.panel_box.move_child(notice,0)
-	var box=VBoxContainer.new();notice.add_child(box)
-	var label=Label.new();label.text="LOW EFFECTS may improve frame rate.";label.autowrap_mode=TextServer.AUTOWRAP_WORD;label.size_flags_horizontal=Control.SIZE_EXPAND_FILL;box.add_child(label)
+	notice=PanelContainer.new();notice.name="QualitySuggestion";notice.size_flags_horizontal=Control.SIZE_EXPAND_FILL;host.menu_footer.add_child(notice);host.menu_footer.show()
+	var box=HFlowContainer.new();box.add_theme_constant_override("h_separation",12);notice.add_child(box)
+	var label=Label.new();label.text="LOW EFFECTS may improve frame rate.";label.autowrap_mode=TextServer.AUTOWRAP_WORD;label.size_flags_horizontal=Control.SIZE_EXPAND_FILL;label.size_flags_vertical=Control.SIZE_SHRINK_CENTER;box.add_child(label)
 	for row in [["USE LOW EFFECTS","quality_accept"],["DISMISS","quality_dismiss"]]:
 		var b=Button.new();b.text=row[0];b.size_flags_horizontal=Control.SIZE_EXPAND_FILL;b.custom_minimum_size.y=host.ui_touch_height
 		b.custom_minimum_size.x=host.ui_touch_height*1.6;b.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
 		b.set_meta("ui_action",row[1]);box.add_child(b)
 		if row[1]=="quality_accept":b.pressed.connect(func():_accept(host),CONNECT_DEFERRED)
-		else:b.pressed.connect(func():governor.dismiss();notice.hide(),CONNECT_DEFERRED)
+		else:b.pressed.connect(func():governor.dismiss();_withdraw(host),CONNECT_DEFERRED)
 func _accept(host)->void:
 	var store=Store.new();store.path=host.settings_path
 	var values=store.load_settings();values.quality=Table.LOW_EFFECTS
 	# Explicit consent, using the ordinary settings store; report disk failures.
 	Settings.apply(values,host)
 	if not store.save_settings(values):host.sim.message=store.warning
-	governor.dismiss();notice.hide();host._refresh()
+	governor.dismiss();_withdraw(host);host._refresh()
+
+# The offer leaves; the footer is hidden again when nothing else stands in it.
+func _withdraw(host)->void:
+	notice.hide()
+	if host.menu_footer.get_children().all(func(c):return c==notice or not c.visible):host.menu_footer.hide()

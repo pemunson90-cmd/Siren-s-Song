@@ -83,7 +83,7 @@ func _show_campaign()->void:
 	var columns=PrepColumns.open(self,_show_campaign)
 	PrepColumns.into(self,columns[0],func():
 		Briefing.show(self,RunState.current_operation(run_state),sim.mission.brief,EXPEDITION_RULES)
-		_menu_text(RunWords.kit_line(run_state.loadout),17)
+		_menu_text(RunWords.kit_line(run_state.loadout,run_state.scarcity),17)
 		_menu_text(preload("res://src/campaign/runs/run_records.gd").scarcity_line(run_state.loadout,run_state.scarcity),17)
 		_menu_text(RunWords.hunt_line(run_state),17)
 		var racks:Dictionary=run_state.get("tool_racks",preload("res://src/equipment/tool_racks.gd").from_stock(run_state.stock))
@@ -142,7 +142,7 @@ func _debrief(abandoned:bool=false)->void:
 	var stock_before:Dictionary=run_state.stock.duplicate()
 	var dive_result:Dictionary=sim.result(abandoned)
 	run_state=RunState.settle(run_state,dive_result)
-	dive_ledger=RunWords.dive_ledger(stock_before,dive_result.tools,run_state.stock)
+	dive_ledger=RunWords.dive_ledger(stock_before,dive_result.tools,run_state.stock,str(sim.mission.title) if dive_result.outcome=="won" else "",float(dive_result.get("photo",-1.)))
 	run_state=RunOffers.prepare(run_state);active_envelope={}
 	_result_menu()
 func _result_menu()->void:
