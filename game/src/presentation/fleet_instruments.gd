@@ -170,7 +170,7 @@ func refresh(blocked:Array):
   if not b.visible:continue
   var at:Vector2=positions[id];var offscreen=not on_screen[id];var bearing=(at-safe.get_center()).normalized()
   # WP-129: an edge chip names its craft and points to it ("DRONE B ↗"), so it is wider than a touch square.
-  var edge_word:=_edge_word(id,bearing);var edge_width:=font.get_string_size(edge_word,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x+16.
+  var edge_word:=_edge_word(id,bearing);var edge_width:=h*.9+font.get_string_size(edge_word,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x+16.
   var box=Ring.edge_rect(at,safe,h,occupied,edge_width) if offscreen else Rect2(at-Vector2.ONE*h/2,Vector2.ONE*h)
   # Keep actual body/site coincidence under the nearest-owner input rule.
   # Only the oversized badge brushing a nearby site needs another position.
@@ -268,6 +268,10 @@ func refresh(blocked:Array):
    if other.unit==reading.unit or (not reading.offscreen and not other.offscreen and reading.anchor.distance_to(other.anchor)<h*.2):reading.cluster.append(other.unit)
   reading.identity=Names.UNIT_LETTERS[reading.unit]+(" +%d"%(reading.cluster.size()-1) if reading.cluster.size()>1 else "")
  queue_redraw();progress_layer.queue_redraw()
+# WP-129: an edge chip is wider than its ring; the ring sits at the chip's left end.
+func _ring_center(reading:Dictionary,h:float)->Vector2:
+ var box:Rect2=reading.handle_rect
+ return Vector2(box.position.x+h/2,box.get_center().y) if reading.offscreen else box.get_center()
 func _paint_order()->Array:
  var result=readouts.duplicate();var selected=host.sim.selected
  result.sort_custom(func(a,b):return a.unit<b.unit if (a.unit==selected)==(b.unit==selected) else a.unit!=selected)
@@ -275,11 +279,12 @@ func _paint_order()->Array:
 func _draw():
  var h=host.ui_touch_height if host!=null else 48.;var text_size=maxi(14,roundi(h*.26))
  for reading in _paint_order():
-  var center:Vector2=reading.handle_rect.get_center();var id:int=reading.unit;var selected=id==host.sim.selected;var ink=Color("c0e8df") if selected else Color("8ec3c2")
+  var center:Vector2=_ring_center(reading,h);var id:int=reading.unit;var selected=id==host.sim.selected;var ink=Color("c0e8df") if selected else Color("8ec3c2")
   if reading.get("projected",false):draw_line(reading.anchor,center,Color("476f79"),1.5,true)
   if reading.offscreen:
    draw_style_box(_edge_style(selected),reading.handle_rect)
-   _text(reading.edge_word,center+Vector2(0,-h*.22 if not reading.cues.is_empty() or reading.progress.unit>=0 else -h*.04),text_size,ink)
+   var word_at:Vector2=Vector2(reading.handle_rect.position.x+h*.9+(reading.handle_rect.size.x-h*.9)/2,center.y)  # WP-129: the ring sits at the chip's left, the craft's name and arrow to its right
+   _text(reading.edge_word,word_at+Vector2(0,h*.1),text_size,ink)
   else:
    draw_arc(center,h*.44,0,TAU,64,Color(.01,.045,.055,.7),6,true)
   Ring.draw_gauge(self,center,h*.44,reading.reserves,selected)
@@ -315,4 +320,4 @@ func _draw_progress():
   var progress=reading.progress
   if progress.unit>=0:
    var fraction=clampf(progress.elapsed/maxf(.01,progress.duration),0,1)
-   progress_layer.draw_arc(reading.handle_rect.get_center(),host.ui_touch_height*.5,-PI/2,-PI/2+TAU*fraction,64,Color("e9cb8c"),3,true)
+   progress_layer.draw_arc(_ring_center(reading,host.ui_touch_height),host.ui_touch_height*.5,-PI/2,-PI/2+TAU*fraction,64,Color("e9cb8c"),3,true)
