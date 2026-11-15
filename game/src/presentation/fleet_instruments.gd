@@ -186,6 +186,13 @@ func refresh(blocked:Array):
    if occupied.any(func(r):return r.intersects(box.grow(3))):box=Ring.edge_rect(at,safe,h,occupied,edge_width)
   if not box.has_area():b.hide();continue # FLEET remains available if all edges are occupied.
   occupied.append(box.grow(5))
+  # WP-129: an on-screen craft wears its name beside the craft (above its ring), reserved like the chip itself.
+  var tag_rect:=Rect2()
+  if not offscreen:
+   var tag_size:=font.get_string_size(_tag_word(id,sim)+" +2",HORIZONTAL_ALIGNMENT_LEFT,-1,maxi(14,roundi(h*.2)))+Vector2(10,5)
+   tag_rect=Rect2(box.get_center()+Vector2(-tag_size.x/2,-h*.5-tag_size.y-2),tag_size)
+   tag_rect.position=tag_rect.position.clamp(viewport.position,viewport.end-tag_rect.size)
+   occupied.append(tag_rect.grow(3))
   b.position=box.position;b.custom_minimum_size=box.size;b.size=box.size;b.text="";b.add_theme_stylebox_override("normal",StyleBoxEmpty.new());b.add_theme_stylebox_override("hover",StyleBoxEmpty.new());b.add_theme_stylebox_override("pressed",StyleBoxEmpty.new());b.add_theme_stylebox_override("focus",StyleBoxEmpty.new())
   var reserves=Ring.reserves(sim,id,ocean.oxygen_capacity)
   reading.text=status(id);b.tooltip_text=u.name+"\n"+reading.text
@@ -249,13 +256,6 @@ func refresh(blocked:Array):
     if safe.encloses(candidate) and water.has_point(candidate.get_center()) and not occupied.any(func(r):return r.intersects(candidate.grow(3))):detail_box=candidate;found=true
    reading.visible=found or critical;reading.position=detail_box.position;reading.size=extent
    if reading.visible:occupied.append(detail_box.grow(5))
-  # WP-129: an on-screen craft wears its name beside the craft (above its ring), reserved like the chip itself.
-  var tag_rect:=Rect2()
-  if not offscreen:
-   var tag_size:=font.get_string_size(_tag_word(id,sim)+" +2",HORIZONTAL_ALIGNMENT_LEFT,-1,maxi(14,roundi(h*.2)))+Vector2(10,5)
-   tag_rect=Rect2(box.get_center()+Vector2(-tag_size.x/2,-h*.5-tag_size.y-2),tag_size)
-   tag_rect.position=tag_rect.position.clamp(viewport.position,viewport.end-tag_rect.size)
-   occupied.append(tag_rect.grow(3))
   var bounds=box.merge(cue_rect) if cue_rect.has_area() else box
   if tag_rect.has_area():bounds=bounds.merge(tag_rect)
   if reading.visible:bounds=bounds.merge(reading.get_rect())
