@@ -38,8 +38,13 @@ func lull(g,id,up,target,then=Vector2.INF,at=Vector2.INF):
   if Patient.rehearsal_survives(g.sim,id,up,target,then,at):return
   await run_seconds(g,2.)
 func band(g,id,wanted):await shift(g,id,g.sim.units[id].band<wanted)
+# WP-134: with a charted job and a photo subject both in reach the wheel offers PHOTO and the job as two controls (WP-122);
+# these journeys want the job, so they tap its own OPERATE control, and the camera control otherwise.
+func work(g):
+ if g.mission_hud.operation_beside_photo(g.sim):await click(g.mission_hud.extra.operation)
+ else:await click(g.order_buttons.camera)
 func take(g,id,target):
- await craft(g,id);await click(g.order_buttons.camera);g.mission_hud.dismiss();await run_seconds(g,g.sim.mission.objectives[target].get("duration",4.)+.3)
+ await craft(g,id);await work(g);g.mission_hud.dismiss();await run_seconds(g,g.sim.mission.objectives[target].get("duration",4.)+.3)
 
  check(g.sim.mission.objectives[target].captured,"actual local input retains required record")
 func append_goals(g,id,points):
@@ -64,7 +69,7 @@ func arc_split(g):
    var u=g.sim.units[id];var o=g.sim.mission.objectives[id-1]
    if not u.alive:continue
    if not o.captured and g.sim.captures[id].is_empty() and u.pos.distance_to(o.pos)<230:
-    await craft(g,id);await click(g.order_buttons.camera);g.mission_hud.dismiss()
+    await craft(g,id);await work(g);g.mission_hud.dismiss()
    if o.captured and not returned[id]:
     if id==1:await append_goals(g,id,[Vector2(680,580),Vector2(680,1700),Vector2(620,2020),g.sim.mission.extraction])
     else:await plot(g,id,g.sim.mission.extraction)
@@ -73,7 +78,7 @@ func arc_split(g):
   if not returning and q.pos.distance_to(Vector2(900,1730))<20 and q.vel.length()<2 and q.transition.is_empty():
    if q.band==2:await start_shift(g,0,false)
    elif g.sim.captures[0].is_empty() and g.sim.mission.objectives[0].captured and g.sim.mission.objectives[1].captured:
-    await craft(g,0);await click(g.order_buttons.camera);g.mission_hud.dismiss()
+    await craft(g,0);await work(g);g.mission_hud.dismiss()
   if g.sim.all_records() and not returning:
    await start_shift(g,0,true);await append_goals(g,0,[Vector2(660,2100),g.sim.mission.extraction]);returning=true
   if returning and not home and q.pos.distance_to(g.sim.mission.extraction)<25 and q.vel.length()<2 and q.transition.is_empty():await start_shift(g,0,false);home=true

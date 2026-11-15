@@ -364,7 +364,7 @@ static func _route(host,request:Dictionary,craft:int)->Dictionary:
 		sim.queue_mode=append
 		if guard.leg_crosses_rock(p,append):crosses=true
 		var goals_before:Array=sim.route_goals(craft).map(func(g):return g.pos)
-		host._order("route",{"point":p})
+		host._order("route",{"point":p}) # TRAVEL:water_leg WP-134: the critic kit places the same hand-set legs as a water tap
 		var goals:Array=sim.route_goals(craft)
 		var took:bool=not goals.is_empty() and goals.back().pos.distance_to(p)<0.5 and (goals.size()>goals_before.size() or (i==0 and not append))
 		if not took:
