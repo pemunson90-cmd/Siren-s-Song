@@ -47,7 +47,7 @@ func _ready()->void:
 func _process(_dt:float)->void:
  size=host.size;overlay.size=size
  badge.visible=State.marked(host)
- var layout_key=hash([size,host.ui_touch_height,host.screen,host.advanced_orders,host.sim.selected,host.mission_hud.page if host.mission_hud!=null else "",panel.visible])
+ var layout_key=hash([size,host.ui_touch_height,host.screen,host.advanced_orders,host.sim.selected,host.mission_hud.page if host.mission_hud!=null else "",panel.visible,host.route_editor!=null and host.route_editor.is_visible_in_tree()]) # WP-139: the badge moves when the route planner opens
  if layout_key!=badge_layout_key:badge_layout_key=layout_key;layout_badge()
  overlay.queue_redraw()
  if fingers.size()==3 and hold_since>=0 and Time.get_ticks_msec()-hold_since>=850:
@@ -66,6 +66,8 @@ func layout_badge()->void:
   var rect:Rect2=control.get_global_rect()
   if rect.size.x>=host.size.x*.6 and rect.size.y>=host.size.y*.6:continue # a backdrop, not a plate
   occupied.append(rect)
+ # WP-139: the route planner's chart is a plate too; the badge sat on it and took the taps meant for the water.
+ if host.route_editor!=null and host.route_editor.is_visible_in_tree():occupied.append(host.route_editor.preview.get_global_rect())
  # Search from the lower right through unoccupied HUD space. Keep every existing
  # actionable control's rectangle intact at either display shape and text scale.
  var rows:Array=range(maxi(12,int(host.size.y-touch-12)),11,-int(touch+8)) if host.screen=="mission" else range(12,maxi(13,int(host.size.y-touch)),int(touch+8))
