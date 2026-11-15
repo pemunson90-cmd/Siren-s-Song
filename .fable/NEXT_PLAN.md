@@ -6,7 +6,7 @@ Run `overhaul-20261111`, branch `fable/overhaul-20261111`, phase 9. Pat's order 
 
 ## Where things stand
 
-See `.fable/NOW.md` for the head SHA and anything still running at the pause. Merged this phase: WP-31 to WP-125 except where `.fable/RUN_STATE.json` says otherwise; behavior rows 57 to 154 in `.fable/FINAL_REPORT.md`. Sweeps run in their own worktree `.claude/worktrees/sweep` (never in the run clone). The eleventh sweep (51cc09f2) found four regressions; WP-124 fixed them (see NOW.md).
+See `.fable/NOW.md` for the head SHA and anything still running at the pause. Merged this phase: WP-31 to WP-125, all of them, on head 7db7ada3 or later (WP-124 and WP-125 merged at the pause and their suites rerun on the merged head: `scratchpad` batches are gone after a restart, so trust RUN_LOG); behavior rows 57 to 155 in `.fable/FINAL_REPORT.md`. Sweeps run in their own worktree `.claude/worktrees/sweep` (never in the run clone). The eleventh sweep (51cc09f2) found four regressions; WP-124 fixed them (one real defect: an unusable photo had stopped raising the Hunt, row 155). Step 1 below is therefore done unless NOW.md says otherwise: start at step 2.
 
 ## Models
 

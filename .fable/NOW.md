@@ -1,13 +1,13 @@
 # NOW: what the root session is doing
 
 Status: LIVE NOTE (rewritten before every step; if a session died, this is the step it died in)
-Updated: 2026-11-14 18:06
+Updated: 2026-11-14 19:00
 
 **To resume after a context clear or a new session:** open this folder as the project and run `/siren-s-start-opus` (on an Opus model; `/siren-s-start-fable` is the same run on the Fable model). Read `.fable/PHASE9.md` first: it is the whole handoff. The `next_action` field in the state file always starts by sending the session to `.fable/HANDOFF.md` and to this file.
 
 ## Doing right now
 
-Head 7389bbf1: WP-106 to WP-119, WP-121, WP-122 merged and green (last batch scratchpad m122.txt). Building: WP-120 (speed 2x/4x, debug panel, kit debug command). Sweep 11 running in .claude/worktrees/sweep on 51cc09f2. Next: look at the unseen changes in a kit with the debug command, then the headless game driver (WP-123), then the tenth critic round (fun-focused, per Pat).
+PAUSED at Pat's request. Head 7db7ada3 + docs commit (pushed). All of WP-31 to WP-125 merged. Last checks on 7db7ada3: Core 856/0, hunt_pressure_integration 66, planning_order_flow_ui 253, photo_pricing_ui 11, emp_lock_grace 50, unusable_reason 20 (pass=5 fail=0), stable_board_ui 436/0. No helper or test run is running. Resume: /siren-s-start-opus (executes .fable/NEXT_PLAN.md from step 2).
 
 ## In flight
 
