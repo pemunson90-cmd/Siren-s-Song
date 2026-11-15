@@ -6,15 +6,15 @@ extends RefCounted
 #           Siren is beyond the silent sight distance (photo_pricing_table.gd SIREN_SIGHT_SILENT, widened by Hunt).
 #   emp     takes effect at once: every Siren in range loses its lock (weapon_orders.gd; the card lists it only
 #           when the Siren is in range).
-#   decoy   a Siren that already sees the craft keeps locking while a decoy sounds (simulation.gd: a sighting
-#           overrides what it hears), so a decoy cannot end a lock that has started.
+#   decoy   WP-137 (Pat, 15 Nov 2026): a decoy dropped where the locking Siren hears it ends the lock at once and the
+#           Siren turns to the decoy (weapon_orders.gd, simulation.gd decoy_lock_breakers). move_list offers it only
+#           when such a drop point exists in reach.
 const Words=preload("res://src/presentation/hud_words.gd")
 const Pricing=preload("res://src/simulation/photo_pricing/photo_pricing_table.gd")
 const HuntPressure=preload("res://src/simulation/hunt_pressure/hunt_pressure.gd")
 # Seconds from the tap until the move takes effect, by order. A move not listed never ends a lock.
-const DELAY={"silent": 0.0, "emp": 0.0}
-# The moves worth offering against a lock that is running: a move not in DELAY (the decoy) cannot end it, so the card
-# does not list it. A decoy only draws Sirens that have not seen the craft (Words.TEXT.decoy_note says so).
+const DELAY={"silent": 0.0, "emp": 0.0, "decoy": 0.0}
+# The moves worth offering against a lock that is running: a move not in DELAY cannot end it, so the card does not list it.
 static func useful(moves:Array)->Array:
 	return moves.filter(func(m):return DELAY.has(str(m.order)))
 # {"line": the second line of the move's button, "in_time": whether the move can end the lock before it completes}.
@@ -22,6 +22,7 @@ static func useful(moves:Array)->Array:
 static func read(sim,row:Dictionary,move:Dictionary)->Dictionary:
 	var order:String=str(move.order)
 	if not DELAY.has(order):return {"line":Words.TEXT.move_decoy,"in_time":false}
+	if order=="decoy":return {"line":Words.TEXT.move_decoy,"in_time":true} # WP-137: it ends the lock the step it lands
 	if order=="silent":
 		var near:float=Pricing.SIREN_SIGHT_SILENT*HuntPressure.scale(sim.mission)
 		if sim.units[int(row.craft)].pos.distance_to(row.siren_pos)<near:

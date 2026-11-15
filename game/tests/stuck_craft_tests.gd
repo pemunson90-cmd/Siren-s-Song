@@ -197,10 +197,11 @@ func move_case():
 		var read=MoveTiming.read(sim,row,move)
 		check(read.line!="" and read.has("in_time"),"every move has a timing line: "+str(move.order)+" "+read.line)
 		match str(move.order):
-			"decoy":check(not read.in_time and read.line==Words.TEXT.move_decoy,"a decoy cannot end a lock that has started: "+read.line)
+			"decoy":check(read.in_time and read.line==Words.TEXT.move_decoy,"WP-137: a decoy ends a lock at once: "+read.line)
 			"silent":check(not read.in_time and read.line==Words.TEXT.move_close%roundi(180.0*sim.HuntPressure.scale(sim.mission)),"a Siren 60 m away still sees a silent craft: "+read.line)
 			"emp":check(read.in_time and read.line==Words.TEXT.move_now,"the EMP works at once: "+read.line)
-	check(row.moves.any(func(m):return m.order=="decoy"),"the decoy is on the card with its mark")
+	# WP-137: the fixture holds no Siren, so no decoy drop could draw one off (decoy_deployment_tests covers the offer with a Siren).
+	check(not row.moves.any(func(m):return m.order=="decoy"),"the decoy is not offered when no Siren is there to draw off")
 	sim.contacts[0].pos=sim.units[1].pos+Vector2(260,0)
 	row=ThreatRead.lock_rows(sim)[0]
 	for move in row.moves:

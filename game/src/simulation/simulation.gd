@@ -774,9 +774,43 @@ func well_signature_evidence() -> Dictionary:
 	return {"name":"QUIETUS / RETURNED CADENCE","optical":"well_signature","caption":"ENGINE REFERENCE: Quietus moving %.1f m/s at %.1fs near PROFILE APERTURE. LOCAL RETURN: received by %s at %.1fs near RETURN ARCHIVE. The returned cadence matches the recorded reference. Source and intent remain unresolved."%[reference.speed,reference.time,units[observation.unit].name.to_upper(),observation.time]}
 
 func decoy_target_valid(point:Variant) -> bool:
-	if not point is Vector2 or not point.is_finite():return false
-	var origin=units[selected]
-	return origin.alive and outcome.is_empty() and tools.decoy>0 and Rect2(Vector2(6,6),world_size()-Vector2(12,12)).has_point(point) and origin.pos.distance_to(point)<=DECOY_RANGE+0.001 and not blocked(point,6) and segment_safe(origin.pos,point,6)
+	return tools.decoy>0 and decoy_point_ok(selected,point)
+# WP-137: the geometry of a decoy drop for one craft (no charge test), shared by the order and the lock card.
+func decoy_point_ok(unit_id:int,point:Variant) -> bool:
+	if not point is Vector2 or not point.is_finite() or unit_id<0 or unit_id>=units.size():return false
+	var origin=units[unit_id]
+	return origin.alive and outcome.is_empty() and Rect2(Vector2(6,6),world_size()-Vector2(12,12)).has_point(point) and origin.pos.distance_to(point)<=DECOY_RANGE+0.001 and not blocked(point,6) and segment_safe(origin.pos,point,6)
+# WP-137 (Pat, 15 Nov 2026): a decoy breaks a lock that is counting down. 'Reach' is the Siren hearing the decoy's
+# transmission by the same rule that sends an unalerted Siren to a heard noise (_heard_arrival / the legacy hearing test).
+func decoy_noise(point:Vector2,band:int=1) -> Dictionary:
+	return {"band":band,"pos":point,"radius":Tuning.DECOY_NOISE,"time":Tuning.DECOY_TIME,"label":Names.NOISE_DECOY}
+func siren_hears_decoy(s:Dictionary,noise:Dictionary) -> bool:
+	if mission.get("acoustic_revision",0)==1:
+		return not Acoustics.choose(Thermal.arrivals(self,s,noise.pos,noise.radius*Recon.readiness(s)*Sweeper.ear(s)*Depth.transmission(s,noise),noise),int(s.patrol)).is_empty()
+	var acoustic=1.0 if line_clear(s.pos,noise.pos) else 0.36
+	return s.pos.distance_to(noise.pos)<noise.radius*acoustic*Sweeper.ear(s)*Depth.transmission(s,noise)
+# The Sirens with a lock counting down on a craft (beam not yet fired) that hear a decoy dropped at the point.
+func decoy_lock_breakers(point:Vector2,band:int=1,only_target:int=-1) -> Array:
+	var noise:=decoy_noise(point,band);var out:Array=[]
+	for i in sirens.size():
+		var s=sirens[i]
+		if s.get("stun",0.0)>0 or s.get("recipient_target",false) or int(s.get("target",-1))<0 or float(s.get("lock",0.0))<=0.0 or float(s.lock)>=lock_seconds():continue
+		if only_target>=0 and int(s.target)!=only_target:continue
+		if siren_hears_decoy(s,noise):out.append(i)
+	return out
+# A drop point in reach of a craft that would draw the Siren off its lock, or Vector2.INF. Candidates: eight bearings at
+# the full decoy range and at half of it, farthest from the Siren first (a fixed order, so a seed always answers the same).
+func decoy_lock_point(craft:int,siren_id:int) -> Vector2:
+	if craft<0 or craft>=units.size() or siren_id<0 or siren_id>=sirens.size():return Vector2.INF
+	var u=units[craft];var best:=Vector2.INF;var best_gap:=-1.0
+	for radius in [DECOY_RANGE,DECOY_RANGE*.5]:
+		for k in 8:
+			var point:Vector2=u.pos+Vector2.from_angle(TAU*k/8.0)*radius
+			if not decoy_point_ok(craft,point) or not (siren_id in decoy_lock_breakers(point,u.band,craft)):continue
+			var gap:float=point.distance_to(sirens[siren_id].pos)
+			if gap>best_gap+0.001:best=point;best_gap=gap
+		if best_gap>=0.0:break
+	return best
 func _noise(p: Vector2,radius: float,label: String,duration: float=2.0,band:int=1) -> void:
 	noises.append({"band":band,"pos":p,"radius":radius,"time":duration,"label":label})
 	var pressure={Names.NOISE_ACTIVE_SONAR:5.0,Names.NOISE_EMP:4.0,Names.NOISE_KNOCKDOWN:4.0,Names.NOISE_DECOY:4.0,Names.NOISE_RECON_UPLINK:4.0}.get(label,0.0)
@@ -1213,13 +1247,15 @@ func _threats(dt: float) -> bool:
 		var heard := false
 		var distraction := false
 		var craft_heard := false # Presentation provenance only; never changes hearing.
+		var drawn:float=float(s.get("decoy_draw",0.0)) # WP-137: a Siren drawn off a lock by a decoy does not re-acquire by sight while it sounds
+		if drawn>0.0:s["decoy_draw"]=maxf(0.0,drawn-dt)
 		s["attention_time"]=maxf(0.0,float(s.get("attention_time",0.0))-dt)
 		for i in units.size():
 			var u=units[i]
 			if not u.alive: continue
 			var dist=s.pos.distance_to(u.pos)
 			var radius=(180.0 if u.silent else 290.0)*HuntPressure.sight(mission,s,Recon.readiness(s))
-			if dist<radius and Depth.sight(self,s,u) and not DroneStealth.ignores(self,s,i): detected=i; break
+			if dist<radius and drawn<=0.0 and Depth.sight(self,s,u) and not DroneStealth.ignores(self,s,i): detected=i; break
 			if mission.get("acoustic_revision",0)!=1 and propulsion_speed(u)>50 and dist<430*Recon.readiness(s)*Sweeper.ear(s)*Depth.transmission(s,u)*DroneStealth.noise(self,i) and Depth.clear(self,s.pos,u.pos,s.band):
 				s.goal=u.pos; heard=true; craft_heard=true; distraction=i>0; s.mode="INVESTIGATE"; s.suspicion=maxf(s.suspicion,0.3)
 		var recipient=Choir.body(self) if not Choir.body(self).is_empty() else Recipient.body(self);var recipient_seen=false

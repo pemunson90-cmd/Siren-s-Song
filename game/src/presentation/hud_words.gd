@@ -138,16 +138,19 @@ const TEXT={
 	"move_now": "works at once",
 	"move_after": "works in %.1fs",
 	"move_close": "Siren inside %dm",
-	"move_decoy": "cannot break a lock",
-	# Said once on the lock card when its decoy is left off: why (simulation.gd: a sighting overrides what a Siren hears).
-	"decoy_note": "A decoy only draws Sirens that have not seen the craft.",
+	# WP-137 (Pat, 15 Nov 2026): a decoy dropped within a locking Siren's hearing breaks the lock; the button's reason line.
+	"move_decoy": "draws it off the lock",
 	# WP-121 (Pat, 14 Nov 2026): the captions for the rock warning sounds (rock_warning.gd).
 	"rock_ahead": "ROCK AHEAD",
 	"ramming": "RAMMING SPEED",
 	# WP-131: tip sentences that name a state that does not hold (onboarding_hints.gd): [old, new] pairs.
 	"hint_silent_swaps": [["Slow down or tap GO SILENT", "Slow down (you are already silent)"], ["slow down or GO SILENT.", "slow down (you are already silent)."]],
 	"hint_no_rock_swaps": [[", and keep rock between you and it.", ". No rock is near to hide behind."]],
+	# WP-137: the message when a decoy breaks a lock: "S2 LOCK BROKEN · drawn to the decoy" (several: "S1, S2 LOCK BROKEN ...").
+	"lock_broken": "%s LOCK BROKEN · drawn to the decoy",
 }
+static func lock_broken(siren_ids:Array)->String:
+	return TEXT.lock_broken%", ".join(siren_ids.map(func(id):return preload("res://src/simulation/siren_tag.gd").tag(int(id))))
 # The status line for the route dialog's switch ("New points: the craft stops at each one." / "... keeps
 # moving through them.") is set where the simulation answers the waypoint_mode order, orders/route_orders.gd.
 # tactical_aids.gd words its own automatic pause "AUTO PAUSE: <reason>" in the status message.
