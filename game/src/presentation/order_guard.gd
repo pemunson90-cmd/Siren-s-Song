@@ -230,7 +230,7 @@ func _draw() -> void:
 		draw_arc(to, host.ui_touch_height * .42, 0, TAU, 40, RED, 2.5)
 		draw_line(to - Vector2(10, 0), to + Vector2(10, 0), RED, 2.0); draw_line(to - Vector2(0, 10), to + Vector2(0, 10), RED, 2.0)
 	_draw_mode()
-# WP-127: the tap mode, a small label under the selected craft.
+# WP-127: the tap mode, a small label above the selected craft.
 func mode_visible() -> bool:
 	var sim = host.sim
 	return sim.outcome.is_empty() and not host.advanced_orders and not panel.visible and sim.units[sim.selected].alive and host.screen == "mission"
@@ -240,7 +240,7 @@ func mode_rect() -> Rect2:
 	var tall := face.get_height(mode_font) + MODE_MARGIN
 	var at: Vector2 = host.ocean.screen_position(host.sim.units[host.sim.selected].pos)
 	var chart := Rect2(Vector2.ZERO, Vector2(host.ocean.chart_width(), size.y))
-	var rect := Rect2(at + Vector2(-width / 2, host.ui_touch_height * .75), Vector2(width, tall))
+	var rect := Rect2(at + Vector2(-width / 2, -host.ui_touch_height * 1.3 - tall), Vector2(width, tall)) # above the craft's ring: the extraction label sits below it at a dive's start
 	rect.position.x = clampf(rect.position.x, chart.position.x + 4, maxf(4.0, chart.size.x - width - 4))
 	rect.position.y = clampf(rect.position.y, 4.0, maxf(4.0, chart.size.y - tall - 4))
 	return rect
