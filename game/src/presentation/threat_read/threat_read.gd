@@ -334,7 +334,7 @@ static func loss_card_slot(view,sim)->Rect2:
 		for x in [home.position.x,Table.EDGE,view.size.x-home.size.x-Table.EDGE]:
 			var box:=Rect2(Vector2(x,home.position.y+row*touch*.6),home.size)
 			if box.end.y>floor_y or box.end.x>view.size.x:continue
-			if view.notice_clear(box):return box
+			if view.notice_clear(box) and not (view.card_rects+view.notice_rects+view.ui_blocked_rects).any(func(r):return r.intersects(box)):return box
 	return home
 # The loss card gives way to any lock card (lock_warning.gd owns that place).
 static func _draw_loss_card(view,sim,free:bool)->void:
