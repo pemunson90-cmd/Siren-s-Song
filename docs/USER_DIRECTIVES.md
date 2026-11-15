@@ -672,3 +672,9 @@ How it is applied (Claude's reading): build the grace after a stun as one value 
 Pat said, verbatim: "Also possibly off topic but I've noticed this with other projects, you don't need a PR for every change. You need to make sure that everything is committed and then once you have a large enough section of commits of a specific type say ui and documentation, or gameplay fixes, or bug fixes, those should get their own dedicated PRS with all of those commits wrapped up in them. Just easier to organize and Trace rather than having a single PR per change"
 
 How it is applied (Claude's reading): commit everything; open a pull request only for a sizeable group of commits of one kind (interface and documentation, gameplay and rule changes, bug fixes, testing and tools), each PR holding all the commits of its kind. This run's single draft PR 262 (the whole run) is split into such grouped PRs at the staged move toward `main` (Pat's yes of the same day), not one PR per change.
+
+## 2026-11-15: a decoy breaks an active lock
+
+Claude asked: "Should a DECOY break a lock that is already counting down (the Siren swings to the decoy instead of firing)? I recommend yes: it gives the decoy a real job and a second answer besides the EMP, without adding a new tool." Pat answered, verbatim: "Yes; also what's the usage limit on EMP?"
+
+How it is applied (Claude's reading): a decoy dropped within reach of a Siren that is locking a craft breaks that lock and draws the Siren to the decoy; decoy charges stay as they are (3 per dive by default). The lock card offers DECOY when one is carried and in reach. Pat's EMP question is answered in chat from the code (2 charges per dive, simulation.gd:113; 340 m radius, tuning.gd:4; 12 s stun, tuning.gd:5); no change asked.
