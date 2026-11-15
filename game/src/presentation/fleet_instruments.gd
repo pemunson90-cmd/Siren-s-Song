@@ -189,7 +189,7 @@ func refresh(blocked:Array):
   # WP-129: an on-screen craft wears its name beside the craft (above its ring), reserved like the chip itself.
   var tag_rect:=Rect2()
   if not offscreen:
-   var tag_size:=font.get_string_size(_tag_word(id,sim)+" +2",HORIZONTAL_ALIGNMENT_LEFT,-1,maxi(14,roundi(h*.2)))+Vector2(10,5)
+   var tag_size:=font.get_string_size(_tag_word(id,sim),HORIZONTAL_ALIGNMENT_LEFT,-1,maxi(14,roundi(h*.2)))+Vector2(10,5)
    tag_rect=Rect2(box.get_center()+Vector2(-tag_size.x/2,-h*.5-tag_size.y-2),tag_size)
    tag_rect.position=tag_rect.position.clamp(viewport.position,viewport.end-tag_rect.size)
    occupied.append(tag_rect.grow(3))
@@ -292,7 +292,9 @@ func _draw():
    if id==representative:
     if reading.cluster.size()>1:
      var small=maxi(14,roundi(h*.2));var tag:Rect2=reading.tag_rect
-     if tag.has_area():draw_rect(tag,Color("102e37"));_text(_tag_word(id,host.sim)+" +%d"%(reading.cluster.size()-1),tag.position+Vector2(tag.size.x/2,small),small,ink)
+     if tag.has_area():
+      var word:=_tag_word(id,host.sim)+" +%d"%(reading.cluster.size()-1);var wide:=maxf(tag.size.x,ThemeDB.fallback_font.get_string_size(word,HORIZONTAL_ALIGNMENT_LEFT,-1,small).x+10)
+      draw_rect(Rect2(tag.get_center().x-wide/2,tag.position.y,wide,tag.size.y),Color("102e37"));_text(word,tag.position+Vector2(tag.size.x/2,small),small,ink)
     else:
      # WP-129: the craft's name (QUIETUS, DRONE A, DRONE B), not a letter, above the craft's ring.
      var tag:Rect2=reading.tag_rect;var small=maxi(14,roundi(h*.2))
