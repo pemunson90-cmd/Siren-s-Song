@@ -29,6 +29,7 @@ const Shutter=preload("res://src/presentation/photo_shutter/shutter.gd")
 const CampaignFlow=preload("res://src/presentation/flow/campaign_flow.gd")
 const EconomyPanel=preload("res://src/presentation/economy_panel.gd")
 const ReleaseControls=preload("res://src/presentation/release_controls.gd")
+const HandPilot=preload("res://src/simulation/hand_pilot/hand_pilot.gd") # WP-136: route_check and the chart
 const MAX_EVENTS=200
 const MAX_MESSAGES=200
 const MAX_TEXT_LINES=80
@@ -56,6 +57,17 @@ static func craft_index(host,value)->int:
 	for i in Names.UNIT_NAMES.size():
 		if text==Names.UNIT_NAMES[i] or text==Names.UNIT_LETTERS[i] or text==Names.UNIT_NAMES[i].replace(" ","_") or text==str(i):return i
 	return -1
+# WP-136: Expedition and Naval Career open a session node (a second Main) on top of the campaign host and freeze the host. The
+# play API reads and drives the session that is on screen: the newest child that points back at this host, else the host.
+static func active_host(host):
+	for i in range(host.get_child_count()-1,-1,-1):
+		var child=host.get_child(i)
+		if is_instance_valid(child) and not child.is_queued_for_deletion() and "campaign_host" in child and child.campaign_host==host:return child
+	return host
+# WP-136: the title overlay counts only while it is on screen (it stays in the tree, hidden, once a mode session opens).
+static func _front(host)->Node:
+	var front=host.get_node_or_null("Frontend")
+	return front if front!=null and front.is_inside_tree() and front.is_visible_in_tree() else null
 static func _point(value)->Variant:
 	if value is Array and value.size()==2 and (value[0] is float or value[0] is int) and (value[1] is float or value[1] is int):return Vector2(float(value[0]),float(value[1]))
 	if value is Dictionary and value.has("x") and value.has("y"):return Vector2(float(value.x),float(value.y))
@@ -161,8 +173,8 @@ static func _prompts(host)->Array:
 			out.append({"kind":"orders_menu","text":"Order menu open (page %s) · time is held"%hud.page,"buttons":wheel})
 	else:
 		var buttons:Array=[]
-		var front=host.get_node_or_null("Frontend")
-		if front!=null and front.is_inside_tree():
+		var front=_front(host)
+		if front!=null:
 			buttons=_visible_buttons(front)
 			out.append({"kind":"title","text":" / ".join(_visible_texts(front,12)),"buttons":buttons})
 		else:
@@ -182,16 +194,19 @@ static func _prompt_view(prompts:Array)->Array:
 
 # The whole picture a player could read now. request: {"truth":true} (debug builds only) adds hidden truth, marked.
 static func state(host,request:Dictionary={})->Dictionary:
+	var root=host
+	host=active_host(host)
 	var sim=host.sim
 	var out:={"screen":host.screen}
-	var front=host.get_node_or_null("Frontend")
-	if front!=null and front.is_inside_tree():out["title_overlay"]=str(front.screen)
+	if host!=root:out["mode_session"]=str(host.name)
+	var front=_front(host)
+	if front!=null:out["title_overlay"]=str(front.screen)
 	out["prompts"]=_prompt_view(_prompts(host))
 	if host.screen!="mission":
 		# Menus: the visible text and buttons are the whole picture (ENTER WATER, BACK TO OPERATIONS, debrief lines).
-		var source=front if front!=null and front.is_inside_tree() else host.panel_box
+		var source=front if front!=null else host.panel_box
 		out["text"]=_visible_texts(source,MAX_TEXT_LINES)
-		out["operations"]={"unlocked_up_to":host.unlocked+1,"recovered":host.completed.map(func(i):return int(i)+1)}
+		if host==root:out["operations"]={"unlocked_up_to":host.unlocked+1,"recovered":host.completed.map(func(i):return int(i)+1)}
 		if not sim.mission.is_empty() and host.active_started:out["dive_in_progress"]={"operation":host.mission_index+1,"title":str(sim.mission.title)}
 		if not sim.outcome.is_empty():out["outcome"]=sim.outcome
 		return out
@@ -210,6 +225,7 @@ static func state(host,request:Dictionary={})->Dictionary:
 	out["contacts"]=_contacts(host)
 	out["objectives"]=_objectives(host)
 	out["extraction"]=_extraction(host)
+	out["chart"]=_chart(host)
 	out["tools"]=_tools(host)
 	out["locks"]=_locks(host)
 	var hunt=Hunt.view(sim)
@@ -247,10 +263,15 @@ static func _need_dive(host,order:String)->String:
 	return ""
 static func order(host,request:Dictionary)->Dictionary:
 	var name:String=str(request.get("order","")).to_lower()
+	var root=host
+	host=active_host(host) # WP-136: an open Expedition or Career session is the game on screen
 	var sim=host.sim
-	if name in ["start","begin"]:return _start(host,request)
-	if name=="answer":return await _press(host,request)
-	if name.is_empty():return _refuse(name,"Say which order: start, route, depth, deploy, recall, photo, tool, ping, silent, loud, hold, all_stop, select, answer, pause, run, speed")
+	if name in ["start","begin"]:
+		# `start` opens a Campaign operation. Expedition and Naval Career are entered through the menus with `answer`.
+		if host!=root:return _refuse(name,"%s is open: finish or leave it first. start opens a Campaign operation; Expedition and Naval Career are entered with answer (GAME MODES, then EXPEDITIONS or NAVAL CAREER)"%str(host.name))
+		return _start(host,request)
+	if name=="answer":return await _press(root,request)
+	if name.is_empty():return _refuse(name,"Say which order: start, route, route_check, depth, deploy, recall, photo, tool, ping, silent, loud, hold, all_stop, select, answer, pause, run, speed")
 	var why:=_need_dive(host,name)
 	if not why.is_empty():return _refuse(name,why)
 	# An order for another craft selects it first, as a tap on its chip would. Dive time is not touched.
@@ -268,6 +289,7 @@ static func order(host,request:Dictionary)->Dictionary:
 			return _answer(sim.paused==want,name,host)
 		"speed":return _speed(host,request)
 		"route":return _route(host,request,craft)
+		"route_check":return _route_check(host,request,craft)
 		"depth":
 			_select(host,craft)
 			var band:int=_band(host,request,craft)
@@ -348,6 +370,7 @@ static func _route(host,request:Dictionary,craft:int)->Dictionary:
 	var sim=host.sim
 	var points:Array=request.get("points",[])
 	if points.is_empty():return _refuse("route","Give points: [[x,y],...] in chart metres")
+	if sim.DroneBay.aboard(sim.units[craft]):return _refuse("route","%s is still aboard: deploy it first (order deploy), then route it"%sim.units[craft].name) # WP-136: the order used to launch it
 	var mode:String=str(request.get("mode","replace")).to_lower()
 	if mode not in ["replace","append"]:return _refuse("route","mode is replace or append")
 	_select(host,craft)
@@ -375,6 +398,55 @@ static func _route(host,request:Dictionary,craft:int)->Dictionary:
 	var extra:={"craft":sim.units[craft].name,"points_accepted":done,"route":sim.route_goals(craft).map(func(g):return _v(g.pos))}
 	if crosses:extra["warning"]=HudWords.TEXT.rock_route
 	return _answer(true,"route",host,extra)
+# WP-136: does each leg of a would-be route cross charted rock? Plots nothing, moves nothing, spends no dive time. It asks the
+# call the game's own red leg uses (HandPilot.rock_point), so it knows only the rock the chart shows.
+static func _route_check(host,request:Dictionary,craft:int)->Dictionary:
+	var sim=host.sim
+	var points:Array=request.get("points",[])
+	if points.is_empty():return _refuse("route_check","Give points: [[x,y],...] in chart metres")
+	var mode:String=str(request.get("mode","replace")).to_lower()
+	if mode not in ["replace","append"]:return _refuse("route_check","mode is replace or append")
+	var u=sim.units[craft]
+	var origin:Vector2=u.route.back().pos if mode=="append" and not u.route.is_empty() else u.pos
+	var legs:Array=[]
+	var any_rock:=false
+	if not HandPilot.release(sim):return _answer(true,"route_check",host,{"craft":u.name,"legs":legs,"crosses_charted_rock":false,"note":"Dev profile: the route checker is off"})
+	sim._use_band(u.band)
+	for i in points.size():
+		var p=_point(points[i])
+		if p==null:sim._use_band(sim.units[sim.selected].band);return _refuse("route_check","Point %d is not [x,y]"%(i+1))
+		var rock=HandPilot.rock_point(sim,origin,p)
+		var leg:={"from":_v(origin),"to":_v(p),"crosses_charted_rock":rock!=null,"end_in_rock":HandPilot.rock_at(sim,p)}
+		if rock!=null:leg["rock_at"]=_v(rock);any_rock=true
+		legs.append(leg)
+		origin=p
+	sim._use_band(sim.units[sim.selected].band)
+	return _answer(true,"route_check",host,{"craft":u.name,"depth":Names.BANDS[clampi(int(u.band),0,2)],"legs":legs,"crosses_charted_rock":any_rock})
+# WP-136: the rock the player can see on the chart, so a route can be planned without a screenshot. Opening charts show the
+# briefed rock as polygons (chart metres); an earned chart shows only the 40 m cells the craft has received as rock. Unknown
+# water is never listed, nor is any rock the chart does not draw. Rock is per depth band: this is the selected craft's band.
+static func _chart(host)->Dictionary:
+	var sim=host.sim
+	var band:int=int(sim.units[sim.selected].band)
+	sim._use_band(band)
+	var out:={"band":Names.BANDS[clampi(band,0,2)],"world_m":_v(sim.world_size())}
+	if sim.terrain_chart!=null:
+		var pub:Dictionary=sim.public_chart()
+		var cells:Array=pub.get("return_cells",[]).map(func(c):return [int(c.x),int(c.y)])
+		cells.sort_custom(func(a,b):return a[1]<b[1] or (a[1]==b[1] and a[0]<b[0]))
+		out["kind"]="earned"
+		out["cell_m"]=pub.get("cell_size",40.0)
+		out["rock_cells"]=cells
+		out["charted_clear_cells"]=pub.get("clear_cells",[]).size()
+	else:
+		var polygons:Array=[]
+		if int(sim.mission.id)!=8:
+			for r in sim.mission.get("depth_geometry",{}).get(band,{}).get("rocks",sim.mission.rocks):
+				var poly:PackedVector2Array=sim.rock_polygon(r)
+				polygons.append(Array(poly).map(func(p):return _v(p)))
+		out["kind"]="opening"
+		out["rock"]=polygons
+	return out
 static func _photo(host,request:Dictionary,craft:int)->Dictionary:
 	var sim=host.sim
 	_select(host,craft)
@@ -394,6 +466,13 @@ static func _photo(host,request:Dictionary,craft:int)->Dictionary:
 		host._primary_action()
 		started=not sim.captures[craft].is_empty()
 	if before:extra["note"]="An exposure is already under way"
+	# WP-136: say whether the flash fired. It fires only when the frame asks for it, a flash unit is fitted and a charge is left.
+	var asked:bool=bool(Photo.settings(sim,craft).get("flash",false))
+	var fitted:bool=bool(Photo.optics(sim,craft).flash)
+	var fired:bool=bool(Photo.peek(sim).acc.get(craft,{}).get("flash",false)) and (started or before)
+	extra["flash"]={"asked":asked or bool(request.get("flash",false)),"fitted":fitted,"fired":fired,"charges_left":Photo.flash_left(sim,craft)}
+	if bool(request.get("flash",false)) and not fired:
+		extra["flash"]["why_not"]="No flash unit is fitted to %s"%sim.units[craft].name if not fitted else ("No flash charge is left" if Photo.flash_left(sim,craft)<=0 else "The exposure did not start")
 	return _answer(started or before,"photo",host,extra)
 static func _tool(host,request:Dictionary,craft:int)->Dictionary:
 	var sim=host.sim;var tool:String=str(request.get("tool","")).to_lower()
@@ -412,11 +491,12 @@ static func _tool(host,request:Dictionary,craft:int)->Dictionary:
 			if target<0:return _refuse("tool","TORPEDO needs target: the S number of a contact, for example 1 for S1")
 			host._order("knock")
 			if not host.knock_armed:return _answer(false,"tool",host,{"tool":tool})
-			if not host.ocean.knock_visible_targets().any(func(c):return c.key==target):
+			# WP-136: the sim's own list (fresh, in range, clear path), not the on-screen FIRE boxes: the API has no screen to pan.
+			if not sim.knockdown_targets().any(func(c):return c.key==target):
 				# The same words the chart gives for a shot at no clear contact; the arming is cancelled, nothing spent.
 				sim.message="Choose an S# FIRE box or a clear contact · no torpedo spent"
 				host._order("knock")
-				return _answer(false,"tool",host,{"tool":tool})
+				return _answer(false,"tool",host,{"tool":tool,"clear_targets":sim.knockdown_targets().map(func(c):return c.tag)})
 			host._order("knock",{"target":target})
 		_:
 			host._order(tool)
@@ -424,7 +504,8 @@ static func _tool(host,request:Dictionary,craft:int)->Dictionary:
 static func _norm(text)->String:
 	return _clean(text).to_upper()
 # Presses one button of an open card, prompt or screen, found by its label (case and line breaks ignored).
-static func _press(host,request:Dictionary)->Dictionary:
+static func _press(root,request:Dictionary)->Dictionary:
+	var host=active_host(root) # WP-136: the session on screen, if a mode is open
 	var wanted:String=_norm(request.get("button",request.get("label","")))
 	if wanted.is_empty():return _refuse("answer","Name the button to press, as its label reads")
 	var matches:Array=[];var near:Array=[]
@@ -439,7 +520,12 @@ static func _press(host,request:Dictionary)->Dictionary:
 	if matches.is_empty():matches=near
 	if matches.is_empty():
 		return {"ok":false,"order":"answer","refusal":"No open button reads %s"%wanted,"message":"","available":seen.map(func(b):return _label_of(b))}
-	if matches.size()>1:return {"ok":false,"order":"answer","refusal":"More than one button reads %s"%wanted,"message":"","candidates":matches.map(func(b):return _label_of(b))}
+	# WP-136: two buttons can read the same (two "Scout drone"): `index` (0 = the first, in the order state lists them) picks one.
+	if request.has("index"):
+		var pick:int=int(request.index)
+		if pick<0 or pick>=matches.size():return {"ok":false,"order":"answer","refusal":"index %d: only %d button(s) read %s"%[pick,matches.size(),wanted],"message":"","candidates":matches.map(func(b):return _label_of(b))}
+		matches=[matches[pick]]
+	if matches.size()>1:return {"ok":false,"order":"answer","refusal":"More than one button reads %s: add index 0 to %d"%[wanted,matches.size()-1],"message":"","candidates":matches.map(func(b):return _label_of(b))}
 	var button:Button=matches[0]
 	if button.disabled:return {"ok":false,"order":"answer","refusal":"%s is greyed out%s"%[_label_of(button),(": "+button.tooltip_text) if not button.tooltip_text.is_empty() else ""],"message":""}
 	var label:String=_label_of(button) # read first: a screen button is freed when its screen is rebuilt
@@ -447,6 +533,7 @@ static func _press(host,request:Dictionary)->Dictionary:
 	# The game's buttons answer on the next idle step (deferred); let it settle before anyone reads the result.
 	await host.get_tree().process_frame
 	await host.get_tree().process_frame
+	host=active_host(root) # the press may have opened or closed a mode session
 	var sim=host.sim
 	return {"ok":true,"order":"answer","pressed":label,"message":_clean(sim.message) if sim!=null else "","screen":host.screen}
 
@@ -466,6 +553,7 @@ const REFRESH_EVERY=2.0
 # pause) so nothing runs between commands. Stops early at: a pause the game made, a lock, a new card or prompt, a craft
 # lost, the end of the dive, a Siren hunting while sped up.
 static func run(host,request:Dictionary)->Dictionary:
+	host=active_host(host) # WP-136
 	var why:=_need_dive(host,"run")
 	if not why.is_empty():return _refuse("run",why)
 	var sim=host.sim

@@ -75,6 +75,22 @@ func run():
 	check(not depth_same.ok and str(depth_same.refusal).contains("adjacent band"),"depth to the band it is already in is refused in the game's words (one band at a time, no instant dive)")
 	var bad_craft=await Api.order(game,{"order":"route","craft":"NOBODY","points":[[300,300]]})
 	check(not bad_craft.ok,"an unknown craft is refused")
+	# --- WP-136: the chart, route_check, a drone still aboard, the flash report (the torpedo target is in play_api_modes_tests) ---
+	check(s1.has("chart") and s1.chart.kind in ["opening","earned"],"state carries the chart the player can see")
+	if s1.chart.kind=="opening":
+		check(s1.chart.rock is Array and not s1.chart.rock.is_empty() and s1.chart.rock[0] is Array and s1.chart.rock[0][0].size()==2,"opening chart lists the briefed rock as polygons in chart metres")
+	var q0:Vector2=game.sim.units[0].pos
+	var rock_edge:Array=s1.chart.rock[0][0] if s1.chart.kind=="opening" else [q0.x,q0.y]
+	var legs_before:int=game.sim.route_goals(0).size()
+	var rc=await Api.order(game,{"order":"route_check","craft":"QUIETUS","points":[[q0.x+30,q0.y],[rock_edge[0],rock_edge[1]]]})
+	check(rc.ok and rc.legs.size()==2 and rc.has("crosses_charted_rock") and rc.legs[0].has("crosses_charted_rock"),"route_check answers per leg whether it crosses charted rock")
+	check(game.sim.route_goals(0).size()==legs_before and game.sim.units[0].pos==q0,"route_check plots nothing and moves nothing")
+	var clear_leg=await Api.order(game,{"order":"route_check","points":[[q0.x+20,q0.y]]})
+	check(clear_leg.ok and not clear_leg.crosses_charted_rock,"a short leg in open water reads clear")
+	var aboard_route=await Api.order(game,{"order":"route","craft":"DRONE A","points":[[q0.x+60,q0.y]]})
+	check(not aboard_route.ok and str(aboard_route.refusal).contains("deploy it first") and game.sim.DroneBay.aboard(game.sim.units[1]),"a route for a drone still aboard is refused and does not launch it")
+	var flash_try=await Api.order(game,{"order":"photo","flash":true})
+	check(flash_try.has("flash") and flash_try.flash.has("fired") and flash_try.flash.fitted==false and flash_try.flash.fired==false and str(flash_try.flash.get("why_not","")).contains("No flash unit"),"photo with flash:true reports that no flash fired and why")
 	# an order is no teleport: it plots a route and the craft stays where it is until time runs
 	var start_pos:Vector2=game.sim.units[0].pos
 	var plotted=await Api.order(game,{"order":"route","craft":"QUIETUS","points":[[400,760],[800,640],[1100,560],[1200,470]]})
