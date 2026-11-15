@@ -274,23 +274,21 @@ func prompt_case():
 	if HandPilot.crosses_rock(s,s.units[0].pos,first):first=s.units[0].pos+Vector2(-60,0)
 	guard.tap_water(first);await settle()
 	check(not s.units[0].route.is_empty() and "set route" in s.message and not ("replaced" in s.message),"a first route reads as set, not replaced: "+s.message)
-	# Layout: the action buttons keep their places inside the dialog on every opening and the switch is apart.
+	# WP-127: the rock bar keeps its place and size on every opening; rock is read from the end of the route when a tap would add to it.
 	var offsets:Array=[]
 	var points:Array[Vector2]=[first+Vector2(0,70),first+Vector2(40,-90),first+Vector2(-80,40)]
 	var rp=rock_point(s)
 	if rp!=null:points.append(rp)
 	for p in points:
-		guard.reset();guard.pending={"unit":0,"point":p};game._refresh();await settle()
+		guard.reset();guard.pending={"unit":0,"point":p,"append":true};game._refresh();await settle()
 		var origin:Vector2=guard.panel.get_global_rect().position
 		var row:Array=[]
-		for b in [guard.go_button,guard.add_button,guard.cancel_button]:row.append(b.get_global_rect().position-origin)
+		for b in [guard.go_button,guard.cancel_button]:row.append(b.get_global_rect().position-origin)
 		row.append(guard.panel.size)
 		row=row.map(func(v):return Vector2(roundf(v.x),roundf(v.y)))
 		offsets.append(row)
-		var switch_rect:Rect2=guard.points_button.get_global_rect()
-		check(guard.points_button.visible and not switch_rect.intersects(guard.go_button.get_global_rect()) and not switch_rect.intersects(guard.add_button.get_global_rect()) and not switch_rect.intersects(guard.cancel_button.get_global_rect()),"the STOP AT EACH NEW POINT switch sits apart from the actions")
-	for i in range(1,offsets.size()):check(offsets[i]==offsets[0],"the prompt's buttons and size are identical on opening %d: %s vs %s"%[i,str(offsets[i]),str(offsets[0])])
-	# Rock is read from the end of the queued route when adding, from the craft when replacing.
+		check(not guard.add_button.visible and not guard.go_button.get_global_rect().intersects(guard.cancel_button.get_global_rect()),"the bar's two buttons sit apart and no ADD TO ROUTE is offered")
+	for i in range(1,offsets.size()):check(offsets[i]==offsets[0],"the bar's buttons and size are identical on opening %d: %s vs %s"%[i,str(offsets[i]),str(offsets[0])])
 	var end:Vector2=s.units[0].route.back().pos;var found:Variant=null
 	for distance in [200.0,320.0,480.0,700.0]:
 		for i in 48:
@@ -300,10 +298,9 @@ func prompt_case():
 		if found!=null:break
 	if found!=null:
 		var adds:bool=HandPilot.crosses_rock(s,end,found)
-		var text:String=guard.rock_text(found)
-		check(text==(Words.TEXT.rock_route_add if adds else Words.TEXT.rock_route_replace),"the rock sentence names the choice that crosses rock: "+text)
-		guard.reset();guard.pending={"unit":0,"point":found};game._refresh();await settle()
-		check(guard.prompt.text==text,"the prompt shows the same rock check: "+guard.prompt.text)
+		check(guard.leg_crosses_rock(found,true)==adds and guard.adds_now(),"a tap that adds is checked from the end of the route: "+str(adds))
+		guard.reset();guard.tap_water(found);await settle()
+		check(not s.units[0].route.is_empty() and (guard.pending.is_empty()!=adds),"a leg across rock waits on the bar, a clear one is added at once")
 	game.queue_free();await settle()
 const ReleaseControls=preload("res://src/presentation/release_controls.gd")
 const HandPilot=preload("res://src/simulation/hand_pilot/hand_pilot.gd")
@@ -325,7 +322,7 @@ func rock_case():
 	if p!=null:
 		guard.tap_water(p);await settle()
 		check(s.units[0].route.is_empty() and not guard.pending.is_empty() and s.message==Words.TEXT.rock_strip,"a red leg is not ordered by the first tap and the status line says the card waits (WP-117): "+s.message)
-		check(guard.panel.visible and guard.prompt.text in [Words.TEXT.rock_card_send,Words.TEXT.rock_card_both,Words.TEXT.rock_card_replace],"the pending dialog names the rock in words that match its buttons: "+guard.prompt.text)
+		check(guard.panel.visible and guard.prompt.text==Words.TEXT.rock_bar and guard.go_button.text==Words.TEXT.send_anyway,"WP-127: the pending bar names the rock and offers SEND ANYWAY: "+guard.prompt.text)
 		guard.tap_water(p);await settle()
 		check(not s.units[0].route.is_empty() and guard.pending.is_empty(),"the second tap on the marker sends it anyway")
 		# Open water elsewhere moves the marker without ordering.

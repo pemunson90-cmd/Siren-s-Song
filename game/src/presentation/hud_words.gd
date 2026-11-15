@@ -25,7 +25,7 @@ const TEXT={
 	# menu is closed by the tap, which lets time run again.
 	"act_answer": "ANSWER",
 	"act_close": "CLOSE",
-	"plate_answer": "Route marker waiting: tap REPLACE ROUTE, ADD TO ROUTE or CANCEL. Time stays held until you answer.",
+	"plate_answer": "Route marker waiting: tap SEND ANYWAY or CANCEL. Time stays held until you answer.",
 	# The lock card's consequence line: what the simulation does when a lock lands (Quietus is destroyed, a drone is lost).
 	"lock_lands_quietus": "When it lands, %s is destroyed.",
 	"lock_lands_drone": "When it lands, %s is lost.",
@@ -144,7 +144,14 @@ const TEXT={
 	# WP-121 (Pat, 14 Nov 2026): the captions for the rock warning sounds (rock_warning.gd).
 	"rock_ahead": "ROCK AHEAD",
 	"ramming": "RAMMING SPEED",
-}
+	# WP-127: one predictable tap. With a route set a water tap adds a point; the tap mode is printed beside the craft.
+	"tap_mode_set": "TAP WATER · SET ROUTE",
+	"tap_mode_add": "TAP WATER · ADD POINT",
+	"tap_mode_deploy": "TAP WATER · DEPLOY",
+	"rock_bar": "This leg crosses charted rock",
+	"replace_route": "REPLACE\nROUTE",
+	"replace_none": "%s has no route to replace · tap water to set one",
+	"replace_done": "%s · route cleared · tap water to plot a new one · UNDO restores it",}
 # The status line for the route dialog's switch ("New points: the craft stops at each one." / "... keeps
 # moving through them.") is set where the simulation answers the waypoint_mode order, orders/route_orders.gd.
 # tactical_aids.gd words its own automatic pause "AUTO PAUSE: <reason>" in the status message.

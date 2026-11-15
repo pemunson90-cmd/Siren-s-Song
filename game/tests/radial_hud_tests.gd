@@ -82,8 +82,8 @@ func run():
   await tap(sector);check(g.decoy_armed and not g.advanced_orders,"full visible wedge tap selects chosen tool into explicit aim")
   before=g.sim.snapshot();await click(h.close_button)
   check(not g.decoy_armed and not g.advanced_orders and g.sim.snapshot()==before,"CANCEL returns directly to water without charge or order")
-  await tap(ship);await click(h.extra.route_menu);await click(g.order_buttons.queue)
-  check(g.sim.queue_mode and not g.advanced_orders and "QUEUE" in h.intent.text,"explicit QUEUE returns to water with visible persistent intent")
+  await tap(ship);await click(h.extra.route_menu);await click(h.extra.replace_route)
+  check(not g.advanced_orders and "TAP WATER" in h.intent.text,"REPLACE ROUTE returns to water with the tap mode visible (WP-127: the old TAPS: QUEUE switch is gone)")
   before=g.sim.snapshot();await tap(ship);await tap(g.global_position+Vector2(g.size.x-20,g.size.y-20))
   # WP-104: a tap on the chart with the craft's wheel open closes it and is that tap's ordinary order, once (never twice).
   check(not g.advanced_orders and g.sim.route_goals().size()<=1 and g.sim.units[1].route.is_empty() and g.sim.units[2].route.is_empty(),"outside tap closes the wheel and orders at most its own one leg")
