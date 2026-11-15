@@ -272,6 +272,7 @@ Role names come from `game/src/simulation/enemy_types.gd`. Counterplay text is t
 | SIREN-026 | On opening operations 0 to 3 the first lock warning pauses the game once and explains what to do. | `game/src/campaign/onboarding_text.gd`, `game/src/presentation/onboarding_hints.gd` | `siren_warning_pause_tests` |  |
 | SIREN-027 | An observed stun shows a received countdown on the contact. | `game/src/simulation/observed_stun.gd` | `fix2_state_tests`, `lock_warning_tests` |  |
 | SIREN-028 | Authored guards keep a home post, band and tether, and all three original roles appear beyond the opening arc. | `game/src/campaign/encounters/roster.gd` | `post_tutorial_roster_tests` |  |
+| SIREN-029 | A decoy dropped within reach of a Siren that is counting down a lock on a craft breaks that lock and draws the Siren to the decoy; the decoy charge is spent as before. | `game/src/simulation/simulation.gd` (`decoy_lock_breakers`), `game/src/simulation/orders/weapon_orders.gd` | `decoy_deployment_tests` | PAT |
 
 ## 6. Sonar, identification and the chart
 
@@ -341,6 +342,8 @@ Order names are the keys of `TABLE` in `game/src/simulation/orders/order_table.g
 | MOVE-027 | Craft launch with clear starting offsets. | `game/src/simulation/opening_fleet/launch_layout.gd` | `opening_fleet_tests` |  |
 | MOVE-028 | Each craft exposes its own photograph or sample independently, and one record has one acquiring owner. | `game/src/simulation/orders/photo_orders.gd`, `game/src/simulation/photo_capture.gd` | `independent_capture_tests` |  |
 | MOVE-029 | The stable board: opening an order panel keeps the chart transform, the order dock and Hunt meter clear the threat and lock stack, and every action stays reachable at 150 percent text on cover and inner shapes, normal and mirrored. | `game/src/presentation/mission_hud.gd` | `stable_board_ui_tests` (render) (render) (render) (render). RENDER ONLY. |  |
+| MOVE-030 | One-tap route planning: a water tap adds one point at the end of a craft's route when it has one, and starts a new route when it has none; a leg across charted rock is drawn red and asks first on a bar at the chart's edge that reads SEND ANYWAY or CANCEL, while a tap on open water elsewhere just plots. | `game/src/presentation/order_guard.gd` | `route_tap_flow_ui_tests` (render). RENDER ONLY. |  |
+| MOVE-031 | Time speed: 1x, 2x and 4x beside the pause plate set the dive's speed, and the speed drops to 1x at once, reading `1x · SIREN CONTACT`, whenever a Siren is hunting the craft, and never climbs back by itself. | `game/src/time_speed.gd`, `game/src/trial_rules.gd`, `game/src/presentation/hud_words.gd` | `time_speed_tests` (render), `metrics_transport_tests` | PAT |
 
 ## 9. Photography
 
@@ -474,6 +477,7 @@ Setting keys are the keys of `DEFAULTS` in `game/src/persistence/settings_store.
 | MENU-010 | Regional art gives each of the seven regions its own water, light, dust and stone, and the accepted craft and Siren drawing is used on the chart. | `game/src/presentation/art/region_table.gd`, `game/src/presentation/art/region_renderer.gd`, `game/src/presentation/art/art_table.gd`, `game/src/presentation/art/art_renderer.gd` | `art_tests`, `art_render_measurements` (render) | PAT |
 | MENU-011 | Operation-specific world views draw each job's machinery, pods, tenders and recipients from earned knowledge. | `game/src/presentation/industrial_view.gd`, `game/src/presentation/rendezvous_view.gd`, `game/src/presentation/shelf_habitat_view.gd`, `game/src/presentation/wake_crossing_view.gd`, `game/src/presentation/warning_chain_view.gd`, `game/src/presentation/warning_recipient_view.gd`, `game/src/presentation/witness_evacuation_view.gd`, `game/src/presentation/concealed_harbour_view.gd`, `game/src/presentation/blackwater_delivery_view.gd`, `game/src/presentation/blackwater_courier_view.gd`, `game/src/presentation/confluence_world.gd`, `game/src/presentation/resolution_world.gd` | `warning_chain_world_ui_tests` |  |
 | MENU-012 | Player-facing copy hides internal keys and author notes. | `game/src/presentation/public_copy.gd` | `audit_readability_ui_tests` (render), `player_names_tests` |  |
+| MENU-013 | The status strip's NEXT line states one imperative step from the dive's own state, names the chart point it concerns, and always agrees with the GOAL or SEARCH chip; it changes no rule. | `game/src/presentation/next_step.gd` | `next_step_ui_tests` (render). RENDER ONLY. |  |
 
 ## 15. Android lifecycle and Back
 
@@ -515,6 +519,7 @@ Setting keys are the keys of `DEFAULTS` in `game/src/persistence/settings_store.
 | DEV-007 | Control-mix telemetry counts, in developer dives only, the distance covered by one-press travel, planned legs, emergency orders and recall, never enters a save and never changes the voyage. | `game/src/debug/control_mix.gd` | `control_mix_tests` | PAT |
 | DEV-008 | The opt-in AI trace observer records Siren decisions for tests and is off by default. | `game/src/diagnostics/ai_trace.gd`, `game/src/diagnostics/ai_trace_table.gd` | `ai_trace_tests` |  |
 | DEV-009 | UI metric records are split into bounded log lines for native layout checks. | `game/src/diagnostics/metrics_transport.gd`, `game/src/presentation/flow/ui_metrics.gd` | `metrics_transport_tests` |  |
+| DEV-010 | Debug builds show a touch developer panel with speed buttons from 1x to 16x, invulnerability, oxygen lock and refill, reveal of charts and objectives, win or lose the dive now, unlock, grant tools and jump or complete any operation; release builds carry none of it. | `game/src/debug/debug_view.gd`, `game/src/debug/debug_console.gd` | `debug_console_tests`, `release_build_gate_tests` |  |
 
 ## 18. Maintainer tools
 
@@ -548,6 +553,7 @@ Setting keys are the keys of `DEFAULTS` in `game/src/persistence/settings_store.
 | MAINT-026 | The module index records, per feature, its seam, switch, saved state, named checks and safe revert. | `docs/MODULES.md` | Compare with this ledger. See "Gaps noticed". |  |
 | MAINT-027 | Performance measurements record frame and step cost on stress scenes. | `game/tests/performance_measurements.gd` | `performance_measurements` |  |
 | MAINT-028 | Pressure probes and the pressure report measure Siren pressure across operations for tuning. | `game/tests/x2_pressure_probes.gd`, `game/tests/t_pressure_probes.gd`, `game/tests/x2_pressure_report.py` | NO TEST. These probes are not registered suites. |  |
+| MAINT-029 | The critic kit's play API drives a running game (launched headless or with a window) by reporting state and taking orders (`state`, `order`, `run`, `route_check`) in the Campaign, Expedition and Naval Career, and the kit's `debug` command sends one debug console line. | `game/src/play_api/play_api.gd`, `scripts/critic/kit.py`, `scripts/critic/OPERATE.md` | `play_api_tests`, `play_api_modes_tests` |  |
 
 ## Specified but not found in code
 
