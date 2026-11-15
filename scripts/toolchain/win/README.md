@@ -94,3 +94,17 @@ Runs every registered suite once, locally (the CI profile, then each render-flag
 ```
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/toolchain/win/full-sweep.ps1 -Repo <repository folder> -Out <result file>
 ```
+
+## build-apk.ps1
+
+Builds the debug Android APK with no GitHub Actions and no installer, PATH or system changes.
+
+```
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts\toolchain\win\build-apk.ps1 [-Repo <repository folder>] [-OutDir <folder>] [-InstallOnly]
+```
+
+Installs only what is missing, into `<cache>\android` (zips from `<cache>\downloads`, each checked against its published checksum): Godot 4.6.3 Android export templates (SHA512, from github.com/godotengine/godot), Eclipse Temurin JDK 17 (SHA256, Adoptium), and the Android command-line tools (SHA256, dl.google.com), then through `sdkmanager` only `platform-tools`, `build-tools;36.0.0` (as CI uses) and `platforms;android-36`. The script answers the SDK licence prompts for those packages only. No NDK, Gradle or Android Studio is needed (the preset uses the prebuilt template, `use_gradle_build=false`).
+
+Godot runs with a private `APPDATA` (`<cache>\android\godot-appdata`) holding the templates and editor settings (JDK, SDK and the tracked `scripts\toolchain\signing\sirens-song-debug.keystore`), so your own Godot settings are untouched. It then imports and runs `--export-debug Android`, and fails unless the APK's signing certificate SHA-256 equals `signing\sirens-song-debug.certificate.sha256`. The keystore is never regenerated.
+
+Output: `<cache>\apk-local\sirens-song-debug.apk` (plus `.sha256`, `apk-signature.txt`, `build-apk.log`). Version code and name come from `game\export_presets.cfg`.
