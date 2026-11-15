@@ -388,7 +388,9 @@ func _order(order: String,args: Dictionary={}) -> void:
 	if accepted and order=="camera": call_deferred("_report_targets")
 # WP-120: a tap on the speed control (1x, 2x, 4x, 1x). Refused while a Siren is hunting.
 func _cycle_speed() -> void:
-	preload("res://src/time_speed.gd").cycle(self);_refresh()
+	# WP-135: a refused tap says why on the strip
+	if not preload("res://src/time_speed.gd").cycle(self):sim.message=HudWords.SPEED.refused
+	_refresh()
 func _pause() -> void:
 	# WP-103: the plate says what a tap does (hud_words.plate_kind). A pending route prompt is never dropped by the plate:
 	# the tap says what is waiting and the prompt stays up (CANCEL is the prompt's own button). An open menu that holds

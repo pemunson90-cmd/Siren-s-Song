@@ -56,6 +56,7 @@ static func debrief(main)->bool:
   main._save_archive();return true
  if main.sim.outcome=="won" and mission.get("recovered",false):
   main._menu_text("OPERATION RECOVERED",32)
+  preload("res://src/presentation/economy_panel.gd").debrief_block(main) # WP-135: earned and spent right under the heading
   preload("res://src/presentation/witness_evacuation_view.gd").arrival(main)
   preload("res://src/presentation/warning_recipient_view.gd").arrival(main)
   var consequence=preload("res://src/presentation/consequence_lines.gd").line(mission)
@@ -65,7 +66,6 @@ static func debrief(main)->bool:
   var plant=preload("res://src/presentation/warning_chain_view.gd").debrief_text(main.sim)
   if not plant.is_empty():main._menu_text(plant,19)
   preload("res://src/presentation/module_recovery_view.gd").debrief(main)
-  preload("res://src/presentation/economy_panel.gd").debrief_block(main) # WP-119: earned and spent, before the photograph
   var grade=preload("res://src/simulation/recon_consequences.gd").grade(mission.get("objectives",[]))
   if grade.photos>0:main._menu_text("INTEL PHOTO GRADE %s · %d %s · average %d%%, sharpest %d%%"%[grade.grade,grade.photos,"record" if grade.photos==1 else "records",roundi(grade.quality*100),roundi(grade.best*100)],20)
   if grade.photos>0:preload("res://src/presentation/flow/photo_review.gd").show_best_frame(main)
