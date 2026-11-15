@@ -45,11 +45,9 @@ func home_case(shape, recovered, scale):
  if wide_shape and recovered in [0,2] and scale==1.:
   for i in range(mini(recovered,6),6):
    var visible_card=button(game,"mission%d"%i)
-   # WP-134: WP-117 reserves a strip under the body for the MORE BELOW cue (it no longer fades over text), which takes about 40 px.
-   # At 2520x1080 the sixth card then starts on the first screen with its lower part below the cue; the first five stay whole.
+   # WP-132: all six cards are whole on the first screen again (the MORE BELOW cue costs the hub no height).
    var whole:bool=visible_card!=null and game.scroll.get_global_rect().encloses(visible_card.get_global_rect())
-   var begins:bool=visible_card!=null and i==5 and game.scroll.get_global_rect().has_point(visible_card.get_global_rect().position+Vector2(1,1)) and game.scroll.get_global_rect().has_point(visible_card.get_global_rect().position+Vector2(1,visible_card.size.y*0.5))
-   check(whole or begins,"operation card %d needs no scrolling on the wide hub"%i)
+   check(whole,"operation card %d needs no scrolling on the wide hub"%i)
  # On the plain desktop landscape shape the whole two-column hub fits one screen.
  if shape==Vector2i(960,432) and recovered==2 and scale==1.:check(game.scroll.get_v_scroll_bar().max_value<=game.scroll.size.y+1.,"two-column hub needs no vertical scrolling at all on the desktop landscape shape")
  if recovered<=2:

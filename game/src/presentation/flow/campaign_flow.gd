@@ -23,6 +23,24 @@ static func plain_stock(host,index:int=-1) -> String:
 	lines[0]="Loadout: %s (next dive or retry)"%preload("res://src/equipment/field_tools.gd").loadout_label(host.upgrade).capitalize()
 	return "\n".join(lines)
 
+# WP-132: the briefing's stock block's first line says what is mounted; the tank, EMP and SURVEY line below it is what the boat carries.
+const DETAILS_SHOW="DETAILS: COSTS AND MOUNTS"
+const DETAILS_HIDE="HIDE DETAILS"
+static func details_text(open:bool)->String:
+	return DETAILS_HIDE if open else DETAILS_SHOW
+static func fittings_phrase(host)->String:
+	# "no fittings" or "3 fittings": what the boat has mounted this dive.
+	var context=host._equipment_context() if host.has_method("_equipment_context") else {}
+	if context.is_empty():return "no fittings"
+	var FitModel=preload("res://src/presentation/fit_surface/fit_surface.gd")
+	var slots=FitModel.Catalog.canonical(context.get("slots",{}));var count:int=0
+	for unit in 3:count+=FitModel.Catalog.items_for(slots,unit).size()
+	return "no fittings" if count==0 else "%d fitting%s"%[count,"" if count==1 else "s"]
+static func briefing_stock(host,index:int=-1) -> String:
+	var lines=plain_stock(host,index).split("\n")
+	lines[0]="Loadout: %s · %s (next dive or retry)"%[preload("res://src/equipment/field_tools.gd").loadout_label(host.upgrade).capitalize(),fittings_phrase(host)]
+	return "\n".join(lines)
+
 # The hull the next dive starts with (the launch applies the recorded condition); empty when it starts whole.
 const CARRIED_HULL="Quietus starts at hull %d%%: damage from the last dive is not repaired."
 # The result screen's RETRY DIVE says the same number, so the player knows what a retry starts with.
@@ -164,12 +182,22 @@ static func briefing(host, index: int) -> void:
 	var cost_from:int=fit_start
 	if not host._campaign_pristine() and not EconomyPanel.briefing_line(host).is_empty():host._menu_text(EconomyPanel.briefing_line(host),14)
 	# Audit 091 F10: later briefings compare costs and mounts; the opening briefing keeps fit details optional.
-	if index>0 and not compact and not host._campaign_pristine() and not EconomyPanel.briefing_line(host).is_empty():host._menu_text(preload("res://src/presentation/launch_summary.gd").text(host),14)
+	if index>0 and not compact and not host._campaign_pristine() and not EconomyPanel.briefing_line(host).is_empty():
+		# WP-132: the ledger (launch summary, retry, mounts) sits behind one DETAILS control; the visible part says what the boat carries.
+		var ledger:Label=host._menu_text(preload("res://src/presentation/launch_summary.gd").text(host),14)
+		var details:Button=host._button(host.panel_box,details_text(host.get_meta("launch_details_open",false)),func():pass,"ledger_details")
+		details.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+		host.panel_box.move_child(details,ledger.get_index())
+		ledger.visible=host.get_meta("launch_details_open",false)
+		details.pressed.connect(func():
+			var open:bool=not ledger.visible
+			host.set_meta("launch_details_open",open);ledger.visible=open;details.text=details_text(open)
+			host.call_deferred("_layout"))
 	carried_nodes.append_array(host.panel_box.get_children().slice(cost_from))
 	preload("res://src/presentation/crew/crew_view.gd").briefing(host,index)
 	# The opening brief confirms Quietus stock; its FITTINGS entry owns the full per-craft list.
 	var stock_from:int=host.panel_box.get_child_count()
-	host._menu_text(plain_stock(host,index),17)
+	host._menu_text(briefing_stock(host,index),17) # WP-132: says plainly what the boat carries this dive
 	var carried_line=carried_damage_line(host)
 	if not carried_line.is_empty():host._menu_text(carried_line,17)
 	var carry=preload("res://src/presentation/tool_racks_view.gd").carry_text(host.tool_racks)
@@ -357,14 +385,20 @@ static func debrief(host) -> void:
 		preload("res://src/presentation/arcs/arc_card.gd").recovered(host,first_recovery)
 		return
 	var lift_at=-1
+	var unlocked_note:String=""
 	if host.sim.outcome=="won":
 		host._retain_evidence()
+		# WP-132: what this win opens on the hub (frames after the first recovery, newly earned fittings), noted before the counts change.
+		var entitled_before:Array=host._equipment_entitlements().duplicate()
+		var frames_were_open:bool=0 in host.completed or not entitled_before.is_empty()
 		if host.mission_index not in host.completed: host.completed.append(host.mission_index)
 		host.unlocked=mini(5,maxi(host.unlocked,host.mission_index+1))
 		host._sync_craft_upgrades()
 		host._menu_text("ARCHIVE RECOVERED",32)
 		EconomyPanel.debrief_block(host) # WP-135: earned and spent sit right under the heading, on the first screen
 		host._menu_text(host.sim.mission.record,22)
+		unlocked_note=unlocked_line(frames_were_open,entitled_before,host._equipment_entitlements())
+		if not unlocked_note.is_empty():host._menu_text(unlocked_note,17).add_theme_color_override("font_color",Color("efc28d"))
 		preload("res://src/presentation/archive/voice_feed.gd").debrief(host)
 		host.EarlyReward.debrief(host)
 		host.BlackwaterDelivery.debrief(host)
@@ -388,12 +422,23 @@ static func debrief(host) -> void:
 		host.BlackwaterDelivery.debrief(host)
 		host.ModuleRecovery.debrief(host)
 	host._button(host.panel_box,retry_label(host),func(): host._briefing(host.mission_index),"retry")
-	host._button(host.panel_box,"OPERATIONS ARCHIVE",host._show_campaign,"back")
+	host._button(host.panel_box,OPERATIONS_NEW if not unlocked_note.is_empty() else "OPERATIONS ARCHIVE",host._show_campaign,"back")
 	preload("res://src/presentation/debrief_actions.gd").lift(host,lift_at)
 	preload("res://src/presentation/debrief_actions.gd").footer(host) # WP-109: NEXT DIVE and RETRY stay on screen
 	host._save_archive()
 	preload("res://src/presentation/arcs/arc_card.gd").recovered(host,first_recovery)
 	host.call_deferred("_layout")
+
+# WP-132: the win's NEXT DIVE goes straight to the next briefing, so the hub's new frames and fittings went unseen:
+# a win that unlocked something says so in one line and the hub button says "NEW".
+const OPERATIONS_NEW="OPERATIONS ARCHIVE · NEW"
+static func unlocked_line(frames_were_open:bool,before:Array,after:Array)->String:
+	var frames:bool=not frames_were_open
+	var fittings:bool=after.any(func(item):return item not in before)
+	if frames and fittings:return "NEW: hull and drone frames and fittings unlocked · see OPERATIONS"
+	if frames:return "NEW: hull and drone frames unlocked · see OPERATIONS"
+	if fittings:return "NEW: fittings unlocked · see OPERATIONS"
+	return ""
 
 static func sync_craft_upgrades(host)->void:
 	if not host.expedition.is_empty():host.expedition.entitlements=host._equipment_entitlements()

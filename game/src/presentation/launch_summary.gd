@@ -47,7 +47,7 @@ static func text(host)->String:
  var retry=Economy.fmt(retry_cost(host))
  if covered<0:lines.append("RETRY SAME FIT · %s · balance short for this launch by %s"%[retry,Economy.shortfall(host.economy,EconomyPanel.launch_cost(host))])
  else:lines.append("RETRY SAME FIT · %s · balance then covers %s more"%[retry,"%d+"%covered if covered>=9 else str(covered)])
- lines.append("BARE STANDARD FLEET, NO EXTRA CHARGES · FREE")
+ lines.append("COST OF THE STANDARD FLEET (NO FITTINGS, NO EXTRA CHARGES) · FREE") # WP-132: it states a price, not what the boat carries
  var context=host._equipment_context() if host.has_method("_equipment_context") else {}
  if not context.is_empty():
   lines.append(FitModel.summary(context))

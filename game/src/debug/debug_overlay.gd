@@ -29,7 +29,7 @@ static func ranges(sim,s:Dictionary)->Dictionary:
 func _draw()->void:
  if console==null or not console.State.marked(console.host) or console.host.screen!="mission":return
  var sim=console.host.sim;var ocean=console.host.ocean
- var lines=["DEV"]
+ var lines=[] # WP-132: the "DEV" heading is gone (the badge says it, and the text overprinted the tip card)
  for s in sim.sirens:
   var p=ocean.screen_position(s.pos)
   var range=ranges(sim,s)
