@@ -170,7 +170,7 @@ func refresh(blocked:Array):
   if not b.visible:continue
   var at:Vector2=positions[id];var offscreen=not on_screen[id];var bearing=(at-safe.get_center()).normalized()
   # WP-129: an edge chip names its craft and points to it ("DRONE B ↗"), so it is wider than a touch square.
-  var edge_word:=_edge_word(id,bearing);var edge_width:=h*.9+font.get_string_size(edge_word,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x+16.
+  var edge_word:=_edge_word(id,bearing);var edge_width:float=h*.9+font.get_string_size(edge_word,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x+16.
   var box=Ring.edge_rect(at,safe,h,occupied,edge_width) if offscreen else Rect2(at-Vector2.ONE*h/2,Vector2.ONE*h)
   # Keep actual body/site coincidence under the nearest-owner input rule.
   # Only the oversized badge brushing a nearby site needs another position.
