@@ -92,7 +92,7 @@ const TEXT={
 	"rock_card_send": "SEND ANYWAY sends it through the rock; CANCEL, or tap open water, to choose again.",
 	"rock_card_both": "REPLACE ROUTE or ADD TO ROUTE sends it through the rock; CANCEL, or tap open water, to choose again.",
 	"rock_card_replace": "REPLACE ROUTE sends it through the rock; CANCEL, or tap open water, to choose again.",
-	"rock_strip": "Marker set across charted rock · choose on the card",
+	"rock_strip": "Marker set across charted rock · SEND ANYWAY or CANCEL",
 	"rock_route_replace": "REPLACE ROUTE would cross charted rock; ADD TO ROUTE would not. Tap open water to move the marker.",
 	"rock_route_add": "ADD TO ROUTE would cross charted rock; REPLACE ROUTE would not. Tap open water to move the marker.",
 	# WP-69: a tap on open water that orders nothing says what a water tap needs (or that the dive is over).

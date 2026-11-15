@@ -167,8 +167,8 @@ func refresh(bounds: Vector2, h: float, font: int, floor_y: float) -> void:
 		prompt.text = Words.TEXT.rock_bar; go_button.text = Words.TEXT.send_anyway
 		for b in [go_button, cancel_button, prompt]: b.add_theme_font_size_override("font_size", font)
 		for b in [go_button, cancel_button]:
-			var widest := 0.0
-			for word in b.text.split(" ", false): widest = maxf(widest, b.get_theme_font("font").get_string_size(word, HORIZONTAL_ALIGNMENT_LEFT, -1, font).x)
+			b.autowrap_mode = TextServer.AUTOWRAP_OFF # one line: the bar is slim
+			var widest: float = b.get_theme_font("font").get_string_size(b.text, HORIZONTAL_ALIGNMENT_LEFT, -1, font).x
 			b.custom_minimum_size = Vector2(maxf(h * 1.2, widest + b.get_theme_stylebox("normal").get_minimum_size().x + 2), h)
 		# Only as wide as its words: a slim bar, never a strip across the chart. It wraps only when the chart is narrower than the words.
 		var face = prompt.get_theme_font("font")
