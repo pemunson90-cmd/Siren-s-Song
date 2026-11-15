@@ -53,6 +53,11 @@ func run():
 				text=await shown(game)
 				print("NEXT ",label," home [",text.replace("\n"," // "),"]")
 				check(sim.all_records() and text.contains("NEXT: bring Quietus into the"),label+" records done: NEXT says to bring Quietus into the ring: "+text)
+				# Just after the photo the message is long and says the old go-home sentence: NEXT still keeps its row.
+				game.sim.message="Record secured. Return Quietus to extraction. · 49% C · better: go round the subject";game._refresh();await settle()
+				var after:String=game.mission_hud.intent.text
+				print("NEXT ",label," after photo [",after.replace("\n"," // "),"]")
+				check(after.contains("NEXT: bring Quietus into the") and after.count("\n")<=1,label+" after the photo NEXT keeps its row in two lines: "+after)
 				check(not text.contains("retained kit") and not text.contains("settled in MIDDLE;"),label+" the opaque recovery wording is gone: "+text)
 				var goal:Dictionary=NextStep.step(sim).site
 				check(goal.get("pos",Vector2.ZERO)==sim.mission.extraction,label+" the goal chip names the extraction")

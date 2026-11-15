@@ -864,8 +864,17 @@ func refresh():
  _tidy_strip()
  _one_strip(current_message)
  # WP-128: where the opening tutorial sentence (the tip card teaches the same) pushed the NEXT line off the strip, the sentence gives way.
- if not strip_standing.is_empty() and current_message.begins_with(Words.TEXT.opening_prefix) and not intent.text.ends_with("\n"+strip_standing) and strip_standing==NextStep.step(sim).text and intent.text.contains(" · "+current_message):
-  intent.text=intent.text.replace(" · "+current_message,"")+"\n"+strip_standing
+ if not strip_standing.is_empty() and not intent.text.ends_with("\n"+strip_standing) and strip_standing==NextStep.step(sim).text:
+  # The sentences the NEXT line says better (the opening tip, the old go-home sentence) are the ones to give way, the first that makes room.
+  var gone:Array=[" · "+current_message] if current_message.begins_with(Words.TEXT.opening_prefix) else []
+  gone.append_array(["Record secured. "+Words.TEXT.return_steps+" · ","Record secured. "+Words.TEXT.return_old+" · ","Record secured. "+Words.TEXT.return_steps,"Record secured. "+Words.TEXT.return_old])
+  if current_message.begins_with("Record secured."):gone.append(" · "+current_message)  # last resort: the photo's grade is on the camera card
+  var strip_font=intent.get_theme_font("font");var strip_size=intent.get_theme_font_size("font_size")
+  for piece in gone:
+   if not intent.text.contains(piece):continue
+   var shorter:String=intent.text.replace(piece,"").strip_edges().trim_suffix("·").strip_edges()+"\n"+strip_standing
+   if strip_font.get_multiline_string_size(shorter,HORIZONTAL_ALIGNMENT_LEFT,maxf(1.,host.ocean.chart_width()-32)-8.,strip_size).y<=strip_font.get_height(strip_size)*2.+1.:
+    intent.text=shorter;break
  _fit_intent()
  var aid_font=maxi(14,roundi(touch_height*.26*text_scale))
  guard.refresh(Vector2(host.ocean.chart_width(),size.y),touch_height,aid_font,intent.position.y if intent.visible else size.y)
