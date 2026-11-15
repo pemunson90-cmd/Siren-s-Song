@@ -206,8 +206,9 @@ const LOCK_CARD_WIDTH=5.0
 const LOCK_CARD_MAX_WIDTH=8.0
 # Command wheel (WP-52): the small state line under a segment's name is this fraction of the segment's type size
 # (never below STATE_LINE_MIN), and a segment's neutral note (such as "Passes Quietus") uses the label colour.
-const STATE_LINE_SCALE=0.72
-const STATE_LINE_MIN=10
+# WP-130: the state line was 10 px at its smallest ("low profile is on" was unreadable at 100%); it now never falls under 13 px.
+const STATE_LINE_SCALE=0.8
+const STATE_LINE_MIN=13
 const NOTE_COLOR=LABEL_TEXT
 # The fill and text colour a role gives a button, for wedges the wheel draws itself.
 static func role_colors(role:String)->Dictionary:

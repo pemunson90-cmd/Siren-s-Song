@@ -74,9 +74,11 @@ static func filter(hud,controls:Array)->Array:
   # PLAN ROUTE, which the ROUTE page also lists, gives its place to the added segment.
   # WP-52: the added segment takes PLAN ROUTE's own place in the ring, so DEPLOY, RECALL and PLAN ROUTE each always
   # sit at the same angle and every other segment keeps its angle whether or not a drone is aboard.
+  # WP-130: PLAN ROUTE is one tap from the wheel's root (it was two levels deep behind ROUTE). The bay segment keeps
+  # its own place, and PLAN ROUTE follows it, so the main page is nine segments while a bay segment is offered.
   var at=result.find(hud.host.order_buttons.program)
   var bay=bay_control(hud)
-  if bay!=null and at>=0:result[at]=bay
+  if bay!=null and at>=0:result.insert(at,bay)
  return result
 
 # The segment that shares PLAN ROUTE's place on the main page: DEPLOY while a drone can be put in the water,

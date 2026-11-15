@@ -315,7 +315,7 @@ static func fit(hud)->void:
  var middle=maxf(Table.MARGIN,(area.size.x-body.x)/2)
  # WP-11 (I2): hold the chip where it is while the layout is the same and its seat
  # stays clear, so it moves for a resize, mirroring, text scale or a panel, not per frame.
- var signature=str([area.size,hud.touch_height,hud.text_scale,Settings.current.get("mirrored_hud",false),hud.host.advanced_orders,hud.page,hud.order_dock.visible])
+ var signature=str([area.size,hud.touch_height,hud.text_scale,Settings.current.get("mirrored_hud",false)])  # WP-130: opening the wheel or changing its page no longer re-seats the chip (it moves only for a resize, mirroring, text scale or a real collision)
  if Table.STICKY and button.get_meta("hunt_meter_fitted",false) and button.get_meta("hunt_meter_signature","")==signature:
   # WP-115: the chip keeps its one place: a tip card appearing is not a reason to move it (the card keeps off the chip).
   var held=Rect2(old_position,body)
