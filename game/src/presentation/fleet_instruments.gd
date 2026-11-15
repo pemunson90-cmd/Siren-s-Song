@@ -257,7 +257,6 @@ func refresh(blocked:Array):
    reading.visible=found or critical;reading.position=detail_box.position;reading.size=extent
    if reading.visible:occupied.append(detail_box.grow(5))
   var bounds=box.merge(cue_rect) if cue_rect.has_area() else box
-  if tag_rect.has_area():bounds=bounds.merge(tag_rect)
   if reading.visible:bounds=bounds.merge(reading.get_rect())
   readouts.append({"unit":id,"rect":bounds,"handle_rect":box,"text_rect":reading.get_rect() if reading.visible else Rect2(),"text":reading.text if reading.visible else Names.UNIT_LETTERS[id]+" · "+" · ".join(captions),"anchor":at,"offscreen":offscreen,"direction":bearing,"progress":progress,"ring":not offscreen,"reserves":reserves,"cues":cues,"captions":captions,"active":active,"detail_visible":reading.visible,"tag_rect":tag_rect,"edge_word":edge_word})
   readouts.back().projected=projected

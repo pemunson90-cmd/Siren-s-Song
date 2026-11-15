@@ -131,7 +131,7 @@ func extraction_checks(g)->void:
 		g.sim.units[0].pos=g.sim.mission.extraction;g.sim.units[1].pos=g.sim.mission.extraction+Vector2(260,-120);g.sim.units[2].pos=g.sim.mission.extraction+Vector2(180,-260)
 		g.ocean.focus_craft();g._refresh();await settle()
 		g.sim.message=""
-		await tap(native/1.5)
+		await tap(native/1.5-Vector2(0,minf(g.ocean.chart_camera.follow_bottom,native.y/1.5-60.)/2.))  # WP-129: the chart sits above the strip now
 		check(not g.sim.route_goals().is_empty() or g.advanced_orders or g.mission_hud.guard.panel.visible,"critic tap "+str(native)+" at the start is answered: a route, a wheel or the order dialog")
 	# WP-127: a craft that already has a route gets the extraction tap as one more point, as any water tap is.
 	await fresh(g)
@@ -299,7 +299,8 @@ func closing_tap_checks(g)->void:
 			await fresh(g)
 			await opened(g,how)
 			var spots=outside_spots(g)
-			if how=="silent":spots=[Vector2(740,780)/1.5,Vector2(740,380)/1.5]
+			# WP-129: the follow view now keeps the chart above the status strip, so the fixed pixels move up with it.
+			if how=="silent":spots=[Vector2(740,780)/1.5-Vector2(0,g.ocean.chart_camera.follow_bottom/2.),Vector2(740,380)/1.5-Vector2(0,g.ocean.chart_camera.follow_bottom/2.)]
 			count=mini(spots.size(),5) if how!="silent" else 2
 			check(not spots.is_empty(),how+": there is open water to tap")
 			if spots.is_empty():break

@@ -1128,6 +1128,8 @@ func occupied_rects() -> Array:
  # Visual placement avoids the whole plate; blocks() owns only real controls.
  if fleet!=null and fleet.is_visible_in_tree():
   for reading in fleet.readouts:result.append(Rect2(fleet.global_position+reading.rect.position,reading.rect.size))
+  for reading in fleet.readouts:
+   if reading.tag_rect.has_area():result.append(Rect2(fleet.global_position+reading.tag_rect.position,reading.tag_rect.size))  # WP-129: the craft's name chip
  if intent.visible:result.append(intent.get_global_rect())
  if alarm.visible:result.append(alarm.get_global_rect())
  # WP-115: chart labels (the off-screen bearing labels among them) also keep off the mode banner and the RIDER chip
