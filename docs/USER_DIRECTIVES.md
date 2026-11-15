@@ -678,3 +678,9 @@ How it is applied (Claude's reading): commit everything; open a pull request onl
 Claude asked: "Should a DECOY break a lock that is already counting down (the Siren swings to the decoy instead of firing)? I recommend yes: it gives the decoy a real job and a second answer besides the EMP, without adding a new tool." Pat answered, verbatim: "Yes; also what's the usage limit on EMP?"
 
 How it is applied (Claude's reading): a decoy dropped within reach of a Siren that is locking a craft breaks that lock and draws the Siren to the decoy; decoy charges stay as they are (3 per dive by default). The lock card offers DECOY when one is carried and in reach. Pat's EMP question is answered in chat from the code (2 charges per dive, simulation.gd:113; 340 m radius, tuning.gd:4; 12 s stun, tuning.gd:5); no change asked.
+
+## 2026-11-15: speed-up of the run's testing rhythm
+
+Pat asked "Why is it so slow?". Claude proposed: "(1) one retest per batch of 2-3 merged packages instead of one per package, (2) a 45-minute limit per helper, (3) full sweeps only before a phone build, and (4) stop the slow order-wheel helper now and finish its work myself". Pat answered "Yes (Recommended)".
+
+How it is applied: root reruns the touched suites (and Core when simulation, campaign or photo rules changed) once per batch of two or three merges, on the merged head, before pushing; helper briefs carry a 45-minute limit and run only the suites their change touches, naming what is left unrun; a full sweep runs before each phone build; WP-130 was stopped and root finishes it.
