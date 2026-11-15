@@ -306,7 +306,7 @@ static func draw_screen(view,sim)->void:
 	var edge:=Rect2(Vector2.ZERO,view.size).grow(-Table.EDGE)
 	for row in rows:
 		if ThreatLine.line(view,view.screen_position(sim.units[row.craft].pos),view.screen_position(row.siren_pos),"%.1f"%row.remaining,view.feedback_font_size,edge):last_draw["lines"]+=1
-	var occupied:Array=view.ui_blocked_rects+view.contact_readout_rects()+view.world_label_rects+view.own_craft_rects()+view.ship_instrument_rects()
+	var occupied:Array=view.ui_blocked_rects+view.contact_readout_rects()+view.world_label_rects+view.own_craft_rects()+view.ship_instrument_rects()+view.card_rects+view.notice_rects
 	if view.optical_feed!=null and view.optical_feed.is_visible_in_tree():occupied.append(view.optical_feed.get_rect().grow(6))
 	var fs:int=view.feedback_font_size
 	# A lock is stated once: by lock_warning.gd's card and this line's countdown, with no chip at the craft.
@@ -321,13 +321,28 @@ static func draw_screen(view,sim)->void:
 		occupied.append(box);last_draw.chips.append({"rect":box,"text":row.text})
 		_draw_chip(view,box,anchor,row.text,fs,Palette.color("ink",Color("e9f1ef")),-1.0)
 	_draw_loss_card(view,sim,rows.is_empty())
+# WP-129: the loss card's one place: the lock card's spot at the top, or the nearest row below (then the chart's left or right
+# side) that covers no own craft and no held Siren contact. Empty while no card is up (a lock card owns the place).
+static func loss_card_slot(view,sim)->Rect2:
+	if not Table.enabled or sim==null or not sim.outcome.is_empty() or not lock_rows(sim).is_empty():return Rect2()
+	var text:String=loss_card(sim)
+	if text.is_empty():return Rect2()
+	var touch:float=float(view.optical_feed.touch_height) if view.optical_feed!=null else float(view.feedback_font_size)*3.0
+	var home:Rect2=loss_card_rect(view,text,touch)
+	var floor_y:float=float(view.status_floor) if float(view.status_floor)>0.0 else view.size.y
+	for row in 9:
+		for x in [home.position.x,Table.EDGE,view.size.x-home.size.x-Table.EDGE]:
+			var box:=Rect2(Vector2(x,home.position.y+row*touch*.6),home.size)
+			if box.end.y>floor_y or box.end.x>view.size.x:continue
+			if view.notice_clear(box) and not (view.card_rects+view.notice_rects+view.ui_blocked_rects).any(func(r):return r.intersects(box)):return box
+	return home
 # The loss card gives way to any lock card (lock_warning.gd owns that place).
 static func _draw_loss_card(view,sim,free:bool)->void:
 	last_draw["card"]=Rect2()
 	var text:String=loss_card(sim) if free else ""
 	if text.is_empty():return
 	var touch:float=float(view.optical_feed.touch_height) if view.optical_feed!=null else float(view.feedback_font_size)*3.0
-	var box:Rect2=loss_card_rect(view,text,touch)
+	var box:Rect2=loss_card_slot(view,sim)  # WP-129: the card sits where it covers no craft or Siren contact
 	last_draw["card"]=box;last_draw["card_text"]=text
 	var warning:Color=Palette.color("warning",Color("ffb18b"))
 	var panel:=StyleBoxFlat.new();panel.bg_color=Color(.06,.015,.025,.97);panel.border_color=warning;panel.set_border_width_all(int(Palette.stroke(2)));panel.set_corner_radius_all(10)

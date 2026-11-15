@@ -237,7 +237,11 @@ class DrawView extends RefCounted:
 	var presenting_mission=true
 	var ui_blocked_rects=[]
 	var world_label_rects=[]
+	var card_rects=[]  # WP-129
+	var notice_rects=[]
+	var status_floor=0.
 	var optical_feed=null
+	func notice_clear(_rect:Rect2)->bool:return true
 	var feedback_font_size=18
 	var instrument_top=64.0
 	var size=Vector2(1280,720)

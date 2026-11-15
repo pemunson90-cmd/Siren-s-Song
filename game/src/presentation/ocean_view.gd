@@ -62,6 +62,12 @@ var feedback_font_size:=14
 var instrument_top:=64.0
 var ui_blocked_rects:Array=[]
 var world_label_rects:Array=[]
+# WP-129: the HUD cards and plates that float over the chart (tip card, order card, UNDO chip, contact card, Hunt chip, the
+# "NEW SIREN TYPE" notice), in this view's coordinates. Pushed by mission_hud and first_siren_cue; chart labels keep off them.
+var card_rects:Array=[]
+var _strip_sim=null
+var _strip_reserve:=0.
+var notice_rects:Array=[]
 var label_targets:Array=[]
 # UI review B6: the contact whose card is open (-1 none); drawn with a bracket.
 var selected_contact:=-1
@@ -301,6 +307,11 @@ func _sync_camera() -> void:
 	var chart=stable_chart_rect()
 	var lane:=(minf(size.x*.52,optical_feed.preferred_width()) if optical_feed!=null else size.x*.52)+28.
 	chart_camera.follow_width=maxf(1.,size.x-lane);chart_camera.follow_reserve=lane
+	# WP-129: a craft at the chart's bottom edge stays above the status strip. The reserve only grows within one dive, so a longer
+	# message never moves the chart under a tap.
+	if not is_same(_strip_sim,sim):_strip_sim=sim;_strip_reserve=0.
+	if status_floor>0.:_strip_reserve=maxf(_strip_reserve,size.y-status_floor)
+	chart_camera.follow_bottom=_strip_reserve
 	chart_camera.configure(chart.size,world_size(),chart.position)
 	if chart_camera.mode=="follow" and sim!=null:chart_camera.follow(sim.units[sim.selected].pos)
 	world_scale=chart_camera.scale;world_offset=chart_camera.offset
@@ -337,7 +348,7 @@ func _process(dt: float) -> void:
 		optical_feed.position=Vector2(size.x-width-14.,top)
 		planning_size=Vector2(chart_width(),status_floor if status_floor>0. else size.y)
 
-	var visual_key=hash([world_scale,world_offset,size,presenting_mission,quality_tier,decoy_targeting,knock_targeting,sim.selected if sim!=null else -1,selected_contact])
+	var visual_key=hash([world_scale,world_offset,size,presenting_mission,quality_tier,decoy_targeting,knock_targeting,sim.selected if sim!=null else -1,selected_contact,card_rects,notice_rects,notice_loss_rect()])
 	var changed=visual_key!=_quality_visual_key
 	_quality_visual_key=visual_key
 	var idle=not presenting_mission or sim==null or sim.paused
@@ -958,7 +969,7 @@ func label_fit_rect()->Rect2:
 func world_label_position(p:Vector2,text:String,font_size:int) -> Vector2:
 	var font=ThemeDB.fallback_font;var actual=label_font(font_size);var extent=font.get_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,-1,actual)*world_scale
 	var origin=chart_camera.to_screen(p);var height=extent.y+6;var fit:=label_fit_rect()
-	var blocked=ui_blocked_rects+ship_instrument_rects()+own_craft_rects()+world_label_rects+_tag_rects
+	var blocked=ui_blocked_rects+ship_instrument_rects()+own_craft_rects()+world_label_rects+_tag_rects+card_blocked_rects()
 	if optical_feed!=null and optical_feed.is_visible_in_tree():blocked.append(optical_feed.get_rect().grow(6))
 	# WP-135: the goal/search marker plate is kept clear too (an area label ran under it)
 	if goal_marker!=null and goal_marker.visible and goal_marker.info.has("rect"):blocked.append(Rect2(goal_marker.info.rect))
@@ -1012,8 +1023,31 @@ func _flush_labels()->void:
 	var queue=_label_queue.duplicate();_label_queue.clear()
 	queue.sort_custom(func(a,b):return a.order<b.order if a.priority==b.priority else a.priority<b.priority)
 	for item in queue:_place_label(item.p,item.text,item.color,item.font,item.context)
+# WP-129: every card, plate and one-off notice a chart label must keep clear of.
+func card_blocked_rects()->Array:
+	var result:Array=card_rects+notice_rects
+	var loss:=notice_loss_rect()
+	if loss.has_area():result.append(loss)
+	return result
+# The loss card's one place (top centre, or the nearest spot that covers no craft or contact), empty when no card is up.
+func notice_loss_rect()->Rect2:
+	return ThreatRead.loss_card_slot(self,sim) if sim!=null and presenting_mission else Rect2()
+# Whether a one-off notice at rect covers no own craft and no held Siren contact.
+func notice_clear(rect:Rect2)->bool:
+	var box:=rect.grow(6.)
+	if own_craft_rects().any(func(r):return r.intersects(box)):return false
+	for entry in contact_entries():
+		var at:=chart_camera.to_screen(entry.pos)
+		if box.intersects(Rect2(at-Vector2.ONE*feedback_font_size*2.,Vector2.ONE*feedback_font_size*4.)):return false
+	return true
+# WP-129: a lower-priority label that does not fit gives up its trailing " · " parts before it is dropped.
+func shorter_label(text:String)->String:
+	var cut:=text.rfind(" · ")
+	return text.substr(0,cut) if cut>0 else ""
 func _place_label(p:Vector2,text:String,color:Color,font_size:int,context:Dictionary) -> void:
 	var placed=world_label_position(p,text,font_size)
+	while not placed.is_finite() and not shorter_label(text).is_empty():
+		text=shorter_label(text);placed=world_label_position(p,text,font_size)
 	if placed.is_finite():
 		reserve_world_label(placed,text,font_size)
 		if not context.is_empty():label_targets.append({"rect":world_label_rect(placed,text,font_size),"context":context})
