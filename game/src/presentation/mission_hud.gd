@@ -30,6 +30,7 @@ const Words=preload("res://src/presentation/hud_words.gd")
 const RouteEnd=preload("res://src/presentation/route_end_notice.gd")
 const StripMessage=preload("res://src/presentation/strip_message.gd")
 const RouteNotes=preload("res://src/presentation/route_notes.gd")
+const NextStep=preload("res://src/presentation/next_step.gd")  # WP-128
 const StandingNotes=preload("res://src/presentation/standing_notes.gd")
 const SegmentState=preload("res://src/presentation/radial_layout/segment_state.gd")
 # A tap opens an object-owned projection. A separate tap chooses an action.
@@ -829,7 +830,11 @@ func refresh():
   # WP-48: why the dive is held when the player did not hold it, and which craft ran out of route.
   var urgent=alarm.visible or (host.lock_warning!=null and host.lock_warning.visible)
   var reason=Words.pause_reason(host)
-  for held_line in ([reason] if not reason.is_empty() else [])+route_end.lines(sim,urgent)+StandingNotes.lines(sim,urgent):intent.text+="\n"+held_line
+  # WP-128: the NEXT line says the recovery step itself, so the extraction note (the same fact, older words) is not shown twice.
+  var next_line:String=NextStep.step(sim).text
+  var extraction_note:String=preload("res://src/presentation/extraction_hint.gd").line(sim) if not next_line.is_empty() else ""
+  for held_line in ([reason] if not reason.is_empty() else [])+route_end.lines(sim,urgent)+StandingNotes.lines(sim,urgent):
+   if extraction_note.is_empty() or held_line!=extraction_note:intent.text+="\n"+held_line
   # WP-106: while the dive is stopped the standing line says what RUN will do first (it gives up first like the depth hint,
   # so the strip stays two lines).
   var run_line:String=RouteNotes.run_line(sim) if Words.plate_kind(sim,host)=="run" else ""
@@ -837,7 +842,12 @@ func refresh():
   # It is a warning row, so it stays (the standing hint gives way to it) rather than being the first line to drop.
   var idle_line:String=RouteNotes.idle_line(sim) if run_line.is_empty() else ""
   strip_idle=idle_line
-  strip_standing=run_line if not run_line.is_empty() else "" if not idle_line.is_empty() else sim.Depth.context(sim)
+  # WP-128: the standing line is the NEXT step. It gives way to a lock countdown, to orders about to run, to the no-orders warning and to
+  # a situational depth or hearing warning (NextStep.keeps).
+  var standing:String=sim.Depth.context(sim)
+  if not next_line.is_empty() and not NextStep.keeps(standing):standing=next_line
+  if run_line==Words.TEXT.run_none and not next_line.is_empty():run_line=""
+  strip_standing=run_line if not run_line.is_empty() else "" if not idle_line.is_empty() else standing
   if not idle_line.is_empty():intent.text+="\n"+idle_line
   if not strip_standing.is_empty():intent.text+="\n"+strip_standing
   if idle_line.is_empty():intent.remove_theme_color_override("font_color")

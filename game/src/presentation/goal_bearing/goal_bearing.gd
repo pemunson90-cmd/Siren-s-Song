@@ -1,5 +1,6 @@
 extends Control
 # Public chart information only. Revert: remove goal_marker seams in ocean_view.gd.
+const NextStep=preload("res://src/presentation/next_step.gd")
 const STYLE={"margin":16.,"height":42.,"width":210.,"font":16,"step":48.}
 var ocean
 var info:Dictionary={}
@@ -21,6 +22,10 @@ func _process(_dt):
  if ocean==null or ocean.sim==null or not ocean.presenting_mission or not ocean.sim.outcome.is_empty():_clear();return
  var sim=ocean.sim;var goals=ocean.observable_sites().filter(func(site):return not site.get("captured",false) and not site.get("own_origin",false))
  if goals.is_empty():goals=sim.extraction_corridors()
+ # WP-128: the chip points at what the strip's NEXT line names (critic C: it pointed west while the next step lay north-east).
+ if sim.has_method("all_records"):
+  var named:Dictionary=NextStep.step(sim).site
+  if not named.is_empty():goals=[named]
  if goals.is_empty():_clear();return
  var goal=goals[0];var target=ocean.screen_position(goal.pos)
  var bounds=Rect2(Vector2.ONE*STYLE.margin,ocean.size-Vector2.ONE*STYLE.margin*2)
