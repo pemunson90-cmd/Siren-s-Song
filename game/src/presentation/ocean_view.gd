@@ -512,6 +512,7 @@ func _draw() -> void:
 	var high=Vector2i((size-world_offset)/world_scale/float(FOG_CELL))+Vector2i.ONE
 	high=high.min(Vector2i(region/float(FOG_CELL)))
 	if earned.is_empty():_draw_fog(low,high,region)
+	if not earned.is_empty():EarnedChart.draw_survey_edge(self,earned,world_scale) # WP-135
 	FeatureViews.draw(self)
 	# Sonar rays stop at actual cover, producing explicit acoustic shadows.
 	if earned.is_empty() and sim.ping_time>0:
