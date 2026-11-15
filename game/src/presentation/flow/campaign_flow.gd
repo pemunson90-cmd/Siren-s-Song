@@ -363,12 +363,12 @@ static func debrief(host) -> void:
 		host.unlocked=mini(5,maxi(host.unlocked,host.mission_index+1))
 		host._sync_craft_upgrades()
 		host._menu_text("ARCHIVE RECOVERED",32)
+		EconomyPanel.debrief_block(host) # WP-135: earned and spent sit right under the heading, on the first screen
 		host._menu_text(host.sim.mission.record,22)
 		preload("res://src/presentation/archive/voice_feed.gd").debrief(host)
 		host.EarlyReward.debrief(host)
 		host.BlackwaterDelivery.debrief(host)
 		host.ModuleRecovery.debrief(host)
-		EconomyPanel.debrief_block(host) # WP-119: what the dive earned and cost, before the photograph
 		host._show_photo_grade(host.sim.mission.objectives);PhotoReview.show_best_frame(host)
 		preload("res://src/presentation/photo_pay/photo_pay.gd").debrief(host)
 		host._menu_text(stats_line(host.sim),17)

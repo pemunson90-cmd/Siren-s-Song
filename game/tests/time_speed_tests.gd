@@ -49,7 +49,7 @@ func rules_case():
 	check(TrialRules.time_speeds()==[1.0,2.0,4.0],"the speeds are 1x, 2x, 4x")
 	check(TimeSpeed.next(1.0)==2.0 and TimeSpeed.next(2.0)==4.0 and TimeSpeed.next(4.0)==1.0,"cycle 1 -> 2 -> 4 -> 1")
 	check(TimeSpeed.next(8.0)==1.0,"a developer's speed returns to 1x on a tap")
-	check(Words.speed_text(2.0,false)=="SPEED\n2x" and Words.speed_text(1.0,true)=="1x · a Siren is hunting","the words come from hud_words")
+	check(Words.speed_text(2.0,false)=="SPEED\n2x" and Words.speed_text(1.0,true)=="1x · SIREN CONTACT","the words come from hud_words")
 func layout_case(shape:Vector2i,scale:float):
 	var stamp="%dx%d %d%%"%[shape.x,shape.y,roundi(scale*100)]
 	var game=await make(shape,scale)

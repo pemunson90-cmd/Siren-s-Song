@@ -311,7 +311,8 @@ static func pause_reason(host)->String:
 # WP-120: the time speed control beside the pause plate (time_speed.gd decides when it may be used).
 const SPEED={
 	"label": "SPEED\n%sx",
-	"hunting": "1x · a Siren is hunting",
+	"hunting": "1x · SIREN CONTACT", # WP-135: was "1x · a Siren is hunting"; names the contact, not the Hunt meter
+	"refused": "2x and 4x stay off while a Siren has contact with you.", # WP-135: the tap explains
 }
 static func speed_text(speed:float,hunting:bool)->String:
 	if hunting and speed<=1.0:return SPEED.hunting
