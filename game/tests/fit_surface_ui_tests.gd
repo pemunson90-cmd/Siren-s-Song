@@ -16,7 +16,12 @@ func reveal(control):
  await settle()
 func tap_control(game,control):
  await reveal(control)
- await tap(control.get_global_rect().get_center())
+ # WP-134: a card taller than the scroll area (960x432 at 150% text) has its centre off screen; a player taps the part in view.
+ var seen:Rect2=control.get_global_rect();var parent=control.get_parent()
+ while parent!=null:
+  if parent is ScrollContainer:seen=seen.intersection(parent.get_global_rect())
+  parent=parent.get_parent()
+ await tap(seen.get_center())
 func data_checks():
  var items=[]
  for id in Catalog.ITEMS:items.append(Catalog.ITEMS[id].duplicate(true))

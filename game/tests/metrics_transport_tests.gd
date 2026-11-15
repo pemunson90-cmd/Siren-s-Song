@@ -43,7 +43,7 @@ func run() -> void:
  await process_frame;await process_frame;game._start_mission(0);await process_frame;await process_frame;await process_frame
  PlayerDive.launch_drones(game.sim);game._refresh();await process_frame # fleet A and B buttons show once the drones are launched
  var water=game._ui_metrics()
- check(["pause","more_orders","fleet_q","fleet_a","fleet_b","hunt_meter"].all(func(action):return action in water.controls.map(func(control):return control.action)) and water.controls.size()==6,"water transports actual visible pause, fleet and Hunt controls")
+ check(["pause","speed","more_orders","fleet_q","fleet_a","fleet_b","hunt_meter"].all(func(action):return action in water.controls.map(func(control):return control.action)) and water.controls.size()==7,"water transports actual visible pause, speed, fleet and Hunt controls") # WP-134: WP-120 added the visible SPEED control beside the pause plate
  verify(water,"water-fixture",3)
  game.mission_hud.open("view");await process_frame;await process_frame
  var snapshot=game._ui_metrics();var payload=JSON.stringify(snapshot)

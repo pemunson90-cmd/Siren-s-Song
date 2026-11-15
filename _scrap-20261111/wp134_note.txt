@@ -1,0 +1,1 @@
+scroll_cue strip reserve only when content overflows

@@ -1,0 +1,5 @@
+extends "res://tests/ops_home_ui_tests.gd"
+func run():
+ for scale in [1.]:await home_case(Vector2i(2520,1080),0,scale)
+ print("WP134 DONE ",checks," ",failures)
+ quit(1 if failures else 0)
