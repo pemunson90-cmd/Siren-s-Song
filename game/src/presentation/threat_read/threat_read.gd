@@ -91,8 +91,8 @@ static func lock_rows(sim)->Array:
 		# the locked craft (units[target]) to the contact's known position, the same two points the chart draws.
 		var word:String=ContactFeedback.siren_name(int(row.source),sim.contacts[row.source])
 		row["sentence"]=Table.TEXT.lock_sentence%[word,Compass.point(row.bearing),str(sim.units[target].get("name","CRAFT")),row.remaining]
-		var moves:String=counter_moves(sim,target,row.siren_pos)
-		row["moves"]=move_list(sim,target,row.siren_pos)
+		var moves:String=counter_moves(sim,target,row.siren_pos,int(row.source))
+		row["moves"]=move_list(sim,target,row.siren_pos,int(row.source))
 		# WP-131: the cover line says what rock is really near; "rock_near" tells the card whether it counts as an answer.
 		var rock:Dictionary=nearest_rock(sim,target)
 		row["rock_near"]=not rock.is_empty() and float(rock.gap)<=Table.ROCK_NEAR
@@ -134,16 +134,17 @@ static func rock_line(rock:Dictionary,quietus:bool)->String:
 # silent segment's own words; a tool counts when the craft's rack holds a charge (the buttons'
 # own gate, main.gd) and, for the EMP, when the locking Siren's known position is within its
 # pulse radius (weapon_orders.gd keeps the charge when no Siren is in range).
-static func counter_moves(sim,craft:int,siren_pos:Vector2)->String:
-	var moves:Array=move_list(sim,craft,siren_pos).map(func(m):return m.label)
+static func counter_moves(sim,craft:int,siren_pos:Vector2,siren_id:int=-1)->String:
+	var moves:Array=move_list(sim,craft,siren_pos,siren_id).map(func(m):return m.label)
 	return "" if moves.is_empty() else Table.TEXT.moves%Table.TEXT.move_join.join(moves)
 # The same moves as rows: {"order": the order the chart's wheel sends ("silent", "decoy", "emp"), "label": the card's words}.
 # The lock card's buttons (lock_warning.gd) and the line above both read this, so they never disagree.
-static func move_list(sim,craft:int,siren_pos:Vector2)->Array:
+static func move_list(sim,craft:int,siren_pos:Vector2,siren_id:int=-1)->Array:
 	var u=sim.units[craft];var moves:Array=[]
 	if not u.get("silent",false):moves.append({"order":"silent","label":HudWords.TEXT.silent_off if craft==0 else HudWords.TEXT.profile_low})
 	var decoys:int=_charges(sim,craft,"decoy")
-	if decoys>0:moves.append({"order":"decoy","label":Table.TEXT.move_count%[_tool_word("decoy"),decoys]})
+	# WP-137 (Pat, 15 Nov 2026): offered only when a drop point in reach would draw the locking Siren off (siren_id from the row).
+	if decoys>0 and (siren_id<0 or sim.decoy_lock_point(craft,siren_id)!=Vector2.INF):moves.append({"order":"decoy","label":Table.TEXT.move_count%[_tool_word("decoy"),decoys]})
 	var pulses:int=_charges(sim,craft,"emp")
 	if pulses>0 and u.pos.distance_to(siren_pos)<=Tuning.EMP_RADIUS:moves.append({"order":"emp","label":Table.TEXT.move_count%[_tool_word("emp"),pulses]})
 	return moves

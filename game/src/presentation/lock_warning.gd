@@ -67,10 +67,10 @@ func _card_text()->String:
  var all_moves:Array=rows[0].get("moves",[]);var moves:Array=MoveTiming.useful(all_moves)
  if host!=null and host.sim.paused and not moves.is_empty():advice=advice.get_slice("\n",0)
  elif moves.size()<all_moves.size():
-  # The decoy is not offered against a running lock: the "Or:" line lists only the moves that can help.
+  # The "Or:" line lists only the moves that can help (WP-137: the decoy counts when a drop point in reach would break the lock).
   advice=advice.get_slice("\n",0)+("" if moves.is_empty() else "\n"+ThreatRead.Table.TEXT.moves%ThreatRead.Table.TEXT.move_join.join(moves.map(func(m):return m.label)))
  # WP-131: with no move that can work and no rock within reach the card says so plainly, with the seconds left
- # (no decoy button or note: a decoy cannot end a lock that has started).
+ # (WP-137: a decoy can end a lock, so a carried charge with a drop point in reach is itself an answer).
  if moves.is_empty() and not bool(rows[0].get("rock_near",true)):advice=ThreatRead.Table.TEXT.lock_no_answer%float(rows[0].remaining)
  # One decision at a time: the lands line is left off while the route prompt is open, so the prompt still clears the stack.
  var asking:bool=host!=null and host.mission_hud!=null and host.mission_hud.guard!=null and not host.mission_hud.guard.pending.is_empty()

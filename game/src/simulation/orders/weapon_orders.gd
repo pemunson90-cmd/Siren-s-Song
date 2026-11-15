@@ -4,6 +4,7 @@ const Names=preload("res://src/names.gd")
 # The shared table records whether successful orders run the legacy finish hooks.
 # Revert by inlining these cases and removing their table rows; no rule changes.
 const Tuning=preload("res://src/simulation/tuning.gd")
+const HudWords=preload("res://src/presentation/hud_words.gd") # WP-137: the lock-broken message
 
 static func command(sim, order: String, args: Dictionary) -> bool:
 	var u=sim.units[sim.selected]
@@ -31,6 +32,14 @@ static func command(sim, order: String, args: Dictionary) -> bool:
 		"decoy":
 			var point=args.get("point",u.pos+Vector2(sim.DECOY_RANGE,0))
 			if not sim.decoy_target_valid(point): sim.message="Decoy needs clear water within 160m and a clear path · no charge spent"; return false
+			# WP-137 (Pat, 15 Nov 2026): a decoy breaks a lock that is counting down on a Siren that hears it.
+			var broken:Array=sim.decoy_lock_breakers(point,u.band)
 			sim.tools.decoy-=1; sim._noise(point,Tuning.DECOY_NOISE,Names.NOISE_DECOY,Tuning.DECOY_TIME,u.band); sim.message="Decoy launched · 15s transmission"; sim.events.append({"type":"decoy","pos":u.pos})
+			for id in broken:
+				var s=sim.sirens[id]
+				s.lock=0.0; s.target=-1; s.erase("recipient_target"); s["decoy_draw"]=Tuning.DECOY_TIME
+				s.goal=point; s["last_known"]=point; s.mode="INVESTIGATE"; s.suspicion=maxf(s.suspicion,0.45); s["attention_time"]=sim.Sweeper.attention(s); s["search_index"]=0
+				sim.events.append({"type":"lock_broken","siren":id,"pos":s.pos})
+			if not broken.is_empty():sim.message=HudWords.lock_broken(broken)
 		_:return false
 	return true

@@ -4,7 +4,7 @@ const HOLD_SECONDS = .5 # Default; SETDEPTH presets apply it when the hold arms.
 const Settings=preload("res://src/presentation/frontend/frontend_settings.gd")
 const Depth=preload("res://src/presentation/frontend/settings_depth.gd")
 const TEXT = {
- "decoy":"DECOY: This craft carries charges; place a noise source to draw Sirens away.",
+ "decoy":"DECOY: This craft carries charges; place a noise source to draw Sirens away, even one that is locking.",
  "emp":"EMP: This craft carries charges; a pulse briefly interrupts every Siren in range. No target needed.",
  "recon":"SURVEY: This craft carries charges; inspect its local area.",
  "sonar_emit":"PING SONAR: spend reserve on a sonar ping that Sirens can hear.",

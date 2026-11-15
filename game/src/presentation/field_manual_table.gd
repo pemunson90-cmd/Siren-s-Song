@@ -42,7 +42,7 @@ const TOPICS=[
 		"Field tools spend finite stock. SUPPLIES prepares the next launch; RESUME keeps this dive's stock.",
 		"EMP interrupts nearby Sirens for 12 seconds.",
 		"TORPEDO: tap a fresh contact. It travels noisily up to 150m, and impact pins one Siren for 8 seconds.",
-		"DECOY is placed by tapping clear water within 160m.",
+		"DECOY is placed by tapping clear water within 160m. Sirens that hear it turn to it, even one already locking on a craft: the lock breaks.",
 		"SURVEY takes 8 seconds and is audible.",
 	]},
 	{"id":"home","title":"GOING HOME","lines":[
