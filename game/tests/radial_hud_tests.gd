@@ -62,7 +62,7 @@ func run():
   await tap(ship)
   check(g.advanced_orders and g.sim.snapshot()==before,"tap craft opens contextual projection without route or spend")
   if not g.advanced_orders:g.queue_free();await settle();continue
-  check(h.page=="craft" and h.ring_buttons.size()==8 and h.ring_buttons[3]==h.extra.deploy and not (g.order_buttons.program in h.ring_buttons),"craft menu presents eight stable labelled choices, DEPLOY in PLAN ROUTE's place while a drone is aboard and PLAN ROUTE on the ROUTE page (WP-35, WP-52)")
+  check(h.page=="craft" and h.ring_buttons.size()==9 and h.ring_buttons[3]==h.extra.deploy and h.ring_buttons[4]==g.order_buttons.program,"craft menu presents nine labelled choices while a drone is aboard: DEPLOY, then PLAN ROUTE one tap from the root (WP-35, WP-52, WP-130)")
   var scale=Vector2(dimensions)/root.get_visible_rect().size
   for b in h.ring_buttons:
    check(g.get_global_rect().encloses(b.get_global_rect()) and b.size.x*scale.x>=125.99 and b.size.y*scale.y>=125.99,"clamped edge menu retains full48dp labels")
@@ -84,7 +84,11 @@ func run():
   check(not g.decoy_armed and not g.advanced_orders and g.sim.snapshot()==before,"CANCEL returns directly to water without charge or order")
   await tap(ship);await click(h.extra.route_menu);await click(h.extra.replace_route)
   check(not g.advanced_orders and "TAP WATER" in h.intent.text,"REPLACE ROUTE returns to water with the tap mode visible (WP-127: the old TAPS: QUEUE switch is gone)")
-  before=g.sim.snapshot();await tap(ship);await tap(g.global_position+Vector2(g.size.x-20,g.size.y-20))
+  before=g.sim.snapshot();await tap(ship)
+  # WP-130: the outside tap is chart water clear of every wheel control (the corner can hold the wheel's BACK button).
+  var blocks:Array=[h.close_button.get_global_rect()]+h.ring_buttons.map(func(b):return b.get_global_rect().grow(8))
+  var outside:Vector2=[Vector2(.7,.45),Vector2(.6,.3),Vector2(.8,.6),Vector2(.5,.5)].map(func(f):return g.global_position+g.size*f).filter(func(p):return not blocks.any(func(r):return r.has_point(p)))[0]
+  await tap(outside)
   # WP-104: a tap on the chart with the craft's wheel open closes it and is that tap's ordinary order, once (never twice).
   check(not g.advanced_orders and g.sim.route_goals().size()<=1 and g.sim.units[1].route.is_empty() and g.sim.units[2].route.is_empty(),"outside tap closes the wheel and orders at most its own one leg")
   preload("res://tests/fixtures/player_dive.gd").launch_drones(g.sim);g.sim.units[1].pos=g.sim.units[0].pos;g.sim.units[2].pos=g.sim.units[0].pos;g._refresh();await settle();before=g.sim.snapshot()

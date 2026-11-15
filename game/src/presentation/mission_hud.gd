@@ -60,6 +60,10 @@ var page="craft"
 var subject:Dictionary={}
 var center=Vector2.ZERO
 var anchor=Vector2.ZERO
+# WP-130: the open wheel stays where it opened. The screen spot is taken once, when the wheel opens (or its subject or craft
+# changes), and kept while it is open, so a pan or zoom of the chart (the VIEW page's buttons, a pinch) does not drag it.
+var anchor_held:=false
+var anchor_unit:=-1
 var ring_radius=150.
 var ring_buttons:Array=[]
 var extra:Dictionary={}
@@ -140,6 +144,8 @@ func setup(owner):
  order_dock_scroll=ScrollContainer.new();order_dock_scroll.horizontal_scroll_mode=ScrollContainer.SCROLL_MODE_DISABLED;order_dock_scroll.size_flags_vertical=Control.SIZE_EXPAND_FILL;dock_body.add_child(order_dock_scroll)
  order_dock_commands=VBoxContainer.new();order_dock_commands.size_flags_horizontal=Control.SIZE_EXPAND_FILL;order_dock_commands.add_theme_constant_override("separation",8);order_dock_scroll.add_child(order_dock_commands)
  order_dock_context=Label.new();order_dock_context.autowrap_mode=TextServer.AUTOWRAP_WORD;order_dock_commands.add_child(order_dock_context)
+ # WP-130: a list that runs on below the dock shows the MORE BELOW chip (scroll_cue.gd, the menus' cue).
+ preload("res://src/presentation/scroll_cue.gd").install(owner,order_dock_scroll)
  add_child(tool_help);tool_help.setup(self)
  blocker=Control.new();blocker.mouse_filter=Control.MOUSE_FILTER_STOP;add_child(blocker);blocker.gui_input.connect(_outside)
  for key in host.order_buttons:
@@ -230,6 +236,8 @@ func open(next:String="craft",context:Dictionary={}):
  tool_help.cancel()
  for id in host.map_gesture.touches:owned_touches[id]=true
  host.map_gesture.cancel();host.knock_press.clear();popup_gesture.cancel();sheet_pointers.clear();sector_press=null;wheel_focus=null;host.knock_armed=false;host.decoy_armed=false;segments.disarm()
+ # WP-130: a wheel that is closed, a new context, or the fleet page aims the wheel afresh; a page change on the open wheel does not.
+ if not host.advanced_orders or not context.is_empty() or next=="fleet":anchor_held=false
  if not context.is_empty():subject=context
  elif subject.is_empty() or next=="fleet":subject={"kind":"craft","unit":host.sim.selected,"pos":host.sim.units[host.sim.selected].pos}
  var station=WarningChain.station_subject(host.sim,subject) if next=="object" else {}
@@ -248,6 +256,7 @@ func dismiss():
  draining_popup=not owned_touches.is_empty()
  host.map_gesture.cancel();host.knock_press.clear();popup_gesture.cancel();sheet_pointers.clear();sector_press=null;segments.disarm();host.advanced_orders=false;instruments_open=false
  page="craft"  # WP-108: a closed wheel forgets its page, so the next craft tap can only open the root
+ anchor_held=false  # WP-130
  host._layout()
 func _back():
  if page=="field_tools":open("tools");return
@@ -462,6 +471,25 @@ func _page_controls() -> Array:
   if host.sim.selected==0:controls.append(extra.blackwater_data)
   elif not host.sim.blackwater_handoff_context(host.sim.selected).packets.is_empty():controls.append(extra.blackwater_handoff)
  return controls
+# WP-130: the wheel's own segments are flat (the wedge behind them is the button); the large-text list's rows are real
+# buttons (dock_look). One place for the flat look so a segment that returns from the list gets it back.
+func flat_look(b:Button):
+ var normal=StyleBoxFlat.new();normal.bg_color=Color(0,0,0,0);normal.set_content_margin_all(2)
+ var hover=normal.duplicate();hover.bg_color=Color(.2,.62,.65,.14)
+ b.add_theme_stylebox_override("normal",normal);b.add_theme_stylebox_override("hover",hover);b.add_theme_stylebox_override("pressed",hover);b.add_theme_stylebox_override("disabled",normal)
+ b.remove_theme_stylebox_override("focus")
+ for name in ["font_color","font_hover_color","font_pressed_color","font_focus_color","font_hover_pressed_color"]:b.remove_theme_color_override(name)
+ b.add_theme_color_override("font_outline_color",Color("041019"));b.add_theme_constant_override("outline_size",3)
+ # WP-52: a segment that cannot act reads as dim as the wedge behind it; one that can act keeps the full text colour.
+ b.add_theme_color_override("font_disabled_color",UiStyle.DISABLED_TEXT)
+ if b.has_meta("dock_look"):b.remove_meta("dock_look")
+# WP-130: a row of the large-text list is a button: filled and bordered by the NORMAL role (the filled MAIN role while it is armed
+# for its second tap), so it reads as tappable beside the list's plain information lines.
+func dock_look(b:Button):
+ var role:String=UiStyle.MAIN if segments.is_armed(b) else UiStyle.NORMAL
+ UiStyle.apply(b,role)
+ b.add_theme_constant_override("outline_size",0 if role==UiStyle.MAIN else 3)
+ b.set_meta("dock_look",true)
 func layout(bounds:Vector2,h:float):
  # A newly opened page can reuse controls still parented to a hidden dock.
  # Restore both pages before choosing the current radial/dock projection.
@@ -479,12 +507,7 @@ func layout(bounds:Vector2,h:float):
   b.mouse_filter=Control.MOUSE_FILTER_IGNORE if b in command_controls() else Control.MOUSE_FILTER_STOP
   b.hide();b.custom_minimum_size=Vector2(bw,bh);b.size=Vector2(bw,bh);b.add_theme_font_size_override("font_size",font)
   b.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
-  var normal=StyleBoxFlat.new();normal.bg_color=Color(0,0,0,0);normal.set_content_margin_all(2)
-  var hover=normal.duplicate();hover.bg_color=Color(.2,.62,.65,.14)
-  b.add_theme_stylebox_override("normal",normal);b.add_theme_stylebox_override("hover",hover);b.add_theme_stylebox_override("pressed",hover);b.add_theme_stylebox_override("disabled",normal)
-  b.add_theme_color_override("font_outline_color",Color("041019"));b.add_theme_constant_override("outline_size",3)
-  # WP-52: a segment that cannot act reads as dim as the wedge behind it; one that can act keeps the full text colour.
-  b.add_theme_color_override("font_disabled_color",UiStyle.DISABLED_TEXT)
+  flat_look(b)
   if b.has_meta(PLATE_KEY):b.remove_meta(PLATE_KEY)
  host.status_label.hide();host.log_label.hide()
  host.pause_button.show();host.pause_button.position=Vector2(12,12);host.pause_button.size=Vector2(bw,bh)
@@ -507,7 +530,10 @@ func layout(bounds:Vector2,h:float):
  # The same ordered list drives layout, wedges, fitting and hit testing.
  if FrontendSettings.current.get("mirrored_hud",false) and ring_buttons.size()>1:
   var sides=ring_buttons.slice(1);sides.reverse();ring_buttons=[ring_buttons[0]]+sides
- anchor=host.ocean.screen_position(subject.get("pos",host.sim.units[host.sim.selected].pos))
+ # WP-130: a held anchor (the wheel is open and nothing re-aimed it) is kept; the clamp below still keeps the wheel on screen.
+ if not (host.advanced_orders and anchor_held and anchor_unit==host.sim.selected):
+  anchor=host.ocean.screen_position(subject.get("pos",host.sim.units[host.sim.selected].pos))
+  anchor_held=host.advanced_orders;anchor_unit=host.sim.selected
  ring_radius=h*2.25*text_scale
  # WP-36: the outermost label rectangles keep EDGE_MARGIN (12 px at 1080p, scaled with the touch height) from the safe area; the wheel moves, the labels do not shrink.
  var edge=Vector2(ring_radius+bw/2.,ring_radius+bh/2.)+Vector2.ONE*edge_margin(h)

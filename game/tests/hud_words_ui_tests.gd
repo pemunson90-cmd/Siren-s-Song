@@ -251,13 +251,13 @@ func slot_case():
 	var s=game.sim;var hud=game.mission_hud
 	s.selected=0;game._refresh();hud.open("craft");await settle()
 	var aboard=slot_key(hud.ring_buttons)
-	check(aboard.has("deploy") and not aboard.has("program") and aboard.deploy==3 and hud.ring_buttons.size()==8,"with a drone aboard DEPLOY takes PLAN ROUTE's place in the ring: "+str(aboard))
+	check(aboard.has("deploy") and aboard.has("program") and aboard.deploy==3 and aboard.program==4 and hud.ring_buttons.size()==9,"with a drone aboard DEPLOY keeps its place and PLAN ROUTE follows it (WP-130): "+str(aboard))
 	hud.dismiss();await settle()
 	for n in 2:
 		game._order("select",{"unit":0});ReleaseControls.activate_deploy(hud);await settle()
 	game._order("select",{"unit":0});game._refresh();hud.open("craft");await settle()
 	var out=slot_key(hud.ring_buttons)
-	check(out.has("recall") and out.recall==3 and not out.has("deploy") and hud.ring_buttons.size()==8,"with both drones out RECALL ALL takes the same place: "+str(out))
+	check(out.has("recall") and out.recall==3 and not out.has("deploy") and out.get("program",-1)==4 and hud.ring_buttons.size()==9,"with both drones out RECALL ALL takes the same place: "+str(out))
 	for key in aboard:
 		if key in ["deploy","recall","program"]:continue
 		check(out.get(key,-1)==aboard[key],"%s keeps its angle with the drones in or out (%s then %s)"%[key,str(aboard[key]),str(out.get(key,-1))])

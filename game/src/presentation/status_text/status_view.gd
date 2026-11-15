@@ -71,7 +71,9 @@ static func _free_back(hud,area:Rect2,rects:Array)->Rect2:
   return rect
  return Rect2()
 static func fit(hud)->void:
- if hud.has_meta(GRID):hud.remove_meta(GRID)
+ # WP-130: rows that were list buttons go back to the wheel's flat segments when the list gives way to the wheel.
+ var was_grid:bool=hud.has_meta(GRID)
+ if was_grid:hud.remove_meta(GRID)
  if not Table.enabled or not Layout.enabled or not hud.host.advanced_orders:return
  var visible=_area(hud)
  if hud.page in ["inspect","signals","recovery","order_help"]:
@@ -81,6 +83,8 @@ static func fit(hud)->void:
  if buttons.is_empty():return
  if hud.text_scale>=1.5:
   fit_grid(hud,visible);return
+ if was_grid:
+  for b in hud.ring_buttons:hud.flat_look(b)
  var r:float=hud.ring_radius
  var original=_rects(buttons,hud.center,Vector2.ONE*r)
  var reserved=hud.threat_rects()
@@ -125,13 +129,14 @@ static func fit_grid(hud,_visible:Rect2)->void:
   hud.order_dock_commands.move_child(b,hud.ring_buttons.find(b)+2)
   b.mouse_filter=Control.MOUSE_FILTER_STOP;b.size_flags_horizontal=Control.SIZE_EXPAND_FILL
   b.custom_minimum_size.x=0
+  hud.dock_look(b)  # WP-130: every tappable row looks like a button
  # Back has its own header target, so even tall composed command labels get
  # the complete dock viewport instead of sharing its height with navigation.
  if hud.close_button.get_parent()!=hud:hud.close_button.reparent(hud,false)
  hud.close_button.position=Vector2(12 if hud.host.pause_button.position.x>hud.size.x/2 else hud.size.x-hud.close_button.size.x-12,12)
  hud.close_button.mouse_filter=Control.MOUSE_FILTER_STOP
  if hud.has_meta(AXES):hud.remove_meta(AXES)
- hud.set_meta(GRID,true);fit_dock(hud)
+ hud.set_meta(GRID,true);hud.segments.sync(hud);fit_dock(hud)  # WP-130: sync re-seats the state lines the new row boxes lost
 static func fit_dock(hud)->void:
  var font=hud.instrument_info.get_theme_font_size("font_size")
  var caption=hud.host.sim.units[hud.host.sim.selected].name+" / "+("MORE TOOLS" if hud.page=="field_tools" else hud.page.to_upper().replace("_"," "))
