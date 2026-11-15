@@ -960,6 +960,8 @@ func world_label_position(p:Vector2,text:String,font_size:int) -> Vector2:
 	var origin=chart_camera.to_screen(p);var height=extent.y+6;var fit:=label_fit_rect()
 	var blocked=ui_blocked_rects+ship_instrument_rects()+own_craft_rects()+world_label_rects+_tag_rects
 	if optical_feed!=null and optical_feed.is_visible_in_tree():blocked.append(optical_feed.get_rect().grow(6))
+	# WP-135: the goal/search marker plate is kept clear too (an area label ran under it)
+	if goal_marker!=null and goal_marker.visible and goal_marker.info.has("rect"):blocked.append(Rect2(goal_marker.info.rect))
 	for horizontal in [0,extent.x*.75,-extent.x*.75,extent.x*1.5,-extent.x*1.5]:
 		for step in [0,-1,-2,1,-3,2,-4,3]:
 			var point=origin+Vector2(horizontal,step*height)
