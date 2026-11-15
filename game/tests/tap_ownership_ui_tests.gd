@@ -185,7 +185,7 @@ func warning_card_checks(g)->void:
 	await lock_on(g,1)
 	var warning=g.lock_warning
 	check(warning.visible and g.ocean.lock_card_source==0,"a lock on a drone shows the lock card")
-	check("locks DRONE A in " in warning.card_text and warning.card_text.contains("Move it behind rock, or let it go."),"the card for a drone gives its own advice: "+warning.card_text)
+	check("locks DRONE A in " in warning.card_text and (warning.card_text.contains("move it behind, or let it go.") or warning.card_text.contains("No rock near") or warning.card_text.contains("No answer in reach")),"the card for a drone gives its own advice: "+warning.card_text)
 	check(place!=Vector2.ZERO and hints.current=="warning" and hints.panel.visible,"the first lock's own tip replaces the tip that was up: one card at a time")
 	check(not g.ocean.contact_readout_entries().any(func(e):return e.locking) and not ("BEAM" in g.mission_hud.alarm.text),"the top-left readout does not repeat the lock")
 	check(preload("res://src/presentation/threat_read/threat_read.gd").last_draw.chips.is_empty(),"no tag at the craft repeats the lock")
@@ -235,7 +235,9 @@ func lock_move_checks(g)->void:
 	check(shown.size()>=2 and shown[0].text.begins_with(Words.TEXT.silent_off),"a paused lock on Quietus shows its moves as buttons, GO SILENT first: "+str(shown.map(func(b):return b.text)))
 	var card:Rect2=Rect2(w.global_position+w.banner.position,w.banner.size)
 	check(shown.all(func(b):return b.size.y>=g.ui_touch_height-1.0 and card.encloses(b.get_global_rect())),"every move button has the normal touch height and sits inside the card: card "+str(card)+" buttons "+str(shown.map(func(b):return b.get_global_rect()))+" touch "+str(g.ui_touch_height))
-	check(is_equal_approx(w.banner.size.x,minf(g.size.x-32,g.ui_touch_height*preload("res://src/presentation/ui_style.gd").LOCK_CARD_WIDTH)),"the card keeps its width")
+	# WP-131: the card is never narrower than before and grows only to fit its longest line, up to LOCK_CARD_MAX_WIDTH.
+	var base_width:float=minf(g.size.x-32,g.ui_touch_height*preload("res://src/presentation/ui_style.gd").LOCK_CARD_WIDTH)
+	check(w.banner.size.x>=base_width-.01 and w.banner.size.x<=maxf(base_width,minf(g.size.x-32,g.ui_touch_height*preload("res://src/presentation/ui_style.gd").LOCK_CARD_MAX_WIDTH))+.01,"the card keeps its width")
 	check(g.mission_hud.blocks(card.get_center()) and g.mission_hud.blocks(shown[0].get_global_rect().get_center()),"the card owns taps on its buttons and its body")
 	var route_before=str(g.sim.units[0].get("route_plan",[]))
 	var decoy=shown.filter(func(b):return b.get_meta("order")=="decoy")

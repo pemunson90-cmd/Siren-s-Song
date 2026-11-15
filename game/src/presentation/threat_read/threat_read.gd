@@ -93,12 +93,43 @@ static func lock_rows(sim)->Array:
 		row["sentence"]=Table.TEXT.lock_sentence%[word,Compass.point(row.bearing),str(sim.units[target].get("name","CRAFT")),row.remaining]
 		var moves:String=counter_moves(sim,target,row.siren_pos)
 		row["moves"]=move_list(sim,target,row.siren_pos)
-		row["advice"]=(Table.TEXT.lock_exit if target==0 else Table.TEXT.lock_exit_drone)+("" if moves.is_empty() else "\n"+moves)
+		# WP-131: the cover line says what rock is really near; "rock_near" tells the card whether it counts as an answer.
+		var rock:Dictionary=nearest_rock(sim,target)
+		row["rock_near"]=not rock.is_empty() and float(rock.gap)<=Table.ROCK_NEAR
+		row["advice"]=rock_line(rock,target==0)+("" if moves.is_empty() else "\n"+moves)
 		row["progress"]=clampf(1.0-float(row.remaining)/seconds,0.0,1.0)
 		result.append(row)
 	result.sort_custom(func(a,b):return a.craft<b.craft)
 	return result
 
+# WP-131: the nearest rock edge to a craft in its own depth band: {"gap": metres, "bearing": degrees} or {} when the chart has none.
+static func nearest_rock(sim,craft:int)->Dictionary:
+	var at:Vector2=sim.units[craft].pos;var best:Dictionary={}
+	for shape in sim.Depth.rock_shapes(sim,int(sim.units[craft].get("band",1))):
+		if Geometry2D.is_point_in_polygon(at,shape):return {"gap":0.0,"bearing":0.0}
+		for n in shape.size():
+			var edge:Vector2=Geometry2D.get_closest_point_to_segment(at,shape[n],shape[(n+1)%shape.size()])
+			var gap:float=at.distance_to(edge)
+			if best.is_empty() or gap<float(best.gap):best={"gap":gap,"bearing":Compass.degrees(edge-at)}
+	return best
+# WP-131: the reason a torpedo tap was refused, from what the simulation knows. chosen is the contact key the tap
+# picked (-1: no box or contact under the tap). Words only; the refusal itself is unchanged.
+static func torpedo_refusal(sim,chosen:int)->String:
+	var fresh:Array=sim.knockdown_targets()
+	if chosen<0 or not sim.contacts.has(chosen):
+		if fresh.is_empty():return Table.TEXT.knock_none%roundi(sim.KNOCK_RANGE)
+		return Table.TEXT.knock_pick%", ".join(fresh.map(func(c):return str(c.tag)))
+	var contact:Dictionary=sim.contacts[chosen];var tag:String="S%d"%(chosen+1)
+	var distance:float=sim.units[0].pos.distance_to(contact.pos)
+	if sim.elapsed-float(contact.time)>=0.3 or contact.get("mode","") in ["PINNED","DISRUPTED"]:return Table.TEXT.knock_stale%tag
+	if distance>sim.KNOCK_RANGE:return Table.TEXT.knock_far%[tag,ceili(distance),roundi(sim.KNOCK_RANGE)]
+	return Table.TEXT.knock_blocked%tag
+# WP-131: the cover advice for a lock: the rock near, or what is near instead.
+static func rock_line(rock:Dictionary,quietus:bool)->String:
+	if rock.is_empty():return Table.TEXT.lock_no_rock_any
+	var gap:int=roundi(float(rock.gap));var direction:String=Compass.point(float(rock.bearing))
+	if float(rock.gap)>Table.ROCK_NEAR:return Table.TEXT.lock_no_rock%[gap,direction]
+	return (Table.TEXT.lock_exit_rock if quietus else Table.TEXT.lock_exit_rock_drone)%[gap,direction]
 # The moves the locked craft can make now, one line, or "" when none applies. Silent uses the
 # silent segment's own words; a tool counts when the craft's rack holds a charge (the buttons'
 # own gate, main.gd) and, for the EMP, when the locking Siren's known position is within its

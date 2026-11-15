@@ -202,6 +202,8 @@ const THREAT_WEDGE_LENGTH=0.3
 const THREAT_NUMBER_BOOST=8
 const THREAT_NUMBER_PAD=5.0
 const LOCK_CARD_WIDTH=5.0
+# WP-131: the widest the lock card grows to fit its longest line, in touch heights.
+const LOCK_CARD_MAX_WIDTH=8.0
 # Command wheel (WP-52): the small state line under a segment's name is this fraction of the segment's type size
 # (never below STATE_LINE_MIN), and a segment's neutral note (such as "Passes Quietus") uses the label colour.
 const STATE_LINE_SCALE=0.72

@@ -14,7 +14,8 @@ const Bay = preload("res://src/simulation/drone_bay/drone_bay.gd")
 const WARNING_TIPS := ["warning", "sweep"]
 const SWEEP := [preload("res://src/simulation/sweeper_senses.gd").WARNING]
 const PricedHints = preload("res://src/presentation/photo_pricing/photo_pricing_hints.gd")
-const FieldTools = preload("res://src/equipment/field_tools.gd")
+const ThreatRead = preload("res://src/presentation/threat_read/threat_read.gd")
+const FieldTools =preload("res://src/equipment/field_tools.gd")
 var host
 var panel: PanelContainer
 var label: Label
@@ -164,7 +165,16 @@ func _wanted(warning: bool = false) -> String:
 func _live_text(id: String, stopped: bool) -> String:
 	var text: String = Text.hint_text(id)
 	var swap: Array = Words.TEXT.hint_run_swaps.get(id, [])
-	return text if stopped or swap.is_empty() else text.replace(swap[0], swap[1])
+	if not stopped and not swap.is_empty(): text = text.replace(swap[0], swap[1])
+	# WP-131: a tip never tells the player to do what is already done (GO SILENT while silent) or to use rock that is not near.
+	var sim = host.sim
+	if id in WARNING_TIPS and not sim.units.is_empty():
+		if sim.units[0].get("silent", false):
+			for pair in Words.TEXT.hint_silent_swaps: text = text.replace(pair[0], pair[1])
+		var rock: Dictionary = ThreatRead.nearest_rock(sim, 0)
+		if rock.is_empty() or float(rock.gap) > ThreatRead.Table.ROCK_NEAR:
+			for pair in Words.TEXT.hint_no_rock_swaps: text = text.replace(pair[0], pair[1])
+	return text
 # avoid: rectangles (this control's coordinates) the card must stay off: the craft, their labels, the Hunt chip.
 # bottom: the lowest y the card may reach (the top of the status strip); -1 = the bottom of bounds.
 func refresh(bounds: Vector2, h: float, font: int, top: float, avoid: Array = [], bottom: float = -1.0) -> void:

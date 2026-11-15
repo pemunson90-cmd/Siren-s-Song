@@ -69,13 +69,15 @@ func _card_text()->String:
  elif moves.size()<all_moves.size():
   # The decoy is not offered against a running lock: the "Or:" line lists only the moves that can help.
   advice=advice.get_slice("\n",0)+("" if moves.is_empty() else "\n"+ThreatRead.Table.TEXT.moves%ThreatRead.Table.TEXT.move_join.join(moves.map(func(m):return m.label)))
- # One decision at a time: the note is left off while the route prompt is open, so the card stays as short as before.
+ # WP-131: with no move that can work and no rock within reach the card says so plainly, with the seconds left
+ # (no decoy button or note: a decoy cannot end a lock that has started).
+ if moves.is_empty() and not bool(rows[0].get("rock_near",true)):advice=ThreatRead.Table.TEXT.lock_no_answer%float(rows[0].remaining)
+ # One decision at a time: the lands line is left off while the route prompt is open, so the prompt still clears the stack.
  var asking:bool=host!=null and host.mission_hud!=null and host.mission_hud.guard!=null and not host.mission_hud.guard.pending.is_empty()
- var decoy_note:String=Words.TEXT.decoy_note if not asking and moves.size()<all_moves.size() and all_moves.any(func(m):return m.order=="decoy") else ""
  # WP-103: the one line that says what a landed lock does, read from the craft the lock is on (simulation.gd).
  # Left off while the route prompt is open (one decision at a time), like the decoy note below, so the prompt still clears the stack.
  var lands:String=Words.lock_lands(host.sim,int(rows[0].craft)) if host!=null and not asking else ""
- return rows[0].sentence+("\n"+lands if not lands.is_empty() else "")+"\n"+advice+("\n"+decoy_note if not decoy_note.is_empty() else "")+("\n"+aim if not aim.is_empty() else "")+("\n"+note if not note.is_empty() else "")
+ return rows[0].sentence+("\n"+lands if not lands.is_empty() else "")+"\n"+advice+("\n"+aim if not aim.is_empty() else "")+("\n"+note if not note.is_empty() else "")
 func refresh(owner):
  host=owner;position=Vector2.ZERO;size=host.size
  var cue=host.hud.get_node_or_null("FirstSirenCue") if host.get("hud")!=null else null
@@ -85,6 +87,12 @@ func refresh(owner):
  var h=host.ui_touch_height
  var width=minf(size.x-32,h*UiStyle.LOCK_CARD_WIDTH)
  var tall=h*.85
+ # WP-131: grow to the longest line of text (never past LOCK_CARD_MAX_WIDTH touch heights or the screen) so a
+ # large font does not break the card into one word per line.
+ if not rows.is_empty():
+  var longest:=0.
+  for line in card_text.split("\n"):longest=maxf(longest,ThemeDB.fallback_font.get_string_size(line,HORIZONTAL_ALIGNMENT_LEFT,-1,_font_size(h)).x)
+  width=clampf(longest+h*.9+24.,width,maxf(width,minf(size.x-32,h*UiStyle.LOCK_CARD_MAX_WIDTH)))
  if not rows.is_empty():
   var text_h=ThemeDB.fallback_font.get_multiline_string_size(card_text,HORIZONTAL_ALIGNMENT_LEFT,maxf(1.,width-h*.9-12.),_font_size(h)).y
   tall=maxf(tall,text_h+h*.25)

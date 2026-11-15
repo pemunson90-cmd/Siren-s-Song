@@ -120,7 +120,7 @@ static func press_through(host,event:InputEvent,origin:Vector2) -> bool:
 static func target_knockdown(host,point: Vector2,intended:int=-2) -> void:
 	var chosen=host.ocean.knock_aim_key(point-host.ocean.global_position) if intended==-2 else intended
 	if chosen<0 or not host.ocean.knock_visible_targets().any(func(c):return c.key==chosen):
-		host.sim.message="Choose an S# FIRE box or a clear contact · no torpedo spent"
+		host.sim.message=preload("res://src/presentation/threat_read/threat_read.gd").torpedo_refusal(host.sim,chosen)  # WP-131: say why
 		for id in host.sim.contacts:
 			var contact=host.sim.contacts[id]
 			if host.sim.elapsed-contact.time>=.3:continue
