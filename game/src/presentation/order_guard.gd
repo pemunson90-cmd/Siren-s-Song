@@ -240,7 +240,7 @@ func mode_rect() -> Rect2:
 	var tall := face.get_height(mode_font) + MODE_MARGIN
 	var at: Vector2 = host.ocean.screen_position(host.sim.units[host.sim.selected].pos)
 	var chart := Rect2(Vector2.ZERO, Vector2(host.ocean.chart_width(), size.y))
-	var rect := Rect2(at + Vector2(host.ui_touch_height * .2 - width, -host.ui_touch_height * 1.3 - tall), Vector2(width, tall)) # above the craft's ring and left of its readout: the extraction label sits below it at a dive's start
+	var rect := Rect2(at + Vector2(host.ui_touch_height * .2 - width, -host.ui_touch_height * 1.7 - tall), Vector2(width, tall)) # above the craft's ring and left of its readout: the extraction label sits below it at a dive's start
 	rect.position.x = clampf(rect.position.x, chart.position.x + 4, maxf(4.0, chart.size.x - width - 4))
 	rect.position.y = clampf(rect.position.y, 4.0, maxf(4.0, chart.size.y - tall - 4))
 	return rect
