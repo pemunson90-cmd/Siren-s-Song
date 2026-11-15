@@ -58,9 +58,18 @@ func layout_badge()->void:
  var occupied=host.mission_hud.occupied_rects() if host.screen=="mission" and host.mission_hud!=null else []
  for control in host.find_children("*","Button",true,false):
   if control!=badge and control.is_visible_in_tree() and not is_ancestor_of(control):occupied.append(control.get_global_rect())
- # Search from the upper right through unoccupied HUD space. Keep every existing
+ # WP-132: text plates and cards count too (the tip card and the SEARCH chip were overprinted by the badge), and the
+ # search in a dive starts at the lower right corner, which no HUD control uses, and works up and left.
+ for control in host.find_children("*","Control",true,false):
+  if control==badge or is_ancestor_of(control) or not control.is_visible_in_tree():continue
+  if not (control is Label or control is PanelContainer or control is Panel or control is RichTextLabel):continue
+  var rect:Rect2=control.get_global_rect()
+  if rect.size.x>=host.size.x*.6 and rect.size.y>=host.size.y*.6:continue # a backdrop, not a plate
+  occupied.append(rect)
+ # Search from the lower right through unoccupied HUD space. Keep every existing
  # actionable control's rectangle intact at either display shape and text scale.
- for y in range(12,maxi(13,int(host.size.y-touch)),int(touch+8)):
+ var rows:Array=range(maxi(12,int(host.size.y-touch-12)),11,-int(touch+8)) if host.screen=="mission" else range(12,maxi(13,int(host.size.y-touch)),int(touch+8))
+ for y in rows:
   for x in range(maxi(12,int(host.size.x-touch-12)),11,-int(touch+8)):
    var candidate=Rect2(host.global_position+Vector2(x,y),Vector2.ONE*touch)
    if occupied.any(func(rect):return rect.grow(4).intersects(candidate)):continue

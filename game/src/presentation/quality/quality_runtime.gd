@@ -47,6 +47,11 @@ func _build_notice(host)->void:
 	notice=PanelContainer.new();notice.name="QualitySuggestion";notice.size_flags_horizontal=Control.SIZE_EXPAND_FILL;host.menu_footer.add_child(notice);host.menu_footer.show()
 	var box=HFlowContainer.new();box.add_theme_constant_override("h_separation",12);notice.add_child(box)
 	var label=Label.new();label.text="LOW EFFECTS may improve frame rate.";label.autowrap_mode=TextServer.AUTOWRAP_WORD;label.size_flags_horizontal=Control.SIZE_EXPAND_FILL;label.size_flags_vertical=Control.SIZE_SHRINK_CENTER;box.add_child(label)
+	# WP-132: a slim bar, not a card: smaller type than the menu body, tight margins; the buttons keep the touch height.
+	label.add_theme_font_size_override("font_size",maxi(14,roundi(host.ui_touch_height*.3*Settings.text_scale())))
+	var slim:=StyleBoxFlat.new();slim.bg_color=Color("0c1c24");slim.border_color=Color("2d4a52");slim.set_border_width_all(1)
+	slim.content_margin_left=10;slim.content_margin_right=10;slim.content_margin_top=4;slim.content_margin_bottom=4
+	notice.add_theme_stylebox_override("panel",slim)
 	for row in [["USE LOW EFFECTS","quality_accept"],["DISMISS","quality_dismiss"]]:
 		var b=Button.new();b.text=row[0];b.size_flags_horizontal=Control.SIZE_EXPAND_FILL;b.custom_minimum_size.y=host.ui_touch_height
 		b.custom_minimum_size.x=host.ui_touch_height*1.6;b.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART

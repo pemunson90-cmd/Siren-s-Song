@@ -43,6 +43,13 @@ func campaign_case(shape:Vector2i,scale:float)->void:
  game._debrief();await settle();await settle()
  for id in ["next_dive","retry","back"]:pinned(game,id,tag+" (won)")
  check(labels_text(game.panel_box).contains("ARCHIVE RECOVERED"),"the page above the footer still holds the result"+tag)
+ # WP-132: a first win opens the hull and drone frames on the hub: one line says so, the hub button says NEW, NEXT DIVE stays.
+ check(labels_text(game.panel_box).contains("NEW: hull and drone frames unlocked"),"a first recovery says the frames are unlocked"+tag)
+ check(button(game,"back").text==Flow.OPERATIONS_NEW and button(game,"next_dive")!=null,"the hub button says NEW and NEXT DIVE stays"+tag)
+ game._show_campaign();await settle()
+ game.sim.hull=80.;game.sim.outcome="won";game.mission_index=0;game.completed=[0];game.sim.message="Recovered."
+ game._debrief();await settle();await settle()
+ check(not labels_text(game.panel_box).contains("NEW: ") and button(game,"back").text=="OPERATIONS ARCHIVE","a replay with nothing new carries no unlock line"+tag)
  await finish(game,path)
 func career_case(shape:Vector2i,scale:float)->void:
  root.size=shape;await settle()

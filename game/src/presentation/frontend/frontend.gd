@@ -39,6 +39,9 @@ var settings_dirty=false
 var wide_built=false
 var rebuild:Callable
 var relayout_pending=false
+# WP-132: on a tall, near-square screen the settings page spreads over the height (taller rows, more air between them)
+# instead of sitting in the top half; 1.0 everywhere else.
+var row_scale:=1.0
 func setup_settings(main:Control)->void:
 	host=main;embedded_settings=true;name="Frontend"
 	settings_store.path=host.settings_path;values=FrontendSettings.current.duplicate(true)
@@ -175,7 +178,7 @@ const TITLE_DENSITY_MAX := 1.6
 func _density() -> float:
 	return clampf(touch_height() / 48.0, 1.0, TITLE_DENSITY_MAX) if screen == "title" else 1.0
 func _reset(next: String) -> void:
-	screen = next; title_label = null
+	screen = next; title_label = null; row_scale = 1.0
 	rebuild = Callable(); wide_built = false; relayout_pending = false
 	# The chart stays behind every front-end screen; only its drifting craft stops when the title is not shown.
 	if title_backdrop != null: title_backdrop.visible = true; title_backdrop.set_frozen(next != "title")
@@ -190,7 +193,7 @@ func _text(text: String, size_px: int = 17, color: Color = Color(0, 0, 0, 0)) ->
 		if color.a>0:label.add_theme_color_override("font_color",color)
 		return label
 	var l := Label.new(); l.text = text; l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	l.add_theme_font_size_override("font_size", roundi(size_px * FrontendSettings.text_scale() * _density()))
+	l.add_theme_font_size_override("font_size", roundi(size_px * FrontendSettings.text_scale() * _density() * lerpf(1.0, row_scale, 0.5)))
 	if color.a > 0: l.add_theme_color_override("font_color", color)
 	column.add_child(l); return l
 func _button(text: String, action: Callable, id: String, disabled := false) -> Button:
@@ -200,7 +203,7 @@ func _button(text: String, action: Callable, id: String, disabled := false) -> B
 		var control=host._button(target,text,action,logical);control.disabled=disabled
 		if target==host.menu_footer:target.show()
 		return control
-	var b := Button.new(); b.text = text; b.custom_minimum_size = Vector2(0, touch_height()); b.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	var b := Button.new(); b.text = text; b.custom_minimum_size = Vector2(0, touch_height() * row_scale); b.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	b.focus_mode = Control.FOCUS_ALL; b.disabled = disabled; b.mouse_filter = Control.MOUSE_FILTER_PASS
 	b.set_meta("action", id); b.set_meta("ui_action", id)
 	# The title's buttons carry the hub's font (touch height and text size), so 130% is plainly larger there too.
@@ -269,6 +272,9 @@ func _settings_screen() -> void:
 		tab.pressed.connect(func(): settings_page = id; _settings_screen(), CONNECT_DEFERRED)
 	# Wide: the page's independent rows go in two columns and the page buttons close the right one.
 	var boxes := _split(_settings_screen)
+	if not embedded_settings and wide_built and size.y >= size.x * 0.8:
+		row_scale = 1.3
+		for box in boxes: box.add_theme_constant_override("separation", 30)
 	if settings_page == "audio": _audio_page(boxes)
 	if settings_page == "display": _display_page(boxes)
 	if settings_page == "controls": _controls_page(boxes)
@@ -286,7 +292,7 @@ func _choice_row() -> HBoxContainer:
 	var row := HBoxContainer.new(); row.add_theme_constant_override("separation", 8); column.add_child(row)
 	return row
 func _choice_button(row: Container, text: String, id: String, selected: bool) -> Button:
-	var b := Button.new(); b.text = text; b.custom_minimum_size = Vector2(0, touch_height()); b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var b := Button.new(); b.text = text; b.custom_minimum_size = Vector2(0, touch_height() * row_scale); b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	b.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	b.focus_mode = Control.FOCUS_ALL; b.mouse_filter = Control.MOUSE_FILTER_PASS; b.set_meta("ui_action", id); b.toggle_mode = true; b.button_pressed = selected
 	row.add_child(b)

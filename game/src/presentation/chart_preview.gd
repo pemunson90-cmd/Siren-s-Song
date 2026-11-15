@@ -163,6 +163,19 @@ static func hits(rect:Rect2,mark:Dictionary)->bool:
 	var far:=0.0
 	for corner in [rect.position,Vector2(rect.end.x,rect.position.y),rect.end,Vector2(rect.position.x,rect.end.y)]:far=maxf(far,corner.distance_to(c))
 	return near<=r+1.0 and far>=r-1.0
+var _rock_screen:Array=[]	# WP-132: the rock outlines in screen pixels, set by layout()
+# Whether a label rectangle touches rock: a rock corner inside it, or a sample point of its outline or middle inside a rock.
+var _avoid_rock:=false
+func over_rock(rect:Rect2)->bool:
+	if not _avoid_rock:return false
+	for poly in _rock_screen:
+		for p in poly:
+			if rect.grow(1.0).has_point(p):return true
+		for n in 9:
+			var x:=rect.position.x+rect.size.x*float(n)/8.0
+			for y in [rect.position.y,rect.position.y+rect.size.y*0.5,rect.end.y]:
+				if Geometry2D.is_point_in_polygon(Vector2(x,y),poly):return true
+	return false
 # Where each label goes: beside its own marker (above, below, right, left, then inside a ring's top), whole inside the
 # picture, clear of every marker line, of the scale bar and of the labels already placed. A label that finds no clear
 # place falls back to its shorter text, and is dropped when that finds none either: less is shown, never an overlap.
@@ -172,6 +185,8 @@ static func hits(rect:Rect2,mark:Dictionary)->bool:
 # Returns {"labels":[{"rect","text","color"}],"marks":[...],"scale":Rect2,"px":int}.
 func layout(box:Rect2,factor:float)->Dictionary:
 	var marks:=_mark_list(box,factor)
+	# WP-132: a label never sits over rock either (the briefing chart's "UNKNOWN SIGNAL SOURCE" ran across a rock).
+	_rock_screen=rocks.map(func(poly):return PackedVector2Array(Array(poly).map(func(p):return box.position+p*factor)))
 	var wanted:=label_px()
 	var best:Dictionary={}
 	var tried:Array=[]
@@ -179,7 +194,12 @@ func layout(box:Rect2,factor:float)->Dictionary:
 		var px:=maxi(MIN_FONT,int(roundf(wanted*share)))
 		if px in tried:continue
 		tried.append(px)
+		# WP-132: clear of rock when that keeps every label; a label is never dropped only to stay off rock.
+		_avoid_rock=true
 		var attempt:=_layout_at(px,box,factor,marks)
+		_avoid_rock=false
+		var free:=_layout_at(px,box,factor,marks)
+		if free.score>attempt.score:attempt=free
 		if best.is_empty() or attempt.score>best.score:best=attempt
 		if best.score>=marks.filter(func(mark):return not mark.texts.is_empty()).size()*2:break
 		if px==MIN_FONT:break
@@ -212,7 +232,7 @@ func _layout_at(px:int,box:Rect2,factor:float,marks:Array)->Dictionary:
 			if mark.ring:spots.append(Vector2(c.x-width/2.0,c.y-r+MARK_GAP+2.0))
 			for spot in spots:
 				var rect:=Rect2(Vector2(clampf(spot.x,inner.position.x,inner.end.x-width),clampf(spot.y,inner.position.y,inner.end.y-height)),Vector2(width,height))
-				if marks.any(func(other):return hits(rect,other)):continue
+				if marks.any(func(other):return hits(rect,other)) or over_rock(rect):continue
 				if placed.any(func(other):return other.rect.grow(1.0).intersects(rect)):continue
 				# A repeat of the same words close by is dropped, as the dive groups areas of one name.
 				if not placed.any(func(other):return other.text==text and other.rect.position.distance_to(rect.position)<width*2.0):placed.append({"rect":rect,"text":text,"color":mark.color})

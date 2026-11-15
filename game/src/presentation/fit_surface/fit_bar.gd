@@ -34,7 +34,7 @@ func _draw()->void:
 # A captioned bar column: label and printed value above, the bar below. Returns the bar.
 static func add(host,parent:Node,label:String,value:float,scale_max:float,text:String,over:bool,stock:float=-1.0)->Control:
 	var column:=VBoxContainer.new();column.size_flags_horizontal=Control.SIZE_EXPAND_FILL;column.mouse_filter=Control.MOUSE_FILTER_PASS;parent.add_child(column)
-	var caption:=Label.new();caption.text="%s %s"%[label,text];caption.add_theme_font_size_override("font_size",roundi(13*host.ui_touch_height/48.0));column.add_child(caption)
+	var caption:=Label.new();caption.text="%s %s"%[label,text];caption.add_theme_font_size_override("font_size",roundi(13*host.ui_touch_height/48.0*preload("res://src/presentation/frontend/frontend_settings.gd").text_scale()));caption.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;caption.custom_minimum_size.x=40;column.add_child(caption) # WP-132: the caption follows the text size setting and wraps rather than widening the panel
 	var bar=load("res://src/presentation/fit_surface/fit_bar.gd").new()
 	bar.value=value;bar.scale_max=scale_max;bar.stock=stock;bar.over=over;bar.unit_height=host.ui_touch_height
 	bar.set_meta("bar_label",label);column.add_child(bar)

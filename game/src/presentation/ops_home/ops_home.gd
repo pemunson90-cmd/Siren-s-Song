@@ -156,6 +156,9 @@ static func arrange(host)->void:
     if label is Label:
      # The count is stated once, over the open rows; the RECOVERED fold names the arc only (critic 13 Nov saw it twice).
      label.text=plain_arc_heading(arc,completed,holder==ops);label.add_theme_font_size_override("font_size",roundi(14*text_scale(host)))
+     # WP-132: the first open arc's name rides on the OPERATIONS heading's own line (one row less), so the six cards fit whole beside the MORE BELOW strip.
+     if holder==ops and node.get_index()==1 and ops.get_child(0) is Label:
+      ops.get_child(0).text="OPERATIONS · "+label.text;label.hide()
  # --- Continue ---
  var cont=column()
  var top=HBoxContainer.new();top.add_theme_constant_override("separation",Table.GAP)
