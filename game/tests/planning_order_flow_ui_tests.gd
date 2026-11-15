@@ -122,7 +122,8 @@ func run():
 func status_checks(g)->void:
 	await fresh(g)
 	var hud=g.mission_hud
-	hud.task_result={"owner":"QUIETUS","ok":true,"text":"Camera exposure · hold 4 seconds"};g.sim.message="Marker cancelled · orders unchanged";g._refresh();await settle()
+	# WP-140: an ACCEPTED result gives its row to the NEXT line (WP-128), so the LAST row is checked with a REFUSED result, which keeps its row.
+	hud.task_result={"owner":"QUIETUS","ok":false,"text":"Camera exposure refused"};g.sim.message="Marker cancelled · orders unchanged";g._refresh();await settle()
 	check("LAST ·" in hud.intent.text and "Marker cancelled" in hud.intent.text,"before the next order the result and the message are shown")
 	for n in 120:await process_frame
 	check("LAST ·" in hud.intent.text and "Marker cancelled" in hud.intent.text,"waiting while paused does not remove them")
