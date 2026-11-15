@@ -65,6 +65,21 @@ func refresh()->void:
    note_rect=Rect2(note_at,Vector2(width,_box_height(note_text(),width-tall*.4-8.,tall)))
   # marker_rect is the chip (the note alone when no bearing); captions also avoid note_rect.
   marker_rect=chip_rect if not frames.is_empty() or note_frames.is_empty() else note_rect
+ # WP-129: one notice slot. The chip and its note slide down the right lane, then left, until they cover no craft and no
+ # Siren contact; chart labels keep off the slot (ocean_view.notice_rects) and shorten or drop instead.
+ var slot=chip_rect.merge(note_rect) if note_rect.has_area() else chip_rect
+ if slot.has_area() and visible and not host.ocean.notice_clear(slot):
+  var floor_y:float=host.ocean.status_floor if host.ocean.status_floor>0. else size.y
+  var found=false
+  for dx in [0.,-(width+layout.gap),-2.*(width+layout.gap)]:
+   for dy in 14:
+    var box=Rect2(slot.position+Vector2(dx,dy*h*.5),slot.size)
+    if box.position.x<host.ocean.chart_origin().x or box.end.y>floor_y:continue
+    if host.ocean.notice_clear(box):
+     var delta=box.position-slot.position
+     chip_rect.position+=delta;note_rect.position+=delta;marker_rect.position+=delta;slot=box;found=true;break
+   if found:break
+ host.ocean.notice_rects=[slot] if slot.has_area() and visible else []
  var silent=not visible or not host.sound.cue_audible(Table.AUDIO.id)
  if silent or voice.get_playback_position()>=Table.AUDIO.seconds:voice.stop()
  voice.stream_paused=host.sim.paused or suspended or host.sound.system_suspended

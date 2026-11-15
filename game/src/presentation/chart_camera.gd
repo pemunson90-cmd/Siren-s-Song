@@ -16,6 +16,9 @@ var follow_width:=0.
 # Width on the right that the open camera panel may cover. Follow centres the craft in the rest, folded or open, so the chart
 # never moves when the panel toggles and the craft is not under it.
 var follow_reserve:=0.
+# WP-129: height at the bottom that the status strip covers. Follow and free view keep the chart (and a craft launched at its
+# bottom edge) above it; overview still fits the whole chart.
+var follow_bottom:=0.
 var scale:=1.0
 var offset:=Vector2.ZERO
 func configure(dimensions:Vector2,bounds:Vector2=WORLD,origin:Vector2=Vector2.ZERO) -> void:
@@ -33,7 +36,7 @@ func _update() -> void:
  _center=Vector2(world_size.x/2 if half.x>=world_size.x/2 else clampf(desired_center.x,half.x,world_size.x-half.x),world_size.y/2 if half.y>=world_size.y/2 else clampf(desired_center.y,half.y,world_size.y-half.y))
  offset=view_origin+focus/2-_center*scale
 # The area the view is centred in: the whole chart in overview, the chart minus the panel's lane when following or free.
-func _focus() -> Vector2:return view_size-Vector2(0. if mode=="overview" else follow_reserve,0.)
+func _focus() -> Vector2:return view_size-(Vector2.ZERO if mode=="overview" else Vector2(follow_reserve,minf(follow_bottom,view_size.y*.5)))
 func follow(point:Vector2) -> void:
  mode="follow";desired_center=point;_update()
 func fit() -> void:
