@@ -17,17 +17,17 @@ func route_intent(ui) -> void:
  ui.mission_hud.open("fleet");await process_frame;await click(ui.unit_buttons[1].get_global_rect().get_center())
  ui.mission_hud.dismiss();ui.ocean.fit_chart();await process_frame
  await click(ui.ocean.global_position+ui.ocean.screen_position(Vector2(600,800)))
- ui.mission_hud.open("route");await process_frame;await click(ui.order_buttons.queue.get_global_rect().get_center())
+ # WP-127: a drone with a route adds the next tap by itself; the old TAPS: QUEUE switch is gone.
  ui.mission_hud.open("tools");await process_frame;await click(ui.order_buttons.recon.get_global_rect().get_center())
- check(ui.sim.queue_mode and not ui.order_buttons.queue.is_visible_in_tree(),"survey preserves explicit queued state after contextual menu closes")
- check(ui.mission_hud.intent.is_visible_in_tree() and "DRONE A · MIDDLE · QUEUE" in ui.mission_hud.intent.text,"selected craft and sticky append intent remain visible on water")
+ check(ui.sim.route_goals(1).size()==1 and not ui.order_buttons.queue.is_visible_in_tree(),"survey keeps the drone's route after the contextual menu closes")
+ check(ui.mission_hud.intent.is_visible_in_tree() and "DRONE A · MIDDLE · TAP WATER · ADD POINT" in ui.mission_hud.intent.text,"selected craft and its tap mode remain visible on water")
  var second=Vector2.INF
  for candidate in [Vector2(900,600),Vector2(1100,800),Vector2(600,700)]:
   var point=ui.ocean.global_position+ui.ocean.screen_position(candidate)
   if not ui.mission_hud.blocks(point) and not ui.sim.blocked(candidate,24) and ui.ocean.pick_context(point-ui.ocean.global_position,ui.ui_touch_height).is_empty():second=candidate;break
  check(second.is_finite(),"queue fixture exposes legal water clear of the floating undo control")
  await click(ui.ocean.global_position+ui.ocean.screen_position(second))
- check(ui.sim.route_goals(1).size()==2,"ordinary chart tap still appends to the actual queued plan")
+ check(ui.sim.route_goals(1).size()==2,"ordinary chart tap appends to the drone's route")
  # 127 (Pat 2026-10-30): EXTRACT autopilot is a dev/test shortcut; release play hides it.
  ui.set_meta("dev_profile",true)
  ui.mission_hud.open("route");await process_frame;await click(ui.order_buttons.home.get_global_rect().get_center())
@@ -36,7 +36,7 @@ func route_intent(ui) -> void:
   for b in ui.menu.find_children("*","Button",true,false):
    if b.get_meta("action","")=="manifest_confirm":await click(b.get_global_rect().get_center())
  ui.set_meta("dev_profile",false)
- check(ui.sim.queue_mode and ui.sim.selected==1 and ui.sim.route_goals(1)[-1].pos==ui.sim.mission.extraction and "DRONE A · MIDDLE · QUEUE" in ui.mission_hud.intent.text,"ordinary recovery routing honors the explicit queued intent")
+ check(ui.sim.selected==1 and ui.sim.route_goals(1)[-1].pos==ui.sim.mission.extraction and "DRONE A · MIDDLE · TAP WATER · ADD POINT" in ui.mission_hud.intent.text,"recovery routing ends at extraction and the tap mode stays visible")
 func run():
  root.size=Vector2i(2520,1080); await process_frame; await process_frame
  var ui=load("res://scenes/main.tscn").instantiate(); ui.set_script(preload("res://tests/density_main.gd")); ui.capture_scenario="density-test"; root.add_child(ui)

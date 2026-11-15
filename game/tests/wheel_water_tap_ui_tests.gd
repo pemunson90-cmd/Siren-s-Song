@@ -123,7 +123,8 @@ func route_checks(g,tag:String)->void:
 	await open_wheel(g)
 	var second:Vector2=spot(g,false)
 	await tap(second)
-	check(not g.advanced_orders and g.mission_hud.guard.panel.visible and not g.mission_hud.guard.pending.is_empty(),tag+": with a route under way the wheel-closing water tap asks to replace it")
+	# WP-127: no card; the wheel-closing tap adds a point as a closed-wheel tap does.
+	check(not g.advanced_orders and not g.mission_hud.guard.panel.visible and g.sim.route_goals().size()==2 and g.sim.selected==0,tag+": with a route under way the wheel-closing water tap adds a point")
 	# A drag that starts on open chart with the wheel open pans the chart and orders nothing.
 	await fresh(g);await open_wheel(g)
 	var offset_before=g.ocean.world_offset

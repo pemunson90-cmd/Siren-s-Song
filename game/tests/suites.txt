@@ -282,3 +282,4 @@ photo_beside_job_tests|PHOTO BESIDE JOB|-|2300|render
 time_speed_tests|TIME SPEED|-|2320|render
 play_api_tests|PLAY API|-|2330
 play_api_modes_tests|PLAY API MODES|-|2331
+route_tap_flow_ui_tests|ROUTE TAP FLOW UI|-|2340|render

@@ -95,14 +95,12 @@ func run():
   check(destination.is_finite(),"follow fixture exposes a legal water destination outside HUD and markers")
   var accepted=game.sim.route_goals().duplicate(true)
   await touch(latest,true);await touch(latest,false);await settle()
-  check(game.mission_hud.guard.pending.get("point",Vector2.INF).distance_to(destination)<.1 and game.sim.route_goals()==accepted,"moving-course touch sets the transformed marker without silently replacing orders")
-  # A new campaign may show a once-only card above the confirmation panel.
+  # WP-127: with a route under way the touch adds a point at the transformed destination at once (no marker, no card).
   for n in 6:
    if not game.mission_hud.hints.panel.visible:break
    await click(game.mission_hud.hints.dismiss_button)
-  check(not game.mission_hud.hints.panel.visible and game.sim.route_goals()==accepted,"acknowledging tutorial cards leaves the accepted route intact")
-  await click(game.mission_hud.guard.go_button)
-  check(not game.sim.route_goals().is_empty() and game.sim.route_goals()[0].pos.distance_to(destination)<.1,"explicit route confirmation after physical follow uses latest camera transform")
+  var goals_after=game.sim.route_goals()
+  check(game.mission_hud.guard.pending.is_empty() and goals_after.size()==accepted.size()+1 and goals_after[-1].pos.distance_to(destination)<.1,"moving-course touch adds a point at the latest camera transform, never silently replacing orders")
   await click(game.pause_button);check(game.sim.paused,"persistent PAUSE remains immediate after actual moving play")
   var state=game.sim.snapshot();ocean.pan_chart(Vector2(-90,0));var manual=ocean.chart_camera.center
   game._order("select",{"unit":1});ocean._sync_camera()

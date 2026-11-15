@@ -99,21 +99,10 @@ func run() -> void:
 	check(guard.undo_button.visible and guard.pending.is_empty(),"an undo chip follows the order")
 	var planned=game.sim.units[0].route.back().pos
 	await click(water_point(Vector2(780,640))); await settle()
-	check(not guard.pending.is_empty() and game.sim.units[0].route.back().pos==planned,"a tap over an existing route only sets a pending marker")
-	check(guard.panel.visible and guard.go_button.visible and guard.add_button.visible and guard.points_button.visible,"replace, add and pass/stop choices are on screen")
-	await click(guard.cancel_button.get_global_rect().get_center()); await settle()
-	check(guard.pending.is_empty() and game.sim.units[0].route.back().pos==planned,"cancel leaves the route untouched")
-	await click(water_point(Vector2(780,640))); await settle()
-	await click(guard.go_button.get_global_rect().get_center()); await settle()
-	check(guard.pending.is_empty() and game.sim.units[0].route.back().pos.distance_to(Vector2(780,640))<30,"REPLACE ROUTE applies the new route")
+	# WP-127: a tap over an existing route adds a point at once (no REPLACE / ADD / CANCEL card); UNDO takes the point back.
+	check(guard.pending.is_empty() and not guard.panel.visible and game.sim.route_goals().size()==2 and game.sim.units[0].route.back().pos.distance_to(Vector2(780,640))<30,"a tap over an existing route adds a point with no card")
 	await click(guard.undo_button.get_global_rect().get_center()); await settle()
-	check(game.sim.units[0].route.back().pos==planned,"undo restores the previous route")
-	await click(water_point(Vector2(780,640))); await settle()
-	var before=game.sim.route_goals().size()
-	await click(guard.add_button.get_global_rect().get_center()); await settle()
-	check(game.sim.route_goals().size()==before+1 and game.sim.queue_mode,"ADD TO ROUTE extends and leaves taps on QUEUE (WP-89)")
-	await click(guard.undo_button.get_global_rect().get_center()); await settle()
-	check(game.sim.route_goals().size()==before,"undo removes the added stop")
+	check(game.sim.route_goals().size()==1 and game.sim.units[0].route.back().pos==planned,"undo takes the added point back")
 	# Undo of a first plan clears it.
 	game._start_mission(0); await settle()
 	game.sim.paused=true
@@ -123,6 +112,7 @@ func run() -> void:
 	# Prompts: once each, never pausing play.
 	game.hints_seen=[]; game._start_mission(0); await settle()
 	var hints=game.mission_hud.hints
+	hints.last_closed_ms=-1; game._refresh(); await settle() # WP-127: the shorter order check above leaves the tip gap (UiStyle.TIP_GAP_MS) open
 	check(hints.panel.visible and hints.current=="move" and game.sim.paused,"the first prompt teaches one verb while paused")
 	check("move" in game.hints_seen,"a shown prompt is remembered")
 	check(hints.label.text.contains("▶ RUN") and hints.label.text.contains("|| PAUSE") and hints.label.text.contains("stop it again") and not hints.label.text.contains("RUNNING"),"the first prompt, shown before time starts, says how to run and how to stop time")

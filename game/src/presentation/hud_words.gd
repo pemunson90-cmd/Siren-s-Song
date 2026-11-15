@@ -25,7 +25,7 @@ const TEXT={
 	# menu is closed by the tap, which lets time run again.
 	"act_answer": "ANSWER",
 	"act_close": "CLOSE",
-	"plate_answer": "Route marker waiting: tap REPLACE ROUTE, ADD TO ROUTE or CANCEL. Time stays held until you answer.",
+	"plate_answer": "Route marker waiting: tap SEND ANYWAY or CANCEL. Time stays held until you answer.",
 	# The lock card's consequence line: what the simulation does when a lock lands (Quietus is destroyed, a drone is lost).
 	"lock_lands_quietus": "When it lands, %s is destroyed.",
 	"lock_lands_drone": "When it lands, %s is lost.",
@@ -92,7 +92,7 @@ const TEXT={
 	"rock_card_send": "SEND ANYWAY sends it through the rock; CANCEL, or tap open water, to choose again.",
 	"rock_card_both": "REPLACE ROUTE or ADD TO ROUTE sends it through the rock; CANCEL, or tap open water, to choose again.",
 	"rock_card_replace": "REPLACE ROUTE sends it through the rock; CANCEL, or tap open water, to choose again.",
-	"rock_strip": "Marker set across charted rock · choose on the card",
+	"rock_strip": "Marker set across charted rock · SEND ANYWAY or CANCEL",
 	"rock_route_replace": "REPLACE ROUTE would cross charted rock; ADD TO ROUTE would not. Tap open water to move the marker.",
 	"rock_route_add": "ADD TO ROUTE would cross charted rock; REPLACE ROUTE would not. Tap open water to move the marker.",
 	# WP-69: a tap on open water that orders nothing says what a water tap needs (or that the dive is over).
@@ -148,6 +148,14 @@ const TEXT={
 	"hint_no_rock_swaps": [[", and keep rock between you and it.", ". No rock is near to hide behind."]],
 	# WP-137: the message when a decoy breaks a lock: "S2 LOCK BROKEN · drawn to the decoy" (several: "S1, S2 LOCK BROKEN ...").
 	"lock_broken": "%s LOCK BROKEN · drawn to the decoy",
+	# WP-127: one predictable tap. With a route set a water tap adds a point; the tap mode is printed beside the craft.
+	"tap_mode_set": "TAP WATER · SET ROUTE",
+	"tap_mode_add": "TAP WATER · ADD POINT",
+	"tap_mode_deploy": "TAP WATER · DEPLOY",
+	"rock_bar": "This leg crosses charted rock",
+	"replace_route": "REPLACE\nROUTE",
+	"replace_none": "%s has no route to replace · tap water to set one",
+	"replace_done": "%s · route cleared · tap water to plot a new one · UNDO restores it",
 }
 static func lock_broken(siren_ids:Array)->String:
 	return TEXT.lock_broken%", ".join(siren_ids.map(func(id):return preload("res://src/simulation/siren_tag.gd").tag(int(id))))

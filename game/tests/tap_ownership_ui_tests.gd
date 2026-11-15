@@ -133,7 +133,7 @@ func extraction_checks(g)->void:
 		g.sim.message=""
 		await tap(native/1.5)
 		check(not g.sim.route_goals().is_empty() or g.advanced_orders or g.mission_hud.guard.panel.visible,"critic tap "+str(native)+" at the start is answered: a route, a wheel or the order dialog")
-	# A craft that already has a route gets the same replace-route dialog a water tap gives.
+	# WP-127: a craft that already has a route gets the extraction tap as one more point, as any water tap is.
 	await fresh(g)
 	var home:Vector2=g.sim.mission.extraction
 	g.sim.units[0].pos=home+Vector2(380,-100);g.ocean.focus_craft();g._refresh();await settle()
@@ -141,9 +141,7 @@ func extraction_checks(g)->void:
 	await tap(screen(g,leg))
 	check(g.sim.route_goals().size()==1,"a first water tap plots a leg")
 	await tap(screen(g,home+Vector2(30,-20)))
-	check(g.mission_hud.guard.panel.visible and g.mission_hud.guard.pending.point.distance_to(home)<1.,"with a route under way the extraction tap asks to replace it, marker on the extraction point")
-	await click(g.mission_hud.guard.go_button)
-	check(g.sim.route_goals().size()==1 and g.sim.route_goals()[0].pos.distance_to(home)<1.,"REPLACE ROUTE then sends the craft to extraction")
+	check(not g.mission_hud.guard.panel.visible and g.sim.route_goals().size()==2 and g.sim.route_goals()[1].pos.distance_to(home)<1.,"with a route under way the extraction tap adds extraction as the last point, with no card")
 
 # WP-51: the tip card owns every tap on it and within one touch height of GOT IT, in the engine's real event order
 # (emulated mouse press, then the touch press, in one frame). A tap there neither dismisses the card nor reaches the chart.

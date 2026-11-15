@@ -13,7 +13,7 @@ const UiStyle=preload("res://src/presentation/ui_style.gd")
 const WARNING=Color("e0634f")
 const TRAVEL_SHORTCUTS={
  "water_leg":{"name":"Tap water: place a straight leg","dev_only":false},
- "water_leg_confirm":{"name":"Marker REPLACE ROUTE / ADD TO ROUTE","dev_only":false},
+ "water_leg_confirm":{"name":"Rock bar SEND ANYWAY","dev_only":false},
  "route_here":{"name":"ROUTE HERE / PLOT ROUTE on object pages","dev_only":true},
  "glass_route":{"name":"ROUTE TO REACH WORK","dev_only":true},
  "choir_route":{"name":"ROUTE TO LOCAL WORK","dev_only":true},
@@ -151,4 +151,4 @@ static func draw_reason(view,sim)->void:
  view.draw_rect(Rect2(at-Vector2(3,size),Vector2(width+6,size+5)),Color(0.12,0.025,0.015,0.94))
  view.draw_string(font,at,text,HORIZONTAL_ALIGNMENT_LEFT,-1,size,WARNING if is_warning(w) else UiStyle.NOTE_COLOR)
 
-const CONTROLS_TEXT:="MOVE: pause, then tap water to place a straight leg. QUEUE adds legs. The craft does not steer around rock: a red leg crosses charted rock and can crash.\nDEPTH: craft → DEPTH, or the depth pair on a work page.\nWORK: craft → REACH WORK lists the jobs in reach here; a grey job says why.\nDEPLOY: Quietus or an aboard drone → DEPLOY puts the drone in the water beside Quietus. A deployed drone stays out.\nRECALL: drone → RECALL (also under ROUTE) brings it back to stand beside Quietus by straight legs. Quietus has RECALL ALL."
+const CONTROLS_TEXT:="MOVE: pause, then tap water to place a straight leg. With a route set, each tap adds a point; ROUTE → REPLACE ROUTE starts a new one. The craft does not steer around rock: a red leg crosses charted rock and can crash.\nDEPTH: craft → DEPTH, or the depth pair on a work page.\nWORK: craft → REACH WORK lists the jobs in reach here; a grey job says why.\nDEPLOY: Quietus or an aboard drone → DEPLOY puts the drone in the water beside Quietus. A deployed drone stays out.\nRECALL: drone → RECALL (also under ROUTE) brings it back to stand beside Quietus by straight legs. Quietus has RECALL ALL."

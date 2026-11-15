@@ -154,11 +154,10 @@ func card_case():
 	check(found!=null,"the opening chart has a water point behind rock")
 	if found!=null:
 		guard.tap_water(found);await settle()
-		check(guard.panel.visible,"the rock card is up")
-		var buttons:String=" ".join([guard.go_button.text,guard.cancel_button.text])
-		check(guard.go_button.text==Words.TEXT.send_anyway and guard.prompt.text==Words.TEXT.rock_card_send,"the card says SEND ANYWAY and its sentence names SEND ANYWAY and CANCEL: %s / %s"%[buttons,guard.prompt.text])
-		check(guard.prompt.text.contains(guard.go_button.text) and guard.prompt.text.contains("CANCEL") and not guard.prompt.text.contains("marker again"),"the sentence matches the buttons and no longer says 'tap the marker again'")
-		check(s.message!=guard.prompt.text and s.message==Words.TEXT.rock_strip,"the status strip does not repeat the card's sentence: "+s.message)
+		check(guard.panel.visible,"the rock bar is up")
+		# WP-127: the card is a slim bar; its one sentence names the rock and its buttons are SEND ANYWAY and CANCEL.
+		check(guard.go_button.text==Words.TEXT.send_anyway and guard.cancel_button.text=="CANCEL" and guard.prompt.text==Words.TEXT.rock_bar,"the bar says SEND ANYWAY and CANCEL: %s / %s"%[guard.go_button.text,guard.prompt.text])
+		check(s.message!=guard.prompt.text and s.message==Words.TEXT.rock_strip,"the status strip does not repeat the bar's sentence: "+s.message)
 	await gone(g)
 func run():
 	route_case()

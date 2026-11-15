@@ -204,8 +204,11 @@ func resume_checks(g)->void:
 	var first=water(g,g.sim.units[0].pos,[g.sim.units[1].pos,g.sim.units[2].pos])
 	await tap(screen(g,first))
 	var second=water(g,g.sim.units[0].pos,[first,g.sim.units[1].pos,g.sim.units[2].pos])
+	# WP-127: a second water tap adds a point with no card; only a leg across charted rock asks (SEND ANYWAY / CANCEL). The rock bar is stood up directly.
 	await tap(screen(g,second))
-	check(g.mission_hud.guard.panel.visible,"a second water tap opens the order dialog")
+	check(not g.mission_hud.guard.panel.visible and g.sim.route_goals().size()==2,"a second water tap adds a point and opens no dialog")
+	g.mission_hud.guard.pending={"unit":0,"point":second,"append":true};g._refresh();await settle()
+	check(g.mission_hud.guard.panel.visible,"a leg across rock opens the bar")
 	var goals=g.sim.route_goals().duplicate(true)
 	# WP-103: the plate reads ANSWER while the dialog is up; a tap on it never drops the marker (it said "Marker cancelled"
 	# and the craft never moved). The dialog's own CANCEL drops it, and the plate then resumes as usual.
@@ -242,10 +245,10 @@ func planner_resume_check(g)->void:
 	await tap(Vector2(r.get_center().x,r.position.y+margin.y/2+text_height-3))
 	check(not g.sim.paused,side+": a tap on the last line of RESUME resumes")
 
-# 3. Truthful order text.
+# 3. Truthful order text. WP-127: a water tap adds to a route with no card; the only question is a leg across charted rock.
 func visible_texts(g)->Array:
 	var guard=g.mission_hud.guard;var texts=[]
-	for b in [guard.go_button,guard.add_button,guard.points_button,guard.cancel_button,guard.undo_button]:
+	for b in [guard.go_button,guard.cancel_button,guard.undo_button]:
 		if b.is_visible_in_tree() and not b.disabled:texts.append(b.text)
 	return texts
 func order_text_checks(g)->void:
@@ -256,23 +259,16 @@ func order_text_checks(g)->void:
 	check(g.sim.route_goals().size()==1 and not guard.panel.visible,"a first water tap plots a leg at once")
 	var second=water(g,g.sim.units[0].pos,[first,g.sim.units[1].pos,g.sim.units[2].pos])
 	await tap(screen(g,second))
-	check(guard.panel.visible,"a second water tap asks first")
-	check(not ("GO " in g.sim.message) and not g.sim.message.begins_with("GO"),"the status line names no GO control")
-	check("REPLACE ROUTE" in g.sim.message and "REPLACE ROUTE" in visible_texts(g),"the status line names the REPLACE ROUTE button that is on screen")
-	check("1 stop" in guard.prompt.text,"the dialog counts the one stop the route has")
-	check(guard.add_button.visible and not guard.add_button.disabled,"ADD TO ROUTE is offered for a craft with a route")
-	await click(guard.go_button)
-	check(not guard.panel.visible and g.sim.route_goals().size()==1 and g.sim.route_goals()[0].pos.distance_to(second)<1,"REPLACE ROUTE replaces the route")
-	check(guard.undo_button.visible and "1 stop" in guard.undo_button.text,"UNDO says it restores the earlier one-stop route")
+	check(not guard.panel.visible and g.sim.route_goals().size()==2,"a second water tap adds a point at once, with no card")
+	check(not ("GO " in g.sim.message) and "REPLACE ROUTE" not in visible_texts(g) and "ADD TO ROUTE" not in visible_texts(g),"no REPLACE ROUTE or ADD TO ROUTE card is on screen")
+	check(guard.undo_button.visible and "1 stop" in guard.undo_button.text,"UNDO says it goes back to the earlier one-stop route")
 	await click(guard.undo_button)
-	check(g.sim.route_goals().size()==1 and g.sim.route_goals()[0].pos.distance_to(first)<1,"UNDO restores the earlier route")
+	check(g.sim.route_goals().size()==1 and g.sim.route_goals()[0].pos.distance_to(first)<1,"UNDO takes back the last point")
 	check(not guard.panel.visible and not guard.undo_button.visible,"UNDO leaves no stale dialog")
 	var third=water(g,g.sim.units[0].pos,[first,second,g.sim.units[1].pos,g.sim.units[2].pos])
 	await tap(screen(g,third))
-	check(guard.panel.visible and "1 stop" in guard.prompt.text,"after UNDO the dialog reads the restored route")
-	await click(guard.cancel_button)
-	check(not guard.panel.visible and g.sim.route_goals()[0].pos.distance_to(first)<1,"CANCEL keeps the orders")
-	# A first leg undone: the craft has no orders, so the next tap does not ask.
+	check(not guard.panel.visible and g.sim.route_goals().size()==2 and g.sim.route_goals()[1].pos.distance_to(third)<1,"after UNDO the next tap adds again")
+	# A first leg undone: the craft has no orders, so the next tap sets a new route.
 	await fresh(g)
 	await tap(screen(g,first))
 	check(guard.undo_button.visible and "no route" in guard.undo_button.text.to_lower(),"UNDO after a first leg says it returns to no route")
@@ -282,36 +278,29 @@ func order_text_checks(g)->void:
 	check(g.sim.route_goals().is_empty(),"UNDO removes the first leg")
 	await tap(screen(g,second))
 	check(not guard.panel.visible and g.sim.route_goals().size()==1,"after that UNDO the next tap plots at once without a stale dialog")
-	# A craft that only holds: the dialog names the hold and offers no dead ADD control.
+	# A craft that only holds: the tap sets the route and releases the hold, with no card.
 	await fresh(g)
 	g._order("hold");g._refresh();await settle()
 	await tap(screen(g,first))
-	check(guard.panel.visible,"a holding craft asks before a new route")
-	check("HOLD" in guard.prompt.text.to_upper() and not ("stop" in guard.prompt.text),"the dialog says the craft is holding")
-	check(not (guard.add_button.visible and guard.add_button.disabled),"no disabled ADD TO ROUTE is shown when there is no route to add to")
-	await click(guard.go_button)
-	check(g.sim.units[0].hold=="" and g.sim.route_goals().size()==1,"the replace button sets the route and releases the hold")
-	# The ROUTE page wedge is a mode switch and reads as one.
+	check(not guard.panel.visible and g.sim.units[0].hold=="" and g.sim.route_goals().size()==1,"a holding craft takes a new route at once and releases the hold")
+	# The ROUTE page offers REPLACE ROUTE (the old TAPS wedge is gone).
 	await fresh(g)
+	await tap(screen(g,first))
 	await tap(screen(g,g.sim.units[0].pos))
 	await click(g.mission_hud.extra.route_menu)
-	var wedge=g.order_buttons.queue
-	check(wedge.is_visible_in_tree() and wedge.text!="REPLACE" and "REPLACE" in wedge.text and "TAP" in wedge.text,"the wedge names the water-tap mode, not a REPLACE action")
+	var wedge=g.mission_hud.extra.replace_route
+	check(wedge.is_visible_in_tree() and wedge.text==Words.TEXT.replace_route and not g.order_buttons.queue.is_visible_in_tree(),"the ROUTE page offers REPLACE ROUTE and no TAPS switch")
 	await click(wedge)
-	check(g.sim.queue_mode and "QUEUE" in wedge.text and "TAP" in wedge.text,"pressing it switches taps to QUEUE and says so")
-	await tap(screen(g,g.sim.units[0].pos))
-	await click(g.mission_hud.extra.route_menu)
-	await click(wedge)
-	check(not g.sim.queue_mode and "REPLACE" in wedge.text,"pressing again switches back")
-	# A tip card never swallows a dialog press.
+	check(g.sim.route_goals().is_empty() and not g.advanced_orders and guard.undo_button.visible,"REPLACE ROUTE clears the route, closes the wheel and offers UNDO")
+	# A tip card never swallows a bar press.
 	await fresh(g)
 	await tap(screen(g,first))
 	g.mission_hud.hints.show_hint("drone");g._refresh();await settle()
-	await tap(screen(g,second))
+	guard.pending={"unit":0,"point":second,"append":true};g._refresh();await settle()
 	var hint=g.mission_hud.hints.panel
-	check(not (hint.visible and hint.get_global_rect().intersects(guard.panel.get_global_rect())),"a tip card never overlaps the order dialog")
-	await click(guard.add_button)
-	check(not guard.panel.visible and g.sim.route_goals().size()==2,"the first ADD TO ROUTE press acts")
+	check(not (hint.visible and hint.get_global_rect().intersects(guard.panel.get_global_rect())),"a tip card never overlaps the rock bar")
+	await click(guard.go_button)
+	check(not guard.panel.visible and g.sim.route_goals().size()==2,"the first SEND ANYWAY press acts")
 
 # 5. WP-35: the route dialog covers neither the selected craft nor the pending marker, and stays on screen.
 func dialog_place_checks(g)->void:
@@ -333,7 +322,7 @@ func dialog_place_checks(g)->void:
 			check(not panel.intersects(guard.marker_rect(h)),"%s: the dialog does not cover the marker"%tag)
 			guard.cancel();await settle()
 
-# WP-89: ADD TO ROUTE also puts taps on QUEUE, so the next taps add legs with no prompt; REPLACE ROUTE leaves REPLACE.
+# WP-127 (replaces WP-89's ADD TO ROUTE checks): with a route set every water tap adds a point, at both text sizes, and no card or switch is involved.
 func queue_checks(g)->void:
 	var shape="%dx%d"%[root.size.x,root.size.y]
 	for scale in [1.0,1.5]:
@@ -345,24 +334,13 @@ func queue_checks(g)->void:
 		var third=water(g,second,[first,g.sim.units[0].pos,g.sim.units[1].pos,g.sim.units[2].pos])
 		await tap(screen(g,first))
 		await tap(screen(g,second))
-		check(guard.panel.visible and not g.sim.queue_mode,tag+": the first extra point asks")
-		check(guard.add_hint.visible and "next taps add" in guard.add_hint.text,tag+": the prompt says ADD TO ROUTE makes the next taps add too")
-		check(Rect2(Vector2.ZERO,g.mission_hud.size).encloses(guard.panel.get_rect()) and guard.add_hint.get_global_rect().size.y>0,tag+": the prompt with its hint fits the screen")
-		await click(guard.add_button)
-		check(g.sim.queue_mode and g.sim.route_goals().size()==2 and not guard.panel.visible,tag+": ADD TO ROUTE adds the point and switches taps to QUEUE")
-		# The strip's head already shows QUEUE; the message says what that means and where to switch back.
-		check("QUEUE" in g.mission_hud.intent.text and "next taps add" in g.sim.message and "TAPS" in g.sim.message,tag+": the strip says QUEUE and where to switch back")
+		check(not guard.panel.visible and g.sim.route_goals().size()==2,tag+": the second tap adds a point and asks nothing")
+		check("TAP WATER · ADD POINT" in g.mission_hud.intent.text,tag+": the strip says what a tap does: "+g.mission_hud.intent.text)
 		await tap(screen(g,third))
-		check(not guard.panel.visible and g.sim.route_goals().size()==3,tag+": the next tap adds a point with no prompt")
-		g._order("queue");await settle()
-		check(not g.sim.queue_mode,tag+": the TAPS switch returns to REPLACE")
-		await tap(screen(g,water(g,third,[first,second,g.sim.units[0].pos,g.sim.units[1].pos,g.sim.units[2].pos])))
-		check(guard.panel.visible,tag+": back on REPLACE a tap asks again")
-		await click(guard.go_button)
-		check(not g.sim.queue_mode and g.sim.route_goals().size()==1,tag+": REPLACE ROUTE leaves taps on REPLACE")
+		check(not guard.panel.visible and g.sim.route_goals().size()==3 and not g.sim.queue_mode,tag+": the third tap adds a point too")
 	Settings.current["text_scale"]=1.0;g._layout()
 
-# 4. The dialog holds the dive.
+# 4. The rock bar holds the dive. WP-127: the bar is stood up on a pending marker (the leg across rock is what asks now).
 func hold_checks(g)->void:
 	for start_paused in [false,true]:
 		for finish in ["cancel","go"]:
@@ -376,12 +354,12 @@ func hold_checks(g)->void:
 				g._process(.2)
 				check(g.sim.elapsed>before,"control: the running dive advances without a dialog")
 			var second=water(g,g.sim.units[0].pos,[first,g.sim.units[1].pos,g.sim.units[2].pos])
-			await tap(screen(g,second))
-			check(guard.panel.visible,"the order dialog is open (%s, %s)"%["paused" if start_paused else "running",finish])
+			guard.pending={"unit":0,"point":second,"append":true};g._refresh();await settle()
+			check(guard.panel.visible,"the rock bar is open (%s, %s)"%["paused" if start_paused else "running",finish])
 			var held=g.sim.elapsed
 			for n in 5:g._process(.2)
-			check(g.sim.elapsed==held,"no dive time passes while the order dialog is open (%s)"%("paused" if start_paused else "running"))
-			check(g.sim.paused==start_paused,"the dialog does not change the pause state")
+			check(g.sim.elapsed==held,"no dive time passes while the rock bar is open (%s)"%("paused" if start_paused else "running"))
+			check(g.sim.paused==start_paused,"the bar does not change the pause state")
 			await click(guard.cancel_button if finish=="cancel" else guard.go_button)
 			check(not guard.panel.visible and g.sim.paused==start_paused,"closing with %s returns the dive to its earlier state"%finish.to_upper())
 			held=g.sim.elapsed;g._process(.2)
