@@ -292,7 +292,8 @@ func threat_line_checks():
 		if r.craft==1:row=r
 	check(TR.last_draw.chips.is_empty(),"a lock draws no chip at the craft: the line's countdown and the card state it once")
 	check(not row.is_empty() and row.sentence.begins_with("S1 GUARD TO THE EAST") and "locks DRONE A in " in row.sentence and row.sentence.ends_with(" s"),"the card names the Siren's type and the direction that matches the bearing: %s"%str(row.get("sentence")))
-	check(not row.is_empty() and row.advice.begins_with(TT.TEXT.lock_exit_drone) and TT.TEXT.lock_exit_drone=="Move it behind rock, or let it go.","a lock on a drone gets the drone's advice")
+	# WP-131: the drone's cover line names the rock that is near, or says none is.
+	check(not row.is_empty() and (row.advice.begins_with("Rock ") and "move it behind" in row.advice or row.advice.begins_with("No rock near")),"a lock on a drone gets the drone's advice: %s"%str(row.get("advice")))
 	check(not row.is_empty() and row.siren_pos==s.contacts[row.source].pos and roundi(row.bearing)==90,"the line and the words use the contact's known position")
 	# WP-110: the card, the chart tag and the contact list name the Siren one way, and the direction word is read from the
 	# LOCKED craft (drone A: the Siren lies east of it), not from Quietus, which lies elsewhere.
@@ -306,8 +307,11 @@ func threat_line_checks():
 	var from_quietus:String=preload("res://src/presentation/compass.gd").word(row.siren_pos-s.units[0].pos)
 	check(from_quietus!="EAST" and "TO THE EAST" in row.sentence and "TO THE "+from_quietus not in row.sentence,"the direction is from the locked drone (%s), not from Quietus (%s)"%["EAST",from_quietus])
 	var card=Warning.new();card.update_state(s,true)
-	check(card.visible and "S1 GUARD TO THE EAST" in card.card_text and "locks DRONE A in " in card.card_text and TT.TEXT.lock_exit_drone in card.card_text,"the lock card carries the type, direction, craft and way out for a drone")
+	check(card.visible and "S1 GUARD TO THE EAST" in card.card_text and "locks DRONE A in " in card.card_text and (row.advice.get_slice("\n",0) in card.card_text or "No answer in reach" in card.card_text),"the lock card carries the type, direction, craft and way out for a drone")
 	card.free()
+	# WP-131: the cover line and the torpedo refusal say what is true.
+	check(TR.rock_line({},true)==TT.TEXT.lock_no_rock_any and TR.rock_line({"gap":900.0,"bearing":90.0},true)==TT.TEXT.lock_no_rock%[900,"EAST"] and TR.rock_line({"gap":120.0,"bearing":0.0},true)==TT.TEXT.lock_exit_rock%[120,"NORTH"],"the cover line names the rock that is near or says there is none")
+	check(TR.torpedo_refusal(s,-1)!="" and "no torpedo spent" in TR.torpedo_refusal(s,-1) and "Choose an S# FIRE box" not in TR.torpedo_refusal(s,-1),"a torpedo tap that picked nothing says why: "+TR.torpedo_refusal(s,-1))
 	moves_checks(s)
 	# The Siren is off the chart: the line is cut at the chart edge, not dropped.
 	view.size=Vector2(500,720);TR.draw_screen(view,s)

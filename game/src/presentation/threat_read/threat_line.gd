@@ -26,7 +26,10 @@ static func line(canvas,from:Vector2,to:Vector2,number:String,font_size:int,boun
 			var barb:Vector2=tip-dir.rotated(side)*UiStyle.THREAT_ARROW_LENGTH
 			canvas.draw_line(tip,barb,UiStyle.THREAT_LINE_BACK,UiStyle.THREAT_LINE_HALO)
 			canvas.draw_line(tip,barb,red,width)
-	if not number.is_empty():_number(canvas,from+dir*(UiStyle.THREAT_STANDOFF+font_size),number,font_size+UiStyle.THREAT_NUMBER_BOOST,red)
+	# WP-131: the countdown rides further along the line, clear of the craft marker and its chips, but never past
+	# the middle of a short line.
+	var along:float=minf(UiStyle.THREAT_STANDOFF*2.0+font_size*2.0,maxf(length*0.5,UiStyle.THREAT_STANDOFF+font_size))
+	if not number.is_empty():_number(canvas,from+dir*along,number,font_size+UiStyle.THREAT_NUMBER_BOOST,red)
 	return true
 # A bearing wedge from the craft: two edges and an arc, never a position or a range.
 static func wedge(canvas,from:Vector2,bearing_degrees:float,length:float)->void:

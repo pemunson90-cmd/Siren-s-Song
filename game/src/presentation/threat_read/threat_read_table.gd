@@ -76,4 +76,19 @@ const TEXT={
 	"source":" · S%d %s",
 	"unseen":" · UNSEEN SIREN",
 	"pause":"AUTO PAUSE: %s",
+	# WP-131: the way out on the lock card names the rock that is really near (or says there is none) and, with nothing
+	# left that can work, says so with the seconds left.
+	"lock_exit_rock":"Rock %dm to the %s · put it between you.",
+	"lock_exit_rock_drone":"Rock %dm to the %s · move it behind, or let it go.",
+	"lock_no_rock":"No rock near · the nearest is %dm to the %s.",
+	"lock_no_rock_any":"No rock near.",
+	"lock_no_answer":"No answer in reach · the lock lands in %.1f s",
+	# WP-131: why a tap on the chart while the torpedo is armed fired nothing (dive_input.gd target_knockdown).
+	"knock_none":"No contact can be fired at now (fresh, within %dm, clear line) · no torpedo spent",
+	"knock_pick":"Tap an S# FIRE box (%s) · no torpedo spent",
+	"knock_far":"%s out of range · %dm / %dm · no torpedo spent",
+	"knock_blocked":"%s has no line of fire (rock between) · no torpedo spent",
+	"knock_stale":"%s is not a clear contact now · no torpedo spent",
 }
+# WP-131: a rock edge within this many metres of the locked craft counts as cover that can be reached (presentation only).
+const ROCK_NEAR=300.0

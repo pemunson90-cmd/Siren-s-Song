@@ -144,6 +144,9 @@ const TEXT={
 	# WP-121 (Pat, 14 Nov 2026): the captions for the rock warning sounds (rock_warning.gd).
 	"rock_ahead": "ROCK AHEAD",
 	"ramming": "RAMMING SPEED",
+	# WP-131: tip sentences that name a state that does not hold (onboarding_hints.gd): [old, new] pairs.
+	"hint_silent_swaps": [["Slow down or tap GO SILENT", "Slow down (you are already silent)"], ["slow down or GO SILENT.", "slow down (you are already silent)."]],
+	"hint_no_rock_swaps": [[", and keep rock between you and it.", ". No rock is near to hide behind."]],
 }
 # The status line for the route dialog's switch ("New points: the craft stops at each one." / "... keeps
 # moving through them.") is set where the simulation answers the waypoint_mode order, orders/route_orders.gd.
