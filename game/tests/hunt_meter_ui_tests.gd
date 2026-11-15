@@ -231,6 +231,9 @@ func manual_craft_fixture(shape:Vector2i):
  await route_touch(start,true);await route_touch(water,true,1);await route_touch(start,false);await route_touch(water,false,1);await settle()
  start=fleet.buttons[1].get_global_rect().get_center();water=fleet.telemetry[2].get_global_rect().get_center()
  await route_touch(water,true);await route_touch(start,true,1);await route_touch(water,false);await route_touch(start,false,1);await settle()
+ # WP-140: the gestures above pan and zoom the view by wherever the readouts sat (WP-129 moved them), which can leave drone B above the screen before
+ # the pan under test; start the pan from the fitted chart so the check keeps its meaning (a visible craft after a manual pan).
+ game.ocean.fit_chart();game._refresh();await settle()
  game.ocean.pan_chart(Vector2(-140,30));game._refresh();await settle()
  var label="manual craft "+str(shape)
  var projected=game.ocean.global_position+game.ocean.screen_position(sim.units[2].pos)
