@@ -684,3 +684,9 @@ How it is applied (Claude's reading): a decoy dropped within reach of a Siren th
 Pat asked "Why is it so slow?". Claude proposed: "(1) one retest per batch of 2-3 merged packages instead of one per package, (2) a 45-minute limit per helper, (3) full sweeps only before a phone build, and (4) stop the slow order-wheel helper now and finish its work myself". Pat answered "Yes (Recommended)".
 
 How it is applied: root reruns the touched suites (and Core when simulation, campaign or photo rules changed) once per batch of two or three merges, on the merged head, before pushing; helper briefs carry a 45-minute limit and run only the suites their change touches, naming what is left unrun; a full sweep runs before each phone build; WP-130 was stopped and root finishes it.
+
+## 2026-11-15: no known-failing tests; audit the test set
+
+Pat said, verbatim: "If you have "as usual" failures you should be fixing it. If we have tests you know are gonna fail, don't use them. I don't understand the point of so many useless twats" (read as "tests"). Claude asked whether one cheap helper should rank the 285 suites by run time, overlap and what they have caught, and bring a list to retire (moved to scrap) and merge, nothing removed before Pat sees it. Pat answered "Yes (Recommended)".
+
+How it is applied: the two suites that never ran on this PC (cold_review_archive_tests, art_render_measurements) are made to run here or listed as skipped with a reason (WP-142); no sweep reports a known failure as normal again; the test audit's cut list goes to Pat before anything is retired.
