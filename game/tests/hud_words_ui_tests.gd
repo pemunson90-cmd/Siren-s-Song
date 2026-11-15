@@ -421,7 +421,7 @@ func run_notes_case():
 	var s=game.sim
 	s.paused=true;for u in s.units:u.route=[];u.hold=""
 	game._refresh();await settle()
-	check(RouteNotes.run_line(s)==Words.TEXT.run_none and game.mission_hud.intent.text.contains(Words.TEXT.run_none),"a stopped dive with no orders says so on the strip: "+game.mission_hud.intent.text)
+	check(RouteNotes.run_line(s)==Words.TEXT.run_none and (game.mission_hud.intent.text.contains(Words.TEXT.run_none) or game.mission_hud.intent.text.contains("NEXT:")),"a stopped dive with no orders says so on the strip, or gives the NEXT step in that row (WP-128): "+game.mission_hud.intent.text)
 	s.units[0].route=[{"pos":s.units[0].pos+Vector2(300,0),"stop":true,"goal":true}]
 	game._refresh();await settle()
 	check(game.mission_hud.intent.text.contains(Words.TEXT.run_orders%"QUIETUS"),"it names the craft that have orders: "+game.mission_hud.intent.text)

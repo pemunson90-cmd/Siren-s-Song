@@ -34,6 +34,11 @@ func run():
 				var game=await make(shape,scale,index)
 				var sim=game.sim
 				var label="%dx%d x%.1f op%02d"%[shape.x,shape.y,scale,index+1]
+				# The opening message ("Drones aboard. Tap a craft ...") is on the strip at launch: NEXT must still show beside it.
+				game.sim.message="Drones aboard. Tap a craft for DEPTH AND SONAR; tap water to route or deploy.";game._refresh();await settle()
+				var opening:String=game.mission_hud.intent.text
+				print("NEXT ",label," opening [",opening.replace("\n"," // "),"]")
+				check(opening.count("NEXT:")==1,label+" the opening message still leaves room for NEXT: "+opening)
 				var text:String=await shown(game)
 				print("NEXT ",label," launch [",text.replace("\n"," // "),"]")
 				check(text.count("NEXT:")==1,label+" launch shows one NEXT line: "+text)
