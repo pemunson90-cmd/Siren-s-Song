@@ -287,7 +287,7 @@ func prompt_case():
 		row.append(guard.panel.size)
 		row=row.map(func(v):return Vector2(roundf(v.x),roundf(v.y)))
 		offsets.append(row)
-		check(not guard.add_button.visible and not guard.go_button.get_global_rect().intersects(guard.cancel_button.get_global_rect()),"the bar's two buttons sit apart and no ADD TO ROUTE is offered")
+		check(not guard.go_button.get_global_rect().intersects(guard.cancel_button.get_global_rect()),"the bar's two buttons sit apart and the bar offers no third choice")
 	for i in range(1,offsets.size()):check(offsets[i]==offsets[0],"the bar's buttons and size are identical on opening %d: %s vs %s"%[i,str(offsets[i]),str(offsets[0])])
 	var end:Vector2=s.units[0].route.back().pos;var found:Variant=null
 	for distance in [200.0,320.0,480.0,700.0]:

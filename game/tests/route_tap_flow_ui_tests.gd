@@ -136,7 +136,7 @@ func rock_case(g,tag:String)->void:
 	var on_screen:bool=g.ocean.get_global_rect().has_point(screen(g,p))
 	if not on_screen:guard.tap_water(p);await settle()
 	check(s.units[0].route.is_empty() and not guard.pending.is_empty() and guard.panel.visible,tag+": a leg across rock waits on the bar")
-	check(guard.go_button.text==Words.TEXT.send_anyway and guard.cancel_button.text=="CANCEL" and not guard.add_button.visible,tag+": the bar offers SEND ANYWAY and CANCEL only")
+	check(guard.go_button.text==Words.TEXT.send_anyway and guard.cancel_button.text=="CANCEL",tag+": the bar offers SEND ANYWAY and CANCEL only")
 	var bar:Rect2=guard.panel.get_global_rect();var chart:Rect2=g.ocean.get_global_rect()
 	check(bar.size.y<=g.ui_touch_height*1.8 and bar.position.y>=chart.position.y-1 and bar.end.y<=g.size.y+1,tag+": the bar is slim and inside the screen: "+str(bar))
 	check(not bar.intersects(Rect2(guard.craft_rect(g.ui_touch_height).grow(-2).position+g.ocean.global_position,guard.craft_rect(g.ui_touch_height).grow(-2).size)) and not bar.intersects(Rect2(guard.marker_rect(g.ui_touch_height).position+g.ocean.global_position,guard.marker_rect(g.ui_touch_height).size)),tag+": the bar covers neither the craft nor the marker")

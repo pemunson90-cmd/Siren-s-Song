@@ -8,7 +8,7 @@ const TOPICS=[
 	{"id":"moving","title":"MOVING","lines":[
 		"Tap || PAUSE (top left) to stop time and plan for as long as you like. Tap Quietus or a drone, then tap open water to place a straight leg: that one water tap also closes the order wheel. Nothing moves until you tap ▶ RUN.",
 		"A craft does not steer around rock. A red leg crosses charted rock and can crash. Tap the marker a second time to send a route across rock anyway. A ring of dots marks a sonar echo whose shape is unknown; routes avoid it.",
-		"A craft that already has a route asks first: REPLACE ROUTE swaps it, ADD TO ROUTE extends it.",
+		"With a route set, each water tap adds a point. To start a new route, open the ROUTE page and tap REPLACE ROUTE; UNDO brings the old one back.",
 		"The switch STOP AT EACH NEW POINT decides whether the craft halts at added points or keeps moving through them.",
 		"Drag and pinch to look around. FOCUS follows the craft and FIT shows the region.",
 	]},

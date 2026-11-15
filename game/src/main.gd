@@ -142,7 +142,7 @@ func _ready() -> void:
 	for i in 3:
 		var id=i
 		unit_buttons.append(_button(hud,Names.UNIT_NAMES[i],func(): _order("select",{"unit":id})))
-	var orders=[["ping","SONAR"],["camera","CAMERA"],["silent","SILENT"],["queue","+ QUEUE"],["hold","HOLD"],["emp","EMP"],["decoy","DECOY"],["recon","SURVEY"],["contact_hold","IF CONTACT"],["wait_drone","WAIT DRONE"],["waypoint_mode","WAYPOINT: PASS"],["program","PLAN ROUTE"],["knock","TORPEDO"]]
+	var orders=[["ping","SONAR"],["camera","CAMERA"],["silent","SILENT"],["hold","HOLD"],["emp","EMP"],["decoy","DECOY"],["recon","SURVEY"],["contact_hold","IF CONTACT"],["wait_drone","WAIT DRONE"],["waypoint_mode","WAYPOINT: PASS"],["program","PLAN ROUTE"],["knock","TORPEDO"]]
 	for o in orders:
 		var order=o[0]
 		order_buttons[order]=_button(hud,o[1],func(): _primary_action() if order=="camera" else _order(order))
@@ -475,7 +475,6 @@ func _refresh() -> void:
 	var camera_target:int=int(camera_hint.get("target",-1))
 	if camera_target==-2 or (camera_target>=0 and PhotoCapture.applies(PhotoCapture.obj(sim,camera_target))):order_buttons.camera.text="PHOTO"
 	elif camera_target>=0 and PhotoCapture.obj(sim,camera_target).get("kind","")=="receiver" and sim.mission.get("blackwater_revision",0)!=1:order_buttons.camera.text="LISTEN"
-	order_buttons.queue.text="TAPS:\nQUEUE" if sim.queue_mode else "TAPS:\nREPLACE"
 	order_buttons.program.text="PLAN\nROUTE"
 	order_buttons.silent.text=HudWords.silent_label(sim)
 	order_buttons.knock.text="CANCEL\nTORPEDO" if knock_armed else "TORPEDO\n%d"%preload("res://src/presentation/truthful_commands.gd").stock(sim,"knock")
@@ -495,7 +494,7 @@ func _refresh() -> void:
 	var scout=sim.scout_context()
 	order_buttons.contact_hold.text="IF\nCONTACT" if sim.selected==0 else ("FLEET\nGUARD" if scout.state=="legacy" else ("SCOUT\nRESUME" if scout.state=="stopped" else ("SCOUT\nON" if scout.state=="armed" else "SCOUT\nGUARD")))
 	order_buttons.wait_drone.text="WAIT\nDRONE"
-	var mode="ADD TO ROUTE" if sim.queue_mode else "REPLACE ROUTE"
+	var mode=mission_hud.guard.tap_mode_text() if mission_hud!=null and mission_hud.guard!=null else HudWords.TEXT.tap_mode_set # WP-138: what a water tap does now, not the retired REPLACE/ADD card
 	var goals=sim.route_goals(); var intent=""
 	if not goals.is_empty(): intent=HudWords.point_row(1,goals[0],sim.selected>0)+" · "
 	if sim.selected>0:intent="DRIVE %s · "%["QUIET42" if sim.units[sim.selected].get("drone_drive","transit")=="quiet" else "TRANSIT96"]+intent
