@@ -30,6 +30,7 @@ const Words=preload("res://src/presentation/hud_words.gd")
 const RouteEnd=preload("res://src/presentation/route_end_notice.gd")
 const StripMessage=preload("res://src/presentation/strip_message.gd")
 const RouteNotes=preload("res://src/presentation/route_notes.gd")
+const NextStep=preload("res://src/presentation/next_step.gd")  # WP-128
 const StandingNotes=preload("res://src/presentation/standing_notes.gd")
 const SegmentState=preload("res://src/presentation/radial_layout/segment_state.gd")
 # A tap opens an object-owned projection. A separate tap chooses an action.
@@ -728,6 +729,7 @@ func refresh():
  host.advanced_button.text="FLEET";plate(host.advanced_button,UiStyle.NORMAL)
  focus_button.text="FOLLOW" if host.ocean.chart_camera.mode=="follow" else "FOCUS"
  var current=host.targeting_feedback if not host.targeting_feedback.is_empty() else "DECOY · TAP CLEAR WATER ≤160m · TAP CANCEL" if host.decoy_armed else "TORPEDO · TAP FRESH CONTACT · TAP CANCEL" if host.knock_armed else RouteNotes.home_step(sim,strip_message.current(sim))  # WP-118: the record is secured and Quietus has no route: say how to send it home
+ # WP-128: where the opening tutorial sentence would push the NEXT line off a two-line strip, the sentence (the tip card teaches the same) gives way.
  current_message=current;strip_standing="";strip_idle=""
  intent.text="%s · %s"%[sim.units[sim.selected].name+" · "+sim.Depth.NAMES[sim.units[sim.selected].band],guard.tap_mode_text()]+(" · "+current if not current.is_empty() else "") # WP-127: the tap mode, not the old TAPS switch
  host.title_label.visible=page not in ["signals","recovery","order_help"];host.detail_label.visible=page not in ["signals","recovery","order_help"]
@@ -797,7 +799,7 @@ func refresh():
   extra.glass_withdraw.disabled=sim.selected!=0 or sim.units[0].band!=1 or sim.units[0].pos.distance_to(sim.mission.extraction)>65
   if page=="glass":instrument_info.text=reach.detail+"\n"+sim.message
   elif not reach.artifact.is_empty() and reach.artifact.get("carrier",-1)==sim.selected:instrument_info.text+="\nMATERIAL ABOARD · "+reach.artifact.id+" · recover this carrier"
- if page=="recovery":instrument_info.text="%s · CHOOSE RECOVERY\n%s APPROACH"%[sim.units[sim.selected].name+" · "+sim.Depth.NAMES[sim.units[sim.selected].band],"QUEUE" if sim.queue_mode else "REPLACE"]
+ if page=="recovery":instrument_info.text="%s · CHOOSE RECOVERY\n%s"%[sim.units[sim.selected].name+" · "+sim.Depth.NAMES[sim.units[sim.selected].band],guard.tap_mode_text()]  # WP-128: the tap mode (WP-127 retired the QUEUE/REPLACE switch)
  FeatureViews.build_badges(self)
  # Water contact readouts own warnings; a popup transfers them above its
  # projection. The quiet top instrument owns only our operation estimate.
@@ -824,12 +826,18 @@ func refresh():
  fleet.visible=not host.advanced_orders and not host.decoy_armed and not host.knock_armed
  if not host.decoy_armed and not host.knock_armed:
   # WP-36: the TASK line only while its work is actually under way; at rest the status is the current line and the standing hint.
-  for task_text in [WorkTask.line(sim,task) if WorkTask.working(sim,task) else "",WorkTask.result_line(task_result),WorkTask.load_status(sim)]:
+  # WP-128: a result that only says ACCEPTED gives its row to the NEXT line (a REFUSED result keeps its row: it says why).
+  var next_line:String=NextStep.step(sim).text
+  var accepted:bool=not task_result.is_empty() and bool(task_result.ok)
+  for task_text in [WorkTask.line(sim,task) if WorkTask.working(sim,task) else "",WorkTask.result_line(task_result) if not (accepted and not next_line.is_empty()) else "",WorkTask.load_status(sim)]:
    if not task_text.is_empty():intent.text+="\n"+task_text
   # WP-48: why the dive is held when the player did not hold it, and which craft ran out of route.
   var urgent=alarm.visible or (host.lock_warning!=null and host.lock_warning.visible)
   var reason=Words.pause_reason(host)
-  for held_line in ([reason] if not reason.is_empty() else [])+route_end.lines(sim,urgent)+StandingNotes.lines(sim,urgent):intent.text+="\n"+held_line
+  # WP-128: the NEXT line says the recovery step itself, so the extraction note (the same fact, older words) is not shown twice.
+  var extraction_note:String=preload("res://src/presentation/extraction_hint.gd").line(sim) if not next_line.is_empty() else ""
+  for held_line in ([reason] if not reason.is_empty() else [])+route_end.lines(sim,urgent)+StandingNotes.lines(sim,urgent):
+   if extraction_note.is_empty() or held_line!=extraction_note:intent.text+="\n"+held_line
   # WP-106: while the dive is stopped the standing line says what RUN will do first (it gives up first like the depth hint,
   # so the strip stays two lines).
   var run_line:String=RouteNotes.run_line(sim) if Words.plate_kind(sim,host)=="run" else ""
@@ -837,7 +845,12 @@ func refresh():
   # It is a warning row, so it stays (the standing hint gives way to it) rather than being the first line to drop.
   var idle_line:String=RouteNotes.idle_line(sim) if run_line.is_empty() else ""
   strip_idle=idle_line
-  strip_standing=run_line if not run_line.is_empty() else "" if not idle_line.is_empty() else sim.Depth.context(sim)
+  # WP-128: the standing line is the NEXT step. It gives way to a lock countdown, to orders about to run, to the no-orders warning and to
+  # a situational depth or hearing warning (NextStep.keeps).
+  var standing:String=sim.Depth.context(sim)
+  if not next_line.is_empty() and not NextStep.keeps(standing):standing=next_line
+  if run_line==Words.TEXT.run_none and not next_line.is_empty():run_line=""
+  strip_standing=run_line if not run_line.is_empty() else "" if not idle_line.is_empty() else standing
   if not idle_line.is_empty():intent.text+="\n"+idle_line
   if not strip_standing.is_empty():intent.text+="\n"+strip_standing
   if idle_line.is_empty():intent.remove_theme_color_override("font_color")
@@ -850,6 +863,18 @@ func refresh():
  segments.sync(self)
  _tidy_strip()
  _one_strip(current_message)
+ # WP-128: where the opening tutorial sentence (the tip card teaches the same) pushed the NEXT line off the strip, the sentence gives way.
+ if not strip_standing.is_empty() and not intent.text.ends_with("\n"+strip_standing) and strip_standing==NextStep.step(sim).text:
+  # The sentences the NEXT line says better (the opening tip, the old go-home sentence) are the ones to give way, the first that makes room.
+  var gone:Array=[" · "+current_message] if current_message.begins_with(Words.TEXT.opening_prefix) else []
+  gone.append_array(["Record secured. "+Words.TEXT.return_steps+" · ","Record secured. "+Words.TEXT.return_old+" · ","Record secured. "+Words.TEXT.return_steps,"Record secured. "+Words.TEXT.return_old])
+  if current_message.begins_with("Record secured."):gone.append(" · "+current_message)  # last resort: the photo's grade is on the camera card
+  var strip_font=intent.get_theme_font("font");var strip_size=intent.get_theme_font_size("font_size")
+  for piece in gone:
+   if not intent.text.contains(piece):continue
+   var shorter:String=intent.text.replace(piece,"").strip_edges().trim_suffix("·").strip_edges()+"\n"+strip_standing
+   if strip_font.get_multiline_string_size(shorter,HORIZONTAL_ALIGNMENT_LEFT,maxf(1.,host.ocean.chart_width()-32)-8.,strip_size).y<=strip_font.get_height(strip_size)*2.+1.:
+    intent.text=shorter;break
  _fit_intent()
  var aid_font=maxi(14,roundi(touch_height*.26*text_scale))
  guard.refresh(Vector2(host.ocean.chart_width(),size.y),touch_height,aid_font,intent.position.y if intent.visible else size.y)

@@ -68,7 +68,7 @@ func real_strip():
 				var rows=font.get_multiline_string_size(shown,HORIZONTAL_ALIGNMENT_LEFT,hud.intent.size.x-8.,size).y/font.get_height(size)
 				print("STRIP ",label," rows ",rows," [",shown.replace("\n"," // "),"]")
 				check(hud.intent.visible and rows<=2.01 or message.length()>100,label+" strip holds two lines: "+shown.replace("\n"," // "))
-				check(message.is_empty() or shown.contains(message),label+" newest message whole")
+				check(message.is_empty() or shown.contains(message) or (message==OPENING and shown.contains("NEXT:")),label+" newest message whole")
 				check(shown.to_lower().count("depth and sonar")<=1,label+" says DEPTH AND SONAR once")
 				var avoid=[]
 				for reading in hud.fleet.readouts:avoid.append(Rect2(hud.fleet.global_position+reading.rect.position,reading.rect.size))

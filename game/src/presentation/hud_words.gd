@@ -89,18 +89,11 @@ const TEXT={
 	"rock_route": "This route crosses charted rock. Tap the marker again to send it anyway, or tap open water.",
 	# WP-117: the card's own sentence names its buttons (the planner's sentence above is for a second tap on the marker),
 	# and the status strip says only that the card is waiting, so the card's sentence is not printed twice.
-	"rock_card_send": "SEND ANYWAY sends it through the rock; CANCEL, or tap open water, to choose again.",
-	"rock_card_both": "REPLACE ROUTE or ADD TO ROUTE sends it through the rock; CANCEL, or tap open water, to choose again.",
-	"rock_card_replace": "REPLACE ROUTE sends it through the rock; CANCEL, or tap open water, to choose again.",
 	"rock_strip": "Marker set across charted rock · SEND ANYWAY or CANCEL",
-	"rock_route_replace": "REPLACE ROUTE would cross charted rock; ADD TO ROUTE would not. Tap open water to move the marker.",
-	"rock_route_add": "ADD TO ROUTE would cross charted rock; REPLACE ROUTE would not. Tap open water to move the marker.",
 	# WP-69: a tap on open water that orders nothing says what a water tap needs (or that the dive is over).
 	"tap_idle": "Select a craft first: tap Quietus or a drone, or use FLEET",
 	"tap_over": "The dive is over: no craft can be ordered",
 	"send_anyway": "SEND ANYWAY",
-	# WP-89: ADD TO ROUTE also puts water taps on QUEUE; the hint says so and where to switch back.
-	"add_hint": "ADD TO ROUTE also makes your next taps add points. TAPS on the ROUTE page switches back.",
 	"queued_taps": "%s · next taps add points · TAPS on the ROUTE page switches back",
 	"ping": "PING SONAR\nuses %s reserve",
 	"ping_free": "PING SONAR\nuses no reserve",
@@ -156,6 +149,26 @@ const TEXT={
 	"replace_route": "REPLACE\nROUTE",
 	"replace_none": "%s has no route to replace · tap water to set one",
 	"replace_done": "%s · route cleared · tap water to plot a new one · UNDO restores it",
+	# WP-128: the standing NEXT line (presentation/next_step.gd): one imperative sentence from the dive's own objective and recovery state.
+	"next_search_unknown": "NEXT: search the dashed area, then photograph the source",
+	"next_search": "NEXT: search the dashed area for %s",
+	"next_photo_reach": "NEXT: photograph %s (in reach of %s)",
+	"next_photo_far": "NEXT: photograph %s: bring a craft within %d m",
+	"next_listen_reach": "NEXT: listen at %s (in reach of %s)",
+	"next_listen_far": "NEXT: listen at %s: bring a craft within %d m",
+	"next_transmit": "NEXT: transmit from %s: settle under %d m/s inside the sector",
+	"next_open_job": "NEXT: finish the open job on the chart, then return to extraction",
+	"next_carrier": "NEXT: bring %s into the %s (%d m): it carries %s",
+	"next_salvage": "NEXT: salvage %s with a craft in range, then bring it to the %s",
+	"next_material": "NEXT: bring the material carrier into the %s (%d m), settled in MIDDLE",
+	"next_ring": "NEXT: bring Quietus into the %s (%d m)",
+	"next_ring_name": "EXTRACTION",
+	"next_rise": "NEXT: rise to %s to recover",
+	"next_sink": "NEXT: sink to %s to recover",
+	"next_settle": "NEXT: let the depth change finish in %s to recover",
+	"next_slow": "NEXT: slow Quietus under %d m/s to recover",
+	"opening_prefix": "Drones aboard.",	# simulation.gd's launch message; the strip leaves it out while a NEXT line exists
+	"next_keep": ["Depth change", "Investigation heard", "RAW BUFFER aboard"],	# situational standing lines that stay in place of NEXT
 }
 static func lock_broken(siren_ids:Array)->String:
 	return TEXT.lock_broken%", ".join(siren_ids.map(func(id):return preload("res://src/simulation/siren_tag.gd").tag(int(id))))
