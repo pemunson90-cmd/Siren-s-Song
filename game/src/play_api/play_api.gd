@@ -154,9 +154,7 @@ static func _prompts(host)->Array:
 	if host.screen=="mission" and host.mission_hud!=null:
 		var hud=host.mission_hud
 		if hud.guard!=null and hud.guard.panel.visible:
-			var bs:Array=[hud.guard.go_button]
-			if hud.guard.add_button.visible:bs.append(hud.guard.add_button)
-			bs.append(hud.guard.cancel_button)
+			var bs:Array=[hud.guard.go_button,hud.guard.cancel_button] # WP-138: the rock bar's SEND ANYWAY / CANCEL
 			out.append({"kind":"route_marker","text":_clean(hud.guard.prompt.text),"buttons":bs})
 		if hud.hints!=null and hud.hints.panel.visible:out.append({"kind":"tip","text":_clean(hud.hints.label.text),"buttons":[hud.hints.dismiss_button]})
 		if hud.contact_card!=null and hud.contact_card.panel.visible:out.append({"kind":"contact_card","text":_clean(hud.contact_card.title_label.text+" · "+hud.contact_card.facts_label.text),"buttons":[hud.contact_card.close_button]})

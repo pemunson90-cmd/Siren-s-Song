@@ -19,7 +19,7 @@ func route_intent(ui) -> void:
  await click(ui.ocean.global_position+ui.ocean.screen_position(Vector2(600,800)))
  # WP-127: a drone with a route adds the next tap by itself; the old TAPS: QUEUE switch is gone.
  ui.mission_hud.open("tools");await process_frame;await click(ui.order_buttons.recon.get_global_rect().get_center())
- check(ui.sim.route_goals(1).size()==1 and not ui.order_buttons.queue.is_visible_in_tree(),"survey keeps the drone's route after the contextual menu closes")
+ check(ui.sim.route_goals(1).size()==1 and not ui.order_buttons.has("queue"),"survey keeps the drone's route after the contextual menu closes")
  check(ui.mission_hud.intent.is_visible_in_tree() and "DRONE A · MIDDLE · TAP WATER · ADD POINT" in ui.mission_hud.intent.text,"selected craft and its tap mode remain visible on water")
  var second=Vector2.INF
  for candidate in [Vector2(900,600),Vector2(1100,800),Vector2(600,700)]:

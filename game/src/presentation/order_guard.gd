@@ -22,8 +22,6 @@ var prompt: Label
 var go_button: Button
 var cancel_button: Button
 var undo_button: Button
-# WP-127: the old ADD TO ROUTE button is gone. This hidden stand-in keeps play_api's read of the prompt's buttons valid.
-var add_button: Button
 var mode_font := 16
 func setup(owner) -> void:
 	host = owner; mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -34,7 +32,6 @@ func setup(owner) -> void:
 	prompt.size_flags_horizontal = Control.SIZE_EXPAND_FILL; prompt.vertical_alignment = VERTICAL_ALIGNMENT_CENTER; prompt.custom_minimum_size.x = 120; row.add_child(prompt)
 	go_button = _button(row, Words.TEXT.send_anyway, func(): confirm(), "order_go")
 	cancel_button = _button(row, "CANCEL", cancel, "order_cancel")
-	add_button = Button.new(); add_button.hide(); add_child(add_button)
 	undo_button = _button(self, "UNDO", do_undo, "order_undo")
 	var chip := StyleBoxFlat.new(); chip.bg_color = Color(.018, .055, .075, .94); chip.border_color = Color("6bd5cb"); chip.set_border_width_all(1); chip.set_corner_radius_all(6)
 	chip.content_margin_left = 12; chip.content_margin_right = 12; chip.content_margin_top = 8; chip.content_margin_bottom = 8

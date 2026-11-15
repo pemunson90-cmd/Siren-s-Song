@@ -289,7 +289,7 @@ func order_text_checks(g)->void:
 	await tap(screen(g,g.sim.units[0].pos))
 	await click(g.mission_hud.extra.route_menu)
 	var wedge=g.mission_hud.extra.replace_route
-	check(wedge.is_visible_in_tree() and wedge.text==Words.TEXT.replace_route and not g.order_buttons.queue.is_visible_in_tree(),"the ROUTE page offers REPLACE ROUTE and no TAPS switch")
+	check(wedge.is_visible_in_tree() and wedge.text==Words.TEXT.replace_route and not g.order_buttons.has("queue"),"the ROUTE page offers REPLACE ROUTE and no TAPS switch")
 	await click(wedge)
 	check(g.sim.route_goals().is_empty() and not g.advanced_orders and guard.undo_button.visible,"REPLACE ROUTE clears the route, closes the wheel and offers UNDO")
 	# A tip card never swallows a bar press.
