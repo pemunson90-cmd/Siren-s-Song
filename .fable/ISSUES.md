@@ -21,7 +21,7 @@ Status: LIVE (Pat, 15 Nov 2026: all open problems live here. Root adds an issue 
 8. FIXED WP-152: Alloy: refining exists ("REFINE SCRAP TO ALLOY · 6 SCRAP", B) but Fleet/Fittings never mentions it.
 9. For Pat (game design, do not decide): career contracts are walkovers with a free full loadout (B: 79 s and 49 s, no lock, "Next launch costs: free"); Expedition op 3 is a cliff after a boon pick that cannot know the next danger (B); rock differs per depth band and the chart does not show it (A and B: "rock blocks this leg at this depth · SHALLOW is open", hull 100 to 86); locks with no prior contact (A).
 
-11. **Notice banner covers QUIETUS · ORDERS in the chooser** (root saw `critic-kits\wp153\evidence\inner\13-chooser.png`: "SIREN TO THE NORTH NOTICED Q · 347°" on the button; red contact line over the speed plate). WP-155.
+11. Partly FIXED WP-155 (7c535e46): contact line fixed and seen; the notice seating is code only, the banner-plus-chooser case was not reproduced. Also at inner 150% without the dock, AIR chip sits hard against "1x · SIREN CONTACT" (`critic-kits\wp155b\evidence\i150\06.png`, helper, unverified). **Notice banner covers QUIETUS · ORDERS in the chooser** (root saw `critic-kits\wp153\evidence\inner\13-chooser.png`: "SIREN TO THE NORTH NOTICED Q · 347°" on the button; red contact line over the speed plate). WP-155.
 10. Game Modes cards (after WP-151, `critic-kits\wp151-c\evidence\after\inner-150-modes.png`): each card has an empty band above its title button and the lower third of the page is still empty; title-on-top layout would read better. Route Map still opens on many "?" boxes (start of campaign, by design of the data).
 
 ## Interface (root decides)
