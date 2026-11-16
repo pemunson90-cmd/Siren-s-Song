@@ -22,7 +22,7 @@ static func show_best_frame(host)->void:
 	var shot:=best_shot(host.sim.mission)
 	if shot.is_empty() or host.sim.outcome!="won":return
 	var plate=host.PhotoView.Plate.new();plate.name=BEST_FRAME_NODE;plate.vm=host.PhotoView.from_shot(shot)
-	plate.title="BEST FRAME · QUALITY %d%%"%roundi(float(shot.q)*100)
+	plate.title="BEST SINGLE FRAME · %d%%"%roundi(float(shot.q)*100)
 	plate.custom_minimum_size=Vector2(minf(420.0,host.size.x*0.7),minf(190.0,host.size.y*0.22));plate.size_flags_horizontal=Control.SIZE_SHRINK_BEGIN
 	host.panel_box.add_child(plate)
 static func merge_shots(host, key:String) -> void:
@@ -142,7 +142,7 @@ static func shot_report(host, shot:Dictionary,at:int,total:int) -> String:
 		if float(mark.q)>0:seen.append("%s %d%%"%[mark.label,roundi(float(mark.q)*100)])
 	var how:="%s · %dm · aspect %d° · %s%s"%[shot.craft,roundi(float(shot.dist)),roundi(rad_to_deg(float(shot.aspect))),str(shot.mode).to_upper()," · flash" if shot.flash else ""]
 	var water:="light %d%% · clarity %d%% · sharp %d%%"%[roundi(float(shot.light)*100),roundi(float(shot.clarity)*100),roundi(float(shot.sharp)*100)]
-	return "FRAME %d OF %d · QUALITY %d%%%s\n%s\n%s\nRESOLVED: %s"%[at+1,total,roundi(float(shot.q)*100),"" if shot.get("usable",true) else ShutterTable.TEXT.unusable_review%str(shot.get("why",ShutterTable.TEXT.unusable_old)),how,water,", ".join(seen) if not seen.is_empty() else "nothing identifiable"]
+	return "FRAME %d OF %d · SINGLE-FRAME QUALITY %d%%%s\n%s\n%s\nRESOLVED: %s"%[at+1,total,roundi(float(shot.q)*100),"" if shot.get("usable",true) else ShutterTable.TEXT.unusable_review%str(shot.get("why",ShutterTable.TEXT.unusable_old)),how,water,", ".join(seen) if not seen.is_empty() else "nothing identifiable"]
 
 static func shot_findings(host, shot:Dictionary) -> String:
 	var lines:PackedStringArray=[]

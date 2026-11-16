@@ -133,6 +133,8 @@ func run():
 	var filed:=Api.state(game)
 	check(filed.objectives[0].status=="FILED","the objective reads FILED once the frame is secured")
 	check(filed.objectives[0].has("photo_grade") and filed.objectives[0].photo_grade in ["A","B","C"],"state carries the filed photo's grade")
+	# WP-150: the reported percent is the filed record's quality (what the dive message and result show), not the best single frame.
+	check(filed.objectives[0].has("photo_percent") and filed.objectives[0].photo_percent==roundi(float(game.sim.mission.objectives[0].photo_quality)*100.),"state photo percent is the filed record quality")
 	check(filed.extraction.records_complete,"state: the records are complete, Quietus may head for extraction")
 	# --- route home, run until the result screen ---
 	var home=await Api.order(game,{"order":"route","craft":"QUIETUS","points":[[1100,560],[800,640],[400,760],[140,800]]})
