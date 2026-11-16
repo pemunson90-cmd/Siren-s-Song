@@ -90,7 +90,8 @@ static func bay_control(hud):
  return null
 # The drone DEPLOY would put in the water: Quietus offers the next one aboard, an aboard drone offers itself.
 static func deploy_target(sim)->int:
- if sim.selected>0:return sim.selected if sim.DroneBay.aboard(sim.units[sim.selected]) else -1
+ # WP-162: a selected drone that is already in the water no longer hides the other drone still aboard.
+ if sim.selected>0 and sim.DroneBay.aboard(sim.units[sim.selected]):return sim.selected
  for id in [1,2]:
   if sim.DroneBay.aboard(sim.units[id]):return id
  return -1

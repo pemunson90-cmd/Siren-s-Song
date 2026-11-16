@@ -172,6 +172,10 @@ static func _prompts(host)->Array:
 			for b in hud.action_controls().values():
 				if b is Button and not b.disabled:wheel.append(b)
 			out.append({"kind":"orders_menu","text":"Order menu open (page %s) · time is held"%hud.page,"buttons":wheel})
+	elif host.screen=="program" and host.route_editor!=null and host.route_editor.is_visible_in_tree():
+		# WP-162: the route planner is a screen of its own; it had no entry here, so a tester who opened it (REPLAN) saw no buttons.
+		var planner:Array=_visible_buttons(host.route_editor)
+		out.append({"kind":"route_planner","text":" / ".join(_visible_texts(host.route_editor,4)),"buttons":planner})
 	else:
 		var buttons:Array=[]
 		var front=_front(host)
@@ -259,6 +263,7 @@ static func _refuse(order:String,why:String)->Dictionary:
 static func _select(host,index:int)->void:
 	if host.sim.selected!=index:host._order("select",{"unit":index})
 static func _need_dive(host,order:String)->String:
+	if host.screen=="program":return "The route planner is open: answer DONE · STAY PAUSED to return to the dive" # WP-162
 	if not _mission_live(host):return "No dive is running: this order needs the dive screen"
 	if not host.sim.outcome.is_empty():return HudWords.TEXT.tap_over
 	return ""
