@@ -420,3 +420,8 @@ const ORDER_NOTES={
 	"away": "%dm away",
 	"reach": "CAMERA REACH %dm",
 }
+# WP-181: the chart-stop card (chart_stop_choice.gd). The kept course runs into rock: the card says so and offers only REPLAN.
+const CHART_STOP_WORDS={
+	"blocked": "Kept course runs into rock · tap open water to replot",
+	"refused": "Kept course still runs into rock · tap open water to replot",
+}
