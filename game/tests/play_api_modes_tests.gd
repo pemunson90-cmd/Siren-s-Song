@@ -107,4 +107,26 @@ func run():
 		var hit=await Api.order(game,{"order":"tool","tool":"knock","target":1})
 		check(hit.ok,"a torpedo at target 1 (S1) is accepted when the sim lists S1 as clear: "+str(hit.get("refusal","")))
 	game.queue_free();await settle()
+	# --- WP-170: the Route Map reads and answers like any screen ---
+	game=await make()
+	check((await press(game,"START GAME")).ok and (await press(game,"CAMPAIGN")).ok,"START GAME, CAMPAIGN opens the Campaign screen")
+	check((await press(game,"ROUTE MAP")).ok,"ROUTE MAP opens from the Campaign screen")
+	s=Api.state(game)
+	var map_prompt:Dictionary={}
+	for p in s.prompts:
+		if p.kind=="route_map":map_prompt=p
+	check(not map_prompt.is_empty(),"the Route Map is a prompt of its own (kind route_map), not an empty screen")
+	var first:Dictionary={}
+	for b in map_prompt.get("buttons",[]):
+		if b.get("state","")=="AVAILABLE" and first.is_empty():first=b
+	check("BACK" in labels(s) and not first.is_empty() and first.get("can_open",false),"the Route Map lists BACK and an AVAILABLE operation that can be opened")
+	var op_name:String=str(first.get("label","")).get_slice(" · ",0)
+	var opened=await press(game,op_name)
+	await settle();await settle()
+	# WP-170: the first operation of a region shows its region card first; it reads as a prompt and CONTINUE TO BRIEFING answers it.
+	check(labels(Api.state(game)).any(func(l):return str(l).begins_with("CONTINUE TO BRIEFING")),"the region card over the first briefing is listed with CONTINUE TO BRIEFING")
+	check((await press(game,"CONTINUE TO BRIEFING")).ok,"CONTINUE TO BRIEFING is accepted")
+	await settle();await settle()
+	check(opened.ok and game.screen!="route_map" and labels(Api.state(game)).any(func(l):return str(l).contains("ENTER WATER")),"answering with the operation's name opens its briefing: "+str(opened.get("refusal",opened.get("screen","")))+JSON.stringify(Api.state(game).prompts).substr(0,400)+" menu visible "+str(game.menu.visible))
+	game.queue_free();await settle()
 	print("PLAY API MODES CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)
