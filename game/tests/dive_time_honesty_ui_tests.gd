@@ -173,7 +173,7 @@ func extraction_case(shape:Vector2i,scale:float,stamp:String):
 	await refresh(g)
 	check("NEXT: rise to MIDDLE to recover" in g.mission_hud.intent.text,"at the mouth in DEEP the strip says what is needed: "+g.mission_hud.intent.text.replace("\n"," | ")+" "+stamp)
 	u.band=1;u.vel=Vector2(20,0);await refresh(g)
-	check("NEXT: slow Quietus under 12 m/s to recover" in g.mission_hud.intent.text,"at the mouth moving fast the strip says to slow down: "+g.mission_hud.intent.text.replace("\n"," | ")+" "+stamp)
+	check("NEXT: slow Quietus under 12 m/s to recover" in g.mission_hud.intent.text.replace(" "," "),"at the mouth moving fast the strip says to slow down: "+g.mission_hud.intent.text.replace("\n"," | ")+" "+stamp)
 	u.vel=Vector2.ZERO;await refresh(g)
 	check("Extraction:" not in g.mission_hud.intent.text,"settled in MIDDLE nothing is missing "+stamp)
 	u.band=2;u.pos=s.mission.extraction+Vector2(400,0);await refresh(g)

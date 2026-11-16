@@ -176,7 +176,13 @@ const TEXT={
 	# WP-152: one debrief line when decoys broke locks this dive (loss_summary.decoy_line).
 	"decoy_broke": "Decoy broke %d lock",
 	"decoy_broke_many": "Decoy broke %d locks",
+	# WP-153: the strip while a decoy is armed from a lock card with a marked drop point (the card says the same).
+	"decoy_strip_marker": "DECOY · TAP THE MARKED POINT · TAP CANCEL",
 }
+# WP-153: a no-break space between a number and its metre unit (240 m, 5 m/s) so a lone "m" never starts the next strip line.
+static func glue_units(text:String)->String:
+	var re:=RegEx.new();re.compile("(\\d) (m/s|m)\\b")
+	return re.sub(text,"$1 $2",true)
 static func lock_broken(siren_ids:Array)->String:
 	return TEXT.lock_broken%", ".join(siren_ids.map(func(id):return preload("res://src/simulation/siren_tag.gd").tag(int(id))))
 # The status line for the route dialog's switch ("New points: the craft stops at each one." / "... keeps
@@ -323,9 +329,14 @@ static func pause_reason(host)->String:
 	if host._order_dialog_open():return TEXT.paused_route if sim.paused else TEXT.held_route
 	if not sim.paused:return TEXT.held_menu if host._time_held() else ""
 	var automatic:String=host.tactical_aids.auto_pause.line(sim)
+	# WP-153: "a Siren is locking on" holds only while a lock is counting down (a decoy that broke the last lock ends it).
+	var locks:bool=host.lock_warning!=null and not host.lock_warning.rows.is_empty()
+	if automatic==TEXT.paused_lock and not locks:return ""
 	if not automatic.is_empty():return automatic
 	for key in AUTO_PAUSE_REASONS:
-		if sim.message==AUTO_PAUSE_PREFIX+key:return TEXT[AUTO_PAUSE_REASONS[key]]
+		if sim.message==AUTO_PAUSE_PREFIX+key:
+			if key=="LOCK WARNING" and not locks:return ""
+			return TEXT[AUTO_PAUSE_REASONS[key]]
 	return ""
 
 # WP-120: the time speed control beside the pause plate (time_speed.gd decides when it may be used).
