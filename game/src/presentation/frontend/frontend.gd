@@ -164,7 +164,24 @@ func _card(grid: Container) -> VBoxContainer:
 	var panel := PanelContainer.new(); panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL; panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	panel.add_theme_stylebox_override("panel", UiStyle.mode_card_box()); panel.mouse_filter = Control.MOUSE_FILTER_PASS
 	var box := VBoxContainer.new(); box.add_theme_constant_override("separation", 8); panel.add_child(box); grid.add_child(panel)
+	# WP-151: a card fills a share of the page's height (the page was top-heavy on a tall screen), its content centred, and a tap anywhere on it presses its one button.
+	panel.custom_minimum_size.y = size.y * CARD_HEIGHT_SHARE; box.alignment = BoxContainer.ALIGNMENT_CENTER
+	panel.gui_input.connect(_card_input.bind(panel, box))
 	return box
+const CARD_HEIGHT_SHARE := 0.22
+const CARD_TAP_SLOP := 14.0
+var card_press := Vector2(-1e6, -1e6)
+# WP-151: a press and release on the card's own area (its text, its padding) with no drag between presses the card's button, when the card has exactly one.
+# A card with more than one button leaves taps to its buttons. The event is not consumed, so a drag still scrolls the page.
+func _card_input(event: InputEvent, panel: Control, box: Control) -> void:
+	if not (event is InputEventMouseButton) or event.button_index != MOUSE_BUTTON_LEFT: return
+	if event.pressed: card_press = event.position; return
+	if event.position.distance_to(card_press) > CARD_TAP_SLOP: return
+	card_press = Vector2(-1e6, -1e6)
+	var buttons := box.find_children("*", "Button", true, false)
+	if buttons.size() != 1 or buttons[0].disabled: return
+	if buttons[0].get_global_rect().has_point(panel.get_global_transform() * event.position): return	# the button took its own tap
+	buttons[0].pressed.emit()
 # Run `build` so that _text, _button and _choice_row add into `box`.
 func _into(box: VBoxContainer, build: Callable) -> void:
 	var previous = column

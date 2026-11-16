@@ -9,6 +9,9 @@ const OpsHome=preload("res://src/presentation/ops_home/ops_home.gd")
 const LEGEND_JOIN=" · "
 const LEGEND_GAP=4
 const LEGEND_LINE_PAD=4
+const ZOOM_WIDTH=1.5	# WP-151: the - and + buttons, in touch heights (were 1.0)
+const MARK_SHARE=.6	# WP-151: a not-yet-charted "?" is this share of a node's short side (was 1.0), so the chart is not a wall of boxes
+const FIT_SCROLLBAR=24.	# WP-151: width kept clear for the chart's scroll bar when a region is fitted on opening
 class Board extends Control:
  const Palette=preload("res://src/campaign/route_map/route_graph_table.gd")
  var graph:Dictionary={}
@@ -52,6 +55,9 @@ var zoom_floor:float=Table.VIEW.zoom_start
 var fitted_size=Vector2.ZERO
 var fitted_touch=0.
 var fitted_scale=0.
+var opened_scale:=-1.	# WP-151: the text size and touch height the opening zoom was chosen for
+var opened_touch:=-1.
+var user_zoomed:bool=false
 var shown_scroll:=Vector2i(-1,-1)	# the scroll the last zoom set
 var focus:Vector2=Vector2(.5,.5)	# WP-111: where the player is looking, as a fraction of the board
 static func entry(main)->void:
@@ -68,8 +74,8 @@ func setup(main)->void:
  var title=Label.new();title.text="ROUTE MAP";title.size_flags_horizontal=Control.SIZE_EXPAND_FILL;header.add_child(title)
  legend_button=_button(header,Table.VIEW.legend_label,_toggle_legend,"route_map_legend",Table.VIEW.legend_width) # WP-116: the legend opens on demand
  _button(header,"CURRENT",_focus_current,"route_map_current",Table.VIEW.current_width)
- _button(header,"−",func():_zoom(-1),"route_map_zoom_out")
- _button(header,"+",func():_zoom(1),"route_map_zoom_in")
+ _button(header,"−",func():_zoom(-1),"route_map_zoom_out",ZOOM_WIDTH) # WP-151: wider than a square, so the thumb finds them
+ _button(header,"+",func():_zoom(1),"route_map_zoom_in",ZOOM_WIDTH)
  # The key and arc lines sit in a pan: a column beside the board on a wide screen (scrolls if the text is large), a strip above it otherwise.
  legend_pan=ScrollContainer.new();legend_pan.name="LegendPan";legend_pan.horizontal_scroll_mode=ScrollContainer.SCROLL_MODE_DISABLED;add_child(legend_pan)
  legend=VBoxContainer.new();legend.add_theme_constant_override("separation",LEGEND_GAP);legend_pan.add_child(legend)
@@ -157,7 +163,26 @@ func _fit():
  # Apply the bounded height after that deferred update, including first layout.
  detail.set_deferred("size",Vector2(size.x-margin*2,h))
  zoom_floor=_fit_zoom(h);zoom=clampf(zoom,zoom_floor,Table.VIEW.zoom_max)
+ # WP-151: opened (and again when the text size changes, until the player zooms), the chart shows the current region whole across the width.
+ if not user_zoomed and (opened_scale!=fitted_scale or opened_touch!=fitted_touch):
+  opened_scale=fitted_scale;opened_touch=fitted_touch
+  zoom=clampf(_region_zoom(h),zoom_floor,Table.VIEW.zoom_max)
+  _nodes(h);queue_redraw();call_deferred("_focus_current");return
  _nodes(h);queue_redraw()
+# WP-151: the largest zoom (at most the start zoom, at least the compact threshold) at which the current operation's region is as wide as the chart.
+func _region_zoom(h:float)->float:
+ var arc:Dictionary=preload("res://src/campaign/arcs/arc_table.gd").for_operation(_current_id())
+ var span:Array=[]
+ for row in graph.nodes:
+  if row.id in arc.get("ids",[]):span.append(row.position.x)
+ if span.is_empty():return Table.VIEW.zoom_start
+ var columns:float=span.max()-span.min();var room:float=chart.size.x-FIT_SCROLLBAR
+ var z:float=Table.VIEW.zoom_start
+ while z>Table.OVERVIEW.compact_below:
+  var m:Dictionary=_metrics(h,z)
+  if columns*m.pitch.x+m.node_size.x+m.area_pad*2.<=room:break
+  z-=.05
+ return maxf(z,Table.OVERVIEW.compact_below)
 # Sizes at one zoom: the same numbers lay out the nodes and measure the board, so the overview fit and the drawn board agree.
 func _metrics(h:float,z:float)->Dictionary:
  var node_size:Vector2=Vector2(h*Table.VIEW.width_touch,h*Table.VIEW.height_tagged)*z
@@ -208,7 +233,7 @@ func _nodes(h):
   var point:Vector2=row.position*pitch+origin
   var id:int=row.id
   # A node not yet charted is a small mark centred where its box would be; every node takes the tap.
-  var cell:Vector2=Vector2.ONE*minf(node_size.x,node_size.y) if row.mark else node_size
+  var cell:Vector2=Vector2.ONE*minf(node_size.x,node_size.y)*MARK_SHARE if row.mark else node_size # WP-151: marks are smaller
   var spot:Vector2=point+(node_size-cell)*.5
   var button=_button(board,_face(row,compact,node_size),func():_select(id),"route_map_op_%d"%id)
   button.position=spot;button.size=cell;button.custom_minimum_size=cell
@@ -271,6 +296,7 @@ static func not_charted_text(id:int)->String:
  # forgot where the player was looking. The view's centre is kept as a fraction of the board (`focus`): zoom
  # out then in returns to the same spot, and a tap on a region or operation sets it too.
 func _zoom(direction:int):
+ user_zoomed=true # WP-151
  var previous=zoom;zoom=clampf(zoom+direction*Table.VIEW.zoom_step,zoom_floor,Table.VIEW.zoom_max)
  if zoom==previous:return
  _remember_focus()
@@ -316,15 +342,21 @@ func tap_board(point:Vector2)->bool:
     if fresh.text==region.text:_center_on(fresh.area.get_center())
    return true
  return false
-func _focus_current():
+func _current_id()->int:
  var available=graph.nodes.filter(func(row):return row.state=="AVAILABLE")
  var recovered=host.completed+host.expedition.get("completed",[])
  var id:int=available[0].id if not available.is_empty() else recovered.back() if not recovered.is_empty() else 0
  # Audit 091 F9: centre the operation continuing the most recently advanced branch.
  var branch=preload("res://src/presentation/current_branch.gd").pick(recovered,available.map(func(row):return row.id))
  if branch>=0:id=branch
+ return id
+func _focus_current():
+ var id:int=_current_id()
  if not board.centers.has(id):return
  var center:Vector2=board.centers[id]
+ # WP-151: when the operation's whole region fits across the chart, centre on the region so its edges are not cut off.
+ for region in board.regions:
+  if region.area.has_point(center) and region.area.size.x<=chart.size.x:center.x=region.area.get_center().x
  focus=center/board.size	# WP-111: remembered for the zoom buttons
  chart.set_deferred("scroll_horizontal",roundi(center.x-chart.size.x*.5));chart.set_deferred("scroll_vertical",roundi(center.y-chart.size.y*.5))
 func _select(id:int):
