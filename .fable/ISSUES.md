@@ -32,7 +32,7 @@ Status: LIVE (Pat, 15 Nov 2026: all open problems live here. Root adds an issue 
 4. FIXED WP-151, WP-157. Route Map at 150% (`game/src/presentation/route_map/route_map_view.gd`); Game Modes page top-heavy at 150% inner (`game/src/presentation/frontend/frontend.gd`) (WP-132).
 5. Not reproduced again by WP-159 (two cover runs, taps 1 s and 0.1 s after DEPLOY both added a point); closed unless seen again. A critic saw the first water tap after DEPLOY do nothing; not reproduced (`order_guard.gd:83` `tap_water`; WP-127 suspects drone overlapping Quietus or the 300 ms tap-after-close window).
 6. FIXED WP-152 (62cca928): No debrief line when a decoy breaks a lock: the event exists (`game/src/simulation/orders/weapon_orders.gd:42`, type `lock_broken`) but the result screen does not read it.
-7. Large grid suites still run three text sizes; Pat said yes to dropping 130% (`opening_depth_policy_ui_tests`, `stable_board_ui_tests`, `depth_policy_ui_tests`, `menu_reach_ui_tests` in `game/tests/`).
+7. CLOSED (stale, 16 Nov): already done; `menu_reach_ui_tests.gd:295` and `:332` loop `[1.0,1.5]`, `stable_board_ui_support.gd:15` sets only 1.5, the depth suites have no text-size loop (root checked). Was: Large grid suites still run three text sizes; Pat said yes to dropping 130% (`opening_depth_policy_ui_tests`, `stable_board_ui_tests`, `depth_policy_ui_tests`, `menu_reach_ui_tests` in `game/tests/`).
 8. Not yet seen by root in a capture: Confluence echo marks (op 11), PHOTO beside LINK (op 02 with a second subject in reach), the intel route label under a lock card, the getting-home NEXT lines beside the ring, every 15 Nov change at 150% on the inner screen.
 
 ## Open for Pat (rules, content, spending: do not decide)
