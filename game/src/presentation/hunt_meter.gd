@@ -64,6 +64,17 @@ static func _button(hud)->Button:
  button.focus_mode=Control.FOCUS_NONE
  button.z_index=1
  hud.set_meta(CHIP,button)
+ # WP-165: when the control's own minimum grows past the measured body (font line height), the chip grows in place after it was
+ # seated; take the grown size and seat it again so it never reaches into the threat stack.
+ var reference=weakref(hud)
+ button.minimum_size_changed.connect(func():
+  var current=reference.get_ref()
+  if current==null or not is_instance_valid(button):return
+  if button.size.x>button.custom_minimum_size.x+.5 or button.size.y>button.custom_minimum_size.y+.5:
+   button.custom_minimum_size=button.custom_minimum_size.max(button.size)
+   button.set_meta("hunt_meter_signature","")
+   schedule_fit(current)
+ ,CONNECT_DEFERRED)
  return button
 static func sync(hud)->void:
  var view=Pressure.view(hud.host.sim)
@@ -98,6 +109,10 @@ static func sync(hud)->void:
  # breaks; automatic wrapping can retain an extra line after a text-scale change.
  var padding=button.get_theme_stylebox("normal").get_minimum_size()
  var body=Vector2(ceil(width+maxf(Table.WIDTH_PADDING,padding.x)+2.),ceil(maxf(min_touch,maxf(hud.touch_height,float(lines.size())*glyph.get_height(font)+maxf(Table.HEIGHT_PADDING,padding.y)))))
+ # WP-165: the button's own minimum (font line height) can exceed the hand-measured body (133 vs 144 at 150%), which then
+ # grew the chip after it was seated and put its bottom edge into the threat stack; seat the size the control really has.
+ button.custom_minimum_size=Vector2.ZERO
+ body=body.max(button.get_combined_minimum_size())
  button.custom_minimum_size=body
  button.size=body
  button.show()
