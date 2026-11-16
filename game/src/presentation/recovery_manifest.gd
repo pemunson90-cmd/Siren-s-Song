@@ -6,6 +6,8 @@ extends RefCounted
 const REACH:=65.
 const SPEED:=12.
 static var confirmed:=false
+const Words=preload("res://src/presentation/hud_words.gd")
+static func sim_middle()->String:return preload("res://src/names.gd").BANDS[1].to_upper() # WP-161
 
 static func nearest(sim,pos:Vector2)->Dictionary:
  var best:={};var distance:=INF
@@ -25,7 +27,7 @@ static func entries(sim)->Array:
   if u.alive and id>0 and sim.HandPilot.recalled(sim,id):inside=true
   # WP-13: a drone that was never launched is aboard Quietus and comes home with it.
   if sim.DroneBay.aboard(u):inside=true
-  rows.append({"name":u.name,"in":inside,"lost":sim.DroneBay.lost(u),"distance":distance,"aboard":sim.DroneBay.aboard(u)})
+  rows.append({"name":u.name,"in":inside,"lost":sim.DroneBay.lost(u),"distance":distance,"aboard":sim.DroneBay.aboard(u),"depth":u.alive and not inside and distance<REACH and (u.band!=1 or not u.transition.is_empty())})
  return rows
 
 static func lines(rows:Array)->Array:
@@ -35,6 +37,7 @@ static func lines(rows:Array)->Array:
   if row.get("aboard",false):result.append(name+" · IN · ABOARD")
   elif row.lost:result.append(name+" · OUT · LOST")
   elif row.in:result.append(name+" · IN")
+  elif row.get("depth",false):result.append(Words.TEXT.manifest_depth%[name,sim_middle()]) # WP-161: at the mouth but not in MIDDLE
   else:result.append("%s · OUT · %dm TO RECOVERY"%[name,roundi(row.distance)])
  return result
 
@@ -64,6 +67,8 @@ static func show(host,rows:Array)->void:
 # 143: END DIVE only when the departure order can end the dive; otherwise say why not.
 static func away_reason(sim)->String:
  if sim.departure_context().available:return ""
+ var context=sim.departure_context()
+ if context.get("reason","")=="depth":return str(context.text).to_upper() # WP-161
  var mouth=nearest(sim,sim.units[0].pos)
  if mouth.is_empty():return "QUIETUS IS NOT AT A RECOVERY MOUTH"
  var distance=sim.units[0].pos.distance_to(mouth.pos)
