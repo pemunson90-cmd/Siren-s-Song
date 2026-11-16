@@ -68,7 +68,7 @@ static func show(host,rows:Array)->void:
 static func away_reason(sim)->String:
  if sim.departure_context().available:return ""
  var context=sim.departure_context()
- if context.get("reason","")=="depth":return str(context.text).to_upper() # WP-161
+ if context.get("reason","") in ["depth","locked"]:return str(context.text).to_upper() # WP-161, WP-172
  var mouth=nearest(sim,sim.units[0].pos)
  if mouth.is_empty():return "QUIETUS IS NOT AT A RECOVERY MOUTH"
  var distance=sim.units[0].pos.distance_to(mouth.pos)

@@ -403,7 +403,18 @@ func departure_context()->Dictionary:
 				var wrong:=_departure_depth_reason()
 				if not wrong.is_empty():return {"available":false,"pending":false,"confirmation_required":false,"corridor":corridor.duplicate(true),"recovered":[],"left":[],"recovered_drones":[],"text":wrong,"reason":"depth"}
 				return ModuleRecovery.departure(self,corridor)
+	# WP-172: at a mouth that is not open, say why (the game already knows: a source not located, records missing).
+	if outcome.is_empty() and units[0].alive:
+		for corridor in extraction_corridors():
+			if not corridor.available and units[0].pos.distance_to(corridor.pos)<65:
+				return {"available":false,"pending":false,"confirmation_required":false,"corridor":corridor.duplicate(true),"recovered":[],"left":[],"recovered_drones":[],"text":corridor_blocked_reason(corridor),"reason":"locked"}
 	return {"available":false,"pending":false,"confirmation_required":false,"corridor":{},"recovered":[],"left":[],"recovered_drones":[],"text":"Bring Quietus and the required records to a recovery mouth"}
+# WP-172: why a recovery mouth is not open yet. Mirrors where `available` is decided (signal_field.gd corridors for op 6, all_records otherwise).
+func corridor_blocked_reason(corridor:Dictionary)->String:
+	if mission.id==6 and mission.has("expedition_revision") and not mission.expedition_facts.has(corridor.get("route","")):
+		for source in mission.get("signal_sources",[]):
+			if source.id==corridor.get("route",""):return HudWords.TEXT.depart_source%[str(corridor.get("name","")).to_upper(),str(source.label).to_upper()]
+	return HudWords.TEXT.depart_records%str(corridor.get("name","RECOVERY")).to_upper()
 func _departure_depth_reason()->String:
 	var q=units[0]
 	if not q.transition.is_empty():return HudWords.TEXT.depart_depth%[Depth.NAMES[1],HudWords.TEXT.depart_settle]

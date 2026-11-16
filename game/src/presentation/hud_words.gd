@@ -379,4 +379,7 @@ const ORDER_NOTES={
 	"target": "TARGET: %s",
 	"away": "%dm away",
 	"reach": "CAMERA REACH %dm",
+	# WP-172: Quietus is at a recovery mouth that is not open: the reason the game knows.
+	"depart_source": "%s is not open yet · locate %s first",
+	"depart_records": "%s is not open yet · the required records are not all recorded",
 }
