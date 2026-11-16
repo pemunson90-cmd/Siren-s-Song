@@ -42,7 +42,15 @@ func run_seconds(g,seconds):
  if not g.sim.paused:await click(g.pause_button)
  g._refresh();await settle()
 func shift(g,id,down):
- await acoustics(g,id);await click(g.mission_hud.extra.depth_down if down else g.mission_hud.extra.depth_up)
+ await acoustics(g,id)
+ var guard=g.mission_hud.guard
+ var target=clampi(int(g.sim.units[id].band)+(1 if down else -1),0,2) # WP-169: the depth this tap goes to
+ var answered=guard.uncharted_ok.has(target)
+ await click(g.mission_hud.extra.depth_down if down else g.mission_hud.extra.depth_up)
+ # WP-169: a depth the chart does not cover asks once (SEND ANYWAY); the same depth again in this dive must not ask.
+ if guard.panel.visible and guard.pending.has("depth"):
+  check(not answered,"a depth already sent anyway does not ask again")
+  await click(guard.go_button);await settle()
  check(not g.sim.units[id].transition.is_empty(),"real depth input starts deliberate transit")
  g.mission_hud.dismiss();await run_seconds(g,4.1)
 func fit(g):

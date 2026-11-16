@@ -295,7 +295,9 @@ func _extra(key:String):
   host._order("glass_action",args);return
  if key=="depth_menu":open("acoustics");return
  if key in ["depth_up","depth_down"]:
-  host._order("depth",{"band":host.sim.units[host.sim.selected].band+(-1 if key=="depth_up" else 1)});open(page if page in ["glass","choir"] else "acoustics");return
+  host._order("depth",{"band":host.sim.units[host.sim.selected].band+(-1 if key=="depth_up" else 1)})
+  if guard!=null and not guard.pending.is_empty():return # WP-169: the depth bar is up (the wheel closed for it); do not reopen the wheel over it
+  open(page if page in ["glass","choir"] else "acoustics");return
  if key in ["sonar_sector","sonar_power"]:
   var state=host.sim.sonar
   host._order("sonar_mode",{"sector":("forward" if state.sector=="all" else "all") if key=="sonar_sector" else state.sector,"power":("high" if state.power=="low" else "low") if key=="sonar_power" else state.power});open("acoustics");return
