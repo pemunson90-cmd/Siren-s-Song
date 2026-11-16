@@ -1,13 +1,13 @@
 # NOW: what the root session is doing
 
 Status: LIVE NOTE (rewritten before every step; if a session died, this is the step it died in)
-Updated: 2026-11-15 20:15
+Updated: 2026-11-15 21:02
 
 **To resume after a context clear or a new session:** open this folder as the project and run `/siren-s-start-opus` (on an Opus model; `/siren-s-start-fable` is the same run on the Fable model). Read `.fable/PHASE9.md` first: it is the whole handoff. The `next_action` field in the state file always starts by sending the session to `.fable/HANDOFF.md` and to this file.
 
 ## Doing right now
 
-WP-144 fixing sweep 14's four failures; pause documents in the new three-file form.
+PAUSED at Pat's request. Head 8210bdc4 plus pause docs (pushed). APK of 8210bdc4 at %USERPROFILE%\.cache\sirens-song-toolchain\apk-local\sirens-song-debug.apk (sha256 4f4b2a53...001a, signer matches the pin). Known failing at the pause: fleet_ring_ui_tests 222/4, depth_policy_ui_tests 1, opening_depth_policy_ui_tests 571/1 (.fable/ISSUES.md). No helper or test run is running. Resume: /siren-s-start-opus (starts .fable/HANDOFF.md step 1).
 
 ## In flight
 

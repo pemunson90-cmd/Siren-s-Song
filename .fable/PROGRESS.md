@@ -30,6 +30,7 @@ Phases 1 to 8 and phase 9 up to the pause of 14 Nov: work packages WP-00 to WP-1
 | WP-142 | ac6ba289 | The two suites that never ran on this PC now run (child launch via powershell; art suite windowed); sweep skip list | 2/0 and 168/0 (helper) |
 | WP-143 | 590efeda | Pat's rule: 140 suites that do not show the game works retired to `_scrap-20261111/retired-tests/`; 140 kept | LEDGER CHECK PASS; Core 856/0 |
 | WP-141 | 5815381f | Real defect: opening a panel moved the chart 28 px under the finger; the strip reserve holds while a panel is open | STABLE BOARD UI 466/0 (helper) |
+| WP-144 | 8210bdc4 | Real defect from WP-130: nine wheel segments overlapped, the wheel jumped off its craft and a tap could close it; the radius now grows for nine segments (wheel covering its own craft still open, `.fable/ISSUES.md`) | PLAYFIELD HUD 94/0, RADIAL HUD 124/0 (helper) |
 | Sweep shards | 1be145de | `full-sweep.ps1 -Shard i -Of 3`: a full sweep in 35 min instead of about 2.5 h | sweep 14 19:37:47 to 20:12:20 |
 
 Pat's rulings of 15 Nov (verbatim in `docs/USER_DIRECTIVES.md`): decoy breaks an active lock; faster testing rhythm (batch retests, 45-minute helpers, sweeps only before a phone build); no known-failing tests; tests justify their existence; no emulator, he tests the APK on his phone; this three-document handoff.

@@ -2,7 +2,7 @@
 
 The one live status file. Keep it short. Update it in the change that alters the base, the active work, the top weaknesses, the blockers or the next action. History is in git and in [CHANGELOG.md](../CHANGELOG.md).
 
-Updated: 2026-11-14
+Updated: 2026-11-15
 
 ## Current integrated base
 
@@ -11,7 +11,7 @@ Updated: 2026-11-14
 
 ## Active work
 
-- Chartered overhaul run `overhaul-20261111` on branch `fable/overhaul-20261111`, in phase 9: UI and UX repair by Claude's judgement (resumed on Opus 13 to 14 November). Merged and pushed: work packages WP-31 to WP-125 (report rows 57 to 154), nine blind critic rounds, a speed control (1x/2x/4x), a debug panel and a play API for testing, and six trial rules Pat approved "for testing" (`game/src/trial_rules.gd`). Plan, rankings, what is unseen and the queue: `.fable/PHASE9.md`. Pull request 262 is a draft (report `.fable/FINAL_REPORT.md`).
+- Chartered overhaul run `overhaul-20261111` on branch `fable/overhaul-20261111`, in phase 9, paused on 15 November at `8210bdc4` and later docs. Done: `.fable/PROGRESS.md`; open problems: `.fable/ISSUES.md`; next steps (started by `/siren-s-start-opus`): `.fable/HANDOFF.md`. Debug APK of `8210bdc4` built locally and signed with the pinned development key.
 - Parked: item 134, route flow (superseded by the release controls of item 127; reopen only if a critic finds route stops again).
 
 ## Top weaknesses
