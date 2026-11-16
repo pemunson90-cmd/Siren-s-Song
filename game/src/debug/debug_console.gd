@@ -47,11 +47,16 @@ func _ready()->void:
 func _process(_dt:float)->void:
  size=host.size;overlay.size=size
  badge.visible=State.marked(host)
- var layout_key=hash([size,host.ui_touch_height,host.screen,host.advanced_orders,host.sim.selected,host.mission_hud.page if host.mission_hud!=null else "",panel.visible,host.route_editor!=null and host.route_editor.is_visible_in_tree()]) # WP-139: the badge moves when the route planner opens
+ var layout_key=hash([size,host.ui_touch_height,host.screen,host.advanced_orders,host.sim.selected,host.mission_hud.page if host.mission_hud!=null else "",panel.visible,host.route_editor!=null and host.route_editor.is_visible_in_tree(),tip_card_rect()]) # WP-139: the badge moves when the route planner opens; WP-147: and when a tip card appears or moves
  if layout_key!=badge_layout_key:badge_layout_key=layout_key;layout_badge()
  overlay.queue_redraw()
  if fingers.size()==3 and hold_since>=0 and Time.get_ticks_msec()-hold_since>=850:
   fingers.clear();hold_since=-1;open()
+# WP-147: the tip card (a PanelContainer the badge avoids) shows after the badge was placed; the badge, drawn above it, then
+# took GOT IT's taps and opened the console. The card's rectangle is part of the layout key so the badge moves off it.
+func tip_card_rect()->Rect2:
+ if host.mission_hud==null or host.mission_hud.hints==null or not host.mission_hud.hints.panel.visible:return Rect2()
+ return host.mission_hud.hints.panel.get_global_rect()
 func layout_badge()->void:
  var touch=maxf(48,host.ui_touch_height)
  badge.custom_minimum_size=Vector2.ONE*touch;badge.size=badge.custom_minimum_size
