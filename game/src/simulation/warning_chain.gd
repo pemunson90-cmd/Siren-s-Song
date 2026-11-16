@@ -10,6 +10,15 @@ static func layout(m:Dictionary)->Dictionary:
  return config.get("plant",{"inlet":Plant.CHAIN_INLET,"panel":Plant.CHAIN_PANEL,"mast":Plant.CHAIN_MAST,"shutter":Plant.CHAIN_SHUTTER,"recovery":Plant.CHAIN_RECOVERY})
 static func applies(m:Dictionary)->bool:return OperationsCatalog.supports(m.get("id",-1),"warning_plant") and m.has("warning_chain")
 static func complete(sim)->bool:return not applies(sim.mission) or not sim.mission.warning_chain.result.is_empty()
+# WP-178: the next plant order complete() waits on ({} once commissioned). The chain has no camera hold: it is plant orders.
+static func next_step(sim)->Dictionary:
+ if not applies(sim.mission) or complete(sim):return {}
+ var W=preload("res://src/presentation/hud_words.gd").TEXT
+ var s=sim.mission.warning_chain;var lay=layout(sim.mission)
+ if s.power=="off":return {"text":W.work_plant_start,"pos":lay.inlet,"band":1}
+ if "service" in s.sends:return {"text":W.work_plant_mast,"pos":lay.panel,"band":1}
+ if s.output.is_empty():return {"text":W.work_plant_choose,"pos":lay.panel,"band":1}
+ return {"text":W.work_plant_send,"pos":lay.panel,"band":1}
 static func connected(sim,id:int)->bool:return applies(sim.mission) and sim.mission.warning_chain.power=="umbilical" and sim.mission.warning_chain.unit==id
 static func _work(sim,id:int)->bool:return not sim.captures[id].is_empty() or not sim.module_recovery_status().jobs[id].is_empty()
 static func _local(sim,id:int,pos:Vector2)->String:

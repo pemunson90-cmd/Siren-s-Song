@@ -22,6 +22,22 @@ static func build(m:Dictionary)->void:
   m.rocks.append_array([Rect2(1660,920,100,320),Rect2(1920,920,480,220),Rect2(2220,500,180,400)])
   m.structures.append_array([TRACE_BLOCK,DEPARTURE_SHUTTER])
 static func complete(sim)->bool:return not applies(sim.mission) or (sim.mission.concealed_harbour.receipt and (sim.mission.concealed_harbour.thread!="deep" or not sim.mission.structures.has(TRACE_BLOCK)))
+# WP-178: the next step complete() waits on, in order ({} before the witness is landed and the local problem is known, or once done).
+# Mirrors complete(): the receipt (and, deep, the trace hauled out) -> tow, haul 90 m, release, hear the reply.
+static func next_step(sim)->Dictionary:
+ if not applies(sim.mission) or complete(sim):return {}
+ var W=preload("res://src/presentation/hud_words.gd").TEXT
+ var state=sim.mission.concealed_harbour
+ if not state.known or sim.mission.witness_evacuation.state!="landed":return {}
+ if state.thread=="deep":
+  if state.connected:
+   if state.phase=="towing":return {"text":W.work_cr_haul}
+   return {"text":W.work_cr_attach,"pos":state.pos,"band":1}
+  if state.phase=="towing":return {"text":W.work_cr_release}
+  return {"text":W.work_cr_reply,"pos":reply_pos(state),"band":1}
+ if state.phase=="towing":return {"text":W.work_cr_seat}
+ if state.phase=="seated":return {"text":W.work_cr_watch,"pos":reply_pos(state),"band":1}
+ return {"text":W.work_cr_screen,"pos":state.pos,"band":1}
 static func reply_pos(state:Dictionary)->Vector2:return REPLY_DEEP if state.thread=="deep" else REPLY_SHELF
 static func placements(state:Dictionary)->Array:
  if state.thread=="deep":return []

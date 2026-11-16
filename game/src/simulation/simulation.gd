@@ -424,7 +424,12 @@ func corridor_blocked_reason(corridor:Dictionary)->String:
 # WP-176: the next unmet Reach or Choir work step ({"text", optional "pos"/"band" of a point already on the chart}); {} when none.
 func required_work_step()->Dictionary:
 	var step:Dictionary=Glass.next_step(self)
-	return step if not step.is_empty() else Choir.next_step(self)
+	if step.is_empty():step=Choir.next_step(self)
+	# WP-178: Concealed Record, Warning Chain and Open Warning name their own next step too.
+	for next in [Concealed,Chain,Recipient]:
+		if not step.is_empty():break
+		step=next.next_step(self)
+	return step
 # WP-174: the first required signal source (required_site_ids) with no objective yet because nothing has located it; {} when none.
 func unlocated_required_source()->Dictionary:
 	for id in mission.get("required_site_ids",[]):

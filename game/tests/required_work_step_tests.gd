@@ -82,6 +82,56 @@ func _init():
  s=filed(26);s.units[0].pos=Vector2(80,80)
  step=NextStep.step(s)
  if not s.visible(s.mission.iron_choir.artifact.pos,s.mission.iron_choir.artifact.band):check(not step.site.has("pos"),"26: unseen spindle: no chart point named")
+ # WP-178: id 12 The Concealed Record: the witness is landed and the records are in; the tow work is what is left.
+ s=filed(12)
+ s.mission.witness_evacuation.state="landed"
+ for src in s.mission.signal_sources:src.located=true
+ s.mission.concealed_harbour.known=true;s.mission.concealed_harbour.phase="ready"
+ step=show(s,"12 witness landed, float untouched")
+ check(s.mission.concealed_harbour.thread=="deep","12: test runs the deep thread")
+ check(step.text.contains("ATTACH TOW") and step.text.contains("90 m"),"12: NEXT names the tow and the 90 m haul")
+ check(step.site.get("pos",Vector2.ZERO)==Vector2(1840,1040),"12: GOAL is the float")
+ check(s.corridor_blocked_reason(s.extraction_corridors()[0]).contains("ATTACH TOW"),"12: the shut mouth names the tow, not the records")
+ s.mission.concealed_harbour.phase="towing";s.mission.concealed_harbour.carrier=0
+ check(s.required_work_step().text.contains("HAUL the float"),"12: towing: haul it 90 m")
+ s.mission.concealed_harbour.connected=false
+ check(s.required_work_step().text.contains("RELEASE the tow"),"12: trace out, still towing: release it")
+ s.mission.concealed_harbour.phase="ready";s.mission.concealed_harbour.carrier=-1
+ step=show(s,"12 released, reply pending")
+ check(step.text.contains("station reply") and step.site.get("pos",Vector2.ZERO)==Vector2(2180,800),"12: then the station reply, marked at its point")
+ s.mission.concealed_harbour.receipt=true;s.mission.structures.erase(s.Concealed.TRACE_BLOCK)
+ check(s.required_work_step().is_empty(),"12: receipt in and trace gone: nothing left")
+ s=filed(12)
+ check(s.required_work_step().is_empty(),"12: witness not landed yet: the witness step is not this one's to name")
+ # WP-178: id 10 Warning Chain: plant orders, not a camera hold.
+ s=Sim.new();s.start(10)
+ step=show(s,"10 start")
+ check(step.text.contains("START BACKUP at the WEST SERVICE INLET") and not step.text.contains("photograph"),"10: NEXT names START BACKUP, no photograph")
+ s.mission.warning_chain.power="backup";s.mission.objectives[0].captured=true
+ step=show(s,"10 backup running")
+ check(step.text.contains("EAST ROUTING PANEL") and step.text.contains("SERVICE or NORTH MAST") and not step.text.contains("within 240"),"10: then choose the output at the EAST ROUTING PANEL")
+ s.mission.warning_chain.output="mast";s.mission.objectives[1].captured=true
+ step=show(s,"10 output chosen")
+ check(step.text.contains("SEND WARNING") and step.site.get("pos",Vector2.ZERO)==s.Chain.layout(s.mission).panel,"10: then SEND WARNING at the panel")
+ s.mission.warning_chain.sends=["service"]
+ check(s.required_work_step().text.contains("NORTH MAST"),"10: service sent without a receipt: the NORTH MAST")
+ s.mission.warning_chain.result={"output":"mast","proof":"mast_transmission","time":1.0,"origin":Vector2.ZERO};s.mission.objectives[2].captured=true
+ check(s.required_work_step().is_empty(),"10: commissioned: nothing left")
+ # WP-178: id 13 The Open Warning: after the transmission, the acknowledgement, the launch crossing, its arrival.
+ s=Sim.new();s.start(13)
+ s.mission.objectives[0].captured=true;s.mission.signal_sources[0].active=true
+ step=show(s,"13 transmitted")
+ check(step.text.contains("LOCAL WARNING ACKNOWLEDGEMENT") and not step.text.contains("PICKUP"),"13: transmitted: the acknowledgement is named, not the pickup")
+ for o in s.mission.objectives:
+  if o.site_id=="warning_reply":o.captured=true
+ s.mission.objectives.append({"site_id":"warning_reply","name":"LOCAL WARNING ACKNOWLEDGEMENT","pos":Vector2(1840,440),"captured":true})
+ step=show(s,"13 acknowledged, no course")
+ check(step.text.contains("EXPOSED or SHELTERED") and not step.text.contains("search"),"13: acknowledged: launch the recipient (EXPOSED or SHELTERED)")
+ s.mission.warning_recipient.course="exposed"
+ step=show(s,"13 launch under way")
+ check(step.text.contains("watch the WARNING RECIPIENT arrive"),"13: under way: watch it arrive")
+ s.mission.warning_recipient.receipt=true
+ check(s.Recipient.next_step(s).is_empty(),"13: arrival received: nothing left of the crossing")
  # Operations without Reach or Choir work are untouched.
  s=Sim.new();s.start(1)
  check(s.required_work_step().is_empty(),"1: no Reach or Choir work to name")

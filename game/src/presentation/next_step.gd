@@ -41,6 +41,17 @@ static func step(sim)->Dictionary:
 			if int(p)>=0 and int(p)<sites.size() and not sim.mission.objectives[int(p)].captured:open=int(p);break
 		if open<0:break
 		pick=open
+	# WP-178: the Warning Chain's records are plant orders and Open Warning's pickup waits on the launch crossing: name that step.
+	var plant:Dictionary={}
+	if sim.Chain.applies(sim.mission):plant=sim.Chain.next_step(sim)
+	elif sites[pick].get("site_id","")=="warning_uplink":plant=sim.Recipient.next_step(sim)
+	if not plant.is_empty():
+		# The acknowledgement nobody has located yet is "locate it" (WP-174), not "receive it".
+		var unlocated:Dictionary=sim.unlocated_required_source()
+		if plant.text==Words.TEXT.work_ack and not unlocated.is_empty():return {"text":Words.TEXT.next_locate_source%str(unlocated.label).to_upper(),"site":{}}
+		var named:Dictionary={}
+		if plant.has("pos"):named={"pos":plant.pos,"band":plant.band,"name":plant.text}
+		return {"text":Words.TEXT.next_work%plant.text,"site":named}
 	return {"text":_objective(sim,sites[pick]),"site":sites[pick]}
 static func _objective(sim,site:Dictionary)->String:
 	var name:String=sim.Photo.label(site).to_upper()
