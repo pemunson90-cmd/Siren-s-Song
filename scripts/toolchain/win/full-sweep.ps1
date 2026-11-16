@@ -7,13 +7,21 @@ $env:ARTIFACT_DIR = Join-Path $env:USERPROFILE '.cache\sirens-song-toolchain\art
 & scripts\toolchain\win\headless.ps1 -Action Import -Isolate 2>&1 | Select-Object -Last 1 | Out-File -FilePath $Out -Append -Encoding utf8
 $lines = & scripts\toolchain\win\test-suite.ps1 -All -Profile ci -TimeoutSec 900 2>&1
 $lines | Where-Object { $_ -match '^(PASS|FAIL|SKIPPED)\s' -or $_ -match '^SUMMARY' } | Out-File -FilePath $Out -Append -Encoding utf8
+# WP-142: suites listed in sweep-skip.txt (name | reason) are reported as SKIPPED with the reason, not run.
+$skip = @{}
+foreach ($line in Get-Content (Join-Path $PSScriptRoot 'sweep-skip.txt') -ErrorAction SilentlyContinue) {
+    if ($line.StartsWith('#') -or -not $line.Trim()) { continue }
+    $p = $line.Split('|', 2); if ($p.Count -eq 2) { $skip[$p[0].Trim()] = $p[1].Trim() }
+}
 "RENDER SUITES" | Out-File -FilePath $Out -Append -Encoding utf8
 foreach ($row in Get-Content game\tests\suites.txt) {
     if ($row.StartsWith('#') -or -not $row.Trim()) { continue }
     $f = $row.Split('|')
     if ($f.Count -lt 5 -or $f[4] -ne 'render') { continue }
+    if ($skip.ContainsKey($f[0])) { "$($f[0]) :: SKIPPED ($($skip[$f[0]]))" | Out-File -FilePath $Out -Append -Encoding utf8; continue }
     # Some render suites run for about eight minutes (ops_home_ui_tests); the runner's default limit is 480 s.
-    $r = & scripts\toolchain\win\headless.ps1 -Action Script -Script $f[0] -Prefix $f[1] -TimeoutSec 1700 2>&1
+    # WP-142: render suites run in a real window (headless has no renderer, so they only printed 'Native renderer required').
+    $r = & scripts\toolchain\win\headless.ps1 -Action Script -Script $f[0] -Prefix $f[1] -Windowed -TimeoutSec 1700 2>&1
     $sum = ($r | Where-Object { $_ -match 'CHECKS \d+ FAILURES \d+' } | Select-Object -Last 1)
     $ok = ($r | Where-Object { $_ -match 'headless Script (OK|FAILED)' } | Select-Object -Last 1)
     "$($f[0]) :: $sum :: $ok" | Out-File -FilePath $Out -Append -Encoding utf8
@@ -25,6 +33,7 @@ foreach ($row in Get-Content game\tests\suites.txt) {
     if ($row.StartsWith('#') -or -not $row.Trim()) { continue }
     $f = $row.Split('|')
     if ($f.Count -lt 4 -or $f[3] -ne '-' -or ($f.Count -ge 5 -and $f[4] -eq 'render')) { continue }
+    if ($skip.ContainsKey($f[0])) { "$($f[0]) :: SKIPPED ($($skip[$f[0]]))" | Out-File -FilePath $Out -Append -Encoding utf8; continue }
     $r = & scripts\toolchain\win\headless.ps1 -Action Script -Script $f[0] -Prefix $f[1] -TimeoutSec 1700 2>&1
     $sum = ($r | Where-Object { $_ -match 'CHECKS \d+ FAILURES \d+' } | Select-Object -Last 1)
     "$($f[0]) :: $sum" | Out-File -FilePath $Out -Append -Encoding utf8
