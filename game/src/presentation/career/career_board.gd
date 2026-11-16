@@ -142,7 +142,7 @@ static func fittings(host)->void:
 	heading(host,NAME+"\nFLEET DEVELOPMENT","career_fittings")
 	host._button(host.panel_box,"BACK TO CONTRACT BOARD",host._show_campaign,"career_board")
 	host._button(host.panel_box,"SUPPLIES / MANUFACTURE / RESEARCH",host._show_economy,"career_supplies")
-	host._menu_text("Unlock hulls and chassis with existing alloy prices. Manufacture conventional modules or research recovered alien material, then fit it for the next dive.",17)
+	host._menu_text("Unlock hulls and chassis with alloy (refine scrap in SUPPLIES). Manufacture conventional modules or research recovered alien material, then fit it for the next dive.",17)
 	_guard_fittings(host,EquipmentView.loadout(host,host.fitted_equipment,func(key,id):host._choose_equipment(key,id,-1)))
 	preload("res://src/presentation/mode_racks_view.gd").show(host,false)
 	_guard_fittings(host,EquipmentView.fitting(host,host._equipment_context(),func(key,id):host._choose_equipment(key,id,-1)))

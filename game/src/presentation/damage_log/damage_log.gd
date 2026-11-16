@@ -47,6 +47,8 @@ static func debrief(host)->void:
  var node=host.hud.get_node_or_null("DamageLog") if host.get("hud")!=null else null
  var text=node.summary() if node!=null else ""
  if not text.is_empty():host._menu_text(text,16)
+ var decoy=LossSummary.decoy_line(host.get("sim")) # WP-152: every debrief seam calls this, so one line here covers them all
+ if not decoy.is_empty():host._menu_text(decoy,16)
  var floor_text=floor_line(host)
  if not floor_text.is_empty():host._menu_text(floor_text,16)
  var repair=repair_line(host)

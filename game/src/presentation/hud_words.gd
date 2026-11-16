@@ -173,6 +173,9 @@ const TEXT={
 	"air": "AIR",
 	"air_low": "AIR LOW",
 	"air_briefing": "AIR %d:%02d, shown at the top all dive",
+	# WP-152: one debrief line when decoys broke locks this dive (loss_summary.decoy_line).
+	"decoy_broke": "Decoy broke %d lock",
+	"decoy_broke_many": "Decoy broke %d locks",
 }
 static func lock_broken(siren_ids:Array)->String:
 	return TEXT.lock_broken%", ".join(siren_ids.map(func(id):return preload("res://src/simulation/siren_tag.gd").tag(int(id))))
