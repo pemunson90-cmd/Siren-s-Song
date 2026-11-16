@@ -92,8 +92,11 @@ func hold_depth(args: Dictionary) -> bool:
 	if args.get("confirmed", false) or not HandPilot.release(sim) or not sim.outcome.is_empty(): return false
 	var band: int = int(args.get("band", -1))
 	if band < 0 or band > 2 or not sim.depth_uncharted(sim.selected, band): return false
+	if uncharted_ok.has(band): return false # WP-169: this depth was already sent anyway once in this dive; it does not ask again
 	pending = {"unit": sim.selected, "depth": band}; undo = {}
 	sim.message = Words.TEXT.unscanned_depth_strip
+	# WP-169: the depth buttons sit in the order wheel, and refresh() drops a pending bar while the wheel is open (the order was silently lost). Close the wheel so the bar shows.
+	if host.advanced_orders: host.mission_hud.dismiss()
 	host._refresh(); return true
 # Whether a tap now adds to the selected craft's route (it has stops ahead) rather than setting a new one.
 func adds_now() -> bool:
@@ -131,6 +134,7 @@ func confirm() -> void:
 	var sim = host.sim; var unit: int = pending.unit
 	if pending.has("depth"):
 		var band: int = pending.depth; pending = {}
+		uncharted_ok[band] = true # WP-169: SEND ANYWAY on a depth change also answers later legs and depth changes at that depth
 		if sim.selected != unit: host._order("select", {"unit": unit})
 		host._order("depth", {"band": band, "confirmed": true}); return
 	var point: Vector2 = pending.point
