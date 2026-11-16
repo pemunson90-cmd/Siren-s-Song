@@ -102,6 +102,7 @@ var time_speed:=1.0
 var time_forced:=false
 var decoy_armed:=false
 var decoy_unit:=-1
+var decoy_marker:=Vector2.INF # WP-148: the working drop point while a lock card's DECOY is armed
 var knock_armed:=false
 var targeting_feedback:=""
 var knock_press:Dictionary={}
@@ -454,6 +455,12 @@ func _refresh() -> void:
 	if lock_warning!=null:lock_warning.refresh(self)
 	if decoy_armed and (screen!="mission" or sim.selected!=decoy_unit or not sim.units[sim.selected].alive or preload("res://src/equipment/tool_racks.gd").count(sim,"decoy")<=0 or not sim.outcome.is_empty()):decoy_armed=false
 	ocean.decoy_targeting=decoy_armed
+	# WP-148: armed from a lock card, the chart marks the drop point that breaks that lock (sim.decoy_lock_point).
+	decoy_marker=Vector2.INF
+	if decoy_armed and lock_warning!=null:
+		for row in lock_warning.rows:
+			if int(row.craft)==decoy_unit:decoy_marker=sim.decoy_lock_point(decoy_unit,int(row.source));break
+	ocean.decoy_marker=decoy_marker
 	if knock_armed and (screen!="mission" or sim.selected!=0 or not sim.units[0].alive or not sim.outcome.is_empty()): knock_armed=false
 	ocean.knock_targeting=knock_armed; ocean.knock_touch_size=ui_touch_height
 	if not knock_armed and not decoy_armed:targeting_feedback=""

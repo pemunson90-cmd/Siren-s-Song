@@ -67,7 +67,10 @@ static func map_event(host,event: InputEvent,local_event: bool=false) -> bool:
 			host.knock_press.clear(); return true
 		if host.decoy_armed or host.knock_press.get("decoy",false):
 			if host.decoy_armed and host.knock_press.get("decoy",false) and host.knock_press.get("unit",-1)==host.sim.selected:
-				host._order("decoy",{"point":host.ocean.map_position(action.tap-host.ocean.global_position)})
+				var drop:Vector2=host.ocean.map_position(action.tap-host.ocean.global_position)
+				# WP-148: a tap on or near the marked working point drops the decoy exactly there.
+				if host.decoy_marker!=Vector2.INF and (action.tap-host.ocean.global_position).distance_to(host.ocean.screen_position(host.decoy_marker))<=host.ui_touch_height*.75:drop=host.decoy_marker
+				host._order("decoy",{"point":drop})
 			host.knock_press.clear(); return true
 		# UI review B6: an open contact card is closed by any other tap on the chart, and that tap does nothing else.
 		var card=host.mission_hud.contact_card

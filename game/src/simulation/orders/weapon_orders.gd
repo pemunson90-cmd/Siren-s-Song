@@ -40,6 +40,9 @@ static func command(sim, order: String, args: Dictionary) -> bool:
 				s.lock=0.0; s.target=-1; s.erase("recipient_target"); s["decoy_draw"]=Tuning.DECOY_TIME
 				s.goal=point; s["last_known"]=point; s.mode="INVESTIGATE"; s.suspicion=maxf(s.suspicion,0.45); s["attention_time"]=sim.Sweeper.attention(s); s["search_index"]=0
 				sim.events.append({"type":"lock_broken","siren":id,"pos":s.pos})
+				# WP-148: the player's own contact record of this lock ends with it (the message above says so), so the lock
+				# card closes and offers nothing more even while the dive is paused (a paused clock keeps the record fresh).
+				if sim.contacts.has(id) and sim.contacts[id].get("mode","")=="LOCKING":sim.contacts[id]["lock"]=0.0;sim.contacts[id]["target"]=-1;sim.contacts[id]["mode"]="INVESTIGATE"
 			if not broken.is_empty():sim.message=HudWords.lock_broken(broken)
 		_:return false
 	return true

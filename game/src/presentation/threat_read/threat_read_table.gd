@@ -89,6 +89,8 @@ const TEXT={
 	"knock_far":"%s out of range · %dm / %dm · no torpedo spent",
 	"knock_blocked":"%s has no line of fire (rock between) · no torpedo spent",
 	"knock_stale":"%s is not a clear contact now · no torpedo spent",
+	# WP-148: the lock card's aim line when the chart marks the one drop point that breaks the lock.
+	"decoy_aim_marker":"Tap the marked point to draw it off the lock.",
 }
 # WP-131: a rock edge within this many metres of the locked craft counts as cover that can be reached (presentation only).
 const ROCK_NEAR=300.0

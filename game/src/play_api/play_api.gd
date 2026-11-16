@@ -484,8 +484,14 @@ static func _tool(host,request:Dictionary,craft:int)->Dictionary:
 		"decoy":
 			var p=_point(request.get("point"))
 			if p==null:return _refuse("tool","DECOY needs a point: [x,y] of clear water within its range")
-			host._order("decoy")
-			if not host.decoy_armed:return _answer(false,"tool",host,{"tool":tool})
+			# WP-148: arm only when not already armed for this craft (a second press would disarm), and when arming fails say why
+			# (the chart's message may be a stale earlier one such as AUTO PAUSE: LOCK WARNING).
+			if not (host.decoy_armed and int(host.decoy_unit)==craft):host._order("decoy")
+			if not host.decoy_armed:
+				var why:String="Decoy unavailable · no charge spent"
+				if not sim.units[craft].alive:why="%s is lost · no charge spent"%str(sim.units[craft].name)
+				elif Truthful.stock(sim,"decoy")<=0:why="No decoy left · no charge spent"
+				return _answer(false,"tool",host,{"tool":tool,"refusal":why,"message":why})
 			host._order("decoy",{"point":p})
 		"knock":
 			var target:int=int(request.get("target",-1))-1 if request.has("target") else -1
