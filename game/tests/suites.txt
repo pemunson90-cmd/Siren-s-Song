@@ -146,3 +146,4 @@ play_api_modes_tests|PLAY API MODES|-|2331
 route_tap_flow_ui_tests|ROUTE TAP FLOW UI|-|2340|render
 told_rock_chart_tests|TOLD ROCK|-|2350
 blocker_candidates_tests|BLOCKER CANDIDATES|-|2360
+required_work_step_tests|REQUIRED WORK|-|2370

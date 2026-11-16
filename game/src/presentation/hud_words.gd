@@ -207,16 +207,16 @@ const TEXT={
 	"work_winch_unseen": "find the material and WINCH it (not on the chart yet)",
 	"work_open": "open %s (CHOIR WORK at the %s marker)",
 	"work_open_unseen": "open %s (CHOIR WORK at its site)",
-	"work_voyage": "START %s VOYAGE at the RELEASE marker (CHOIR WORK)",
-	"work_voyage_east": "START EAST VOYAGE at the RELEASE marker (WEST needs the SERVICE berth worked first)",
-	"work_jam": "open %s so the %s can pass (CHOIR WORK at its marker)",
+	"work_voyage": "START %s VOYAGE at RELEASE (CHOIR WORK)",
+	"work_voyage_east": "START EAST VOYAGE at RELEASE (WEST needs the SERVICE berth worked first)",
+	"work_jam": "open %s so the %s can pass (CHOIR WORK there)",
 	"work_wait": "wait for the %s to arrive",
 	"work_escort": "stay within %d m of the %s so it keeps moving",
 	"work_watch": "watch the %s arrive at its dock",
 	"work_attach": "ATTACH the %s (CHOIR WORK) and tow it to %s",
 	"work_tow": "tow the %s to %s and work it (CHOIR WORK there)",
-	"work_far_breaker": "throw the far breaker LOCK C (CHOIR WORK at its marker), then RECONNECT; or DISMANTLE the security feed",
-	"work_reconnect": "RECONNECT now (CHOIR WORK at its marker) before the far breaker drops out",
+	"work_far_breaker": "throw the far breaker LOCK C (CHOIR WORK there), then RECONNECT; or DISMANTLE the security feed",
+	"work_reconnect": "RECONNECT now (CHOIR WORK there) before the far breaker drops out",
 }
 # WP-153: a no-break space between a number and its metre unit (240 m, 5 m/s) so a lone "m" never starts the next strip line.
 static func glue_units(text:String)->String:
