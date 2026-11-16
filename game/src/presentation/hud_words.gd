@@ -217,6 +217,21 @@ const TEXT={
 	"work_tow": "tow the %s to %s and work it (CHOIR WORK there)",
 	"work_far_breaker": "throw the far breaker LOCK C (CHOIR WORK there), then RECONNECT; or DISMANTLE the security feed",
 	"work_reconnect": "RECONNECT now (CHOIR WORK there) before the far breaker drops out",
+	# WP-178: Concealed Record (12), Warning Chain (10) and Open Warning (13) name their real next step.
+	"work_cr_attach": "ATTACH TOW to the float at the trench mouth with QUIETUS (within 65 m, settled), then haul it 90 m (CONCEALED WORK)",
+	"work_cr_haul": "HAUL the float at least 90 m from its socket, then release it in clear water (CONCEALED WORK)",
+	"work_cr_release": "RELEASE the tow in clear water, then listen for the station reply (CONCEALED WORK)",
+	"work_cr_reply": "bring a craft within earshot of the station reply (marked on the chart) and receive it",
+	"work_cr_screen": "ATTACH TOW to the folded screen with QUIETUS (within 65 m, settled), then tow it to a cradle (CONCEALED WORK)",
+	"work_cr_seat": "tow the screen to CLEAR SERVICE MOUTH or SHELTERED LOWER MOUTH and settle there (CONCEALED WORK)",
+	"work_cr_watch": "receive the BUNKER WATCH reply from a craft in earshot",
+	"work_plant_start": "START BACKUP at the WEST SERVICE INLET (or CONNECT a craft there)",
+	"work_plant_choose": "choose SERVICE or NORTH MAST at the EAST ROUTING PANEL (plant order)",
+	"work_plant_send": "SEND WARNING at the EAST ROUTING PANEL (plant order)",
+	"work_plant_mast": "choose NORTH MAST at the EAST ROUTING PANEL, then SEND WARNING (the service branch gave no receipt)",
+	"work_ack": "receive the LOCAL WARNING ACKNOWLEDGEMENT with QUIETUS",
+	"work_launch": "tap the WARNING RECIPIENT and choose EXPOSED or SHELTERED (within 240 m of it)",
+	"work_arrival": "watch the WARNING RECIPIENT arrive at the pickup",
 }
 # WP-153: a no-break space between a number and its metre unit (240 m, 5 m/s) so a lone "m" never starts the next strip line.
 static func glue_units(text:String)->String:
