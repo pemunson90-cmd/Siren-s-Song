@@ -168,7 +168,7 @@ func _card(grid: Container) -> VBoxContainer:
 	panel.custom_minimum_size.y = size.y * CARD_HEIGHT_SHARE; box.alignment = BoxContainer.ALIGNMENT_CENTER
 	panel.gui_input.connect(_card_input.bind(panel, box))
 	return box
-const CARD_HEIGHT_SHARE := 0.22
+const CARD_HEIGHT_SHARE := 0.31
 const CARD_TAP_SLOP := 14.0
 var card_press := Vector2(-1e6, -1e6)
 # WP-151: a press and release on the card's own area (its text, its padding) with no drag between presses the card's button, when the card has exactly one.
