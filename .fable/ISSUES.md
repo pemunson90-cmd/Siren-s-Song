@@ -24,6 +24,15 @@ Status: LIVE (Pat, 15 Nov 2026: all open problems live here. Root adds an issue 
 11. Partly FIXED WP-155 (7c535e46): contact line fixed and seen; the notice seating is code only, the banner-plus-chooser case was not reproduced. Also at inner 150% without the dock, AIR chip sits hard against "1x · SIREN CONTACT" (`critic-kits\wp155b\evidence\i150\06.png`, helper, unverified). **Notice banner covers QUIETUS · ORDERS in the chooser** (root saw `critic-kits\wp153\evidence\inner\13-chooser.png`: "SIREN TO THE NORTH NOTICED Q · 347°" on the button; red contact line over the speed plate). WP-155.
 10. FIXED WP-157 (9c2266d5, cards only). Game Modes cards (after WP-151, `critic-kits\wp151-c\evidence\after\inner-150-modes.png`): each card has an empty band above its title button and the lower third of the page is still empty; title-on-top layout would read better. Route Map still opens on many "?" boxes (start of campaign, by design of the data).
 
+## Round 11-d (Campaign 04 to 06, report `_fable\critic-kits\r11-d\audit\d1\report.md`, head fd061d63)
+
+1. **Extraction silently refused when Quietus is not in MIDDLE** while the game says "Fleet recovery ready" (root confirmed `simulation.gd:377`). WP-161.
+2. **Blank "program" screen after a chart-stop card with a photo pending, dive unrecoverable** (tester, unverified). WP-162.
+3. Second drone "No drone is aboard to deploy" while DRONE B read ABOARD (tester, unverified). WP-162.
+4. For Pat (rules/content): op 06 two Sirens lock Quietus at once at 26.4 s with Hunt DORMANT; op 05 drone A lost to a lock with no answer ("No answer in reach"); Siren rams cost 10 to 21% hull ("Hull strike against another hull · 58m/s · hull -21%"); rock not on the chart, so routes are found by single-point refusals.
+5. A depth order given while a lock card pauses the dive is dropped silently (tester, unverified).
+6. Photo grades mostly 38 to 53% C; "better: go round the subject" does not tell how (tester).
+
 ## Interface (root decides)
 
 1. In the zoomed-out overview the staged Quietus can sit under the viewfinder dock: `game/src/presentation/chart_camera.gd:39` gives overview no reserve (found by WP-142). WP-157 tried the follow reserve for overview and it shrank the whole chart to ~60% of the inner screen with no viewfinder showing (`critic-kits\wp157\evidence\a150\007-pinch.png`), not merged; a fix should reserve only while the viewfinder is visible, and the overlap itself was never reproduced.
