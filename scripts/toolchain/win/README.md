@@ -34,7 +34,10 @@ headless.ps1 -Action Import -Isolate
 headless.ps1 -Action Core -Isolate
 headless.ps1 -Action Script -Script sweeper_tests -Prefix SWEEPER -Isolate
 headless.ps1 -Action Raw -GodotArgs --version
+headless.ps1 -Action Script -Script art_render_measurements -Prefix "ART RENDER" -Windowed
 ```
+
+`-Windowed` (WP-142) opens a real window instead of `--headless`, for render suites.
 
 - `Import` imports the project. `Core` runs `res://tests/run_tests.gd`.
   `Script` runs one test (`-Script` takes `NAME`, `NAME.gd` or a `res://` path).
@@ -94,6 +97,10 @@ Runs every registered suite once, locally (the CI profile, then each render-flag
 ```
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/toolchain/win/full-sweep.ps1 -Repo <repository folder> -Out <result file>
 ```
+
+Render suites (marked `render`) run with `headless.ps1 -Windowed`: no `--headless`, the OpenGL compatibility renderer on the GPU, a real window (about 45 s for `art_render_measurements`). `test-suite.ps1` still reports render suites as SKIPPED; the sweep runs them. `cold_review_archive_tests` starts its child Godot through PowerShell on Windows (to give it an empty `%APPDATA%`) and through `env` elsewhere.
+
+`sweep-skip.txt` (this folder) lists suites that cannot run on this PC, one `name | reason` line each. The sweep prints them as `SKIPPED (reason)` instead of failing. It is empty now: every registered suite runs. Never delete a suite; skip it here with the reason.
 
 ## build-apk.ps1
 

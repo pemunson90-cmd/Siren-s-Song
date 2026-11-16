@@ -31,7 +31,16 @@ func run():
    var fresh=OS.get_cache_dir().path_join("sirens-cold-review-%d-%s-%d"%[OS.get_process_id(),profile,Time.get_ticks_usec()])
    DirAccess.make_dir_recursive_absolute(fresh)
    var output=[]
-   var result=OS.execute("env",["XDG_DATA_HOME="+fresh,OS.get_executable_path(),"--headless","--path",ProjectSettings.globalize_path("res://"),"--script","res://tests/cold_review_archive_tests.gd","--",profile],output,true)
+   var child=[OS.get_executable_path(),"--headless","--path",ProjectSettings.globalize_path("res://"),"--script","res://tests/cold_review_archive_tests.gd","--",profile]
+   var result
+   if OS.get_name()=="Windows":
+    # WP-142: Windows has no `env`; Godot's user data follows %APPDATA%, so a PowerShell wrapper sets it for the child only.
+    var quoted=[]
+    for a in child:quoted.append("'"+a.replace("'","''")+"'")
+    var script="$env:APPDATA='"+fresh.replace("'","''")+"'; & "+" ".join(quoted)+"; exit $LASTEXITCODE"
+    result=OS.execute("powershell",["-NoProfile","-NonInteractive","-Command",script],output,true)
+   else:
+    result=OS.execute("env",["XDG_DATA_HOME="+fresh,child[0]]+child.slice(1),output,true)
    for line in output:print(line)
    var joined="\n".join(output)
    var summary=RegEx.new();summary.compile("ARCHIVE PROFILE CHECKS ([1-9][0-9]*) FAILURES 0")
@@ -54,7 +63,8 @@ func run():
  var s=game.sim;s.sirens=[];var spire=s.mission.objectives[0]
  s.units[0].pos=spire.pos+Vector2.from_angle(2.74)*110;s.units[0].angle=2.74+PI;s.command("camera");s.paused=false
  for n in 300:s.advance(1./60)
- s.paused=true;game._retain_evidence();game._evidence_gallery(0);await settle()
+ # WP-142: the one photographed objective no longer wins the mission, so _retain_evidence (which needs an outcome) kept nothing; file the frame as a win's debrief does.
+ s.paused=true;preload("res://src/presentation/flow/photo_review.gd").collect(game,false);game._evidence_gallery(0);await settle()
  var intel
  for b in game.panel_box.find_children("*","Button",true,false):
   if b.get_meta("action","")=="intel":intel=b

@@ -1,0 +1,2 @@
+# Suites that cannot run on this Windows PC. full-sweep.ps1 reports them as SKIPPED with the reason instead of running them.
+# One line per suite: name | reason. Nothing is listed now: every registered suite runs here.

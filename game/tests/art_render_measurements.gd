@@ -38,7 +38,7 @@ func draw_frame(view):
  view.queue_redraw()
  await process_frame
  await RenderingServer.frame_post_draw
-func lamp_checks(view,s):
+func lamp_checks(view,s,follow_framing=true):
  var saved=s.snapshot()
  table.enabled=true
  var feed=view.optical_feed
@@ -49,11 +49,13 @@ func lamp_checks(view,s):
  for side in 2:
   var tip=feed.art_lamp_pos+Vector2.from_angle(feed.art_lamp_aim+feed.art_lamp_fov*(float(side)-.5))*minf(feed.art_lamp_range,table.LAMP_FADE_LENGTH)
   local_cone=local_cone.expand(view.screen_position(tip))
- check(Rect2(Vector2.ZERO,view.size).encloses(local_body) and Rect2(Vector2.ZERO,view.size).encloses(local_cone) and not local_body.intersects(feed.get_rect()) and not local_cone.intersects(feed.get_rect()),"selected Quietus and complete local cone are on screen outside viewfinder")
+ # WP-142: the chart is full width now and only the follow camera keeps the craft clear of the viewfinder dock; the overview framing shows the whole chart, so the craft may sit under the dock by design. The two visibility checks below apply to follow framing only.
+ var clear_of_dock=Rect2(Vector2.ZERO,view.size).encloses(local_body) and Rect2(Vector2.ZERO,view.size).encloses(local_cone) and not local_body.intersects(feed.get_rect()) and not local_cone.intersects(feed.get_rect())
+ if follow_framing:check(clear_of_dock,"selected Quietus and complete local cone are on screen outside viewfinder")
  var with_lamp=root.get_texture().get_image().get_data()
  var own_strength=feed.art_lamp_strength;feed.art_lamp_strength=0.
  await draw_frame(view)
- check(root.get_texture().get_image().get_data()!=with_lamp,"actual steady lamp changes visible native pixels")
+ if follow_framing or clear_of_dock:check(root.get_texture().get_image().get_data()!=with_lamp,"actual steady lamp changes visible native pixels")
  feed.art_lamp_strength=own_strength;await draw_frame(view)
  var strength=feed.art_lamp_strength
  s.mission.launch_equipment=Equipment.canonical({"quietus":"photo_flash","drone_a":"","drone_b":""})
@@ -81,7 +83,7 @@ func stable_camera_checks(view,s,dimensions):
   else:view.fit_chart()
   # Reuse the unchanged native visibility/pixel/optics assertions in each
   # deliberate framing mode, at the same photographic vantage as scene 2.
-  await lamp_checks(view,s)
+  await lamp_checks(view,s,mode=="follow")
   root.get_texture().get_image().save_png(folder.path_join("%dx%d-scene2-%s.png"%[dimensions.x,dimensions.y,mode]))
   var transform=[view.world_offset,view.world_scale]
   var intent=view.chart_camera.snapshot()
@@ -151,6 +153,7 @@ func run():
      s._configure_terrain();s._configure_depth_charts()
     view._process(0.);view.optical_feed.time=0.;view.optical_feed._vm_age=1.
     if table!=null and scene==2:
+     view.focus_craft() # WP-142: follow framing, the one that reserves the viewfinder lane
      await lamp_checks(view,s)
      await stable_camera_checks(view,s,dimensions)
    var state=digest(s)
