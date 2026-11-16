@@ -536,6 +536,20 @@ func layout(bounds:Vector2,h:float):
   anchor=host.ocean.screen_position(subject.get("pos",host.sim.units[host.sim.selected].pos))
   anchor_held=host.advanced_orders;anchor_unit=host.sim.selected
  ring_radius=h*2.25*text_scale
+ # WP-144: nine segments on the eight-segment radius touch each other, which sent every open wheel into the crowded-wheel re-fit
+ # (the wheel jumped away from its craft, and a tap landed between two layouts). The radius grows until no two neighbours overlap.
+ var count:=ring_buttons.size()
+ if count>8 and not ring_buttons.is_empty():
+  var gap:=4.
+  var size:Vector2=ring_buttons[0].size
+  for step in 80:
+   var clear:bool=true
+   for i in count:
+    var a1:float=-PI/2+TAU*i/count;var a2:float=-PI/2+TAU*(i+1)/count
+    var d:Vector2=Vector2.from_angle(a2)*ring_radius-Vector2.from_angle(a1)*ring_radius
+    if absf(d.x)<size.x+gap and absf(d.y)<size.y+gap:clear=false;break
+   if clear:break
+   ring_radius+=4.
  # WP-36: the outermost label rectangles keep EDGE_MARGIN (12 px at 1080p, scaled with the touch height) from the safe area; the wheel moves, the labels do not shrink.
  var edge=Vector2(ring_radius+bw/2.,ring_radius+bh/2.)+Vector2.ONE*edge_margin(h)
  var minimum=Vector2(edge.x,minf(h*3.85*text_scale+20,bounds.y-edge.y))
