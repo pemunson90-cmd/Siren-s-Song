@@ -15,7 +15,9 @@ static func input(host,event:InputEvent) -> void:
 	if host.debug_console!=null and host.debug_console.input(event):host.get_viewport().set_input_as_handled();return
 	if host.debug_console!=null and host.debug_console.panel.visible:return
 	if host.screen!="mission":return
-	if host.ocean.optical_feed.route_input(event):host.get_viewport().set_input_as_handled();return
+	# WP-145: a tip card's own zone is its taps, even where it overlaps the viewfinder panel
+	var on_card:bool="position" in event and host.mission_hud.hints.blocks(event.position)
+	if not on_card and host.ocean.optical_feed.route_input(event):host.get_viewport().set_input_as_handled();return
 	if host.mission_hud.contact_touch.feed(host.mission_hud.contact_scroll,event):host.get_viewport().set_input_as_handled();return
 	if host.mission_hud.owns_pointer(event):host.get_viewport().set_input_as_handled();return
 	if host.mission_hud.fleet.handle_input(event):host.get_viewport().set_input_as_handled();return

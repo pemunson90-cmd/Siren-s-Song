@@ -1034,6 +1034,9 @@ func _tip_avoid()->Array:
  for reading in fleet.readouts:result.append(Rect2(fleet.position+reading.rect.position,reading.rect.size))
  var chip=get_meta(HuntMeter.CHIP) if has_meta(HuntMeter.CHIP) else null
  if is_instance_valid(chip) and chip.visible:result.append(Rect2(chip.global_position-global_position,chip.size))
+ # WP-145: the viewfinder panel takes touches first (its footer scrolls), so a tip card over it lost its GOT IT taps
+ var feed=host.ocean.optical_feed
+ if feed!=null and feed.visible:result.append(Rect2(feed.global_position-global_position,feed.size))
  return result
 # WP-115: one rule for "a card or prompt just closed": the chart ignores taps for UiStyle.TAP_AFTER_CLOSE_MS afterwards.
 # A card or prompt is one of the panels below, or the lock card; the time is noted when one that was up is gone.

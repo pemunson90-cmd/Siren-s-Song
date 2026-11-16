@@ -297,7 +297,7 @@ func _start_mission(index: int) -> void:
 	# blocked recovery needs valid craft/UI; later player launches stay guarded.
 	if not sim.mission.is_empty() and not preload("res://src/persistence/save_states/save2_controller.gd").before_launch(self,index):return
 	if mission_hud!=null and mission_hud.guard!=null:mission_hud.guard.reset()
-	diagnostic_ready=""; diagnostic_records.clear(); diagnostic_roles.clear(); diagnostic_role_route_ready=false; held_view={}; map_gesture.cancel(); advanced_orders=false; knock_armed=false; ocean.knock_targeting=false; decoy_armed=false; ocean.decoy_targeting=false
+	diagnostic_ready=""; diagnostic_records.clear(); diagnostic_roles.clear(); diagnostic_role_route_ready=false; held_view={}; map_gesture.cancel(); advanced_orders=false; ocean.panel_open=false; knock_armed=false; ocean.knock_targeting=false; decoy_armed=false; ocean.decoy_targeting=false
 	call_deferred("_layout")
 	if route_editor!=null: route_editor.hide()
 	active_started=true; mission_index=index; sim.start(index,upgrade,launch.launch)
@@ -528,7 +528,7 @@ func _clear_menu() -> void:
 	preload("res://src/presentation/arcs/arc_card.gd").back(self)
 	var resolution=get_node_or_null("ConfluenceResolution")
 	if resolution!=null:remove_child(resolution);resolution.queue_free()
-	advanced_orders=false
+	advanced_orders=false;ocean.panel_open=false # WP-145: closing the wheel here must release the chart's strip reserve too
 	if mission_hud!=null:mission_hud.instruments_open=false
 	if route_editor!=null: route_editor.hide()
 	knock_armed=false; ocean.knock_targeting=false; decoy_armed=false; ocean.decoy_targeting=false; map_gesture.cancel()
