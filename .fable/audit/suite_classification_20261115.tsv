@@ -1,0 +1,281 @@
+suite	decision	letter	evidence	minutes_est
+run_tests	KEEP	A	check(s.units[0].pos.x > 150, "ordinary route commands propel submarine with inertia")	0.0
+runtime_tests	KEEP	A	check(game.sim.selected==1,"actual pointer input selects independent drone")	2.2
+loadout_ui_tests	KEEP	A	check("Loadout:" in text and preload("res://src/equipment/field_tools.gd").loadout_label(choice) in text and expected in text,"selected "+choice+" sta	0.5
+navigation_departure_tests	RETIRE			0.2
+density_scenarios	RETIRE			0.6
+density_menu_scenarios	RETIRE		 | PAT row names it; row covered by another KEEP suite or flagged	0.3
+density_scroll_scenarios	RETIRE			0.5
+metrics_transport_tests	RETIRE		 | PAT row names it; row covered by another KEEP suite or flagged	0.2
+operation_endurance_tests	KEEP	A	check(restored.restore(s.snapshot()) and restored.mission.endurance==s.mission.endurance and restored.oxygen==s.oxygen,"current save retains launch bu | unsure	0.0
+targeting_feedback_tests	RETIRE			0.2
+beam_emission_tests	KEEP	B	PAT rows (ledger): sole test of a PAT row	0.0
+recon_consequences_tests	KEEP	B	PAT rows (ledger): sole test of a PAT row	0.0
+current_motion_tests	RETIRE			0.0
+v7_earned_region_tests	RETIRE			0.0
+glass_earned_chart_tests	RETIRE			0.2
+v7_earned_view_tests	RETIRE			0.1
+craft_upgrades_tests	KEEP	B	PAT rows (ledger): named in PAT row	0.0
+craft_upgrade_sim_tests	RETIRE			0.1
+post_tutorial_roster_tests	RETIRE			0.1
+divergence_save_tests	KEEP	A	check(not store.valid(data),"missing recovered route fact cannot grant a continuation")	0.1
+campaign_consequence_tests	KEEP	A	check(launched.selected_thread=="deep" and launched.history.size()==1,"recovery commits one selected downstream history") | unsure	0.0
+campaign_equipment_save_tests	KEEP	A	check(not Sim.valid_snapshot(bad),"one physical sampler cannot be duplicated in active save")	0.1
+operation_catalog_tests	RETIRE			0.2
+depth_sonar_tests	KEEP	B	PAT rows (ledger): named in PAT row	0.3
+survivor_ascent_tests	KEEP	B	PAT rows (ledger): sole test of a PAT row	0.1
+sweeper_tests	KEEP	B	PAT rows (ledger): named in PAT row	0.1
+role_senses_tests	KEEP	B	PAT rows (ledger): sole test of a PAT row	0.1
+depth_sonar_ui_tests	KEEP	A	await settle();check(g.sim.snapshot()==before,"canceled "+key+" "+kind+" preserves consequential state")	0.7
+depth_policy_ui_tests	KEEP	A	check(g.sim.units[id].pos.distance_to(point)<16 or g.sim.outcome=="won","real route arrives through actual band geometry") | 3.5 min, overlaps opening_depth_policy_ui_tests	3.5
+opening_depth_tests	KEEP	B	PAT rows (ledger): named in PAT row	0.1
+opening_depth_journeys	KEEP	A	check(s.outcome=="won" and s.units.all(func(u):return u.alive),"Split baseline fleet completes coordinated depth crossing alive")	0.6
+opening_depth_policy_ui_tests	KEEP	C	8623ddf2/b379b1dd DEV badge stole planner taps (debug_console.gd) | 9.9 min; cut grid to 100/150	9.9
+glass_reach_tests	RETIRE			0.1
+glass_network_tests	KEEP	B	PAT rows (ledger): sole test of a PAT row	0.1
+glass_research_tests	RETIRE			0.0
+glass_reach_journeys	KEEP	A	check(s.outcome=="won" and s.hull>0 and s.tools==tools and s.mission.launch_equipment.values().all(func(v):return v==""),"baseline Quietus finishes wi	1.1
+choir_fork_tests	KEEP	B	PAT rows (ledger): sole test of a PAT row	0.4
+industrial_jobs_tests	KEEP	A	check(s.mission.iron_choir.load.carrier==-1 and s.mission.iron_choir.load.state=="free","lost tow craft leaves actual physical load")	0.6
+industrial_threats_tests	KEEP	B	PAT rows (ledger): sole test of a PAT row	0.2
+iron_research_tests	RETIRE			0.0
+iron_choir_journeys	KEEP	A	check(s.outcome=="won" and s.hull>0,"equipped full operation recovery "+str(id))	1.3
+carry_tests	KEEP	A	check(s.outcome=="won" and s.hull>0 and s.tools==tools,"bare Quietus without finite tools finishes carried op "+str(id))	1.5
+wake_crossing_tests	KEEP	A	check(s.outcome=="won","history fixture carries an actually recovered packet")	0.1
+wake_crossing_ui_tests	KEEP	A	check(g.advanced_orders and h.subject.get("subkind","")=="wake_repeater" and g.sim.snapshot()==before_site,"ordinary touch on measured hardware opens  | unsure: sampled checks mostly UI labels	0.5
+warning_chain_tests	KEEP	A	check(s.mission.record.begins_with("SERVICE RECEIPT"),"ordinary debrief names the actual verified local outcome rather than both possible branches") | unsure dup of warning_recipient	0.1
+shelf_habitat_tests	RETIRE			0.1
+shelf_habitat_journey_tests	KEEP	A	check(s.outcome=="won" and s.hull>0,"ordinary guards permit complete no-drone/no-tools "+("common" if common else "quiet")+" journey")	0.2
+rendezvous_transport_tests	KEEP	A	check(berth.outcome=="won" and berth.hull==100 and berth.units[1].alive and berth.units[2].alive,"unreleased quiet route remains physically finishable	0.3
+rendezvous_ui_tests	KEEP	A	check(sim.mission.objectives.any(func(site):return site.get("site_id","")=="rendezvous" and site.captured) and sim.outcome.is_empty() and game.screen!	0.6
+resolution_content_tests	RETIRE			0.0
+confluence_operation_tests	RETIRE			0.0
+confluence_presentation_tests	RETIRE			0.0
+resolution_instruments_tests	RETIRE			0.0
+cadence_correlator_tests	RETIRE			0.0
+field_sampler_tests	RETIRE			0.0
+capture_feedback_tests	RETIRE			0.0
+independent_capture_tests	RETIRE			0.1
+turn_safe_navigation_tests	RETIRE			0.1
+audit_navigation_tests	RETIRE			2.3
+module_recovery_tests	KEEP	A	check(depart.outcome.is_empty() and context.available and context.pending and context.confirmation_required and context.left.size()==2 and not depart.	0.1
+route_program_tests	RETIRE			0.1
+drone_drive_tests	KEEP	A	check(store.save(archive) and store.load_game()==archive,"actual atomic save store retains optional drive without schema migration")	0.1
+drone_operations_tests	KEEP	A	check(not s.units[2].alive and s.units[2].hold=='SCOUT_STOP' and lost_observer and after_loss.restore(bytes_to_var(var_to_bytes(s.snapshot()))),'legit	0.1
+contact_reports_tests	KEEP	B	PAT rows (ledger): sole test of a PAT row	0.1
+siren_radio_tests	KEEP	B	PAT rows (ledger): sole test of a PAT row	0.0
+concealed_harbour_tests	KEEP	A	check(staged.outcome.is_empty() and not staged.all_records(),"pod landing alone cannot claim the newly promised departure consequence")	0.2
+concealed_harbour_ui_tests	KEEP	A	check(index>=0,"owner chooser retains requested craft")	0.9
+witness_evacuation_journey_tests	KEEP	A	check(s.outcome=="won" and s.hull>0 and Sim.valid_snapshot(s.snapshot()),"real solo voyage physically lands the witness and recovers a valid Quietus")	0.5
+warning_recipient_tests	RETIRE			0.4
+blackwater_delivery_ui_tests	KEEP	A	check("REPLY" in View.detail(sim) and "wreck" in View.detail(sim).to_lower(),"lost remote buffer remains described as recoverable data rather than del	0.5
+playfield_hud_tests	KEEP	A	check(game.store.valid(archive) and archive.chart_view==camera_state,"save includes view intent alongside a valid unchanged tactical archive")	0.5
+fleet_ring_ui_tests	KEEP	A	check(store.save(archive) and store.load_game()==archive,"binary archive preserves low active supply beside different NEXT supplies")	0.9
+module_recovery_ui_tests	KEEP	A	check(rows.size()==2 and rows.all(func(row):return row.get("unavailable",false)),"earned but physically lost drone module remains visible as unavailab	0.5
+radial_hud_tests	KEEP	A	check((plate.bg_color.a>0.9 if paused else plate.bg_color.a==0.) and plate.border_width_left>0 and plate.corner_radius_top_left>0,"the pause control i	0.7
+campaign_instruments_tests	RETIRE			0.0
+campaign_debrief_view_tests	RETIRE			0.1
+acoustic_footprint_tests	RETIRE			0.0
+acoustic_path_affected_tests	KEEP	B	PAT rows (ledger): sole test of a PAT row	0.1
+decoy_deployment_tests	KEEP	B	PAT rows (ledger): sole test of a PAT row	0.0
+torpedo_aim_ui_tests	KEEP	A	check(aims.size()==2 and aims[0].key==0 and aims[1].key==1,"aim callouts preserve deterministic observed identity order")	0.6
+foundry_departure_tests	RETIRE			0.1
+thermal_lee_tests	KEEP	B	PAT rows (ledger): sole test of a PAT row	0.0
+thermal_transmission_tests	KEEP	B	PAT rows (ledger): named in PAT row	0.0
+thermal_band_tests	KEEP	B	PAT rows (ledger): named in PAT row	0.0
+terminal_tick_tests	RETIRE			0.0
+briefing_scroll_fitting_ui_tests	RETIRE			0.7
+warning_chain_audio_tests	RETIRE			0.0
+warning_chain_world_ui_tests	RETIRE			0.3
+onboarding_tests	KEEP	A	check(Text.valid_seen([Text.HUNT_METER_HINT]),"the Hunt chip's first-sight flag is a valid saved flag")	0.4
+siren_warning_pause_tests	RETIRE			0.3
+combat_rules_tests	KEEP	B	PAT rows (ledger): sole test of a PAT row	0.0
+collision_boundaries_tests	KEEP	B	PAT rows (ledger): sole test of a PAT row	0.0
+rules_sonar_cost_tests	RETIRE			0.5
+ordinary_beam_industrial_tests	KEEP	B	PAT rows (ledger): sole test of a PAT row	0.0
+loadout_frames_tests	RETIRE			0.4
+fit_surface_ui_tests	RETIRE			0.7
+photo_capture_tests	KEEP	B	PAT rows (ledger): sole test of a PAT row	0.1
+photo_capture_ui_tests	KEEP	A	check(game.store.load_game().get("intel",{}).has("spire_wreck"),"intel is written to the archive")	0.1
+photo_discovery_tests	RETIRE			0.1
+photo_pricing_tests	KEEP	B	PAT rows (ledger): sole test of a PAT row	0.1
+photo_pricing_ui_tests	RETIRE			0.2
+photo_depth_tests	KEEP	B	PAT rows (ledger): named in PAT row	0.1
+photo_rules_tests	KEEP	B	PAT rows (ledger): named in PAT row	0.0
+all_stop_tests	KEEP	B	PAT rows (ledger): sole test of a PAT row	0.1
+archive_recap_tests	RETIRE			0.0
+challenges_journey_tests	KEEP	A	check(s.outcome=="won" and not s.result().loss,"the live passive challenge completes successfully")	0.1
+challenges_tests	KEEP	A	check(s.outcome=="lost" and not s.rule_failure.is_empty(),"actual hull loss ends the intact-hull challenge")	0.1
+challenges_ui_tests	KEEP	A	check(game.store.save(legacy),"the fixture retains a readable older profile version")	1.1
+lock_warning_tests	RETIRE			0.0
+truthful_commands_tests	KEEP	B	PAT rows (ledger): named in PAT row	0.5
+performance_measurements	RETIRE			0.0
+nav_following_probe	RETIRE			0.2
+nav_clearance_probe	RETIRE			0.0
+nav_clearance_ui_tests	KEEP	A	check(s.route_goals().size()==1 and s.route_goals()[0].pos.distance_to(wanted)<.1,"real touch edits only the selected destination "+str(shape))	0.3
+opening_fleet_tests	RETIRE			0.1
+cold_review_archive_tests	RETIRE			0.1
+audit_photo_integrity_tests	KEEP	B	PAT rows (ledger): sole test of a PAT row	0.1
+audit_photo_evidence_tests	KEEP	B	PAT rows (ledger): named in PAT row	0.1
+photo_trench_geometry_tests	RETIRE		 | PAT row names it; row covered by another KEEP suite or flagged	0.0
+audit_artifact_cargo_tests	RETIRE			0.1
+grade_on_secure_tests	KEEP	B	PAT rows (ledger): named in PAT row	0.0
+fix2_save_tests	KEEP	A	check(store.save(envelope),"the partial retake saves atomically")	0.1
+fix2_frontend_ui_tests	RETIRE			0.8
+fix2_menu_ui_tests	RETIRE			0.5
+audit_readability_ui_tests	RETIRE			0.6
+fix2_state_tests	RETIRE			0.0
+photo_audio_tests	RETIRE			0.0
+event_cue_tests	RETIRE			0.0
+early_reward_tests	RETIRE			0.0
+early_reward_ui_tests	RETIRE			0.7
+campaign_photo_rows_tests	RETIRE			0.1
+route_map_tests	RETIRE			0.0
+sweeper_patrol_tests	RETIRE		 | PAT row names it; row covered by another KEEP suite or flagged	0.7
+landmark_ui_tests	RETIRE			0.1
+endings_photo_tests	KEEP	B	PAT rows (ledger): named in PAT row	0.1
+endings_photo_ui_tests	RETIRE		 | PAT row names it; row covered by another KEEP suite or flagged	0.4
+final_pair_journey_tests	KEEP	A	check(returned and s.outcome=="won" and s.mission.recovered,"bare recovery with real threats "+str(id))	0.1
+onboard2_tests	RETIRE			0.1
+consequence_lines_tests	KEEP	B	PAT rows (ledger): sole test of a PAT row	0.0
+save_profiles_tests	KEEP	A	wrapper: extends "res://src/persistence/profiles/profile_tests.gd"	0.2
+save_profiles_ui_tests	KEEP	A	wrapper: extends "res://src/persistence/profiles/profile_ui_tests.gd" | unsure: wrapper over profile_ui_tests	1.0
+save_profiles_transfer_tests	KEEP	A	wrapper: extends "res://src/persistence/profiles/profile_transfer_tests.gd"	0.2
+back_exit_tests	KEEP	A	check(quits==1 and c.quit_requests==1 and not c.armed and not c.toast.visible,"second Back inside the window quits through the hook")	0.2
+back_audit_tests	RETIRE			3.1
+a11y_cues_tests	RETIRE			0.1
+ai_trace_tests	RETIRE			0.1
+acoustic_path_cull_tests	RETIRE			0.1
+sonar_feedback_cache_tests	RETIRE			0.2
+sonar_identity_tests	KEEP	B	PAT rows (ledger): sole test of a PAT row	0.0
+presentation_pass_tests	KEEP	B	PAT rows (ledger): sole test of a PAT row | sole test for art/audio PAT rows; cheap	0.1
+goal_bearing_cache_tests	RETIRE			0.0
+terrain_tests	RETIRE			0.0
+work_sites_tests	RETIRE			0.0
+map_gesture_tests	RETIRE			0.0
+choir_rules_tests	RETIRE			0.0
+iron_layouts_tests	RETIRE			0.0
+order_table_tests	RETIRE			0.0
+photo_window_rules_tests	KEEP	B	PAT rows (ledger): named in PAT row	0.0
+art_tests	RETIRE		 | PAT row names it; row covered by another KEEP suite or flagged	0.0
+art_render_measurements	RETIRE		 | PAT row names it; row covered by another KEEP suite or flagged	0.0
+ops_home_ui_tests	RETIRE			9.5
+arc_boundary_ui_tests	RETIRE		 | PAT row names it; row covered by another KEEP suite or flagged	0.9
+voices_tests	KEEP	B	PAT rows (ledger): sole test of a PAT row	0.1
+archive_views_ui_tests	RETIRE			0.7
+menu_reach_ui_tests	KEEP	A	check(main_buttons(game)==["retry"],"lost screen has exactly one main button: "+str(main_buttons(game)))	3.6
+debug_console_tests	KEEP	A	check(game.sim.hull==before_hull and game.sim.outcome.is_empty() and game.sim.units[0].alive,"invulnerable restores survival after actual beam")	0.9
+tactical_aids_tests	KEEP	A	check(history==aid.saved_history(),"archive binary codec preserves aid IDs and warning times")	0.5
+settings_depth_tests	RETIRE			0.0
+finale_provisional_tests	KEEP	B	PAT rows (ledger): sole test of a PAT row	0.1
+ledger_tests	KEEP	B	PAT rows (ledger): sole test of a PAT row	0.0
+save2_storage_tests	KEEP	A	check(live.save(first),"live autosave fixture is written before sidecar operations")	0.1
+save2_fork_tests	KEEP	A	check(C.ensure_state(host).recoveries==count_before_replay+1,"lost replay never increments recovered-operation play count")	0.1
+save2_ui_tests	KEEP	A	check(game.screen=="ending" and has_text(game,"CAMPAIGN OUTCOME"),"final campaign outcome is labeled after op34")	2.4
+ironman_integrity_tests	KEEP	A	check(not manager.save_manual(0,archive(true),"Iron slot",false,"missing"),"ironman manual state refused at storage seam")	0.1
+ironman_losses_tests	KEEP	A	check(Losses.missing(recovered,2)==iron and not Losses.missing(recovered,1),"live drone outside mouth permanently lost only in Ironman")	0.2
+death_cause_tests	KEEP	A	check(a.sim.outcome=="lost" and "Siren beam" in a.sim.message,"%s journey ends in a beam loss"%kind)	0.1
+first_siren_cue_ext_tests	RETIRE			0.0
+challenges_completions_opening_tests	KEEP	A	check(s.outcome=="won","%s %s outcome is won (%s)"%[id,route,s.message])	0.6
+challenges_completions_reach_tests	KEEP	A	check(s.outcome=="won","%s %s outcome is won (%s)"%[id,route,s.message])	0.6
+challenges_completions_iron_tests	KEEP	A	check(s.outcome=="won","%s %s outcome is won (%s)"%[id,route,s.message])	0.3
+challenges_route_pars_tests	RETIRE			0.0
+photo_row_feed_room_journey_tests	RETIRE			0.2
+status_text_tests	RETIRE			0.1
+status_text_ui_tests	RETIRE			3.2
+stable_board_ui_tests	KEEP	C	9909366c (WP-55) fixed mission_hud pause-plate text <14dp and tip card over FLEET; stable_board_ui_support follows | unsure: 9.3 min layout matrix; credited from WP-55 changed-files only	9.3
+hunt_pressure_tests	KEEP	B	PAT rows (ledger): named in PAT row	0.0
+hunt_cap_coverage_tests	KEEP	B	PAT rows (ledger): named in PAT row	0.0
+hunt_pressure_integration_tests	KEEP	A	check(a.sirens==b.sirens and a.hull==b.hull and a.outcome==b.outcome,"same acquired target retains identical lock/beam/damage and movement")	0.2
+hunt_meter_ui_tests	RETIRE			1.6
+calder_trench_journey_tests	KEEP	A	check(s.mission.get("launch_equipment",{}).values().all(func(item):return str(item).is_empty() or str(item)=="standard"),"bare initial loadout "+str(i	0.8
+calder_silent_journey_tests	KEEP	A	check(finished and s.outcome=="won" and s.mission.recovered,"silent bare physical recovery "+str(id))	0.8
+regional_settings_tests	RETIRE			0.0
+frame_cap_settings_tests	RETIRE			0.0
+optional_thread_journey_tests	KEEP	A	check(finished and s.outcome=="won" and s.mission.recovered,"physical photo recovery "+str(id))	0.2
+sorley_rescue_tests	KEEP	A	check(fleet_ok and fleet.outcome=="won","independent drone physically brings the boy home while Quietus waits at lift")	0.3
+sorley_pilotage_tests	KEEP	B	PAT rows (ledger): named in PAT row	0.1
+optional_cache_tests	KEEP	A	check(s.command("cache_action",{"action":"unload"}) and p.state=="received" and s.outcome.is_empty() and not s.mission.objectives[0].captured,"first r | unsure	0.3
+quality_tests	RETIRE			0.1
+quality_ui_tests	RETIRE			0.7
+economy_tests	RETIRE			0.1
+economy_save_tests	KEEP	A	check(store.save(data) and store.load_game().get("economy",{})==e,"economy round trips through the checksummed archive")	0.1
+economy_campaign_sim_tests	KEEP	A	check(Sim.order(true,true).size()==Sim.order(false,false).size() and Sim.order(true,true).has(34),"every route plays the same number of operations and	0.0
+economy_options_tests	RETIRE			0.3
+crew_tests	RETIRE			0.1
+field_tools_tests	KEEP	B	PAT rows (ledger): named in PAT row	0.0
+tool_racks_tests	RETIRE			0.8
+mode_tool_cargo_tests	RETIRE			0.0
+expedition_runs_tests	KEEP	A	check(lost.status=="lost" and State.valid(lost) and State.launch(lost)==lost,"loss terminal and valid")	0.1
+seeded_siren_patrol_tests	KEEP	B	PAT rows (ledger): sole test of a PAT row	0.1
+run_records_tests	KEEP	A	check(Records.valid_summary(loss) and loss.status=="lost" and loss.depth==1 and loss.operations.size()==2,"loss summary includes unsuccessful final op	0.2
+mode_resume_tests	KEEP	A	check(archive.restore(after)==settled and after.get_meta(mode+"_active",{})=={},mode+" cold reopen retains one settled outcome")	2.3
+runs_offer_tests	KEEP	A	check(State.valid(completed),"later outcome replays offers")	0.1
+expedition_session_tests	KEEP	A	check(host.sim.snapshot()==snapshot and FileAccess.get_file_as_bytes(path)==before,"run outcome preserves Ironman campaign simulation and archive byte	0.5
+career_tests	KEEP	A	wrapper: extends "res://src/campaign/career/career_tests.gd"	0.9
+rider_tests	KEEP	A	check(not run.rule_failure.is_empty() and run.outcome.is_empty(),"failure leaves base contract running "+id)	0.1
+player_names_tests	RETIRE			2.7
+release_controls_tests	KEEP	B	PAT rows (ledger): sole test of a PAT row	1.3
+crash_possible_tests	KEEP	B	PAT rows (ledger): sole test of a PAT row	0.1
+hand_pilot_journeys	KEEP	A	check(s.release_only,tag+" release orders only "+str(s.refused))	4.2
+prep_decision_first_ui_tests	RETIRE			0.2
+protected_rules_tests	KEEP	B	PAT rows (ledger): sole test of a PAT row	0.0
+briefing_truth_tests	RETIRE			0.3
+own_craft_leg_warning_tests	RETIRE			0.0
+control_mix_tests	KEEP	B	PAT rows (ledger): sole test of a PAT row	0.1
+dive_end_polish_ui_tests	RETIRE			1.0
+all_stop_text_tests	RETIRE			0.0
+bare_contact_tests	KEEP	B	PAT rows (ledger): sole test of a PAT row	2.1
+launch_guard_ui_tests	RETIRE			0.4
+release_build_gate_tests	KEEP	B	PAT rows (ledger): named in PAT row	0.0
+operation_meta_parity_tests	RETIRE			0.0
+threat_read_tests	RETIRE			0.1
+planning_order_flow_ui_tests	KEEP	A	check("LAST ·" in hud.intent.text and "Marker cancelled" in hud.intent.text,"before the next order the result and the message are shown")	1.1
+photo_shutter_ui_tests	KEEP	A	check(game.order_buttons.camera.text=="PHOTO","the ring keeps its PHOTO action "+stamp)	0.4
+photo_range_caption_tests	RETIRE			0.1
+photo_pay_ui_tests	RETIRE			0.2
+launch_clearance_tests	KEEP	A	check(s.command("route",{"point":s.units[0].pos+Vector2(0,-400)}),"op15 accepts a first leg north")	1.1
+text_spacing_tests	RETIRE			0.0
+life_support_ui_tests	RETIRE			0.7
+drone_bay_tests	KEEP	A	check(Bay.aboard(u) and not u.alive and not Bay.lost(u) and Bay.home(u),"%s %s starts aboard, not in the water and not lost"%[tag,u.name])	0.4
+parity_rules_tests	KEEP	B	PAT rows (ledger): named in PAT row	0.3
+legacy_observe_equivalence_tests	RETIRE			0.0
+chart_cache_tests	RETIRE			0.0
+names_registry_tests	RETIRE			0.0
+tap_ownership_ui_tests	KEEP	A	check(hints._drone_moment(),"drones in the water with no orders and none lost: the tip's moment is open")	0.9
+hud_words_ui_tests	RETIRE			2.3
+trial_rules_tests	KEEP	B	PAT rows (ledger): named in PAT row	0.2
+career_record_tests	KEEP	A	check(not Log.floor_line(host).contains("came home") and Log.floor_line(host).contains("was lost"),"a lost Quietus is not said to have come home") | unsure: record wording heavy	0.0
+wide_menus_ui_tests	RETIRE			1.5
+chart_preview_ui_tests	RETIRE			0.5
+route_map_layout_tests	RETIRE			6.3
+chart_label_fit_ui_tests	RETIRE			2.2
+status_strip_tests	RETIRE			0.3
+stuck_craft_tests	KEEP	A	check(order(sim,q.pos+Vector2(400,0)),"the route east is accepted")	0.5
+stuck_craft_ui_tests	RETIRE			0.9
+large_text_screen_ui_tests	RETIRE			4.4
+result_numbers_ui_tests	RETIRE			0.3
+camera_next_step_tests	RETIRE			0.0
+briefing_boat_column_ui_tests	RETIRE			0.7
+panel_taps_labels_note_ui_tests	RETIRE			1.2
+dive_time_honesty_ui_tests	KEEP	A	check("When it lands, DRONE A is lost." in g.lock_warning.card_text,"a lock on a drone says the drone is lost: "+g.lock_warning.card_text+" "+stamp)	1.4
+chart_full_width_ui_tests	RETIRE			0.8
+wheel_water_tap_ui_tests	KEEP	A	check(outcome(g)==with_wheel,tag+": the order equals a water tap with the wheel closed "+str(with_wheel)+" vs "+str(outcome(g)))	0.6
+title_text_size_ui_tests	RETIRE			0.6
+retry_words_ui_tests	RETIRE			0.4
+rock_drawn_tests	RETIRE			1.4
+route_program_screen_tests	RETIRE			0.0
+result_actions_ui_tests	RETIRE			2.6
+wp111_briefing_chart_ui_tests	RETIRE			1.8
+unusable_reason_tests	RETIRE			0.0
+float_pile_ui_tests	RETIRE			0.8
+earned_block_ui_tests	RETIRE			0.6
+wp117_ui_tests	RETIRE			1.1
+rock_warning_tests	KEEP	B	PAT rows (ledger): named in PAT row	0.0
+emp_lock_grace_tests	KEEP	B	PAT rows (ledger): named in PAT row	0.1
+photo_beside_job_tests	RETIRE			0.2
+time_speed_tests	KEEP	B	PAT rows (ledger): named in PAT row	0.6
+play_api_tests	KEEP	A	check(s.screen=="mission" and s.outcome=="","Quietus reached the search area alive")	0.3
+play_api_modes_tests	KEEP	A	check(rc.ok and rc.legs.size()==1,"route_check works inside an Expedition dive")	0.5
+route_tap_flow_ui_tests	KEEP	A	check(g.sim.route_goals().size()==1 and not guard.panel.visible,tag+": the first tap sets a one-stop route")	0.9
+next_step_ui_tests	RETIRE			1.6
