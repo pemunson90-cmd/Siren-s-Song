@@ -1,13 +1,13 @@
 # NOW: what the root session is doing
 
 Status: LIVE NOTE (rewritten before every step; if a session died, this is the step it died in)
-Updated: 2026-11-16 01:28
+Updated: 2026-11-16 01:56
 
 **To resume after a context clear or a new session:** open this folder as the project and run `/siren-s-start-opus` (on an Opus model; `/siren-s-start-fable` is the same run on the Fable model). Read `.fable/PHASE9.md` first: it is the whole handoff. The `next_action` field in the state file always starts by sending the session to `.fable/HANDOFF.md` and to this file.
 
 ## Doing right now
 
-WP-155/156/157 retested green on d91eea8c (11 suites incl. TIME SPEED 171/0); next: wheel coverage, pause tip, pause menu
+WP-158/159 retested on 731511bc; WP-161 (extract at DEEP) and WP-162 (blank program screen) running
 
 ## In flight
 
