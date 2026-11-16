@@ -73,6 +73,16 @@ func layout_case(shape:Vector2i,scale:float):
 		check(inner.y<=speed.size.y,"the speed words fit the control "+stamp+" hunted="+str(hunted)+" "+str(inner)+" in "+str(speed.size))
 		var alarm:Control=game.mission_hud.alarm
 		check(not alarm.visible or not alarm.get_global_rect().intersects(rect),"the alarm lane keeps clear of the speed control "+stamp)
+	# WP-155: with the order dock open the contact line still keeps off the speed plate, the pause plate and the air chip.
+	var reporting:=contact(game.sim,"INVESTIGATE");reporting["report_remaining"]=2.9
+	game.sim.contacts[0]=reporting;game.advanced_orders=true;game._refresh();await settle();game._refresh();await settle()
+	var docked_alarm:Control=game.mission_hud.alarm
+	check(docked_alarm.visible,"the docked contact line shows "+stamp)
+	if docked_alarm.visible:
+		var air=game.mission_hud.AirChip.node(game.mission_hud)
+		var keep:Array=[pause,speed]+([air] if air!=null and air.is_visible_in_tree() else [])
+		for control in keep:check(not docked_alarm.get_global_rect().intersects(control.get_global_rect()),"the docked contact line keeps clear of "+str(control.name)+" "+stamp)
+	game.advanced_orders=false
 	game.sim.contacts.clear();game.queue_free();await settle()
 func cycle_case():
 	var game=await make(Vector2i(2520,1080),1.0)
