@@ -35,6 +35,8 @@ Status: LIVE (Pat, 15 Nov 2026: all open problems live here. Root adds an issue 
 5. A depth order given while a lock card pauses the dive is dropped silently (tester, unverified).
 6. Photo grades mostly 38 to 53% C; "better: go round the subject" does not tell how (tester).
 
+7. **Pat ruled 16 Nov ("Yes to all for now", `docs/USER_DIRECTIVES.md` last section): rock the player was told about stays charted; the chart names its depth; a route into an unscanned depth is warned first.** WP-166 building. His test for all changes: no bookkeeping, but "the game can't play itself".
+
 ## Interface (root decides)
 
 1. In the zoomed-out overview the staged Quietus can sit under the viewfinder dock: `game/src/presentation/chart_camera.gd:39` gives overview no reserve (found by WP-142). WP-157 tried the follow reserve for overview and it shrank the whole chart to ~60% of the inner screen with no viewfinder showing (`critic-kits\wp157\evidence\a150\007-pinch.png`), not merged; a fix should reserve only while the viewfinder is visible, and the overlap itself was never reproduced.
