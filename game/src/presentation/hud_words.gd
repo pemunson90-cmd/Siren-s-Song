@@ -192,6 +192,9 @@ const TEXT={
 	"unscanned_depth_bar": "%s is uncharted here · rock may be unseen",
 	"unscanned_strip": "Marker set through uncharted water · SEND ANYWAY or CANCEL",
 	"unscanned_depth_strip": "Depth change into uncharted water · SEND ANYWAY or CANCEL",
+	# WP-172: Quietus is at a recovery mouth that is not open: the reason the game knows.
+	"depart_source": "%s is not open yet · locate %s first",
+	"depart_records": "%s is not open yet · the required records are not all recorded",
 }
 # WP-153: a no-break space between a number and its metre unit (240 m, 5 m/s) so a lone "m" never starts the next strip line.
 static func glue_units(text:String)->String:

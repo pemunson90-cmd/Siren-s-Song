@@ -63,6 +63,7 @@ static func _home(sim)->Dictionary:
 	var ring:String=str(c.get("name","")).to_upper() if sim.mission.has("expedition_revision") else Words.TEXT.next_ring_name
 	var line:String=""
 	if q.pos.distance_to(c.pos)>=RECOVERY_REACH:line=Words.TEXT.next_ring%[ring,roundi(RECOVERY_REACH)]
+	elif not c.get("available",true):line=sim.corridor_blocked_reason(c) # WP-172: at a mouth that is not open, say why
 	elif not q.transition.is_empty():line=Words.TEXT.next_settle%middle
 	elif q.band!=MIDDLE:line=(Words.TEXT.next_rise if q.band>MIDDLE else Words.TEXT.next_sink)%middle
 	elif q.vel.length()>=EXTRACT_SPEED:line=Words.TEXT.next_slow%roundi(EXTRACT_SPEED)
