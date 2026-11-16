@@ -695,7 +695,16 @@ func _place_threat_stack():
  # The header has a stable lane between the pause and Fleet targets.
  if host.advanced_orders and alarm.visible:
   var side=maxf(maxf(host.pause_button.size.x,close_button.size.x),LifeChip.rect(self).size.x)+32.
-  alarm.position=Vector2(side,12);alarm.size.x=maxf(1.,size.x-side*2)
+  # WP-155: the lane also keeps off the speed control and the air chip (the order dock's header carries them too).
+  var lo:=side;var hi:=size.x-side
+  var chips:Array=[host.speed_button]
+  var air_chip=AirChip.node(self)
+  if air_chip!=null and AirChip.shown(self):chips.append(air_chip)
+  for chip in chips:
+   if not chip.visible:continue
+   if chip.position.x+chip.size.x*.5<size.x*.5:lo=maxf(lo,chip.position.x+chip.size.x+8.)
+   else:hi=minf(hi,chip.position.x-8.)
+  alarm.position=Vector2(lo,12);alarm.size.x=maxf(1.,hi-lo)
   alarm.size.y=maxf(touch_height,alarm.get_minimum_size().y)
  # Actual header controls reserve their complete 150% rectangles on either hand.
  var header_bottom=0.

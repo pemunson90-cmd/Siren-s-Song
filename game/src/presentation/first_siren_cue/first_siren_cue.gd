@@ -46,6 +46,8 @@ func refresh()->void:
  # The camera panel owns the right lane: the notice sits left of it, never over WIDE, SHUTTER or FOLD.
  var feed=host.ocean.optical_feed;var right=size.x
  if feed!=null and feed.is_visible_in_tree():right=minf(right,feed.global_position.x-global_position.x)
+ # WP-155: a docked order panel (the chooser, the order list) owns its side of the screen; the notice stays in the chart.
+ right=minf(right,host.ocean.chart_origin().x+host.ocean.chart_width())
  var tall=h*layout.height_touch;var widest=maxf(1.,right-layout.gap*2)
  var need=maxf(_text_width(label_text())+tall+12.,_text_width(note_text())+tall*.4+12.)
  var width=clampf(need,minf(widest,h*layout.width_touch),widest)
@@ -68,17 +70,23 @@ func refresh()->void:
  # WP-129: one notice slot. The chip and its note slide down the right lane, then left, until they cover no craft and no
  # Siren contact; chart labels keep off the slot (ocean_view.notice_rects) and shorten or drop instead.
  var slot=chip_rect.merge(note_rect) if note_rect.has_area() else chip_rect
- if slot.has_area() and visible and not host.ocean.notice_clear(slot):
-  var floor_y:float=host.ocean.status_floor if host.ocean.status_floor>0. else size.y
-  var found=false
+ # WP-155: and no touch control (header chips, order dock, cards) lies under it: first a seat that is clear of all of them,
+ # then, failing that, one that only keeps off the craft and contacts (the old rule).
+ var controls:Array=host.ocean.ui_blocked_rects+host.ocean.card_rects
+ var free=func(box:Rect2)->bool:return host.ocean.notice_clear(box) and not controls.any(func(r):return r.intersects(box.grow(4.)))
+ var floor_y:float=host.ocean.status_floor if host.ocean.status_floor>0. else size.y
+ var seated=not slot.has_area() or not visible
+ for rule in [free,host.ocean.notice_clear]:
+  if seated:break
+  if rule.call(slot):break
   for dx in [0.,-(width+layout.gap),-2.*(width+layout.gap)]:
    for dy in 14:
     var box=Rect2(slot.position+Vector2(dx,dy*h*.5),slot.size)
     if box.position.x<host.ocean.chart_origin().x or box.end.y>floor_y:continue
-    if host.ocean.notice_clear(box):
+    if rule.call(box):
      var delta=box.position-slot.position
-     chip_rect.position+=delta;note_rect.position+=delta;marker_rect.position+=delta;slot=box;found=true;break
-   if found:break
+     chip_rect.position+=delta;note_rect.position+=delta;marker_rect.position+=delta;slot=box;seated=true;break
+   if seated:break
  host.ocean.notice_rects=[slot] if slot.has_area() and visible else []
  var silent=not visible or not host.sound.cue_audible(Table.AUDIO.id)
  if silent or voice.get_playback_position()>=Table.AUDIO.seconds:voice.stop()
