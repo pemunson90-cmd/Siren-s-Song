@@ -18,7 +18,7 @@ Status: LIVE (Pat, 15 Nov 2026: all open problems live here. Root adds an issue 
 5. FIXED WP-150: **Expedition briefing contradicts its own kit line**: "Scarce: no EMP ... no Hull patch" above "Carrying: ... EMP 2, hull patch" (B). Unverified.
 6. **Camera DECODE near a Siren photographs the Siren** (A op 03: "QUIETUS · S1 SENTINEL 0.0 / 8s", "Siren study filed"). Unverified.
 7. Interface (C): wheel side sheet covers ~40% of chart, PLAN ROUTE vs ROUTE, "GO LOUD / silent is on" (`012.png`, `015.png`); "DRONE A / CHOOSE · WHICH CRAFT?" heading when a drone sits on Quietus (`014.png`, root saw it); PAUSE tip far from its control (`020.png`); no pause menu, exit only via FLEET > MENU (`022.png`, `024.png`); Route Map DIVERGENCE panel cut at the right edge at 150% (`025.png`); "240 m" wraps leaving "m" (`019.png`). Root has not opened these except 014.
-8. Alloy: refining exists ("REFINE SCRAP TO ALLOY · 6 SCRAP", B) but Fleet/Fittings never mentions it.
+8. FIXED WP-152: Alloy: refining exists ("REFINE SCRAP TO ALLOY · 6 SCRAP", B) but Fleet/Fittings never mentions it.
 9. For Pat (game design, do not decide): career contracts are walkovers with a free full loadout (B: 79 s and 49 s, no lock, "Next launch costs: free"); Expedition op 3 is a cliff after a boon pick that cannot know the next danger (B); rock differs per depth band and the chart does not show it (A and B: "rock blocks this leg at this depth · SHALLOW is open", hull 100 to 86); locks with no prior contact (A).
 
 ## Interface (root decides)
@@ -28,7 +28,7 @@ Status: LIVE (Pat, 15 Nov 2026: all open problems live here. Root adds an issue 
 3. "After ▶ RUN: orders run for X" keeps the strip row over the NEXT line while paused with orders: `route_notes.gd:63` `run_line`, `mission_hud.gd` around 834 (WP-128 asked).
 4. Route Map at 150% (`game/src/presentation/route_map/route_map_view.gd`); Game Modes page top-heavy at 150% inner (`game/src/presentation/frontend/frontend.gd`) (WP-132).
 5. A critic saw the first water tap after DEPLOY do nothing; not reproduced (`order_guard.gd:83` `tap_water`; WP-127 suspects drone overlapping Quietus or the 300 ms tap-after-close window).
-6. No debrief line when a decoy breaks a lock: the event exists (`game/src/simulation/orders/weapon_orders.gd:42`, type `lock_broken`) but the result screen does not read it.
+6. FIXED WP-152 (62cca928): No debrief line when a decoy breaks a lock: the event exists (`game/src/simulation/orders/weapon_orders.gd:42`, type `lock_broken`) but the result screen does not read it.
 7. Large grid suites still run three text sizes; Pat said yes to dropping 130% (`opening_depth_policy_ui_tests`, `stable_board_ui_tests`, `depth_policy_ui_tests`, `menu_reach_ui_tests` in `game/tests/`).
 8. Not yet seen by root in a capture: Confluence echo marks (op 11), PHOTO beside LINK (op 02 with a second subject in reach), the intel route label under a lock card, the getting-home NEXT lines beside the ring, every 15 Nov change at 150% on the inner screen.
 
