@@ -407,6 +407,7 @@ static func _route(host,request:Dictionary,craft:int)->Dictionary:
 	sim.queue_mode=queue_before
 	var extra:={"craft":sim.units[craft].name,"points_accepted":done,"route":sim.route_goals(craft).map(func(g):return _v(g.pos))}
 	if crosses:extra["warning"]=HudWords.TEXT.rock_route
+	if uncharted:guard.uncharted_ok[int(sim.units[craft].band)]=true # WP-167: sent as the second tap would, so it counts as SEND ANYWAY
 	if uncharted:extra["warning_uncharted"]=HudWords.TEXT.unscanned_bar # WP-166: the game's own bar asks first on a tap; the order is sent as the second tap would
 	return _answer(true,"route",host,extra)
 # WP-136: does each leg of a would-be route cross charted rock? Plots nothing, moves nothing, spends no dive time. It asks the

@@ -10,6 +10,7 @@ func check(ok:bool,label:String):
 func _initialize():
  told_point_and_leg()
  uncharted_depth()
+ send_anyway_once()
  print("TOLD ROCK CHECKS %d FAILURES %d"%[checks,failures]);quit(1 if failures else 0)
 func told_point_and_leg():
  var s=Sim.new();s.start(16);s.sirens=[];s._use_band(1)
@@ -49,3 +50,22 @@ func uncharted_depth():
  q.band=2;s._use_band(2)
  check(s.leg_uncharted(0,q.pos,q.pos+Vector2(500,0)),"a long leg at the deep depth crosses uncharted water")
  check(not deep.leg_uncharted(q.pos,q.pos),"the launch spot is charted at the deep depth")
+# WP-167: once the player has chosen SEND ANYWAY into uncharted water at a depth, later route taps at that depth do not ask again (this dive).
+class Host:
+ var sim
+ func _order(_name,_args):pass
+ func _refresh():pass
+func send_anyway_once():
+ var s=Sim.new();s.start(16);s.sirens=[]
+ var q=s.units[0];q.band=2;s._use_band(2)
+ var h=Host.new();h.sim=s
+ var guard=preload("res://src/presentation/order_guard.gd").new();guard.host=h
+ var far:Vector2=q.pos+Vector2(500,0)
+ check(guard.leg_uncharted(far,false),"the first deep leg into uncharted water asks")
+ guard.pending={"unit":0,"point":far,"append":false,"uncharted":true,"band":2}
+ guard.confirm() # SEND ANYWAY
+ check(not guard.leg_uncharted(far,false),"after SEND ANYWAY at deep, a deep leg does not ask again")
+ check(not guard.uncharted_ok.has(0),"the shallow depth has not been chosen")
+ guard.reset()
+ check(guard.leg_uncharted(far,false),"a new dive asks again")
+ guard.free()

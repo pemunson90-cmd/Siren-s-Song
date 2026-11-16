@@ -16,6 +16,8 @@ const RED := Color("e0634f")
 const MODE_MARGIN := 6.0
 var host
 var pending := {}
+# WP-167: depth bands the player has sent a route into uncharted water at (SEND ANYWAY) in this dive; later route taps at that depth do not ask again.
+var uncharted_ok := {}
 var undo := {}
 var panel: PanelContainer
 var prompt: Label
@@ -81,6 +83,7 @@ func leg_crosses_rock(world: Vector2, append: bool) -> bool:
 func leg_uncharted(world: Vector2, append: bool) -> bool:
 	var sim = host.sim; var u = sim.units[sim.selected]
 	if not HandPilot.release(sim): return false
+	if uncharted_ok.has(int(u.band)): return false # WP-167: already chosen at this depth in this dive
 	var origin: Vector2 = u.route.back().pos if append and not u.route.is_empty() else u.pos
 	return sim.leg_uncharted(sim.selected, origin, world)
 # WP-166: a depth order into a depth whose chart does not cover the craft's own spot waits for SEND ANYWAY. Returns true when it holds the order.
@@ -107,7 +110,7 @@ func tap_water(world: Vector2) -> void:
 		sim.message = Words.TEXT.rock_strip # WP-117: the bar carries the sentence; the strip does not repeat it
 		host._refresh(); return
 	if leg_uncharted(world, append):
-		pending = {"unit": sim.selected, "point": world, "append": append, "uncharted": true}; undo = {}
+		pending = {"unit": sim.selected, "point": world, "append": append, "uncharted": true, "band": int(sim.units[sim.selected].band)}; undo = {}
 		sim.message = Words.TEXT.unscanned_strip
 		host._refresh(); return
 	pending = {}
@@ -132,6 +135,7 @@ func confirm() -> void:
 		host._order("depth", {"band": band, "confirmed": true}); return
 	var point: Vector2 = pending.point
 	var append: bool = pending.get("append", false)
+	if pending.get("uncharted", false): uncharted_ok[int(pending.get("band", sim.units[unit].band))] = true # WP-167
 	pending = {}
 	if sim.selected != unit: host._order("select", {"unit": unit})
 	var before: bool = sim.queue_mode
@@ -165,7 +169,7 @@ func do_undo() -> void:
 	if sim.selected != record.unit: host._order("select", {"unit": record.unit})
 	host._order("order_undo", {"goals": record.goals, "hold": record.hold})
 func reset() -> void:
-	pending = {}; undo = {}
+	pending = {}; undo = {}; uncharted_ok = {}
 func blocks(point: Vector2) -> bool:
 	return (panel.visible and panel.get_global_rect().has_point(point)) or (undo_button.visible and undo_button.get_global_rect().has_point(point))
 # WP-127: UNDO belongs to a route that is still being flown. Once the route it would undo has ended (the craft reached its last stop,
