@@ -178,6 +178,8 @@ const TEXT={
 	"decoy_broke_many": "Decoy broke %d locks",
 	# WP-153: the strip while a decoy is armed from a lock card with a marked drop point (the card says the same).
 	"decoy_strip_marker": "DECOY · TAP THE MARKED POINT · TAP CANCEL",
+	# WP-158: the header plate that shows while the dive is paused and opens the same menu as FLEET > MENU (menu_chip.gd).
+	"menu_chip": "MENU",
 }
 # WP-153: a no-break space between a number and its metre unit (240 m, 5 m/s) so a lone "m" never starts the next strip line.
 static func glue_units(text:String)->String:

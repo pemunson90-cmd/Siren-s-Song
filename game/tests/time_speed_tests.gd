@@ -83,7 +83,32 @@ func layout_case(shape:Vector2i,scale:float):
 		var keep:Array=[pause,speed]+([air] if air!=null and air.is_visible_in_tree() else [])
 		for control in keep:check(not docked_alarm.get_global_rect().intersects(control.get_global_rect()),"the docked contact line keeps clear of "+str(control.name)+" "+stamp)
 	game.advanced_orders=false
+	await menu_chip_case(game,stamp)
 	game.sim.contacts.clear();game.queue_free();await settle()
+# WP-158: while paused a MENU plate shows in the header lane and opens what FLEET > MENU opens; running hides it.
+func menu_chip_case(game,stamp:String):
+	var hud=game.mission_hud;var chip:Button=hud.MenuChip.node(hud)
+	game.sim.contacts.clear();game.sim.paused=false;game._refresh();await settle()
+	check(chip!=null and not chip.visible,"the MENU plate is hidden while time runs "+stamp)
+	game.sim.paused=true;game._refresh();await settle()
+	check(chip.visible and chip.text==Words.TEXT.menu_chip,"the MENU plate shows while paused "+stamp)
+	var rect:=chip.get_global_rect()
+	check(rect.size.y>=game.ui_touch_height-.5 and rect.size.x>=game.ui_touch_height-.5,"the MENU plate is a full touch target "+stamp+" "+str(rect.size))
+	check(rect.position.x>=-.5 and rect.end.x<=game.size.x+.5,"the MENU plate is on screen "+stamp)
+	var air=hud.AirChip.node(hud)
+	for other in [game.pause_button,game.speed_button,game.advanced_button]+([air] if air!=null and air.is_visible_in_tree() else []):
+		check(not rect.intersects(other.get_global_rect()),"the MENU plate keeps clear of "+str(other.name)+" "+stamp)
+	var hunt=game.mission_hud.get_meta(hud.HuntMeter.CHIP) if game.mission_hud.has_meta(hud.HuntMeter.CHIP) else null
+	if hunt!=null and hunt.visible:check(not rect.intersects(hunt.get_global_rect()),"the MENU plate keeps clear of the Hunt chip "+stamp)
+	chip.pressed.emit();await settle()
+	check(game.screen=="menu" and game.sim.paused,"the MENU plate opens the menu FLEET > MENU opens, the dive kept "+stamp+" screen="+game.screen)
+	game.screen="mission";game._refresh();await settle()
+	# A tip that explains the pause plate sits under it, narrowing before it would take a far corner.
+	var hints=hud.hints;hints.dismiss();hints.last_closed_ms=-1;hints.show_hint("pause");game.sim.paused=false
+	var blocker:=Rect2(Vector2(game.size.x*.38,0),Vector2(game.size.x*.3,game.size.y*.3))
+	hints.refresh(game.size,game.ui_touch_height,16,hud.threat_floor(),[blocker],game.size.y)
+	check(hints.panel.visible and hints.panel.position.x<=12.5 and hints.panel.position.y<game.size.y*.3,"the pause tip sits under the pause plate when a chip is in the way "+stamp+" at "+str(hints.panel.position))
+	hints.dismiss()
 func cycle_case():
 	var game=await make(Vector2i(2520,1080),1.0)
 	check(game.time_speed==1.0 and not TimeSpeed.hunting(game.sim),"a dive starts at 1x with no hunting")

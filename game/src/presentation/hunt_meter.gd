@@ -278,6 +278,8 @@ static func _obstacles(hud,button:Button,craft:bool=true,tip_card:bool=true)->Ar
  if hud.alarm.visible:result.append(hud.alarm.get_rect())
  var air=hud.get_node_or_null("AirChip")  # WP-149: the Hunt chip never seats over the air chip
  if air!=null and air.visible:result.append(Rect2(air.position,air.size))
+ var menu_chip=hud.get_node_or_null("MenuChip")  # WP-158: nor over the MENU plate that shows while paused
+ if menu_chip!=null and menu_chip.visible:result.append(Rect2(menu_chip.position,menu_chip.size))
  result.append_array(hud.threat_rects())
  var warning=hud.host.lock_warning
  if warning!=null and warning.visible and warning.banner.has_area():result.append(Rect2(warning.global_position-hud.global_position+warning.banner.position,warning.banner.size))

@@ -24,6 +24,7 @@ const WorkTask=preload("res://src/presentation/work_task/work_task.gd")
 const ReleaseControls=preload("res://src/presentation/release_controls.gd")
 const LifeChip=preload("res://src/presentation/life_support_chip.gd")
 const AirChip=preload("res://src/presentation/air_chip.gd")  # WP-149
+const MenuChip=preload("res://src/presentation/menu_chip.gd")  # WP-158
 const VoiceFeed=preload("res://src/presentation/archive/voice_feed.gd")
 const UiStyle=preload("res://src/presentation/ui_style.gd")
 const Palette=preload("res://src/presentation/accessibility/palette.gd")
@@ -206,6 +207,7 @@ func setup(owner):
  instrument_info=host._label(body,"",18);instrument_info.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
  recovery_box=VBoxContainer.new();recovery_box.add_theme_constant_override("separation",8);body.add_child(recovery_box);recovery_box.hide()
  AirChip.make(self)  # WP-149: always-on time left on air, in the header lane
+ MenuChip.make(self)  # WP-158: while paused, a MENU plate beside the air chip
  alarm=host._label(self,"",18);alarm.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;alarm.mouse_filter=Control.MOUSE_FILTER_IGNORE
  var alert_style=StyleBoxFlat.new();alert_style.bg_color=Color(.12,.025,.015,.94);alert_style.border_color=Color("b26b52");alert_style.set_border_width_all(1);alert_style.content_margin_left=10;alert_style.content_margin_right=10;alarm.add_theme_stylebox_override("normal",alert_style)
  warning_style=alert_style
@@ -526,6 +528,7 @@ func layout(bounds:Vector2,h:float):
  host.speed_button.show();host.speed_button.custom_minimum_size=Vector2(speed_width,bh);host.speed_button.size=Vector2(speed_width,bh)
  host.speed_button.position=Vector2(host.pause_button.position.x+(-speed_width-speed_gap if host.pause_button.position.x>bounds.x/2. else bw+speed_gap),12)
  AirChip.place(self,font,bh,speed_width)  # WP-149
+ MenuChip.place(self,font,bh,speed_width)  # WP-158
  var line_height=ceili(intent.get_theme_font("font").get_height(font))
  intent.position=Vector2(16,bounds.y-line_height*2-14);intent.size=Vector2(bounds.x-32,line_height*2+8);intent.add_theme_font_size_override("font_size",font);intent.custom_minimum_size=Vector2(bounds.x-32,line_height*2+8)
  intent.visible=not host.advanced_orders
@@ -585,6 +588,12 @@ func layout(bounds:Vector2,h:float):
   if air.position.x<bounds.x/2.:
    var far=alarm.position.x+alarm.size.x;alarm.position.x=maxf(alarm.position.x,air.position.x+air.size.x+speed_gap);alarm.size.x=maxf(1.,far-alarm.position.x)
   else:alarm.size.x=maxf(1.,minf(alarm.size.x,air.position.x-speed_gap-alarm.position.x))
+ # WP-158: and clear of the MENU plate's slot (reserved even while hidden, so the lane never moves when time stops)
+ var menu_slot:=MenuChip.slot(self)
+ if menu_slot.has_area():
+  if menu_slot.position.x<bounds.x/2.:
+   var far_end=alarm.position.x+alarm.size.x;alarm.position.x=maxf(alarm.position.x,menu_slot.end.x+speed_gap);alarm.size.x=maxf(1.,far_end-alarm.position.x)
+  else:alarm.size.x=maxf(1.,minf(alarm.size.x,menu_slot.position.x-speed_gap-alarm.position.x))
  host.pause_button.move_to_front();alarm.move_to_front();refresh();queue_redraw()
 # Measure the Label's resolved wrapping, rather than a separate Font estimate.
 # Its complete status grows upward; the chart reserves the space beside it.
@@ -788,6 +797,7 @@ func refresh():
  _fit_pause_button()
  _sync_speed_button()
  AirChip.sync(self)  # WP-149
+ MenuChip.sync(self)  # WP-158
  host.advanced_button.text="FLEET";plate(host.advanced_button,UiStyle.NORMAL)
  focus_button.text="FOLLOW" if host.ocean.chart_camera.mode=="follow" else "FOCUS"
  var current=host.targeting_feedback if not host.targeting_feedback.is_empty() else (Words.TEXT.decoy_strip_marker if host.decoy_marker!=Vector2.INF else "DECOY · TAP CLEAR WATER ≤160m · TAP CANCEL") if host.decoy_armed else "TORPEDO · TAP FRESH CONTACT · TAP CANCEL" if host.knock_armed else RouteNotes.home_step(sim,strip_message.current(sim))  # WP-118: the record is secured and Quietus has no route: say how to send it home
