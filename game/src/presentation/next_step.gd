@@ -27,6 +27,12 @@ static func step(sim)->Dictionary:
 		# WP-174: a required signal source nobody has located is the next step, not "the open job on the chart" (there is none yet).
 		var unlocated:Dictionary=sim.unlocated_required_source()
 		if not unlocated.is_empty():return {"text":Words.TEXT.next_locate_source%str(unlocated.label).to_upper(),"site":{}}
+		# WP-176: unmet Reach / Choir work (vane choice, locks, the sled, a tow) is the next step; its chart marker, if any, is the GOAL.
+		var work:Dictionary=sim.required_work_step()
+		if not work.is_empty():
+			var site:Dictionary={}
+			if work.has("pos"):site={"pos":work.pos,"band":work.band,"name":work.text}
+			return {"text":Words.TEXT.next_work%work.text,"site":site}
 		return {"text":Words.TEXT.next_open_job,"site":_corridor(sim)}
 	# A record behind an unfinished prerequisite: the prerequisite is the next step.
 	for guard in 8:

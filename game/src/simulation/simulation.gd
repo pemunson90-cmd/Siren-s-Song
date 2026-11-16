@@ -417,7 +417,14 @@ func corridor_blocked_reason(corridor:Dictionary)->String:
 	# WP-174: any other operation whose required signal source has not been located (Wake Crossing: wake_packet) names that source.
 	var unlocated:=unlocated_required_source()
 	if not unlocated.is_empty():return HudWords.TEXT.depart_source%[str(corridor.get("name","")).to_upper(),str(unlocated.label).to_upper()]
+	# WP-176: Reach / Choir work that is still unmet (the vane choice, a lock, the sled, a tow): name that step, not "the records".
+	var work:=required_work_step()
+	if not work.is_empty():return HudWords.TEXT.depart_work%[str(corridor.get("name","")).to_upper(),work.text]
 	return HudWords.TEXT.depart_records%str(corridor.get("name","RECOVERY")).to_upper()
+# WP-176: the next unmet Reach or Choir work step ({"text", optional "pos"/"band" of a point already on the chart}); {} when none.
+func required_work_step()->Dictionary:
+	var step:Dictionary=Glass.next_step(self)
+	return step if not step.is_empty() else Choir.next_step(self)
 # WP-174: the first required signal source (required_site_ids) with no objective yet because nothing has located it; {} when none.
 func unlocated_required_source()->Dictionary:
 	for id in mission.get("required_site_ids",[]):
