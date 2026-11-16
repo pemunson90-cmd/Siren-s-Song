@@ -34,6 +34,7 @@ var placed_top := -1.0  # the card's one place while it is up (set at its first 
 # WP-115: the zone the card sits in (top left, bottom left, top right, bottom right in that order) while it is up (NO_SPOT = not placed yet) and when the last card closed (tips never chain).
 const UiStyle = preload("res://src/presentation/ui_style.gd")
 const NO_SPOT := Vector2(-1.0, -1.0)
+const CONTROL_TIPS := ["pause"]  # WP-158: tips that explain a control; they seat beside it
 var placed_at := NO_SPOT
 var last_closed_ms := -1
 var touch := 0.0
@@ -243,4 +244,15 @@ func refresh(bounds: Vector2, h: float, font: int, top: float, avoid: Array = []
 		placed_at = spots[0]
 		for spot in spots:
 			if _clear(Rect2(spot, panel.size), area, avoid): placed_at = spot; break
+	# WP-158: a tip that explains a control sits next to it. When the full-width card finds no clear seat under the pause
+	# plate (the top left), it narrows (taller, more lines) until it fits there, rather than going to a far corner.
+	if current in CONTROL_TIPS and placed_at != spots[0]:
+		for narrow in [520.0, 440.0, 360.0]:
+			if narrow >= width: continue
+			label.custom_minimum_size.x = maxf(1, narrow - 40 - h * 1.4); label.size.x = label.custom_minimum_size.x
+			panel.custom_minimum_size = Vector2(narrow, 0); panel.reset_size()
+			if _clear(Rect2(spots[0], panel.size), area, avoid): placed_at = spots[0]; break
+		if placed_at != spots[0]:
+			label.custom_minimum_size.x = maxf(1, width - 40 - h * 1.4); label.size.x = label.custom_minimum_size.x
+			panel.custom_minimum_size = Vector2(width, 0); panel.reset_size()
 	panel.position = placed_at; panel.show(); move_to_front()
