@@ -355,11 +355,11 @@ static func speed_text(speed:float,hunting:bool)->String:
 # WP-156: the craft order panel's second lines say what a tap does, not how things stand (critic, 15 Nov).
 # Silent figures are the same sight constants the centre caption shows (sights()).
 const ORDER_NOTES={
-	"quietus_silent_on": "faster · seen from %d m",   # button reads GO LOUD
-	"quietus_silent_off": "slower · seen from %d m",  # button reads GO SILENT
-	"drone_low_on": "seen from %d m",                 # button reads GO OPEN
-	"drone_low_off": "seen from %d m",                # button reads GO LOW PROFILE
-	"program": "draw waypoints · pauses",
+	"quietus_silent_on": "faster · seen %d m",   # button reads GO LOUD
+	"quietus_silent_off": "slower · seen %d m",  # button reads GO SILENT
+	"drone_low_on": "seen %d m",                 # button reads GO OPEN
+	"drone_low_off": "seen %d m",                # button reads GO LOW PROFILE
+	"program": "waypoints · pauses",
 	"route_menu": "hold · stop · replace",
 	# Camera lines of the wheel centre and the dock: each fact is labelled.
 	"target": "TARGET: %s",
