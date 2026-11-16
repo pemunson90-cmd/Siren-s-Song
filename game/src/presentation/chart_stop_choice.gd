@@ -125,8 +125,18 @@ func _place(bounds:Vector2,h:float,floor_y:float)->void:
    if rect.has_point(a) or rect.has_point(b) or Geometry2D.segment_intersects_segment(a,b,rect.position,rect.end)!=null:score+=1.
   if score<best_score:best_score=score;best=point
  panel.position=best
+# WP-159: this card is placed again after its wrapped text settles, a frame after the HUD last told the chart where floating cards
+# are, so a chart label could sit under the card's real rect. Tell the chart again whenever the card's own rect changes.
+var published_rect:=Rect2()
+func _publish_rect()->void:
+ var rect:=Rect2(panel.global_position-host.ocean.global_position,panel.size)
+ if rect==published_rect:return
+ published_rect=rect
+ host.ocean.card_rects=host.mission_hud._card_rects()
 func _process(_dt:float)->void:
- if panel!=null and panel.visible and not fresh.is_empty():queue_redraw()
+ if panel!=null and panel.visible:
+  _publish_rect()
+  if not fresh.is_empty():queue_redraw()
 func _draw()->void:
  if host==null or not panel.visible or fresh.is_empty():return
  var pulse=.65+.35*sin(Time.get_ticks_msec()/260.0)
