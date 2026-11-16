@@ -117,7 +117,7 @@ func run():
 	while guard_runs<12 and s.screen=="mission" and not (s.crafts[0].route.is_empty() and s.crafts[0].speed<1.0):
 		guard_runs+=1
 		s=await answer_tips(game,s)
-		out=Api.run(game,{"seconds":10.0,"speed":4.0})
+		out=Api.run(game,{"seconds":10.0,"speed":4.0,"insist":true}) # WP-173: an open lock card is run through on purpose
 		s=out.state
 		no_hidden_sirens(game,s,"run %d"%guard_runs)
 		if out.stopped in ["dive_ended","craft_lost"]:break
@@ -135,7 +135,7 @@ func run():
 		tries+=1
 		var look:Dictionary=await answer_tips(game,Api.state(game))
 		if not look.crafts[0].has("exposure"):await Api.order(game,{"order":"photo","insist":true}) # an exposure a lock interrupted is taken again
-		out=Api.run(game,{"seconds":6.0,"speed":2.0})
+		out=Api.run(game,{"seconds":6.0,"speed":2.0,"insist":true})
 		if out.stopped in ["dive_ended","craft_lost"]:break
 	var filed:=Api.state(game)
 	check(filed.objectives[0].status=="FILED","the objective reads FILED once the frame is secured")
@@ -151,7 +151,7 @@ func run():
 	while guard_runs<16 and s.screen=="mission":
 		guard_runs+=1
 		s=await answer_tips(game,s)
-		out=Api.run(game,{"seconds":10.0,"speed":4.0})
+		out=Api.run(game,{"seconds":10.0,"speed":4.0,"insist":true}) # WP-173: an open lock card is run through on purpose
 		s=out.state
 		if out.stopped=="craft_lost":break
 	check(s.screen=="debrief" and game.sim.outcome=="won","the dive ends recovered: the state names the result screen")

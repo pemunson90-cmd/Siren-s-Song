@@ -136,7 +136,16 @@ static func _tools(host)->Dictionary:
 	for id in FieldTools.ids():
 		var n:int=Truthful.stock(sim,id)
 		if n>0 or id in ["emp","decoy","recon","knock"]:out[id]=n
-	return {"craft":sim.units[sim.selected].name,"left":out}
+	# WP-173: the counts above are the selected craft's own rack (a drone's rack can hold none while Quietus holds three).
+	var racks:Dictionary={}
+	if sim.mission.has("tool_racks"):
+		for i in sim.units.size():
+			var rack:Dictionary=sim.mission.tool_racks[Names.CRAFT_IDS[i]]
+			var row:Dictionary={}
+			for id in ["emp","decoy","recon","knock"]:
+				if int(rack.get(id,0))>0:row[id]=int(rack.get(id,0))
+			racks[str(sim.units[i].name)]=row
+	return {"craft":sim.units[sim.selected].name,"left":out,"by_craft":racks}
 static func _locks(host)->Array:
 	var sim=host.sim;var out:Array=[]
 	for frame in LockWarning.frames(sim):
@@ -169,7 +178,10 @@ static func _prompts(host)->Array:
 		if hud.contact_card!=null and hud.contact_card.panel.visible:out.append({"kind":"contact_card","text":_clean(hud.contact_card.title_label.text+" · "+hud.contact_card.facts_label.text),"buttons":[hud.contact_card.close_button]})
 		if hud.chart_choice!=null and hud.chart_choice.panel.visible:out.append({"kind":"chart_stop","text":_clean(hud.chart_choice.prompt.text),"buttons":[hud.chart_choice.continue_button,hud.chart_choice.replan_button]})
 		if host.lock_warning!=null and host.lock_warning.visible and not host.lock_warning.card_text.is_empty():
-			out.append({"kind":"lock","text":_clean(host.lock_warning.card_text),"buttons":host.lock_warning.buttons.filter(func(b):return b.visible)})
+			var lock_prompt:Dictionary={"kind":"lock","text":_clean(host.lock_warning.card_text),"buttons":host.lock_warning.buttons.filter(func(b):return b.visible)}
+			# WP-173: armed from this card, the chart marks the working drop point; the card says "tap the marked point", so state says where it is.
+			if host.decoy_armed and host.decoy_marker!=Vector2.INF:lock_prompt["decoy_point"]=_v(host.decoy_marker)
+			out.append(lock_prompt)
 		if hud.recovery_box!=null and hud.recovery_box.is_visible_in_tree():out.append({"kind":"recovery_choice","text":"CHOOSE RECOVERY","buttons":_visible_buttons(hud.recovery_box)})
 		var targets:Array=hud.target_buttons.filter(func(b):return is_instance_valid(b) and b.is_visible_in_tree())
 		if not targets.is_empty():out.append({"kind":"choose_target","text":"WHICH CRAFT OR OBJECT?","buttons":targets})
@@ -217,7 +229,10 @@ static func _visible_texts(node:Node,limit:int)->Array:
 			if out.size()>=limit:break
 	return out
 static func _prompt_view(prompts:Array)->Array:
-	return prompts.map(func(p):return {"kind":p.kind,"text":p.text,"buttons":p.buttons.map(func(b):return _button_view(b))})
+	return prompts.map(func(p):
+		var row:Dictionary={"kind":p.kind,"text":p.text,"buttons":p.buttons.map(func(b):return _button_view(b))}
+		if p.has("decoy_point"):row["decoy_point"]=p.decoy_point # WP-173
+		return row)
 static func _button_view(b:Button)->Dictionary:
 	var row:Dictionary={"label":_label_of(b),"enabled":not b.disabled}
 	if b.has_meta("api_state"):row["state"]=str(b.get_meta("api_state"));row["can_open"]=bool(b.get_meta("api_can_open",false)) # WP-170: Route Map nodes
@@ -530,14 +545,17 @@ static func _tool(host,request:Dictionary,craft:int)->Dictionary:
 	match tool:
 		"decoy":
 			var p=_point(request.get("point"))
-			if p==null:return _refuse("tool","DECOY needs a point: [x,y] of clear water within its range")
+			# WP-173: armed from a lock card with the drop point marked, a bare decoy order is the player's tap on that marker.
+			if p==null and host.decoy_armed and int(host.decoy_unit)==craft and host.decoy_marker!=Vector2.INF:p=host.decoy_marker
+			if p==null:return _refuse("tool","DECOY needs a point: [x,y] of clear water within its range (from a lock card, answer DECOY first, then order the decoy with no point to drop it at the marked point)")
 			# WP-148: arm only when not already armed for this craft (a second press would disarm), and when arming fails say why
 			# (the chart's message may be a stale earlier one such as AUTO PAUSE: LOCK WARNING).
 			if not (host.decoy_armed and int(host.decoy_unit)==craft):host._order("decoy")
 			if not host.decoy_armed:
 				var why:String="Decoy unavailable · no charge spent"
 				if not sim.units[craft].alive:why="%s is lost · no charge spent"%str(sim.units[craft].name)
-				elif Truthful.stock(sim,"decoy")<=0:why="No decoy left · no charge spent"
+				# WP-173: stock is per craft; a drone whose own rack holds none is told so, not "left".
+				elif Truthful.stock(sim,"decoy")<=0:why=("%s carries no decoy · no charge spent"%str(sim.units[craft].name)) if craft>0 else "No decoy left · no charge spent"
 				return _answer(false,"tool",host,{"tool":tool,"refusal":why,"message":why})
 			host._order("decoy",{"point":p})
 		"knock":
@@ -617,6 +635,14 @@ static func run(host,request:Dictionary)->Dictionary:
 	var why:=_need_dive(host,"run")
 	if not why.is_empty():return _refuse("run",why)
 	var sim=host.sim
+	# WP-173: a lock card left unanswered is how a tester loses the ship by not reading; run says so and waits for `insist`.
+	if not bool(request.get("insist",false)) and _prompts(host).any(func(p):return p.kind=="lock"):
+		var open_locks:Array=_locks(host)
+		var lock_text:String="A LOCK card is open"
+		if not open_locks.is_empty():lock_text="%s has a lock on %s · %.1fs left"%[open_locks[0].siren,open_locks[0].craft,float(open_locks[0].seconds_left)]
+		var held:Dictionary=_refuse("run","%s · answer its card first (state lists the buttons), or send run again with insist true to run through the lock"%lock_text)
+		held["stopped"]="lock_card_open";held["state"]=state(host)
+		return held
 	var seconds:float=clampf(float(request.get("seconds",10.0)),0.0,7200.0)
 	var out:={"ok":true,"command":"run"}
 	if request.has("speed"):
