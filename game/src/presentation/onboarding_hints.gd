@@ -176,6 +176,14 @@ func _live_text(id: String, stopped: bool) -> String:
 		if rock.is_empty() or float(rock.gap) > ThreatRead.Table.ROCK_NEAR:
 			for pair in Words.TEXT.hint_no_rock_swaps: text = text.replace(pair[0], pair[1])
 	return text
+# WP-164: set the card to a width and give its text the height that width needs, measured from the font. A wrapped Label
+# reports its height one layout pass late, so a card measured right after a width change (WP-158's narrowing) read as
+# screen-tall, found no seat and was hidden.
+func _seat_width(card_width: float, h: float, font: int) -> void:
+	var text_width: float = maxf(1, card_width - 40 - h * 1.4)
+	label.custom_minimum_size.x = text_width; label.size.x = text_width
+	label.custom_minimum_size.y = ceilf(label.get_theme_font("font").get_multiline_string_size(label.text, HORIZONTAL_ALIGNMENT_LEFT, text_width, font, -1, TextServer.BREAK_WORD_BOUND | TextServer.BREAK_ADAPTIVE).y)
+	panel.custom_minimum_size = Vector2(card_width, 0); panel.reset_size()
 # avoid: rectangles (this control's coordinates) the card must stay off: the craft, their labels, the Hunt chip.
 # bottom: the lowest y the card may reach (the top of the status strip); -1 = the bottom of bounds.
 func refresh(bounds: Vector2, h: float, font: int, top: float, avoid: Array = [], bottom: float = -1.0) -> void:
@@ -228,7 +236,7 @@ func refresh(bounds: Vector2, h: float, font: int, top: float, avoid: Array = []
 	label.text = body
 	label.add_theme_font_size_override("font_size", font); dismiss_button.add_theme_font_size_override("font_size", font)
 	dismiss_button.custom_minimum_size = Vector2(h * 1.4, h)
-	panel.custom_minimum_size = Vector2(width, 0); panel.reset_size()
+	_seat_width(width, h, font)
 	# The card keeps its place while it is up, but never above the floor under the pause and FLEET plates: a plate
 	# that grows after the card was first placed (its wording or text size changed) would otherwise sit under the
 	# card's tap area and lose its taps.
@@ -249,10 +257,8 @@ func refresh(bounds: Vector2, h: float, font: int, top: float, avoid: Array = []
 	if current in CONTROL_TIPS and placed_at != spots[0]:
 		for narrow in [520.0, 440.0, 360.0]:
 			if narrow >= width: continue
-			label.custom_minimum_size.x = maxf(1, narrow - 40 - h * 1.4); label.size.x = label.custom_minimum_size.x
-			panel.custom_minimum_size = Vector2(narrow, 0); panel.reset_size()
+			_seat_width(narrow, h, font)
 			if _clear(Rect2(spots[0], panel.size), area, avoid): placed_at = spots[0]; break
 		if placed_at != spots[0]:
-			label.custom_minimum_size.x = maxf(1, width - 40 - h * 1.4); label.size.x = label.custom_minimum_size.x
-			panel.custom_minimum_size = Vector2(width, 0); panel.reset_size()
+			_seat_width(width, h, font)
 	panel.position = placed_at; panel.show(); move_to_front()
