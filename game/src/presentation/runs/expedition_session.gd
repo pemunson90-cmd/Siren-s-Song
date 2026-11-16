@@ -84,7 +84,8 @@ func _show_campaign()->void:
 	PrepColumns.into(self,columns[0],func():
 		Briefing.show(self,RunState.current_operation(run_state),sim.mission.brief,EXPEDITION_RULES)
 		_menu_text(RunWords.kit_line(run_state.loadout,run_state.scarcity),17)
-		_menu_text(preload("res://src/campaign/runs/run_records.gd").scarcity_line(run_state.loadout,run_state.scarcity),17)
+		# WP-150: the scarcity line describes the START of the run; later operations show only the actual kit below.
+		if int(run_state.cursor)==0:_menu_text(preload("res://src/campaign/runs/run_records.gd").scarcity_line(run_state.loadout,run_state.scarcity),17)
 		_menu_text(RunWords.hunt_line(run_state),17)
 		var racks:Dictionary=run_state.get("tool_racks",preload("res://src/equipment/tool_racks.gd").from_stock(run_state.stock))
 		_menu_text(Briefing.carrying_line(racks),17)

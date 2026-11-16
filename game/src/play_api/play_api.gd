@@ -111,10 +111,13 @@ static func _objectives(host)->Array:
 		var row={"index":i,"label":str(o.get("name","")),"pos":_v(o.pos) if o.get("pos") is Vector2 else [],"status":"FILED" if o.get("captured",false) else "NOT RECORDED","optional":bool(o.get("optional",false)),"found":not (str(o.get("stage",""))=="lead")}
 		if o.has("lead_r"):row["search_radius"]=float(o.lead_r);row["status"]="SEARCH AREA" if not o.get("captured",false) else row.status
 		var key:String=str(o.get("optical",o.get("site_id",i)))
+		# WP-150: photo_grade/photo_percent are the FILED RECORD's quality (o.photo_quality: sharpest frame plus coverage of every frame),
+		# the number the dive message, the result screen and the archive show. best_single_frame_percent is the highest one frame, a different quantity.
 		var best:=-1.0
 		for shot in Photo.shots_for(sim.mission,key):
 			if shot.get("usable",false):best=maxf(best,float(shot.get("q",0.)))
-		if best>=0.:row["photo_grade"]=GradeOnSecure.letter(best);row["photo_percent"]=roundi(best*100.)
+		if o.has("photo_quality"):row["photo_grade"]=GradeOnSecure.letter(float(o.photo_quality));row["photo_percent"]=roundi(float(o.photo_quality)*100.)
+		if best>=0.:row["best_single_frame_percent"]=roundi(best*100.)
 		out.append(row)
 	return out
 static func _extraction(host)->Dictionary:
