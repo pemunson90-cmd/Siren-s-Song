@@ -144,3 +144,4 @@ time_speed_tests|TIME SPEED|-|2320|render
 play_api_tests|PLAY API|-|2330
 play_api_modes_tests|PLAY API MODES|-|2331
 route_tap_flow_ui_tests|ROUTE TAP FLOW UI|-|2340|render
+told_rock_chart_tests|TOLD ROCK|-|2350
