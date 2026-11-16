@@ -89,6 +89,10 @@ func run():
 	check(clear_leg.ok and not clear_leg.crosses_charted_rock,"a short leg in open water reads clear")
 	var aboard_route=await Api.order(game,{"order":"route","craft":"DRONE A","points":[[q0.x+60,q0.y]]})
 	check(not aboard_route.ok and str(aboard_route.refusal).contains("deploy it first") and game.sim.DroneBay.aboard(game.sim.units[1]),"a route for a drone still aboard is refused and does not launch it")
+	# WP-162: with drone A in the water and selected, `deploy` launches drone B (still aboard) instead of refusing.
+	var dep_a=await Api.order(game,{"order":"deploy","craft":"DRONE A"})
+	var dep_b=await Api.order(game,{"order":"deploy"})
+	check(dep_a.ok and dep_b.ok and not game.sim.DroneBay.aboard(game.sim.units[2]),"deploy with drone A out and selected launches drone B instead of refusing")
 	var flash_try=await Api.order(game,{"order":"photo","flash":true})
 	check(flash_try.has("flash") and flash_try.flash.has("fired") and flash_try.flash.fitted==false and flash_try.flash.fired==false and str(flash_try.flash.get("why_not","")).contains("No flash unit"),"photo with flash:true reports that no flash fired and why")
 	# an order is no teleport: it plots a route and the craft stays where it is until time runs
