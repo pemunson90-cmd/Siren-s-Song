@@ -14,6 +14,7 @@ Status: LIVE (Pat, 15 Nov 2026: all open problems live here. Root adds an issue 
 - Region tester R1 (`critic-kits\r1`, 7bfeea28, jump to start only): id 5 Siren's Song won (2nd try, 94 s); id 6 Divergence won via SHELF PASSAGE (36.5 s) and via DEEP DESCENT (73 s); id 11 Confluence unfinished. No blocker. Near-blocker: at a Divergence mouth before a source is located the exit is silently dead (`available: false`, empty `leave_blocked_reason`), WP-172. R2 on Confluence and ids 7 to 13.
 - Region tester R2 (`critic-kits\r2`, ee24f69e): id 11 Confluence won 302 s (concealed exit); id 7 Deep Rendezvous won on 2nd try, 94.5 s with 11 s of air (first try "Life support exhausted"). No blocker. Near-blockers: id 7 air is very tight; "rock blocks this leg" / "not getting anywhere" pauses do not name the bad waypoint; ids 12 and 13 need the confluence_route fact (a jump win saves no progress). Untested so far: 8, 9, 10, 12, 13, 14-33, 35-41 (34 won).
 - Coverage so far (won by fair play): ids 0-7, 11, 34.
+- Region tester R4 (`critic-kits\r4`, e263727e): id 14 Glass Fence lost twice ("VAPORIZED · Siren beam struck Quietus"); the only gap in a chart-wide wall (x 1400-1850, y ~1000-1100) is guarded by S1 GUARD, S2 LISTENER, S4 PATROL; the job needs Quietus at the anchor. Completability unknown; 15-21 untried. Tool gaps blocked fair testing: lock-card decoy marker not in `state`, drone-selected `tool decoy` says "No decoy left" with 3 in stock (WP-173).
 
 ## Failing now
 
