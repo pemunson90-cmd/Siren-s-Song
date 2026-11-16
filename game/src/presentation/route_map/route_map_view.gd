@@ -169,14 +169,13 @@ func _fit():
   zoom=clampf(_region_zoom(h),zoom_floor,Table.VIEW.zoom_max)
   _nodes(h);queue_redraw();call_deferred("_focus_current");return
  _nodes(h);queue_redraw()
-# WP-151: the largest zoom (at most the start zoom, at least the compact threshold) at which the current operation's region is as wide as the chart.
+# WP-151: the largest zoom (at most the start zoom, at least the compact threshold) at which the widest region is as wide as the chart.
 func _region_zoom(h:float)->float:
- var arc:Dictionary=preload("res://src/campaign/arcs/arc_table.gd").for_operation(_current_id())
- var span:Array=[]
- for row in graph.nodes:
-  if row.id in arc.get("ids",[]):span.append(row.position.x)
- if span.is_empty():return Table.VIEW.zoom_start
- var columns:float=span.max()-span.min();var room:float=chart.size.x-FIT_SCROLLBAR
+ var arcs=preload("res://src/campaign/arcs/arc_table.gd");var columns:float=0.
+ for arc in arcs.ARCS:
+  var span:Array=graph.nodes.filter(func(row):return row.id in arc.ids).map(func(row):return row.position.x)
+  if not span.is_empty():columns=maxf(columns,span.max()-span.min())
+ var room:float=chart.size.x-FIT_SCROLLBAR
  var z:float=Table.VIEW.zoom_start
  while z>Table.OVERVIEW.compact_below:
   var m:Dictionary=_metrics(h,z)
