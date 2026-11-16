@@ -48,7 +48,8 @@ func run() -> void:
 	# The briefing's facts sit in the left column of a two-column layout on wide screens, so search below the box.
 	for c in game.panel_box.find_children("*","Label",true,false):
 		shown+=c.text+"\n"
-	check(shown.length()<700 and "GOAL" in shown and "DANGER" in shown and "exposed" not in shown,"opening briefing is a goal, one danger and the primer")
+	# WP-149: operation 1 now states its air time (one line, 37 characters), so the text budget is 760 (was 700).
+	check(shown.length()<760 and "GOAL" in shown and "DANGER" in shown and "exposed" not in shown,"opening briefing is a goal, one danger and the primer")
 	check("SILENT" in shown and "Drones scout ahead" in shown and "Sirens hunt by sound" in shown,"opening briefing carries the three-line primer until operation 01 is recovered")
 	check(buttons(game.panel_box,"manual").text.begins_with("FIELD MANUAL") and "take photographs" in buttons(game.panel_box,"manual").text,"the manual button names the topics it covers")
 	check(buttons(game.panel_box,"manual")!=null,"rules live behind a field manual button")

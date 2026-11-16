@@ -276,6 +276,8 @@ static func _obstacles(hud,button:Button,craft:bool=true,tip_card:bool=true)->Ar
  for other in hud.action_controls().values():
   if other!=button and other.is_visible_in_tree():result.append(Rect2(other.global_position-hud.global_position,other.size))
  if hud.alarm.visible:result.append(hud.alarm.get_rect())
+ var air=hud.get_node_or_null("AirChip")  # WP-149: the Hunt chip never seats over the air chip
+ if air!=null and air.visible:result.append(Rect2(air.position,air.size))
  result.append_array(hud.threat_rects())
  var warning=hud.host.lock_warning
  if warning!=null and warning.visible and warning.banner.has_area():result.append(Rect2(warning.global_position-hud.global_position+warning.banner.position,warning.banner.size))
