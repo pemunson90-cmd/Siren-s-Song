@@ -145,7 +145,8 @@ static func _locks(host)->Array:
 		out.append({"siren":"S%d"%(int(frame.id)+1),"craft":Names.unit_name(craft),"seconds_left":snappedf(frame.remaining,0.1),"pos":_v(frame.pos)})
 	return out
 static func _label_of(button:Button)->String:
-	return _clean(button.text)
+	# WP-170: a Route Map node's face shrinks to its number in the overview; the API names it in full (see _route_map_prompt).
+	return _clean(str(button.get_meta("api_label",button.text)))
 static func _visible_buttons(node:Node)->Array:
 	var out:Array=[]
 	if node==null:return out
@@ -155,6 +156,10 @@ static func _visible_buttons(node:Node)->Array:
 # Open cards and prompts as the player sees them, each with the buttons that answer it: [{kind,text,buttons:[Button]}].
 static func _prompts(host)->Array:
 	var out:Array=[]
+	# WP-170: the region card over a briefing or a result (CONTINUE TO BRIEFING / RECOVERY) hides the menu; it is the only open prompt.
+	var arc_card=host.get_node_or_null("ArcCard")
+	if arc_card!=null and arc_card.is_visible_in_tree():
+		return [{"kind":"arc_card","text":" / ".join(_visible_texts(arc_card,4)),"buttons":_visible_buttons(arc_card)}]
 	if host.screen=="mission" and host.mission_hud!=null:
 		var hud=host.mission_hud
 		if hud.guard!=null and hud.guard.panel.visible:
@@ -173,6 +178,8 @@ static func _prompts(host)->Array:
 			for b in hud.action_controls().values():
 				if b is Button and not b.disabled:wheel.append(b)
 			out.append({"kind":"orders_menu","text":"Order menu open (page %s) · time is held"%hud.page,"buttons":wheel})
+	elif host.screen=="route_map" and host.get_node_or_null("RouteMapView")!=null:
+		out.append(_route_map_prompt(host.get_node_or_null("RouteMapView")))
 	elif host.screen=="program" and host.route_editor!=null and host.route_editor.is_visible_in_tree():
 		# WP-162: the route planner is a screen of its own; it had no entry here, so a tester who opened it (REPLAN) saw no buttons.
 		var planner:Array=_visible_buttons(host.route_editor)
@@ -188,6 +195,20 @@ static func _prompts(host)->Array:
 			if host.archive_status!=null and host.archive_status.is_visible_in_tree():buttons=_visible_buttons(host.archive_status)+buttons
 			out.append({"kind":"screen","text":" / ".join(_visible_texts(host.panel_box,6)),"buttons":buttons})
 	return out
+# WP-170: the Route Map screen. BACK / LEGEND / CURRENT, then one button per operation node named in full ("07 THE DIVERGENCE · AVAILABLE"),
+# with its state and whether a tap opens its briefing. Zoom buttons are left out (a chart is read from `state`, not looked at).
+static func _route_map_prompt(view)->Dictionary:
+	var buttons:Array=[]
+	for b in _visible_buttons(view.header):
+		if str(b.get_meta("ui_action","")) in ["route_map_back","route_map_legend","route_map_current"]:buttons.append(b)
+	for row in view.graph.get("nodes",[]):
+		var b=view.buttons.get(int(row.id))
+		if b==null or not is_instance_valid(b):continue
+		var name:String="%02d %s"%[int(row.id)+1,"?" if row.mark else str(row.label)]
+		b.set_meta("api_label","%s · %s"%[name,str(row.state)])
+		b.set_meta("api_state",str(row.state));b.set_meta("api_can_open",bool(row.can_open))
+		buttons.append(b)
+	return {"kind":"route_map","text":_clean(view.detail.text),"buttons":buttons}
 static func _visible_texts(node:Node,limit:int)->Array:
 	var out:Array=[]
 	for l in node.find_children("*","Label",true,false):
@@ -196,7 +217,11 @@ static func _visible_texts(node:Node,limit:int)->Array:
 			if out.size()>=limit:break
 	return out
 static func _prompt_view(prompts:Array)->Array:
-	return prompts.map(func(p):return {"kind":p.kind,"text":p.text,"buttons":p.buttons.map(func(b):return {"label":_label_of(b),"enabled":not b.disabled})})
+	return prompts.map(func(p):return {"kind":p.kind,"text":p.text,"buttons":p.buttons.map(func(b):return _button_view(b))})
+static func _button_view(b:Button)->Dictionary:
+	var row:Dictionary={"label":_label_of(b),"enabled":not b.disabled}
+	if b.has_meta("api_state"):row["state"]=str(b.get_meta("api_state"));row["can_open"]=bool(b.get_meta("api_can_open",false)) # WP-170: Route Map nodes
+	return row
 
 # The whole picture a player could read now. request: {"truth":true} (debug builds only) adds hidden truth, marked.
 static func state(host,request:Dictionary={})->Dictionary:
@@ -370,10 +395,9 @@ static func _speed(host,request:Dictionary)->Dictionary:
 			host._refresh()
 		var ok:bool=is_equal_approx(host.time_speed,want)
 		return {"ok":ok,"order":"speed","speed":host.time_speed,"message":_clean(HudWords.speed_text(host.time_speed,TimeSpeed.hunting(sim))),"refusal":"" if ok else HudWords.SPEED.hunting}
-	# Speeds above the release set exist only in a debug build, through the console's own `time` line (it marks the profile DEV).
-	if host.debug_console==null:return _refuse("speed","Speed %s is not offered (1, 2 or 4)"%str(want))
-	var reply:String=str(host.debug_console.execute("time %s"%str(want)))
-	return {"ok":is_equal_approx(host.time_speed,want),"order":"speed","speed":host.time_speed,"message":reply,"marked_dev":true}
+	# WP-170: a speed a release player cannot choose is refused. It used to reach the debug console's `time` line, which marks the
+	# profile DEV (route checker off, results filed under DEV). Debug speeds stay reachable only through the `debug` command's console line.
+	return _refuse("speed","Speed %s is not offered (choose %s)"%[str(want),", ".join(releases.map(func(s):return str(s)))])
 static func _route(host,request:Dictionary,craft:int)->Dictionary:
 	var sim=host.sim
 	var points:Array=request.get("points",[])
@@ -544,7 +568,7 @@ static func _press(root,request:Dictionary)->Dictionary:
 		for b in prompt.buttons:
 			if not is_instance_valid(b) or b in seen:continue
 			seen.append(b)
-			var label:String=_norm(b.text)
+			var label:String=_norm(_label_of(b)) # WP-170: the name `state` shows
 			if label==wanted or str(b.get_meta("action","")).to_upper()==wanted:matches.append(b)
 			elif label.contains(wanted):near.append(b)
 	if matches.is_empty():matches=near
@@ -560,6 +584,12 @@ static func _press(root,request:Dictionary)->Dictionary:
 	if button.disabled:return {"ok":false,"order":"answer","refusal":"%s is greyed out%s"%[_label_of(button),(": "+button.tooltip_text) if not button.tooltip_text.is_empty() else ""],"message":""}
 	var label:String=_label_of(button) # read first: a screen button is freed when its screen is rebuilt
 	button.pressed.emit()
+	# WP-170: in the Route Map overview the first tap on an operation only zooms in on it (the board is rebuilt); a player taps again.
+	if button.get_meta("look_only",false) and button.has_meta("api_state"):
+		var view=host.get_node_or_null("RouteMapView");var node_id:int=int(str(button.get_meta("ui_action","")).trim_prefix("route_map_op_"))
+		await host.get_tree().process_frame
+		await host.get_tree().process_frame
+		if view!=null and is_instance_valid(view) and host.screen=="route_map" and view.buttons.has(node_id):view.buttons[node_id].pressed.emit()
 	# The game's buttons answer on the next idle step (deferred); let it settle before anyone reads the result.
 	await host.get_tree().process_frame
 	await host.get_tree().process_frame

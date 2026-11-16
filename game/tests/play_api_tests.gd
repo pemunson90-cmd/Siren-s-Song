@@ -102,6 +102,9 @@ func run():
 	check(Api.state(game).crafts[0].route.size()==4,"state shows the craft's four route points")
 	check(not game.sim.queue_mode,"the route order puts the TAPS toggle back as it found it")
 	# run: the dive runs at speed 4, stops at anything that needs an answer
+	# WP-170: a speed a release player cannot choose is refused, never reaching the debug console (which marks the profile DEV).
+	var odd=await Api.order(game,{"order":"speed","speed":3.0})
+	check(not odd.ok and not odd.has("marked_dev") and is_equal_approx(game.time_speed,1.0),"speed 3 is refused with a plain refusal and no DEV mark: "+str(odd.get("refusal","")))
 	var out:=Api.run(game,{"seconds":10.0,"speed":4.0})
 	check(out.ok and out.has("state") and out.has("events") and out.has("messages") and out.game_seconds>0.0,"run returns the state, events and messages")
 	check(game.sim.paused and out.state.time.state=="paused","run leaves the dive paused so nothing runs between commands")
