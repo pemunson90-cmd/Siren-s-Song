@@ -4,26 +4,13 @@
 run_tests||1|1
 runtime_tests|RUNTIME|24|2
 loadout_ui_tests|LOADOUT|38|144
-navigation_departure_tests|NAVIGATION|-|148
-density_scenarios|DENSITY|-|122
-density_menu_scenarios|DENSITY MENU|-|121
-density_scroll_scenarios|DENSITY SCROLL|-|123
-metrics_transport_tests|METRIC TRANSPORT|-|147
 operation_endurance_tests|OPERATION ENDURANCE|-|150
-targeting_feedback_tests|TARGETING FEEDBACK|-|173
 beam_emission_tests|BEAM EMISSION|-|97
 recon_consequences_tests|RECON CONSEQUENCES|-|162
-current_motion_tests|CURRENT MOTION|-|65
-v7_earned_region_tests|V7 EARNED REGION|-|179
-glass_earned_chart_tests|GLASS EARNED CHART|-|410
-v7_earned_view_tests|V7 EARNED VIEW|-|180
 craft_upgrades_tests|CRAFT UPGRADES|-|116
-craft_upgrade_sim_tests|CRAFT UPGRADE SIM|-|115
-post_tutorial_roster_tests|POST TUTORIAL ROSTER|-|159
 divergence_save_tests|DIVERGENCE SAVE|-|124
 campaign_consequence_tests|CAMPAIGN CONSEQUENCES|-|48
 campaign_equipment_save_tests|CAMPAIGN EQUIPMENT SAVE|15|49
-operation_catalog_tests|OPERATION CATALOG|-|19
 depth_sonar_tests|DEPTH SONAR|-|20
 survivor_ascent_tests|SURVIVOR ASCENT|-|841
 sweeper_tests|SWEEPER|-|22
@@ -33,35 +20,20 @@ depth_policy_ui_tests|DEPTH POLICY UI|-|25
 opening_depth_tests|OPENING DEPTH|-|26
 opening_depth_journeys|OPENING JOURNEY|25|27
 opening_depth_policy_ui_tests|OPENING POLICY UI|-|-
-glass_reach_tests|GLASS REACH|-|30
 glass_network_tests|GLASS NETWORK|-|31
-glass_research_tests|GLASS RESEARCH|-|33
 glass_reach_journeys|GLASS JOURNEY|26|34
 choir_fork_tests|CHOIR FORK|-|848
 industrial_jobs_tests|INDUSTRIAL JOBS|-|37
 industrial_threats_tests|INDUSTRIAL THREATS|-|38
-iron_research_tests|IRON RESEARCH|-|41
 iron_choir_journeys|IRON JOURNEY|27|42
 carry_tests|CARRY|-|650
 wake_crossing_tests|WAKE CROSSING|-|16
 wake_crossing_ui_tests|WAKE CROSSING UI|-|18
 warning_chain_tests|WARNING CHAIN|-|74
-shelf_habitat_tests|SHELF HABITAT|-|13
 shelf_habitat_journey_tests|SHELF HABITAT JOURNEY|-|14
 rendezvous_transport_tests|RENDEZVOUS TRANSPORT|-|70
 rendezvous_ui_tests|RENDEZVOUS UI|-|71
-resolution_content_tests|RESOLUTION CONTENT|-|164
-confluence_operation_tests|CONFLUENCE OPERATION|-|111
-confluence_presentation_tests|CONFLUENCE PRESENTATION|-|113
-resolution_instruments_tests|RESOLUTION INSTRUMENT|-|168
-cadence_correlator_tests|CADENCE CORRELATOR|-|45
-field_sampler_tests|FIELD SAMPLER|-|136
-capture_feedback_tests|CAPTURE FEEDBACK|-|106
-independent_capture_tests|INDEPENDENT CAPTURE|-|139
-turn_safe_navigation_tests|TURN SAFE NAVIGATION|-|57
-audit_navigation_tests|AUDIT NAVIGATION|-|858|render
 module_recovery_tests|MODULE RECOVERY|-|66
-route_program_tests|ROUTE PROGRAM|-|170
 drone_drive_tests|DRONE DRIVE|14|126
 drone_operations_tests|DRONE OPERATIONS|-|128
 contact_reports_tests|CONTACT REPORT|-|46
@@ -69,107 +41,51 @@ siren_radio_tests|SIREN RADIO|-|855
 concealed_harbour_tests|CONCEALED HARBOUR|-|10
 concealed_harbour_ui_tests|CONCEALED HARBOUR UI|-|12
 witness_evacuation_journey_tests|WITNESS EVACUATION JOURNEY|-|51
-warning_recipient_tests|WARNING RECIPIENT|-|58
 blackwater_delivery_ui_tests|BLACKWATER DELIVERY UI|-|61
 playfield_hud_tests|PLAYFIELD HUD|30|157
 fleet_ring_ui_tests|FLEET RING UI|-|6
 module_recovery_ui_tests|MODULE RECOVERY UI|-|67
 radial_hud_tests|RADIAL HUD|31|160
-campaign_instruments_tests|CAMPAIGN INSTRUMENT|-|104
-campaign_debrief_view_tests|CAMPAIGN DEBRIEF VIEW|-|102
-acoustic_footprint_tests|ACOUSTIC FOOTPRINT|-|90
 acoustic_path_affected_tests|AFFECTED ACOUSTIC|-|92
 decoy_deployment_tests|DECOY DEPLOYMENT|-|120
 torpedo_aim_ui_tests|TORPEDO AIM|-|178
-foundry_departure_tests|FOUNDRY DEPARTURE|-|138
 thermal_lee_tests|THERMAL LEE|-|175
 thermal_transmission_tests|THERMAL TRANSMISSION|-|176
 thermal_band_tests|THERMAL BAND|-|853
-terminal_tick_tests|TERMINAL TICK|-|174
-briefing_scroll_fitting_ui_tests|BRIEFING SCROLL FITTING UI|-|72
-warning_chain_audio_tests|WARNING CHAIN AUDIO|-|77
-warning_chain_world_ui_tests|WARNING CHAIN WORLD UI|-|78
 onboarding_tests|ONBOARDING|-|3
-siren_warning_pause_tests|SIREN WARNING PAUSE|-|4
 combat_rules_tests|COMBAT RULES|10|39
 collision_boundaries_tests|COLLISION BOUNDARIES|-|40
-rules_sonar_cost_tests|RULES SONAR COST|-|53
 ordinary_beam_industrial_tests|ORDINARY BEAM INDUSTRIAL|-|56
-loadout_frames_tests|LOADOUT FRAMES|-|73
-fit_surface_ui_tests|FIT SURFACE UI|-|710
 photo_capture_tests|PHOTO CAPTURE|-|79
 photo_capture_ui_tests|PHOTO CAPTURE UI|-|80
-photo_discovery_tests|PHOTO DISCOVERY|-|82
 photo_pricing_tests|PHOTO PRICING|-|83
-photo_pricing_ui_tests|PHOTO PRICING UI|-|84
 photo_depth_tests|PHOTO DEPTH|-|85
 photo_rules_tests|PHOTO RULES|-|86
 all_stop_tests|ALL STOP|-|88
-archive_recap_tests|ARCHIVE RECAP|-|95
 challenges_journey_tests|CHALLENGES JOURNEY|-|107
 challenges_tests|CHALLENGES|20|108
 challenges_ui_tests|CHALLENGES UI|21|109
-lock_warning_tests|LOCK WARNING|-|145
 truthful_commands_tests|TRUTHFUL COMMANDS|34|866
-performance_measurements|PERFORMANCE|-|153
-nav_following_probe|NAV FOLLOW|-|185
-nav_clearance_probe|NAV CLEARANCE PROBE|-|186
 nav_clearance_ui_tests|NAV CLEARANCE UI|-|187
-opening_fleet_tests|OPENING FLEET|-|190
-cold_review_archive_tests|COLD REVIEW ARCHIVE|-|192
 audit_photo_integrity_tests|AUDIT PHOTO INTEGRITY|-|193
 audit_photo_evidence_tests|AUDIT PHOTO EVIDENCE|-|857
-photo_trench_geometry_tests|PHOTO TRENCH GEOMETRY|-|861|render
-audit_artifact_cargo_tests|AUDIT ARTIFACT CARGO|-|196
 grade_on_secure_tests|GRADE ON SECURE|-|197
 fix2_save_tests|FIX2 SAVE|-|198
-fix2_frontend_ui_tests|FIX2 FRONTEND UI|-|201|render
-fix2_menu_ui_tests|FIX2 MENU UI|-|203|render
-audit_readability_ui_tests|AUDIT READABILITY UI|-|234|render
-fix2_state_tests|FIX2 STATE|-|206
-photo_audio_tests|PHOTO AUDIO|-|208
-event_cue_tests|EVENT CUE|-|620
-early_reward_tests|EARLY REWARD|-|211
-early_reward_ui_tests|EARLY REWARD UI|-|212|render
-campaign_photo_rows_tests|CAMPAIGN PHOTO ROWS|-|213
-route_map_tests|ROUTE MAP|-|214
-sweeper_patrol_tests|SWEEPER PATROL|-|216
-landmark_ui_tests|LANDMARKS UI|-|218|render
 endings_photo_tests|PHOTO ENDINGS|-|219
-endings_photo_ui_tests|PHOTO ENDINGS UI|-|220|render
 final_pair_journey_tests|FINAL PAIR JOURNEY|29|221
-onboard2_tests|ONBOARD2|-|222
 consequence_lines_tests|CONSEQUENCE LINES|-|229
 save_profiles_tests|SAVE PROFILES|11|224
 save_profiles_ui_tests|SAVE PROFILES UI|-|225|render
 save_profiles_transfer_tests|SAVE PROFILES TRANSFER|12|820
 back_exit_tests|BACK EXIT|-|226
-back_audit_tests|BACK AUDIT|-|2260
-a11y_cues_tests|A11Y CUES|-|227
-ai_trace_tests|AI TRACE|-|231
-acoustic_path_cull_tests|ACOUSTIC PATH CULL|-|248
-sonar_feedback_cache_tests|SONAR FEEDBACK CACHE|-|249
 sonar_identity_tests|SONAR IDENTITY|-|846
 presentation_pass_tests|PRESENTATION PASS|-|849
-goal_bearing_cache_tests|GOAL BEARING CACHE|-|250
-terrain_tests|TERRAIN|-|241
-work_sites_tests|WORK SITES|-|242
-map_gesture_tests|MAP GESTURE|-|243
-choir_rules_tests|CHOIR RULES|-|244
-iron_layouts_tests|IRON LAYOUTS|-|245
-order_table_tests|ORDER TABLE|-|246
 photo_window_rules_tests|PHOTO WINDOW RULES|-|247
-art_tests|ART|-|232
-art_render_measurements|ART RENDER|-|233|render
 # Keep the full local matrix; bound each CI native-render process by display shape.
-ops_home_ui_tests|OPS HOME UI|-|-|render
-arc_boundary_ui_tests|ARC BOUNDARY UI|-|417|render
 voices_tests|VOICES|-|630
-archive_views_ui_tests|ARCHIVE VIEWS UI|-|631|render
 menu_reach_ui_tests|MENU REACH UI|37|261
 debug_console_tests|DEBUG CONSOLE|36|821
 tactical_aids_tests|TACTICAL AIDS|35|850
-settings_depth_tests|SETTINGS DEPTH|-|680
 finale_provisional_tests|FINALE|-|263
 ledger_tests|LEDGER|-|660
 save2_storage_tests|SAVE2 STORAGE|-|265
@@ -178,39 +94,24 @@ save2_ui_tests|SAVE2 UI|-|267|render
 ironman_integrity_tests|IRONMAN INTEGRITY|-|670
 ironman_losses_tests|IRONMAN LOSSES|-|842
 death_cause_tests|DEATH CAUSE|-|253
-first_siren_cue_ext_tests|FIRST SIREN CUE EXT|-|251
 challenges_completions_opening_tests|CHALLENGES COMPLETIONS OPENING|-|257
 challenges_completions_reach_tests|CHALLENGES COMPLETIONS REACH|-|258
 challenges_completions_iron_tests|CHALLENGES COMPLETIONS IRON|-|259
-challenges_route_pars_tests|CHALLENGES ROUTE PARS|-|495
-photo_row_feed_room_journey_tests|PHOTO ROW FEED ROOM JOURNEY|-|281
-status_text_tests|STATUS TEXT|-|282
-status_text_ui_tests|STATUS TEXT UI|-|-|render
 # CI partitions retain the complete source table and both native Fold shapes.
 stable_board_ui_tests|STABLE BOARD UI|-|868|render
 
 hunt_pressure_tests|HUNT PRESSURE|-|284
 hunt_cap_coverage_tests|HUNT CAP COVERAGE|-|847
 hunt_pressure_integration_tests|HUNT INTEGRATION|-|285
-hunt_meter_ui_tests|HUNT METER UI|-|286|render
 calder_trench_journey_tests|CALDER TRENCH JOURNEY|28|400
 calder_silent_journey_tests|CALDER SILENT|-|415
-regional_settings_tests|REGIONAL SETTINGS|-|401
-frame_cap_settings_tests|FRAME CAP SETTINGS|-|490
 optional_thread_journey_tests|OPTIONAL THREAD JOURNEY|-|402
 sorley_rescue_tests|SORLEY RESCUE|-|840
 sorley_pilotage_tests|SORLEY PILOTAGE|-|845
 optional_cache_tests|OPTIONAL CACHE|-|404
-quality_tests|QUALITY|-|406
-quality_ui_tests|QUALITY UI|-|407|render
-economy_tests|ECONOMY|-|450
 economy_save_tests|ECONOMY SAVE|-|451
 economy_campaign_sim_tests|ECONOMY CAMPAIGN|-|452
-economy_options_tests|ECONOMY OPTIONS|-|843
-crew_tests|CREW|-|690
 field_tools_tests|FIELD TOOLS|-|460
-tool_racks_tests|TOOL RACKS|-|461|render
-mode_tool_cargo_tests|MODE TOOL CARGO|-|851
 expedition_runs_tests|EXPEDITION RUNS|17|470
 seeded_siren_patrol_tests|SEEDED SIREN PATROL|-|472
 run_records_tests|RUN RECORDS|19|411
@@ -219,68 +120,27 @@ runs_offer_tests|RUNS OFFER|-|408
 expedition_session_tests|EXPEDITION SESSION|18|471
 career_tests|CAREER|16|480
 rider_tests|RIDER|22|413
-player_names_tests|PLAYER NAMES|39|1294
 release_controls_tests|RELEASE CONTROLS|33|1291
 crash_possible_tests|CRASH|7|1292
 hand_pilot_journeys|HANDPILOT|23|1293
-prep_decision_first_ui_tests|PREP DECISION FIRST UI|-|867|render
 protected_rules_tests|PROTECTED RULES|2|1290
-briefing_truth_tests|BRIEFING TRUTH|-|1301
-own_craft_leg_warning_tests|OWN CRAFT LEG WARNING|-|1401
 control_mix_tests|CONTROL MIX|6|1295
-dive_end_polish_ui_tests|DIVE END POLISH UI|-|1403|render
-all_stop_text_tests|ALL STOP TEXT|-|1402
 bare_contact_tests|BARE CONTACT|-|1390
-launch_guard_ui_tests|LAUNCH GUARD UI|-|1296|render
 release_build_gate_tests|RELEASE BUILD GATE|-|1404
-operation_meta_parity_tests|OPERATION META|-|1405
-threat_read_tests|THREAT READ|-|1407
 planning_order_flow_ui_tests|PLANNING ORDER FLOW UI|32|1409
 photo_shutter_ui_tests|PHOTO SHUTTER UI|-|1411
-photo_range_caption_tests|PHOTO RANGE CAPTION|-|1412
-photo_pay_ui_tests|PHOTO PAY UI|-|1413
 launch_clearance_tests|LAUNCH CLEARANCE|-|1414
-text_spacing_tests|TEXT SPACING|-|1415
-life_support_ui_tests|LIFE SUPPORT UI|-|1416
 drone_bay_tests|DRONE BAY|5|1420
 parity_rules_tests|PARITY RULES|4|1421
-legacy_observe_equivalence_tests|LEGACY OBSERVE|8|1422
-chart_cache_tests|CHART CACHE|9|1423
-names_registry_tests|NAMES REGISTRY|3|1424
 tap_ownership_ui_tests|TAP OWNERSHIP UI|-|1425
-hud_words_ui_tests|HUD WORDS UI|-|1426|render
 trial_rules_tests|TRIAL RULES|-|1427
 career_record_tests|CAREER RECORD|-|1450
-wide_menus_ui_tests|WIDE MENUS UI|-|1451|render
-chart_preview_ui_tests|CHART PREVIEW UI|-|1452|render
-route_map_layout_tests|ROUTE MAP LAYOUT|-|1452|render
-chart_label_fit_ui_tests|CHART LABEL FIT UI|-|1452|render
-status_strip_tests|STATUS STRIP|-|1453|render
 stuck_craft_tests|STUCK CRAFT|-|1453
-stuck_craft_ui_tests|STUCK CRAFT UI|-|1454|render
-large_text_screen_ui_tests|LARGE TEXT SCREEN UI|-|1453|render
-result_numbers_ui_tests|RESULT NUMBERS UI|-|2261|render
-camera_next_step_tests|CAMERA NEXT STEP|-|1455
-briefing_boat_column_ui_tests|BRIEFING BOAT COLUMN UI|-|2262|render
-panel_taps_labels_note_ui_tests|PANEL TAPS LABELS NOTE UI|-|2262|render
 dive_time_honesty_ui_tests|DIVE TIME HONESTY UI|-|2263|render
-chart_full_width_ui_tests|CHART FULL WIDTH UI|-|1452|render
 wheel_water_tap_ui_tests|WHEEL WATER TAP UI|-|2264|render
-title_text_size_ui_tests|TITLE TEXT SIZE UI|-|2263|render
-retry_words_ui_tests|RETRY WORDS UI|-|2264|render
-rock_drawn_tests|ROCK DRAWN|-|2270
-route_program_screen_tests|ROUTE PROGRAM SCREEN|-|2271
-result_actions_ui_tests|RESULT ACTIONS UI|-|2265|render
-wp111_briefing_chart_ui_tests|WP111 BRIEFING CHART UI|-|2265|render
-unusable_reason_tests|UNUSABLE REASON|-|2280
-float_pile_ui_tests|FLOAT PILE UI|-|2272|render
-earned_block_ui_tests|EARNED BLOCK UI|-|2290|render
-wp117_ui_tests|WP117 UI|-|2290|render
 rock_warning_tests|ROCK WARNING|-|2291
 emp_lock_grace_tests|EMP LOCK GRACE|-|2292
-photo_beside_job_tests|PHOTO BESIDE JOB|-|2300|render
 time_speed_tests|TIME SPEED|-|2320|render
 play_api_tests|PLAY API|-|2330
 play_api_modes_tests|PLAY API MODES|-|2331
 route_tap_flow_ui_tests|ROUTE TAP FLOW UI|-|2340|render
-next_step_ui_tests|NEXT STEP|-|2350|render

@@ -25,3 +25,5 @@ Also in this folder, as copies and not moves: `AGENTS.md`, `CLAUDE.md` and `READ
 Kept in place by Pat's decision D-02 A (2026-11-12): `docs/design/STEALTH_AI_ROADMAP.md` (still feeds the backlog) and `reports/2026-11-01-sirens-song-full-project-overview.md`.
 
 Copy, not a move (WP-47): `field-manual-old.txt` holds the one-page Field Manual text (`OnboardingText.reference_text` and the two `orders_text` strings) as it stood before the topic cards replaced it. `orders_text` itself stays in `campaign_flow.gd` for the Blackwater card.
+
+Moved by WP-143 (2026-11-15, Pat's ruling that tests must justify their existence): the entry scripts of 134 retired suites, with their `.uid` files, are in `retired-tests/` (original path `game/tests/<suite>.gd`). The suite list is `game/tests/retired_suites.txt`; the classification is `.fable/audit/suite_classification_20261115.tsv`. Six retired entry scripts stay in `game/tests/` because a kept suite or tool still loads them: `fix2_menu_ui_tests`, `status_text_ui_tests`, `density_scenarios`, `density_menu_scenarios`, `density_scroll_scenarios`, `metrics_transport_tests`.
