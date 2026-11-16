@@ -23,7 +23,11 @@ static func step(sim)->Dictionary:
 		if o.captured or o.get("optional",false):continue
 		var d:float=q.pos.distance_to(sites[i].pos)
 		if d<best:best=d;pick=i
-	if pick<0:return {"text":Words.TEXT.next_open_job,"site":_corridor(sim)}
+	if pick<0:
+		# WP-174: a required signal source nobody has located is the next step, not "the open job on the chart" (there is none yet).
+		var unlocated:Dictionary=sim.unlocated_required_source()
+		if not unlocated.is_empty():return {"text":Words.TEXT.next_locate_source%str(unlocated.label).to_upper(),"site":{}}
+		return {"text":Words.TEXT.next_open_job,"site":_corridor(sim)}
 	# A record behind an unfinished prerequisite: the prerequisite is the next step.
 	for guard in 8:
 		var open:int=-1

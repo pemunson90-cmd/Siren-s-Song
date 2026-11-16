@@ -325,7 +325,9 @@ func _primary_action() -> void:
 		if preload("res://src/presentation/photo_shutter/shutter.gd").refuse(self):return
 		_order("camera",{"photo":true});return
 	var shelter=preload("res://src/presentation/shelf_habitat_view.gd").nearest(sim)
-	if not shelter.is_empty():mission_hud.open("habitat",shelter);return
+	if not shelter.is_empty():
+		sim.message=preload("res://src/presentation/hud_words.gd").TEXT.watch_orders_open # WP-174: opening the panel is not a refusal; say what it is
+		mission_hud.open("habitat",shelter);return
 	var station=WarningChain.nearest_station(sim)
 	if not station.is_empty():mission_hud.open("plant",station);return
 	var witness=WitnessView.site(sim)
