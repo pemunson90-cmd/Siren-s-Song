@@ -43,6 +43,6 @@ static func command(sim, order: String, args: Dictionary) -> bool:
 				# WP-148: the player's own contact record of this lock ends with it (the message above says so), so the lock
 				# card closes and offers nothing more even while the dive is paused (a paused clock keeps the record fresh).
 				if sim.contacts.has(id) and sim.contacts[id].get("mode","")=="LOCKING":sim.contacts[id]["lock"]=0.0;sim.contacts[id]["target"]=-1;sim.contacts[id]["mode"]="INVESTIGATE"
-			if not broken.is_empty():sim.message=HudWords.lock_broken(broken)
+			if not broken.is_empty():sim.message=HudWords.lock_broken(broken);sim.mission["decoy_breaks"]=int(sim.mission.get("decoy_breaks",0))+broken.size() # WP-152: tally for the debrief line
 		_:return false
 	return true

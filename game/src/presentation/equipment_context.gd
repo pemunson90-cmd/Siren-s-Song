@@ -10,6 +10,8 @@ const UiStyle=preload("res://src/presentation/ui_style.gd")
 const PrepColumns=preload("res://src/presentation/prep_columns.gd")
 const Metrics=preload("res://src/presentation/layout_metrics.gd")
 const NEXT_LAUNCH_NOTE="Applies from your next launch."
+# WP-152: a frame short of alloy says where alloy comes from.
+const REFINE_HINT=" Refine scrap to alloy in SUPPLIES."
 const SLOTS={Names.CRAFT_QUIETUS:Names.UNIT_QUIETUS,Names.CRAFT_DRONE_A:Names.UNIT_DRONE_A,Names.CRAFT_DRONE_B:Names.UNIT_DRONE_B}
 # A locked frame is bought with alloy when tapped, then chosen like any other.
 static func _pick_frame(main,locked:bool,unit:int,id:String,key:String,choose:Callable)->void:
@@ -116,7 +118,9 @@ static func frame_lock(main,unit:int,id:String,attempt:Dictionary)->String:
  if Economy.frame_locked(main.economy,main.expedition,unit,id):
   var price=Economy.unlock_cost(main.economy,Economy.unlock_of(unit,id))
   var line="Tap to buy it for %s."%Economy.fmt(price)
-  return line if Economy.can_pay(main.economy,price) else "Costs %s. You are short by %s."%[Economy.fmt(price),Economy.shortfall(main.economy,price)]
+  if Economy.can_pay(main.economy,price):return line
+  var short:String=Economy.shortfall(main.economy,price)
+  return "Costs %s. You are short by %s.%s"%[Economy.fmt(price),short,REFINE_HINT if "ALLOY" in short else ""] # WP-152
  return "" if attempt.ok else "Cannot choose: %s"%attempt.reason
 static func loadout(main,fit:Dictionary,choose:Callable)->Array:
  var buttons=[]

@@ -37,6 +37,10 @@ func _initialize():
  check(lock.command("decoy",{"point":point}) and lock.tools.decoy==2,"the decoy is placed as the chart places it")
  check(siren.lock==0.0 and siren.target==-1 and siren.goal==point and siren.mode=="INVESTIGATE","the decoy ends the countdown and the Siren turns to it")
  check(lock.message.contains("S1 LOCK BROKEN") and lock.message.contains("drawn to the decoy"),"the event text says the lock broke: "+lock.message)
+ # WP-152: the debrief says how many locks the decoy broke, in the same words the game shows.
+ var LS=preload("res://src/presentation/loss_summary.gd")
+ check(LS.decoy_line(lock)=="Decoy broke 1 lock" and LS.decoy_line(Sim.new()).is_empty(),"debrief line: "+LS.decoy_line(lock))
+ lock.mission["decoy_breaks"]=2;check(LS.decoy_line(lock)=="Decoy broke 2 locks","debrief line plural")
  for n in 40:lock.advance(0.1)
  check(lock.outcome.is_empty() and lock.units[0].alive and float(siren.lock)<=0.0,"drawn off for the decoy's sounding: no beam, no new lock")
  var again=Sim.new();again.start(0);again.paused=false;again.units[0].pos=Vector2(400,500);again.sirens[0].lock=2.0;again.sirens[0].target=0;again.sirens[0].mode="LOCKING"

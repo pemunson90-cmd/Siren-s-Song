@@ -5,10 +5,16 @@ extends RefCounted
 # last message: a rider's failure message or any later message can replace sim.message after the beam.
 const Compass=preload("res://src/presentation/compass.gd")
 const Names=preload("res://src/names.gd")
+const HudWords=preload("res://src/presentation/hud_words.gd")
 const LOCKISH=["LOCKING","BEAM"]
 const FIRED="BEAM"
 const SIREN_WORD="Siren"
 const BEAM_LINE="%s %s's beam from the %s struck Quietus, about %d m away."
+# WP-152: the debrief line for locks a decoy broke this dive, "" when none.
+static func decoy_line(sim)->String:
+	var m=sim.get("mission") if sim!=null else null
+	var n:int=int(m.get("decoy_breaks",0)) if m is Dictionary else 0
+	return "" if n<=0 else (HudWords.TEXT.decoy_broke if n==1 else HudWords.TEXT.decoy_broke_many)%n
 const BEAM_LINE_UNPLACED="A Siren beam hit Quietus before it could break contact."
 # The Siren that locked Quietus most recently, as an index into the contacts, or -1.
 static func beam_contact(sim)->int:
