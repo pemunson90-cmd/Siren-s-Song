@@ -189,4 +189,18 @@ func run():
 	check(w_vane.ok and w_vane.pressed=="RELEASE VANE" and w_vane.page=="REACH WORK" and not wheel_game.sim.mission.glass_reach.job.is_empty(),"WP-175: RELEASE VANE at the site is pressed through the REACH WORK page and the job starts: "+JSON.stringify(w_vane))
 	check(not wheel_game.advanced_orders,"WP-175: the wheel is closed again after the order")
 	wheel_game.queue_free();await settle()
+	# --- WP-179: buttons on an OBJECT's wheel (op 11 Warning Chain: the west service inlet's START BACKUP), by label and by object ---
+	var chain_game=await make()
+	chain_game.unlocked=20
+	check((await Api.order(chain_game,{"order":"start","operation":11})).ok and int(chain_game.sim.mission.id)==10,"WP-179: operation 11 starts the Warning Chain dive (catalog id 10)")
+	chain_game.sim.units[0].pos=Vector2(485,1004) # test only: stand at the inlet (a player sails there)
+	chain_game.sim.units[0].band=1
+	var c_ran=await Api.run(chain_game,{"seconds":6.0,"speed":4})
+	for n in 3:await process_frame
+	var c_state:=Api.state(chain_game)
+	var inlet_rows:Array=c_state.get("object_controls",[]).filter(func(o):return str(o.object).contains("INLET"))
+	check(inlet_rows.size()==1 and inlet_rows[0].controls.any(func(c):return str(c.label).contains("START BACKUP")),"WP-179: state.object_controls lists the inlet's START BACKUP under its name: "+JSON.stringify(c_state.get("object_controls",[])).substr(0,300))
+	var c_press=await Api.order(chain_game,{"order":"control","object":"inlet","label":"start backup"})
+	check(c_press.ok and str(c_press.pressed).begins_with("START BACKUP") and str(c_press.object).contains("INLET") and not chain_game.advanced_orders,"WP-179: control with object presses the inlet's START BACKUP and closes the wheel: "+JSON.stringify(c_press).substr(0,300))
+	chain_game.queue_free();await settle()
 	print("PLAY API CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)

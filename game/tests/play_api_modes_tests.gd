@@ -146,6 +146,14 @@ func run():
 	var drone_refused=await Api.order(game,{"order":"tool","tool":"decoy","craft":"DRONE A","point":[q0.x-80,q0.y]})
 	check(not drone_refused.ok and str(drone_refused.refusal).contains("carries no decoy") and not str(drone_refused.refusal).contains("left"),"a drone with no decoy in its rack is refused by name: "+str(drone_refused.get("refusal","")))
 	check(Api.state(game).tools.has("by_craft") and Api.state(game).tools.by_craft.has("QUIETUS"),"state.tools.by_craft lists each craft's own rack")
+	# WP-179: a depth order names its craft: with Quietus selected, "craft":"DRONE A" changes the drone's band, not Quietus's.
+	if not sim.DroneBay.aboard(sim.units[1]):
+		game._order("select",{"unit":0});sim.paused=true
+		var drone_band:int=int(sim.units[1].band)
+		var depth_named=await Api.order(game,{"order":"depth","craft":"DRONE A","band":"down" if drone_band<2 else "up"})
+		check(depth_named.ok and not sim.units[1].transition.is_empty() and sim.units[0].transition.is_empty() and sim.selected==1,"WP-179: depth with craft DRONE A moves the drone, not the selected Quietus: "+str(depth_named.get("refusal","")))
+	else:
+		check(false,"WP-179: drone A was launched for the depth check")
 	game.queue_free();await settle()
 	# --- WP-170: the Route Map reads and answers like any screen ---
 	game=await make()
