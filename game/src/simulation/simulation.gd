@@ -1,6 +1,7 @@
 extends RefCounted
 const Names=preload("res://src/names.gd")
 const TrialRules=preload("res://src/trial_rules.gd")
+const HudWords=preload("res://src/presentation/hud_words.gd") # WP-161
 # Read-only D1 presentation seam. Existing acquisition decides when to publish.
 signal siren_notice(id:int, source_position:Vector2)
 const Orders=preload("res://src/simulation/orders/order_table.gd")
@@ -371,10 +372,19 @@ func _warning_chain_busy(unit_id:int)->bool:return Chain.connected(self,unit_id)
 func departure_context()->Dictionary:
 	if outcome.is_empty() and units[0].alive and units[0].vel.length()<12:
 		for corridor in extraction_corridors():
-			if corridor.available and units[0].pos.distance_to(corridor.pos)<65:return ModuleRecovery.departure(self,corridor)
+			if corridor.available and units[0].pos.distance_to(corridor.pos)<65:
+				# WP-161: recovery needs MIDDLE; say so instead of reporting "ready" while _try_extract refuses.
+				var wrong:=_departure_depth_reason()
+				if not wrong.is_empty():return {"available":false,"pending":false,"confirmation_required":false,"corridor":corridor.duplicate(true),"recovered":[],"left":[],"recovered_drones":[],"text":wrong,"reason":"depth"}
+				return ModuleRecovery.departure(self,corridor)
 	return {"available":false,"pending":false,"confirmation_required":false,"corridor":{},"recovered":[],"left":[],"recovered_drones":[],"text":"Bring Quietus and the required records to a recovery mouth"}
+func _departure_depth_reason()->String:
+	var q=units[0]
+	if not q.transition.is_empty():return HudWords.TEXT.depart_depth%[Depth.NAMES[1],HudWords.TEXT.depart_settle]
+	if q.band==1:return ""
+	return HudWords.TEXT.depart_depth%[Depth.NAMES[1],HudWords.TEXT.depart_rise if q.band>1 else HudWords.TEXT.depart_descend]
 func _try_extract(corridor:Dictionary,confirmed:bool=false)->bool:
-	if units[0].band!=1 or not units[0].transition.is_empty():return false
+	if units[0].band!=1 or not units[0].transition.is_empty():message=_departure_depth_reason();return false # WP-161: say why
 	var context=departure_context()
 	if not context.available or context.corridor.pos!=corridor.pos or context.corridor.get("route","")!=corridor.get("route",""):return false
 	if context.confirmation_required and not confirmed:

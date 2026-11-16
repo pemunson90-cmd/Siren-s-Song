@@ -129,6 +129,7 @@ static func _extraction(host)->Dictionary:
 	var departure=sim.departure_context()
 	out["quietus_may_leave_now"]=bool(departure.get("available",false))
 	out["hint"]=str(departure.get("text",""))
+	out["leave_blocked_reason"]=str(departure.get("reason","")) # WP-161: "depth" when at the mouth but not in MIDDLE
 	return out
 static func _tools(host)->Dictionary:
 	var sim=host.sim;var out={}

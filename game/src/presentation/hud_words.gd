@@ -180,6 +180,12 @@ const TEXT={
 	"decoy_strip_marker": "DECOY · TAP THE MARKED POINT · TAP CANCEL",
 	# WP-158: the header plate that shows while the dive is paused and opens the same menu as FLEET > MENU (menu_chip.gd).
 	"menu_chip": "MENU",
+	# WP-161: Quietus is at a recovery mouth but not in MIDDLE (or changing depth): the departure is not ready and this says what to do.
+	"depart_depth": "Quietus must be in %s to leave · %s first",
+	"depart_rise": "rise",
+	"depart_descend": "descend",
+	"depart_settle": "finish the depth change",
+	"manifest_depth": "%s · OUT · AT THE MOUTH, NOT IN %s",
 }
 # WP-153: a no-break space between a number and its metre unit (240 m, 5 m/s) so a lone "m" never starts the next strip line.
 static func glue_units(text:String)->String:
