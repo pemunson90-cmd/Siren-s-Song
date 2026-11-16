@@ -39,6 +39,6 @@ Nothing blocks the work. For his play, when he gets to it: the items under "Open
 
 ## Next action
 
-Resume the run with `/siren-s-start-opus`: it executes `.fable/NEXT_PLAN.md` (sweep 12, a locally built phone APK for Pat, root's looks, a fun-first tenth critic round with the play API, then the route-tap rework and the rest of the queue). The biggest open weaknesses now need Pat's rulings (travel pace, Sentinel fairness, collision speed, film cost): see "Open for Pat" in `.fable/PHASE9.md`.
+Resume the run with `/siren-s-start-opus`: it executes `.fable/HANDOFF.md` (sweep 12, a locally built phone APK for Pat, root's looks, a fun-first tenth critic round with the play API, then the route-tap rework and the rest of the queue). The biggest open weaknesses now need Pat's rulings (travel pace, Sentinel fairness, collision speed, film cost): see "Open for Pat" in `.fable/PHASE9.md`.
 
 Testing rule (Pat, 2026-11-12): the bare minimum, locally. Per change, the suites that test what changed; the everyday set (39 suites, `scripts\toolchain\win\test-suite.ps1 -All -Profile local`) before a merge of size. No GitHub Actions run without Pat asking for it; every push carries `[skip ci]`.

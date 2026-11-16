@@ -2,11 +2,11 @@
   "run_id": "overhaul-20261111",
   "status": "RUNNING",
   "phase": "9-ux-repair",
-  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: Execute .fable/NEXT_PLAN.md from step 2: sweep 12 in .claude/worktrees/sweep on 7db7ada3 or the pushed head, then the local phone build (WP-126), root's looks, the fun-first tenth critic round with the play API, then WP-127 onward.",
+  "next_action": "Read .fable/HANDOFF.md and .fable/NOW.md first. Then: Execute .fable/HANDOFF.md from step 1 (close sweep 14's failures via WP-144, then the phone build).",
   "base_ref": "origin/claude/integration",
   "base_sha": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
   "run_branch": "fable/overhaul-20261111",
-  "run_head": "1be145debcc89552654adef6321c284b002a377a",
+  "run_head": "2431ab9abcf1cb594eb1e9ecb0d19abfa27e8b51",
   "shared_tips": {
     "claude/integration": "cabd5bd58fe10ac28adb92527bb52c69933185ce",
     "main": "f5b66a198e3878950325f8c45a0bc6bc29dcba84",
@@ -162,5 +162,5 @@
   },
   "decisions_open": 0,
   "last_checkpoint": "Paused at Pat's request on 2026-11-13 16:40 (weekly usage on the model about to run out; he may continue with another model). WP-31 to WP-55 merged and pushed, behavior rows 57 to 85. First full sweep (b352f808): 244 suites, 8 failing, all 8 fixed by WP-55 and rerun green with 18 neighbours; WP-54 on top: Core 856/0 and 15 suites green. Second full sweep started 16:18 on 345dfe8e and NOT yet read: the head is not known to be clean.",
-  "updated": "2026-11-15 19:57:36"
+  "updated": "2026-11-15 20:15:56"
 }

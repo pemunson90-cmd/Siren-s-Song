@@ -2,6 +2,8 @@
 
 Status: LIVE PLAN (resumed on Opus 13 Nov evening; updated 19:00 after the third critic round and WP-56 to WP-60). This file plus `.fable/RUN_STATE.json` and `.fable/NOW.md` is enough to continue. You do not need to reread the repository or the session transcript.
 
+**Since 15 Nov 2026 this file is history.** Progress: `.fable/PROGRESS.md`; open problems: `.fable/ISSUES.md`; next steps: `.fable/HANDOFF.md` (Pat, 15 Nov).
+
 ## What Pat asked for (verbatim, 12 and 13 November 2026)
 
 - "I want to perform another comprehensive audit and repair of the UI and ux"

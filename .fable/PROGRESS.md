@@ -1,0 +1,35 @@
+# Progress
+
+Status: LIVE (Pat, 15 Nov 2026: "all progress you make is put in the progress markdown". Root appends one line per merged package, newest last, with its merge SHA and evidence. Open problems live in `.fable/ISSUES.md`; next steps in `.fable/HANDOFF.md`.)
+
+Run `overhaul-20261111`, branch `fable/overhaul-20261111` (pushed; draft PR 262). Every changed player text is also listed old → new in `.fable/FINAL_REPORT.md` (behavior rows); the full diary is `.fable/RUN_LOG.md`.
+
+## Before 15 November (summary)
+
+Phases 1 to 8 and phase 9 up to the pause of 14 Nov: work packages WP-00 to WP-125 merged; behavior rows 1 to 155 in `.fable/FINAL_REPORT.md`; nine blind critic rounds ranked and built (`.fable/PHASE9.md`, history). Pat's rulings to 14 Nov in `docs/USER_DIRECTIVES.md` (speed control 1x/2x/4x while no Siren hunts, rock warning sounds, Okafor's margin from real air, route-end pause off, riders always on, stun grace by difficulty 12/8/4 s, grouped PRs, local phone builds, claims carry evidence).
+
+## 15 November (session on Opus)
+
+| Package | Merge | What changed for the player or the run | Evidence |
+|---|---|---|---|
+| WP-126 | c025a56a | Phone APK built locally: `scripts\toolchain\win\build-apk.ps1` (Godot 4.6.3 templates, Temurin 17, Android SDK in the tool cache), signer checked against the pinned development key | apksigner digest `32bcb228…dc3c` = `sirens-song-debug.certificate.sha256` |
+| WP-134 | f78b8b04 | Sweep-12 regressions: play API route tagged as a hand-set leg; four tests follow WP-117/120/122 | OPENING POLICY UI 570/0, OPS HOME UI 2577/0 |
+| WP-136 | b8527ccd | Play API reaches Expedition and Career, chart and `route_check` in `state`, answer by index, torpedo targets from the sim | play_api_modes 32/0 (helper), batch pass=14 |
+| WP-131 | 4001c676 | Lock card names the rock that is near or says none is; "No answer in reach · the lock lands in X s"; torpedo refusals say why | batch pass=14, HUD WORDS UI 949/0 |
+| WP-137 | 9011f455 | Pat's rule: a decoy breaks a lock that is counting down ("S2 LOCK BROKEN · drawn to the decoy"); lock card offers DECOY when it can work | Core 856/0, decoy_deployment 27/0 |
+| WP-127 | e9370d38 | One predictable water tap: adds a point when a route is set; slim rock bar SEND ANYWAY / CANCEL; tap mode shown; REPLACE ROUTE on the ROUTE page | ROUTE TAP FLOW UI 132/0; capture `wp-127/_scrap-20261111/screens/i150-a04-rock-bar.png` |
+| WP-138 | 2c08bc05 | Old route-card wording replaced (strip tap mode, Field Manual, orders briefs) | STATUS TEXT UI 1774/0 |
+| WP-135 | 4ae5953a | SPEED plate "1x · SIREN CONTACT" with a tap reason; EARNED block first on the result; intel labels kept under a lock card; surveyed water edge | captures `fable-wp-135-kit2/evidence/w135/result100.png`, `hunt100.png` |
+| WP-128 | 994ce5eb | "NEXT:" line names the next step (search, photograph, bring Quietus into EXTRACTION 65 m, rise to MIDDLE); GOAL chip follows it | NEXT STEP 240/0; capture `critic-wp128b/evidence/c/002.png` |
+| WP-132 | e21a25c9 | DEV badge off HUD text; six hub cards whole; briefings lead with goal and danger, ledger behind DETAILS; settings, Fittings, Field Manual at large text; result names what a win unlocked | OPS HOME UI 2577/0; capture `wp-132/_scrap-20261111/shots/inner-briefing2-150.png` |
+| WP-129 | cb963040 | Chart labels keep off cards and shorten before dropping; craft name plates; chip tap keeps the view; camera keeps craft above the strip | CHART LABEL FIT 1238/0; capture `wp-129/_scrap-20261111/wp129-screens/cover100-after-loss.png` |
+| WP-133 | 77a88108 | Ledger rows for the new capabilities; MODE-011 and MOVE-006 corrected | LEDGER CHECK PASS 396/0 |
+| WP-139 | 8623ddf2 | Real defect: the DEV badge sat on the route planner and took its taps (from WP-132) | OPENING POLICY UI 570/0 (root rerun) |
+| WP-130 | 63c26742 | Order wheel: PLAN ROUTE one tap from the root, wheel anchored while open, list rows as buttons, Hunt chip stays put (root finished it after stopping the helper) | HUD WORDS UI 981/0 on its branch |
+| WP-140 | 1da8dd3f | Two tests follow WP-128 and WP-129 (no game change) | 221/0, 242/0 (helper) |
+| WP-142 | ac6ba289 | The two suites that never ran on this PC now run (child launch via powershell; art suite windowed); sweep skip list | 2/0 and 168/0 (helper) |
+| WP-143 | 590efeda | Pat's rule: 140 suites that do not show the game works retired to `_scrap-20261111/retired-tests/`; 140 kept | LEDGER CHECK PASS; Core 856/0 |
+| WP-141 | 5815381f | Real defect: opening a panel moved the chart 28 px under the finger; the strip reserve holds while a panel is open | STABLE BOARD UI 466/0 (helper) |
+| Sweep shards | 1be145de | `full-sweep.ps1 -Shard i -Of 3`: a full sweep in 35 min instead of about 2.5 h | sweep 14 19:37:47 to 20:12:20 |
+
+Pat's rulings of 15 Nov (verbatim in `docs/USER_DIRECTIVES.md`): decoy breaks an active lock; faster testing rhythm (batch retests, 45-minute helpers, sweeps only before a phone build); no known-failing tests; tests justify their existence; no emulator, he tests the APK on his phone; this three-document handoff.
