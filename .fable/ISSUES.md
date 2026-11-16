@@ -9,6 +9,18 @@ Status: LIVE (Pat, 15 Nov 2026: all open problems live here. Root adds an issue 
   - "real touch acknowledges warning without resuming" in `depth_policy_ui_tests` and `opening_depth_policy_ui_tests`: not investigated. Helper's guesses (unverified): the Hunt chip no longer re-seats after WP-130 (`hunt_meter.gd` signature) or the wheel covers the hint's dismiss button.
   - WP-141's `panel_open` is not reset on two paths that close the wheel without `dismiss()` (`game/src/main.gd` around lines 300 and 531, `advanced_orders=false`): not shown to cause a failure; check it.
 
+## Round 11 ranking (16 Nov, head 2f11e0a8; reports: `_fable\kit\r11-a\audit\r11-a\report.md`, `_fable\critic-kits\r11-b` (reply only), `_fable\critic-kits\r11-c\audit\r11-c\report.md`)
+
+1. **Lock card DECOY does not get a decoy off in time** (A and B independently). The card offers DECOY only when `sim.decoy_lock_point` finds a working drop (`threat_read.gd:147`) but the button only arms aiming (`main.gd:353-357`); the player must guess a point that is clear, path-clear and heard by the Siren within 3.9 s. B: "Decoy needs clear water within 160m and a clear path · no charge spent" after pressing it. A: a failed arm answers with stale strip text "AUTO PAUSE: LOCK WARNING" (`play_api.gd:484-485`), lock card stayed open after "S1 LOCK BROKEN", extra decoys spent. Root checked the code lines; the tester sequences are unverified. WP-148.
+2. **Air is a hidden clock** (C, `critic-kits\r11-c\evidence\r11-c\011.png` "O2 100% ~3:36"; dive ended "Life support exhausted"); B ended op 2 with "Life support 6% ~0:10". WP-149.
+3. **Rock bar makes SEND ANYWAY the bright default, CANCEL dim** (C, `016.png`, root saw it). WP-149.
+4. **Photo grades disagree** (A and B): objectives `photo_grade A`, `photo_percent 100` vs message and result "photo B (78%)". Unverified. WP-150.
+5. **Expedition briefing contradicts its own kit line**: "Scarce: no EMP ... no Hull patch" above "Carrying: ... EMP 2, hull patch" (B). Unverified.
+6. **Camera DECODE near a Siren photographs the Siren** (A op 03: "QUIETUS · S1 SENTINEL 0.0 / 8s", "Siren study filed"). Unverified.
+7. Interface (C): wheel side sheet covers ~40% of chart, PLAN ROUTE vs ROUTE, "GO LOUD / silent is on" (`012.png`, `015.png`); "DRONE A / CHOOSE · WHICH CRAFT?" heading when a drone sits on Quietus (`014.png`, root saw it); PAUSE tip far from its control (`020.png`); no pause menu, exit only via FLEET > MENU (`022.png`, `024.png`); Route Map DIVERGENCE panel cut at the right edge at 150% (`025.png`); "240 m" wraps leaving "m" (`019.png`). Root has not opened these except 014.
+8. Alloy: refining exists ("REFINE SCRAP TO ALLOY · 6 SCRAP", B) but Fleet/Fittings never mentions it.
+9. For Pat (game design, do not decide): career contracts are walkovers with a free full loadout (B: 79 s and 49 s, no lock, "Next launch costs: free"); Expedition op 3 is a cliff after a boon pick that cannot know the next danger (B); rock differs per depth band and the chart does not show it (A and B: "rock blocks this leg at this depth · SHALLOW is open", hull 100 to 86); locks with no prior contact (A).
+
 ## Interface (root decides)
 
 1. In the zoomed-out overview the staged Quietus can sit under the viewfinder dock: `game/src/presentation/chart_camera.gd:39` gives overview no reserve (found by WP-142).
