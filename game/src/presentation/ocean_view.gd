@@ -56,6 +56,7 @@ var _contour_extent := Vector2(-1,-1)
 var _contour_points: Array = []
 var camera_flash := 0.0
 var decoy_targeting:=false
+var decoy_marker:=Vector2.INF # WP-148: world point that breaks the lock the armed decoy is for
 var knock_targeting:=false
 var knock_touch_size:=48.0
 var feedback_font_size:=14
@@ -350,7 +351,7 @@ func _process(dt: float) -> void:
 		optical_feed.position=Vector2(size.x-width-14.,top)
 		planning_size=Vector2(chart_width(),status_floor if status_floor>0. else size.y)
 
-	var visual_key=hash([world_scale,world_offset,size,presenting_mission,quality_tier,decoy_targeting,knock_targeting,sim.selected if sim!=null else -1,selected_contact,card_rects,notice_rects,notice_loss_rect()])
+	var visual_key=hash([world_scale,world_offset,size,presenting_mission,quality_tier,decoy_targeting,decoy_marker,knock_targeting,sim.selected if sim!=null else -1,selected_contact,card_rects,notice_rects,notice_loss_rect()])
 	var changed=visual_key!=_quality_visual_key
 	_quality_visual_key=visual_key
 	var idle=not presenting_mission or sim==null or sim.paused
@@ -556,6 +557,15 @@ func _draw() -> void:
 	# Own deployment reach only; terrain remains authoritative on an actual tap.
 	if decoy_targeting and sim.units[sim.selected].alive:
 		draw_arc(sim.units[sim.selected].pos,sim.DECOY_RANGE,0,TAU,64,Color(0.82,0.69,0.4,0.8),1.8/world_scale)
+		# WP-148: the working drop point, drawn large (a tap on or near it drops the decoy there).
+		if decoy_marker!=Vector2.INF:
+			var warn=Palette.color("warning",Color("ffb18b"));var r=30.0/world_scale
+			draw_line(sim.units[sim.selected].pos,decoy_marker,Color(warn,.55),2.0/world_scale)
+			draw_circle(decoy_marker,r,Color(0.08,0.04,0.06,.8))
+			draw_arc(decoy_marker,r,0,TAU,40,warn,4.0/world_scale,true)
+			draw_arc(decoy_marker,r*.45,0,TAU,24,warn,3.0/world_scale,true)
+			draw_line(decoy_marker-Vector2(r*1.4,0),decoy_marker+Vector2(r*1.4,0),warn,2.0/world_scale)
+			draw_line(decoy_marker-Vector2(0,r*1.4),decoy_marker+Vector2(0,r*1.4),warn,2.0/world_scale)
 	for i in sim.units.size():
 		var u=sim.units[i]
 		if not u.alive: continue

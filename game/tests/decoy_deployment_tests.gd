@@ -57,6 +57,13 @@ func _initialize():
  if rows.size()==1:
   var read=preload("res://src/presentation/lock_move_timing.gd").read(card,rows[0],rows[0].moves.filter(func(m):return m.order=="decoy")[0])
   check(read.in_time and read.line=="draws it off the lock","its reason line reads: "+read.line)
+ # WP-148: a decoy that breaks the lock closes the card at once (paused clock included) and offers nothing more.
+ var broke=Sim.new();broke.start(0);broke.units[0].pos=Vector2(600,210);broke.elapsed=10.
+ var bs=broke.sirens[0];bs.lock=2.0;bs.target=0;bs.mode="LOCKING"
+ broke.contacts={0:{"pos":bs.pos,"time":10.,"mode":"LOCKING","lock":2.0,"target":0,"band":broke.units[0].band,"type":"patroller","source":"optical","angle":0.0}}
+ var drop:Vector2=broke.decoy_lock_point(0,0)
+ check(drop!=Vector2.INF and not preload("res://src/presentation/threat_read/threat_read.gd").lock_rows(broke).is_empty(),"the lock card is up before the drop")
+ check(broke.command("decoy",{"point":drop}) and preload("res://src/presentation/threat_read/threat_read.gd").lock_rows(broke).is_empty(),"after LOCK BROKEN the lock card has no row, so no DECOY is offered for it")
  card.tools.decoy=0
  if card.mission.has("tool_racks"):
   for k in card.mission.tool_racks:card.mission.tool_racks[k]["decoy"]=0

@@ -62,6 +62,8 @@ func _card_text()->String:
  if rows.is_empty():
   return "%s LOCK · %.1fs"%[SirenTag.tag(int(locks[0].id)),locks[0].remaining] if not locks.is_empty() else ""
  var aim=ThreatRead.Table.TEXT.decoy_aim if host!=null and host.get("decoy_armed")==true and int(host.decoy_unit)==int(rows[0].craft) else ""
+ # WP-148: when the chart marks the working drop point, the card says to tap it.
+ if not aim.is_empty() and host.sim.decoy_lock_point(int(rows[0].craft),int(rows[0].source))!=Vector2.INF:aim=ThreatRead.Table.TEXT.decoy_aim_marker
  # While the move buttons show (paused), they are the moves: the card does not print them again as an "Or:" line.
  var advice:String=rows[0].advice
  var all_moves:Array=rows[0].get("moves",[]);var moves:Array=MoveTiming.useful(all_moves)
