@@ -30,6 +30,7 @@ const CampaignFlow=preload("res://src/presentation/flow/campaign_flow.gd")
 const EconomyPanel=preload("res://src/presentation/economy_panel.gd")
 const ReleaseControls=preload("res://src/presentation/release_controls.gd")
 const HandPilot=preload("res://src/simulation/hand_pilot/hand_pilot.gd") # WP-136: route_check and the chart
+const WheelControls=preload("res://src/play_api/wheel_controls.gd") # WP-175: the order wheel's page buttons
 const MAX_EVENTS=200
 const MAX_MESSAGES=200
 const MAX_TEXT_LINES=80
@@ -273,6 +274,7 @@ static func state(host,request:Dictionary={})->Dictionary:
 	out["extraction"]=_extraction(host)
 	out["chart"]=_chart(host)
 	out["tools"]=_tools(host)
+	out["controls"]=WheelControls.pages(host) # WP-175: the selected craft's order-wheel pages and buttons (greyed ones with their reason)
 	out["locks"]=_locks(host)
 	var hunt=Hunt.view(sim)
 	out["hunt"]={"stage":str(hunt.stage),"scale":snappedf(float(hunt.scale),0.01),"label":_clean(HuntMeter.label(hunt)),"active":bool(hunt.active)}
@@ -318,7 +320,7 @@ static func order(host,request:Dictionary)->Dictionary:
 		if host!=root:return _refuse(name,"%s is open: finish or leave it first. start opens a Campaign operation; Expedition and Naval Career are entered with answer (GAME MODES, then EXPEDITIONS or NAVAL CAREER)"%str(host.name))
 		return _start(host,request)
 	if name=="answer":return await _press(root,request)
-	if name.is_empty():return _refuse(name,"Say which order: start, route, route_check, depth, deploy, recall, photo, operate, tool, ping, silent, loud, hold, all_stop, select, answer, pause, run, speed")
+	if name.is_empty():return _refuse(name,"Say which order: start, route, route_check, depth, deploy, recall, photo, operate, control, tool, ping, silent, loud, hold, all_stop, select, answer, pause, run, speed")
 	var why:=_need_dive(host,name)
 	if not why.is_empty():return _refuse(name,why)
 	# An order for another craft selects it first, as a tap on its chip would. Dive time is not touched.
@@ -358,6 +360,7 @@ static func order(host,request:Dictionary)->Dictionary:
 			return _answer(plan_ok,name,host)
 		"photo":return _photo(host,request,craft)
 		"operate","decode","job":return _operate(host,request,craft) # WP-154
+		"control","wheel":return await WheelControls.press(host,request,craft) # WP-175: a page button of the order wheel, by label
 		"tool":return _tool(host,request,craft)
 		"ping":
 			_select(host,craft);var before:float=sim.ping_time;host._order("ping")
