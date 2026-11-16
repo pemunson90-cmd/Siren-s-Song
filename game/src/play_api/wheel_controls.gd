@@ -184,7 +184,7 @@ static func object_buttons(hud,ctx:Dictionary)->Array:
 	hud.refresh()
 	var out:Array=[]
 	for b in hud.command_controls():
-		if b is Button and is_instance_valid(b) and key_of(b)!="inspect" and key_of(b)!="route_here":out.append(b)
+		if b is Button and is_instance_valid(b) and not key_of(b) in ["inspect","route_here","replace_route","program"]:out.append(b) # WP-179: route and notes buttons are the craft wheel's
 	var rows:Array=out.map(func(b):return {"label":label_of(b),"enabled":not b.disabled,"reason":reason_of(b),"key":key_of(b)})
 	hud.subject=kept_subject;hud.page=kept_page
 	hud.refresh()
