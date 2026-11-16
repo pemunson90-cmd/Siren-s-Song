@@ -275,6 +275,7 @@ static func state(host,request:Dictionary={})->Dictionary:
 	out["chart"]=_chart(host)
 	out["tools"]=_tools(host)
 	out["controls"]=WheelControls.pages(host) # WP-175: the selected craft's order-wheel pages and buttons (greyed ones with their reason)
+	out["object_controls"]=WheelControls.object_pages(host) # WP-179: the buttons on each visible object's wheel, by object name
 	out["locks"]=_locks(host)
 	var hunt=Hunt.view(sim)
 	out["hunt"]={"stage":str(hunt.stage),"scale":snappedf(float(hunt.scale),0.01),"label":_clean(HuntMeter.label(hunt)),"active":bool(hunt.active)}
@@ -341,6 +342,7 @@ static func order(host,request:Dictionary)->Dictionary:
 		"route_check":return _route_check(host,request,craft)
 		"depth":
 			_select(host,craft)
+			if sim.selected!=craft:return _refuse(name,"Could not select %s for the depth order"%sim.units[craft].name) # WP-179: the order is for the named craft
 			var band:int=_band(host,request,craft)
 			if band<0:return _refuse(name,"Depth is shallow, middle or deep, or up or down")
 			host._order("depth",{"band":band})

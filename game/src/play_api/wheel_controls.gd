@@ -80,6 +80,10 @@ static func press(host,request:Dictionary,craft:int)->Dictionary:
 			if label==wanted or key_of(b).to_upper()==wanted:found.append(entry)
 			elif label.contains(wanted):near.append(entry)
 	if found.is_empty():found=near
+	# WP-179: no craft button matches (or an object was named): the buttons on a charted object's wheel, opened as a tap on it would.
+	if request.has("object") or found.is_empty():
+		var by_object:Dictionary=await _press_object(host,hud,request,craft,wanted,found.is_empty())
+		if not by_object.is_empty():return by_object
 	if found.is_empty():
 		return {"ok":false,"order":"control","refusal":"No order-wheel button reads %s for %s"%[wanted,host.sim.units[craft].name],"message":"","available":every.map(func(e):return "%s > %s%s"%[PAGE_NAME.get(e.page,e.page),e.label,"" if e.enabled else " (greyed out)"])}
 	# One button on several pages (ROUTE HERE...): take the enabled one when only one is enabled; otherwise ask for a clearer label.
@@ -126,4 +130,121 @@ static func press(host,request:Dictionary,craft:int)->Dictionary:
 	var sim=host.sim
 	var out:Dictionary={"ok":true,"order":"control","pressed":label,"page":PAGE_NAME.get(pick.page,pick.page),"craft":sim.units[craft].name,"taps":taps,"message":_clean(sim.message)}
 	if host.advanced_orders and not PAGE_ENTRY.values().has(pick.key):hud.dismiss() # a menu segment leaves its page open, as a player would
+	return out
+
+# WP-179: buttons on an OBJECT's wheel (a charted site, station, pod, switch...), which a player opens by tapping the object.
+# The objects are found as a tap finds them: ocean.contexts_at at the screen spot of every visible thing that can be tapped.
+static func _seeds(host)->Array:
+	var ocean=host.ocean;var sim=host.sim;var touch:float=host.ui_touch_height
+	var out:Array=[]
+	if ocean==null or sim==null:return out
+	var rect:Rect2=Rect2(Vector2.ZERO,ocean.get_global_rect().size)
+	var world:Array=[]
+	for site in ocean.observable_sites():world.append(site.pos)
+	for row in ocean.Shelf.subject_rows(sim)+ocean.Concealed.subjects(sim):world.append(row.pos)
+	for target in preload("res://src/presentation/industrial_view.gd").targets(sim):world.append(target.pos)
+	if sim.mission.has("glass_reach"):world.append(sim.mission.glass_reach.work_pos)
+	var chain=ocean.WarningChain.context(sim)
+	if not chain.is_empty():
+		for station in chain.stations:world.append(station.pos)
+	for corridor in sim.extraction_corridors():world.append(corridor.pos)
+	for p in world:out.append(ocean.screen_position(p))
+	for marker in ocean.salvage_markers():out.append(marker.rect.get_center())
+	for label in ocean.label_targets:out.append(label.rect.get_center())
+	for presenter in [ocean.Shelf,ocean.Recipient,ocean.Rendezvous]:
+		for marker in presenter.markers(ocean,sim,touch):out.append(marker.rect.get_center())
+	for box in ocean.objective_touch_rects(touch):out.append(box.get_center())
+	return out.filter(func(p):return rect.has_point(p))
+# The tappable objects now on the chart (not crafts or contacts): Array of context Dictionary, as the chooser would list them.
+static func objects(host)->Array:
+	var out:Array=[]
+	if host.ocean==null or host.sim==null:return out
+	var seen:Array=[]
+	for spot in _seeds(host):
+		for ctx in host.ocean.contexts_at(spot,host.ui_touch_height):
+			if ctx.kind in ["craft","contact","fleet","extraction"]:continue
+			var key:String="%s|%s|%s|%s"%[ctx.kind,str(ctx.get("name","")),str(ctx.get("station",ctx.get("item",ctx.get("index","")))),str(ctx.pos)]
+			if key in seen:continue
+			seen.append(key);out.append(ctx)
+	return out
+# The page a tap on this context opens (the chooser's own rule, mission_hud._open_target).
+static func _next_page(ctx:Dictionary)->String:
+	if ctx.get("subkind","")=="concealed":return "inspect"
+	match ctx.kind:
+		"habitat":return "habitat"
+		"plant":return "plant"
+		"objective":return "object"
+		"salvage":return "salvage"
+		"fleet":return "fleet"
+	return "craft"
+# The buttons of an object's wheel, read without opening it (subject and page are set for the read and put back).
+static func object_buttons(hud,ctx:Dictionary)->Array:
+	var kept_subject=hud.subject;var kept_page:String=hud.page
+	hud.subject=ctx.duplicate(true);hud.page=_next_page(ctx)
+	hud.refresh()
+	var out:Array=[]
+	for b in hud.command_controls():
+		if b is Button and is_instance_valid(b) and key_of(b)!="inspect" and key_of(b)!="route_here":out.append(b)
+	var rows:Array=out.map(func(b):return {"label":label_of(b),"enabled":not b.disabled,"reason":reason_of(b),"key":key_of(b)})
+	hud.subject=kept_subject;hud.page=kept_page
+	hud.refresh()
+	return rows
+# state: [{object,kind,controls:[{label,enabled,reason?}]}] for the visible objects that have buttons beyond ROUTE HERE / INSPECT.
+static func object_pages(host)->Array:
+	var hud=host.mission_hud
+	var out:Array=[]
+	if hud==null:return out
+	for ctx in objects(host):
+		var rows:Array=[]
+		for r in object_buttons(hud,ctx):
+			var row:Dictionary={"label":r.label,"enabled":r.enabled}
+			if not r.enabled:row["reason"]=r.reason
+			rows.append(row)
+		if not rows.is_empty():out.append({"object":str(ctx.get("name",ctx.kind)),"kind":str(ctx.kind),"controls":rows})
+	return out
+# Press a button on an object's wheel. {} when nothing was found and no object was named (the caller reports its own miss).
+static func _press_object(host,hud,request:Dictionary,craft:int,wanted:String,quiet:bool)->Dictionary:
+	var named:String=_norm(request.get("object",""))
+	var hits:Array=[];var every:Array=[]
+	for ctx in objects(host):
+		var name:String=_norm(ctx.get("name",""))
+		if not named.is_empty() and not name.contains(named):continue
+		for r in object_buttons(hud,ctx):
+			var label:String=_norm(r.label)
+			var entry:Dictionary={"ctx":ctx,"object":str(ctx.get("name","")),"key":r.key,"label":r.label,"enabled":r.enabled,"reason":r.reason}
+			every.append("%s > %s%s"%[entry.object,entry.label,"" if entry.enabled else " (greyed out)"])
+			if label==wanted or r.key.to_upper()==wanted or label.contains(wanted):hits.append(entry)
+	if hits.is_empty():
+		if quiet and named.is_empty():return {}
+		return {"ok":false,"order":"control","refusal":"No object wheel button reads %s%s"%[wanted," on an object named %s"%named if not named.is_empty() else ""],"message":"","available":every}
+	var exact:Array=hits.filter(func(e):return _norm(e.label)==wanted or e.key.to_upper()==wanted)
+	if not exact.is_empty():hits=exact
+	if hits.size()>1:
+		var live:Array=hits.filter(func(e):return e.enabled)
+		if request.has("index"):
+			var i:int=int(request.index)
+			if i<0 or i>=hits.size():return {"ok":false,"order":"control","refusal":"index %d: only %d object button(s) read %s"%[i,hits.size(),wanted],"message":""}
+			hits=[hits[i]]
+		elif live.size()==1:hits=live
+		else:return {"ok":false,"order":"control","refusal":"More than one object button reads %s: name the object with object, or add index 0 to %d"%[wanted,hits.size()-1],"message":"","candidates":hits.map(func(e):return "%s > %s"%[e.object,e.label])}
+	var pick:Dictionary=hits[0]
+	_select(host,craft)
+	hud.dismiss()
+	hud._open_target(pick.ctx.duplicate(true)) # as the chooser's own choice does
+	await _settle(host)
+	var button:Button=null
+	for b in hud.command_controls():
+		if b is Button and key_of(b)==pick.key and b.is_visible_in_tree():button=b;break
+	if button==null:
+		hud.dismiss();return {"ok":false,"order":"control","refusal":"%s is not shown on %s's wheel just now"%[pick.label,pick.object],"message":""}
+	if button.disabled:
+		var reason:String=reason_of(button);var shown:String=label_of(button)
+		hud.dismiss()
+		return {"ok":false,"order":"control","refusal":"%s is greyed out: %s"%[shown,reason],"message":"","object":pick.object}
+	var label:String=label_of(button);var taps:int=1
+	hud.segments.tap(hud,button)
+	if hud.segments.is_armed(button):hud.segments.tap(hud,button);taps=2
+	await _settle(host)
+	var out:Dictionary={"ok":true,"order":"control","pressed":label,"object":pick.object,"taps":taps,"craft":host.sim.units[craft].name,"message":_clean(host.sim.message)}
+	if host.advanced_orders:hud.dismiss() # the object's wheel closes after its action
 	return out
