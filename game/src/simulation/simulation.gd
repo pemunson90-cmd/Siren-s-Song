@@ -751,7 +751,7 @@ func _camera_context_base() -> Dictionary:
 			# Several subjects in reach: the one the craft is turned toward is framed.
 			var aim_score:float=absf(angle_difference(unit.angle,unit.pos.angle_to_point(objective.pos)))+d/2000.0
 			if best<0:best=id;best_score=aim_score
-			elif Photo.applies(objective) and Photo.applies(mission.objectives[best]) and aim_score<best_score:best=id;best_score=aim_score
+			elif Photo.applies(objective) and Photo.applies(mission.objectives[best]) and _framed_over(objective,mission.objectives[best],aim_score,best_score):best=id;best_score=aim_score # WP-171
 	if best<0 and reshoot>=0:best=reshoot
 	if best<0 and (nearest<0 or not Operations.own_origin(mission.objectives[nearest])):
 		var sighted=Photo.siren_candidate(self,selected)
@@ -786,7 +786,34 @@ func _camera_context_base() -> Dictionary:
 		for r in framed.rows:
 			if r.id in target.subject.get("required",[]) and not r.ready and not r.why.is_empty():weak.append("%s %s"%[r.label,r.why.to_lower()])
 		if not weak.is_empty():hint+=" · WILL NOT RESOLVE: "+", ".join(weak)
+	hint+=_unsighted_required_hint(best) # WP-171
 	return {"target":best,"ready":true,"text":"READY · %s · %s %.0fs%s"%[Photo.label(target),"FIELD SAMPLE · AUDIBLE" if not Sampler.capture_spec(selected,mission.get("launch_equipment",{}),target).is_empty() else "passive listen" if target.get("kind","")=="receiver" else "TRANSMIT · AUDIBLE" if Operations.own_origin(target) else "exposure",_capture_duration(target,selected),hint]}
+# WP-171: an optional subject can be READY while a required one beside it has not been sighted yet (an unknown is sighted only when the bow faces it
+# inside its sight distance). Say so on the strip, so the player knows why the camera is not on the required subject and what to do.
+func _unsighted_required_hint(target_id:int) -> String:
+	var target=mission.objectives[target_id]
+	if not target.get("optional",false):return ""
+	var unit=units[selected]
+	for other in mission.objectives:
+		if other.get("optional",false) or other.captured or not other.get("unknown",false) or other.get("sighted",false) or not other.has("lead"):continue
+		if unit.pos.distance_to(other.pos)<=float(other.lead.get("sight",170.0))+60.0:
+			return " · %s close by: turn the bow toward the dashed area to sight it"%str(other.get("alias","another subject")).to_upper()
+	return ""
+# WP-171: which of two photo subjects in reach is framed. A required subject whose prerequisites are met wins over an optional one;
+# the optional one is taken only when the craft is turned clearly toward it (within 15 deg) and away from the required one (over 30 deg).
+func _framed_over(challenger:Dictionary,held:Dictionary,challenger_score:float,held_score:float) -> bool:
+	var c_opt:bool=challenger.get("optional",false);var h_opt:bool=held.get("optional",false)
+	if c_opt==h_opt:return challenger_score<held_score
+	var unit=units[selected]
+	var aim_c:float=absf(angle_difference(unit.angle,unit.pos.angle_to_point(challenger.pos)))
+	var aim_h:float=absf(angle_difference(unit.angle,unit.pos.angle_to_point(held.pos)))
+	var optional_aim:float=aim_c if c_opt else aim_h
+	var required_aim:float=aim_h if c_opt else aim_c
+	var required:Dictionary=held if c_opt else challenger
+	for prerequisite in required.get("requires",[]):
+		if not mission.objectives[prerequisite].captured:return c_opt # required subject is not available yet: the optional one may be framed
+	if optional_aim<0.26 and required_aim>0.52:return c_opt
+	return not c_opt
 # Well-specific optional comparison. Own motion and local reception only;
 # no Siren query, extra acoustic source or forced enemy intent.
 func _well_signature_observe() -> void:

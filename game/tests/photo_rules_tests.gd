@@ -165,5 +165,24 @@ func _initialize():
 	var bare=fresh(1);bare.sirens=[]
 	for obj in bare.mission.objectives:obj.captured=true
 	check(bare.all_records(),"the seam does not gate completion")
+	# 7 / WP-171: in operation 4 a required subject in reach is framed before the optional hatch bay beside it.
+	var foundry=fresh(3);foundry.sirens=[]
+	var cradle=foundry.mission.objectives[1];var bay_id:int=foundry.mission.objectives.size()-1
+	var bay=foundry.mission.objectives[bay_id]
+	foundry.mission.objectives[0].captured=true
+	check(bay.get("optional",false) and not cradle.get("optional",false),"the cradle is required and the hatch bay optional")
+	foundry.units[0].pos=Vector2(1400,860);foundry.units[0].vel=Vector2.ZERO;foundry.units[0].angle=deg_to_rad(-45.0)
+	bay["sighted"]=true
+	var unsighted:=foundry.camera_context()
+	check(str(unsighted.get("text","")).contains("turn the bow toward the dashed area"),"READY on the optional bay says the required cradle is close but not yet sighted (got %s)"%str(unsighted))
+	cradle["sighted"]=true
+	foundry.units[0].angle=deg_to_rad(-86.0) # bow midway between them, the bay a little nearer
+	var between:=foundry.camera_context()
+	check(between.get("target",-9)==1,"approaching with both in reach, the required cradle is framed, not the optional bay (got %s)"%str(between))
+	foundry.units[0].angle=deg_to_rad(-45.0) # bow turned deliberately at the bay, away from the cradle
+	check(foundry.camera_context().get("target",-9)==bay_id,"turned clearly at the optional bay, it can still be photographed deliberately (got %s)"%str(foundry.camera_context()))
+	foundry.mission.objectives[0].captured=false
+	foundry.units[0].angle=deg_to_rad(-86.0)
+	check(foundry.camera_context().get("target",-9)==bay_id,"with the vent record missing the cradle is not available, so the optional bay is framed (got %s)"%str(foundry.camera_context()))
 	print("PHOTO RULES CHECKS ",checks," FAILURES ",failures)
 	quit()

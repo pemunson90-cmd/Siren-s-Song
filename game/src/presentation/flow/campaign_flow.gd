@@ -233,7 +233,7 @@ static func briefing(host, index: int) -> void:
 	,"begin")
 	begin.disabled=not EconomyPanel.can_begin(host)
 	if compact:
-		if not begin.disabled:begin.text="DIVE\nPAUSED"
+		# WP-171: the compact label "DIVE PAUSED" read as an already-paused dive; begin_text keeps the full wording.
 		manual_control.text="FIELD\nMANUAL"
 		if fold_control!=null:fold_control.text=fold_text(true,host.get_meta("onboard2_fit_open",false))
 		for control in [manual_control,fold_control]:
