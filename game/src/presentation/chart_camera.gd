@@ -23,7 +23,9 @@ var scale:=1.0
 var offset:=Vector2.ZERO
 func configure(dimensions:Vector2,bounds:Vector2=WORLD,origin:Vector2=Vector2.ZERO) -> void:
  view_size=dimensions.max(Vector2.ONE);view_origin=origin;world_size=bounds.max(Vector2.ONE);_update()
-func fit_scale() -> float:return minf(view_size.x/world_size.x,view_size.y/world_size.y)
+# WP-157: the whole chart fits the area the panel and strip leave (overview too), so the staged craft is never framed under the viewfinder dock.
+func fit_scale() -> float:
+ var area:=_focus();return minf(maxf(area.x,1.)/world_size.x,maxf(area.y,1.)/world_size.y)
 func _update() -> void:
  if mode=="overview":desired_center=world_size/2;zoom=1.
  # Retain tactical follow magnification, capped so a tall viewport's narrow
@@ -36,7 +38,7 @@ func _update() -> void:
  _center=Vector2(world_size.x/2 if half.x>=world_size.x/2 else clampf(desired_center.x,half.x,world_size.x-half.x),world_size.y/2 if half.y>=world_size.y/2 else clampf(desired_center.y,half.y,world_size.y-half.y))
  offset=view_origin+focus/2-_center*scale
 # The area the view is centred in: the whole chart in overview, the chart minus the panel's lane when following or free.
-func _focus() -> Vector2:return view_size-(Vector2.ZERO if mode=="overview" else Vector2(follow_reserve,minf(follow_bottom,view_size.y*.5)))
+func _focus() -> Vector2:return view_size-Vector2(follow_reserve,minf(follow_bottom,view_size.y*.5))
 func follow(point:Vector2) -> void:
  mode="follow";desired_center=point;_update()
 func fit() -> void:
