@@ -169,6 +169,9 @@ const TEXT={
 	"next_slow": "NEXT: slow Quietus under %d m/s to recover",
 	"opening_prefix": "Drones aboard.",	# simulation.gd's launch message; the strip leaves it out while a NEXT line exists
 	"next_keep": ["Depth change", "Investigation heard", "RAW BUFFER aboard"],	# situational standing lines that stay in place of NEXT
+	# WP-149: the header air chip (air_chip.gd): "AIR" over the time left; "AIR LOW" under a quarter of a tank.
+	"air": "AIR",
+	"air_low": "AIR LOW",
 }
 static func lock_broken(siren_ids:Array)->String:
 	return TEXT.lock_broken%", ".join(siren_ids.map(func(id):return preload("res://src/simulation/siren_tag.gd").tag(int(id))))
