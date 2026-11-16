@@ -19,8 +19,8 @@ foreach ($row in Get-Content game\tests\suites.txt) {
     $f = $row.Split('|')
     if ($f.Count -lt 5 -or $f[4] -ne 'render') { continue }
     if ($skip.ContainsKey($f[0])) { "$($f[0]) :: SKIPPED ($($skip[$f[0]]))" | Out-File -FilePath $Out -Append -Encoding utf8; continue }
-    # Some render suites run for about eight minutes (ops_home_ui_tests); the runner's default limit is 480 s.
-    # WP-142: a suite that measures real rendering prints only 'Native renderer required' headless, so it runs in a window.
+    # Some render suites run for about eight minutes (a retired suite once did); the runner's default limit is 480 s.
+    # WP-142 (WP-143: art_render_measurements is retired, the list is kept for a future one): a suite that measures real rendering prints only 'Native renderer required' headless, so it runs in a window.
     # Root: only the suites that need a native renderer open a window; the rest stay headless as before.
     if ($f[0] -in @('art_render_measurements')) {
         $r = & scripts\toolchain\win\headless.ps1 -Action Script -Script $f[0] -Prefix $f[1] -Windowed -TimeoutSec 1700 2>&1

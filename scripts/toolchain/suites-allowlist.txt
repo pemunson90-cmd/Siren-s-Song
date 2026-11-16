@@ -4,3 +4,10 @@
 # Format: one suite name per line, optionally "name | reason". "#" starts a comment.
 # scripts/toolchain/check-suites.py fails on any unregistered entry-point not listed here.
 # At claude/integration ad841f6 no such file exists, so the list is empty.
+# WP-143: suites retired 15 Nov (Pat's ruling, game/tests/retired_suites.txt) whose script a kept suite or tool still loads stay in place.
+fix2_menu_ui_tests | retired; extended by save2_ui_tests
+status_text_ui_tests | retired; extended by stable_board_ui_support
+density_scenarios | retired; run by scripts/toolchain/density-checks.sh
+density_menu_scenarios | retired; run by scripts/toolchain/density-checks.sh
+density_scroll_scenarios | retired; run by scripts/toolchain/density-checks.sh
+metrics_transport_tests | retired; run by scripts/toolchain/density-checks.sh
