@@ -52,7 +52,7 @@ func capture_case(shape:Vector2i):
  await picture("%d-craft"%shape.x)
  print("STABLE GEOMETRY ",shape," size=",hud.size," h=",hud.touch_height," dock=",hud.order_dock.get_rect()," scroll=",hud.order_dock_scroll.get_rect()," actions=",hud.command_controls().map(func(b):return [b.get_meta("action"),b.get_rect()]))
  if not baseline:
-  check(ocean.screen_position(sim.units[0].pos).distance_to(camera[0])<.1 and is_equal_approx(ocean.world_scale,camera[1]),"panel opening preserves chart transform "+str(shape))
+  check(ocean.screen_position(sim.units[0].pos).distance_to(camera[0])<.1 and is_equal_approx(ocean.world_scale,camera[1]),"panel opening preserves chart transform "+str(shape)+" before "+str(camera)+" after "+str([ocean.screen_position(sim.units[0].pos),ocean.world_scale,ocean.status_floor,ocean._strip_reserve]))
   var protected=hud.threat_rects()
   for rect in protected:
    check(not hud.order_dock.get_rect().intersects(rect),"dock clears threat/lock stack "+str(shape))

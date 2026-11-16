@@ -250,11 +250,12 @@ func open(next:String="craft",context:Dictionary={}):
  page=next;instruments_open=page in ["inspect","signals"]
  if page=="object" and WorkTask.pinnable(subject):task=WorkTask.pin(host.sim,subject)
  if page=="inspect" and subject.get("subkind","")=="concealed":sheet_scroll.scroll_vertical=0
+ host.ocean.panel_open=true # WP-141: hold the chart's strip reserve while a panel is open
  host.advanced_orders=true;host._layout()
 func dismiss():
  tool_help.cancel()
  draining_popup=not owned_touches.is_empty()
- host.map_gesture.cancel();host.knock_press.clear();popup_gesture.cancel();sheet_pointers.clear();sector_press=null;segments.disarm();host.advanced_orders=false;instruments_open=false
+ host.map_gesture.cancel();host.knock_press.clear();popup_gesture.cancel();sheet_pointers.clear();sector_press=null;segments.disarm();host.advanced_orders=false;host.ocean.panel_open=false;instruments_open=false
  page="craft"  # WP-108: a closed wheel forgets its page, so the next craft tap can only open the root
  anchor_held=false  # WP-130
  host._layout()

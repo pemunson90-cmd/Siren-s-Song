@@ -67,6 +67,7 @@ var world_label_rects:Array=[]
 var card_rects:Array=[]
 var _strip_sim=null
 var _strip_reserve:=0.
+var panel_open:=false # WP-141: set by mission_hud while a panel page is open
 var notice_rects:Array=[]
 var label_targets:Array=[]
 # UI review B6: the contact whose card is open (-1 none); drawn with a bracket.
@@ -310,7 +311,8 @@ func _sync_camera() -> void:
 	# WP-129: a craft at the chart's bottom edge stays above the status strip. The reserve only grows within one dive, so a longer
 	# message never moves the chart under a tap.
 	if not is_same(_strip_sim,sim):_strip_sim=sim;_strip_reserve=0.
-	if status_floor>0.:_strip_reserve=maxf(_strip_reserve,size.y-status_floor)
+	# WP-141: while a panel is open the reserve holds, so opening one never moves the chart under the player's finger (it may grow again once the panel closes).
+	if status_floor>0. and not panel_open:_strip_reserve=maxf(_strip_reserve,size.y-status_floor)
 	chart_camera.follow_bottom=_strip_reserve
 	chart_camera.configure(chart.size,world_size(),chart.position)
 	if chart_camera.mode=="follow" and sim!=null:chart_camera.follow(sim.units[sim.selected].pos)
