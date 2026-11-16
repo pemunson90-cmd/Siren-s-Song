@@ -26,9 +26,9 @@ Status: LIVE (Pat, 15 Nov 2026: all open problems live here. Root adds an issue 
 
 ## Round 11-d (Campaign 04 to 06, report `_fable\critic-kits\r11-d\audit\d1\report.md`, head fd061d63)
 
-1. **Extraction silently refused when Quietus is not in MIDDLE** while the game says "Fleet recovery ready" (root confirmed `simulation.gd:377`). WP-161.
-2. **Blank "program" screen after a chart-stop card with a photo pending, dive unrecoverable** (tester, unverified). WP-162.
-3. Second drone "No drone is aboard to deploy" while DRONE B read ABOARD (tester, unverified). WP-162.
+1. FIXED WP-161 (da41f672): **Extraction silently refused when Quietus is not in MIDDLE** while the game says "Fleet recovery ready" (root confirmed `simulation.gd:377`). WP-161.
+2. RESOLVED WP-162 (play API only; planner has DONE · STAY PAUSED): **Blank "program" screen after a chart-stop card with a photo pending, dive unrecoverable** (tester, unverified). WP-162.
+3. FIXED WP-162 (f2bd5174): Second drone "No drone is aboard to deploy" while DRONE B read ABOARD (tester, unverified). WP-162.
 4. For Pat (rules/content): op 06 two Sirens lock Quietus at once at 26.4 s with Hunt DORMANT; op 05 drone A lost to a lock with no answer ("No answer in reach"); Siren rams cost 10 to 21% hull ("Hull strike against another hull · 58m/s · hull -21%"); rock not on the chart, so routes are found by single-point refusals.
 5. A depth order given while a lock card pauses the dive is dropped silently (tester, unverified).
 6. Photo grades mostly 38 to 53% C; "better: go round the subject" does not tell how (tester).
