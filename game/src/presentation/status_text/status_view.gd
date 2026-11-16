@@ -139,7 +139,7 @@ static func fit_grid(hud,_visible:Rect2)->void:
  hud.set_meta(GRID,true);hud.segments.sync(hud);fit_dock(hud)  # WP-130: sync re-seats the state lines the new row boxes lost
 static func fit_dock(hud)->void:
  var font=hud.instrument_info.get_theme_font_size("font_size")
- var caption=hud.host.sim.units[hud.host.sim.selected].name+" / "+("MORE TOOLS" if hud.page=="field_tools" else hud.page.to_upper().replace("_"," "))
+ var caption=hud.host.sim.units[hud.host.sim.selected].name+" / "+("MORE TOOLS" if hud.page=="field_tools" else "ORDERS" if hud.page=="craft" else hud.page.to_upper().replace("_"," "))  # WP-156: the craft page reads ORDERS (was CRAFT)
  hud.order_dock_context.text=""
  if hud.page=="craft" and hud.host.order_buttons.camera in hud.ring_buttons:
   hud.order_dock_context.text="\n".join(hud.camera_caption())

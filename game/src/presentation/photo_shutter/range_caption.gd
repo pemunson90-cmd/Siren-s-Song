@@ -7,7 +7,9 @@ extends RefCounted
 # REVERT: set `enabled` to false; the caption returns to "READY · 304m" exactly.
 const Photo=preload("res://src/simulation/photo_capture.gd")
 static var enabled:=true
-const TEXT:={"ready":"READY · ","not_ready":"NOT READY · ","site":"%dm\nREACH %dm","lead":"SEARCH AREA\nREACH %dm","old":"%dm","far":"m away / "}
+const Words=preload("res://src/presentation/hud_words.gd")
+# WP-156: the figures are labelled (was "READY · 150m" / "REACH 240m"): "READY · 150m away" / "CAMERA REACH 240m".
+const TEXT:={"ready":"READY · ","not_ready":"NOT READY · ","site":"%dm away\n"+Words.ORDER_NOTES.reach,"lead":"SEARCH AREA\n"+Words.ORDER_NOTES.reach,"old":"%dm","far":"m away / "}
 
 # WP-69: why the camera is not ready, in the simulation's own words (the first missing condition its context
 # reports). Empty when ready, or when the only reason is distance, which the caption's own figures already show.

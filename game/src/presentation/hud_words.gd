@@ -254,11 +254,14 @@ static func silent_label(sim)->String:
 		return TEXT.profile_low if not sim.units[sim.selected].silent else TEXT.profile_open
 	return TEXT.silent_on if sim.units[0].silent else TEXT.silent_off
 static func silent_state(sim)->String:
+	# WP-156: the second line is the consequence of the tap (was "low profile is on" / "open profile" / "silent is on" / "running loud").
+	var sight:=sights()
 	if sim.selected>0:
-		return TEXT.profile_state_low if sim.units[sim.selected].silent else TEXT.profile_state_open
-	return TEXT.silent_state_on if sim.units[0].silent else TEXT.silent_state_off
+		return ORDER_NOTES.drone_low_on%roundi(sight.open) if sim.units[sim.selected].silent else ORDER_NOTES.drone_low_off%roundi(sight.silent)
+	return ORDER_NOTES.quietus_silent_on%roundi(sight.open) if sim.units[0].silent else ORDER_NOTES.quietus_silent_off%roundi(sight.silent)
 # The small second line of a segment, by its action key. Empty for a segment that has none.
 static func state_line(key:String,sim)->String:
+	if key=="program" or key=="route_menu":return ORDER_NOTES[key]  # WP-156: PLAN ROUTE and ROUTE tell themselves apart
 	return silent_state(sim) if key=="silent" else ""
 # The cost lines shown in the wheel's centre for a segment, by its action key: while a finger is on it, and once
 # a two-tap segment is armed. Empty for a segment without a cost to show.
@@ -348,3 +351,18 @@ const SPEED={
 static func speed_text(speed:float,hunting:bool)->String:
 	if hunting and speed<=1.0:return SPEED.hunting
 	return SPEED.label%(str(roundi(speed)) if is_equal_approx(speed,roundf(speed)) else "%.2f"%speed)
+
+# WP-156: the craft order panel's second lines say what a tap does, not how things stand (critic, 15 Nov).
+# Silent figures are the same sight constants the centre caption shows (sights()).
+const ORDER_NOTES={
+	"quietus_silent_on": "faster · seen %d m",   # button reads GO LOUD
+	"quietus_silent_off": "slower · seen %d m",  # button reads GO SILENT
+	"drone_low_on": "seen %d m",                 # button reads GO OPEN
+	"drone_low_off": "seen %d m",                # button reads GO LOW PROFILE
+	"program": "waypoints · pauses",
+	"route_menu": "hold · stop · replace",
+	# Camera lines of the wheel centre and the dock: each fact is labelled.
+	"target": "TARGET: %s",
+	"away": "%dm away",
+	"reach": "CAMERA REACH %dm",
+}
