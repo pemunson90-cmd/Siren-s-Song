@@ -363,6 +363,8 @@ func _order(order: String,args: Dictionary={}) -> void:
 		if sim.selected==0 and sim.units[0].alive and sim.tools.get("knock",0)>0 and sim.outcome.is_empty(): knock_armed=not knock_armed
 		else: knock_armed=false; sim.message="Knockdown: Quietus launcher or torpedoes unavailable."
 		_refresh(); return
+	# WP-166: a depth change into a depth not yet charted at the craft's spot asks first (SEND ANYWAY / CANCEL), like the rock bar.
+	if order=="depth" and mission_hud!=null and mission_hud.guard!=null and mission_hud.guard.hold_depth(args): return
 	map_gesture.cancel()
 	var aiming=knock_armed;var aiming_decoy=decoy_armed
 	knock_armed=false; ocean.knock_targeting=false; decoy_armed=false; ocean.decoy_targeting=false

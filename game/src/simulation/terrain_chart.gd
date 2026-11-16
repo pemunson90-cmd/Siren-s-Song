@@ -135,6 +135,36 @@ func certify(cell:Vector2i)->bool:
  if not _inside(cell) or clear_cells.has(cell) or return_cells.has(cell):return false
  if not _water(_rect(cell).grow(CLEARANCE)):return false
  _clear(cell);return true
+# WP-166 (Pat, 16 Nov 2026): rock the game has already told the player about (a refused point, a blocked leg, a hull
+# strike) stays on the chart: it is added here, to the same return_cells the sensors fill, so it is drawn and saved like
+# any received rock. Only the nearest rock to what the player was told about is added, one cell; nothing else the
+# hidden shapes hold is read out. Returns true when a cell was added.
+func tell_rock(point:Vector2,reach:float=14.0)->bool:
+ var best:=reach+0.001;var at:=Vector2.ZERO;var found:=false
+ for shape in _shapes:
+  if Geometry2D.is_point_in_polygon(point,shape):best=0.0;at=point;found=true;break
+  for n in shape.size():
+   var near:Vector2=Geometry2D.get_closest_point_to_segment(point,shape[n],shape[(n+1)%shape.size()])
+   var gap:=point.distance_to(near)
+   if gap<best:best=gap;at=near;found=true
+ if not found:return false
+ var cell:=Vector2i((at/TILE).floor())
+ if not _inside(cell) or return_cells.has(cell):return false
+ _provisional.erase(cell);_return(cell);return true
+# WP-166: the first rock a straight leg a->b meets (the hull's own 12 m), as told by a blocked leg or a refusal.
+func tell_leg(a:Vector2,b:Vector2)->bool:
+ var count:=maxi(1,ceili(a.distance_to(b)/10.0))
+ for n in count+1:
+  var p:Vector2=a.lerp(b,float(n)/count)
+  if _rock_gap(p)<12.0:return tell_rock(p,13.0)
+ return false
+# WP-166: whether anything on the straight leg a->b is neither charted clear nor charted rock (nothing is read from the shapes).
+func leg_uncharted(a:Vector2,b:Vector2)->bool:
+ var count:=maxi(1,ceili(a.distance_to(b)/10.0))
+ for n in count+1:
+  var cell:=Vector2i((a.lerp(b,float(n)/count)/TILE).floor())
+  if not clear_cells.has(cell) and not return_cells.has(cell):return true
+ return false
 func _clear(cell:Vector2i)->void:
  if return_cells.has(cell) or clear_cells.has(cell):return
  clear_cells[cell]=true;generation+=1

@@ -386,6 +386,7 @@ static func _route(host,request:Dictionary,craft:int)->Dictionary:
 	guard.pending={} # a marker left open is superseded by this order, as a new tap moves it
 	var queue_before:bool=sim.queue_mode
 	var crosses:bool=false
+	var uncharted:bool=false
 	var done:=0
 	for i in points.size():
 		var p=_point(points[i])
@@ -394,6 +395,7 @@ static func _route(host,request:Dictionary,craft:int)->Dictionary:
 		var append:bool=(i>0) or (mode=="append" and not sim.units[craft].route.is_empty())
 		sim.queue_mode=append
 		if guard.leg_crosses_rock(p,append):crosses=true
+		if guard.leg_uncharted(p,append):uncharted=true # WP-166
 		var goals_before:Array=sim.route_goals(craft).map(func(g):return g.pos)
 		host._order("route",{"point":p}) # TRAVEL:water_leg WP-134: the critic kit places the same hand-set legs as a water tap
 		var goals:Array=sim.route_goals(craft)
@@ -405,6 +407,7 @@ static func _route(host,request:Dictionary,craft:int)->Dictionary:
 	sim.queue_mode=queue_before
 	var extra:={"craft":sim.units[craft].name,"points_accepted":done,"route":sim.route_goals(craft).map(func(g):return _v(g.pos))}
 	if crosses:extra["warning"]=HudWords.TEXT.rock_route
+	if uncharted:extra["warning_uncharted"]=HudWords.TEXT.unscanned_bar # WP-166: the game's own bar asks first on a tap; the order is sent as the second tap would
 	return _answer(true,"route",host,extra)
 # WP-136: does each leg of a would-be route cross charted rock? Plots nothing, moves nothing, spends no dive time. It asks the
 # call the game's own red leg uses (HandPilot.rock_point), so it knows only the rock the chart shows.
