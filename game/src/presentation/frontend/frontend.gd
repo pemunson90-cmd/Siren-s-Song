@@ -167,8 +167,12 @@ func _card(grid: Container) -> VBoxContainer:
 	# WP-151: a card fills a share of the page's height (the page was top-heavy on a tall screen), its content centred, and a tap anywhere on it presses its one button.
 	panel.custom_minimum_size.y = size.y * CARD_HEIGHT_SHARE; box.alignment = BoxContainer.ALIGNMENT_BEGIN	# WP-157: title at the top, its line under it (centred, the card had an empty band above the title)
 	panel.gui_input.connect(_card_input.bind(panel, box))
+	# WP-157: the card's title button and its line share the card's height (button above, line under it) so no band is left empty.
+	box.child_entered_tree.connect(func(child: Node) -> void:
+		if child is Button: child.size_flags_vertical = Control.SIZE_EXPAND_FILL; child.size_flags_stretch_ratio = 2.0
+		elif child is Label: child.size_flags_vertical = Control.SIZE_EXPAND_FILL; child.size_flags_stretch_ratio = 3.0)
 	return box
-const CARD_HEIGHT_SHARE := 0.37	# WP-157: was 0.31; two rows of cards now fill the page below the header on the tall screen
+const CARD_HEIGHT_SHARE := 0.34	# WP-157: was 0.31; two rows of cards now fill the page below the header on the tall screen
 const CARD_TAP_SLOP := 14.0
 var card_press := Vector2(-1e6, -1e6)
 # WP-151: a press and release on the card's own area (its text, its padding) with no drag between presses the card's button, when the card has exactly one.
