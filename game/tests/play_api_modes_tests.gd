@@ -107,6 +107,46 @@ func run():
 		var hit=await Api.order(game,{"order":"tool","tool":"knock","target":1})
 		check(hit.ok,"a torpedo at target 1 (S1) is accepted when the sim lists S1 as clear: "+str(hit.get("refusal","")))
 	game.queue_free();await settle()
+	# --- WP-173: the lock card's decoy marker is in state, a bare decoy order drops there, run will not slide past an open lock card ---
+	game=await make()
+	check((await Api.order(game,{"order":"start","operation":1})).ok,"campaign operation 1 starts for the lock-card check")
+	sim=game.sim;q0=sim.units[0].pos
+	var Names=preload("res://src/names.gd")
+	sim.mission.tool_racks[Names.CRAFT_IDS[0]]["decoy"]=3
+	var s_lock=sim.sirens[0]
+	s_lock.pos=q0+Vector2(120,0);s_lock.band=int(sim.units[0].band);s_lock.transition={};s_lock.stun=0.0;s_lock.mode="LOCKING";s_lock.lock=2.0;s_lock.target=0
+	sim.contacts[0]={"pos":s_lock.pos,"time":sim.elapsed,"mode":"LOCKING","lock":2.0,"angle":0.0,"target":0,"type":"patroller","band":int(sim.units[0].band),"transition":{},"source":"optical","confidence":1.0,"seen_by":[]}
+	game._refresh();await settle()
+	var card:Dictionary={}
+	for p in Api.state(game).prompts:
+		if p.kind=="lock":card=p
+	check(not card.is_empty(),"the injected lock opens a lock card in state")
+	if not card.is_empty():
+		check(not card.has("decoy_point"),"before DECOY is armed the lock card names no decoy point")
+		var clock0:float=sim.elapsed
+		var held=Api.run(game,{"seconds":5.0})
+		check(not held.ok and held.get("stopped","")=="lock_card_open" and str(held.refusal).contains("insist") and is_equal_approx(sim.elapsed,clock0),"run is refused while a lock card is open, and says how to override: "+str(held.get("refusal","")))
+		var armed=await press(game,"DECOY")
+		await settle()
+		card={}
+		for p in Api.state(game).prompts:
+			if p.kind=="lock":card=p
+		check(armed.ok and game.decoy_armed,"answering DECOY arms the decoy: "+str(armed.get("refusal","")))
+		if game.decoy_marker!=Vector2.INF:
+			check(card.has("decoy_point") and card.decoy_point.size()==2,"armed from the lock card, state gives decoy_point")
+			var marked:Vector2=game.decoy_marker
+			var dropped=await Api.order(game,{"order":"tool","tool":"decoy"})
+			check(dropped.ok and dropped.left==2 and sim.noises.any(func(n):return n.pos.distance_to(marked)<1.0),"order tool decoy with no point drops at the marker: "+JSON.stringify(dropped).substr(0,300)+" noises "+str(sim.noises)+" marker "+str(marked))
+		else:
+			check(false,"the lock card's decoy marker exists for the injected lock")
+	# A drone's own rack holds no decoy: the refusal names the drone, not 'left'.
+	check((await Api.order(game,{"order":"deploy"})).ok or true,"deploy for the drone check")
+	game.decoy_armed=false
+	sim.mission.tool_racks[Names.CRAFT_IDS[1]]["decoy"]=0
+	var drone_refused=await Api.order(game,{"order":"tool","tool":"decoy","craft":"DRONE A","point":[q0.x-80,q0.y]})
+	check(not drone_refused.ok and str(drone_refused.refusal).contains("carries no decoy") and not str(drone_refused.refusal).contains("left"),"a drone with no decoy in its rack is refused by name: "+str(drone_refused.get("refusal","")))
+	check(Api.state(game).tools.has("by_craft") and Api.state(game).tools.by_craft.has("QUIETUS"),"state.tools.by_craft lists each craft's own rack")
+	game.queue_free();await settle()
 	# --- WP-170: the Route Map reads and answers like any screen ---
 	game=await make()
 	check((await press(game,"START GAME")).ok and (await press(game,"CAMPAIGN")).ok,"START GAME, CAMPAIGN opens the Campaign screen")
