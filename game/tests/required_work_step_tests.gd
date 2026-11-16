@@ -127,6 +127,16 @@ func _init():
  s.mission.objectives.append({"site_id":"warning_reply","name":"LOCAL WARNING ACKNOWLEDGEMENT","pos":Vector2(1840,440),"captured":true})
  step=show(s,"13 acknowledged, no course")
  check(step.text.contains("EXPOSED or SHELTERED") and not step.text.contains("search"),"13: acknowledged: launch the recipient (EXPOSED or SHELTERED)")
+ # WP-182: the recipient's wheel takes the job slot only when no job is in reach; at the pickup the slot stays the listen.
+ var RecipientView=load("res://src/presentation/warning_recipient_view.gd")
+ s.mission.warning_recipient.seen={"pos":Vector2(1840,500),"angle":0.0,"hull":100.0,"alive":true,"phase":"moored","time":0.0}
+ check(not RecipientView.primary_subject(s).is_empty() and RecipientView.primary_subject(s).subkind=="warning_recipient","13: acknowledged, no job in reach: the recipient's controls own the slot")
+ var pickup=s.mission.objectives.filter(func(o):return o.site_id!="warning_reply" and o.site_id!="warning_transmission")
+ if pickup.is_empty():check(false,"13: a pickup objective exists")
+ else:
+  s.units[0].pos=pickup[0].pos;s.units[0].vel=Vector2.ZERO;s.units[0].band=1
+  var held=s.camera_context()
+  check(held.get("ready",false) and RecipientView.primary_subject(s).is_empty(),"13: at the pickup with the listen ready: the recipient does not take the job slot")
  s.mission.warning_recipient.course="exposed"
  step=show(s,"13 launch under way")
  check(step.text.contains("watch the WARNING RECIPIENT arrive"),"13: under way: watch it arrive")
