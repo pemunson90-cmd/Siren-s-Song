@@ -73,6 +73,12 @@ func _initialize():
  depart.units[0].pos=depart.mission.extraction;depart.units[0].vel=Vector2.ZERO;advance(depart,Sim.STEP)
  check(depart.departure_context().pending and depart.command("depart",{"confirm":true}) and depart.outcome=="won","re-entering recovery asks again and explicit departure completes the ordinary objective")
  check(depart.module_recovery_status().result.lost==["drone_sampler","drone_deep_cells"],"departure records only actually launched modules left behind")
+ # WP-161: at the mouth but not in MIDDLE, recovery is NOT reported ready; the game says to change depth and says so on CONFIRM.
+ var deep=fresh();for o in deep.mission.objectives:o.captured=true
+ deep.units[0].pos=deep.mission.extraction;deep.units[0].vel=Vector2.ZERO;deep.units[0].band=2;deep.units[0].last_band=2;advance(deep,Sim.STEP)
+ var deep_context=deep.departure_context();deep.message=""
+ check(not deep_context.available and deep_context.get("reason","")=="depth" and deep_context.text.contains("MIDDLE") and deep_context.text.contains("rise"),"Quietus at the mouth in DEEP is told to rise to MIDDLE, not that recovery is ready")
+ check(not deep.command("depart",{"confirm":true}) and deep.message.contains("MIDDLE") and deep.outcome.is_empty(),"CONFIRM at the mouth outside MIDDLE explains instead of doing nothing")
  var changed=fresh();for o in changed.mission.objectives:o.captured=true
  advance(changed,Sim.STEP);changed.command("depart",{"confirm":false});changed.units[1].battery=0;advance(changed,Sim.STEP)
  check(changed.departure_context().pending,"a newly lost carrier changes the recovery decision after prior deferral")
