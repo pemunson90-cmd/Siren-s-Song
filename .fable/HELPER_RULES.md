@@ -6,6 +6,7 @@ Run `overhaul-20261111`, game Siren's Song (Godot 4.6.3, GDScript, game in `game
 
 ## Where you work
 - Your first command creates your worktree from the run clone: `cd "<run clone>" && git worktree add .claude/worktrees/<branch> -b <branch> <base SHA from the brief>`. Work and commit only there.
+- A critic kit must live outside the repository (`kit.py new` refuses one inside it): use `C:\Users\Archi\Documents\Claude Cowork Homebase C\repos\_fable\critic-kits\<name>`. Critics give their report in the final reply; root saves it (a helper's Write of a report file is refused).
 - Never touch the other clone `repos\Siren-s-Song`, the run clone's own files, or `.claude/worktrees/sweep` (full test sweeps run there).
 - Commit on your branch with `git commit -m` only. Do not push, merge, or open or close pull requests. Root merges.
 
