@@ -589,6 +589,7 @@ func layout(bounds:Vector2,h:float):
 # Its complete status grows upward; the chart reserves the space beside it.
 func _fit_intent():
  if intent==null or not intent.visible or size.x<=0:return
+ intent.text=Words.glue_units(intent.text)  # WP-153: a number and its unit never wrap apart
  var font=intent.get_theme_font_size("font_size");var line=ceili(intent.get_theme_font("font").get_height(font))
  var wide=maxf(1.,host.ocean.chart_width()-32)
  intent.custom_minimum_size.x=wide;intent.size.x=wide
@@ -779,7 +780,7 @@ func refresh():
  AirChip.sync(self)  # WP-149
  host.advanced_button.text="FLEET";plate(host.advanced_button,UiStyle.NORMAL)
  focus_button.text="FOLLOW" if host.ocean.chart_camera.mode=="follow" else "FOCUS"
- var current=host.targeting_feedback if not host.targeting_feedback.is_empty() else "DECOY · TAP CLEAR WATER ≤160m · TAP CANCEL" if host.decoy_armed else "TORPEDO · TAP FRESH CONTACT · TAP CANCEL" if host.knock_armed else RouteNotes.home_step(sim,strip_message.current(sim))  # WP-118: the record is secured and Quietus has no route: say how to send it home
+ var current=host.targeting_feedback if not host.targeting_feedback.is_empty() else (Words.TEXT.decoy_strip_marker if host.decoy_marker!=Vector2.INF else "DECOY · TAP CLEAR WATER ≤160m · TAP CANCEL") if host.decoy_armed else "TORPEDO · TAP FRESH CONTACT · TAP CANCEL" if host.knock_armed else RouteNotes.home_step(sim,strip_message.current(sim))  # WP-118: the record is secured and Quietus has no route: say how to send it home
  # WP-128: where the opening tutorial sentence would push the NEXT line off a two-line strip, the sentence (the tip card teaches the same) gives way.
  current_message=current;strip_standing="";strip_idle=""
  intent.text="%s · %s"%[sim.units[sim.selected].name+" · "+sim.Depth.NAMES[sim.units[sim.selected].band],guard.tap_mode_text()]+(" · "+current if not current.is_empty() else "") # WP-127: the tap mode, not the old TAPS switch
@@ -1102,7 +1103,7 @@ func _draw():
  elif subject.get("subkind","")=="rendezvous_hull":
   var hull=Rendezvous.projection(host.sim).hull
   if not hull.is_empty():caption=str(hull.phase).to_upper()+" · LOCAL FIX" if hull.live else "STALE · %ds AGO"%floori(hull.age)
- var lines=[title,caption]
+ var lines=[title,caption] if page!="choose" else []  # WP-153: the chooser asks which craft; its heading does not name one
  var optional:Array=[]  # lowest priority first: dropped, not shrunk, when the lines do not fit at the reading floor
  if page=="acoustics":
   var carry=acoustics_carry_caption()
@@ -1129,7 +1130,7 @@ func _draw():
  if page in ["object","salvage","plant","habitat"]:
   var work=WorkTask.captions(host.sim,subject);lines.append_array(work);optional.append_array(work)
  if page=="choose":lines.append(Words.choose_prompt(target_choices))
- optional.append(caption)  # the page's own heading goes last of all
+ if page!="choose":optional.append(caption)  # the page's own heading goes last of all
  lines=StatusView.captions(self,lines)
  # WP-36: each line wraps to the disc's chord at its own height, then the type shrinks until every line lies inside the disc.
  var radii=(ring_radius-h*.7)*(get_meta(StatusView.AXES)/ring_radius if has_meta(StatusView.AXES) else Vector2.ONE)
