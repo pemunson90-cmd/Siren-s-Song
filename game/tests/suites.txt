@@ -147,3 +147,4 @@ route_tap_flow_ui_tests|ROUTE TAP FLOW UI|-|2340|render
 told_rock_chart_tests|TOLD ROCK|-|2350
 blocker_candidates_tests|BLOCKER CANDIDATES|-|2360
 required_work_step_tests|REQUIRED WORK|-|2370
+chart_stop_card_tests|CHART STOP CARD|-|2380|render

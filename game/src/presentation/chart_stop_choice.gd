@@ -9,6 +9,8 @@ extends Control
 # Revert: remove the install/refresh lines in mission_hud.gd and this file.
 const NEW_EDGE=Color("ffcf6e")
 const NEAR_METRES=700.0
+const Words=preload("res://src/presentation/hud_words.gd")
+const RouteProgram=preload("res://src/simulation/route_program.gd")
 var host
 var panel:PanelContainer
 var prompt:Label
@@ -19,6 +21,10 @@ var decided:Dictionary={}
 var stopped:Dictionary={}
 var mission_ref:Dictionary={}
 var fresh:Array=[]
+# WP-181: a stop the player has answered (REPLAN, or CONTINUE that could not be flown) does not re-open the card; it
+# stays closed until the craft leaves the stop (a new order) and holds at another one.
+var answered:Dictionary={}
+var safe_key:String="";var safe_value:=true
 func setup(owner)->void:
  host=owner;mouse_filter=Control.MOUSE_FILTER_IGNORE
  set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -48,10 +54,23 @@ func _known_keys()->Dictionary:
 # The retained intent this panel offers to continue; empty when there is nothing to keep.
 func retained_goals()->Array:
  var sim=host.sim;var u=sim.units[sim.selected]
- if not u.alive or not u.has("chart_stop") or not sim.outcome.is_empty():return []
+ if not u.alive or not u.has("chart_stop") or not sim.outcome.is_empty() or answered.get(sim.selected,false):return []
  return sim.route_goals().duplicate(true)
 func active()->bool:
  return host!=null and host.sim!=null and not host.advanced_orders and not retained_goals().is_empty()
+# WP-181: whether the kept goals still compile through charted water (the compile CONTINUE would run); cached per chart state.
+func compile_ok(from:Vector2,goals:Array)->bool:
+ var sim=host.sim
+ # The same finder _install_program uses: straight legs in release play, the charted-water pathfinder in dev missions.
+ var finder:Callable=sim.player_path
+ if sim.HandPilot.release(sim):finder=func(a,b):return sim.HandPilot.straight(sim,a,b)
+ return RouteProgram.valid_goals(goals,sim.world_size()) and RouteProgram.compile(from,goals,finder,sim.world_size()).ok
+func course_safe(goals:Array)->bool:
+ var sim=host.sim;var u=sim.units[sim.selected]
+ var k="%d|%d,%d|%d|%d|%s"%[sim.selected,roundi(u.pos.x),roundi(u.pos.y),_faces().size(),goals.size(),str(goals.back().pos)]
+ if k!=safe_key:
+  safe_key=k;safe_value=compile_ok(u.pos,goals)
+ return safe_value
 func continue_course()->void:
  var goals=retained_goals()
  if goals.is_empty():return
@@ -59,10 +78,14 @@ func continue_course()->void:
  decided[id]={"keys":_known_keys()}
  # Same retained goals and hold through the ordinary order path; compiling uses only charted water.
  host._order("order_undo",{"goals":goals,"hold":u.hold})
- if not sim.units[id].has("chart_stop"):sim.message="%s · continuing to the retained destination through charted water"%u.name
+ # WP-181: the kept course could not be flown (rock): close the card and say what to do, instead of asking again.
+ if sim.units[id].has("chart_stop"):
+  answered[id]=true;sim.message=Words.CHART_STOP_WORDS.refused
+ else:sim.message="%s · continuing to the retained destination through charted water"%u.name
  host._refresh()
 func replan()->void:
  if retained_goals().is_empty():return
+ answered[host.sim.selected]=true # WP-181: leaving the planner without a new course returns to the dive with the card closed
  decided[host.sim.selected]={"keys":_known_keys()}
  host._order("program")
 # Faces measured near the stopped craft since its previous decision at a chart stop.
@@ -78,20 +101,23 @@ func blocks(point:Vector2)->bool:
  return panel.visible and panel.get_global_rect().has_point(point)
 func refresh(bounds:Vector2,h:float,font:int,floor_y:float,clear:bool)->void:
  var sim=host.sim
- if not is_same(mission_ref,sim.mission):mission_ref=sim.mission;decided.clear();stopped.clear()
+ if not is_same(mission_ref,sim.mission):mission_ref=sim.mission;decided.clear();stopped.clear();answered.clear()
  # A craft's baseline is the chart when it last left a stop (any order the player gave,
  # including a manual replot) or when it was first seen, so the opening chart is not all "new".
  for id in sim.units.size():
   var held=sim.units[id].has("chart_stop")
   if not held and (not decided.has(id) or stopped.get(id,false)):decided[id]={"keys":_known_keys()}
   stopped[id]=held
+  if not held:answered.erase(id)
  panel.visible=clear and active()
  fresh=new_faces() if panel.visible else []
  if panel.visible:
   var u=sim.units[sim.selected];var goals=retained_goals()
   var reason=str(u.chart_stop)
+  var safe=course_safe(goals);continue_button.visible=safe # WP-181: no CONTINUE COURSE for a course that runs into rock
   var edge="%d new amber edges"%fresh.size() if not fresh.is_empty() else "no new edge"
   prompt.text="%s · %s · %s\nRetained destination: %dm · %d stop%s"%[u.name,reason.to_upper(),edge,roundi(u.pos.distance_to(goals.back().pos)),goals.size(),"" if goals.size()==1 else "s"]
+  if not safe:prompt.text+="\n"+Words.CHART_STOP_WORDS.blocked
   for c in [prompt,continue_button,replan_button]:c.add_theme_font_size_override("font_size",font)
   for b in [continue_button,replan_button]:
    var widest=0.0
