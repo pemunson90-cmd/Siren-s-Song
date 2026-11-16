@@ -272,7 +272,7 @@ static func order(host,request:Dictionary)->Dictionary:
 		if host!=root:return _refuse(name,"%s is open: finish or leave it first. start opens a Campaign operation; Expedition and Naval Career are entered with answer (GAME MODES, then EXPEDITIONS or NAVAL CAREER)"%str(host.name))
 		return _start(host,request)
 	if name=="answer":return await _press(root,request)
-	if name.is_empty():return _refuse(name,"Say which order: start, route, route_check, depth, deploy, recall, photo, tool, ping, silent, loud, hold, all_stop, select, answer, pause, run, speed")
+	if name.is_empty():return _refuse(name,"Say which order: start, route, route_check, depth, deploy, recall, photo, operate, tool, ping, silent, loud, hold, all_stop, select, answer, pause, run, speed")
 	var why:=_need_dive(host,name)
 	if not why.is_empty():return _refuse(name,why)
 	# An order for another craft selects it first, as a tap on its chip would. Dive time is not touched.
@@ -311,6 +311,7 @@ static func order(host,request:Dictionary)->Dictionary:
 			var plan_ok:bool=(not sim.units[drone].route.is_empty()) if drone>0 else [1,2].any(func(d):return sim.units[d].alive and not sim.units[d].route.is_empty())
 			return _answer(plan_ok,name,host)
 		"photo":return _photo(host,request,craft)
+		"operate","decode","job":return _operate(host,request,craft) # WP-154
 		"tool":return _tool(host,request,craft)
 		"ping":
 			_select(host,craft);var before:float=sim.ping_time;host._order("ping")
@@ -458,6 +459,7 @@ static func _photo(host,request:Dictionary,craft:int)->Dictionary:
 	if not frame.is_empty():
 		host._order("frame",frame)
 	var before:bool=not sim.captures[craft].is_empty()
+	var beside:bool=host.mission_hud!=null and host.mission_hud.operation_beside_photo(sim) # WP-154: PHOTO holds the camera slot beside a job
 	host._primary_action()
 	var started:bool=not sim.captures[craft].is_empty() and not before
 	var extra:={"craft":sim.units[craft].name}
@@ -467,6 +469,7 @@ static func _photo(host,request:Dictionary,craft:int)->Dictionary:
 		host._primary_action()
 		started=not sim.captures[craft].is_empty()
 	if before:extra["note"]="An exposure is already under way"
+	elif beside and started:extra["note"]="PHOTO frames the Siren in reach. The mission job (decode, link, sample) is the OPERATE button: send order operate"
 	# WP-136: say whether the flash fired. It fires only when the frame asks for it, a flash unit is fitted and a charge is left.
 	var asked:bool=bool(Photo.settings(sim,craft).get("flash",false))
 	var fitted:bool=bool(Photo.optics(sim,craft).flash)
@@ -475,6 +478,16 @@ static func _photo(host,request:Dictionary,craft:int)->Dictionary:
 	if bool(request.get("flash",false)) and not fired:
 		extra["flash"]["why_not"]="No flash unit is fitted to %s"%sim.units[craft].name if not fitted else ("No flash charge is left" if Photo.flash_left(sim,craft)<=0 else "The exposure did not start")
 	return _answer(started or before,"photo",host,extra)
+# WP-154: the OPERATE button. Beside a Siren in reach the camera slot reads PHOTO and the job has its own button;
+# without one the camera slot is the job, so this presses the same slot as photo.
+static func _operate(host,request:Dictionary,craft:int)->Dictionary:
+	var sim=host.sim
+	_select(host,craft)
+	if host.mission_hud==null or not host.mission_hud.operation_beside_photo(sim):return _photo(host,request,craft)
+	var before:bool=not sim.captures[craft].is_empty()
+	host._order("camera")
+	var started:bool=not sim.captures[craft].is_empty() and not before
+	return _answer(started or before,"operate",host,{"craft":sim.units[craft].name})
 static func _tool(host,request:Dictionary,craft:int)->Dictionary:
 	var sim=host.sim;var tool:String=str(request.get("tool","")).to_lower()
 	if not FieldTools.ids().has(tool):return _refuse("tool","Unknown tool: %s (%s)"%[tool,", ".join(FieldTools.ids())])
