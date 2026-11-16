@@ -122,6 +122,20 @@ static func complete(sim)->bool:
  var state=sim.mission.glass_reach
  if sim.mission.id in [15,18] and state.choice.is_empty():return false
  return state.artifact.is_empty() or state.artifact.state in ["cargo","recovered"]
+# WP-176: the next unmet step that complete() waits on, in plain words ({} when none). "pos"/"band" only for a point already on the chart:
+# the vane/machinery marker (always drawn while no material exists) or material the crew can see. Mirrors complete().
+static func next_step(sim)->Dictionary:
+ if not applies(sim.mission):return {}
+ var W=preload("res://src/presentation/hud_words.gd").TEXT
+ var state=sim.mission.glass_reach;var a=state.artifact
+ if sim.mission.id in [15,18] and state.choice.is_empty():
+  var step={"text":W.work_vane if sim.mission.id==15 else W.work_anchorage}
+  if a.is_empty():step.pos=state.work_pos;step.band=1
+  return step
+ if not a.is_empty() and a.state in ["site","wreck"]:
+  if sim.visible(a.pos,a.band):return {"text":W.work_winch%str(a.id).replace("_"," ").to_upper(),"pos":a.pos,"band":a.band}
+  return {"text":W.work_winch_unseen}
+ return {}
 static func can_extract(sim,corridor:Dictionary)->bool:
  var a=artifact(sim)
  if a.is_empty():return true

@@ -198,6 +198,25 @@ const TEXT={
 	# WP-174: a required signal source that no craft has located yet (Wake Crossing: the return receiver), and the NEXT line for it.
 	"next_locate_source": "NEXT: locate %s · listen from another position or use SURVEY",
 	"watch_orders_open": "WATCH ORDERS open · warn an occupied section with a local pulse, or sound the common alarm · no exposure started",
+	# WP-176: the next unmet step of Reach / Choir work (simulation glass_reach_work.gd and industrial_jobs.gd next_step), in plain words.
+	"depart_work": "%s is not open yet · %s",
+	"next_work": "NEXT: %s",
+	"work_vane": "RELEASE VANE at the marked vane (REACH WORK)",
+	"work_anchorage": "choose SERVICE or SEVER at the marked machinery (REACH WORK)",
+	"work_winch": "WINCH the %s at its marker",
+	"work_winch_unseen": "find the material and WINCH it (not on the chart yet)",
+	"work_open": "open %s (CHOIR WORK at the %s marker)",
+	"work_open_unseen": "open %s (CHOIR WORK at its site)",
+	"work_voyage": "START %s VOYAGE at RELEASE (CHOIR WORK)",
+	"work_voyage_east": "START EAST VOYAGE at RELEASE (WEST needs the SERVICE berth worked first)",
+	"work_jam": "open %s so the %s can pass (CHOIR WORK there)",
+	"work_wait": "wait for the %s to arrive",
+	"work_escort": "stay within %d m of the %s so it keeps moving",
+	"work_watch": "watch the %s arrive at its dock",
+	"work_attach": "ATTACH the %s (CHOIR WORK) and tow it to %s",
+	"work_tow": "tow the %s to %s and work it (CHOIR WORK there)",
+	"work_far_breaker": "throw the far breaker LOCK C (CHOIR WORK there), then RECONNECT; or DISMANTLE the security feed",
+	"work_reconnect": "RECONNECT now (CHOIR WORK there) before the far breaker drops out",
 }
 # WP-153: a no-break space between a number and its metre unit (240 m, 5 m/s) so a lone "m" never starts the next strip line.
 static func glue_units(text:String)->String:
