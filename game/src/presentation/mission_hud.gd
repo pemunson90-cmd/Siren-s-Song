@@ -978,6 +978,7 @@ func refresh():
  _clear_hint_overlap()
  _note_cards()
  host.ocean.ui_blocked_rects=occupied_rects().map(func(r):return Rect2(r.position-host.ocean.global_position,r.size))
+ host.ocean.goal_avoid_rects=goal_avoid_rects()  # WP-168
  host.ocean.card_rects=_card_rects()+_depth_chip_rects()  # WP-129: chart labels keep off every floating card and chip
  if host.decoy_armed or host.knock_armed:
   close_button.text="CANCEL";close_button.position=Vector2((host.ocean.chart_width()-close_button.size.x)/2,(intent.position.y if intent.visible else size.y)-close_button.size.y-12);close_button.show()
@@ -1052,6 +1053,16 @@ func _fit_pause_button():
  if b.size.y<ceilf(text+margin.y):b.size.y=ceilf(text+margin.y)
 # WP-129: the floating cards and chips a chart label keeps clear of (the ocean's coordinates): the tip card, the order card and
 # UNDO, the target and contact cards and the Hunt chip. The lock card and the threat stack are already in threat_rects.
+# WP-168: what the GOAL bearing chip keeps off: every header plate (pause, SPEED, AIR, MENU's reserved slot, FLEET), the Hunt chip and the CHART chip.
+func goal_avoid_rects()->Array:
+ var result:Array=[]
+ if host.screen!="mission":return result
+ for control in [host.pause_button,host.speed_button,host.advanced_button,get_meta(HuntMeter.CHIP) if has_meta(HuntMeter.CHIP) else null,AirChip.node(self)]:
+  if is_instance_valid(control) and control.is_visible_in_tree():result.append(Rect2(control.global_position-global_position,control.size))
+ var slot:=MenuChip.slot(self)
+ if slot.has_area():result.append(slot)
+ result.append_array(_depth_chip_rects())
+ return result
 # WP-167: the CHART: <depth> chip is itself a thing chart labels keep off (it sat over OWN SHUTTER). Not in _card_rects, which the chip avoids.
 func _depth_chip_rects()->Array:
  if host.screen!="mission" or not host.sim.outcome.is_empty() or host.advanced_orders:return []
