@@ -186,6 +186,12 @@ const TEXT={
 	"depart_descend": "descend",
 	"depart_settle": "finish the depth change",
 	"manifest_depth": "%s · OUT · AT THE MOUTH, NOT IN %s",
+	# WP-166 (Pat, 16 Nov 2026): the chart names the depth it draws; a route or depth change into water not yet charted at that depth is warned first.
+	"chart_depth": "CHART: %s",
+	"unscanned_bar": "This leg goes through uncharted water at this depth",
+	"unscanned_depth_bar": "%s is uncharted here · rock may be unseen",
+	"unscanned_strip": "Marker set through uncharted water · SEND ANYWAY or CANCEL",
+	"unscanned_depth_strip": "Depth change into uncharted water · SEND ANYWAY or CANCEL",
 }
 # WP-153: a no-break space between a number and its metre unit (240 m, 5 m/s) so a lone "m" never starts the next strip line.
 static func glue_units(text:String)->String:

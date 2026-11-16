@@ -65,4 +65,7 @@ func observe_blocked(host)->void:
 		if blocked.has(i):continue
 		blocked[i]=true
 		var why:Dictionary=NoProgress.why(sim,i,held)
+		# WP-166: a rock-blocked leg is told to the player, so the rock stays on that depth's chart (the leg itself is the proof).
+		if why.key in ["blocked","blocked_band","stuck_band","stuck_rock"] and not u.route.is_empty():
+			sim.tell_rock(i,"leg",u.pos,u.route[0].pos)
 		request(host,why.key,i,Words.stall_message(why.key,str(u.name).to_upper(),why.extra),why.extra)

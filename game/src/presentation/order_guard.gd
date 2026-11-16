@@ -77,12 +77,27 @@ func leg_crosses_rock(world: Vector2, append: bool) -> bool:
 	var origin: Vector2 = u.route.back().pos if append and not u.route.is_empty() else u.pos
 	sim._use_band(u.band)
 	return HandPilot.crosses_rock(sim, origin, world)
+# WP-166: the same check for water the chart holds neither as clear nor as rock at the upper or lower depth (not the middle one).
+func leg_uncharted(world: Vector2, append: bool) -> bool:
+	var sim = host.sim; var u = sim.units[sim.selected]
+	if not HandPilot.release(sim): return false
+	var origin: Vector2 = u.route.back().pos if append and not u.route.is_empty() else u.pos
+	return sim.leg_uncharted(sim.selected, origin, world)
+# WP-166: a depth order into a depth whose chart does not cover the craft's own spot waits for SEND ANYWAY. Returns true when it holds the order.
+func hold_depth(args: Dictionary) -> bool:
+	var sim = host.sim
+	if args.get("confirmed", false) or not HandPilot.release(sim) or not sim.outcome.is_empty(): return false
+	var band: int = int(args.get("band", -1))
+	if band < 0 or band > 2 or not sim.depth_uncharted(sim.selected, band): return false
+	pending = {"unit": sim.selected, "depth": band}; undo = {}
+	sim.message = Words.TEXT.unscanned_depth_strip
+	host._refresh(); return true
 # Whether a tap now adds to the selected craft's route (it has stops ahead) rather than setting a new one.
 func adds_now() -> bool:
 	return stops_count() > 0 and not host.sim.units[host.sim.selected].route.is_empty()
 func tap_water(world: Vector2) -> void:
 	var sim = host.sim
-	if not pending.is_empty() and pending.unit == sim.selected:
+	if pending.has("point") and pending.unit == sim.selected:
 		var near: float = host.ui_touch_height
 		if host.ocean.screen_position(world).distance_to(host.ocean.screen_position(pending.point)) <= near:
 			confirm(); return
@@ -90,6 +105,10 @@ func tap_water(world: Vector2) -> void:
 	if leg_crosses_rock(world, append):
 		pending = {"unit": sim.selected, "point": world, "append": append}; undo = {}
 		sim.message = Words.TEXT.rock_strip # WP-117: the bar carries the sentence; the strip does not repeat it
+		host._refresh(); return
+	if leg_uncharted(world, append):
+		pending = {"unit": sim.selected, "point": world, "append": append, "uncharted": true}; undo = {}
+		sim.message = Words.TEXT.unscanned_strip
 		host._refresh(); return
 	pending = {}
 	var before: bool = sim.queue_mode
@@ -106,7 +125,12 @@ func tap_extraction() -> void:
 # SEND ANYWAY (or a second tap on the marker): the leg the bar showed, added or set exactly as the check read it.
 func confirm() -> void:
 	if pending.is_empty(): return
-	var sim = host.sim; var point: Vector2 = pending.point; var unit: int = pending.unit
+	var sim = host.sim; var unit: int = pending.unit
+	if pending.has("depth"):
+		var band: int = pending.depth; pending = {}
+		if sim.selected != unit: host._order("select", {"unit": unit})
+		host._order("depth", {"band": band, "confirmed": true}); return
+	var point: Vector2 = pending.point
 	var append: bool = pending.get("append", false)
 	pending = {}
 	if sim.selected != unit: host._order("select", {"unit": unit})
@@ -161,7 +185,10 @@ func refresh(bounds: Vector2, h: float, font: int, floor_y: float) -> void:
 	panel.visible = not pending.is_empty() and not host.advanced_orders
 	undo_button.visible = pending.is_empty() and not undo.is_empty() and not host.advanced_orders
 	if panel.visible:
-		prompt.text = Words.TEXT.rock_bar; go_button.text = Words.TEXT.send_anyway
+		prompt.text = Words.TEXT.rock_bar
+		if pending.has("depth"): prompt.text = Words.TEXT.unscanned_depth_bar % sim.Depth.NAMES[pending.depth]
+		elif pending.get("uncharted", false): prompt.text = Words.TEXT.unscanned_bar
+		go_button.text = Words.TEXT.send_anyway
 		for b in [go_button, cancel_button, prompt]: b.add_theme_font_size_override("font_size", font)
 		for b in [go_button, cancel_button]:
 			b.autowrap_mode = TextServer.AUTOWRAP_OFF # one line: the bar is slim
@@ -197,7 +224,7 @@ func craft_rect(h: float) -> Rect2:
 	var at: Vector2 = host.ocean.screen_position(host.sim.units[host.sim.selected].pos)
 	return Rect2(at - Vector2.ONE * h * .6, Vector2.ONE * h * 1.2)
 func marker_rect(h: float) -> Rect2:
-	if pending.is_empty(): return Rect2()
+	if pending.is_empty() or not pending.has("point"): return Rect2()
 	var at: Vector2 = host.ocean.screen_position(pending.point)
 	return Rect2(at - Vector2.ONE * h * .55, Vector2.ONE * h * 1.1)
 # The bar sits on the chart's bottom edge, above the status strip; it moves along that edge, then to the top edge (below PAUSE and any threat
@@ -207,7 +234,7 @@ func place(width: float, floor_y: float, h: float) -> void:
 	var bottom := maxf(top, floor_y - dims.y - 10)
 	var left := clampf(12.0, 0.0, maxf(0.0, width - dims.x)); var centre := clampf((width - dims.x) / 2, 0.0, maxf(0.0, width - dims.x)); var right := maxf(0.0, width - dims.x - 12.0)
 	var avoid: Array[Rect2] = [craft_rect(h).grow(h * .25)]
-	if not pending.is_empty(): avoid.append(marker_rect(h).grow(h * .25))
+	if pending.has("point"): avoid.append(marker_rect(h).grow(h * .25))
 	var best := Vector2(centre, bottom); var least := INF
 	for at in [Vector2(centre, bottom), Vector2(centre, top), Vector2(left, bottom), Vector2(right, bottom), Vector2(left, top), Vector2(right, top)]:
 		var rect := Rect2(at, dims); var covered := 0.0
@@ -218,15 +245,17 @@ func place(width: float, floor_y: float, h: float) -> void:
 	panel.position = best
 func _draw() -> void:
 	if host == null: return
-	if not pending.is_empty() and panel.visible:
+	if pending.has("point") and panel.visible:
 		var unit = host.sim.units[pending.unit]
 		var from: Vector2 = host.ocean.screen_position(unit.pos); var to: Vector2 = host.ocean.screen_position(pending.point)
 		if pending.get("append", false) and not unit.route.is_empty(): from = host.ocean.screen_position(unit.route.back().pos)
 		# WP-127: the leg the bar asks about is red, as every leg across charted rock is.
-		draw_dashed_line(from, to, Color(RED, .95), 3.0, 8.0)
-		draw_arc(to, host.ui_touch_height * .42, 0, TAU, 40, RED, 2.5)
-		draw_line(to - Vector2(10, 0), to + Vector2(10, 0), RED, 2.0); draw_line(to - Vector2(0, 10), to + Vector2(0, 10), RED, 2.0)
+		var tone: Color = Color("d3b77c") if pending.get("uncharted", false) else RED # WP-166: uncharted water is amber, rock is red
+		draw_dashed_line(from, to, Color(tone, .95), 3.0, 8.0)
+		draw_arc(to, host.ui_touch_height * .42, 0, TAU, 40, tone, 2.5)
+		draw_line(to - Vector2(10, 0), to + Vector2(10, 0), tone, 2.0); draw_line(to - Vector2(0, 10), to + Vector2(0, 10), tone, 2.0)
 	_draw_mode()
+	_draw_chart_label()
 # WP-127: the tap mode, a small label above the selected craft.
 func mode_visible() -> bool:
 	var sim = host.sim
@@ -246,3 +275,34 @@ func _draw_mode() -> void:
 	var rect := mode_rect(); var face := ThemeDB.fallback_font
 	draw_rect(rect, Color(.018, .055, .075, .82)); draw_rect(rect, Color("6bd5cb", .6), false, 1.0)
 	draw_string(face, rect.position + Vector2(MODE_MARGIN, face.get_ascent(mode_font) + MODE_MARGIN * .5), tap_mode_text(), HORIZONTAL_ALIGNMENT_LEFT, -1, mode_font, Color("bfeee8"))
+# WP-166 (Pat, 16 Nov 2026): the chart draws one depth at a time, the selected craft's. A small label says which, kept clear of every control,
+# card, craft and label (the avoid lists the tip card uses); it takes the first corner of the chart that is free.
+func chart_label_text() -> String:
+	var sim = host.sim
+	return Words.TEXT.chart_depth % sim.Depth.NAMES[clampi(int(sim.units[sim.selected].band), 0, 2)]
+func chart_label_rect() -> Rect2:
+	var hud = host.mission_hud
+	var text := chart_label_text(); var face := ThemeDB.fallback_font
+	var width := face.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, mode_font).x + 2 * MODE_MARGIN
+	var tall := face.get_height(mode_font) + MODE_MARGIN
+	var avoid: Array = hud._tip_avoid() + hud._card_rects()
+	var controls: Array = hud.command_controls() + [hud.close_button, hud.focus_button, host.pause_button, host.advanced_button, host.speed_button] + host.zoom_buttons + [hud.order_dock]
+	for c in controls:
+		if is_instance_valid(c) and c.is_visible_in_tree(): avoid.append(Rect2(c.global_position - global_position, c.size).grow(4.0))
+	if panel.visible: avoid.append(Rect2(panel.global_position - global_position, panel.size))
+	var chart_w: float = host.ocean.chart_width(); var top: float = maxf(hud.threat_floor(), host.pause_button.position.y + host.pause_button.size.y + 6.0)
+	var floor_y: float = hud.intent.position.y if hud.intent.visible else size.y
+	var spots := [Vector2(6, top), Vector2(chart_w - width - 6, top), Vector2(6, floor_y - tall - 6), Vector2(chart_w - width - 6, floor_y - tall - 6), Vector2(chart_w * .5 - width * .5, top), Vector2(chart_w * .5 - width * .5, floor_y - tall - 6)]
+	var best := Rect2(spots[0], Vector2(width, tall)); var least := INF
+	for at in spots:
+		var rect := Rect2(at, Vector2(width, tall)); var covered := 0.0
+		for area in avoid:
+			var over: Rect2 = rect.intersection(area); covered += over.size.x * over.size.y
+		if covered < least: least = covered; best = rect
+		if covered == 0.0: break
+	return best
+func _draw_chart_label() -> void:
+	if host.screen != "mission" or not host.sim.outcome.is_empty() or host.advanced_orders: return
+	var rect := chart_label_rect(); var face := ThemeDB.fallback_font
+	draw_rect(rect, Color(.018, .055, .075, .72)); draw_rect(rect, Color("6bd5cb", .45), false, 1.0)
+	draw_string(face, rect.position + Vector2(MODE_MARGIN, face.get_ascent(mode_font) + MODE_MARGIN * .5), chart_label_text(), HORIZONTAL_ALIGNMENT_LEFT, -1, mode_font, Color("bfeee8"))

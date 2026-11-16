@@ -150,6 +150,7 @@ static func step(sim,u:Dictionary,next:Vector2,dt:float,flow:Vector2,budget:floa
 static func _hold(sim,u:Dictionary,reason:String)->void:
  u.vel=Vector2.ZERO;u.hold="HOLD";u["edge_hold"]=reason;u.erase("edge_assist")
  sim.message="%s · %s · holding · replot"%[u.name,reason]
+ sim.tell_rock(sim.units.find(u),"touch",u.pos) # WP-166: the rock the hold names stays on the chart
 
 static func _water(sim,u:Dictionary,flow:Vector2)->void:
  if u.has("water_velocity") or not sim.mission.get("currents",[]).is_empty():u["water_velocity"]=u.vel-flow

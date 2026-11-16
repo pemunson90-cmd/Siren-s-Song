@@ -215,6 +215,31 @@ func glass_context()->Dictionary:return Glass.status(self)
 func network_feedback()->Array:return Network.feedback(self)
 func public_chart()->Dictionary:
 	return terrain_chart.public_chart() if terrain_chart!=null else {}
+# WP-166 (Pat, 16 Nov 2026): rock the game told the player about stays on the chart they see. unit_id's own depth chart gets
+# the rock named by kind: "point" (a refused tap at a), "leg" (the leg a->b is blocked), "touch" (a hull strike or a hold at a).
+# Opening charts of the middle depth already draw their briefed rock, so only an earned chart takes it. Returns true when a cell was added.
+func tell_rock(unit_id:int,kind:String,a:Vector2,b:Vector2=Vector2.ZERO)->bool:
+	if unit_id<0 or unit_id>=units.size():return false
+	var band:int=int(units[unit_id].band)
+	var chart=depth_charts.get(band) if not depth_charts.is_empty() else terrain_chart
+	if chart==null:return false
+	var added:bool=false
+	match kind:
+		"point":added=chart.tell_rock(a,12.5)
+		"leg":added=chart.tell_leg(a,b) or chart.tell_rock(a,20.0)
+		_:added=chart.tell_rock(a,20.0)
+	if added and band==1:known=chart.clear_cells.duplicate();mission["terrain_chart"]=chart.snapshot()
+	return added
+# WP-166: true when the player's own leg a->b crosses water this craft's depth chart holds neither as clear nor as rock. Only the
+# upper and lower depths count: the middle depth is the dive's own chart, where charting new water is the job (not a warning each tap).
+func leg_uncharted(unit_id:int,a:Vector2,b:Vector2)->bool:
+	var band:int=int(units[unit_id].band)
+	var chart=depth_charts.get(band) if not depth_charts.is_empty() else null
+	return band!=1 and chart!=null and chart.leg_uncharted(a,b)
+# WP-166: true when the craft's own spot at the depth it would change to is not charted there.
+func depth_uncharted(unit_id:int,band:int)->bool:
+	var chart=depth_charts.get(band) if not depth_charts.is_empty() else null
+	return band!=1 and chart!=null and chart.leg_uncharted(units[unit_id].pos,units[unit_id].pos)
 func player_path(a:Vector2,b:Vector2)->Array:
 	return terrain_chart.player_path(a,b) if terrain_chart!=null else path(a,b,true)
 func course_status(unit_id:int=-1)->Dictionary:
@@ -298,6 +323,7 @@ func _hull_strike(u:Dictionary,impact:float=-1.0,hit:String="terrain")->void:
 			hull=maxf(0.0,hull-damage);u["hit_at"]=elapsed
 			FieldTools.record_collision(self,hull_before_strike-hull)
 			events.append({"type":"creak","pos":u.pos});message="Hull strike against %s · %dm/s · hull -%d%%"%[hit,roundi(impact),roundi(damage)]
+			if hit=="terrain":tell_rock(units.find(u),"touch",u.pos) # WP-166: the rock that was hit stays on the chart
 func _hull_contacts(u:Dictionary,origin:Vector2,velocity:Vector2)->void:
 	var bodies=units.slice(1)+sirens
 	for body in [Recipient.body(self),Choir.body(self)]:

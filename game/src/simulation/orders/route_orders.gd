@@ -31,7 +31,9 @@ static func _command(sim, order: String, args: Dictionary) -> bool:
 			var plan=sim.route_goals() if append else []
 			if append and not plan.is_empty() and not plan.back().get("arrival_set",false): plan.back().stop=not sim.pass_through
 			plan.append({"pos":args.get("point",u.pos),"stop":true,"mode":"inherit"})
-			if not sim._install_program(u,plan,append,append and not u.route.is_empty()): sim.message=REFUSED; return false
+			if not sim._install_program(u,plan,append,append and not u.route.is_empty()):
+				sim.tell_rock(sim.selected,"point",plan.back().pos) # WP-166: the rock the refusal named stays on the chart
+				sim.message=REFUSED; return false
 			if not append:
 				u.hold=""
 				sim.captures[sim.selected]={}
