@@ -62,6 +62,7 @@ var knock_touch_size:=48.0
 var feedback_font_size:=14
 var instrument_top:=64.0
 var ui_blocked_rects:Array=[]
+var goal_avoid_rects:Array=[]  # WP-168: header plates and chips the GOAL bearing chip keeps off
 var world_label_rects:Array=[]
 # WP-129: the HUD cards and plates that float over the chart (tip card, order card, UNDO chip, contact card, Hunt chip, the
 # "NEW SIREN TYPE" notice), in this view's coordinates. Pushed by mission_hud and first_siren_cue; chart labels keep off them.

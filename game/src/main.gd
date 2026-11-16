@@ -254,6 +254,7 @@ func _layout(cancel_gesture:bool=true) -> void:
 	if mission_hud!=null:
 		mission_hud.layout(size,h);mission_row_heights=_measured_mission_rows()
 		ocean.ui_blocked_rects=mission_hud.occupied_rects().map(func(r):return Rect2(r.position-ocean.global_position,r.size))
+		ocean.goal_avoid_rects=mission_hud.goal_avoid_rects()  # WP-168
 	if menu!=null:
 		# A turned or resized screen rebuilds the hub when its one-or-two column choice changes.
 		if screen in ["menu","briefing"] and has_meta("hub_wide") and get_meta("hub_wide")!=preload("res://src/presentation/layout_metrics.gd").hub_wide(size,h,FrontendSettings.text_scale()):
