@@ -20,8 +20,13 @@ foreach ($row in Get-Content game\tests\suites.txt) {
     if ($f.Count -lt 5 -or $f[4] -ne 'render') { continue }
     if ($skip.ContainsKey($f[0])) { "$($f[0]) :: SKIPPED ($($skip[$f[0]]))" | Out-File -FilePath $Out -Append -Encoding utf8; continue }
     # Some render suites run for about eight minutes (ops_home_ui_tests); the runner's default limit is 480 s.
-    # WP-142: render suites run in a real window (headless has no renderer, so they only printed 'Native renderer required').
-    $r = & scripts\toolchain\win\headless.ps1 -Action Script -Script $f[0] -Prefix $f[1] -Windowed -TimeoutSec 1700 2>&1
+    # WP-142: a suite that measures real rendering prints only 'Native renderer required' headless, so it runs in a window.
+    # Root: only the suites that need a native renderer open a window; the rest stay headless as before.
+    if ($f[0] -in @('art_render_measurements')) {
+        $r = & scripts\toolchain\win\headless.ps1 -Action Script -Script $f[0] -Prefix $f[1] -Windowed -TimeoutSec 1700 2>&1
+    } else {
+        $r = & scripts\toolchain\win\headless.ps1 -Action Script -Script $f[0] -Prefix $f[1] -TimeoutSec 1700 2>&1
+    }
     $sum = ($r | Where-Object { $_ -match 'CHECKS \d+ FAILURES \d+' } | Select-Object -Last 1)
     $ok = ($r | Where-Object { $_ -match 'headless Script (OK|FAILED)' } | Select-Object -Last 1)
     "$($f[0]) :: $sum :: $ok" | Out-File -FilePath $Out -Append -Encoding utf8
