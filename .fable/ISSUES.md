@@ -14,7 +14,7 @@ Status: LIVE (Pat, 15 Nov 2026: all open problems live here. Root adds an issue 
 
 ## Failing now
 
-- **`depth_policy_ui_tests` 160/4 on 504eb7f4** (retest b16): "FAIL real depth input starts deliberate transit", "FAIL physical planner input retains public operator destination" ×2 (`artifacts\fable-root-b16\depth_policy_ui_tests.log:7039`). Likely WP-166's depth-change warning (unverified). WP-169 on it. All other b16 suites green incl. Core 856/0.
+- FIXED WP-169 (c58e0e1c, DEPTH POLICY UI 163/0): **`depth_policy_ui_tests` 160/4 on 504eb7f4** (retest b16): "FAIL real depth input starts deliberate transit", "FAIL physical planner input retains public operator destination" ×2 (`artifacts\fable-root-b16\depth_policy_ui_tests.log:7039`). Likely WP-166's depth-change warning (unverified). WP-169 on it. All other b16 suites green incl. Core 856/0.
 
 - **None.** Sweep 17 on 0d908df0 (04:30, 16 Nov): 140 suites, no failing log. APK of ab8d71f1 (same game as 0d908df0) built, sha256 bef1bf7e...5a11, signer matches the pin. Fixed since: sweep 16 (WP-164, WP-165).
 - Was: **Sweep 16 on 1a38472a (02:03): 2 of 140 suites failing, both cover screen.** `stable_board_ui_tests` 466/2 "FAIL Hunt clears threat/lock stack (2520, 1080)" ×2 (`artifacts\fable-root-s1\stable_board_ui_tests.log:24`); `dive_time_honesty_ui_tests` 196/2 "FAIL the tip card shows 2520x1080 100%" and "150%" (`artifacts\fable-root-s2\...:3884`). Suspect WP-158 header changes. WP-164 on it. No phone build until fixed.
