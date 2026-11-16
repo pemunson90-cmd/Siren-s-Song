@@ -511,6 +511,7 @@ func layout(bounds:Vector2,h:float):
   b.hide();b.custom_minimum_size=Vector2(bw,bh);b.size=Vector2(bw,bh);b.add_theme_font_size_override("font_size",font)
   b.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
   flat_look(b)
+  if b==close_button:dock_look(b)  # WP-156: BACK is a real button (filled and bordered), not bare text
   if b.has_meta(PLATE_KEY):b.remove_meta(PLATE_KEY)
  host.status_label.hide();host.log_label.hide()
  host.pause_button.show();host.pause_button.position=Vector2(12,12);host.pause_button.size=Vector2(bw,bh)
@@ -1167,7 +1168,7 @@ func camera_caption() -> Array:
  if target>=0 and target<sim.mission.objectives.size():
   var site=sim.mission.objectives[target]
   var Range=preload("res://src/presentation/photo_shutter/range_caption.gd")
-  var lines=[sim.Photo.label(site).to_upper()]
+  var lines=[Words.ORDER_NOTES.target%sim.Photo.label(site).to_upper()]  # WP-156: the first line says it is the target
   lines.append_array(Range.line(sim,site,context.get("ready",false)).split("\n"))  # a search-area line breaks before its reach
   var why:String=Range.why(context,site)
   if not why.is_empty():lines.append(why)
