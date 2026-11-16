@@ -45,6 +45,8 @@ static func step(sim)->Dictionary:
 	var plant:Dictionary={}
 	if sim.Chain.applies(sim.mission):plant=sim.Chain.next_step(sim)
 	elif sites[pick].get("site_id","")=="warning_uplink":plant=sim.Recipient.next_step(sim)
+	# WP-180: Shelf Return's record is two watch replies, not a photograph: name the warning or the reply still owed.
+	elif sim.Shelf.applies(sim.mission) and sites[pick].get("site_id","")=="warning_receiver":plant=sim.Shelf.next_step(sim)
 	if not plant.is_empty():
 		# The acknowledgement nobody has located yet is "locate it" (WP-174), not "receive it".
 		var unlocated:Dictionary=sim.unlocated_required_source()

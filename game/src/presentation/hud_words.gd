@@ -232,6 +232,13 @@ const TEXT={
 	"work_ack": "receive the LOCAL WARNING ACKNOWLEDGEMENT with QUIETUS",
 	"work_launch": "tap the WARNING RECIPIENT and choose EXPOSED or SHELTERED (within 240 m of it)",
 	"work_arrival": "watch the WARNING RECIPIENT arrive at the pickup",
+	# WP-180: Shelf Return (operation 09) watch orders; a reply needs a craft that can hear the warned section.
+	"work_shelf_reply": "receive the %s reply: bring a craft within %d m of it with a clear sound path (the reply reaches only a craft that can hear it)",
+	"work_shelf_reply_unseen": "receive the %s reply: it was warned but not found; bring a craft within %d m of it with a clear sound path (a drone can search)",
+	"work_shelf_warn": "tap the %s and press LOCAL WARNING (QUIETUS within 100 m, settled), or sound the common alarm at the charted resonator (draws the hunter)",
+	"work_shelf_warn_local": "tap the %s and press LOCAL WARNING (QUIETUS within 100 m, settled; the common alarm is spent)",
+	"work_shelf_find": "find the %s (a drone or QUIETUS listening can locate it), then warn it locally, or sound the common alarm at the charted resonator (draws the hunter)",
+	"work_shelf_find_local": "find the %s (a drone or QUIETUS listening can locate it), then warn it locally (the common alarm is spent)",
 }
 # WP-153: a no-break space between a number and its metre unit (240 m, 5 m/s) so a lone "m" never starts the next strip line.
 static func glue_units(text:String)->String:
