@@ -195,6 +195,9 @@ const TEXT={
 	# WP-172: Quietus is at a recovery mouth that is not open: the reason the game knows.
 	"depart_source": "%s is not open yet · locate %s first",
 	"depart_records": "%s is not open yet · the required records are not all recorded",
+	# WP-174: a required signal source that no craft has located yet (Wake Crossing: the return receiver), and the NEXT line for it.
+	"next_locate_source": "NEXT: locate %s · listen from another position or use SURVEY",
+	"watch_orders_open": "WATCH ORDERS open · warn an occupied section with a local pulse, or sound the common alarm · no exposure started",
 }
 # WP-153: a no-break space between a number and its metre unit (240 m, 5 m/s) so a lone "m" never starts the next strip line.
 static func glue_units(text:String)->String:

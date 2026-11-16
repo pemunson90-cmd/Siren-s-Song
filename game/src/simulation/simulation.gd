@@ -414,7 +414,17 @@ func corridor_blocked_reason(corridor:Dictionary)->String:
 	if mission.id==6 and mission.has("expedition_revision") and not mission.expedition_facts.has(corridor.get("route","")):
 		for source in mission.get("signal_sources",[]):
 			if source.id==corridor.get("route",""):return HudWords.TEXT.depart_source%[str(corridor.get("name","")).to_upper(),str(source.label).to_upper()]
+	# WP-174: any other operation whose required signal source has not been located (Wake Crossing: wake_packet) names that source.
+	var unlocated:=unlocated_required_source()
+	if not unlocated.is_empty():return HudWords.TEXT.depart_source%[str(corridor.get("name","")).to_upper(),str(unlocated.label).to_upper()]
 	return HudWords.TEXT.depart_records%str(corridor.get("name","RECOVERY")).to_upper()
+# WP-174: the first required signal source (required_site_ids) with no objective yet because nothing has located it; {} when none.
+func unlocated_required_source()->Dictionary:
+	for id in mission.get("required_site_ids",[]):
+		if mission.objectives.any(func(o):return o.get("site_id","")==id):continue
+		for source in mission.get("signal_sources",[]):
+			if source.id==id and not source.located:return source
+	return {}
 func _departure_depth_reason()->String:
 	var q=units[0]
 	if not q.transition.is_empty():return HudWords.TEXT.depart_depth%[Depth.NAMES[1],HudWords.TEXT.depart_settle]
