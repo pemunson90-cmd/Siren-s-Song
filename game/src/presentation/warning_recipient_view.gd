@@ -20,6 +20,10 @@ static func primary_subject(sim)->Dictionary:
  if not local_gate.is_empty():return local_gate
  var info=status(sim)
  if info.is_empty() or not sim.units[sim.selected].alive or not info.informed or not info.recipient.known:return {}
+ # WP-182: a job in reach (the pickup's passive listen, the acknowledgement's decode) owns the camera slot and the main job button;
+ # the recipient's own controls stay on the recipient's wheel (tap it), they no longer take the slot from a listening site.
+ var held=sim.camera_context()
+ if held.get("ready",false) and int(held.get("target",-1))>=0:return {}
  return subject(info.recipient,"recipient")
 static func markers(view,sim,touch:float)->Array:
  var info=status(sim);var result=[]
