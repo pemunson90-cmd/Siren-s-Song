@@ -1,6 +1,7 @@
 extends SceneTree
 # WP-174: two blocker candidates from the full-playthrough testers.
 # 1. Shelf Return: a Siren in sight must not take the camera slot from the required WATCH ACKNOWLEDGEMENTS (the habitat panel).
+# 3. Warning Chain (WP-177): a Siren in sight must not take the camera slot from PLANT CONTROLS (START BACKUP at WEST).
 # 2. Wake Crossing: a recovery mouth that is shut because a signal source has not been located names that source.
 const Sim=preload("res://src/simulation/simulation.gd")
 const Habitat=preload("res://src/simulation/shelf_habitat.gd")
@@ -17,6 +18,7 @@ func advance(s,seconds:float)->void:
 func _init():
  shelf()
  wake()
+ plant()
  print("BLOCKER CANDIDATES CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)
 func shelf()->void:
  var s=Sim.new();s.start(8)
@@ -57,3 +59,16 @@ func wake()->void:
  var after=preload("res://src/presentation/next_step.gd").step(located)
  print("wake NEXT once located: ",after.text)
  check(after.text!=HudWords.TEXT.next_locate_source%"RETURN RECEIVER" and after.text.begins_with("NEXT"),"wake: once located, NEXT moves on to hearing it")
+func plant()->void:
+ var s=Sim.new();s.start(10)
+ var inlet=s.warning_chain_context().stations[0].pos
+ s.units[1].alive=false;s.units[2].alive=false
+ s.units[0].pos=inlet+Vector2(30,0);s.units[0].vel=Vector2.ZERO
+ s.sirens[0].pos=inlet+Vector2(180,0)
+ advance(s,.5)
+ check(s.Photo.siren_candidate(s,0)==0,"plant setup: a Siren is in clear view of Quietus at the inlet")
+ var c=s.camera_context()
+ print("plant camera: ready=",c.get("ready")," target=",c.get("target")," text=",c.get("text"))
+ check(int(c.get("target",-1))!=-2,"plant: a Siren in sight does not take the camera slot while the plant is uncommissioned")
+ check(s.photo_context().get("ready",false) and int(s.photo_context().get("target",-1))==-2,"plant: the explicit PHOTO frame still reaches the Siren")
+ check(s.command("chain_power",{"mode":"backup"}),"plant: START BACKUP works at the inlet with a Siren in view")
