@@ -25,8 +25,8 @@ static func brief_stock(racks:Dictionary)->String:
 static func launch_stock(host,index:int=-1)->String:
  var q=host.tool_racks.get(Names.CRAFT_QUIETUS,{})
  var text="NEXT DIVE / RETRY / %s / QUIETUS\n%s · EMP %d · SURVEY %d"%[Tools.loadout_label(host.upgrade),preload("res://src/presentation/oxygen_reading.gd").tank(host._loadout_stock(host.upgrade)[0]),int(q.get("emp",0)),int(q.get("recon",0))]
- # Operation 0 keeps its short opening briefing (a goal and one danger, under 420 characters).
- if index>0:text+="\n"+life_support_line(host,index)
+ # WP-149: operation 1 states its air time too (round 11: the dive ended on a clock the briefing never named).
+ if index>=0:text+="\n"+life_support_line(host,index)
  return text
 # WP-11 (G6): the operation's life-support limit at the base rate, from the same
 # budget, stock and fitted frame the launch uses. Facts only; no rule changes.
@@ -40,7 +40,7 @@ static func life_support_line(host,index:int)->String:
  if per_second<=0.0:return ""
  var seconds=int(float(host._loadout_stock(host.upgrade)[0])/per_second)
  # One short clause: the opening briefing has a 420 character budget (onboarding_tests).
- return "LIFE SUPPORT %d:%02d at the base rate"%[seconds/60,seconds%60]
+ return preload("res://src/presentation/hud_words.gd").TEXT.air_briefing%[seconds/60,seconds%60]  # WP-149: same word as the header chip
 
 static func recovery_name(sim)->String:
  var names=[]

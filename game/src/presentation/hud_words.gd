@@ -172,6 +172,7 @@ const TEXT={
 	# WP-149: the header air chip (air_chip.gd): "AIR" over the time left; "AIR LOW" under a quarter of a tank.
 	"air": "AIR",
 	"air_low": "AIR LOW",
+	"air_briefing": "AIR %d:%02d at the base rate (shown at the top of the screen all dive)",
 }
 static func lock_broken(siren_ids:Array)->String:
 	return TEXT.lock_broken%", ".join(siren_ids.map(func(id):return preload("res://src/simulation/siren_tag.gd").tag(int(id))))
