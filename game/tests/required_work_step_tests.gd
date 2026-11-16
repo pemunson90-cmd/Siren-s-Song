@@ -132,6 +132,29 @@ func _init():
  check(step.text.contains("watch the WARNING RECIPIENT arrive"),"13: under way: watch it arrive")
  s.mission.warning_recipient.receipt=true
  check(s.Recipient.next_step(s).is_empty(),"13: arrival received: nothing left of the crossing")
+ # WP-180: id 8 Shelf Return: two watch replies, not a photograph.
+ s=Sim.new();s.start(8)
+ step=show(s,"8 start, nothing located")
+ check(step.text.contains("find the UPPER BUNKER SECTION") and step.text.contains("common alarm") and not step.text.contains("photograph") and not step.site.has("pos"),"8: nothing located: find a section or sound the alarm, no chart point given")
+ s.mission.shelf_habitat.seen["east"]={"time":0.0,"closing":0.0,"live":true}
+ step=show(s,"8 lower section seen")
+ check(step.text.contains("LOCAL WARNING") and step.text.contains("LOWER BUNKER SECTION") and step.site.get("pos",Vector2.ZERO)==Vector2(1700,1200),"8: seen section: warn it locally, GOAL is the section")
+ s.mission.shelf_habitat.warned_at["east"]=0.0;s.mission.shelf_habitat.methods["east"]="local"
+ step=show(s,"8 lower warned, reply pending")
+ check(step.text.contains("receive the LOWER BUNKER SECTION reply") and step.text.contains("850 m"),"8: warned: bring a craft to hear its reply")
+ s.mission.shelf_habitat.receipts=["east"]
+ step=show(s,"8 lower reply in, upper unseen")
+ check(step.text.contains("find the UPPER BUNKER SECTION") and not step.site.has("pos"),"8: lower reply in: the unseen upper section is found first, no position given")
+ s.mission.shelf_habitat.alarm_used=true
+ check(s.Shelf.next_step(s).text.contains("alarm is spent"),"8: alarm spent: only the local warning is named")
+ s.mission.shelf_habitat.warned_at["west"]=0.0;s.mission.shelf_habitat.methods["west"]="common"
+ step=show(s,"8 upper warned by the alarm, never located")
+ check(step.text.contains("receive the UPPER BUNKER SECTION reply") and step.text.contains("not found") and not step.site.has("pos"),"8: warned by the alarm but not located: bring a craft within earshot, no position")
+ s.mission.shelf_habitat.seen["west"]={"time":0.0,"closing":0.0,"live":true}
+ step=show(s,"8 upper located")
+ check(step.site.get("pos",Vector2.ZERO)==Vector2(560,1000),"8: once located the chart point is the section")
+ s.mission.shelf_habitat.receipts=["east","west"]
+ check(s.Shelf.next_step(s).is_empty(),"8: both replies aboard: nothing left")
  # Operations without Reach or Choir work are untouched.
  s=Sim.new();s.start(1)
  check(s.required_work_step().is_empty(),"1: no Reach or Choir work to name")
