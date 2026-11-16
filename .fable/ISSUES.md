@@ -17,9 +17,11 @@ Status: LIVE (Pat, 15 Nov 2026: all open problems live here. Root adds an issue 
 4. FIXED WP-150 (1caed8c6): **Photo grades disagree** (A and B): objectives `photo_grade A`, `photo_percent 100` vs message and result "photo B (78%)". Unverified. WP-150.
 5. FIXED WP-150: **Expedition briefing contradicts its own kit line**: "Scarce: no EMP ... no Hull patch" above "Carrying: ... EMP 2, hull patch" (B). Unverified.
 6. RESOLVED WP-154 (166d1b25, play API only; fun-tester briefs must say `operate` for DECODE/SAMPLE/LINK): **Camera DECODE near a Siren photographs the Siren** (A op 03: "QUIETUS · S1 SENTINEL 0.0 / 8s", "Siren study filed"). Unverified.
-7. Interface (C): wheel side sheet covers ~40% of chart, PLAN ROUTE vs ROUTE, "GO LOUD / silent is on" (`012.png`, `015.png`); "DRONE A / CHOOSE · WHICH CRAFT?" heading when a drone sits on Quietus (`014.png`, root saw it); PAUSE tip far from its control (`020.png`); no pause menu, exit only via FLEET > MENU (`022.png`, `024.png`); Route Map DIVERGENCE panel cut at the right edge at 150% (`025.png`); "240 m" wraps leaving "m" (`019.png`). Root has not opened these except 014.
+7. Partly FIXED (Route Map WP-151; chooser heading and "240 m" in WP-153). Interface (C): wheel side sheet covers ~40% of chart, PLAN ROUTE vs ROUTE, "GO LOUD / silent is on" (`012.png`, `015.png`); "DRONE A / CHOOSE · WHICH CRAFT?" heading when a drone sits on Quietus (`014.png`, root saw it); PAUSE tip far from its control (`020.png`); no pause menu, exit only via FLEET > MENU (`022.png`, `024.png`); Route Map DIVERGENCE panel cut at the right edge at 150% (`025.png`); "240 m" wraps leaving "m" (`019.png`). Root has not opened these except 014.
 8. FIXED WP-152: Alloy: refining exists ("REFINE SCRAP TO ALLOY · 6 SCRAP", B) but Fleet/Fittings never mentions it.
 9. For Pat (game design, do not decide): career contracts are walkovers with a free full loadout (B: 79 s and 49 s, no lock, "Next launch costs: free"); Expedition op 3 is a cliff after a boon pick that cannot know the next danger (B); rock differs per depth band and the chart does not show it (A and B: "rock blocks this leg at this depth · SHALLOW is open", hull 100 to 86); locks with no prior contact (A).
+
+10. Game Modes cards (after WP-151, `critic-kits\wp151-c\evidence\after\inner-150-modes.png`): each card has an empty band above its title button and the lower third of the page is still empty; title-on-top layout would read better. Route Map still opens on many "?" boxes (start of campaign, by design of the data).
 
 ## Interface (root decides)
 
