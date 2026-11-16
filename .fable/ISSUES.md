@@ -6,6 +6,10 @@ Status: LIVE (Pat, 15 Nov 2026: all open problems live here. Root adds an issue 
 
 "Finished for this round is an APK where I can play through the entire game." Only blockers to a full playthrough are fixed now; polish, new features, number changes and story items below wait for the next Gauntlet round. Playthrough testers A (campaign from the start, no debug) and B (later operations and endings) running on 0338b98a.
 
+### Playthrough findings (16 Nov)
+
+- Tester B (`critic-kits\pt-b`, 0338b98a): no crash or stuck screen; 42 campaign ids listed (0-41). Every ending needs op 34 "Beneath the Well" completed (root checked `endings.gd:30`). Op 34 lost 3 times (1/4, 2/4, 3/4 records); unproven whether winnable. Near-blockers (unverified): sluice photo costs hull 100 → 71 → 51 in 12 s with no lock (a "factory" strike); a record "seen only from DEEP" gives no band hint in the briefing; Iron Choir ops 22 and 29 start with "RECORDS 0 / 0". A dedicated tester is trying to win op 34.
+
 ## Failing now
 
 - **None.** Sweep 17 on 0d908df0 (04:30, 16 Nov): 140 suites, no failing log. APK of ab8d71f1 (same game as 0d908df0) built, sha256 bef1bf7e...5a11, signer matches the pin. Fixed since: sweep 16 (WP-164, WP-165).
