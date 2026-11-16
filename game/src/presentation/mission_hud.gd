@@ -696,7 +696,7 @@ func _place_threat_stack():
  if host.advanced_orders and alarm.visible:
   var side=maxf(maxf(host.pause_button.size.x,close_button.size.x),LifeChip.rect(self).size.x)+32.
   # WP-155: the lane also keeps off the speed control and the air chip (the order dock's header carries them too).
-  var lo:=side;var hi:=size.x-side
+  var lo:float=side;var hi:float=size.x-side
   var chips:Array=[host.speed_button]
   var air_chip=AirChip.node(self)
   if air_chip!=null and AirChip.shown(self):chips.append(air_chip)
