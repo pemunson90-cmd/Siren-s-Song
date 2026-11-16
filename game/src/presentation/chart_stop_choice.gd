@@ -132,7 +132,7 @@ func _publish_rect()->void:
  var rect:=Rect2(panel.global_position-host.ocean.global_position,panel.size)
  if rect==published_rect:return
  published_rect=rect
- host.ocean.card_rects=host.mission_hud._card_rects()
+ host.ocean.card_rects=host.mission_hud._card_rects()+host.mission_hud._depth_chip_rects()
 func _process(_dt:float)->void:
  if panel!=null and panel.visible:
   _publish_rect()
