@@ -3,11 +3,31 @@ extends RefCounted
 # a rock mass: material stops at each measured segment's exact endpoints.
 const BASALT=preload("res://assets/materials/basalt.png")
 const FOUNDRY=preload("res://assets/structures/foundry.png")
+const ChartCache=preload("res://src/presentation/chart_cache/chart_geometry_cache.gd")
 const CYAN=Color("63c9cc")
 const AMBER=Color("d1a15d")
+# WP-112: echo mark for a sonar return with no measured surface. Pale blue-grey, never the stone colour.
+const ECHO=Color(.62,.80,.88,.55)
+const ECHO_DOT_RADIUS:=1.8
+const ECHO_INSET:=5.
 
 static func draw_terrain(view,chart:Dictionary,scale:float,visible:Rect2=Rect2(-100000,-100000,200000,200000),style:Dictionary={})->void:
  var cell=float(chart.get("cell_size",40.))
+ # [AI-DESIGNED] WP-20: cell fills come from one cached mesh. Cells never
+ # overlap and every detail below stays inside its own cell, so drawing all
+ # fills first gives the same picture as the old fill-then-detail order.
+ var cached=ChartCache.active(chart)
+ var fills_cache=null # WP-112: reuse the cache's already computed faceless return cells
+ if cached:
+  var floor_color=Color(style.floor,.88) if not style.is_empty() else Color.BLACK
+  var cell_color=func(key):
+   if not style.is_empty():return floor_color
+   var seed_value=absi(int(key.x)*73856093 ^ int(key.y)*19349663)
+   var shade=float(seed_value%17)/17.
+   return Color(.062+shade*.008,.148+shade*.018,.163+shade*.02,.88)
+  var fills=ChartCache.request(view,"confluence",chart,[floor_color,style.is_empty()],cell_color)
+  fills.draw_fill(view)
+  fills_cache=fills
  for key in chart.get("clear_cells",[]):
   var rect=Rect2(Vector2(key)*cell,Vector2.ONE*cell)
   if not visible.intersects(rect):continue
@@ -15,7 +35,7 @@ static func draw_terrain(view,chart:Dictionary,scale:float,visible:Rect2=Rect2(-
   # sensing or obstacle meaning and never enter an unmeasured neighbouring cell.
   var seed_value=absi(int(key.x)*73856093 ^ int(key.y)*19349663)
   var shade=float(seed_value%17)/17.
-  view.draw_rect(rect,Color(style.floor,.88) if not style.is_empty() else Color(.062+shade*.008,.148+shade*.018,.163+shade*.02,.88))
+  if not cached:view.draw_rect(rect,Color(style.floor,.88) if not style.is_empty() else Color(.062+shade*.008,.148+shade*.018,.163+shade*.02,.88))
   if scale<.36:continue
   for n in 2:
    var y=rect.position.y+9.+n*15.+float(seed_value%5)
@@ -51,6 +71,16 @@ static func draw_terrain(view,chart:Dictionary,scale:float,visible:Rect2=Rect2(-
    view.draw_line(p+inward*2.,p+inward*(depth-2.),Color("0a1a21"),1.4)
    view.draw_line(p+along*1.6+inward*4.,p+along*1.6+inward*12.,Color(.35,.48,.46,.45),.8)
   view.draw_line(a+inward*7.,b+inward*7.,Color(.31,.41,.38,.42),.8)
+ # WP-112: the route check treats every sonar return cell as rock, so a return with no measured
+ # surface must show as something rather than nothing. A sparse dotted ring of dots inside its own cell:
+ # no fill, no strata, no texture, so it never reads as solid rock or reveals a shape.
+ for rect in (fills_cache.orphan_rects if fills_cache else ChartCache.orphans(chart)):
+  if not visible.intersects(rect):continue
+  var radius=ECHO_DOT_RADIUS/maxf(.65,scale)
+  var inner=rect.grow(-ECHO_INSET)
+  var mid=inner.get_center()
+  for p in [inner.position,Vector2(mid.x,inner.position.y),Vector2(inner.end.x,inner.position.y),Vector2(inner.end.x,mid.y),inner.end,Vector2(mid.x,inner.end.y),Vector2(inner.position.x,inner.end.y),Vector2(inner.position.x,mid.y)]:
+   view.draw_circle(p,radius,ECHO)
 
 static func draw_landmarks(view,context:Dictionary,scale:float)->void:
  for landmark in context.get("landmarks",[]):

@@ -2,7 +2,7 @@ extends "res://tests/depth_policy_ui_tests.gd"
 # Source-known complete opening1–5 journeys. Commands enter through viewport
 # touch plus emulated releases; only simulation time is accelerated.
 func mode(g,wanted):
- await craft(g,g.sim.selected);await click(g.order_buttons.program)
+ await craft(g,g.sim.selected);await open_program(g)
  var panel=g.route_editor
  for n in 3:
   if g.sim.route_goals()[0].mode==wanted:break
@@ -15,26 +15,40 @@ func go(g,id,point,drive=""):
  if not await plot(g,id,point):return
  if not drive.is_empty():await mode(g,drive)
  if g.sim.paused:await click(g.pause_button)
+ var held=0;var last=Vector2.INF
  for n in 12000:
   g.sim.advance(1./60)
   if n%120==0:
    g._refresh();await process_frame;await acknowledge_warning(g)
-  if not g.sim.outcome.is_empty() or not g.sim.units[id].alive or (g.sim.units[id].pos.distance_to(point)<18 and g.sim.units[id].vel.length()<2):break
+   # Trial rules (13 Nov): the game pauses itself on a new lock, at a route's end and when rock blocks a craft.
+   # A player resumes with the corner control; so does this journey. At a chart stop the player taps CONTINUE COURSE.
+   await continue_course(g,id)
+   if g.sim.paused and g.sim.outcome.is_empty():await click(g.pause_button)
+   # A craft that CONTINUE cannot move on is as close as charted water allows; a player settles for that.
+   var u=g.sim.units[id]
+   held=held+1 if u.has("chart_stop") and u.pos.distance_to(last)<1. else 0
+   last=u.pos
+  if not g.sim.outcome.is_empty() or not g.sim.units[id].alive or (g.sim.units[id].pos.distance_to(point)<18 and g.sim.units[id].vel.length()<2) or (held>=3 and g.sim.units[id].pos.distance_to(point)<45):break
  if not g.sim.paused:await click(g.pause_button)
  g._refresh();await settle()
- check(g.sim.units[id].alive and (g.sim.units[id].pos.distance_to(point)<18 or g.sim.outcome=="won"),"physical route arrives in actual authored band")
+ check(g.sim.units[id].alive and (g.sim.units[id].pos.distance_to(point)<(45 if held>=3 else 18) or g.sim.outcome=="won"),"physical route arrives in actual authored band")
 const Patient=preload("res://tests/patient_play.gd")
 func lull(g,id,up,target,then=Vector2.INF,at=Vector2.INF):
  for n in 40:
   if Patient.rehearsal_survives(g.sim,id,up,target,then,at):return
   await run_seconds(g,2.)
 func band(g,id,wanted):await shift(g,id,g.sim.units[id].band<wanted)
+# WP-134: with a charted job and a photo subject both in reach the wheel offers PHOTO and the job as two controls (WP-122);
+# these journeys want the job, so they tap its own OPERATE control, and the camera control otherwise.
+func work(g):
+ if g.mission_hud.operation_beside_photo(g.sim):await click(g.mission_hud.extra.operation)
+ else:await click(g.order_buttons.camera)
 func take(g,id,target):
- await craft(g,id);await click(g.order_buttons.camera);g.mission_hud.dismiss();await run_seconds(g,g.sim.mission.objectives[target].get("duration",4.)+.3)
+ await craft(g,id);await work(g);g.mission_hud.dismiss();await run_seconds(g,g.sim.mission.objectives[target].get("duration",4.)+.3)
 
  check(g.sim.mission.objectives[target].captured,"actual local input retains required record")
 func append_goals(g,id,points):
- await plot(g,id,points[0]);await craft(g,id);await click(g.order_buttons.program)
+ await plot(g,id,points[0]);await craft(g,id);await open_program(g)
  var panel=g.route_editor
  for point in points.slice(1):
   for button in panel.find_children("*","Button",true,false):
@@ -55,7 +69,7 @@ func arc_split(g):
    var u=g.sim.units[id];var o=g.sim.mission.objectives[id-1]
    if not u.alive:continue
    if not o.captured and g.sim.captures[id].is_empty() and u.pos.distance_to(o.pos)<230:
-    await craft(g,id);await click(g.order_buttons.camera);g.mission_hud.dismiss()
+    await craft(g,id);await work(g);g.mission_hud.dismiss()
    if o.captured and not returned[id]:
     if id==1:await append_goals(g,id,[Vector2(680,580),Vector2(680,1700),Vector2(620,2020),g.sim.mission.extraction])
     else:await plot(g,id,g.sim.mission.extraction)
@@ -64,7 +78,7 @@ func arc_split(g):
   if not returning and q.pos.distance_to(Vector2(900,1730))<20 and q.vel.length()<2 and q.transition.is_empty():
    if q.band==2:await start_shift(g,0,false)
    elif g.sim.captures[0].is_empty() and g.sim.mission.objectives[0].captured and g.sim.mission.objectives[1].captured:
-    await craft(g,0);await click(g.order_buttons.camera);g.mission_hud.dismiss()
+    await craft(g,0);await work(g);g.mission_hud.dismiss()
   if g.sim.all_records() and not returning:
    await start_shift(g,0,true);await append_goals(g,0,[Vector2(660,2100),g.sim.mission.extraction]);returning=true
   if returning and not home and q.pos.distance_to(g.sim.mission.extraction)<25 and q.vel.length()<2 and q.transition.is_empty():await start_shift(g,0,false);home=true
@@ -128,7 +142,8 @@ func run():
    root.add_child(g);await settle();g.set_process(false)
    # These routes deliberately launch bare; compare actual stock before/after.
    g.tool_racks=preload("res://src/equipment/tool_racks.gd").empty()
-   g._start_mission(id);await settle()
+   g._start_mission(id);PlayerDive.launch_drones(g.sim)
+   await settle()
    var launch_tools=g.sim.tools.duplicate(true)
    var launch_field=g.sim.mission.field_tools.counts.duplicate(true)
    var launch_racks=g.sim.mission.tool_racks.duplicate(true)

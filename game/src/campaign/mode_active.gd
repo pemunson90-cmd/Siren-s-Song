@@ -1,4 +1,5 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 # Optional mode snapshot envelope. Ledger validation belongs to the sidecar first.
 # Revert: remove session/archive calls; absent envelopes retain interrupted-loss recovery.
 const Sim=preload("res://src/simulation/simulation.gd")
@@ -44,7 +45,7 @@ static func valid(value,state:Dictionary,mode:String)->bool:
 	var budget:Dictionary=state.stock.duplicate() if mode=="runs" else {}
 	if mode=="career":
 		for key in Tools.ids():
-			if key not in Tools.field_ids() or Tools.is_enabled(key):budget[key]=Tools.loadout_count(key,"endurance")
+			if key not in Tools.field_ids() or Tools.is_enabled(key):budget[key]=Tools.loadout_count(key,Names.LOADOUT_ENDURANCE)
 	if state.has("tool_racks"):
 		budget={}
 		for key in Tools.ids():budget[key]=Racks.total(state.tool_racks,key)

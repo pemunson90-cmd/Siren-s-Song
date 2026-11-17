@@ -1,0 +1,974 @@
+[
+ [
+  "CAMP-003",
+  "`foundry_departure_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "CAMP-008",
+  "`shelf_habitat_tests`, `shelf_habitat_journey_tests`",
+  "`shelf_habitat_journey_tests`",
+  false
+ ],
+ [
+  "CAMP-011",
+  "`confluence_operation_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "CAMP-013",
+  "`warning_recipient_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "CAMP-014",
+  "`glass_reach_journeys`, `glass_earned_chart_tests`",
+  "`glass_reach_journeys`",
+  false
+ ],
+ [
+  "CAMP-026",
+  "`iron_choir_journeys`, `iron_research_tests`",
+  "`iron_choir_journeys`",
+  false
+ ],
+ [
+  "CAMP-027",
+  "`iron_choir_journeys`, `iron_research_tests`",
+  "`iron_choir_journeys`",
+  false
+ ],
+ [
+  "CAMP-050",
+  "`operation_catalog_tests`, `core`",
+  "`core`",
+  false
+ ],
+ [
+  "CAMP-052",
+  "`confluence_operation_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "CAMP-053",
+  "`campaign_consequence_tests`, `glass_reach_tests`",
+  "`campaign_consequence_tests`",
+  false
+ ],
+ [
+  "CAMP-058",
+  "`endings_photo_tests`, `endings_photo_ui_tests` (render)",
+  "`endings_photo_tests`",
+  false
+ ],
+ [
+  "CAMP-061",
+  "`arc_boundary_ui_tests` (render). RENDER ONLY.",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "CAMP-067",
+  "`crew_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "CAMP-068",
+  "`early_reward_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "CAMP-071",
+  "`onboard2_tests`, `briefing_truth_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "CAMP-073",
+  "`death_cause_tests`, `audit_navigation_tests` (render)",
+  "`death_cause_tests`",
+  false
+ ],
+ [
+  "CAMP-074",
+  "(render), `dive_end_polish_ui_tests` (render). RENDER ONLY.",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "MODE-009",
+  "`mode_tool_cargo_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "MODE-012",
+  "`prep_decision_first_ui_tests` (render). RENDER ONLY.",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "MODE-013",
+  "`player_names_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "MODE-032",
+  "`challenges_route_pars_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "MODE-042",
+  "`economy_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "MODE-043",
+  "`economy_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "MODE-044",
+  "`economy_tests`, `economy_campaign_sim_tests`",
+  "`economy_campaign_sim_tests`",
+  false
+ ],
+ [
+  "MODE-045",
+  "`economy_options_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "MODE-046",
+  "`economy_options_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "EQP-001",
+  "`loadout_frames_tests`, `rules_sonar_cost_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "EQP-002",
+  "`loadout_frames_tests`, `rules_sonar_cost_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "EQP-003",
+  "`loadout_frames_tests`, `rules_sonar_cost_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "EQP-004",
+  "`loadout_frames_tests`, `rules_sonar_cost_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "EQP-005",
+  "`loadout_frames_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "EQP-006",
+  "`loadout_frames_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "EQP-007",
+  "`loadout_frames_tests`, `rules_sonar_cost_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "EQP-009",
+  "`loadout_frames_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "EQP-010",
+  "`economy_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "EQP-011",
+  "`iron_research_tests`, `industrial_threats_tests`",
+  "`industrial_threats_tests`",
+  false
+ ],
+ [
+  "EQP-012",
+  "`iron_research_tests`, `iron_choir_journeys`",
+  "`iron_choir_journeys`",
+  false
+ ],
+ [
+  "EQP-013",
+  "`glass_research_tests`, `glass_reach_journeys`",
+  "`glass_reach_journeys`",
+  false
+ ],
+ [
+  "EQP-014",
+  "`glass_research_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "EQP-015",
+  "`craft_upgrades_tests`, `craft_upgrade_sim_tests`",
+  "`craft_upgrades_tests`",
+  false
+ ],
+ [
+  "EQP-016",
+  "`craft_upgrades_tests`, `craft_upgrade_sim_tests`",
+  "`craft_upgrades_tests`",
+  false
+ ],
+ [
+  "EQP-017",
+  "`craft_upgrades_tests`, `craft_upgrade_sim_tests`",
+  "`craft_upgrades_tests`",
+  false
+ ],
+ [
+  "EQP-018",
+  "`craft_upgrades_tests`, `craft_upgrade_sim_tests`",
+  "`craft_upgrades_tests`",
+  false
+ ],
+ [
+  "EQP-019",
+  "`cadence_correlator_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "EQP-024",
+  "`field_sampler_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "EQP-028",
+  "`field_tools_tests`, `tool_racks_tests` (render)",
+  "`field_tools_tests`",
+  false
+ ],
+ [
+  "EQP-036",
+  "`photo_capture_tests`, `campaign_photo_rows_tests`",
+  "`photo_capture_tests`",
+  false
+ ],
+ [
+  "EQP-037",
+  "`fit_surface_ui_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "EQP-040",
+  "`rules_sonar_cost_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "TOOL-003",
+  "`recon_consequences_tests`, `order_table_tests`",
+  "`recon_consequences_tests`",
+  false
+ ],
+ [
+  "TOOL-011",
+  "`tool_racks_tests` (render), `mode_tool_cargo_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "TOOL-012",
+  "`tool_racks_tests` (render), `mode_tool_cargo_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "TOOL-013",
+  "`tool_racks_tests` (render). RENDER ONLY.",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "TOOL-015",
+  "`targeting_feedback_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "SIREN-004",
+  "`sweeper_tests`, `sweeper_patrol_tests`",
+  "`sweeper_tests`",
+  false
+ ],
+ [
+  "SIREN-019",
+  "`hunt_pressure_integration_tests`, `hunt_meter_ui_tests` (render)",
+  "`hunt_pressure_integration_tests`",
+  false
+ ],
+ [
+  "SIREN-024",
+  "`lock_warning_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "SIREN-025",
+  "`first_siren_cue_ext_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "SIREN-026",
+  "`siren_warning_pause_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "SIREN-027",
+  "`fix2_state_tests`, `lock_warning_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "SIREN-028",
+  "`post_tutorial_roster_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "SONAR-005",
+  "`depth_sonar_tests`, `sonar_feedback_cache_tests`",
+  "`depth_sonar_tests`",
+  false
+ ],
+ [
+  "SONAR-007",
+  "`depth_sonar_tests`, `rules_sonar_cost_tests`",
+  "`depth_sonar_tests`",
+  false
+ ],
+ [
+  "SONAR-010",
+  "`acoustic_footprint_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "SONAR-011",
+  "`glass_earned_chart_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "SONAR-013",
+  "`status_text_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "SONAR-014",
+  "`goal_bearing_cache_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "DEPTH-009",
+  "`current_motion_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "MOVE-007",
+  "`route_program_tests`, `core`",
+  "`core`",
+  false
+ ],
+ [
+  "MOVE-008",
+  "`route_program_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "MOVE-010",
+  "`route_program_tests`, `navigation_departure_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "MOVE-012",
+  "`drone_drive_tests`, `craft_upgrade_sim_tests`",
+  "`drone_drive_tests`",
+  false
+ ],
+ [
+  "MOVE-014",
+  "`all_stop_text_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "MOVE-017",
+  "`own_craft_leg_warning_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "MOVE-018",
+  "`v7_earned_region_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "MOVE-019",
+  "`audit_navigation_tests` (render). RENDER ONLY.",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "MOVE-020",
+  "`turn_safe_navigation_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "MOVE-021",
+  "`map_gesture_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "MOVE-023",
+  "`campaign_instruments_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "MOVE-025",
+  "(render), `dive_end_polish_ui_tests` (render). RENDER ONLY.",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "MOVE-026",
+  "`navigation_departure_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "MOVE-027",
+  "`opening_fleet_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "MOVE-028",
+  "`independent_capture_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "MOVE-031",
+  "`time_speed_tests` (render), `metrics_transport_tests`",
+  "`time_speed_tests` (render)",
+  false
+ ],
+ [
+  "PHOTO-005",
+  "`photo_pricing_ui_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "PHOTO-009",
+  "`photo_discovery_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "PHOTO-010",
+  "`photo_discovery_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "PHOTO-013",
+  "`campaign_photo_rows_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "PHOTO-014",
+  "`photo_row_feed_room_journey_tests` (and the other twelve `photo_row_*_journey_tests` suites)",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "PHOTO-015",
+  "`audit_photo_evidence_tests`, `photo_trench_geometry_tests` (render)",
+  "`audit_photo_evidence_tests`",
+  false
+ ],
+ [
+  "PHOTO-016",
+  "`archive_views_ui_tests` (render), `audit_navigation_tests` (render). RENDER ONLY.",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "PHOTO-017",
+  "`archive_recap_tests`, `campaign_consequence_tests`",
+  "`campaign_consequence_tests`",
+  false
+ ],
+ [
+  "PHOTO-018",
+  "`archive_views_ui_tests` (render). RENDER ONLY.",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "PHOTO-021",
+  "`capture_feedback_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "ART-001",
+  "`glass_research_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "ART-002",
+  "`glass_research_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "ART-003",
+  "`iron_research_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "ART-004",
+  "`iron_research_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "ART-007",
+  "`calder_trench_journey_tests`, `economy_tests`",
+  "`calder_trench_journey_tests`",
+  false
+ ],
+ [
+  "ART-008",
+  "`economy_tests`. NO TEST recovers the screw in a flown dive.",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "ART-009",
+  "`audit_artifact_cargo_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "ART-010",
+  "`glass_research_tests`, `economy_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "ART-011",
+  "`archive_views_ui_tests` (render), `onboarding_tests`",
+  "`onboarding_tests`",
+  false
+ ],
+ [
+  "ART-012",
+  "`event_cue_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "ECON-001",
+  "`economy_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "ECON-002",
+  "`economy_tests`, `economy_campaign_sim_tests`",
+  "`economy_campaign_sim_tests`",
+  false
+ ],
+ [
+  "ECON-003",
+  "`economy_tests`, `audit_navigation_tests` (render)",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "ECON-004",
+  "`economy_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "ECON-005",
+  "`economy_tests`, `ironman_losses_tests`",
+  "`ironman_losses_tests`",
+  false
+ ],
+ [
+  "ECON-006",
+  "`economy_tests`, `tool_racks_tests` (render)",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "SAVE-002",
+  "`core`, `cold_review_archive_tests`",
+  "`core`",
+  false
+ ],
+ [
+  "SAVE-003",
+  "`core`, `terminal_tick_tests`",
+  "`core`",
+  false
+ ],
+ [
+  "SAVE-004",
+  "`core`, `fix2_state_tests`",
+  "`core`",
+  false
+ ],
+ [
+  "SAVE-017",
+  "`save2_ui_tests` (render), `fix2_frontend_ui_tests` (render). RENDER ONLY.",
+  "`save2_ui_tests` (render). RENDER ONLY.",
+  false
+ ],
+ [
+  "SAVE-018",
+  "`core`, `cold_review_archive_tests`",
+  "`core`",
+  false
+ ],
+ [
+  "SAVE-019",
+  "`settings_depth_tests`, `regional_settings_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "SAVE-020",
+  "`launch_guard_ui_tests` (render). RENDER ONLY.",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "SET-001",
+  "`settings_depth_tests` (render)",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "SET-002",
+  "`settings_depth_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "SET-003",
+  "`settings_depth_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "SET-004",
+  "`settings_depth_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "SET-005",
+  "`settings_depth_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "SET-006",
+  "`regional_settings_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "SET-007",
+  "`density_menu_scenarios`, `density_scenarios`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "SET-008",
+  "`frame_cap_settings_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "SET-009",
+  "`a11y_cues_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "SET-010",
+  "`a11y_cues_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "SET-011",
+  "`a11y_cues_tests` (render)",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "SET-012",
+  "`a11y_cues_tests` (render)",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "SET-013",
+  "`a11y_cues_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "SET-016",
+  "`density_menu_scenarios`, `briefing_truth_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "SET-017",
+  "`settings_depth_tests`, `a11y_cues_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "SET-018",
+  "`settings_depth_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "SET-019",
+  "`settings_depth_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "SET-020",
+  "`quality_tests`, `presentation_pass_tests`",
+  "`presentation_pass_tests`",
+  false
+ ],
+ [
+  "SET-021",
+  "`quality_tests`, `quality_ui_tests` (render)",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "SET-022",
+  "`settings_depth_tests` (render)",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "SET-023",
+  "`density_menu_scenarios` (render)",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "SET-024",
+  "`menu_reach_ui_tests` (render), `density_menu_scenarios`",
+  "`menu_reach_ui_tests` (render)",
+  false
+ ],
+ [
+  "SET-025",
+  "`density_scroll_scenarios`, `briefing_scroll_fitting_ui_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "MENU-001",
+  "`core`, `fix2_frontend_ui_tests` (render)",
+  "`core`",
+  false
+ ],
+ [
+  "MENU-004",
+  "`ops_home_ui_tests` (render) (render) (render) (render). RENDER ONLY.",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "MENU-006",
+  "`route_map_tests` (render)",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "MENU-007",
+  "`campaign_debrief_view_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "MENU-008",
+  "`archive_views_ui_tests` (render). RENDER ONLY.",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "MENU-010",
+  "`art_tests`, `art_render_measurements` (render)",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "MENU-011",
+  "`warning_chain_world_ui_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "MENU-012",
+  "`audit_readability_ui_tests` (render), `player_names_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "MENU-013",
+  "`next_step_ui_tests` (render). RENDER ONLY.",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "ANDR-001",
+  "`runtime_tests`, `photo_audio_tests`",
+  "`runtime_tests`",
+  false
+ ],
+ [
+  "ANDR-007",
+  "`density_scenarios`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "AUD-001",
+  "`core`, `settings_depth_tests`",
+  "`core`",
+  false
+ ],
+ [
+  "AUD-002",
+  "`campaign_instruments_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "AUD-004",
+  "`event_cue_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "AUD-005",
+  "`photo_audio_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "AUD-006",
+  "`regional_settings_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "AUD-007",
+  "`lock_warning_tests`, `hunt_pressure_integration_tests`",
+  "`hunt_pressure_integration_tests`",
+  false
+ ],
+ [
+  "AUD-008",
+  "`warning_chain_audio_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "DEV-008",
+  "`ai_trace_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "DEV-009",
+  "`metrics_transport_tests`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "MAINT-021",
+  "`density_scenarios`, `density_menu_scenarios`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  false
+ ],
+ [
+  "MAINT-027",
+  "`performance_measurements`",
+  "no game-play test (retired 15 Nov, Pat's rule)",
+  true
+ ]
+]

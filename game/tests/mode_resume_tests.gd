@@ -43,6 +43,8 @@ func exercise(mode:String):
 		sim.configure(state.rider);sim.start(0,"endurance",{"fitted":state.fitted,"tool_racks":state.tool_racks,"context":{"completed":state.progress.completed,"facts":state.progress.facts},"fleet_commit":false})
 		Career.Economy.apply_launch(state.economy,sim)
 	sim.elapsed=2.;sim.oxygen=87.;sim.units[0].pos+=Vector2(12,3)
+	# EMP needs a Siren inside its radius to spend its charge (Pat, 2026-11-12); this check needs the spend recorded.
+	sim.sirens[0].pos=sim.units[0].pos+Vector2(120,0)
 	sim.command("emp");sim.command("sonobuoy",{"pos":sim.units[0].pos});sim.loud_time=.5;sim.fail("CHALLENGE · persisted violation")
 	var envelope=Active.capture(mode,state,sim)
 	check(Active.valid(envelope,state,mode),mode+" actual snapshot and rider runtime validate")

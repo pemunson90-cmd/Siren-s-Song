@@ -91,6 +91,15 @@ static func damage(sim,amount:float)->void:
  sim.outcome="lost";sim.paused=true;sim.message="Warning recipient destroyed · the passage failed · retry the operation"
  sim.events.append({"type":"warning_recipient_loss","pos":vessel.pos})
 static func complete(sim)->bool:return not applies(sim.mission) or sim.mission.warning_recipient.receipt
+# WP-178: the next step complete() (the recipient's arrival receipt) waits on, once Quietus has transmitted ({} before, or when done).
+static func next_step(sim)->Dictionary:
+ if not applies(sim.mission) or complete(sim):return {}
+ var W=preload("res://src/presentation/hud_words.gd").TEXT
+ if not sim.mission.objectives.any(func(o):return o.get("site_id","")=="warning_transmission" and o.captured):return {}
+ var state=sim.mission.warning_recipient
+ if not _ack(sim):return {"text":W.work_ack}
+ if state.course.is_empty():return {"text":W.work_launch,"pos":BERTH,"band":1}
+ return {"text":W.work_arrival}
 static func status(sim)->Dictionary:
  if not applies(sim.mission):return {}
  var state=sim.mission.warning_recipient;var vessel={"known":not state.seen.is_empty(),"live":false}

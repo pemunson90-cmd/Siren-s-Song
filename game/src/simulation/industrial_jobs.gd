@@ -1,4 +1,5 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 const Catalog=preload("res://src/campaign/operation_catalog.gd")
 const Rules=preload("res://src/campaign/encounters/choir_rules.gd")
 static func applies(m:Dictionary)->bool:return Catalog.supports(m.get("id",-1),"iron_choir") and m.get("iron_choir") is Dictionary
@@ -67,7 +68,7 @@ static func command(sim,args:Dictionary)->bool:
   load.route=route;load.state="transit";load.destination=destination;state.route_choice=action
   sim._use_band(sim.units[id].band);sim._noise(c.pos,650.,"CHOIR BERTH RELEASE",6.,load.band);sim.message="Sled departs by "+action+" course · locally observe its actual dock arrival";return true
  state.jobs[id]={"action":action,"pos":c.pos,"band":sim.units[id].band,"elapsed":0.,"duration":c.duration};sim.units[id].hold="HOLD"
- sim._noise(c.pos,520.,"RECOVERY WINCH" if action=="recover" else "CHOIR MACHINERY",c.duration,sim.units[id].band);sim.message=c.reason;return true
+ sim._noise(c.pos,520.,Names.NOISE_RECOVERY_WINCH if action=="recover" else "CHOIR MACHINERY",c.duration,sim.units[id].band);sim.message=c.reason;return true
 # JobRelease calls this only after the shared HOLD guard.
 static func release_if_unheld(sim,id:int):
  if busy(sim,id):sim.mission.iron_choir.jobs[id]={}
@@ -159,6 +160,80 @@ static func complete_mission(m:Dictionary)->bool:
   26,27:return state.artifact.state in ["cargo","recovered"]
   28:return state.people_landed
  return false
+# WP-176: the next unmet step that complete_mission() waits on, in plain words ({} when none). "pos"/"band" only for a point
+# already on the chart (a work site the crew can see, or the load where it was last seen), so no hidden position is given away.
+static func next_step(sim)->Dictionary:
+ if not applies(sim.mission) or complete(sim):return {}
+ var W=preload("res://src/presentation/hud_words.gd").TEXT
+ var state=sim.mission.iron_choir;var id=sim.mission.id;var load=state.load;var a=state.artifact
+ var seen=state.seen
+ var lname=str(load.get("name","load")).to_upper()
+ var q:Vector2=sim.units[0].pos
+ # The nearest listed site that is on the chart; {} when none of them is.
+ var mark=func(ids:Array)->Dictionary:
+  var best={};var best_d=INF
+  for site_id in ids:
+   var s=Rules.site(state,site_id)
+   if s.is_empty() or not sim.visible(s.pos,s.band):continue
+   var d=q.distance_to(s.pos)
+   if d<best_d:best_d=d;best={"pos":s.pos,"band":s.band}
+  return best
+ var open_step=func(site_id:String)->Dictionary:
+  var m:Dictionary=mark.call([site_id])
+  var step={"text":(W.work_open%[site_id.to_upper().replace("_"," "),site_id.to_upper().replace("_"," ")]) if not m.is_empty() else W.work_open_unseen%site_id.to_upper().replace("_"," ")}
+  step.merge(m);return step
+ # A load towed to station(s): attach it first when nobody tows it.
+ var tow_step=func(targets:Array,label:String)->Dictionary:
+  var m:Dictionary=mark.call(targets)
+  var step:Dictionary
+  if load.state!="towed":
+   step={"text":W.work_attach%[lname,label]}
+   if not seen.is_empty():step.pos=seen.pos;step.band=seen.band
+  else:
+   step={"text":W.work_tow%[lname,label]};step.merge(m)
+  return step
+ match id:
+  22,25:
+   if state.arrived:
+    var step={"text":W.work_watch%lname}
+    if not seen.is_empty():step.pos=seen.pos;step.band=seen.band
+    return step
+   if load.get("state","")=="transit":
+    var gate=Rules.jam(id,state,load)
+    if not gate.is_empty():
+     var step={"text":W.work_jam%[gate.to_upper().replace("_"," "),lname]};step.merge(mark.call([gate]));return step
+    if Rules.ESCORT.has(id) and not Rules.escorted(sim,load):return {"text":W.work_escort%[roundi(Rules.ESCORT[id]),lname]}
+    return {"text":W.work_wait%lname}
+   var release=mark.call(["release"])
+   if id==22:
+    var lane:String=state.route_choice
+    if lane.is_empty():lane="east" if Rules.site(state,"lock_b").get("done",false) and not Rules.site(state,"lock_a").get("done",false) else "west"
+    var gate=Rules.LANE_GATE[22][lane]
+    if not Rules.site(state,gate).get("done",false):return open_step.call(gate)
+    var step={"text":W.work_voyage%lane.to_upper()};step.merge(release);return step
+   var step25={"text":W.work_voyage%"EAST OR WEST" if Rules.site(state,"service").get("done",false) else W.work_voyage_east};step25.merge(release);return step25
+  23:
+   for site in state.sites:
+    if not site.done:return open_step.call(site.id)
+  24:return tow_step.call(["bypass","isolate"],"BYPASS or ISOLATE")
+  26:
+   if a.state in ["site","wreck"]:
+    if sim.visible(a.pos,a.band):return {"text":W.work_winch%str(a.id).replace("_"," ").to_upper(),"pos":a.pos,"band":a.band}
+    return {"text":W.work_winch_unseen}
+  27:
+   if not Rules.site(state,"lock_a").done:return tow_step.call(["lock_a"],"LOCK A")
+   if not Rules.site(state,"cradle").done:return tow_step.call(["cradle"],"the CRADLE")
+   if a.state in ["site","wreck"]:
+    if sim.visible(a.pos,a.band):return {"text":W.work_winch%str(a.id).replace("_"," ").to_upper(),"pos":a.pos,"band":a.band}
+    return {"text":W.work_winch_unseen}
+  28:
+   for station in ["lock_a","lock_b","land"]:
+    if not Rules.site(state,station).done:return tow_step.call([station],station.to_upper().replace("_"," ") if station!="land" else "the LAND dock")
+  29:
+   if not Rules.site(state,"lock_c").done:
+    var step={"text":W.work_far_breaker};step.merge(mark.call(["lock_c","dismantle"]));return step
+   var step={"text":W.work_reconnect};step.merge(mark.call(["reconnect"]));return step
+ return {}
 static func can_extract(sim,corridor:Dictionary)->bool:
  if not applies(sim.mission):return true
  var a=sim.mission.iron_choir.artifact

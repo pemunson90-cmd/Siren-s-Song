@@ -34,7 +34,10 @@ headless.ps1 -Action Import -Isolate
 headless.ps1 -Action Core -Isolate
 headless.ps1 -Action Script -Script sweeper_tests -Prefix SWEEPER -Isolate
 headless.ps1 -Action Raw -GodotArgs --version
+headless.ps1 -Action Script -Script <render suite> -Prefix "<PREFIX>" -Windowed
 ```
+
+`-Windowed` (WP-142) opens a real window instead of `--headless`, for render suites.
 
 - `Import` imports the project. `Core` runs `res://tests/run_tests.gd`.
   `Script` runs one test (`-Script` takes `NAME`, `NAME.gd` or a `res://` path).
@@ -86,3 +89,29 @@ names that only define helpers are counted and ignored. Warnings cover stale
 allowlist lines and registered files that are not SceneTree entry points.
 
 Add a deliberately unregistered entry-point to the allowlist as `name | reason`.
+
+## full-sweep.ps1
+
+Runs every registered suite once, locally (the CI profile, then each render-flagged suite), about 85 minutes. Use it after a batch of merges: the everyday set does not cover the guard suites. The per-suite logs in the artifact folder are the record; the result file ends with the failures found in them.
+
+```
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/toolchain/win/full-sweep.ps1 -Repo <repository folder> -Out <result file>
+```
+
+Render suites (marked `render`) run with `headless.ps1 -Windowed`: no `--headless`, the OpenGL compatibility renderer on the GPU, a real window (WP-143: `art_render_measurements` and `cold_review_archive_tests` were retired 15 Nov; see `game/tests/retired_suites.txt`). `test-suite.ps1` still reports render suites as SKIPPED; the sweep runs them.
+
+`sweep-skip.txt` (this folder) lists suites that cannot run on this PC, one `name | reason` line each. The sweep prints them as `SKIPPED (reason)` instead of failing. It is empty now: every registered suite runs. Never delete a suite; skip it here with the reason.
+
+## build-apk.ps1
+
+Builds the debug Android APK with no GitHub Actions and no installer, PATH or system changes.
+
+```
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts\toolchain\win\build-apk.ps1 [-Repo <repository folder>] [-OutDir <folder>] [-InstallOnly]
+```
+
+Installs only what is missing, into `<cache>\android` (zips from `<cache>\downloads`, each checked against its published checksum): Godot 4.6.3 Android export templates (SHA512, from github.com/godotengine/godot), Eclipse Temurin JDK 17 (SHA256, Adoptium), and the Android command-line tools (SHA256, dl.google.com), then through `sdkmanager` only `platform-tools`, `build-tools;36.0.0` (as CI uses) and `platforms;android-36`. The script answers the SDK licence prompts for those packages only. No NDK, Gradle or Android Studio is needed (the preset uses the prebuilt template, `use_gradle_build=false`).
+
+Godot runs with a private `APPDATA` (`<cache>\android\godot-appdata`) holding the templates and editor settings (JDK, SDK and the tracked `scripts\toolchain\signing\sirens-song-debug.keystore`), so your own Godot settings are untouched. It then imports and runs `--export-debug Android`, and fails unless the APK's signing certificate SHA-256 equals `signing\sirens-song-debug.certificate.sha256`. The keystore is never regenerated.
+
+Output: `<cache>\apk-local\sirens-song-debug.apk` (plus `.sha256`, `apk-signature.txt`, `build-apk.log`). Version code and name come from `game\export_presets.cfg`.

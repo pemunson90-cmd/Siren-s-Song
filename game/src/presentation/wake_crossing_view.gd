@@ -27,7 +27,7 @@ static func pick(view,sim,point:Vector2,touch:float)->Dictionary:
 static func detail(sim)->String:
  var c=context(sim)
  if not c.get("known",false):return ""
- return "RIG BEACON LOOP · ONE USE\n"+("PLAYBACK TIMER ·%ds from your local order\n"%ceili(c.remaining) if c.active else "")+c.reason+"\n\n"+c.account+"\n\nAny bare craft can connect within65m, clear line, below2m/s. One1100m open-water emission lasts15s; basalt can weaken or block it. Ordinary listeners may investigate its water, but current sight and louder evidence take priority. No guard response is guaranteed. Time it against your own crossing, then recover the operator. A watch with sight can report after2 uninterrupted seconds; cover or disruption cancels. A reached peer searches a coarse old point, not your live position. The longer outer water remains available without playback or tools."
+ return "RIG BEACON LOOP · ONE USE\n"+("PLAYBACK TIMER ·%ds from your local order\n"%ceili(c.remaining) if c.active else "")+c.reason+"\n\n"+c.account+"\n\nAny bare craft can connect within65m, clear line, below2m/s. One1100m open-water emission lasts15s; basalt can weaken or block it. Ordinary listeners may investigate its water, but current sight and louder evidence take priority. No guard response is guaranteed. Time it against your own crossing, then recover the operator. A watch with sight can report after2 uninterrupted seconds; cover or an EMP pulse cancels. A reached peer searches a coarse old point, not your live position. The longer outer water remains available without playback or tools."
 static func draw(view,sim=null)->void:
  if sim==null:sim=view.sim
  var c=context(sim)

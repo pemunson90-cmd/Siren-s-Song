@@ -1,5 +1,6 @@
 extends SceneTree
 const Sim=preload("res://src/simulation/simulation.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 var checks=0
 var failures=0
 func check(ok,label):
@@ -78,7 +79,7 @@ func result(s,label):
  print("OPENING ",label," outcome=",s.outcome," time=",s.elapsed," hull=",s.hull," oxygen=",s.oxygen," alive=",s.units.map(func(u):return u.alive)," tools=",s.tools)
 func blackwater():
  var fit=preload("res://src/equipment/equipment_catalog.gd").canonical({"drone_a":"drone_deep_cells"})
- var s=Sim.new();s.start(2,"endurance",{"fitted":fit})
+ var s=Sim.new();s.start(2,"endurance",{"fitted":fit});PlayerDive.launch_drones(s) # both helpers start in the water, as this journey was written
  # Source-known ordinary routes; readiness comes from the received context.
  # The west perch must actually be within the quiet receiver's passive reach.
  s.command("select",{"unit":1});s.command("drone_drive",{"mode":"quiet"})

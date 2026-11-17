@@ -96,6 +96,13 @@ with tempfile.TemporaryDirectory() as tmp:
     # Docs, shard timings and non-game files select nothing but the canaries.
     assert changed(root, "docs/notes.md", "game/tests/suite-times.json", "README.md") == (
         False, "affected", ["gamma_tests"])
+    # Minimum mode: a changed suite, suites that name a changed source file
+    # themselves, and the canary; never the full matrix, even for a serial zone.
+    assert run(root, "--minimum", "--changed", "game/tests/alpha_tests.gd") == (
+        False, "minimum", ["alpha_tests", "gamma_tests"])
+    assert run(root, "--minimum", "--changed", "game/src/feature/a.gd")[2] == ["alpha_tests", "gamma_tests"]
+    assert run(root, "--minimum", "--changed", "game/src/main.gd", "scripts/toolchain/test.sh") == (
+        False, "minimum", ["gamma_tests"])
     # Local-only suites are never selected for CI.
     assert "local_only_tests" not in changed(root, "game/tests/local_only_tests.gd")[2]
 

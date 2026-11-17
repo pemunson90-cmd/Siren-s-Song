@@ -1,12 +1,13 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 # Revision 2 shares bounded stale evidence between patrollers. Revision 1 keeps
 # its original one-investigator behavior for interrupted dives. A report never supplies a live target,
 # global alert or queue of interests (Klei's bounded-awareness pattern).
 # Report timing and range tuning is centralized here; sight and beam are unchanged.
 const CHARGE=2.0 # Legacy revision 1 saves.
 const RADIO_CHARGE=3.0 # AI-DESIGNED: completes before the protected four-second beam.
-const ROLES=["patroller","hunter","sentinel"]
-static func eligible(s)->bool:return s is Dictionary and s.get("type","patroller") in ROLES
+const ROLES=[Names.ROLE_PATROLLER,Names.ROLE_HUNTER,Names.ROLE_SENTINEL]
+static func eligible(s)->bool:return s is Dictionary and s.get("type",Names.ROLE_PATROLLER) in ROLES
 static func configure(m:Dictionary)->void:
  if m.sirens.filter(eligible).size()>=2:m["contact_report_revision"]=2
 static func charge(m:Dictionary)->float:return RADIO_CHARGE if m.get("contact_report_revision",0)==2 else CHARGE
@@ -29,7 +30,7 @@ static func advance(sim,observations:Array,fresh:Array,dt:float,distractions:Arr
    if fresh[id]:s.erase("report_interest")
    elif s.report_interest<=0:
     s.erase("report_interest");s["attention_time"]=0.0;s.goal=s.home;s.route.clear();s.path_time=0.0
-    if s.stun<=0 and s.get("pin_time",0)<=0:s.mode="PATROL" if s.get("type","patroller")=="patroller" else "RETURN"
+    if s.stun<=0 and s.get("pin_time",0)<=0:s.mode="PATROL" if s.get("type",Names.ROLE_PATROLLER)==Names.ROLE_PATROLLER else "RETURN"
   if not s.has("report"):
    if seen<0 or sim.sirens.size()<2:continue
    s["report"]={"target":-1,"point":Vector2.ZERO,"charge":0.0,"cooldown":0.0,"sent":0.0,"band":sim.units[seen].transition.get("to",sim.units[seen].band)}

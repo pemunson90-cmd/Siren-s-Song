@@ -1,4 +1,5 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 # Optional physical notes cache. Revert authoring with ENABLED=false; retain
 # validation and custody support for existing dives. No equipment or stock grants.
 const ENABLED=true
@@ -52,7 +53,7 @@ static func begin(sim,item:String)->bool:
  if not c.ready:sim.message=c.reason;return false
  sim.mission.optional_cache.jobs[sim.selected]={"item":item,"elapsed":0.}
  sim.units[sim.selected].hold="HOLD"
- sim._noise(sim.units[sim.selected].pos,Winch.NOISE,"RECOVERY WINCH",Winch.DURATION,sim.units[sim.selected].band)
+ sim._noise(sim.units[sim.selected].pos,Winch.NOISE,Names.NOISE_RECOVERY_WINCH,Winch.DURATION,sim.units[sim.selected].band)
  sim.message=c.reason;return true
 static func release_if_unheld(sim,id:int)->void:
  if applies(sim):sim.mission.optional_cache.jobs[id]={}

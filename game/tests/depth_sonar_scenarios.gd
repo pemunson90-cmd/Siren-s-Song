@@ -2,6 +2,7 @@ extends RefCounted
 const Sim=preload("res://src/simulation/simulation.gd")
 const Depth=preload("res://src/simulation/depth_bands.gd")
 const Sonar=preload("res://src/simulation/advanced_sonar.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 static func tick(s,seconds):
  s.paused=false
  for n in roundi(seconds*60):s.advance(1./60)
@@ -24,7 +25,7 @@ static func run(t):
  t.check(row.direction.distance_to(Vector2.RIGHT)<.001 and row.band==-1 and row.classification=="MACHINERY" and row.confidence<.5,"passive evidence carries real direction, uncertain classification and unresolved depth")
  var quiet_count=s.sonar.history.size();s.units[0].vel=Vector2(96,0);s.sonar.clock=0;Sonar.advance(s,0.)
  t.check(s.sonar.history.size()==quiet_count,"actual own motion masks the distant passive arrival")
- s=fixture();s.units[1].alive=true;s.units[1].pos=Vector2(300,400);tick(s,.7)
+ s=fixture();PlayerDive.launch_drones(s);s.units[2].alive=false;s.units[1].pos=Vector2(300,400);tick(s,.7)
  t.check(s.sonar.fixes.has(0) and s.contacts.get(0,{}).get("source")=="triangulation","independent drone rays produce a separately labelled positional fix")
  t.check(s.contacts[0].pos.distance_to(Vector2(600,700))<1 and s.contacts[0].get("band")==-1,"triangulation constrains the intersection without claiming hidden band or role")
  s=fixture();tick(s,.7);s.units[0].pos=Vector2(250,500);tick(s,.7)
@@ -32,7 +33,11 @@ static func run(t):
  s=fixture();s.command("sonar_mode",{"sector":"forward","power":"low"});s.units[0].angle=PI
  t.check(s.command("ping") and not s.sonar.pending.any(func(p):return p.kind=="echo"),"selected forward sector excludes a rear reflector")
  s=fixture();var reserve=s.oxygen;s.command("ping");var emitted=s.sirens[0].pos
- t.check(s.oxygen<reserve and s.contacts.is_empty() and s.sonar.pending.size()==1,"pulse spends reserve and has no instantaneous positional return")
+ # Until 2026-11-12 (player rules, Pat: Quietus's sonar "shouldn't cost oxygen"; a drone's pulse costing battery makes sense) this was:
+ #   t.check(s.oxygen<reserve and s.contacts.is_empty() and s.sonar.pending.size()==1,"pulse spends reserve and has no instantaneous positional return")
+ t.check(is_equal_approx(s.oxygen,reserve) and s.contacts.is_empty() and s.sonar.pending.size()==1,"Quietus pulse costs no life support and has no instantaneous positional return")
+ var drone_pulse=fixture();PlayerDive.launch_drones(drone_pulse);drone_pulse.units[2].alive=false;drone_pulse.command("select",{"unit":1});var charge=drone_pulse.units[1].battery;var drone_reserve=drone_pulse.oxygen
+ t.check(drone_pulse.command("ping") and drone_pulse.units[1].battery<charge and is_equal_approx(drone_pulse.oxygen,drone_reserve) and drone_pulse.contacts.is_empty(),"a drone pulse still spends its battery, not life support, and has no instantaneous positional return")
  var copy=Sim.new();t.check(copy.restore(s.snapshot()),"emission-time pending return saves before arrival")
  s.sirens[0].pos=Vector2(1100,500);s.sirens[0].home=s.sirens[0].pos;s.sirens[0].goal=s.sirens[0].pos
  tick(s,2.4)
@@ -57,7 +62,7 @@ static func run(t):
  s.sirens[0].known_band=2;s.sirens[0].attention_time=10.;s.sirens[0].last_known=s.units[0].pos
  tick(s,1.)
  t.check(s.sirens[0].transition.get("to",-1)==2 and s.sirens[0].lock>0 and s.hull==100,"guard follows acquired depth and starts its shared-band warning before firing")
- tick(s,3.2)
+ tick(s,s.lock_seconds()-.8) # 3.2 s on the standard 4 s lock; the first dive's lock is longer (trial rule 2)
  t.check(s.outcome=="lost" and s.hull==0,"unbroken shared-band lock vaporizes during the depth pursuit")
  s=Sim.new();s.start(0)
  t.check(not Depth.clear(s,Vector2(560,480),Vector2(560,480),1,12) and Depth.clear(s,Vector2(560,480),Vector2(560,480),2,24),"authored deep passage passes beneath physically solid middle shelf")
@@ -77,7 +82,7 @@ static func run(t):
  # Resolve catalog's actual passive-array identifier rather than invent a module.
  var item=s.mission.module_recovery.modules.keys()[0] if not s.mission.module_recovery.modules.is_empty() else ""
  if not item.is_empty():
-  s.units[1].band=2;s.units[1].pos=Vector2(300,800);s.units[1].alive=false;tick(s,.1)
+  PlayerDive.launch_drones(s);s.units[1].band=2;s.units[1].pos=Vector2(300,800);s.units[1].alive=false;tick(s,.1) # lost in the water, not aboard
   t.check(s.salvage_sites().any(func(site):return site.item==item and site.band==2),"known lost module retains its actual deep wreck band")
   s.units[0].pos=Vector2(300,800);s.units[0].vel=Vector2.ZERO
   t.check(not s.command("salvage",{"item":item}),"middle craft cannot winch co-located deep cargo")
@@ -98,7 +103,7 @@ static func run(t):
  s.mission.rocks=[Rect2(450,480,20,40)];s._build_navigation();s._configure_terrain();s._configure_depth_charts();s.command("sonar_mode",{"sector":"all","power":"high"});s.command("ping")
  var indirect=s.sonar.pending.filter(func(packet):return packet.kind=="echo" and not packet.direct)
  t.check(not indirect.is_empty() and absf(indirect[0].get("direction",Vector2.RIGHT).y)>.01,"diffracted echo records actual corner arrival bearing instead of hidden true bearing")
- s=fixture();s.units[1].alive=true;s.units[1].pos=Vector2(350,450)
+ s=fixture();PlayerDive.launch_drones(s);s.units[2].alive=false;s.units[1].pos=Vector2(350,450)
  var indistinct=s.sirens[0].duplicate(true);indistinct.pos=Vector2(800,400);indistinct.home=indistinct.pos;indistinct.goal=indistinct.pos;s.sirens.append(indistinct)
  tick(s,.7)
  t.check(s.sonar.history.any(func(row):return row.enemy==1) and s.sonar.fixes.is_empty(),"actually received indistinguishable motor tones retain ambiguity instead of false triangulation")
@@ -112,7 +117,8 @@ static func run(t):
  var heard=preload("res://src/audio/received_cues.gd").new()
  var event={"type":"sweep_received","receiver":0,"direction":Vector2.LEFT,"time":1.}
  t.check(heard.take(event,1,1.,true).is_empty() and not heard.take(event,0,1.,true).is_empty() and heard.take(event,0,1.1,true).is_empty(),"sweeper audio belongs only to its actual receiver and does not replay history")
- s=fixture();s.units[1].alive=true;s.units[1].pos=s.units[0].pos;s.units[1].band=2;s.command("select",{"unit":1});s.command("emp")
+ # EMP needs a Siren inside its radius (Pat, 2026-11-12); this check is about the emitter's depth, so the Siren is placed within reach of a deep EMP.
+ s=fixture();PlayerDive.launch_drones(s);s.units[2].alive=false;s.units[1].pos=s.units[0].pos;s.units[1].band=2;s.sirens[0].pos=s.units[0].pos+Vector2(60,0);s.command("select",{"unit":1});s.command("emp")
  t.check(s.noises.back().get("band")==2,"co-located craft in different bands retain the actual emitter's acoustic depth")
  s=fixture();s.sirens[0].pos=Vector2(350,700);s._observe();s.command("knock",{"target":0})
  var shot=s.snapshot();shot.projectiles[0].band=3

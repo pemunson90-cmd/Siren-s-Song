@@ -3,6 +3,7 @@ extends SceneTree
 # Routes are the existing opening_depth_journeys.gd courses and the expanded_region solo circuit, run on ChallengeRun
 # with its own loadout and rule, patient_play rehearsals before each exposure and live Sirens. No par is changed here.
 const R=preload("res://tests/challenge_routes.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 var checks=0
 var failures=0
 func check(ok,label):
@@ -25,7 +26,7 @@ func split():
  check(R.course(s,0,[Vector2(700,1750),Vector2(650,2060),s.mission.extraction]),"split Quietus returns to extraction")
  finish(s,"split_solo","shallow_saddle")
 func foundry():
- var s=R.fresh("foundry_no_charges")
+ var s=R.fresh("foundry_no_charges");PlayerDive.launch_drones(s) # the middle drone is launched from Quietus
  check(R.dive(s,0,2) and R.go(s,0,Vector2(960,500)),"foundry Quietus crosses beneath the central spine")
  s.command("select",{"unit":1});s.command("drone_drive",{"mode":"quiet"})
  check(R.go(s,1,Vector2(1090,580),18) and R.record(s,1,0),"foundry middle drone records the furnace")
@@ -46,7 +47,7 @@ func well():
  check(R.dive(s,0,2) and R.go(s,0,s.mission.extraction) and R.dive(s,0,1),"well archive returns beneath the woken hunter")
  finish(s,"well_intact","opening_depth")
 func song():
- var s=R.fresh("song_fleet")
+ var s=R.fresh("song_fleet");PlayerDive.launch_drones(s) # the fleet is launched from Quietus
  check(R.dive(s,0,2) and R.go(s,0,Vector2(360,650)) and R.go(s,0,Vector2(950,400)) and R.go(s,0,Vector2(1180,40)),"song deep central crossing")
  R.lull(s,0,1,0);check(R.dive(s,0,1) and R.record(s,0,0),"song crown observation")
  check(R.dive(s,0,0) and R.go(s,0,Vector2(1180,400)) and R.go(s,0,Vector2(1180,760)) and R.go(s,0,Vector2(1250,870)),"song shallow eastern crossing")
@@ -56,10 +57,13 @@ func song():
  check(s.units.all(func(u):return u.alive),"song every launched craft is home alive")
  finish(s,"song_fleet","opening_depth")
 func _initialize():
+ # Scripted routes through authored water, not discovery tests: known-charts developer switch (the player rules leave this water uncharted).
+ var charts_before=PlayerDive.known_water(true)
  var only=OS.get_cmdline_user_args()
  if only.is_empty() or "split" in only:split()
  if only.is_empty() or "foundry" in only:foundry()
  if only.is_empty() or "well" in only:well()
  if only.is_empty() or "song" in only:song()
+ PlayerDive.known_water(charts_before)
  print("CHALLENGES COMPLETIONS OPENING CHECKS ",checks," FAILURES ",failures)
  quit(1 if failures else 0)

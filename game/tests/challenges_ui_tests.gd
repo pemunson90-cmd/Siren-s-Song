@@ -84,7 +84,18 @@ func shape_case(shape):
    check(front.screen=="challenges","real touch opens the challenge list")
    var rows=front.find_children("*","Button",true,false).filter(func(b):return b.get_meta("challenge_id","")!="")
    check(rows.size()==12,"the menu lists all twelve challenge unlocks")
-   check(rows.filter(func(b):return not b.disabled).size()==1,"only the recovered operation is unlocked")
+   check(rows.filter(func(b):return not b.get_meta("locked",false)).size()==1,"only the recovered operation is unlocked")
+   var locked=rows.filter(func(b):return b.get_meta("locked",false))
+   check(locked.all(func(b):return b.text.contains("LOCKED · Recover ") and b.text.contains("in the Campaign") and b.text.split("\n").size()>=3),"every locked card shows its rule beside the named Campaign operation that unlocks it")
+   check(locked.any(func(b):return b.text.contains("Recover 02 Split Channel in the Campaign")),"a locked card names the operation, not only its number")
+   check(locked.any(func(b):return b.text.contains("Recover operation ")),"a later operation keeps its number only: the Route Map hides its name until the player can know it")
+   if not locked.is_empty():
+    var card=locked[0];var note=front.find_child("LockNote_"+card.get_meta("challenge_id"),true,false) as Label
+    check(note!=null and not note.visible,"a locked card holds a hidden note until it is tapped")
+    check(not card.disabled,"a locked card is still a tappable control")
+    card.pressed.emit();await settle()
+    check(note!=null and note.visible and note.text.contains("in the Campaign to unlock") and note.text.contains("Campaign so far"),"tapping a locked card shows what unlocks it and where the Campaign stands")
+    check(front.screen=="challenges","tapping a locked card stays on the list and unlocks nothing")
    if await press(front,"challenge_shelf_passive"):
     if await press(front,"challenge_start"):
      var session=game.get_node_or_null("ChallengeSession")
@@ -131,8 +142,12 @@ func shape_case(shape):
            session=game.get_node_or_null("ChallengeSession")
            if session!=null:
             session.set_process(false);await android_back()
-            check(session.screen=="challenge_menu","Android Back opens the attempt menu through the normal lifecycle notification")
+            check(session.screen=="challenge_menu" and session.sim.paused and not session.recorded,"Android Back opens the attempt menu (as MENU does) and records nothing")
             if await press(session,"challenge_abandon"):
+             # WP-34: END ATTEMPT asks first; KEEP returns to the paused menu with nothing recorded.
+             check(session.screen=="challenge_confirm_end" and not session.recorded,"END ATTEMPT opens a confirmation and records nothing yet")
+             if await press(session,"challenge_attempt_keep"):check(session.screen=="challenge_menu" and not session.recorded and not session.abandoned,"KEEP ATTEMPT returns to the paused attempt menu untouched")
+             if await press(session,"challenge_abandon"):await press(session,"challenge_attempt_confirm_end")
              if navigation=="android":await android_back(2)
              else:await escape_key()
              check(game.get_node_or_null("ChallengeSession")==null and front.screen=="challenges","Escape or Android Back leaves a finished attempt instead of reopening a recorded loss")

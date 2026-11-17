@@ -1,10 +1,12 @@
 name: Gauntlet PR checks
 
-# Draft pull requests run guidance only. Ready pull requests run core plus the
-# suites affected by the diff (scripts/toolchain/select-suites.py), falling back
-# to the full four-shard matrix when shared code or test infrastructure changes.
-# The merge queue, the nightly (nightly-integration.yml) and manual dispatches
-# always run the full matrix.
+# Bare minimum by default (Pat, 2026-11-12). Draft pull requests run guidance
+# only. Ready pull requests run core plus the minimum selection
+# (scripts/toolchain/select-suites.py --minimum): suites changed by the diff,
+# suites that name a changed source file, and the canaries. The merge queue
+# runs core. Neither runs the four-shard matrix. The full matrix runs only on
+# a manual dispatch, before a release or near-release package, and in the
+# nightly (nightly-integration.yml) once that workflow is on the default branch.
 on:
   pull_request:
     branches: ['main', 'gauntlet/production', 'claude/integration']
@@ -29,7 +31,7 @@ jobs:
   guidance:
     name: guidance
     runs-on: ubuntu-24.04
-    timeout-minutes: 5
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
@@ -38,6 +40,23 @@ jobs:
         run: python3 scripts/toolchain/test-check-gauntlet-guidance.py
       - name: Audit current branch's governing instructions
         run: python3 scripts/toolchain/check-gauntlet-guidance.py --root .
+      - name: Check documentation links
+        run: python3 scripts/repo/check_doc_links.py
+      # Tool self-tests that need no Godot. They are fast and guard the test
+      # runner's failure reporting, the signing configuration, the boundary
+      # helper and the Android smoke parsers.
+      - name: Test toolchain helpers
+        shell: bash
+        run: |
+          set -euo pipefail
+          for test in test-gauntlet-boundary.py test-test-sh-failures.py test-configure-signing.py \
+              test-android-capture.py test-android-menu.py test-android-metric-records.py \
+              test-android-planner.py test-android-radial.py test-android-role.py \
+              test-android-ui-metrics.py test-android-view.py; do
+            echo "::group::$test"
+            python3 "scripts/toolchain/$test"
+            echo "::endgroup::"
+          done
 
   game-core:
     name: game-core
@@ -116,6 +135,15 @@ jobs:
       - name: Verify affected-suite selection
         if: steps.changes.outputs.game == 'true'
         run: python3 scripts/toolchain/test-select-suites.py
+      # These two Android smoke helper tests call the Godot editor, so they
+      # run here, where it is installed, and not in the guidance job.
+      - name: Test Android smoke helpers that need Godot
+        if: steps.changes.outputs.game == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/toolchain/test-android-blackwater.py
+          python3 scripts/toolchain/test-android-resume.py
       - name: Docs-only change; no Godot run
         if: steps.changes.outputs.game == 'false'
         run: echo 'No active Godot game or gameplay change. Guidance is checked separately.'
@@ -141,8 +169,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python3 scripts/toolchain/select-suites.py --base "$BASE_SHA" --head HEAD | tee -a "$GITHUB_OUTPUT"
-      - name: Full matrix required; the four runtime shards run instead
+          python3 scripts/toolchain/select-suites.py --minimum --base "$BASE_SHA" --head HEAD | tee -a "$GITHUB_OUTPUT"
+      - name: Full matrix requested (not expected in minimum mode)
         if: steps.select.outputs.full == 'true'
         env:
           REASON: ${{ steps.select.outputs.reason }}
@@ -181,11 +209,11 @@ jobs:
   game-runtime:
     name: game-runtime (${{ matrix.shard }}/4)
     needs: [game-core, game-affected]
-    # Pull requests run all shards only when game-affected falls back; every
-    # other event (merge queue, schedule, dispatch, nightly call) always runs them.
+    # Pull requests and the merge queue never run the shards (minimum selection).
+    # A manual dispatch, a schedule and the nightly call run them.
     if: >-
       ${{ !cancelled() && needs.game-core.result == 'success' && needs.game-core.outputs.game == 'true' &&
-      (github.event_name != 'pull_request' || needs.game-affected.outputs.full == 'true') }}
+      github.event_name != 'pull_request' && github.event_name != 'merge_group' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 90
     outputs:
@@ -278,14 +306,12 @@ jobs:
           case "$GAME_CHANGED" in
             true)
               if [[ "$EVENT" == pull_request ]]; then
-                [[ "$AFFECTED_RESULT" == success ]]
-                case "$AFFECTED_FULL" in
-                  true) shards ;;
-                  false) [[ "$RUNTIME_RESULT" == skipped ]] ;;
-                  *) echo 'Missing affected-selection result' >&2; exit 1 ;;
-                esac
+                # Minimum selection only; the shards never run for a pull request.
+                [[ "$AFFECTED_RESULT" == success && "$AFFECTED_FULL" == false && "$RUNTIME_RESULT" == skipped ]]
+              elif [[ "$EVENT" == merge_group ]]; then
+                [[ "$AFFECTED_RESULT" == skipped && "$RUNTIME_RESULT" == skipped ]]
               else
-                # Every event other than a ready pull request needs all four shards.
+                # A manual dispatch, a schedule or the nightly call: all four shards.
                 [[ "$AFFECTED_RESULT" == skipped ]]
                 shards
               fi

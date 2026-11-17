@@ -1,4 +1,5 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 # Threat placement builders. Each returns plain siren dictionaries in the shared
 # patrol format, so every role keeps its existing simulation behaviour.
 static func guard(type:String,pos:Vector2,band:int=1,points:Array=[],extra:Dictionary={})->Dictionary:
@@ -9,8 +10,8 @@ static func add(m:Dictionary,list:Array)->void:
 # A listening line: passive buoys at the watched gaps, one relay behind them
 # that can forward a stale report to whichever investigator it reaches.
 static func listening_line(gaps:Array,relay:Vector2,band:int=1)->Array:
- var result=gaps.map(func(p):return guard("buoy",p,band))
- result.append(guard("relay",relay,band));return result
+ var result=gaps.map(func(p):return guard(Names.ROLE_BUOY,p,band))
+ result.append(guard(Names.ROLE_RELAY,relay,band));return result
 # A tethered post that returns to its water after an investigation.
 static func post(pos:Vector2,band:int=1,tether:float=170.)->Dictionary:
- return guard("sentinel",pos,band,[pos,pos+Vector2(70,0),pos+Vector2(0,90)],{"tether":tether})
+ return guard(Names.ROLE_SENTINEL,pos,band,[pos,pos+Vector2(70,0),pos+Vector2(0,90)],{"tether":tether})

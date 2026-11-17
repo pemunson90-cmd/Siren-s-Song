@@ -123,7 +123,7 @@ func collision_patch():
  var beam=Sim.new();beam.start(0,"endurance")
  var enemy=beam.sirens[0]
  beam.mission.structures=[];beam.rock_shapes=[];beam.rock_bounds=[];beam._build_navigation()
- enemy.pos=beam.units[0].pos+Vector2(50,0);enemy.band=beam.units[0].band;enemy.transition={};enemy.stun=0.0;enemy.target=0;enemy.lock=3.99;enemy.type="patroller"
+ enemy.pos=beam.units[0].pos+Vector2(50,0);enemy.band=beam.units[0].band;enemy.transition={};enemy.stun=0.0;enemy.target=0;enemy.lock=beam.lock_seconds()-0.01;enemy.type="patroller"
  beam.sirens=[enemy];beam._hull_strike(beam.units[0],32.0)
  check(beam._threats(0.02) and beam.hull==0.0 and beam.outcome=="lost","actual Siren beam remains lethal after collision damage")
  check(not beam.command("hull_patch") and not Effects.use(beam,"hull_patch",{}) and beam.hull==0.0 and Effects.count(beam,"hull_patch")==1 and is_equal_approx(beam.mission.field_tools.repairable_collision_loss,9.0),"beam loss never credits or accepts repair even with collision credit")

@@ -1,5 +1,6 @@
 extends SceneTree
 const Sim=preload("res://src/simulation/simulation.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 var checks=0
 var failures=0
 func check(ok,label):
@@ -10,7 +11,7 @@ func tick(s,t):
  for i in roundi(t*60):s.advance(Sim.STEP)
  s.paused=true
 func fixture(id):
- var s=Sim.new();s.start(id);s.sirens=[];return s
+ var s=Sim.new();s.start(id);PlayerDive.launch_drones(s);s.sirens=[];return s
 func _initialize():
  check(ResourceLoader.exists("res://src/simulation/industrial_jobs.gd"),"physical industrial job runtime exists")
  if not ResourceLoader.exists("res://src/simulation/industrial_jobs.gd"):finish();return
@@ -49,7 +50,7 @@ func _initialize():
  check(not Sim.valid_snapshot(malformed),"physical tow trail rejects non-point current save")
  malformed=s.snapshot();malformed.mission.iron_choir.load.state="transit"
  check(not Sim.valid_snapshot(malformed),"moving freight requires an actual bounded destination")
- var active=Sim.new();active.start(23,"endurance",{"fitted":{"quietus":"","drone_a":"drone_survey_array","drone_b":""}});active.sirens=[]
+ var active=Sim.new();active.start(23,"endurance",{"fitted":{"quietus":"","drone_a":"drone_survey_array","drone_b":""}});PlayerDive.launch_drones(active);active.sirens=[]
  active.units[0].pos=active.mission.iron_choir.sites[0].pos+Vector2(0,35);active.units[1].pos=active.units[0].pos+Vector2(30,0);active.units[1].alive=false;tick(active,.1)
  check(active.command("choir_action",{"action":"lock_a"}),"local equalizer claims worker before other salvage")
  check(not active.command("salvage",{"item":"drone_survey_array"}),"industrial worker cannot simultaneously recover another physical module")
@@ -119,13 +120,16 @@ func finish():print("INDUSTRIAL JOBS CHECKS ",checks," FAILURES ",failures);quit
 
 func bell_cooperation():
  var s=fixture(28);var state=s.mission.iron_choir;var station=state.sites[0].pos
+ var donor=Sim.new();donor.start(28);var guard=donor.sirens[0];var park=guard.pos;s.sirens=[guard] # one authored Siren, parked away until the EMP check below
  s.units[0].pos=station+Vector2(0,35);s.units[0].vel=Vector2.ZERO
  state.load.pos=station+Vector2(0,70);state.load.state="towed";state.load.carrier=0
  s.units[1].pos=station+Vector2(20,0);s.units[1].vel=Vector2.ZERO;s.command("select",{"unit":1})
  check(s.command("choir_action",{"action":"lock_a"}),"28 a second local craft operates the stop beside the actual towed bell")
  tick(s,1.);var snapshot=s.snapshot();var restored=Sim.new()
  check(Sim.valid_snapshot(snapshot) and restored.restore(snapshot),"28 simultaneous tow and partial drone stop roundtrip current save")
- s.command("select",{"unit":0});check(s.command("emp"),"28 carrier can defend while the second craft works")
+ s.command("select",{"unit":0});guard.pos=s.units[0].pos+Vector2(120,0) # EMP needs a Siren inside its radius (Pat, 2026-11-12)
+ var fired=s.command("emp");guard.pos=park
+ check(fired,"28 carrier can defend while the second craft works")
  tick(s,7.2);tick(restored,7.2)
  check(state.sites[0].done and restored.mission.iron_choir.sites[0].done and Sim.valid_snapshot(restored.snapshot()),"28 unselected local helper completes after carrier defense and saved restore")
  for interruption in ["bell_departure","bell_depth","helper_depth","helper_loss","tow_release"]:

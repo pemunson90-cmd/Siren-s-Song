@@ -123,12 +123,15 @@ static func departure_signature(context:Dictionary)->String:
  var left=[]
  for module in context.get("left",[]):left.append([module.item,module.state,module.unit])
  return str([context.get("available",false),context.get("corridor",{}),left,context.get("recovered",[])])
+# WP-97: what a drone that did not come home costs, stated under the fleet lines.
+const ABSENT="A drone lost or left outside recovery does not come home with you. A bare replacement drone flies the next dive."
+const ABSENT_IRON="A drone lost or left outside recovery is gone for good. A replacement needs paid manufacturing; an empty bay can still launch."
 static func consequence(sim,economy:Dictionary={})->String:
  var iron=preload("res://src/campaign/ironman_losses.gd").active(economy)
  if not sim.has_method("module_recovery_status"):return ""
  var result=status(sim).get("result",{});var lines=[];var absent=false
  for id in [1,2]:
-  var u=sim.units[id];var state="LOST" if not u.alive else "SURVIVED"
+  var u=sim.units[id];var state="ABOARD" if sim.DroneBay.aboard(u) else "LOST" if not u.alive else "SURVIVED"
   if u.alive and not result.is_empty():state="RECOVERED" if id in result.get("recovered_drones",[]) else "OUTSIDE RECOVERY"
   if state in ["LOST","OUTSIDE RECOVERY"]:absent=true
   lines.append(u.name+" · "+state)
@@ -137,7 +140,7 @@ static func consequence(sim,economy:Dictionary={})->String:
   for item in result.get(key,[]):names.append(name(item))
   if not names.is_empty():lines.append(("MODULES RECOVERED · " if key=="recovered" else "LEFT BEHIND · ")+", ".join(names))
  if not result.get("lost",[]).is_empty() and sim.mission.get("fleet_commit",false):lines.append("Listed modules are unavailable for future launches.")
- if absent:lines.append("Ironman replacements require paid manufacturing. Empty bays can launch." if iron else "Bare replacement drones remain available.")
+ if absent:lines.append(ABSENT_IRON if iron else ABSENT)
  if not iron and (sim.outcome!="won" or not sim.mission.get("fleet_commit",false)):lines.append("Retry / replay leaves permanent module stock unchanged.")
  return "\n".join(lines)
 static func debrief(main)->void:
@@ -149,7 +152,7 @@ static func carrier_check(sim,unit:int,corridor:Dictionary)->Dictionary:
  var u=sim.units[unit];var distance=u.pos.distance_to(corridor.pos);var speed=u.vel.length()
  var clear=sim.Depth.clear(sim,u.pos,corridor.pos,u.band)
  var unmet=[]
- if not u.alive:unmet.append("CRAFT LOST")
+ if sim.DroneBay.lost(u):unmet.append("CRAFT LOST")
  if u.band!=1:unmet.append("CHANGE TO MIDDLE")
  if not u.transition.is_empty():unmet.append("FINISH DEPTH CHANGE")
  if distance>=65.:unmet.append("MOVE INSIDE 65m")

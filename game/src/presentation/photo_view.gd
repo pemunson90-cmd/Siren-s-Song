@@ -23,7 +23,7 @@ static func from_frame(f:Dictionary,kind:String="site",key:String="",type:String
 # View model from a stored shot.
 static func from_shot(shot:Dictionary)->Dictionary:
 	var fr:Dictionary=shot.frame
-	return {"cols":fr.cols,"fov":fr.fov,"u":0.0,"dist":fr.dist,"size":fr.size,"aspect":fr.aspect,"light":shot.light,"clarity":shot.clarity,"sharp":shot.sharp,"marks":fr.marks,"kind":fr.get("kind","site"),"key":str(shot.get("key","")),"type":str(shot.get("type","")),"seed":fr.seed,"mode":shot.mode,"flash":shot.flash,"craft":shot.craft,"live":false,"pivot":0.0,"usable":shot.get("usable",true),"glow":fr.get("glow",0.0),"depth":fr.get("depth",0.5),"thermal":fr.get("thermal",false)}
+	return {"cols":fr.cols,"fov":fr.fov,"u":0.0,"dist":fr.dist,"size":fr.size,"aspect":fr.aspect,"light":shot.light,"clarity":shot.clarity,"sharp":shot.sharp,"marks":fr.marks,"kind":fr.get("kind","site"),"key":str(shot.get("key","")),"type":str(shot.get("type","")),"seed":fr.seed,"mode":shot.mode,"flash":shot.flash,"craft":shot.craft,"live":false,"pivot":0.0,"usable":shot.get("usable",true),"why":str(shot.get("why","")),"glow":fr.get("glow",0.0),"depth":fr.get("depth",0.5),"thermal":fr.get("thermal",false)}
 static func draw(ci:CanvasItem,rect:Rect2,vm:Dictionary,time:float,font_size:int=14)->void:
 	preload("res://src/presentation/photo_scene.gd").draw(ci,rect,vm,time,font_size)
 # A control that shows one stored shot, for the archive viewer.
@@ -45,4 +45,7 @@ class Plate extends Control:
 		shown["develop"]=clampf(age/develop_seconds,0.0,1.0) if develop_seconds>0.0 and not Settings.reduced_motion() else 1.0
 		R.draw(self,Rect2(Vector2.ZERO,size),shown,age,maxi(17,roundi(17*Settings.text_scale())))
 		draw_rect(Rect2(Vector2.ZERO,size),Color("6b9d9f"),false,1)
-		if not title.is_empty():draw_string(ThemeDB.fallback_font,Vector2(8,16),title,HORIZONTAL_ALIGNMENT_LEFT,-1,maxi(17,roundi(17*Settings.text_scale())),PHOSPHOR)
+		if not title.is_empty():
+			var title_px:=maxi(17,roundi(17*Settings.text_scale()))
+			# WP-135: the baseline follows the font's ascent, so a larger text size is not clipped at the plate's top edge
+			draw_string(ThemeDB.fallback_font,Vector2(8,ThemeDB.fallback_font.get_ascent(title_px)+4.0),title,HORIZONTAL_ALIGNMENT_LEFT,-1,title_px,PHOSPHOR)

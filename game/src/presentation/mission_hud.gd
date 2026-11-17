@@ -18,9 +18,23 @@ const Witness=preload("res://src/presentation/witness_evacuation_view.gd")
 const CenterLayout=preload("res://src/presentation/radial_layout/center_layout.gd")
 const StatusView=preload("res://src/presentation/status_text/status_view.gd")
 const AllStop=preload("res://src/simulation/all_stop/all_stop.gd")
+const DiveInput=preload("res://src/presentation/dive_input.gd")
 const Truthful=preload("res://src/presentation/truthful_commands.gd")
 const WorkTask=preload("res://src/presentation/work_task/work_task.gd")
 const ReleaseControls=preload("res://src/presentation/release_controls.gd")
+const LifeChip=preload("res://src/presentation/life_support_chip.gd")
+const AirChip=preload("res://src/presentation/air_chip.gd")  # WP-149
+const MenuChip=preload("res://src/presentation/menu_chip.gd")  # WP-158
+const VoiceFeed=preload("res://src/presentation/archive/voice_feed.gd")
+const UiStyle=preload("res://src/presentation/ui_style.gd")
+const Palette=preload("res://src/presentation/accessibility/palette.gd")
+const Words=preload("res://src/presentation/hud_words.gd")
+const RouteEnd=preload("res://src/presentation/route_end_notice.gd")
+const StripMessage=preload("res://src/presentation/strip_message.gd")
+const RouteNotes=preload("res://src/presentation/route_notes.gd")
+const NextStep=preload("res://src/presentation/next_step.gd")  # WP-128
+const StandingNotes=preload("res://src/presentation/standing_notes.gd")
+const SegmentState=preload("res://src/presentation/radial_layout/segment_state.gd")
 # A tap opens an object-owned projection. A separate tap chooses an action.
 var host
 var blocker:Control
@@ -37,6 +51,9 @@ var measurement_style:StyleBoxFlat
 var sheet_body:VBoxContainer
 var sheet_fit_pending=false
 var intent_fit_pending=false
+var strip_standing=""
+var strip_idle=""  # WP-118: the no-orders warning row on the strip ("" when no craft is idle)
+var current_message=""
 var sheet_scroll:ScrollContainer
 var details_return="water"
 var sheet_pointers:Dictionary={}
@@ -45,6 +62,10 @@ var page="craft"
 var subject:Dictionary={}
 var center=Vector2.ZERO
 var anchor=Vector2.ZERO
+# WP-130: the open wheel stays where it opened. The screen spot is taken once, when the wheel opens (or its subject or craft
+# changes), and kept while it is open, so a pan or zoom of the chart (the VIEW page's buttons, a pinch) does not drag it.
+var anchor_held:=false
+var anchor_unit:=-1
 var ring_radius=150.
 var ring_buttons:Array=[]
 var extra:Dictionary={}
@@ -52,6 +73,12 @@ var instruments_open=false
 var owned_touches:Dictionary={}
 var draining_popup=false
 var sector_press:Button
+# The wheel segment under the finger, or the last one touched: its caption may fill the wheel's centre.
+var wheel_focus:Button
+var route_end=RouteEnd.new()
+var strip_message=StripMessage.new()
+# WP-52: the two-tap rule's armed segment and the segments' state lines.
+var segments=SegmentState.new()
 var popup_gesture=preload("res://src/input/map_gesture.gd").new()
 var touch_height=48.
 var fleet
@@ -59,9 +86,12 @@ var recovery_box:VBoxContainer
 var recovery_buttons:Array=[]
 var guard
 var chart_choice
+var contact_card
 var hints
 var text_scale=1.0
 var caption_rects:Array=[]
+var caption_texts:Array=[]
+var caption_size:=0  # the type size the centre text was last drawn at
 var tool_help=preload("res://src/presentation/tool_help/tool_help.gd").new()
 var help_return="tools"
 var help_text=""
@@ -89,8 +119,6 @@ var target_buttons:Array=[]
 func open_targets(choices:Array):
  if choices.is_empty():return
  if choices.size()==1:_open_target(choices[0]);return
- if choices.all(func(c):return c.kind=="craft"):
-  open("fleet",{"kind":"fleet","pos":choices[0].pos});return
  ring_buttons=ring_buttons.filter(func(b):return b not in target_buttons)
  for b in target_buttons:b.free()
  target_buttons.clear();target_choices=choices.duplicate(true)
@@ -101,6 +129,8 @@ func open_targets(choices:Array):
   target_buttons.append(b)
  open("choose",{"kind":"fleet","name":"CHOOSE TARGET","pos":choices[0].pos})
 func _open_target(context:Dictionary):
+ # UI review B6: a contact choice closes the list and opens the contact card; it is information, not an order.
+ if context.kind=="contact":dismiss();contact_card.open(int(context.key));return
  if context.kind=="craft" and context.unit!=host.sim.selected:host._order("select",{"unit":context.unit})
  var next="inspect" if context.get("subkind","")=="concealed" else "habitat" if context.kind=="habitat" else "plant" if context.kind=="plant" else "object" if context.kind=="objective" else "salvage" if context.kind=="salvage" else "fleet" if context.kind=="fleet" else "craft"
  open(next,context)
@@ -116,6 +146,8 @@ func setup(owner):
  order_dock_scroll=ScrollContainer.new();order_dock_scroll.horizontal_scroll_mode=ScrollContainer.SCROLL_MODE_DISABLED;order_dock_scroll.size_flags_vertical=Control.SIZE_EXPAND_FILL;dock_body.add_child(order_dock_scroll)
  order_dock_commands=VBoxContainer.new();order_dock_commands.size_flags_horizontal=Control.SIZE_EXPAND_FILL;order_dock_commands.add_theme_constant_override("separation",8);order_dock_scroll.add_child(order_dock_commands)
  order_dock_context=Label.new();order_dock_context.autowrap_mode=TextServer.AUTOWRAP_WORD;order_dock_commands.add_child(order_dock_context)
+ # WP-130: a list that runs on below the dock shows the MORE BELOW chip (scroll_cue.gd, the menus' cue).
+ preload("res://src/presentation/scroll_cue.gd").install(owner,order_dock_scroll)
  add_child(tool_help);tool_help.setup(self)
  blocker=Control.new();blocker.mouse_filter=Control.MOUSE_FILTER_STOP;add_child(blocker);blocker.gui_input.connect(_outside)
  for key in host.order_buttons:
@@ -124,6 +156,7 @@ func setup(owner):
   var b=host.unit_buttons[i];b.reparent(self);b.set_meta("action",["sub","droneA","droneB"][i]);b.pressed.connect(_selected_craft,CONNECT_DEFERRED)
  host.pause_button.reparent(self);host.pause_button.set_meta("action","pause")
  host.advanced_button.reparent(self);host.advanced_button.set_meta("action","more_orders")
+ host.speed_button.reparent(self);host.speed_button.set_meta("action","speed") # WP-120
  host.advanced_button.pressed.disconnect(host._toggle_advanced);host.advanced_button.pressed.connect(func():open("fleet"),CONNECT_DEFERRED)
  for i in host.zoom_buttons.size():
   host.zoom_buttons[i].reparent(self);host.zoom_buttons[i].set_meta("action",["zoom_out","zoom_in","fit"][i])
@@ -135,10 +168,12 @@ func setup(owner):
  for entry in [["tools_menu","TOOLS"],["route_menu","ROUTE"],["guard_menu","GUARD"],["inspect","STATUS"],["route_here","ROUTE HERE"],["arrivals","ARRIVALS"],["view_menu","VIEW"],["salvage","RECOVER\n4s AUDIBLE"],["rendezvous_release","RELEASE BERTH\n950m / 6s"]]:
   var key=entry[0];extra[key]=host._button(self,entry[1],func():_extra(key),key)
  extra.recall=host._button(self,"RECALL",func():ReleaseControls.activate_recall(self),"recall")
+ extra.deploy=host._button(self,"DEPLOY\nDRONE A",func():ReleaseControls.activate_deploy(self),"deploy")
  extra.all_stop=host._button(self,"ALL STOP",func():host._order("all_stop");open("route"),"all_stop")
+ extra.replace_route=host._button(self,Words.TEXT.replace_route,func():guard.replace_route(),"replace_route") # WP-127: the whole-route replace; a water tap only ever adds or sets
  extra.shelf_warn=host._button(self,"LOCAL WARNING\n100m / QUIETUS",func():host._order("shelf_warn",{"site":subject.get("site","")}),"shelf_warn")
  extra.shelf_alarm=host._button(self,"SOUND ALARM\n1200m / ONCE",func():host._order("shelf_alarm"),"shelf_alarm")
- for entry in [["depth_menu","DEPTH / SONAR"],["depth_up","SHALLOWER"],["depth_down","DEEPER"],["sonar_sector","SECTOR"],["sonar_power","POWER"],["sonar_emit","EMIT SONAR"],["sonar_history","HISTORY"]]:
+ for entry in [["depth_menu",Words.TEXT.depth_menu],["depth_up","SHALLOWER"],["depth_down","DEEPER"],["sonar_sector",Words.arc_label("all")],["sonar_power",Words.power_label("low")],["sonar_emit",Words.ping_label(0.)],["sonar_history",Words.TEXT.history]]:
   var key=entry[0];extra[key]=host._button(self,entry[1],func():_extra(key),key)
  for pair in [["work","REACH WORK"],["recover","RECOVER\nMATERIAL"],["transfer","TRANSFER\nTO QUIETUS"],["service","RESTORE\nSERVICE"],["sever","SEVER\nSPUR"],["vane","RELEASE\nVANE"],["gate","OPEN\nLOCAL GATE"],["withdraw","WITHDRAW\nRECOVERY"],["route","ROUTE TO\nREACH WORK"]]:
   var key="glass_"+pair[0];extra[key]=host._button(self,pair[1],func():_extra(key),key)
@@ -154,6 +189,8 @@ func setup(owner):
  for entry in [["concealed_attach","ATTACH TOW"],["concealed_release","RELEASE TOW"],["concealed_seat","SEAT HERE"],["concealed_work","WITNESS ACCOUNT"]]:
   var key=entry[0];extra[key]=host._button(self,entry[1],func():_extra(key),key)
  instrument_button=extra.inspect
+ # WP-122: a charted operation (LINK, TRANSMIT, FIELD SAMPLE) gets its own segment when a photo subject is also in reach, so PHOTO keeps the camera slot.
+ extra.operation=host._button(self,"OPERATE",func():host._order("camera"),"operation_action")
  extra.witness_land=host._button(self,"LAND\nWITNESS",func():host._order("witness_land"),"witness_land")
  for entry in [["blackwater_handoff","TRANSFER\nTO Q"],["blackwater_data","DATA\nTRANSFER"],["blackwater_a","TRANSFER A\nTO QUIETUS"],["blackwater_b","TRANSFER B\nTO QUIETUS"]]:
   var key=entry[0];extra[key]=host._button(self,entry[1],func():_extra(key),key)
@@ -169,6 +206,8 @@ func setup(owner):
  sonar_waterfall=preload("res://src/presentation/sonar_history.gd").new();sonar_waterfall.custom_minimum_size=Vector2(220,100);sonar_waterfall.mouse_filter=Control.MOUSE_FILTER_IGNORE;body.add_child(sonar_waterfall);sonar_waterfall.hide()
  instrument_info=host._label(body,"",18);instrument_info.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
  recovery_box=VBoxContainer.new();recovery_box.add_theme_constant_override("separation",8);body.add_child(recovery_box);recovery_box.hide()
+ AirChip.make(self)  # WP-149: always-on time left on air, in the header lane
+ MenuChip.make(self)  # WP-158: while paused, a MENU plate beside the air chip
  alarm=host._label(self,"",18);alarm.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;alarm.mouse_filter=Control.MOUSE_FILTER_IGNORE
  var alert_style=StyleBoxFlat.new();alert_style.bg_color=Color(.12,.025,.015,.94);alert_style.border_color=Color("b26b52");alert_style.set_border_width_all(1);alert_style.content_margin_left=10;alert_style.content_margin_right=10;alarm.add_theme_stylebox_override("normal",alert_style)
  warning_style=alert_style
@@ -178,6 +217,7 @@ func setup(owner):
  fleet=preload("res://src/presentation/fleet_instruments.gd").new();add_child(fleet);fleet.setup(host);host.ocean.fleet_instruments=fleet
  guard=preload("res://src/presentation/order_guard.gd").new();add_child(guard);guard.setup(host)
  chart_choice=preload("res://src/presentation/chart_stop_choice.gd").new();add_child(chart_choice);chart_choice.setup(host)
+ contact_card=preload("res://src/presentation/contact_card.gd").new();add_child(contact_card);contact_card.setup(host)
  hints=preload("res://src/presentation/onboarding_hints.gd").new();add_child(hints);hints.setup(host)
 func _selected_craft():
  if host.advanced_orders:open("craft",{"kind":"craft","unit":host.sim.selected,"pos":host.sim.units[host.sim.selected].pos})
@@ -199,7 +239,9 @@ func open(next:String="craft",context:Dictionary={}):
  order_dock_scroll.scroll_vertical=0
  tool_help.cancel()
  for id in host.map_gesture.touches:owned_touches[id]=true
- host.map_gesture.cancel();host.knock_press.clear();popup_gesture.cancel();sheet_pointers.clear();sector_press=null;host.knock_armed=false;host.decoy_armed=false
+ host.map_gesture.cancel();host.knock_press.clear();popup_gesture.cancel();sheet_pointers.clear();sector_press=null;wheel_focus=null;host.knock_armed=false;host.decoy_armed=false;segments.disarm()
+ # WP-130: a wheel that is closed, a new context, or the fleet page aims the wheel afresh; a page change on the open wheel does not.
+ if not host.advanced_orders or not context.is_empty() or next=="fleet":anchor_held=false
  if not context.is_empty():subject=context
  elif subject.is_empty() or next=="fleet":subject={"kind":"craft","unit":host.sim.selected,"pos":host.sim.units[host.sim.selected].pos}
  var station=WarningChain.station_subject(host.sim,subject) if next=="object" else {}
@@ -212,11 +254,15 @@ func open(next:String="craft",context:Dictionary={}):
  page=next;instruments_open=page in ["inspect","signals"]
  if page=="object" and WorkTask.pinnable(subject):task=WorkTask.pin(host.sim,subject)
  if page=="inspect" and subject.get("subkind","")=="concealed":sheet_scroll.scroll_vertical=0
+ host.ocean.panel_open=true # WP-141: hold the chart's strip reserve while a panel is open
  host.advanced_orders=true;host._layout()
 func dismiss():
  tool_help.cancel()
  draining_popup=not owned_touches.is_empty()
- host.map_gesture.cancel();host.knock_press.clear();popup_gesture.cancel();sheet_pointers.clear();sector_press=null;host.advanced_orders=false;instruments_open=false;host._layout()
+ host.map_gesture.cancel();host.knock_press.clear();popup_gesture.cancel();sheet_pointers.clear();sector_press=null;segments.disarm();host.advanced_orders=false;host.ocean.panel_open=false;instruments_open=false
+ page="craft"  # WP-108: a closed wheel forgets its page, so the next craft tap can only open the root
+ anchor_held=false  # WP-130
+ host._layout()
 func _back():
  if page=="field_tools":open("tools");return
  if page=="order_help":
@@ -249,7 +295,9 @@ func _extra(key:String):
   host._order("glass_action",args);return
  if key=="depth_menu":open("acoustics");return
  if key in ["depth_up","depth_down"]:
-  host._order("depth",{"band":host.sim.units[host.sim.selected].band+(-1 if key=="depth_up" else 1)});open(page if page in ["glass","choir"] else "acoustics");return
+  host._order("depth",{"band":host.sim.units[host.sim.selected].band+(-1 if key=="depth_up" else 1)})
+  if guard!=null and not guard.pending.is_empty():return # WP-169: the depth bar is up (the wheel closed for it); do not reopen the wheel over it
+  open(page if page in ["glass","choir"] else "acoustics");return
  if key in ["sonar_sector","sonar_power"]:
   var state=host.sim.sonar
   host._order("sonar_mode",{"sector":("forward" if state.sector=="all" else "all") if key=="sonar_sector" else state.sector,"power":("high" if state.power=="low" else "low") if key=="sonar_power" else state.power});open("acoustics");return
@@ -339,6 +387,7 @@ func popup_input(event) -> bool:
   if sector_press==null:sector_press=recovery_button_at(point) if page=="recovery" else plant_button_at(point) if page=="plant" else null if label_at(point) else sector_at(point)
   if sheet.visible and sheet.get_global_rect().has_point(point) and not label_at(point):sheet_pointers[pointer]=true
   tool_help.arm(self,sector_press)
+  if sector_press!=null:wheel_focus=sector_press;queue_redraw()
  if not pressed and (event is InputEventScreenTouch or event is InputEventMouseButton):tool_help.cancel()
  if sheet_pointers.has(pointer):
   if event is InputEventScreenTouch and not event.pressed:sheet_pointers.erase(pointer)
@@ -349,21 +398,40 @@ func popup_input(event) -> bool:
   var chosen=sector_press;sector_press=null
   var released=witness_button_at(point)
   if released==null:released=recovery_button_at(point) if page=="recovery" else plant_button_at(point) if page=="plant" else sector_at(point)
-  if chosen==released:Truthful.activate(self,chosen)
+  if chosen==released:segments.tap(self,chosen)
   return true
  return false
 func _dock_tap(start:Vector2,end:Vector2)->void:
  for b in ring_buttons:
   if b.is_visible_in_tree() and b.get_global_rect().has_point(start) and b.get_global_rect().has_point(end):
-   Truthful.activate(self,b);return
+   segments.tap(self,b);return
 func _outside(event):
  if event is InputEventScreenTouch or event is InputEventMouseButton:
   var point=event.position+blocker.global_position
   if label_at(point) or sector_at(point)!=null:return
+ # WP-45: a finger arrives as the engine's emulated mouse press first and the touch press second. Only the touch
+ # press may close the surface: it has already registered the finger in owned_touches, so dismiss() keeps the rest
+ # of this same tap away from the chart. Closing on the emulated press let the touch half order the craft.
+ if event is InputEventMouseButton and event.device==InputEvent.DEVICE_ID_EMULATION:return
  if event is InputEventMouseButton and event.button_index in [MOUSE_BUTTON_WHEEL_UP,MOUSE_BUTTON_WHEEL_DOWN]:dismiss();accept_event();return
- if (event is InputEventScreenTouch and event.pressed) or (event is InputEventMouseButton and event.pressed):dismiss();accept_event()
+ if (event is InputEventScreenTouch and event.pressed) or (event is InputEventMouseButton and event.pressed):
+  # WP-104: a press on open chart while a craft's wheel is open closes the wheel and is then an ordinary chart press,
+  # so routing is craft, water. Any other open surface still only closes.
+  var through:bool=page=="craft" and (event is InputEventScreenTouch or event.button_index==MOUSE_BUTTON_LEFT)
+  dismiss();accept_event()
+  if through and DiveInput.press_through(host,event,blocker.global_position):
+   draining_popup=false
+   if event is InputEventScreenTouch:owned_touches.erase(event.index)
 func command_controls() -> Array:
  return ReleaseControls.filter(self,_page_controls())
+# WP-122: true when a job (a charted operation, an uplink, a listening post) holds the camera context and a different photo
+# subject is also ready for this craft. The wheel then shows PHOTO and the job as two segments.
+func operation_beside_photo(sim)->bool:
+ var rule=preload("res://src/simulation/photo_context.gd")
+ var held=sim.camera_context()
+ if int(held.get("target",-1))<0 or rule.is_photo(sim,held):return false
+ var photo=sim.photo_context()
+ return rule.is_photo(sim,photo) and photo.get("ready",false) and int(photo.target)!=int(held.target)
 func _page_controls() -> Array:
  match page:
   "cache":return Cache.controls(self)
@@ -381,10 +449,10 @@ func _page_controls() -> Array:
    return controls+[extra.glass_route,extra.glass_withdraw,extra.inspect]
   "acoustics":return [extra.depth_up,extra.depth_down,extra.sonar_emit,extra.sonar_sector,extra.sonar_power,extra.sonar_history]
   "tools","field_tools":return preload("res://src/presentation/field_tool_view.gd").controls(self)
-  "route":return [host.order_buttons.queue,host.order_buttons.hold,host.order_buttons.waypoint_mode,host.order_buttons.home,host.order_buttons.program]+([extra.all_stop] if AllStop.available(host.sim) else [])+([extra.guard_menu] if host.sim.selected==0 else [])
+  "route":return [extra.replace_route,host.order_buttons.hold,host.order_buttons.waypoint_mode,host.order_buttons.home,host.order_buttons.program]+([extra.all_stop] if AllStop.available(host.sim) else [])+([extra.guard_menu] if host.sim.selected==0 else [])
   "guard":return [host.order_buttons.contact_hold,host.order_buttons.wait_drone,host.order_buttons.hold]
   "view":return [focus_button,host.zoom_buttons[2],host.zoom_buttons[1],host.zoom_buttons[0]]
-  "fleet":return host.unit_buttons+([extra.arrivals] if Expedition.active(host.sim) else [])+[extra.view_menu,host.order_buttons.menu]+([extra.audio_log] if FrontendSettings.current.get("audio_captions",false) and not host.sound.accessibility.history.is_empty() else [])
+  "fleet":return host.unit_buttons+([extra.arrivals] if Expedition.active(host.sim) else [])+[extra.view_menu,host.order_buttons.menu]+([extra.audio_log] if FrontendSettings.current.get("audio_captions",false) else [])
   "object":
    if subject.get("subkind","")=="choir":return [extra.choir_work,extra.route_here,extra.inspect]
    if subject.get("subkind","")=="glass_work":return [extra.glass_work,extra.route_here,extra.inspect]
@@ -392,7 +460,7 @@ func _page_controls() -> Array:
    if subject.get("subkind","")=="concealed":return ([extra.concealed_seat] if not subject.get("seat","").is_empty() else [extra.concealed_attach,extra.concealed_release])+[extra.route_here,extra.inspect]
    if subject.get("subkind","")=="warning_recipient":return [extra.warning_exposed,extra.warning_sheltered,host.order_buttons.camera,extra.route_here,extra.inspect]
    if subject.get("subkind","")=="warning_gate":return [extra.warning_gate,host.order_buttons.camera,extra.route_here,extra.inspect]
-   return ([extra.cache_menu] if subject.get("subkind","")=="corridor" and Cache.applies(host.sim) else [])+([extra.witness_land] if Witness.harbour_subject(host.sim,subject) else [])+([extra.rendezvous_release,extra.route_here,extra.inspect] if subject.get("subkind","")=="berth_control" else ([] if subject.get("subkind","")=="transmission" else [extra.route_here])+([] if subject.get("subkind","") in ["corridor","withdrawal"] else [host.order_buttons.camera])+[extra.inspect,host.order_buttons.program,host.order_buttons.queue])
+   return ([extra.cache_menu] if subject.get("subkind","")=="corridor" and Cache.applies(host.sim) else [])+([extra.witness_land] if Witness.harbour_subject(host.sim,subject) else [])+([extra.rendezvous_release,extra.route_here,extra.inspect] if subject.get("subkind","")=="berth_control" else ([] if subject.get("subkind","")=="transmission" else [extra.route_here])+([] if subject.get("subkind","") in ["corridor","withdrawal"] else [host.order_buttons.camera])+[extra.inspect,host.order_buttons.program,extra.replace_route])
   "habitat":return ([extra.shelf_alarm] if subject.get("site","")=="alarm" else [extra.shelf_warn])+[extra.route_here,extra.inspect]
   "plant":return ([extra.chain_connect,extra.chain_disconnect,extra.chain_backup] if subject.get("station","")=="inlet" else [extra.chain_service,extra.chain_mast,extra.chain_send])+[extra.route_here,extra.inspect]
   "salvage":return [extra.salvage,extra.route_here,extra.inspect]
@@ -403,12 +471,32 @@ func _page_controls() -> Array:
  if host.sim.selected==0 and AllStop.available(host.sim):controls[6]=extra.all_stop
  if not host.sim.choir_context().is_empty():controls.append(extra.choir_work)
  if not host.sim.glass_context().is_empty():controls.append(extra.glass_work)
+ if operation_beside_photo(host.sim):controls.append(extra.operation) # WP-122
  if Witness.carries(host.sim,host.sim.selected):controls[0]=extra.witness_land
  if Concealed.status(host.sim).get("known",false):controls.append(extra.concealed_work)
  if not Delivery.status(host.sim).is_empty():
   if host.sim.selected==0:controls.append(extra.blackwater_data)
   elif not host.sim.blackwater_handoff_context(host.sim.selected).packets.is_empty():controls.append(extra.blackwater_handoff)
  return controls
+# WP-130: the wheel's own segments are flat (the wedge behind them is the button); the large-text list's rows are real
+# buttons (dock_look). One place for the flat look so a segment that returns from the list gets it back.
+func flat_look(b:Button):
+ var normal=StyleBoxFlat.new();normal.bg_color=Color(0,0,0,0);normal.set_content_margin_all(2)
+ var hover=normal.duplicate();hover.bg_color=Color(.2,.62,.65,.14)
+ b.add_theme_stylebox_override("normal",normal);b.add_theme_stylebox_override("hover",hover);b.add_theme_stylebox_override("pressed",hover);b.add_theme_stylebox_override("disabled",normal)
+ b.remove_theme_stylebox_override("focus")
+ for name in ["font_color","font_hover_color","font_pressed_color","font_focus_color","font_hover_pressed_color"]:b.remove_theme_color_override(name)
+ b.add_theme_color_override("font_outline_color",Color("041019"));b.add_theme_constant_override("outline_size",3)
+ # WP-52: a segment that cannot act reads as dim as the wedge behind it; one that can act keeps the full text colour.
+ b.add_theme_color_override("font_disabled_color",UiStyle.DISABLED_TEXT)
+ if b.has_meta("dock_look"):b.remove_meta("dock_look")
+# WP-130: a row of the large-text list is a button: filled and bordered by the NORMAL role (the filled MAIN role while it is armed
+# for its second tap), so it reads as tappable beside the list's plain information lines.
+func dock_look(b:Button):
+ var role:String=UiStyle.MAIN if segments.is_armed(b) else UiStyle.NORMAL
+ UiStyle.apply(b,role)
+ b.add_theme_constant_override("outline_size",0 if role==UiStyle.MAIN else 3)
+ b.set_meta("dock_look",true)
 func layout(bounds:Vector2,h:float):
  # A newly opened page can reuse controls still parented to a hidden dock.
  # Restore both pages before choosing the current radial/dock projection.
@@ -419,20 +507,30 @@ func layout(bounds:Vector2,h:float):
  position=Vector2.ZERO;size=bounds;touch_height=h
  text_scale=FrontendSettings.text_scale()
  var font=maxi(14,roundi(h*.26*text_scale));var bw=h*1.55*text_scale;var bh=ceilf(h*maxf(1.,text_scale*.9))
- for b in host.order_buttons.values()+host.unit_buttons+extra.values()+target_buttons+[close_button,focus_button,host.pause_button,host.advanced_button]+host.zoom_buttons:
+ # The plate's full wording was fitted at the previous size; at the new base size it would wrap and force the plate
+ # taller for good. Refresh composes the full plate again straight after this layout.
+ host.pause_button.text=Words.plate_action(host.sim)
+ for b in host.order_buttons.values()+host.unit_buttons+extra.values()+target_buttons+[close_button,focus_button,host.pause_button,host.advanced_button,host.speed_button]+host.zoom_buttons:
   b.mouse_filter=Control.MOUSE_FILTER_IGNORE if b in command_controls() else Control.MOUSE_FILTER_STOP
   b.hide();b.custom_minimum_size=Vector2(bw,bh);b.size=Vector2(bw,bh);b.add_theme_font_size_override("font_size",font)
   b.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
-  var normal=StyleBoxFlat.new();normal.bg_color=Color(0,0,0,0);normal.set_content_margin_all(2)
-  var hover=normal.duplicate();hover.bg_color=Color(.2,.62,.65,.14)
-  b.add_theme_stylebox_override("normal",normal);b.add_theme_stylebox_override("hover",hover);b.add_theme_stylebox_override("pressed",hover);b.add_theme_stylebox_override("disabled",normal)
-  b.add_theme_color_override("font_outline_color",Color("041019"));b.add_theme_constant_override("outline_size",3)
+  flat_look(b)
+  if b==close_button:dock_look(b)  # WP-156: BACK is a real button (filled and bordered), not bare text
+  if b.has_meta(PLATE_KEY):b.remove_meta(PLATE_KEY)
  host.status_label.hide();host.log_label.hide()
  host.pause_button.show();host.pause_button.position=Vector2(12,12);host.pause_button.size=Vector2(bw,bh)
  host.advanced_button.visible=not host.advanced_orders;host.advanced_button.position=Vector2(bounds.x-bw-12,12);host.advanced_button.size=Vector2(bw,bh)
  if FrontendSettings.current.get("mirrored_hud",false):
   host.pause_button.position.x=bounds.x-bw-12
   host.advanced_button.position.x=12
+ # WP-120: the speed control sits against the pause plate, on its inner side, with the plate's height.
+ var speed_gap=8.
+ # The control is a touch target wide (wider only as its widest word needs) so that it takes little of the header.
+ var speed_width=_speed_width(font)
+ host.speed_button.show();host.speed_button.custom_minimum_size=Vector2(speed_width,bh);host.speed_button.size=Vector2(speed_width,bh)
+ host.speed_button.position=Vector2(host.pause_button.position.x+(-speed_width-speed_gap if host.pause_button.position.x>bounds.x/2. else bw+speed_gap),12)
+ AirChip.place(self,font,bh,speed_width)  # WP-149
+ MenuChip.place(self,font,bh,speed_width)  # WP-158
  var line_height=ceili(intent.get_theme_font("font").get_height(font))
  intent.position=Vector2(16,bounds.y-line_height*2-14);intent.size=Vector2(bounds.x-32,line_height*2+8);intent.add_theme_font_size_override("font_size",font);intent.custom_minimum_size=Vector2(bounds.x-32,line_height*2+8)
  intent.visible=not host.advanced_orders
@@ -442,11 +540,30 @@ func layout(bounds:Vector2,h:float):
  # The same ordered list drives layout, wedges, fitting and hit testing.
  if FrontendSettings.current.get("mirrored_hud",false) and ring_buttons.size()>1:
   var sides=ring_buttons.slice(1);sides.reverse();ring_buttons=[ring_buttons[0]]+sides
- anchor=host.ocean.screen_position(subject.get("pos",host.sim.units[host.sim.selected].pos))
+ # WP-130: a held anchor (the wheel is open and nothing re-aimed it) is kept; the clamp below still keeps the wheel on screen.
+ if not (host.advanced_orders and anchor_held and anchor_unit==host.sim.selected):
+  anchor=host.ocean.screen_position(subject.get("pos",host.sim.units[host.sim.selected].pos))
+  anchor_held=host.advanced_orders;anchor_unit=host.sim.selected
  ring_radius=h*2.25*text_scale
- var edge=Vector2(h*3.1,h*2.9)*text_scale
+ # WP-144: nine segments on the eight-segment radius touch each other, which sent every open wheel into the crowded-wheel re-fit
+ # (the wheel jumped away from its craft, and a tap landed between two layouts). The radius grows until no two neighbours overlap.
+ var count:=ring_buttons.size()
+ if count>8 and not ring_buttons.is_empty():
+  var gap:=4.
+  var size:Vector2=ring_buttons[0].size
+  for step in 80:
+   var clear:bool=true
+   for i in count:
+    var a1:float=-PI/2+TAU*i/count;var a2:float=-PI/2+TAU*(i+1)/count
+    var d:Vector2=Vector2.from_angle(a2)*ring_radius-Vector2.from_angle(a1)*ring_radius
+    if absf(d.x)<size.x+gap and absf(d.y)<size.y+gap:clear=false;break
+   if clear:break
+   ring_radius+=4.
+ # WP-36: the outermost label rectangles keep EDGE_MARGIN (12 px at 1080p, scaled with the touch height) from the safe area; the wheel moves, the labels do not shrink.
+ var edge=Vector2(ring_radius+bw/2.,ring_radius+bh/2.)+Vector2.ONE*edge_margin(h)
  var minimum=Vector2(edge.x,minf(h*3.85*text_scale+20,bounds.y-edge.y))
- center=anchor.clamp(minimum,bounds-edge)
+ # WP-31: the whole wheel stays inside the safe area even when the area is narrower than the wheel.
+ center=anchor.clamp(minimum,Vector2(maxf(minimum.x,bounds.x-edge.x),maxf(minimum.y,bounds.y-edge.y)))
  if page in ["inspect","signals","recovery","order_help"]:center=Vector2(bounds.x*.5,bounds.y*.5)
  if host.advanced_orders:
   for i in ring_buttons.size():
@@ -464,17 +581,80 @@ func layout(bounds:Vector2,h:float):
   close_button.position=Vector2(center.x-h*.775,minf(bounds.y-h-16,sheet.position.y+sheet.size.y+8));sheet.move_to_front();close_button.move_to_front()
  for label in [host.title_label,host.detail_label,instrument_info]:label.add_theme_font_size_override("font_size",font)
  alarm.position=Vector2(bw+32,12);alarm.size=Vector2(maxf(1,bounds.x-h*6.*text_scale-64),h);alarm.add_theme_font_size_override("font_size",font)
+ # WP-120: the alarm lane starts after the speed control when that control is on the alarm's side (the plate at the left).
+ if host.speed_button.position.x<bounds.x/2.:
+  alarm.position.x+=speed_width+speed_gap;alarm.size.x=maxf(1.,alarm.size.x-speed_width-speed_gap)
+ # WP-149: the alarm lane also keeps clear of the air chip when the chip is on the alarm's side
+ var air=AirChip.node(self)
+ if air!=null and AirChip.shown(self):
+  if air.position.x<bounds.x/2.:
+   var far=alarm.position.x+alarm.size.x;alarm.position.x=maxf(alarm.position.x,air.position.x+air.size.x+speed_gap);alarm.size.x=maxf(1.,far-alarm.position.x)
+  else:alarm.size.x=maxf(1.,minf(alarm.size.x,air.position.x-speed_gap-alarm.position.x))
+ # WP-158: and clear of the MENU plate's slot (reserved even while hidden, so the lane never moves when time stops)
+ var menu_slot:=MenuChip.slot(self)
+ if menu_slot.has_area():
+  if menu_slot.position.x<bounds.x/2.:
+   var far_end=alarm.position.x+alarm.size.x;alarm.position.x=maxf(alarm.position.x,menu_slot.end.x+speed_gap);alarm.size.x=maxf(1.,far_end-alarm.position.x)
+  else:alarm.size.x=maxf(1.,minf(alarm.size.x,menu_slot.position.x-speed_gap-alarm.position.x))
  host.pause_button.move_to_front();alarm.move_to_front();refresh();queue_redraw()
 # Measure the Label's resolved wrapping, rather than a separate Font estimate.
 # Its complete status grows upward; the chart reserves the space beside it.
 func _fit_intent():
  if intent==null or not intent.visible or size.x<=0:return
+ intent.text=Words.glue_units(intent.text)  # WP-153: a number and its unit never wrap apart
  var font=intent.get_theme_font_size("font_size");var line=ceili(intent.get_theme_font("font").get_height(font))
  var wide=maxf(1.,host.ocean.chart_width()-32)
  intent.custom_minimum_size.x=wide;intent.size.x=wide
  var height=maxf(ceil(intent.get_minimum_size().y)+8.,line*2+8.)
  intent.custom_minimum_size.y=height;intent.size.y=height;intent.position=host.ocean.chart_origin()+Vector2(16,size.y-height-14)
  host.ocean.status_floor=maxf(1.,intent.position.y-12.)
+# WP-83: the strip holds at most two lines. The standing depth hint gives up first (and says nothing the message
+# already says); the newest message is never cut.
+func _one_strip(message:String)->void:
+ var suffix="\n"+strip_standing
+ if strip_standing.is_empty() or not intent.text.ends_with(suffix):return
+ var font=intent.get_theme_font("font");var font_size=intent.get_theme_font_size("font_size")
+ var wide=maxf(1.,host.ocean.chart_width()-32)-8.
+ var line=font.get_height(font_size)
+ var fits=func(text:String)->bool:return font.get_multiline_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,wide,font_size).y<=line*2.+1.
+ intent.text=VoiceFeed.strip_text(intent.text.trim_suffix(suffix),message,strip_standing,fits)
+# WP-115 (critic B round 8: the strip reached four lines with repeats, and "has stopped: its route is finished" showed twice).
+# The strip says each line once: a line already said (whole, or as the message at the end of the first line) is dropped,
+# and the loss line the loss card already shows is dropped while that card is up. At large text the strip holds at most
+# UiStyle.STRIP_MAX_LINES_LARGE drawn lines; the lowest-priority (last) lines give way first and none is ever cut.
+func _tidy_strip()->void:
+ if intent==null or not intent.visible:return
+ var lines:Array=Array(intent.text.split("\n"))
+ var kept:Array=[]
+ var message:String=current_message
+ # The loss line the card shows: the head line carries the craft's LOST text first; the card already says it.
+ var card:String=preload("res://src/presentation/threat_read/threat_read.gd").loss_card(host.sim)
+ if not card.is_empty() and not message.is_empty():
+  for row in preload("res://src/presentation/threat_read/threat_read.gd").loss_rows(host.sim):
+   if message.begins_with(str(row.text)):
+    var rest:String=message.trim_prefix(str(row.text)).strip_edges().trim_prefix("·").strip_edges()
+    var head:String=str(lines[0])
+    if head.ends_with(message):lines[0]=head.trim_suffix(message).strip_edges().trim_suffix("·").strip_edges()+(" · "+rest if not rest.is_empty() else "")
+    message=rest;break
+ for n in lines.size():
+  var line:String=str(lines[n]);var said:bool=false
+  # The standing hint is _one_strip's to drop (it also removes what the message already says); it is left as it is here.
+  if n==lines.size()-1 and n>0 and line==strip_standing and not strip_standing.is_empty():kept.append(line);continue
+  for earlier in kept:
+   if line==earlier or (n>0 and not message.is_empty() and line==message and str(earlier).ends_with(message)):said=true
+  if not said and not line.is_empty():kept.append(line)
+ var text:String="\n".join(kept)
+ if FrontendSettings.text_scale()>=UiStyle.STRIP_LARGE_TEXT:
+  var font=intent.get_theme_font("font");var font_size=intent.get_theme_font_size("font_size")
+  var wide:float=maxf(1.,host.ocean.chart_width()-32)-8.
+  var line_h:float=font.get_height(font_size)
+  # The standing hint is left to _one_strip (it gives way first and has its own last resort); other lines drop from the end.
+  # WP-118: the no-orders warning is kept like the standing hint: it is the last line to go.
+  var tail:String=strip_standing if not strip_standing.is_empty() else strip_idle
+  var has_standing:bool=kept.size()>1 and not tail.is_empty() and kept[kept.size()-1]==tail
+  while kept.size()>(2 if has_standing else 1) and font.get_multiline_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,wide,font_size).y>line_h*UiStyle.STRIP_MAX_LINES_LARGE+1.:
+   kept.remove_at(kept.size()-(2 if has_standing else 1));text="\n".join(kept)
+ if text!=intent.text:intent.text=text
 func _schedule_intent_fit():
  if intent_fit_pending:return
  intent_fit_pending=true;call_deferred("_resolved_intent_fit")
@@ -504,24 +684,47 @@ func threat_rects()->Array:
  var warning=host.lock_warning
  if warning!=null and warning.visible:rects.append(warning.banner)
  if alarm.visible:rects.append(alarm.get_rect())
+ var life=LifeChip.rect(self)
+ if life.has_area():rects.append(life)
  return rects
-func threat_floor()->float:
+# include_life is kept for callers; the life support reading now lives inside the
+# pause control and has an empty rectangle, so both values give the same floor.
+# WP-50: include_life=false is the wheel's own question (fleet_instruments places the open wheel under this floor).
+# A card that sits beside the wheel's columns (the lock card at the far side of a wide screen) cannot cover it, so
+# it must not push the whole wheel down until its bottom labels leave the screen; only cards over the wheel count.
+func threat_floor(include_life:bool=true)->float:
  var bottom=host.pause_button.get_rect().end.y+12.
- for rect in threat_rects():bottom=maxf(bottom,rect.end.y+12.)
+ var life=LifeChip.rect(self)
+ var beside_wheel=not include_life and host.advanced_orders and not ring_buttons.is_empty()
+ var reach=ring_radius+touch_height*1.55*text_scale/2.
+ for rect in threat_rects():
+  if beside_wheel and (rect.end.x<=center.x-reach or rect.position.x>=center.x+reach):continue
+  if include_life or rect!=life:bottom=maxf(bottom,rect.end.y+12.)
  return bottom
 func _place_threat_stack():
  # The Hunt chip already owns our pressure estimate; it is not a received threat.
  if not host.advanced_orders and alarm.visible and alarm.text.begins_with("OP PRESSURE") and HuntMeter.Pressure.view(host.sim).active:alarm.hide()
  # The header has a stable lane between the pause and Fleet targets.
  if host.advanced_orders and alarm.visible:
-  var side=maxf(host.pause_button.size.x,close_button.size.x)+32.
-  alarm.position=Vector2(side,12);alarm.size.x=maxf(1.,size.x-side*2)
+  var side=maxf(maxf(host.pause_button.size.x,close_button.size.x),LifeChip.rect(self).size.x)+32.
+  # WP-155: the lane also keeps off the speed control and the air chip (the order dock's header carries them too).
+  var lo:float=side;var hi:float=size.x-side
+  var chips:Array=[host.speed_button]
+  var air_chip=AirChip.node(self)
+  if air_chip!=null and AirChip.shown(self):chips.append(air_chip)
+  for chip in chips:
+   if not chip.visible:continue
+   if chip.position.x+chip.size.x*.5<size.x*.5:lo=maxf(lo,chip.position.x+chip.size.x+8.)
+   else:hi=minf(hi,chip.position.x-8.)
+  alarm.position=Vector2(lo,12);alarm.size.x=maxf(1.,hi-lo)
   alarm.size.y=maxf(touch_height,alarm.get_minimum_size().y)
  # Actual header controls reserve their complete 150% rectangles on either hand.
  var header_bottom=0.
  for control in [host.pause_button,host.advanced_button]:
   if control.visible:header_bottom=maxf(header_bottom,control.get_rect().end.y+8.)
  if host.advanced_orders:header_bottom=maxf(header_bottom,12.+close_button.size.y+8.)
+ var life=LifeChip.rect(self)
+ if life.has_area():header_bottom=maxf(header_bottom,life.end.y+8.)
  var warning=host.lock_warning
  var lock_height=warning.banner.size.y+8. if warning!=null and warning.visible else 0.
  # Budget for a full action viewport, Back and container padding. Received rows
@@ -542,7 +745,7 @@ func _place_threat_stack():
   alarm.hide();host.ocean.contact_top=header_bottom;bottom=header_bottom
   contact_scroll.position=Vector2(12,bottom)
   contact_scroll.size=Vector2(size.x-36.-(warning.banner.size.x if warning!=null and warning.visible else 0.),minf(size.y*.22,maxf(host.ocean.feedback_font_size+16.,size.y-bottom-command_room)))
-  var entries=host.ocean.contact_entries()
+  var entries=host.ocean.unstated_entries()
   var lines=entries.map(func(entry):return entry.text)
   # Sonar's received warning or our own pressure estimate is separate from contacts.
   for line in alarm_text.split("\n"):
@@ -563,7 +766,7 @@ func _place_threat_stack():
   var beside=Rect2(Vector2(size.x-warning.banner.size.x-12,host.ocean.contact_top),warning.banner.size)
   var blocks=rows.duplicate()
   if overflow:blocks.append(contact_scroll.get_rect())
-  for control in [host.pause_button,host.advanced_button]:
+  for control in [host.pause_button,host.advanced_button,host.speed_button]: # WP-120
    if control.visible:blocks.append(control.get_rect())
   if alarm.visible:blocks.append(alarm.get_rect())
   if blocks.any(func(r):return r.grow(8).intersects(beside)):beside.position.y=bottom
@@ -575,28 +778,46 @@ func refresh():
  sonar_waterfall.visible=page=="inspect" and subject.get("subkind","")=="sonar"
  sonar_waterfall.sim=sim;sonar_waterfall.queue_redraw()
  var u=sim.units[sim.selected];var transition=u.transition
- extra.all_stop.text=AllStop.label(sim);extra.all_stop.disabled=sim.selected!=0 or not u.alive
+ route_end.observe(sim,host)
+ # WP-52: ALL STOP keeps its name on the segment; its cost line shows in the wheel's centre once the segment is armed.
+ extra.all_stop.text=Words.TEXT.all_stop if Words.needs_confirm("all_stop",sim) else AllStop.label(sim);extra.all_stop.disabled=sim.selected!=0 or not u.alive
+ extra.audio_log.disabled=host.sound==null or host.sound.accessibility==null or host.sound.accessibility.history.is_empty();extra.audio_log.tooltip_text=Words.TEXT.audio_log_empty if extra.audio_log.disabled else ""
  extra.depth_up.text="↑ "+sim.Depth.NAMES[maxi(0,u.band-1)];extra.depth_up.disabled=u.band==0 or not transition.is_empty() or (sim.Depth.SurvivorAscent.count(sim.mission,sim.selected)>0 and u.get("ascent_settle",0.)>0)
  extra.depth_down.text="↓ "+sim.Depth.NAMES[mini(2,u.band+1)];extra.depth_down.disabled=u.band==2 or not transition.is_empty()
- extra.sonar_sector.text="SECTOR\n"+("ALL360°" if sim.sonar.sector=="all" else "FORWARD90°")
- extra.sonar_power.text="POWER\n"+sim.sonar.power.to_upper()
- extra.sonar_emit.text="EMIT\n"+("%s RESERVE"%String.num(snappedf(sim.Sonar.pulse_cost(sim,sim.selected),0.01)));extra.sonar_emit.disabled=sim.ping_time>0 or not transition.is_empty()
+ extra.sonar_sector.text=Words.arc_label(sim.sonar.sector)
+ extra.sonar_power.text=Words.power_label(sim.sonar.power)
+ extra.sonar_emit.text=Words.ping_label(sim.Sonar.pulse_cost(sim,sim.selected));extra.sonar_emit.disabled=sim.ping_time>0 or not transition.is_empty()
+ # WP-52: a greyed ping says why in the centre when tapped (the reason is read by truthful_commands.gd).
  subject=Concealed.refresh_subject(sim,Recipient.refresh_subject(sim,Rendezvous.refresh_subject(sim,subject)))
- host.pause_button.text="PAUSED\n▶ RESUME" if sim.paused else "Ⅱ\nPAUSE"
- host.advanced_button.text="FLEET"
+ var time_held=sim.paused or host._time_held()
+ # The state word alone first: LifeChip.sync below composes the full plate at a size that fits it, so no
+ # frame ever wraps the longer wording at the layout's text size and grows the plate for good.
+ host.pause_button.text=Words.plate_action(sim,host)
+ if not LifeChip.active(self):host.pause_button.text=Words.plate_text(sim,time_held,host)
+ plate(host.pause_button,UiStyle.MAIN if time_held else UiStyle.QUIET)
+ LifeChip.sync(self)
+ _fit_pause_button()
+ _sync_speed_button()
+ AirChip.sync(self)  # WP-149
+ MenuChip.sync(self)  # WP-158
+ host.advanced_button.text="FLEET";plate(host.advanced_button,UiStyle.NORMAL)
  focus_button.text="FOLLOW" if host.ocean.chart_camera.mode=="follow" else "FOCUS"
- intent.text="%s · %s · %s"%[sim.units[sim.selected].name+" · "+sim.Depth.NAMES[sim.units[sim.selected].band],"QUEUE" if sim.queue_mode else "REPLACE",(host.targeting_feedback if not host.targeting_feedback.is_empty() else "DECOY · TAP CLEAR WATER ≤160m · TAP CANCEL" if host.decoy_armed else "TORPEDO · TAP FRESH CONTACT · TAP CANCEL" if host.knock_armed else sim.message)]
+ var current=host.targeting_feedback if not host.targeting_feedback.is_empty() else (Words.TEXT.decoy_strip_marker if host.decoy_marker!=Vector2.INF else "DECOY · TAP CLEAR WATER ≤160m · TAP CANCEL") if host.decoy_armed else "TORPEDO · TAP FRESH CONTACT · TAP CANCEL" if host.knock_armed else RouteNotes.home_step(sim,strip_message.current(sim))  # WP-118: the record is secured and Quietus has no route: say how to send it home
+ # WP-128: where the opening tutorial sentence would push the NEXT line off a two-line strip, the sentence (the tip card teaches the same) gives way.
+ current_message=current;strip_standing="";strip_idle=""
+ intent.text="%s · %s"%[sim.units[sim.selected].name+" · "+sim.Depth.NAMES[sim.units[sim.selected].band],guard.tap_mode_text()]+(" · "+current if not current.is_empty() else "") # WP-127: the tap mode, not the old TAPS switch
  host.title_label.visible=page not in ["signals","recovery","order_help"];host.detail_label.visible=page not in ["signals","recovery","order_help"]
  host.order_buttons.home.text="WITHDRAW" if Expedition.entry(sim) else "EXTRACT"
  extra.route_here.text="PLOT ROUTE" if subject.has("subkind") else "ROUTE HERE"
  ReleaseControls.refresh(self)
- extra.arrivals.text="ARRIVALS\n%d"%Expedition.measurements(sim).size()
- extra.arrivals.disabled=Expedition.measurements(sim).is_empty()
+ var arrival_rows=Expedition.measurements(sim)
+ extra.arrivals.text="ARRIVALS\n%d"%arrival_rows.size()
+ extra.arrivals.disabled=arrival_rows.is_empty()
  var sites=host.ocean.observable_sites();var records=sites.filter(func(o):return o.captured).size()
  var summary="KNOWN SITES %d · RECORDED %d"%[sites.size(),records] if Expedition.active(sim) else "RECORDS %d/%d"%[records,sites.size()]
  instrument_info.text=summary+" · DEPTH %dm\n"%sim.mission.depth+"\n".join(host.ocean.acoustic_rows())+"\n"+sim.message
- if subject.get("kind","")=="objective" and subject.get("index",-1)>=0 and subject.index<host.ocean.observable_sites().size():
-  var site=host.ocean.observable_sites()[subject.index]
+ if subject.get("kind","")=="objective" and subject.get("index",-1)>=0 and subject.index<sites.size():
+  var site=sites[subject.index]
   instrument_info.text=site.name+" · "+("RECORDED" if site.captured else "NOT RECORDED")+"\n"+site.get("requirement","")+"\n"+site.get("unit_requirement","")+"\n"+instrument_info.text
  if subject.get("subkind","") in ["corridor","withdrawal"]:instrument_info.text=Expedition.context_detail(sim,subject)+"\n\n"+instrument_info.text
  FeatureViews.build_context(self)
@@ -617,8 +838,13 @@ func refresh():
  if (host.knock_armed or host.decoy_armed) and not host.targeting_feedback.is_empty():
   intent.text=sim.units[sim.selected].name+" · "+host.targeting_feedback
  var photographic=sim.camera_context()
+ var job_text:String=host.order_buttons.camera.text;var job_off:bool=host.order_buttons.camera.disabled or not photographic.get("ready",false)
  if preload("res://src/simulation/photo_context.gd").is_photo(sim,photographic):
   host.order_buttons.camera.text="PHOTO";host.order_buttons.camera.disabled=false
+ # WP-122: PHOTO keeps the camera slot and the job that held the camera (LINK, TRANSMIT, FIELD SAMPLE...) moves to its own segment.
+ if operation_beside_photo(sim):
+  host.order_buttons.camera.text="PHOTO";host.order_buttons.camera.disabled=false
+  extra.operation.text=job_text;extra.operation.disabled=job_off
  # 119: an object's CAMERA works that object only; the main CAMERA never
  # swaps the owner's unfinished chosen task for a different optional job.
  host.order_buttons.camera.tooltip_text=""
@@ -628,7 +854,7 @@ func refresh():
  elif page!="object":
   var held=WorkTask.held_reason(sim,task)
   if not held.is_empty():host.order_buttons.camera.disabled=true;host.order_buttons.camera.tooltip_text=held
- for i in 3:extra["choose_unit_%d"%i].disabled=not sim.units[i].alive
+ for i in 3:extra["choose_unit_%d"%i].disabled=sim.DroneBay.lost(sim.units[i])
  # The full object identity stays in the heading; the choice names its action.
  extra.choose_object.text=WorkTask.choice_name(str(subject.get("name","OBJECT")))+"\nBY "+WorkTask.LETTERS[sim.selected]
  var fitted=Equipment.status(sim)
@@ -647,13 +873,13 @@ func refresh():
   extra.glass_withdraw.disabled=sim.selected!=0 or sim.units[0].band!=1 or sim.units[0].pos.distance_to(sim.mission.extraction)>65
   if page=="glass":instrument_info.text=reach.detail+"\n"+sim.message
   elif not reach.artifact.is_empty() and reach.artifact.get("carrier",-1)==sim.selected:instrument_info.text+="\nMATERIAL ABOARD · "+reach.artifact.id+" · recover this carrier"
- if page=="recovery":instrument_info.text="%s · CHOOSE RECOVERY\n%s APPROACH"%[sim.units[sim.selected].name+" · "+sim.Depth.NAMES[sim.units[sim.selected].band],"QUEUE" if sim.queue_mode else "REPLACE"]
+ if page=="recovery":instrument_info.text="%s · CHOOSE RECOVERY\n%s"%[sim.units[sim.selected].name+" · "+sim.Depth.NAMES[sim.units[sim.selected].band],guard.tap_mode_text()]  # WP-128: the tap mode (WP-127 retired the QUEUE/REPLACE switch)
  FeatureViews.build_badges(self)
  # Water contact readouts own warnings; a popup transfers them above its
  # projection. The quiet top instrument owns only our operation estimate.
  var pressure=sim.recon_feedback()
  var warnings=[]
- for entry in host.ocean.contact_entries():
+ for entry in host.ocean.unstated_entries():
   if entry.urgent or (entry.fresh and ("REPORT" in entry.text or "STUNNED" in entry.text)):warnings.append(entry.text)
  host.ocean.warnings_in_hud=host.advanced_orders
  host.ocean.optical_suppressed=host.advanced_orders
@@ -673,28 +899,77 @@ func refresh():
  alarm.size=Vector2(maxf(1,size.x-touch_height*6.*text_scale-64),touch_height) if host.advanced_orders else Vector2(minf(size.x-touch_height*3.1*text_scale-56,ThemeDB.fallback_font.get_string_size(alarm.text,HORIZONTAL_ALIGNMENT_LEFT,-1,alert_font).x+22),ThemeDB.fallback_font.get_height(alert_font)+8)
  fleet.visible=not host.advanced_orders and not host.decoy_armed and not host.knock_armed
  if not host.decoy_armed and not host.knock_armed:
-  for task_text in [WorkTask.line(sim,task),WorkTask.result_line(task_result),WorkTask.load_status(sim)]:
+  # WP-36: the TASK line only while its work is actually under way; at rest the status is the current line and the standing hint.
+  # WP-128: a result that only says ACCEPTED gives its row to the NEXT line (a REFUSED result keeps its row: it says why).
+  var next_line:String=NextStep.step(sim).text
+  var accepted:bool=not task_result.is_empty() and bool(task_result.ok)
+  for task_text in [WorkTask.line(sim,task) if WorkTask.working(sim,task) else "",WorkTask.result_line(task_result) if not (accepted and not next_line.is_empty()) else "",WorkTask.load_status(sim)]:
    if not task_text.is_empty():intent.text+="\n"+task_text
-  intent.text+="\n"+sim.Depth.context(sim)
+  # WP-48: why the dive is held when the player did not hold it, and which craft ran out of route.
+  var urgent=alarm.visible or (host.lock_warning!=null and host.lock_warning.visible)
+  var reason=Words.pause_reason(host)
+  # WP-128: the NEXT line says the recovery step itself, so the extraction note (the same fact, older words) is not shown twice.
+  var extraction_note:String=preload("res://src/presentation/extraction_hint.gd").line(sim) if not next_line.is_empty() else ""
+  for held_line in ([reason] if not reason.is_empty() else [])+route_end.lines(sim,urgent)+StandingNotes.lines(sim,urgent):
+   if extraction_note.is_empty() or held_line!=extraction_note:intent.text+="\n"+held_line
+  # WP-106: while the dive is stopped the standing line says what RUN will do first (it gives up first like the depth hint,
+  # so the strip stays two lines).
+  var run_line:String=RouteNotes.run_line(sim) if Words.plate_kind(sim,host)=="run" else ""
+  # WP-118: while time runs, a launched craft with no orders is named in the warning colour (oxygen runs, nothing moves).
+  # It is a warning row, so it stays (the standing hint gives way to it) rather than being the first line to drop.
+  var idle_line:String=RouteNotes.idle_line(sim) if run_line.is_empty() else ""
+  strip_idle=idle_line
+  # WP-128: the standing line is the NEXT step. It gives way to a lock countdown, to orders about to run, to the no-orders warning and to
+  # a situational depth or hearing warning (NextStep.keeps).
+  var standing:String=sim.Depth.context(sim)
+  if not next_line.is_empty() and not NextStep.keeps(standing):standing=next_line
+  if run_line==Words.TEXT.run_none and not next_line.is_empty():run_line=""
+  strip_standing=run_line if not run_line.is_empty() else "" if not idle_line.is_empty() else standing
+  if not idle_line.is_empty():intent.text+="\n"+idle_line
+  if not strip_standing.is_empty():intent.text+="\n"+strip_standing
+  if idle_line.is_empty():intent.remove_theme_color_override("font_color")
+  else:intent.add_theme_color_override("font_color",Palette.color("warning",UiStyle.WARNING))
  Truthful.apply(self)
  _place_threat_stack()
- host.ocean.threat_bottom=threat_floor()
+ host.ocean.threat_bottom=threat_floor();host.ocean.threat_rects_seen=threat_rects()
  StatusView.apply(self)
+ _fit_wheel_words()
+ segments.sync(self)
+ _tidy_strip()
+ _one_strip(current_message)
+ # WP-128: where the opening tutorial sentence (the tip card teaches the same) pushed the NEXT line off the strip, the sentence gives way.
+ if not strip_standing.is_empty() and not intent.text.ends_with("\n"+strip_standing) and strip_standing==NextStep.step(sim).text:
+  # The sentences the NEXT line says better (the opening tip, the old go-home sentence) are the ones to give way, the first that makes room.
+  var gone:Array=[" · "+current_message] if current_message.begins_with(Words.TEXT.opening_prefix) else []
+  gone.append_array(["Record secured. "+Words.TEXT.return_steps+" · ","Record secured. "+Words.TEXT.return_old+" · ","Record secured. "+Words.TEXT.return_steps,"Record secured. "+Words.TEXT.return_old])
+  if current_message.begins_with("Record secured."):gone.append(" · "+current_message)  # last resort: the photo's grade is on the camera card
+  var strip_font=intent.get_theme_font("font");var strip_size=intent.get_theme_font_size("font_size")
+  for piece in gone:
+   if not intent.text.contains(piece):continue
+   var shorter:String=intent.text.replace(piece,"").strip_edges().trim_suffix("·").strip_edges()+"\n"+strip_standing
+   if strip_font.get_multiline_string_size(shorter,HORIZONTAL_ALIGNMENT_LEFT,maxf(1.,host.ocean.chart_width()-32)-8.,strip_size).y<=strip_font.get_height(strip_size)*2.+1.:
+    intent.text=shorter;break
  _fit_intent()
  var aid_font=maxi(14,roundi(touch_height*.26*text_scale))
  guard.refresh(Vector2(host.ocean.chart_width(),size.y),touch_height,aid_font,intent.position.y if intent.visible else size.y)
  chart_choice.refresh(Vector2(host.ocean.chart_width(),size.y),touch_height,aid_font,intent.position.y if intent.visible else size.y,not guard.panel.visible and not guard.undo_button.visible)
- hints.refresh(size,touch_height,aid_font,threat_floor())
+ contact_card.refresh(Vector2(host.ocean.chart_width(),size.y),touch_height,aid_font,intent.position.y if intent.visible else size.y)
+ hints.refresh(size,touch_height,aid_font,threat_floor(),_tip_avoid(),intent.position.y if intent.visible else size.y)  # WP-115: the tip card keeps off the craft, their labels and the Hunt chip
  # A first-notice tutorial must not cover the very warning it explains.
  if hints.panel.visible and (not Rect2(Vector2.ZERO,size).encloses(hints.panel.get_rect()) or threat_rects().any(func(r):return r.intersects(hints.panel.get_rect())) or (order_dock.visible and hints.panel.get_rect().intersects(order_dock.get_rect()))):hints.panel.hide()
+ # A tip card never sits over the order dialog or UNDO, where it would take their taps.
+ for aid in [guard.panel,guard.undo_button,contact_card.panel]:
+  if hints.panel.visible and aid.visible and hints.panel.get_global_rect().intersects(aid.get_global_rect()):hints.panel.hide()
  preload("res://src/presentation/field_tool_view.gd").place_notice(self)
  var blocked=[]
  for button in action_controls().values():
   if button not in fleet.buttons:blocked.append(Rect2(button.global_position-global_position,button.size))
  for label in [intent,alarm]:
   if label.visible:blocked.append(label.get_rect())
- for aid in [guard.panel,guard.undo_button,hints.panel,chart_choice.panel]:
+ for aid in [guard.panel,guard.undo_button,hints.panel,chart_choice.panel,contact_card.panel]:
   if aid.visible:blocked.append(Rect2(aid.global_position-global_position,aid.size))
+ if hints.panel.visible:
+  for zone in hints.zones():blocked.append(Rect2(zone.position-global_position,zone.size))  # the tip card's tap area: no craft chip sits in it
  for rect in threat_rects():blocked.append(rect)
  if host.lock_warning!=null and host.lock_warning.visible:blocked.append(host.lock_warning.banner)
  if host.ocean.optical_feed.is_visible_in_tree():blocked.append(host.ocean.optical_feed.get_rect())
@@ -703,7 +978,10 @@ func refresh():
  # Fleet layout can relocate a radial after the hint was placed. Keep every
  # visible command tappable; retain the pending hint for a later clear view.
  _clear_hint_overlap()
+ _note_cards()
  host.ocean.ui_blocked_rects=occupied_rects().map(func(r):return Rect2(r.position-host.ocean.global_position,r.size))
+ host.ocean.goal_avoid_rects=goal_avoid_rects()  # WP-168
+ host.ocean.card_rects=_card_rects()+_depth_chip_rects()  # WP-129: chart labels keep off every floating card and chip
  if host.decoy_armed or host.knock_armed:
   close_button.text="CANCEL";close_button.position=Vector2((host.ocean.chart_width()-close_button.size.x)/2,(intent.position.y if intent.visible else size.y)-close_button.size.y-12);close_button.show()
  else:close_button.text="CANCEL" if page=="recovery" else "LOCAL ORDERS" if page=="inspect" and subject.get("subkind","")=="concealed" else "BACK";close_button.visible=host.advanced_orders
@@ -717,13 +995,117 @@ func refresh():
  HuntMeter.sync(self)
  if has_meta(StatusView.GRID):StatusView.fit_dock(self)
 
+# WP-31: a wheel segment never breaks one word across lines. The type shrinks until the
+# longest word fits the segment's text width (floor 10 px); docked rows are left alone.
+func _fit_wheel_words():
+ if touch_height<=0. or has_meta(StatusView.GRID):return
+ var base=maxi(14,roundi(touch_height*.26*text_scale))
+ for b in command_controls():
+  if b==null or b.get_parent()!=self:continue
+  var font=b.get_theme_font("font");var avail=b.size.x-b.get_theme_stylebox("normal").get_minimum_size().x-2.
+  var px=base
+  while px>10:
+   var widest=0.
+   for word in b.text.split(" ",false):
+    for part in word.split("\n",false):widest=maxf(widest,font.get_string_size(part,HORIZONTAL_ALIGNMENT_LEFT,-1,px).x)
+   if widest<=avail:break
+   px-=1
+  b.add_theme_font_size_override("font_size",px)
+# WP-36 (visual review C2): the pause and FLEET controls were drawn flat by the transparent
+# boxes layout() gives every HUD button. They keep their rectangles but get a role plate (filled,
+# bordered, rounded) from UiStyle: MAIN while paused (the forward action), NORMAL otherwise.
+# The plate's content margins stay at the flat look's 2 px, so no rectangle or label fit moves.
+const PLATE_KEY="plate_key"
+func edge_margin(h:float)->float:
+ return maxf(8.,h*12./98.)
+func plate(b:Button,role:String):
+ var key=role+str(Palette.high_contrast())
+ if b.get_meta(PLATE_KEY,"")==key:return
+ b.set_meta(PLATE_KEY,key);UiStyle.apply(b,role)
+ if b.has_meta(LifeChip.META):b.remove_meta(LifeChip.META)
+ for state in ["normal","hover","pressed","focus","disabled"]:
+  var box:StyleBox=b.get_theme_stylebox(state).duplicate();box.set_content_margin_all(2);b.add_theme_stylebox_override(state,box)
+ b.add_theme_constant_override("outline_size",0 if role==UiStyle.MAIN else 3)
+# The pause control's hit area always covers its whole wrapped label, so a tap on the
+# visible RESUME line is never lost to the chart below it.
+# WP-120: the speed control is one touch height wide, or as wide as the widest word it can show needs (every word
+# stays whole: the wrapping is between words). Its text size is the layout's text size.
+func _speed_width(px:int)->float:
+ var b:Button=host.speed_button
+ var font=b.get_theme_font("font");var margin=b.get_theme_stylebox("normal").get_minimum_size().x
+ var widest=0.
+ for text in [Words.speed_text(1.,false),Words.speed_text(4.,false),Words.speed_text(1.,true)]:
+  for word in text.replace("\n"," ").split(" ",false):widest=maxf(widest,font.get_string_size(word,HORIZONTAL_ALIGNMENT_LEFT,-1,px).x)
+ return maxf(touch_height,ceilf(widest+margin+6.))
+# The words and plate; the plate is at least the pause plate's height (it grows only if the words need more).
+func _sync_speed_button():
+ var b:Button=host.speed_button
+ var hunted:bool=preload("res://src/time_speed.gd").hunting(host.sim)
+ b.text=Words.speed_text(host.time_speed,hunted)
+ plate(b,UiStyle.NORMAL if host.time_speed>1.0 else UiStyle.QUIET)
+ var px:=maxi(14,roundi(touch_height*.26*text_scale))
+ var font=b.get_theme_font("font");var margin=b.get_theme_stylebox("normal").get_minimum_size()
+ b.add_theme_font_size_override("font_size",px)
+ var need:float=font.get_multiline_string_size(b.text,HORIZONTAL_ALIGNMENT_CENTER,maxf(1.,b.size.x-margin.x),px).y+margin.y
+ b.size.y=maxf(ceilf(need),host.pause_button.size.y)
+func _fit_pause_button():
+ var b:Button=host.pause_button
+ var margin=b.get_theme_stylebox("normal").get_minimum_size()
+ var text=b.get_theme_font("font").get_multiline_string_size(b.text,HORIZONTAL_ALIGNMENT_CENTER,maxf(1.,b.size.x-margin.x),b.get_theme_font_size("font_size")).y
+ if b.size.y<ceilf(text+margin.y):b.size.y=ceilf(text+margin.y)
+# WP-129: the floating cards and chips a chart label keeps clear of (the ocean's coordinates): the tip card, the order card and
+# UNDO, the target and contact cards and the Hunt chip. The lock card and the threat stack are already in threat_rects.
+# WP-168: what the GOAL bearing chip keeps off: every header plate (pause, SPEED, AIR, MENU's reserved slot, FLEET), the Hunt chip and the CHART chip.
+func goal_avoid_rects()->Array:
+ var result:Array=[]
+ if host.screen!="mission":return result
+ for control in [host.pause_button,host.speed_button,host.advanced_button,get_meta(HuntMeter.CHIP) if has_meta(HuntMeter.CHIP) else null,AirChip.node(self)]:
+  if is_instance_valid(control) and control.is_visible_in_tree():result.append(Rect2(control.global_position-global_position,control.size))
+ var slot:=MenuChip.slot(self)
+ if slot.has_area():result.append(slot)
+ result.append_array(_depth_chip_rects())
+ return result
+# WP-167: the CHART: <depth> chip is itself a thing chart labels keep off (it sat over OWN SHUTTER). Not in _card_rects, which the chip avoids.
+func _depth_chip_rects()->Array:
+ if host.screen!="mission" or not host.sim.outcome.is_empty() or host.advanced_orders:return []
+ return [guard.chart_label_rect()]
+func _card_rects()->Array:
+ var result:Array=[]
+ var chip=get_meta(HuntMeter.CHIP) if has_meta(HuntMeter.CHIP) else null
+ for aid in [guard.panel,guard.undo_button,hints.panel,chart_choice.panel,contact_card.panel,chip]:
+  if is_instance_valid(aid) and aid.is_visible_in_tree():result.append(Rect2(aid.global_position-host.ocean.global_position,aid.size))
+ return result
+# WP-115: what a tip card must not cover: every craft, every craft's label, and the Hunt chip (rects in this control's coordinates).
+func _tip_avoid()->Array:
+ var result:Array=HuntMeter._craft_touch_rects(self)
+ result.append_array(threat_rects())  # a lock card, contact lines and the threat stack are read before any tip
+ for reading in fleet.readouts:result.append(Rect2(fleet.position+reading.rect.position,reading.rect.size))
+ var chip=get_meta(HuntMeter.CHIP) if has_meta(HuntMeter.CHIP) else null
+ if is_instance_valid(chip) and chip.visible:result.append(Rect2(chip.global_position-global_position,chip.size))
+ # WP-145: the viewfinder panel takes touches first (its footer scrolls), so a tip card over it lost its GOT IT taps
+ var feed=host.ocean.optical_feed
+ if feed!=null and feed.visible:result.append(Rect2(feed.global_position-global_position,feed.size))
+ return result
+# WP-115: one rule for "a card or prompt just closed": the chart ignores taps for UiStyle.TAP_AFTER_CLOSE_MS afterwards.
+# A card or prompt is one of the panels below, or the lock card; the time is noted when one that was up is gone.
+var cards_were_up=false
+var cards_closed_ms:=-1000000
+func _cards_up()->bool:
+ if hints.panel.visible or guard.panel.visible or chart_choice.panel.visible or contact_card.panel.visible:return true
+ return host.lock_warning!=null and host.lock_warning.visible
+func _note_cards()->void:
+ var up:bool=_cards_up()
+ if cards_were_up and not up:cards_closed_ms=UiStyle.now_ms()
+ cards_were_up=up
+func tap_just_after_close()->bool:
+ return UiStyle.now_ms()-cards_closed_ms<UiStyle.TAP_AFTER_CLOSE_MS
 func _clear_hint_overlap():
- if hints.panel.visible and (command_controls()+[close_button,sheet]).any(func(b):return b.is_visible_in_tree() and b.get_global_rect().intersects(hints.panel.get_global_rect())):hints.panel.hide()
+ if hints.panel.visible and (command_controls()+[close_button,sheet]).any(func(b):return b.is_visible_in_tree() and hints.overlaps(b.get_global_rect())):hints.panel.hide()  # the card's tap area never covers a command
 
 func _draw():
  caption_rects.clear()
  if host==null or not host.advanced_orders:return
- var h=touch_height;var font=ThemeDB.fallback_font;var text_size=maxi(14,roundi(h*.26*text_scale))
+ var h=touch_height;var font=ThemeDB.fallback_font;var text_size=maxi(CenterLayout.STYLE.floor_px,roundi(h*.26*text_scale))
  var tether=anchor.clamp(Vector2.ONE*12,size-Vector2.ONE*12)
  draw_line(tether,center,Color(.3,.8,.8,.32),1.5)
  draw_circle(tether,5,Color("80cbc8"),false,1.5)
@@ -734,14 +1116,17 @@ func _draw():
   var points=PackedVector2Array();var from=-PI/2+TAU*(i-.5)/ring_buttons.size()+.012;var until=-PI/2+TAU*(i+.5)/ring_buttons.size()-.012
   for j in 13:points.append(center+StatusView.radial_point(self,lerpf(from,until,j/12.),ring_radius-h*.65))
   for j in 13:points.append(center+StatusView.radial_point(self,lerpf(until,from,j/12.),ring_radius+h*.6))
-  draw_colored_polygon(points,Color(.025,.095,.12,.9) if not ring_buttons[i].disabled else Color(.025,.04,.05,.9))
+  var fill=Color(.025,.095,.12,.9) if not ring_buttons[i].disabled else Color(.025,.04,.05,.9)
+  if segments.is_armed(ring_buttons[i]):fill=UiStyle.role_colors(UiStyle.MAIN).fill
+  draw_colored_polygon(points,fill)
  StatusView.draw_outline(self,ring_radius-h*.65,Color(.3,.72,.74,.45),1.5)
  StatusView.draw_outline(self,ring_radius+h*.6,Color(.3,.72,.74,.6),1.5)
  for i in ring_buttons.size():
   var a=-PI/2+TAU*(i-.5)/ring_buttons.size();var inner=StatusView.radial_point(self,a,ring_radius-h*.65);var outer=StatusView.radial_point(self,a,ring_radius+h*.6)
   draw_line(center+inner,center+outer,Color(.3,.72,.74,.4),1)
  var title=subject.get("name","SITE") if subject.get("kind","") in ["objective","salvage","plant","habitat"] else host.sim.units[host.sim.selected].name
- var caption=page.to_upper() if page!="craft" else ("COMMAND · SITES %d"%host.ocean.observable_sites().size() if Expedition.active(host.sim) else "COMMAND · %d/%d"%[host.ocean.observable_sites().filter(func(o):return o.captured).size(),host.ocean.observable_sites().size()])
+ var command_sites=host.ocean.observable_sites() if page=="craft" else []
+ var caption=("MORE TOOLS" if page=="field_tools" else page.to_upper().replace("_"," ")) if page!="craft" else ("COMMAND · SITES %d"%command_sites.size() if Expedition.active(host.sim) else "COMMAND · %d/%d"%[command_sites.filter(func(o):return o.captured).size(),command_sites.size()])
  if page=="acoustics":
   var body=host.sim.units[host.sim.selected];caption=host.sim.Depth.NAMES[body.band]
   if not body.transition.is_empty():caption+=" → "+host.sim.Depth.NAMES[body.transition.to]+" %.1fs"%body.transition.remaining
@@ -755,17 +1140,42 @@ func _draw():
  elif subject.get("subkind","")=="rendezvous_hull":
   var hull=Rendezvous.projection(host.sim).hull
   if not hull.is_empty():caption=str(hull.phase).to_upper()+" · LOCAL FIX" if hull.live else "STALE · %ds AGO"%floori(hull.age)
- var lines=[title,caption]
+ var lines=[title,caption] if page!="choose" else []  # WP-153: the chooser asks which craft; its heading does not name one
+ var optional:Array=[]  # lowest priority first: dropped, not shrunk, when the lines do not fit at the reading floor
  if page=="acoustics":
   var carry=acoustics_carry_caption()
-  if not carry.is_empty():lines.append(carry)
+  if not carry.is_empty():lines.append(carry);optional.append(carry)
  if page=="cache":lines.append_array(Cache.captions(host.sim))
+ # WP-52: an armed two-tap segment, or the segment under the finger, puts its cost in the centre; a greyed segment's reason follows a tap on it.
+ var focus_key:String=segments.armed
+ if focus_key.is_empty() and wheel_focus!=null and ring_buttons.has(wheel_focus):focus_key=SegmentState.key_of(wheel_focus)
+ var cost:Array=[]
+ if not focus_key.is_empty():cost=Words.cost_lines(focus_key,host.sim)
  if page=="plant":lines.append(WarningChain.radial_state(WarningChain.context(host.sim)))
+ elif not cost.is_empty():
+  lines.append_array(cost)
+  if segments.armed!="":lines.append(Words.TEXT.confirm)
  elif page=="craft" and host.order_buttons.camera in ring_buttons:lines.append_array(camera_caption())
- if page in ["object","salvage","plant","habitat"]:lines.append_array(WorkTask.captions(host.sim,subject))
- if page=="choose":lines.append("CRAFT OR OBJECT?")
+ var refusal=get_meta(SegmentState.FEEDBACK_META,{})
+ if refusal.get("reason","")==host.sim.message and refusal.get("page","")==page and refusal.get("unit",-1)==host.sim.selected and not refusal.get("reason","").is_empty():lines.append(refusal.reason)
+ # WP-108: a greyed segment under the finger (and a greyed PING SONAR on its own page) shows why in the centre at once, not after a tap.
+ var grey:Button=wheel_focus if wheel_focus!=null and ring_buttons.has(wheel_focus) else (extra.sonar_emit if page=="acoustics" and ring_buttons.has(extra.sonar_emit) else null)
+ if grey!=null and grey.disabled:
+  var why=str(grey.get_meta("truthful_reason",""))
+  if not why.is_empty() and not lines.has(why):lines.append(why)
+ if page=="acoustics":lines.append(Words.TEXT.ping_caption);optional.push_front(Words.TEXT.ping_caption)
+ if page in ["object","salvage","plant","habitat"]:
+  var work=WorkTask.captions(host.sim,subject);lines.append_array(work);optional.append_array(work)
+ if page=="choose":lines.append(Words.choose_prompt(target_choices))
+ if page!="choose":optional.append(caption)  # the page's own heading goes last of all
  lines=StatusView.captions(self,lines)
- var first_y=CenterLayout.first_baseline(center.y,close_button.get_rect(),h,text_scale,lines.size(),font,text_size)
+ # WP-36: each line wraps to the disc's chord at its own height, then the type shrinks until every line lies inside the disc.
+ var radii=(ring_radius-h*.7)*(get_meta(StatusView.AXES)/ring_radius if has_meta(StatusView.AXES) else Vector2.ONE)
+ var disc_top=center.y-radii.y+4.
+ var fitted=CenterLayout.fit_disc(lines,font,text_size,center,radii,close_button.position.y-maxf(CenterLayout.STYLE.min_gap,h*text_scale*CenterLayout.STYLE.caption_gap)-disc_top,func(count,size_):return CenterLayout.first_baseline(center.y,close_button.get_rect(),h,text_scale,count,font,size_),CenterLayout.reading_floor(self),optional)
+ lines=fitted["lines"];text_size=fitted["size"];caption_size=text_size
+ caption_texts=lines.duplicate()
+ var first_y=fitted["first_y"]
  for n in lines.size():
   var text=lines[n];var width=font.get_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,-1,text_size).x
   var baseline=Vector2(center.x-width/2,first_y+n*(text_size+CenterLayout.STYLE.line_gap))
@@ -774,18 +1184,23 @@ func _draw():
 func acoustics_carry_caption()->String:
  var sim=host.sim
  return sim.Depth.SurvivorAscent.line(sim.mission,sim.selected,sim.units[sim.selected],true)
-# What the contextual action is and what it will aim at, shown before the tap (two short lines).
+# What the contextual action will aim at and whether it is ready, shown before the tap. The segment already
+# names the action, so the lines are the target, then one state line (READY or the one reason, reach once).
 func camera_caption() -> Array:
- var sim=host.sim;var button=host.order_buttons.camera
- var verb=button.text.replace("\n"," ")
+ var sim=host.sim
  var held=WorkTask.held_reason(sim,task)
- if not held.is_empty():return [verb,"▸ TASK "+WorkTask.label(sim,WorkTask.site(sim,task)).substr(0,16),"HELD · OPEN THE OTHER JOB"]
+ if not held.is_empty():return ["TASK "+WorkTask.label(sim,WorkTask.site(sim,task)),"HELD · OPEN THE OTHER JOB"]
  var context=sim.camera_context();var target=int(context.get("target",-1))
- if target==-2:return [verb,"▸ SIREN S%d"%(int(context.get("siren",0))+1)]
+ if target==-2:return ["SIREN "+preload("res://src/simulation/siren_tag.gd").tag(int(context.get("siren",0)))]
  if target>=0 and target<sim.mission.objectives.size():
   var site=sim.mission.objectives[target]
-  return [verb,"▸ %s"%sim.Photo.label(site).to_upper().substr(0,18),("READY · " if context.get("ready",false) else "NOT READY · ")+"%dm"%roundi(sim.units[sim.selected].pos.distance_to(site.pos))]
- return [verb,"▸ NO SITE IN RANGE"]
+  var Range=preload("res://src/presentation/photo_shutter/range_caption.gd")
+  var lines=[Words.ORDER_NOTES.target%sim.Photo.label(site).to_upper()]  # WP-156: the first line says it is the target
+  lines.append_array(Range.line(sim,site,context.get("ready",false)).split("\n"))  # a search-area line breaks before its reach
+  var why:String=Range.why(context,site)
+  if not why.is_empty():lines.append(why)
+  return lines
+ return ["NO SITE IN RANGE"]
 func action_controls() -> Dictionary:
  var result={}
  for c in find_children("*","Button",true,false)+host.zoom_buttons:
@@ -794,18 +1209,25 @@ func action_controls() -> Dictionary:
  return result
 func blocks(point:Vector2) -> bool:
  if host.advanced_orders:return true
- if guard!=null and (guard.blocks(point) or hints.blocks(point) or chart_choice.blocks(point)):return true
+ if guard!=null and (guard.blocks(point) or hints.blocks(point) or chart_choice.blocks(point) or (contact_card!=null and contact_card.blocks(point))):return true
+ if host.lock_warning!=null and host.lock_warning.blocks(point):return true  # the lock card's move buttons own their taps
  for b in action_controls().values():
   if b.get_global_rect().has_point(point):return true
- return host.ocean.optical_feed!=null and host.ocean.optical_feed.is_visible_in_tree() and host.ocean.optical_feed.get_global_rect().has_point(point)
+ return host.ocean.optical_feed!=null and host.ocean.optical_feed.blocks_point(point)
 func occupied_rects() -> Array:
  var result=[]
  for c in action_controls().values():result.append(c.get_global_rect())
  # Visual placement avoids the whole plate; blocks() owns only real controls.
  if fleet!=null and fleet.is_visible_in_tree():
   for reading in fleet.readouts:result.append(Rect2(fleet.global_position+reading.rect.position,reading.rect.size))
+  for reading in fleet.readouts:
+   if reading.tag_rect.has_area():result.append(Rect2(fleet.global_position+reading.tag_rect.position,reading.tag_rect.size))  # WP-129: the craft's name chip
  if intent.visible:result.append(intent.get_global_rect())
  if alarm.visible:result.append(alarm.get_global_rect())
+ # WP-115: chart labels (the off-screen bearing labels among them) also keep off the mode banner and the RIDER chip
+ # (host.status_label). (Cards and the short-lived Hunt notes are not counted: the playfield keeps its water.)
+ var banner=host.get("status_label")
+ if banner is Control and banner.is_visible_in_tree():result.append(banner.get_global_rect())
  for rect in threat_rects():result.append(Rect2(global_position+rect.position,rect.size))
  if host.advanced_orders:result.append(Rect2(center-Vector2.ONE*(ring_radius+touch_height*.65),Vector2.ONE*(ring_radius+touch_height*.65)*2))
  return result

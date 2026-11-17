@@ -4,6 +4,7 @@ extends SceneTree
 # no finite tools or drone orders, Quietus SILENT throughout. Received reports can
 # expire during one pursuit; transitions count reports, not distinct encounters.
 const Sim=preload("res://src/simulation/simulation.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 const Course=preload("res://tests/calder_trench_journey_tests.gd")
 class SilentRun extends Sim:
  var stayed_silent=true
@@ -63,6 +64,8 @@ func radio_return(s)->bool:
  Course.tick(s,1.)
  return s.outcome=="won" and s.mission.recovered
 func run():
+ # Scripted route through authored water, not a discovery test: known-charts developer switch (the player rules leave this water uncharted).
+ var charts_before=PlayerDive.known_water(true)
  var pressure=0
  for id in [30,31,32,33,34,35,36]:
   var s=SilentRun.new();s.start(id);s.mission["dev"]=true
@@ -76,4 +79,5 @@ func run():
   if s.hunt_peak>=20. or s.locks>0:pressure+=1
   print("CALDER SILENT ",id," seconds=",s.elapsed," hull=",s.hull," Hunt=",s.hunt_peak," received_lock_transitions=",s.locks," oxygen_percent=",100.*s.oxygen/reserve)
  check(pressure>=5,"at least five of seven useful SILENT routes meet Sirens")
+ PlayerDive.known_water(charts_before)
  print("CALDER SILENT CHECKS %d FAILURES %d"%[checks,failures]);quit(1 if failures else 0)

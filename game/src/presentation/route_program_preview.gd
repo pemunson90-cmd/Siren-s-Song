@@ -13,6 +13,67 @@ var navigation_font_size=14
 var view_report_pending=false
 # Presentation navigation intent, independent of layout-driven camera changes.
 var navigation_revision=0
+# WP-52: a point that waits for its second tap because its leg crosses charted rock (null when none waits).
+var pending_point=null
+const HandPilot=preload("res://src/simulation/hand_pilot/hand_pilot.gd")
+const UiStyle=preload("res://src/presentation/ui_style.gd")
+const Palette=preload("res://src/presentation/accessibility/palette.gd")
+const Words=preload("res://src/presentation/hud_words.gd")
+const ContactFeedback=preload("res://src/presentation/contact_feedback.gd")
+const SightRange=preload("res://src/simulation/parity_rules/sight_range.gd")
+# WP-110: where the waiting point's leg first meets rock (null when none), and the same for the programmed route.
+var pending_rock=null
+var _rock_key=[]
+var _rock_marks:Array=[]
+func leg_crosses_rock(a:Vector2,b:Vector2) -> bool:
+ return leg_rock_point(a,b)!=null
+func leg_rock_point(a:Vector2,b:Vector2):
+ if sim==null or not HandPilot.release(sim):return null
+ sim._use_band(sim.units[sim.selected].band)
+ return HandPilot.rock_point(sim,a,b)
+# Points on the programmed route where a leg first meets charted rock; HandPilot.warnings is the call the dive chart's
+# red leg uses, so both screens mark the same rock. Recomputed only when the route or craft moves.
+func rock_marks() -> Array:
+ if sim==null or not HandPilot.release(sim):return []
+ var u=sim.units[sim.selected]
+ var key=[sim.selected,u.pos,u.route.map(func(node):return node.pos)]
+ if key!=_rock_key:
+  _rock_key=key;_rock_marks=[];_rock_legs=[]
+  for w in HandPilot.warnings(sim,sim.selected):
+   if w.reason==HandPilot.ROCK_REASON and w.has("at"):_rock_marks.append(w.at);_rock_legs.append([w.from,w.to])
+ return _rock_marks
+# WP-117: the legs the dive chart draws red (the same HandPilot.warnings), so this screen draws them red too, not just a mark.
+var _rock_legs:Array=[]
+func rock_legs() -> Array:
+ rock_marks()
+ return _rock_legs
+# The Sirens the player knows about, drawn as the dive chart shows them: last-seen position (dashed ring), name tag
+# and the sight ring of a photographed type. Only sim.contacts and the sight rule's public rows; never the live roster.
+func known_sirens() -> Array:
+ return ContactFeedback.entries(sim.contacts,sim.elapsed,sim.units,sim.line_clear,sim.contact_target,sim.lock_seconds()) if sim!=null else []
+func _draw_known_sirens(scale:float) -> void:
+ var entries=known_sirens()
+ draw_set_transform(chart_camera.offset,0,Vector2.ONE*scale)
+ for row in SightRange.rows(sim):
+  var ink:Color=Palette.chart_color("warning",Color("ffb18b"));ink.a=.55
+  draw_arc(row.pos,row.radius,0,TAU,72,ink,1.2/scale)
+ for entry in entries:
+  var ink:Color=Palette.chart_color("threat",Color("ed8e79") if entry.fresh else Color("b09a94"))
+  draw_arc(entry.pos,48,0,TAU,48,Color("07131b"),4./scale)
+  Palette.ring(self,entry.pos,48,ink,2./scale,"threat")
+  draw_circle(entry.pos,5./scale,ink)
+ draw_set_transform(Vector2.ZERO,0,Vector2.ONE)
+ for entry in entries:
+  var anchor=chart_camera.to_screen(entry.pos)+Vector2(12,-18)
+  var width=ThemeDB.fallback_font.get_string_size(entry.name,HORIZONTAL_ALIGNMENT_LEFT,-1,navigation_font_size).x
+  draw_rect(Rect2(anchor-Vector2(3,navigation_font_size),Vector2(width+6,navigation_font_size+5)),Color(0.025,0.06,0.075,0.94))
+  draw_string(ThemeDB.fallback_font,anchor,entry.name,HORIZONTAL_ALIGNMENT_LEFT,-1,navigation_font_size,Color("ed8e79") if entry.fresh else Color("b09a94"))
+# A red cross and the word ROCK where a leg meets rock (screen space).
+func _draw_rock_mark(world:Vector2) -> void:
+ var at=chart_camera.to_screen(world);var ink=UiStyle.DANGER_RED
+ draw_arc(at,12,0,TAU,24,Color("07131b"),5.);draw_arc(at,12,0,TAU,24,ink,2.5)
+ draw_line(at+Vector2(-7,-7),at+Vector2(7,7),ink,2.5);draw_line(at+Vector2(-7,7),at+Vector2(7,-7),ink,2.5)
+ draw_string(ThemeDB.fallback_font,at+Vector2(16,5),Words.PROGRAM_ROCK,HORIZONTAL_ALIGNMENT_LEFT,-1,navigation_font_size,UiStyle.DANGER_SOFT)
 func _ready():
  mouse_filter=Control.MOUSE_FILTER_STOP;clip_contents=true
  for i in 3:
@@ -131,14 +192,31 @@ func _draw():
   var color=Color("88ded6") if goal.mode!="cruise" else Color("e2c586")
   draw_circle(p,8 if n==selected_goal else 5,color,false,2)
   draw_string(font,p+Vector2(10,0),str(n+1),HORIZONTAL_ALIGNMENT_LEFT,-1,16,color)
+ # WP-110: the Sirens the player knows about, as on the dive chart, so a re-route is not planned blind toward one.
+ _draw_known_sirens(scale)
+ # WP-110: the player's other craft (the selected one is the white dot below).
+ for id in sim.units.size():
+  var other=sim.units[id]
+  if id==sim.selected or not other.alive:continue
+  var spot=chart_camera.to_screen(other.pos)
+  draw_circle(spot,4,Color("9ecac5"))
+  draw_string(font,spot+Vector2(8,-6),str(other.name),HORIZONTAL_ALIGNMENT_LEFT,-1,navigation_font_size,Color("9ecac5"))
  draw_circle(chart_camera.to_screen(u.pos),5,Color.WHITE)
+ # WP-110: the red mark sits on the rock the leg meets, not on the leg's middle.
+ # WP-117: the leg itself turns red (over the teal course line), as on the dive chart, then the mark on the rock.
+ for leg in rock_legs():draw_line(chart_camera.to_screen(leg[0]),chart_camera.to_screen(leg[1]),UiStyle.DANGER_RED,3.)
+ for rock in rock_marks():_draw_rock_mark(rock)
+ if pending_point!=null:
+  var marker=chart_camera.to_screen(pending_point);draw_arc(marker,touch_height*.42,0,TAU,40,UiStyle.WARNING,2.5)
+  draw_line(marker-Vector2(10,0),marker+Vector2(10,0),UiStyle.WARNING,2.);draw_line(marker-Vector2(0,10),marker+Vector2(0,10),UiStyle.WARNING,2.)
+  if pending_rock!=null:_draw_rock_mark(pending_rock)
  draw_rect(chart_rect(),Color("40646b"),false,1)
- var hint="%.1f× · DRAG / PINCH"%chart_camera.zoom
+ var hint="%.1f× · %s"%[chart_camera.zoom,Words.PROGRAM_PAN] # WP-110: plain words, one place
  var width=font.get_string_size(hint,HORIZONTAL_ALIGNMENT_LEFT,-1,navigation_font_size).x+16
  draw_rect(Rect2(0,0,minf(width,size.x-3*touch_height-28),navigation_font_size*2+10),Color(0.025,0.06,0.08,.94))
  # Two short lines keep the same full-sized type clear of the three controls.
  draw_string(font,Vector2(8,navigation_font_size+6),"%.1f×"%chart_camera.zoom,HORIZONTAL_ALIGNMENT_LEFT,-1,navigation_font_size,Color("9ecac5"))
- draw_string(font,Vector2(8,navigation_font_size*2+10),"DRAG / PINCH",HORIZONTAL_ALIGNMENT_LEFT,-1,navigation_font_size,Color("9ecac5"))
+ draw_string(font,Vector2(8,navigation_font_size*2+10),Words.PROGRAM_PAN,HORIZONTAL_ALIGNMENT_LEFT,-1,navigation_font_size,Color("9ecac5"))
 
  # This footprint is visual only; it never intercepts chart gestures.
  if not u.route.is_empty():draw_string(font,Vector2(8,size.y-10),HullBand.STYLE.legend,HORIZONTAL_ALIGNMENT_LEFT,-1,navigation_font_size,Color("9ecac5"))

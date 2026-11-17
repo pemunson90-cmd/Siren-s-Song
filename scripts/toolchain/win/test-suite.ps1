@@ -46,15 +46,18 @@ if ($List) { $selected | ForEach-Object { $_.Name }; exit 0 }
 $iso = ''
 if (-not $NoIsolate) { $iso = New-IsolatedRoot $UserDataRoot }
 $results = New-Object System.Collections.Generic.List[object]
+# WP-147: this journey suite needs about 650 s (five opening journeys on two screens), more than the 480 s default.
+$suiteTimeout = @{ 'opening_depth_policy_ui_tests' = 1700 }
 foreach ($row in $selected) {
     $status = 'PASS'; $checks = ''; $secs = 0.0
+    $limit = if ($suiteTimeout.ContainsKey($row.Name) -and $TimeoutSec -lt $suiteTimeout[$row.Name]) { $suiteTimeout[$row.Name] } else { $TimeoutSec }
     if ($row.Backend -eq 'render') {
         $status = 'SKIPPED'
     } else {
         $log = Join-Path $script:ArtifactDir ($row.Name + '.log')
         $sw = [Diagnostics.Stopwatch]::StartNew()
         $code = Invoke-GodotLogged -GodotArgs @('--headless', '--path', $script:GameDir, '--script', "res://tests/$($row.Name).gd") `
-            -Log $log -TimeoutSec $TimeoutSec -IsolatedRoot $iso
+            -Log $log -TimeoutSec $limit -IsolatedRoot $iso
         $sw.Stop(); $secs = $sw.Elapsed.TotalSeconds
         $res = Test-GodotLog -Log $log -Prefix $row.Prefix -RequireSummary $true
         if ($null -ne $res.Checks) { $checks = [string]$res.Checks }

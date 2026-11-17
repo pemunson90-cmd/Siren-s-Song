@@ -1,4 +1,5 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 const IDS=[6,7,8]
 static func make(index:int,history:Dictionary={})->Dictionary:
  var entry=index==6;var deep=index==7
@@ -41,7 +42,7 @@ static func make(index:int,history:Dictionary={})->Dictionary:
   # share the existing watched water. The audible release remains a choice.
   _patrol(m,Vector2(1280,1430),[Vector2(1280,1430),Vector2(1700,1430),Vector2(1780,1940),Vector2(1360,1940)])
   _patrol(m,Vector2(650,800),[Vector2(650,800),Vector2(460,800),Vector2(460,460),Vector2(680,560)])
-  m.sirens[1].type="sentinel";m.sirens[1]["tether"]=190.0
+  m.sirens[1].type=Names.ROLE_SENTINEL;m.sirens[1]["tether"]=190.0
   m.brief+=" A Siren sentinel holds the berthing basin and returns to its post after an investigation."
   m.brief+=" The bell's lift packet is aboard a physical support tender. It stays at the berth unless you explicitly RELEASE BERTH from the locally discovered control. That one audible control transmission, the kind of sound that brought the Sirens down the first time, sends it along the announced western lane to the northern mooring, where it remains available. A drone can operate the control while Quietus stages elsewhere; Quietus can operate it alone. Quiet reception at the original berth also works. Survey locates nearby hulls and machinery; a measured vessel fix grows stale when no receiver can still sense it."
   m.brief+=" Receive the fixed SADDLE SERVICE ACCOUNT as well as Quietus's tender packet. Any craft can listen at the fixed accounts; the optional NORTH MOORING ACCOUNT adds the refuge's service record. Recovery is west of the tender's mooring, so keep clear of its physical hull."
@@ -53,13 +54,13 @@ static func make(index:int,history:Dictionary={})->Dictionary:
   m.rocks.append(Rect2(720,1150,140,210))
   _patrol(m,Vector2(1450,1510),[Vector2(1450,1510),Vector2(2010,1510),Vector2(2080,700),Vector2(1500,700)])
   _patrol(m,Vector2(660,920),[Vector2(660,920),Vector2(620,1280),Vector2(1000,1400),Vector2(620,1650)])
-  m.sirens[0].type="hunter"
+  m.sirens[0].type=Names.ROLE_HUNTER
   m.brief+=" A fast Siren hunter listens along the eastern approach; cover breaks its visual pursuit."
  return m
 static func _source(id:String,label:String,pos:Vector2,evidence:String)->Dictionary:
  return {"id":id,"label":label,"pos":pos,"evidence":evidence,"located":false}
 static func _patrol(m:Dictionary,pos:Vector2,points:Array)->void:
- m.sirens.append({"pos":pos,"home":pos,"goal":pos,"vel":Vector2.ZERO,"route":[],"angle":0.0,"mode":"PATROL","suspicion":0.0,"stun":0.0,"lock":0.0,"target":-1,"patrol":m.sirens.size(),"path_time":0.0,"type":"patroller","patrol_points":points,"patrol_index":0})
+ m.sirens.append({"pos":pos,"home":pos,"goal":pos,"vel":Vector2.ZERO,"route":[],"angle":0.0,"mode":"PATROL","suspicion":0.0,"stun":0.0,"lock":0.0,"target":-1,"patrol":m.sirens.size(),"path_time":0.0,"type":Names.ROLE_PATROLLER,"patrol_points":points,"patrol_index":0})
 
 static func supports_config(config:Dictionary)->bool:
  var source=config.get("source_id",-1)

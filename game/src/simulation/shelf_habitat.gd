@@ -104,7 +104,7 @@ static func tick(sim)->void:
   for index in sim.units.size():
    var unit=sim.units[index]
    if not unit.alive:continue
-   var arrivals=preload("res://src/simulation/thermal_front.gd").arrivals(sim,unit,site.pos,850.0) if sim.mission.get("thermal_revision",0)==1 else sim.acoustic_paths.arrivals(unit.pos,site.pos,850.0)
+   var arrivals=preload("res://src/simulation/thermal_front.gd").arrivals(sim,unit,site.pos,REPLY_RANGE) if sim.mission.get("thermal_revision",0)==1 else sim.acoustic_paths.arrivals(unit.pos,site.pos,REPLY_RANGE)
    if not arrivals.is_empty():listeners.append({"receiver":index,"direction":unit.pos.direction_to(arrivals[0].goal)})
   if listeners.is_empty():continue
   state.receipts.append(site.id)
@@ -114,6 +114,25 @@ static func tick(sim)->void:
   sim.mission.objectives[0].captured=true;sim._record_secured(sim.mission.objectives[0],0)
   sim.mission.record=ACCOUNT+"\n"+result(sim.mission)
   sim.message="Both occupied sections answered · watch account aboard · choose the masked inner trench or the longer outer return"
+# WP-180: the next step the watch acknowledgements wait on ({} when both are aboard). A reply is received only by a craft that can
+# hear the warned section (tick: REPLY_RANGE with a sound path), so a section the alarm warned out of earshot needs a craft moved there.
+# A section nobody has located carries no chart point: its place is not given away.
+const REPLY_RANGE=850.0
+static func next_step(sim)->Dictionary:
+ if not applies(sim.mission) or complete(sim):return {}
+ var W=preload("res://src/presentation/hud_words.gd").TEXT
+ var state=sim.mission.shelf_habitat
+ var waiting=[];var open=[]
+ for site in GALLERIES:
+  if site.id in state.receipts:continue
+  (waiting if state.warned_at.has(site.id) else open).append(site)
+ var spent:bool=state.alarm_used
+ for site in waiting:
+  if state.seen.has(site.id):return {"text":W.work_shelf_reply%[site.name,roundi(REPLY_RANGE)],"pos":site.pos,"band":1}
+ for site in open:
+  if state.seen.has(site.id):return {"text":(W.work_shelf_warn_local if spent else W.work_shelf_warn)%site.name,"pos":site.pos,"band":1}
+ if not waiting.is_empty():return {"text":W.work_shelf_reply_unseen%[waiting[0].name,roundi(REPLY_RANGE)]}
+ return {"text":(W.work_shelf_find_local if spent else W.work_shelf_find)%open[0].name}
 static func result(mission:Dictionary)->String:
  var state=mission.get("shelf_habitat",{})
  if state.get("receipts",[]).size()!=2:return ""

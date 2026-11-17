@@ -6,7 +6,7 @@ const Table=preload("res://src/presentation/status_text/status_table.gd")
 const Settings=preload("res://src/presentation/frontend/frontend_settings.gd")
 const Store=preload("res://src/persistence/settings_store.gd")
 const EXPECTED={
- 0:"UNKNOWN SIGNAL SOURCE · search the marked area · the camera reaches 240m",
+ 0:"UNKNOWN SIGNAL SOURCE · Search the dashed area first: the camera reaches 240 m",
  6:"SOURCE SEARCH · listen elsewhere or spend local RECON",
  7:"Locate the rendezvous hull or use local Survey",
  9:"RETURN RECEIVER · listen elsewhere or spend local RECON",
@@ -24,7 +24,7 @@ func picture(name:String):
  await RenderingServer.frame_post_draw
  check(root.get_texture().get_image().save_png(capture_dir.path_join(name+".png"))==OK,"native screenshot "+name)
 func display_line(sim)->String:
- return "QUIETUS · REPLACE ROUTE · "+EXPECTED[int(sim.mission.id)]
+ return "QUIETUS · TAP WATER · SET ROUTE · "+EXPECTED[int(sim.mission.id)]
 func make_game(id:int,shape:Vector2i):
  root.size=shape;await settle()
  var game=load("res://scenes/main.tscn").instantiate()
@@ -112,7 +112,7 @@ func table_ui():
   await tap(game.mission_hud.extra.inspect.get_global_rect().get_center())
   check(game.mission_hud.page=="inspect" and game.detail_label.is_visible_in_tree() and game.detail_label.text==display_line(game.sim),"op%d real touch displays its exact operation status"%id)
   Table.enabled=false;game._refresh();await settle()
-  check(game.detail_label.text=="QUIETUS · REPLACE ROUTE · "+raw,"op%d off switch restores the old displayed wording"%id)
+  check(game.detail_label.text=="QUIETUS · TAP WATER · SET ROUTE · "+raw,"op%d off switch restores the old displayed wording"%id)
   check(game.mission_hud.extra.arrivals.text=="ARRIVALS\n0","off switch restores the old ARRIVALS label")
   Table.enabled=true;game._refresh();await settle()
   check(game.detail_label.text==display_line(game.sim) and game.sim.snapshot()==before and game.sim.message==message and game.sim.camera_context().get("text","")==raw,"op%d display refresh preserves source state"%id)

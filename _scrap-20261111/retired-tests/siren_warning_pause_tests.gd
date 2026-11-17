@@ -1,0 +1,108 @@
+extends SceneTree
+# Tutorial auto-pause: in opening operations 0 to 3 only, the first Siren warning pauses the game once,
+# shows a GOT IT prompt, and is remembered in the saved hint flags. UI flow only.
+const Words=preload("res://src/presentation/hud_words.gd")
+var failures:=0
+var checks:=0
+var game
+func check(value: bool,label: String) -> void:
+	checks+=1
+	if not value: failures+=1; printerr("FAIL: ",label)
+func _initialize() -> void: call_deferred("run")
+func settle() -> void:
+	for n in 4: await process_frame
+# A real Siren lock: a patroller in clear water within sight of silent Quietus, run for half a second.
+func lock_on() -> void:
+	var s=game.sim
+	s.mission.rocks=[]; s.mission.structures=[]; s._build_navigation(); s._configure_terrain(); s._configure_depth_charts()
+	var e=s.sirens[0]; e.pos=s.units[0].pos+Vector2(120,0); e.home=e.pos; e.goal=e.pos; e.route=[]; e.stun=0.0; e.band=s.units[0].band
+	e.patrol_points=[]
+	s.sirens=[e]
+	for id in [1,2]: s.units[id].alive=false
+	s.paused=false; s.advance(0.5)
+	game._refresh()
+func start(op: int) -> void:
+	game.hints_seen=[]; game._start_mission(op); await settle()
+	game.sim.paused=false
+func run() -> void:
+	# This suite tests the tutorial's own once-only pause; the trial pause rules are covered by trial_rules_tests.
+	for rule in ["PAUSE_ON_EVERY_LOCK","PAUSE_WHEN_BLOCKED","PAUSE_AT_ROUTE_END"]:preload("res://src/trial_rules.gd").override(rule,false)
+	root.size=Vector2i(1280,720); await process_frame; await process_frame
+	game=load("res://scenes/main.tscn").instantiate(); game.capture_scenario="runtime-test"; root.add_child(game)
+	await settle()
+	var Text=preload("res://src/campaign/onboarding_text.gd")
+	check(Text.applies("warning",1) and Text.applies("warning",3) and Text.applies("warning",0) and not Text.applies("warning",4),"the warning prompt is limited to opening operations 0 to 3")
+	check(Text.valid_seen(["warning"]) and Text.valid_seen(["move","sweep","warning"]),"the saved flag list accepts the warning flag")
+	# Operation 1: the first lock warning pauses once.
+	await start(1)
+	var hints=game.mission_hud.hints
+	hints.current=""; hints.panel.hide(); game.hints_seen=["move","pause","drone","noise"]
+	check(not game.sim.paused,"play is running before any warning")
+	lock_on(); await settle()
+	check(game.sim.sirens[0].lock>0.0,"a real Siren lock is building")
+	check(hints.current=="warning" and hints.panel.visible and game.sim.paused,"the first lock warning pauses the game and shows the prompt")
+	check("warning" in game.hints_seen,"the shown prompt is recorded in the saved hint flags")
+	check(game.pause_button.text.begins_with(Words.TEXT.act_run),"the pause control's first line is the tap's action, RUN (WP-94)")
+	check(hints.dismiss_button.text=="GOT IT" and hints.dismiss_button.visible,"the prompt offers GOT IT")
+	var snapshot=game._archive_data() if game.has_method("_archive_data") else {}
+	# Unpausing stays one tap, and the prompt does not pause again.
+	game._pause(); await settle()
+	check(not game.sim.paused,"one tap on the pause control resumes play")
+	for n in 6: game.sim.advance(0.1); game._refresh(); await settle()
+	check(not game.sim.paused,"the warning never pauses a second time")
+	hints.dismiss(); await settle()
+	check(not hints.panel.visible and hints.current=="","GOT IT hides the prompt")
+	# Never again in the campaign: a later operation with a fresh lock keeps running.
+	var kept=game.hints_seen.duplicate()
+	game._start_mission(2); await settle(); game.sim.paused=false
+	lock_on(); await settle()
+	check(not game.sim.paused and hints.current!="warning" and game.hints_seen.count("warning")==1 and kept.has("warning"),"a later warning in the same campaign does not pause")
+	# The opening uses the same once-only pause; later operations stay manual.
+	await start(0)
+	game.hints_seen=["move","pause","drone","noise","sweep"]
+	lock_on(); await settle()
+	check(game.sim.paused and hints.current=="warning","opening lock pauses once too")
+	for op in [4]:
+		await start(op)
+		game.hints_seen=["move","pause","drone","noise","sweep"]
+		lock_on(); await settle()
+		check(not game.sim.paused and hints.current!="warning" and not ("warning" in game.hints_seen),"operation %d never auto-pauses on a warning"%op)
+	# WP-94: a lock and a heard-noise cue in one stopped moment share one card and need one dismissal.
+	await start(3)
+	game.hints_seen=["move","pause","drone","noise"]
+	hints.current=""; hints.panel.hide()
+	lock_on(); await settle()
+	check(hints.current=="warning" and game.sim.paused and hints.panel.visible,"the lock pauses and shows its card (merge case)")
+	var s=game.sim
+	s.sonar.history.append({"station":0,"enemy":0,"origin":s.units[0].pos,"direction":Vector2.UP,"time":s.elapsed,"band":-1,"confidence":.6,"tone":300.0,"classification":preload("res://src/simulation/sweeper_senses.gd").WARNING,"direct":true,"kind":"bearing"})
+	game._refresh(); await settle()
+	check(hints.current=="warning" and hints.joined==["sweep"] and "sweep" in game.hints_seen,"the heard-noise cue joins the lock card instead of replacing it")
+	check(hints.label.text.contains(Text.hint_text("warning")) and hints.label.text.contains(Text.hint_text("sweep")),"one card carries both notices")
+	check(hints.label.text.contains(Words.TEXT.hint_stopped),"the card says time stays stopped until RUN is tapped")
+	check(game.sim.paused,"the dive stays paused through the second notice")
+	# WP-106: once time runs the card drops its stopped-time sentences and its footer, and its cue line is rebuilt.
+	game.sim.paused=false;game._refresh(); await settle()
+	check(hints.current=="warning","the card is still the open warning card when time runs "+str(hints.current))
+	check(not hints.label.text.contains(Words.TEXT.hint_stopped),"the footer leaves the card when time runs: "+hints.label.text)
+	check(not hints.label.text.contains("Time is stopped") and not hints.label.text.contains("so time is stopped"),"no sentence on the card says time is stopped while it runs: "+hints.label.text)
+	check(hints.label.text.contains("Now:"),"the cue line shows while the cue is fresh: "+hints.label.text)
+	for row in s.sonar.history:row.time-=2.0
+	game._refresh(); await settle()
+	check(not hints.label.text.contains("Now:"),"the heard-noise cue line is not kept after its moment: "+hints.label.text)
+	game.sim.paused=true;game._refresh(); await settle()
+	check(hints.label.text.contains(Words.TEXT.hint_stopped),"the footer returns when time is stopped again")
+	hints.dismiss(); await settle()
+	check(not hints.panel.visible and game.sim.paused,"one GOT IT closes both notices and does not start time")
+	for n in 4: game._refresh(); await settle()
+	check(not hints.panel.visible and hints.current=="","no second card appears after the one dismissal")
+	check(game.pause_button.text.begins_with(Words.TEXT.act_run),"the plate still offers RUN after GOT IT")
+	# A heard-investigation cue counts as a warning too, in operation 3.
+	await start(3)
+	game.hints_seen=["move","pause","drone","noise"]
+	s=game.sim; s.sirens=s.sirens.slice(0,1); s.sirens[0].pos=Vector2(2000,2000)
+	s.sonar.history.append({"station":0,"enemy":0,"origin":s.units[0].pos,"direction":Vector2.UP,"time":s.elapsed,"band":-1,"confidence":.6,"tone":300.0,"classification":preload("res://src/simulation/sweeper_senses.gd").WARNING,"direct":true,"kind":"bearing"})
+	game._refresh(); await settle()
+	check(hints.current=="sweep" and game.sim.paused and "sweep" in game.hints_seen,"a heard sweeper investigation also triggers the one-time pause")
+	print("SIREN WARNING PAUSE CHECKS ",checks," FAILURES ",failures)
+	game.queue_free(); await process_frame
+	quit(1 if failures>0 else 0)

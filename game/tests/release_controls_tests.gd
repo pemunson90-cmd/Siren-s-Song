@@ -38,7 +38,7 @@ static func audit(text:String,file:String)->Array:
 # HOLD work, so the checkpoint written before unpause still validates.
 func recall_releases_jobs():
  var Sim=load("res://src/simulation/simulation.gd")
- var s=Sim.new();s.start(39);s.sirens=[];s.paused=true
+ var s=Sim.new();s.start(39);preload("res://tests/fixtures/player_dive.gd").launch_drones(s);s.sirens=[];s.paused=true # the drone winches in the water, so it is launched first
  var item=s.Cache.IDS[0];var p=s.Cache.pieces(s)[item];var d=s.units[1]
  d.pos=p.pos;d.band=p.band;d.vel=Vector2.ZERO;d.transition={};s.selected=1
  check(s.command("salvage",{"item":item}) and s.Cache.busy(s,1) and d.hold=="HOLD","drone cache winch starts under HOLD")
@@ -59,7 +59,8 @@ func run():
  for key in Release.TRAVEL_SHORTCUTS:check(seen.has(key),"registered shortcut has a tagged call site "+key)
  check(not audit("x._order(\"route\",{\"point\":p})","probe").is_empty(),"guard fails an unregistered one-press route order")
  check(not audit("x._order( \"emergency\" ,{})  # TRAVEL:teleport","probe").is_empty(),"guard fails an unknown shortcut key")
- check(Release.TRAVEL_SHORTCUTS.keys().filter(func(k):return not Release.TRAVEL_SHORTCUTS[k].dev_only)==["water_leg","water_leg_confirm"],"only placed legs are release travel")
+ # stop_exposure is a release order that does not travel: it routes the craft to its own spot to end an exposure.
+ check(Release.TRAVEL_SHORTCUTS.keys().filter(func(k):return not Release.TRAVEL_SHORTCUTS[k].dev_only)==["water_leg","water_leg_confirm","stop_exposure"],"only placed legs are release travel (and STOP EXPOSURE, which holds the craft in place)")
 
  var g=load("res://scenes/main.tscn").instantiate();g.set_script(load("res://tests/density_main.gd"));g.store.path="user://release-controls.save";g.capture_scenario="runtime-test"
  root.add_child(g);await frames();g.set_process(false)

@@ -1,5 +1,6 @@
 extends RefCounted
 const Simulation=preload("res://src/simulation/simulation.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 static func run(t) -> void:
 	var s=Simulation.new(); s.start(3)
 	t.check(not s.mission.get("structures",[]).is_empty(),"Cold Foundry has physical industrial mass in its approach")
@@ -24,6 +25,9 @@ static func run(t) -> void:
 	var restored=Simulation.new(); restored.restore(s.snapshot())
 	t.check(restored.mission==s.mission and restored.paused,"factory response and recovered evidence survive paused restoration")
 
+	# The scripted two-drone withdrawal flies authored water the player rules leave uncharted; this check is about the withdrawal, not discovery, so it uses the developer known-charts switch.
+	var charts_before=PlayerDive.known_water(true)
 	var coordinated=preload("res://tests/foundry_command_plan.gd").play(true,"complete",true,"queued")
+	PlayerDive.known_water(charts_before)
 	t.check(coordinated.outcome=="won" and coordinated.units[1].alive and coordinated.units[2].alive,"queued covered withdrawal and finite tools recover both Foundry records without forced drone losses")
 	print("FOUNDRY STAGED outcome=",coordinated.outcome," time=",snappedf(coordinated.elapsed,0.1)," hull=",snappedf(coordinated.hull,0.1)," tools=",coordinated.tools)

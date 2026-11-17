@@ -22,12 +22,18 @@ func process(host, _dt:float)->void:
 	if host.ocean!=null:
 		host.ocean.quality_tier=Settings.current.quality
 		host.ocean.quality_gesture_active=host.map_gesture.active()
-	if not governor.suggestion().is_empty() and not is_instance_valid(notice):_build_notice(host)
-	if is_instance_valid(notice):
-		notice.visible=host.screen=="mission" and not governor.suggestion().is_empty()
-		notice.position=Vector2(12,host.ocean.instrument_top+host.ui_touch_height*2.8)
-		# Shrink back to the current minimum after width-driven text wrapping.
-		notice.size=Vector2(maxf(1,host.size.x-24),0)
+	_place_notice(host)
+# Critic 13 and 14 Nov: the offer appeared in the middle of a dive, even paused, over the camera panel.
+# It now sits in the footer row under the Operations screen, the next time the player is there, and never in a dive.
+# Critic 14 Nov (round 7): at the top of the page it pushed the page down when it appeared. The footer is outside the
+# scrolling page, so no row of the page moves, and it is one touch row high, shown only while the offer is open.
+func _place_notice(host)->void:
+	var offered=not governor.suggestion().is_empty()
+	if offered and host.screen=="menu" and (not is_instance_valid(notice) or notice.get_parent()!=host.menu_footer):_build_notice(host)
+	if is_instance_valid(notice) and (host.screen!="menu" or not offered):
+		if notice.get_parent()!=null:notice.get_parent().remove_child(notice)
+		notice.queue_free()
+		if host.screen=="menu" and host.menu_footer.get_children().all(func(c):return c==notice or not c.visible):host.menu_footer.hide()
 func refresh(host,periodic:bool)->bool:
 	if not periodic:
 		governor.invalidate()
@@ -38,19 +44,29 @@ func refresh(host,periodic:bool)->bool:
 	var redraw=not periodic or governor.should_redraw(wall_seconds,host.sim.paused,changed,false,host.map_gesture.active())
 	return redraw
 func _build_notice(host)->void:
-	notice=PanelContainer.new();notice.name="QualitySuggestion";host.hud.add_child(notice)
-	var box=VBoxContainer.new();notice.add_child(box)
-	var label=Label.new();label.text="LOW EFFECTS may improve frame rate.";label.autowrap_mode=TextServer.AUTOWRAP_WORD;label.size_flags_horizontal=Control.SIZE_EXPAND_FILL;box.add_child(label)
+	notice=PanelContainer.new();notice.name="QualitySuggestion";notice.size_flags_horizontal=Control.SIZE_EXPAND_FILL;host.menu_footer.add_child(notice);host.menu_footer.show()
+	var box=HFlowContainer.new();box.add_theme_constant_override("h_separation",12);notice.add_child(box)
+	var label=Label.new();label.text="LOW EFFECTS may improve frame rate.";label.autowrap_mode=TextServer.AUTOWRAP_WORD;label.size_flags_horizontal=Control.SIZE_EXPAND_FILL;label.size_flags_vertical=Control.SIZE_SHRINK_CENTER;box.add_child(label)
+	# WP-132: a slim bar, not a card: smaller type than the menu body, tight margins; the buttons keep the touch height.
+	label.add_theme_font_size_override("font_size",maxi(14,roundi(host.ui_touch_height*.3*Settings.text_scale())))
+	var slim:=StyleBoxFlat.new();slim.bg_color=Color("0c1c24");slim.border_color=Color("2d4a52");slim.set_border_width_all(1)
+	slim.content_margin_left=10;slim.content_margin_right=10;slim.content_margin_top=4;slim.content_margin_bottom=4
+	notice.add_theme_stylebox_override("panel",slim)
 	for row in [["USE LOW EFFECTS","quality_accept"],["DISMISS","quality_dismiss"]]:
 		var b=Button.new();b.text=row[0];b.size_flags_horizontal=Control.SIZE_EXPAND_FILL;b.custom_minimum_size.y=host.ui_touch_height
 		b.custom_minimum_size.x=host.ui_touch_height*1.6;b.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
 		b.set_meta("ui_action",row[1]);box.add_child(b)
 		if row[1]=="quality_accept":b.pressed.connect(func():_accept(host),CONNECT_DEFERRED)
-		else:b.pressed.connect(func():governor.dismiss();notice.hide(),CONNECT_DEFERRED)
+		else:b.pressed.connect(func():governor.dismiss();_withdraw(host),CONNECT_DEFERRED)
 func _accept(host)->void:
 	var store=Store.new();store.path=host.settings_path
 	var values=store.load_settings();values.quality=Table.LOW_EFFECTS
 	# Explicit consent, using the ordinary settings store; report disk failures.
 	Settings.apply(values,host)
 	if not store.save_settings(values):host.sim.message=store.warning
-	governor.dismiss();notice.hide();host._refresh()
+	governor.dismiss();_withdraw(host);host._refresh()
+
+# The offer leaves; the footer is hidden again when nothing else stands in it.
+func _withdraw(host)->void:
+	notice.hide()
+	if host.menu_footer.get_children().all(func(c):return c==notice or not c.visible):host.menu_footer.hide()

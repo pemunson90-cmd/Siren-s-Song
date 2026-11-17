@@ -1,5 +1,6 @@
 extends SceneTree
 const Sim=preload("res://src/simulation/simulation.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 const Gear=preload("res://src/equipment/equipment_catalog.gd")
 const Cache=preload("res://src/simulation/optional_cache.gd")
 const Store=preload("res://src/persistence/save_store.gd")
@@ -12,7 +13,7 @@ func check(ok,label):
  if not ok:failures+=1;printerr("FAIL ",label)
 func _initialize():call_deferred("run")
 func run():
- var s=Sim.new();s.start(39)
+ var s=Sim.new();s.start(39);PlayerDive.launch_drones(s)
  check(s.mission.has("optional_cache"),"39 authors three physical optional cache pieces")
  if s.mission.has("optional_cache"):exercise(s)
  await touch_custody()
@@ -99,7 +100,7 @@ func exercise(s):
  malformed=base.duplicate(true);malformed.mission.expedition_facts[Cache.FACT]=Cache.NOTE
  check(not Sim.valid_snapshot(malformed),"unreceived account cannot be forged")
  for fit in [{},{"hull":"fast"},{"chassis_a":"heavy"}]:
-  var load=Sim.new();load.start(39,"endurance",{"fitted":Gear.canonical(fit)});load.sirens=[]
+  var load=Sim.new();load.start(39,"endurance",{"fitted":Gear.canonical(fit)});PlayerDive.launch_drones(load);load.sirens=[]
   load.selected=1 if fit.has("chassis_a") else 0
   var craft=load.units[load.selected];craft.pos=Cache.POS+Vector2(20,0)
   var room=load.ModuleRecovery.capacity(load,load.selected)

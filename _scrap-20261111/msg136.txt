@@ -1,0 +1,6 @@
+fix(critic-kit): reach Expedition and Career, add chart and route_check, repair answer index, torpedo target, aboard route, flash report
+
+The play API read the hidden campaign host after a mode session opened, so Expedition and Naval Career looked like an empty title. It now follows the open session, lists visible title screens only, and gains the chart, route_check, answer index, a torpedo target check on the sim list, a refusal for routing a drone that is still aboard, and a flash report.
+
+Work-Package: WP-136
+Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>

@@ -1,5 +1,6 @@
 extends SceneTree
 const Sim=preload("res://src/simulation/simulation.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 const Store=preload("res://src/persistence/save_store.gd")
 const Campaign=preload("res://src/campaign/expedition_campaign.gd")
 const WEST=Vector2(480,1000)
@@ -14,7 +15,7 @@ func tick(s,seconds:float)->void:
  s.paused=false
  for n in roundi(seconds*60):s.advance(Sim.STEP)
 func fresh(fitted:Dictionary={"quietus":"","drone_a":"","drone_b":""}):
- var s=Sim.new();s.start(10,"disruption",{"fitted":fitted});s.sirens=[];return s
+ var s=Sim.new();s.start(10,"disruption",{"fitted":fitted});PlayerDive.launch_drones(s);s.sirens=[];return s
 func at(s,id:int,pos:Vector2)->void:
  s.units[id].pos=pos;s.units[id].vel=Vector2.ZERO;s.command("select",{"unit":id})
 func progress()->Dictionary:
@@ -67,7 +68,7 @@ func backup_loss_and_gear()->void:
  check(not busy.salvage_context("drone_deep_cells").ready and not busy.command("salvage",{"item":"drone_deep_cells"}),"a connected power body cannot simultaneously begin a module winch")
 func physical_outputs()->void:
  for output in ["service","mast"]:
-  var s=Sim.new();s.start(10);at(s,1,WEST);s.command("chain_power",{"mode":"connect"});at(s,0,EAST);s.command("chain_route",{"output":output});s.command("chain_send");tick(s,Sim.STEP)
+  var s=Sim.new();s.start(10);PlayerDive.launch_drones(s);at(s,1,WEST);s.command("chain_power",{"mode":"connect"});at(s,0,EAST);s.command("chain_route",{"output":output});s.command("chain_send");tick(s,Sim.STEP)
   var origin=EAST if output=="service" else Vector2(1000,400)
   check(s.acoustic_feedback().pulses.any(func(p):return p.pos==origin and p.label==("SERVICE WARNING" if output=="service" else "NORTH MAST WARNING")),"public %s footprint matches the source actually heard by guards"%output)
   if output=="service":check(s.acoustic_feedback().pulses.any(func(p):return p.label=="SERVICE SHUTTER" and p.pos==GATE.get_center()),"public machinery footprint includes the short physical shutter opening")
@@ -94,9 +95,13 @@ func movement_release()->void:
   check(accepted and s.warning_chain_context().power.source=="off" and s.units[1].hold=="" and Sim.valid_snapshot(s.snapshot()),"accepted paused %s releases only the supplying craft's connection"%order)
  var s=fresh();at(s,1,WEST);s.command("chain_power",{"mode":"connect"});s.command("select",{"unit":0})
  check(s.command("route",{"point":Vector2(1000,1800)}) and s.warning_chain_context().power.source=="umbilical" and s.units[1].hold=="HOLD","another craft's accepted movement cannot disconnect the actual power body")
+var charts_before=false
 func finish()->void:
+ PlayerDive.known_water(charts_before)
  print("WARNING CHAIN CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)
 func _initialize():
+ # The plant fixtures fly and reject routes over authored Warning Chain water the player rules leave uncharted; this suite is about the plant, not discovery, so it uses the developer known-charts switch.
+ charts_before=PlayerDive.known_water(true)
  var s=fresh();check(s.has_method("warning_chain_context"),"Warning Chain exposes actual positional plant power and output controls")
  if not s.has_method("warning_chain_context"):finish();return
  check(s.warning_chain_context().power.source=="off" and not s.all_records() and not s.camera_context().ready,"fresh plant begins unpowered and cannot be completed by another generic camera hold")

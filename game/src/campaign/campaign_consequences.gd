@@ -1,8 +1,9 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 # Small recovered campaign extension. Notes never enter launch knowledge or grants.
 const Catalog=preload("res://src/campaign/operation_catalog.gd")
 const Equipment=preload("res://src/equipment/equipment_catalog.gd")
-const EMPTY_FIT={"quietus":"","drone_a":"","drone_b":""}
+const EMPTY_FIT={Names.CRAFT_QUIETUS:"",Names.CRAFT_DRONE_A:"",Names.CRAFT_DRONE_B:""}
 static func upgrade(previous:Dictionary)->Dictionary:
  var p=previous.duplicate(true)
  if p.is_empty():return p

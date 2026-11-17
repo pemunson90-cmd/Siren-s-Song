@@ -1,4 +1,5 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 const Divergence=preload("res://src/campaign/divergence_missions.gd")
 const CHAIN_INLET=Vector2(480,1000)
 const CHAIN_PANEL=Vector2(1520,1000)
@@ -24,7 +25,7 @@ static func make(id:int,history:Dictionary={})->Dictionary:
   m.record="The wrecked rig's beacon kept calling while the bell's line stayed quiet. Siren patrols still trade local sightings. A dead call can buy cover without being anyone's lifeline; the packet and Quietus have crossed the watch line."
   Divergence._patrol(m,Vector2(620,850),[Vector2(620,850),Vector2(620,520),Vector2(780,420),Vector2(760,1400)])
   Divergence._patrol(m,Vector2(1340,850),[Vector2(1340,850),Vector2(1340,450),Vector2(1220,300),Vector2(1250,1430)])
-  m.sirens[1].type="hunter"
+  m.sirens[1].type=Names.ROLE_HUNTER
   m.sirens[1].pos=Vector2(900,350);m.sirens[1].home=m.sirens[1].pos;m.sirens[1].goal=m.sirens[1].pos
   m.brief+=" A Siren patrol and a northern hunter can report local sightings. The long western outside water remains a solo route without tools or playback."
   m.brief+=" Air favors the shorter coordinated crossing. Approach the beacon with quiet drone thrust, then reserve time to return its operator in MIDDLE before Quietus departs."
@@ -40,7 +41,7 @@ static func make(id:int,history:Dictionary={})->Dictionary:
   m.record="The warning plant works again. Its operating record preserves exactly what Quietus proved: a local service acknowledgement or a northern mast transmission whose wider audience remains unknown. The motors and the mast were loud work, and Quietus cannot say who heard them."
   Divergence._patrol(m,Vector2(740,1080),[Vector2(740,1080),Vector2(700,760),Vector2(740,380),Vector2(800,1700)])
   Divergence._patrol(m,Vector2(1280,800),[Vector2(1280,800),Vector2(1250,1250),Vector2(1250,1700),Vector2(1280,400)])
-  m.sirens[0].type="sentinel";m.sirens[0]["tether"]=190.0
+  m.sirens[0].type=Names.ROLE_SENTINEL;m.sirens[0]["tether"]=190.0
   m.brief+=" A Siren sentinel holds the western preparation; the eastern arm is patrolled."
  return m
 

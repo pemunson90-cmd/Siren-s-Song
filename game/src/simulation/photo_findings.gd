@@ -1,4 +1,5 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 # What a resolved frame teaches. A finding is a plain observation the player can
 # act on: a patrol loop, a gap between two loops, a guard post, a route, a cycle,
 # a person, a hazard. It exists only when a frame resolved the feature that shows
@@ -10,14 +11,14 @@ extends RefCounted
 # Authored findings sit on a subject feature as `finding`: {kind,text,pos|off|pts,r}.
 const MAX:=24
 const BEHAVIOR={
-	"patroller":"Walks a fixed circuit and turns toward noise it hears.",
-	"hunter":"Follows real noise and sightings, then searches where it last heard you.",
-	"sentinel":"Holds its post and returns to it after an investigation.",
-	"warden":"Charges from received evidence: wait out the discharge or break its acquisition.",
-	"sweeper":"Winds up before its beam; the warning gives a bearing and a count.",
-	"interceptor":"A fast responder that holds its lane.",
-	"buoy":"A passive listener that reports to a relay after a charge.",
-	"relay":"Forwards stale reports to the nearest investigator."}
+	Names.ROLE_PATROLLER:"Walks a fixed circuit and turns toward noise it hears.",
+	Names.ROLE_HUNTER:"Follows real noise and sightings, then searches where it last heard you.",
+	Names.ROLE_SENTINEL:"Holds its post and returns to it after an investigation.",
+	Names.ROLE_WARDEN:"Charges from received evidence: wait out the discharge or break its acquisition.",
+	Names.ROLE_SWEEPER:"Winds up before its beam; the warning gives a bearing and a count.",
+	Names.ROLE_INTERCEPTOR:"A fast responder that holds its lane.",
+	Names.ROLE_BUOY:"A passive listener that reports to a relay after a charge.",
+	Names.ROLE_RELAY:"Forwards stale reports to the nearest investigator."}
 static func pt(v:Vector2)->Array:
 	return [snappedf(v.x,0.1),snappedf(v.y,0.1)]
 static func vec(a)->Vector2:
@@ -78,7 +79,7 @@ static func from_siren(sim,shot:Dictionary,seen:Array,fq:Dictionary)->Array:
 	if "array" in seen:
 		var text:String=str(BEHAVIOR.get(type,"Its behavior is recorded in the archive."))
 		var extra:Dictionary={}
-		if type=="sentinel" and path.size()>=3 and path.all(func(p):return vec(p).distance_to(vec(path[0]))<=OBSERVED_STATION):
+		if type==Names.ROLE_SENTINEL and path.size()>=3 and path.all(func(p):return vec(p).distance_to(vec(path[0]))<=OBSERVED_STATION):
 			extra={"pos":path[0].duplicate(),"r":0.0}
 			text+=" Observed station; boundary unknown."
 		result.append(make("post_%d"%i,"post","%s %s · %s"%[tag,type.to_upper(),text],float(fq.get("array",0.0)),op,sid,extra))

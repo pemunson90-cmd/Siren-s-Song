@@ -1,4 +1,5 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 # PHOTO RULES / LOOP CLOCK. Unlock: a gait frame of a patrolling Siren at quality
 # 0.45 or better, which files a `loop` finding (photo_findings.gd). The player then
 # reads "LOOP 38s" for that Siren and, while a recent sighting exists, a ghost tick
@@ -66,7 +67,7 @@ static func entries(sim) -> Array:
 		if f.kind != "loop" or not str(f.get("text", "")).contains(Table.LOOP_TEXT_KEY) or float(f.q) < Table.LOOP_MIN_Q:
 			continue
 		var i: int = int(str(f.id).trim_prefix("loop_"))
-		if i < 0 or i >= sim.sirens.size() or str(sim.sirens[i].get("type", "patroller")) not in Table.LOOP_TYPES:
+		if i < 0 or i >= sim.sirens.size() or str(sim.sirens[i].get("type", Names.ROLE_PATROLLER)) not in Table.LOOP_TYPES:
 			continue
 		var pts: PackedVector2Array = points(f)
 		if pts.size() < 3:

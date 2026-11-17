@@ -33,6 +33,7 @@ static func command(sim, order: String, args: Dictionary) -> bool:
 		"rendezvous_release":return sim.Rendezvous.release(sim)
 		"depart":
 			var context=sim.departure_context()
+			if context.get("reason","")=="depth":sim.message=context.text;return false # WP-161: explain instead of silence
 			if not context.available or not args.get("confirm") is bool:return false
 			if args.has("corridor"):
 				var expected=args.corridor

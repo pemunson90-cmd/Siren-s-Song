@@ -21,6 +21,11 @@ static func chart_reward(m:Dictionary,history:Dictionary)->void:
  m.brief+="\nSORLEY / PILOTAGE: "+("central strait" if m.id==15 else "western outside passage")+" pre-charted in MIDDLE. Confirmed water marks terrain clearance only; currents and Sirens remain live."
 static func rescued(p:Dictionary)->bool:return (p.get("facts",{}) is Dictionary and p.get("facts",{}).get(FACT,"") in ["rescued","rescued_quiet"])
 static func logs(p:Dictionary)->String:return str(p.get("notes",{}).get(FACT,"000"))
+# The player has heard of Sorley's boy: a recorder log played, the rescue opened, or the boy brought home.
+static func known(p:Dictionary)->bool:
+ if rescued(p):return true
+ if not p.get("facts",{}) is Dictionary or not p.get("notes",{}) is Dictionary:return false	# a damaged save names no one
+ return unlocked(p) or "1" in logs(p)
 static func unlocked(p:Dictionary)->bool:
  if not enabled:return false
  if rescued(p) or p.get("facts",{}).has("glass_record_37_bonus") or p.get("notes",{}).has("glass_record_37_bonus"):return true

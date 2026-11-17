@@ -11,15 +11,37 @@ const MAX_ENTRIES=240
 static func key(op:int,slot:String)->String:
 	return "%d:%s"%[op,slot]
 # {"speaker","text"} for one slot, or {} when the operation has no line there.
-static func row(op:int,slot:String)->Dictionary:
+# WP-121 (Pat, 14 Nov 2026: "just make the amount of time a variable"): Okafor says the real time left, to the nearest
+# half minute up to ten minutes and the nearest minute above. A line's text may hold {margin}; seconds<0 (the archive
+# replay, or a dive with no air drain) has no figure, so it says "Some margin".
+const MARGIN_TOKEN="{margin}"
+const NUMBER_WORDS=["zero","one","two","three","four","five","six","seven","eight","nine","ten","eleven","twelve","thirteen","fourteen","fifteen","sixteen","seventeen","eighteen","nineteen"]
+const TENS_WORDS=["","","twenty","thirty","forty","fifty","sixty","seventy","eighty","ninety"]
+static func _number_word(n:int)->String:
+	if n<20:return NUMBER_WORDS[n]
+	if n>=100:return str(n)
+	return TENS_WORDS[n/10]+("" if n%10==0 else "-"+NUMBER_WORDS[n%10])
+static func margin_phrase(seconds:int)->String:
+	if seconds<0:return "Some margin"
+	if seconds<60:return "Under a minute of margin"
+	var minutes:float=seconds/60.0
+	var steps:int=roundi(minutes*2.0) if minutes<10.0 else roundi(minutes)*2
+	var whole:int=steps/2;var half:bool=steps%2==1
+	var number:String=_number_word(whole)
+	var text:String
+	if half:text="A minute and a half" if whole==1 else "%s and a half minutes"%number
+	else:text="One minute" if whole==1 else "%s minutes"%number
+	text=text[0].to_upper()+text.substr(1)
+	return text+" of margin"
+static func row(op:int,slot:String,seconds:int=-1)->Dictionary:
 	if op==41 and not preload("res://src/campaign/sorley_rescue.gd").enabled:return {}
 	var slot_index=Table.SLOTS.find(slot)
 	if slot_index<0:return {}
 	var set:Array=Table.LINES.get(op,Table.GENERIC if op in Table.GENERIC_IDS else [])
 	if slot_index>=set.size():return {}
-	return {"speaker":Table.SPEAKERS[set[slot_index][0]],"text":set[slot_index][1]}
-static func line(op:int,slot:String)->String:
-	var r=row(op,slot)
+	return {"speaker":Table.SPEAKERS[set[slot_index][0]],"text":str(set[slot_index][1]).replace(MARGIN_TOKEN,margin_phrase(seconds))}
+static func line(op:int,slot:String,seconds:int=-1)->String:
+	var r=row(op,slot,seconds)
 	return "" if r.is_empty() else "%s: %s"%[r.speaker,r.text]
 static func heard(received:Array,op:int,slot:String)->bool:
 	return key(op,slot) in received

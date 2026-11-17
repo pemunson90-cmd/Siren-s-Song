@@ -4,6 +4,7 @@ extends SceneTree
 # the Rendezvous course is the quiet berth path of rendezvous_transport_tests.gd. All run on ChallengeRun with live Sirens.
 const R=preload("res://tests/challenge_routes.gd")
 const Glass=preload("res://tests/glass_reach_journeys.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 var checks=0
 var failures=0
 func check(ok,label):
@@ -21,6 +22,7 @@ const COURSES={
  16:Glass.COURSES[16],
  19:[["go",Vector2(1600,1700)],["go",Vector2(1600,1200)],["go",Vector2(1600,700)],["camera"],["depth",0],["go",Vector2(725,1200)],["go",Vector2(725,1600)],["go",Vector2(1600,1700)],["exit"],["depth",1]]}
 func glass(id:String,op:int):
+ var charts_before=PlayerDive.known_water(op==19) # glass_fast is a scripted fast crossing, not discovery; 14 and 16 keep earned charts
  var s=R.fresh(id)
  if op==16:check(s.mission.earned_terrain and not s.terrain_chart.is_clear(s.mission.corridors[0].pos),"reach recovery starts unmeasured")
  for step in COURSES[op]:
@@ -33,7 +35,10 @@ func glass(id:String,op:int):
   if not s.outcome.is_empty():break
  finish(s,id,"glass_course")
  if op==16:check(s.tools_used()==0,"reach passive return spends no finite charges")
+ PlayerDive.known_water(charts_before)
 func wake():
+ # Scripted route through authored water, not a discovery test: known-charts developer switch (the player rules leave this water uncharted).
+ var charts_before=PlayerDive.known_water(true)
  var s=R.fresh("wake_one_charge")
  check(R.course(s,0,[Vector2(700,1540),Vector2(580,1320),Vector2(60,1320),Vector2(60,620),Vector2(300,620)]),"wake Quietus reaches the western onward packet")
  s.command("select",{"unit":0});check(s.command("camera"),"wake Quietus receives the onward packet")
@@ -44,7 +49,10 @@ func wake():
  check(s.mission.objectives.any(func(o):return o.get("site_id","")=="wake_packet" and o.captured),"wake required local packet is actually received")
  check(R.course(s,0,[Vector2(60,620),Vector2(60,160),s.mission.extraction]),"wake Quietus crosses the outer water and returns")
  finish(s,"wake_one_charge","quiet_outer")
+ PlayerDive.known_water(charts_before)
 func rendezvous():
+ # Scripted route through authored water, not a discovery test: known-charts developer switch (the player rules leave this water uncharted).
+ var charts_before=PlayerDive.known_water(true)
  var s=R.fresh("rendezvous_middle")
  # A real independent receiver works the required saddle while Quietus
  # approaches the tender. Neither source knowledge nor completion is injected.
@@ -71,6 +79,7 @@ func rendezvous():
  check(s.units[1].alive and s.units[1].pos.distance_to(s.mission.extraction)<180,"rendezvous service helper returns alive to recovery water")
  print("RENDEZVOUS HELPER pos=",s.units[1].pos," route=",s.units[1].route," alive=",s.units[1].alive," battery=",s.units[1].battery)
  finish(s,"rendezvous_middle","quiet_berth")
+ PlayerDive.known_water(charts_before)
 func _initialize():
  var only=OS.get_cmdline_user_args()
  if only.is_empty() or "rendezvous" in only:rendezvous()

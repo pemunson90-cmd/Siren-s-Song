@@ -5,6 +5,7 @@ extends SceneTree
 # Solo cases start without helper bodies; the rescue case loses its loaded A
 # to ordinary four-second guard sight rather than a scripted death.
 const Sim=preload("res://src/simulation/simulation.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 const Store=preload("res://src/persistence/save_store.gd")
 const BERTH=Vector2(1840,800)
 const HOME=Vector2(2260,2700)
@@ -123,5 +124,8 @@ func run_rescue():
  check(s.outcome=="won" and s.hull>0 and Sim.valid_snapshot(s.snapshot()),"real beam loss of every helper still permits a valid physical rescue and Quietus recovery")
  print("WITNESS JOURNEY beam-loss-rescue outcome=",s.outcome," time=",s.elapsed," hull=",s.hull," oxygen=",s.oxygen," EMP=",s.tools.emp," torpedoes=",s.tools.knock," wreck=",wreck," losses=",s.witness_status().capsule.losses)
 func _initialize():
+ # Scripted voyages through authored water the player rules leave uncharted; this suite is not about discovery, so it uses the developer known-charts switch.
+ var charts_before=PlayerDive.known_water(true)
  run_solo(false);run_solo(true);run_rescue()
+ PlayerDive.known_water(charts_before)
  print("WITNESS EVACUATION JOURNEY CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)

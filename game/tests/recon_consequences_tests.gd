@@ -1,5 +1,6 @@
 extends SceneTree
 const Sim=preload("res://src/simulation/simulation.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 const Recon=preload("res://src/simulation/recon_consequences.gd")
 var checks=0
 var failures=0
@@ -10,7 +11,7 @@ func step(s,seconds):
  s.paused=false
  for n in ceili(seconds*60):s.advance(1./60)
 func _initialize():
- var s=Sim.new();s.start(0);s.units[1].pos=Vector2(1300,300)+Vector2.from_angle(2.74)*70;s.units[1].angle=2.74+PI;s.command("select",{"unit":1})
+ var s=Sim.new();s.start(0);PlayerDive.launch_drones(s);s.units[1].pos=Vector2(1300,300)+Vector2.from_angle(2.74)*70;s.units[1].angle=2.74+PI;s.command("select",{"unit":1})
  check(s.command("camera"),"drone begins real local exposure")
  var before=s.snapshot();s.advance(1)
  check(s.snapshot()==before,"pause freezes pressure and exposure")

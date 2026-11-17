@@ -1,6 +1,7 @@
 extends Control
 # The waterfall projects received samples only. Horizontal axis=bearing,
 # vertical axis=sample age. It never queries live enemies.
+const Words=preload("res://src/presentation/hud_words.gd")
 var sim
 func _draw():
  if sim==null:return
@@ -22,7 +23,7 @@ func _draw():
   draw_line(point-Vector2(spread,0),point+Vector2(spread,0),Color("edb36c") if row.kind=="echo" else Color("76d6c7"),2+row.confidence*2)
 static func detail(sim)->String:
  var feedback=sim.Sonar.feedback(sim,sim.selected);var u=sim.units[sim.selected]
- var text="BEARING HISTORY · %s\n%s · %s / %s · listen %.1fs\nOwn noise ~%dm · passive masking ×%.1f"%[u.name,sim.Depth.NAMES[u.band],feedback.sector.to_upper(),feedback.power.to_upper(),feedback.listening,roundi(feedback.own_noise),1.+feedback.own_noise/180.]
+ var text=Words.TEXT.history_heading%u.name+"\n%s · %s / %s · listen %.1fs\nOwn noise ~%dm · passive masking ×%.1f"%[sim.Depth.NAMES[u.band],feedback.sector.to_upper(),feedback.power.to_upper(),feedback.listening,roundi(feedback.own_noise),1.+feedback.own_noise/180.]
  var rows=feedback.rows.slice(maxi(0,feedback.rows.size()-4));rows.reverse()
  for row in rows:
   var degrees=fposmod(rad_to_deg(atan2(row.direction.x,-row.direction.y)),360.)

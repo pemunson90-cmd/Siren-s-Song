@@ -1,4 +1,5 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 # Separate career economy, regional evidence and fitted fleet. No ending resolver.
 # Campaign archives never contain this career state.
 const Table=preload("res://src/campaign/career/career_table.gd")
@@ -20,9 +21,9 @@ static func rider_offer(state:Dictionary,id:String)->Dictionary:
 static func launch(state:Dictionary,id:String,accept_rider:bool=true)->Dictionary:
 	var next=state.duplicate(true)
 	if state.in_flight or not open(state,id):return next
-	var racks=Economy.Losses.racks(next.economy,next.get("tool_racks",Racks.template("endurance")))
+	var racks=Economy.Losses.racks(next.economy,next.get("tool_racks",Racks.template(Names.LOADOUT_ENDURANCE)))
 	# Career has no loadout picker; its public frontend always launches endurance.
-	var extra=Racks.cost(racks,"endurance",next.economy)
+	var extra=Racks.cost(racks,Names.LOADOUT_ENDURANCE,next.economy)
 	var cost=Economy.refit_cost(next.economy,next.fitted)
 	for key in extra:cost[key]=cost.get(key,0)+extra[key]
 	if not Racks.reason(next.fitted,racks).is_empty() or not Economy.can_pay(next.economy,cost):return state.duplicate(true)

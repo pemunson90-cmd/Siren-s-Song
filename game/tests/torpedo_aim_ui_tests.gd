@@ -56,6 +56,7 @@ func run():
   var ambiguous=g.ocean.screen_position(g.sim.contacts[0].pos)+g.ocean.global_position+Vector2(12,-18)+Vector2(glyph_size.x/2,-g.ocean.feedback_font_size/2.)
   await click(ambiguous)
   check(g.sim.tools.knock==2 and g.sim.projectiles.is_empty() and g.knock_armed,"ambiguous original S1 glyph tap never silently fires at S2")
+  check(not g.mission_hud.contact_card.is_open() and g.ocean.selected_contact==-1,"B6: with a torpedo armed a tap on a contact opens no contact card")
   await setup(g);aims=g.ocean.knock_aim_targets()
   var route=g.sim.units[0].route.duplicate(true)
   await click(aims[0].rect.get_center()+g.ocean.global_position)

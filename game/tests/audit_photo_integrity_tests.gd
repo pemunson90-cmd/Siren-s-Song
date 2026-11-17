@@ -54,8 +54,10 @@ func _initialize():
 		late.units[0].pos=late.sirens[0].pos;late.units[0].band=late.sirens[0].band
 		late._use_band(late.units[0].band);late._observe()
 		check(Photo.siren_candidate(late,0)==0,"op%d fixture has a genuinely observed same-band subject"%op)
-		var ctx=late.camera_context()
-		check(ctx.get("target",-1)==-2 and ctx.ready and late.command("camera"),"op%d permits a Siren study when no ordinary camera job is ready"%op)
+		# WP-174/WP-177: beside a pending required habitat record (op8) or plant job (op10) the Siren study is the explicit PHOTO frame, not the camera slot.
+		var held=op in [8,10]
+		var ctx=late.photo_context() if held else late.camera_context()
+		check(ctx.get("target",-1)==-2 and ctx.ready and (late.command("camera",{"photo":true}) if held else late.command("camera")),"op%d permits a Siren study when no ordinary camera job is ready"%op)
 	var powered=Sim.new();powered.start(10)
 	powered.units[0].pos=powered.sirens[0].pos;powered.units[0].band=powered.sirens[0].band
 	powered._use_band(powered.units[0].band);powered._observe()

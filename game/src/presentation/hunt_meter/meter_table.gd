@@ -1,4 +1,5 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 # Hunt meter presentation configuration only. Tune these values or restore
 # prior values to revert. Retain files, tests and evidence. HuntTable.enabled
 # remains the single module flag; this file contains no independent switch.
@@ -19,13 +20,42 @@ const HEIGHT_PADDING=16.0
 const HELP_PAUSE_GAP=8.0
 const HELP_WIDTH_MARGIN_COUNT=3.0
 const SCAN_MIN_STEP=12.0
+# WP-11: keep a clear seat between frames of the same layout. false restores per-frame search.
+const STICKY=true
 const SCAN_TOUCH_FACTOR=0.5
 const PIP_COUNT=5
 const COMPACT_PIP_SPLIT=3
+# The first time the chip is shown in a profile, its one-line meaning sits beside it for this many seconds of running time.
+const INTRO_SECONDS=12.0
+const INTRO_FONT_FACTOR=0.9
+const INTRO_MAX_WIDTH=380.0
+const INTRO_GAP=4.0
+# A stage change shows its reason beside the chip for this many seconds of running time (critic 14 Nov).
+const CHANGE_SECONDS=6.0
+# Plain reason for each simulation cause key (HuntTable.CAUSES keys); the note reads "STAGE: reason".
+const REASONS={
+	"FACTORY":"the factory sensors noticed you",
+	"LAUNCH":"the operation began",
+	Names.NOISE_ACTIVE_SONAR:"your active sonar was heard",
+	Names.NOISE_EMP:"your EMP was heard",
+	Names.NOISE_KNOCKDOWN:"your knockdown was heard",
+	"EXPOSURE":"your shutter was heard",
+	"UNUSABLE EXPOSURE":"your shutter was heard",
+	"SECURED RECORD":"you secured a record",
+	"NEW SIGHT":"a Siren sighted you",
+	"ACTIVITY":"your activity was noticed",
+	"TIME":"time passed on the dive",
+	"COOLING":"things have been quiet"
+}
 const TEXT={
+	"change":"%s: %s",
+	"reason_other":"your activity was noticed",
+	"intro":"HUNT: how hard the Sirens are searching; it rises when they hear you. Tap it any time for more.",
 	"compact":"HUNT\n%s\n%s\n×%.2f\n%s\n%s",
 	"tight":"HUNT ×%.2f\n%s\n%s",
 	"standard":"HUNT · %s ×%.2f\n%s",
-	"help":"HUNT · %s · ×%.2f\nLast rise: %s · floor %.0f / 100.\nSight notice range for eligible Sirens, capped at ×%.2f.\nLocal alert may be higher. Hearing, speed and 4 s lock stay unchanged.",
+	# Plain words (critic 13 Nov: the meter moved with no explanation; it also named the 4 s lock, which the first dive lengthens).
+	# Arguments: stage, sight multiplier, its cap, the last rise's cause, the floor.
+	"help":"HUNT · %s\nSirens notice you by sight from ×%.2f their usual range (at most ×%.2f).\nLast rise: %s. It stays at %.0f of 100 or above.\nOne that has heard you may be more alert. Hearing, speed and lock time do not change.",
 	"no_rise":"no rise recorded"
 }

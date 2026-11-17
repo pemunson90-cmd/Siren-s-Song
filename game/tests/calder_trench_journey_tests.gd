@@ -3,6 +3,7 @@ extends SceneTree
 # Source-known core routes using ordinary Quietus orders with the authored threats.
 # Shared with the finale UI fixture; no fixture state shortcuts or free equipment.
 const Sim=preload("res://src/simulation/simulation.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 var checks=0
 var failures=0
 func check(ok,label):
@@ -109,6 +110,8 @@ static func run_core(s,id:int)->bool:
  return s.outcome=="won" and s.mission.recovered
 func _initialize():call_deferred("run")
 func run():
+ # Scripted route through authored water, not a discovery test: known-charts developer switch (the player rules leave this water uncharted).
+ var charts_before=PlayerDive.known_water(true)
  for id in [30,31,32,33,34,35,36]:
   var s=Sim.new();s.start(id);s.mission["dev"]=true
   check(s.mission.get("launch_equipment",{}).values().all(func(item):return str(item).is_empty() or str(item)=="standard"),"bare initial loadout "+str(id))
@@ -119,4 +122,5 @@ func run():
   if id in [32,33,35]:check(s.mission.glass_reach.artifact.state=="recovered" and s.mission.glass_reach.retrieved,"physical material recovered "+str(id))
   check(Sim.valid_snapshot(s.snapshot()),"final current snapshot valid "+str(id))
   print("CALDER ROUTE ",id," outcome=",s.outcome," time=",s.elapsed," hull=",s.hull," oxygen=",s.oxygen," pos=",s.units[0].pos," message=",s.message)
+ PlayerDive.known_water(charts_before)
  print("CALDER TRENCH JOURNEY CHECKS %d FAILURES %d"%[checks,failures]);quit(1 if failures else 0)

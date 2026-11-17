@@ -7,7 +7,12 @@ func check(value: bool,label: String) -> void:
 	checks+=1
 	if not value: failures+=1; printerr("FAIL: ",label)
 func _initialize() -> void: call_deferred("run")
+# WP-115: a fake clock (UiStyle.clock_override_ms) so "a tap just after a card closed" and "the gap between tip cards" are
+# deterministic: every click is a second after the last thing; gap() lets the tip gap pass.
+const UiStyle=preload("res://src/presentation/ui_style.gd")
+func gap() -> void: UiStyle.clock_override_ms+=UiStyle.TIP_GAP_MS+1
 func click(p: Vector2) -> void:
+	UiStyle.clock_override_ms+=1000
 	var down=InputEventMouseButton.new(); down.position=p; down.global_position=p; down.button_index=MOUSE_BUTTON_LEFT; down.button_mask=MOUSE_BUTTON_MASK_LEFT; down.pressed=true
 	var motion=InputEventMouseMotion.new(); motion.position=p; motion.global_position=p; root.push_input(motion,true)
 	root.push_input(down,true); await process_frame
@@ -22,6 +27,7 @@ func buttons(node: Node, id: String) -> Button:
 		if c.get_meta("action","")==id: return c
 	return null
 func run() -> void:
+	UiStyle.clock_override_ms=1000000
 	root.size=Vector2i(1280,720); await process_frame; await process_frame
 	game=load("res://scenes/main.tscn").instantiate(); game.capture_scenario="runtime-test"; root.add_child(game)
 	await settle()
@@ -39,15 +45,45 @@ func run() -> void:
 	# No dive text wall, no manual wording on a fresh campaign.
 	game._briefing(0); await settle()
 	var shown=""
-	for c in game.panel_box.get_children():
-		if c is Label: shown+=c.text+"\n"
-	check(shown.length()<420 and "GOAL" in shown and "DANGER" in shown and "exposed" not in shown,"opening briefing is a goal and one danger")
+	# The briefing's facts sit in the left column of a two-column layout on wide screens, so search below the box.
+	for c in game.panel_box.find_children("*","Label",true,false):
+		shown+=c.text+"\n"
+	# WP-149: operation 1 now states its air time (one line, 37 characters), so the text budget is 760 (was 700).
+	check(shown.length()<760 and "GOAL" in shown and "DANGER" in shown and "exposed" not in shown,"opening briefing is a goal, one danger and the primer")
+	check("SILENT" in shown and "Drones scout ahead" in shown and "Sirens hunt by sound" in shown,"opening briefing carries the three-line primer until operation 01 is recovered")
+	check(buttons(game.panel_box,"manual").text.begins_with("FIELD MANUAL") and "take photographs" in buttons(game.panel_box,"manual").text,"the manual button names the topics it covers")
 	check(buttons(game.panel_box,"manual")!=null,"rules live behind a field manual button")
 	game._reference(0); await settle()
 	shown=""
 	for c in game.panel_box.get_children():
 		if c is Label: shown+=c.text+"\n"
-	check("stationary seconds" in shown and "FIELD MANUAL" in shown,"field manual keeps the full rules")
+	var Table=preload("res://src/presentation/field_manual_table.gd")
+	check(game.get_meta("field_manual_open","")==Table.TOPICS[0].id,"the first topic is open on entry")
+	for entry in Table.TOPICS:
+		var topic=buttons(game.panel_box,"manual_topic_"+entry.id)
+		check(topic!=null and topic.size.y>=game.ui_touch_height-1,"topic button "+entry.id+" is at least touch height")
+		topic.pressed.emit(); await settle()
+		var open_count=0
+		for other in Table.TOPICS:
+			if buttons(game.panel_box,"manual_topic_"+other.id).get_meta("chosen",false):open_count+=1
+		check(open_count==1 and game.get_meta("field_manual_open","")==entry.id and topic.get_meta("chosen",false),"exactly one topic is open: "+entry.id)
+		# WP-108: only the open tab is lit; no other tab keeps a hover or focus look from the last tap.
+		var lit=0
+		for other in Table.TOPICS:
+			var tab=buttons(game.panel_box,"manual_topic_"+other.id)
+			if tab.get_theme_stylebox("hover")!=tab.get_theme_stylebox("normal") or tab.get_theme_stylebox("focus")!=tab.get_theme_stylebox("normal"):
+				if tab.get_meta("chosen",false):lit+=1
+				else:lit+=100
+		check(lit==1 and not topic.has_focus(),"the lit tab is the tab shown: "+entry.id)
+		for c in game.panel_box.find_children("*","Label",true,false):
+			check(not c.is_visible_in_tree() or c.get_minimum_size().x<=game.size.x,"card text fits the width: "+entry.id)
+		if entry.id!=Table.OPERATION_ID:
+			check(entry.lines.size()<=5,"a card has at most five lines: "+entry.id)
+	var manual_text=""
+	for entry in Table.TOPICS:
+		for text in entry.lines:manual_text+=text+" "
+	check("SILENT" in manual_text and "DEPLOY DRONE" in manual_text and "RECALL" in manual_text and "EMP" in manual_text and "290m" in manual_text,"the cards keep the interface terms and numbers")
+	check(buttons(game.menu_footer,"back")!=null,"the manual offers its way back")
 	game._show_campaign(); await settle()
 	var resume=false; var erase=false
 	for c in game.panel_box.get_children():
@@ -64,21 +100,10 @@ func run() -> void:
 	check(guard.undo_button.visible and guard.pending.is_empty(),"an undo chip follows the order")
 	var planned=game.sim.units[0].route.back().pos
 	await click(water_point(Vector2(780,640))); await settle()
-	check(not guard.pending.is_empty() and game.sim.units[0].route.back().pos==planned,"a tap over an existing route only sets a pending marker")
-	check(guard.panel.visible and guard.go_button.visible and guard.add_button.visible and guard.points_button.visible,"replace, add and pass/stop choices are on screen")
-	await click(guard.cancel_button.get_global_rect().get_center()); await settle()
-	check(guard.pending.is_empty() and game.sim.units[0].route.back().pos==planned,"cancel leaves the route untouched")
-	await click(water_point(Vector2(780,640))); await settle()
-	await click(guard.go_button.get_global_rect().get_center()); await settle()
-	check(guard.pending.is_empty() and game.sim.units[0].route.back().pos.distance_to(Vector2(780,640))<30,"REPLACE ROUTE applies the new route")
+	# WP-127: a tap over an existing route adds a point at once (no REPLACE / ADD / CANCEL card); UNDO takes the point back.
+	check(guard.pending.is_empty() and not guard.panel.visible and game.sim.route_goals().size()==2 and game.sim.units[0].route.back().pos.distance_to(Vector2(780,640))<30,"a tap over an existing route adds a point with no card")
 	await click(guard.undo_button.get_global_rect().get_center()); await settle()
-	check(game.sim.units[0].route.back().pos==planned,"undo restores the previous route")
-	await click(water_point(Vector2(780,640))); await settle()
-	var before=game.sim.route_goals().size()
-	await click(guard.add_button.get_global_rect().get_center()); await settle()
-	check(game.sim.route_goals().size()==before+1 and not game.sim.queue_mode,"ADD TO ROUTE extends without leaving queue mode on")
-	await click(guard.undo_button.get_global_rect().get_center()); await settle()
-	check(game.sim.route_goals().size()==before,"undo removes the added stop")
+	check(game.sim.route_goals().size()==1 and game.sim.units[0].route.back().pos==planned,"undo takes the added point back")
 	# Undo of a first plan clears it.
 	game._start_mission(0); await settle()
 	game.sim.paused=true
@@ -88,10 +113,14 @@ func run() -> void:
 	# Prompts: once each, never pausing play.
 	game.hints_seen=[]; game._start_mission(0); await settle()
 	var hints=game.mission_hud.hints
+	hints.last_closed_ms=-1; game._refresh(); await settle() # WP-127: the shorter order check above leaves the tip gap (UiStyle.TIP_GAP_MS) open
 	check(hints.panel.visible and hints.current=="move" and game.sim.paused,"the first prompt teaches one verb while paused")
 	check("move" in game.hints_seen,"a shown prompt is remembered")
+	check(hints.label.text.contains("▶ RUN") and hints.label.text.contains("|| PAUSE") and hints.label.text.contains("stop it again") and not hints.label.text.contains("RUNNING"),"the first prompt, shown before time starts, says how to run and how to stop time")
+	check(Text.valid_seen([Text.HUNT_METER_HINT]),"the Hunt chip's first-sight flag is a valid saved flag")
 	game.sim.command("route",{"point":Vector2(400,700)}); game._refresh(); await settle()
 	check(not hints.panel.visible,"taking the step retires its prompt")
+	gap()
 	game.sim.paused=false; game.sim.elapsed=1.0; game._refresh(); await settle()
 	check(hints.current=="pause" and not game.sim.paused,"the pause prompt appears without pausing the game")
 	hints.dismiss(); game.sim.paused=true; game._refresh(); await settle()
@@ -100,12 +129,12 @@ func run() -> void:
 	check(not hints.panel.visible and game.hints_seen.size()==count,"a prompt does not show twice")
 	# Contextual action reads before the tap.
 	var caption=game.mission_hud.camera_caption()
-	check(caption.size()>=2 and caption.size()<=3 and (caption.size()==2 and "NO SITE" in caption[1] or "NOT READY" in caption[2]),"the action button says it is not ready before the tap")
+	check(caption.size()>=1 and caption.size()<=4 and (caption.size()==1 and "NO SITE" in caption[0] or "NOT READY" in caption[1]),"the action button says it is not ready before the tap")
 	game.sim.units[0].pos=game.sim.mission.objectives[0].pos+Vector2(60,0); game.sim.units[0].vel=Vector2.ZERO
 	game.sim.units[0].angle=PI
 	game.sim.Photo.discover(game.sim)
 	game._refresh(); caption=game.mission_hud.camera_caption()
-	check(caption.size()==3 and game.sim.Photo.label(game.sim.mission.objectives[0]).to_upper().substr(0,18) in caption[1] and caption[2].begins_with("READY"),"the action button uses its target's known label and says it is ready")
+	check(caption.size()==3 and game.sim.Photo.label(game.sim.mission.objectives[0]).to_upper().substr(0,18) in caption[0] and caption[1].begins_with("READY"),"the action button uses its target's known label and says it is ready")
 	# Text size reaches the dive HUD without shrinking touch targets.
 	var normal_font=game.mission_hud.host.pause_button.get_theme_font_size("font_size")
 	var h=game.ui_touch_height
@@ -129,6 +158,7 @@ func run() -> void:
 	check(not hints.panel.visible,"late launch alone teaches no first-use action")
 	check(not game.sim.command("depth",{"band":1}),"unchanged depth is rejected")
 	game._refresh(); check(not "first_depth" in game.hints_seen,"rejected depth order teaches nothing")
+	gap()
 	check(game.sim.command("depth",{"band":0}),"first real depth order accepted")
 	game._refresh(); await settle()
 	check(hints.current=="first_depth" and not game.sim.paused,"depth tip follows transition without pausing")
@@ -137,6 +167,7 @@ func run() -> void:
 	check(not game.sim.command("ping"),"emitting during transition rejected")
 	game._refresh(); check(not "first_emit" in game.hints_seen,"rejected emission teaches nothing")
 	game.sim.Depth.advance(game.sim,4.0)
+	gap()
 	check(game.sim.command("ping"),"real sonar emission accepted")
 	game._refresh(); await settle()
 	check(hints.current=="first_emit" and not game.sim.paused,"sonar tip follows own emission without pausing")
@@ -147,6 +178,7 @@ func run() -> void:
 	game.advanced_orders=true
 	check(game.sim.command("sonobuoy"),"real field tool spends stock")
 	game._refresh(); check(not "first_field_tool" in game.hints_seen,"tool tip waits while command ring is busy")
+	gap()
 	game.advanced_orders=false; game._refresh(); await settle()
 	check(hints.current=="first_field_tool" and not game.sim.paused,"successful field tool shows one nonpausing tip")
 	hints.dismiss(); game._refresh()

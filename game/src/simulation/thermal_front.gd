@@ -1,8 +1,9 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 # Authored horizontal cold-water interface. This is a game-scale transmission
 # approximation, not calibrated thermocline/refraction physics.
 const DEFAULT_BAND=1
-const BAND_NAMES=["SHALLOW","MIDDLE","DEEP"]
+const BAND_NAMES=Names.BANDS
 static func band(mission:Dictionary)->int:
  return mission.get("thermal_band",DEFAULT_BAND)
 static func fronts(mission:Dictionary,path_band:int)->Array:

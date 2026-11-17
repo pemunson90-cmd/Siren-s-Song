@@ -1,4 +1,5 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 # S3 PLACEHOLDERS (bible silent): unnamed "Kestrel sonar operator" witness role, "old ridge survey repeater" (service sluice), "old tracking float" (deep trace), a wrecked rig with a still-calling beacon (op 9 decoy), plant frames/feed line and a moving load in ops 3 and 5 (mechanics need an object, bible silent), the shelf variant's screen/baffle mechanic mapped onto the bunker blast-door approach, Brannock launch pickup. Aesthetics pass later.
 # Working fiction. Registry, recovered-thread commits and runtime hooks belong
 # to the campaign owner; this module consumes their recovered launch context.
@@ -63,7 +64,7 @@ static func _concealed(m:Dictionary)->void:
  m.record="The sailors' account returns without being forwarded through the warning chain. The service sluice, if opened, remains an actual route through the overhang; the unannounced western detour remains a valid alternative. This resolves the concealed operation, not who else is still down there."
  _patrol(m,Vector2(700,1140),[Vector2(700,1140),Vector2(700,700),Vector2(780,480),Vector2(820,1900)])
  _patrol(m,Vector2(1780,1780),[Vector2(1780,1780),Vector2(2100,1780),Vector2(2100,1580),Vector2(1380,1580)])
- m.sirens[1].type="sentinel";m.sirens[1]["tether"]=190.0
+ m.sirens[1].type=Names.ROLE_SENTINEL;m.sirens[1]["tether"]=190.0
  if m.concealed_harbour.thread=="shelf":
   var watch=m.sirens[1];watch.pos=Vector2(1320,1070);watch.home=watch.pos;watch.goal=watch.pos;watch.patrol_points=[watch.pos]
   m.brief+=" A Siren sentinel listens outside the bunker approach. The western return has a moving patrol."
@@ -96,8 +97,8 @@ static func _overt(m:Dictionary)->void:
  _patrol(m,Vector2(760,1140),[Vector2(760,1140),Vector2(460,1140),Vector2(460,1460),Vector2(900,1460)])
  _patrol(m,Vector2(2020,1340),[Vector2(2020,1340),Vector2(1840,1520),Vector2(2320,1520),Vector2(2320,1120)])
  _patrol(m,Vector2(2260,440),[Vector2(2260,440)])
- m.sirens[1].type="hunter"
- m.sirens[2].type="sentinel";m.sirens[2]["tether"]=190.0
+ m.sirens[1].type=Names.ROLE_HUNTER
+ m.sirens[2].type=Names.ROLE_SENTINEL;m.sirens[2]["tether"]=190.0
  m.brief+=" An eastern Siren hunter reacts to local evidence while a sentinel holds the northern basin."
 
 static func _source(id:String,label:String,pos:Vector2,evidence:String,cadence:Array,confirm:bool=true)->Dictionary:
@@ -107,7 +108,7 @@ static func _receiver(id:String,label:String,pos:Vector2,evidence:String)->Dicti
  return {"site_id":id,"name":label,"pos":pos,"kind":"receiver","required_unit":0,"duration":4.0,"captured":false,"sampler_compatible":true,"optical":"resolution_"+id,"evidence":evidence}
 
 static func _patrol(m:Dictionary,pos:Vector2,points:Array)->void:
- m.sirens.append({"pos":pos,"home":pos,"goal":pos,"vel":Vector2.ZERO,"route":[],"angle":0.0,"mode":"PATROL","suspicion":0.0,"stun":0.0,"lock":0.0,"target":-1,"patrol":m.sirens.size(),"path_time":0.0,"type":"patroller","patrol_points":points,"patrol_index":0})
+ m.sirens.append({"pos":pos,"home":pos,"goal":pos,"vel":Vector2.ZERO,"route":[],"angle":0.0,"mode":"PATROL","suspicion":0.0,"stun":0.0,"lock":0.0,"target":-1,"patrol":m.sirens.size(),"path_time":0.0,"type":Names.ROLE_PATROLLER,"patrol_points":points,"patrol_index":0})
 
 static func supports_config(config:Dictionary)->bool:
  var source=config.get("source_id",-1)

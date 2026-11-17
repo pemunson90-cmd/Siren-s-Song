@@ -1,7 +1,8 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 # Short, restrained acoustic signatures. These are presentation cues only;
 # the event remains on its original received-message bus and timing.
-const SIGNATURES={"patroller":"role_patroller","hunter":"role_hunter","sentinel":"role_sentinel","sweeper":"role_sweeper","buoy":"role_buoy","relay":"role_relay","interceptor":"role_interceptor","warden":"role_warden"}
+const SIGNATURES={Names.ROLE_PATROLLER:"role_patroller",Names.ROLE_HUNTER:"role_hunter",Names.ROLE_SENTINEL:"role_sentinel",Names.ROLE_SWEEPER:"role_sweeper",Names.ROLE_BUOY:"role_buoy",Names.ROLE_RELAY:"role_relay",Names.ROLE_INTERCEPTOR:"role_interceptor",Names.ROLE_WARDEN:"role_warden"}
 const CUES={
 	"role_patroller":{"seconds":.34,"gain_db":-25.,"hz":[180.,250.],"noise":.02,"curve":1.2,"pulses":1},
 	"role_hunter":{"seconds":.42,"gain_db":-26.,"hz":[95.,70.],"noise":.14,"curve":.9,"pulses":2},
@@ -12,7 +13,7 @@ const CUES={
 	"role_interceptor":{"seconds":.3,"gain_db":-27.,"hz":[390.,160.],"noise":.18,"curve":1.3,"pulses":2},
 	"role_warden":{"seconds":.46,"gain_db":-28.,"hz":[120.,185.],"noise":.03,"curve":.9,"pulses":1},
 }
-const PASSIVE_ROLES=["patroller","hunter","sentinel","warden"]
+const PASSIVE_ROLES=[Names.ROLE_PATROLLER,Names.ROLE_HUNTER,Names.ROLE_SENTINEL,Names.ROLE_WARDEN]
 var mission_ref:Dictionary={}
 var last_clock:float=-1.
 var seen_bearings:Dictionary={}

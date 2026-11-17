@@ -39,6 +39,8 @@ FULL_FILES = {"game/tests/suites.txt"}
 # Shard balance data only; it never changes what a suite checks.
 IGNORED_FILES = {"game/tests/suite-times.json"}
 MAX_SUITES = 60
+# Minimum mode (pull requests): at most this many directly named suites, plus the canaries.
+MINIMUM_MAX = 12
 REF_RE = re.compile(r'"(res://[^"\n]+)"|\'(res://[^\'\n]+)\'')
 FOLLOWED = (".gd", ".tscn", ".tres")
 
@@ -93,6 +95,39 @@ def changed_files(root, base, head):
     return [line for line in out.splitlines() if line]
 
 
+def select_minimum(root, changed):
+    """The least that still tests the change itself: registered suites that were
+    changed, suites whose own file names a changed source file, and the canaries.
+    Never asks for the full matrix. Pat, 2026-11-12: the bare minimum for every
+    process; the full matrix is for a release or near-release package only."""
+    rows = registry(root)
+    ci = [name for name, rank in rows.items() if rank is not None and name != "run_tests"]
+    chosen, edited = set(), set()
+    for path in sorted(set(changed)):
+        rel = path[:-4] if path.endswith(".uid") else path
+        if not rel.endswith(".gd"):
+            continue
+        if rel.startswith("game/tests/"):
+            name = rel[len("game/tests/"):-3]
+            if name in ci:
+                edited.add(name)
+        elif rel.startswith("game/src/"):
+            chosen |= {s for s in ci if rel in refs(root, f"game/tests/{s}.gd")}
+    # Suites the diff itself edited come first, then suites that name a changed file.
+    ordered = sorted(edited, key=lambda name: rows[name])
+    ordered += sorted(chosen - edited, key=lambda name: rows[name])
+    if len(ordered) > MINIMUM_MAX:
+        print(f"{len(ordered)} candidate suites; keeping the first {MINIMUM_MAX} (edited suites first)",
+              file=sys.stderr)
+        ordered = ordered[:MINIMUM_MAX]
+    for name in canaries(root):
+        if name not in rows:
+            raise SystemExit(f"Unknown canary suite: {name}")
+        if name in ci and name not in ordered:
+            ordered.append(name)
+    return False, "minimum", ordered
+
+
 def select(root, changed):
     """Return (full, reason, suites) for the given changed repository paths."""
     rows = registry(root)
@@ -142,6 +177,8 @@ def main():
     parser.add_argument("--head", default="HEAD")
     parser.add_argument("--root", default=str(pathlib.Path(__file__).resolve().parents[2]))
     parser.add_argument("--changed", nargs="*", help="changed paths instead of a git diff")
+    parser.add_argument("--minimum", action="store_true",
+                        help="changed and directly named suites plus canaries; never the full matrix")
     args = parser.parse_args()
     root = pathlib.Path(args.root)
     if args.changed is not None:
@@ -150,7 +187,7 @@ def main():
         changed = changed_files(root, args.base, args.head)
     else:
         parser.error("--base or --changed is required")
-    full, reason, suites = select(root, changed)
+    full, reason, suites = (select_minimum if args.minimum else select)(root, changed)
     print(f"{len(changed)} changed files; full matrix: {full} ({reason}); "
           f"{len(suites)} suites selected", file=sys.stderr)
     print(f"full={'true' if full else 'false'}")

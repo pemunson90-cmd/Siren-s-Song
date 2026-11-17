@@ -8,6 +8,7 @@ const Store=preload("res://src/persistence/save_store.gd")
 const Ledger=preload("res://src/campaign/ledger/ledger.gd")
 const EconomyPanel=preload("res://src/presentation/economy_panel.gd")
 const Sim=preload("res://src/simulation/simulation.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 const Silent=preload("res://tests/calder_silent_journey_tests.gd")
 const Course=preload("res://tests/calder_trench_journey_tests.gd")
 const Racks=preload("res://src/equipment/tool_racks.gd")
@@ -34,7 +35,12 @@ func facts(result="lost",fit=Catalog.default_loadout(),receipt={},alive=[false,t
  return {"key":key,"outcome":result,"hull":0.,"alive":alive,"first":false,"recovered":0,"artifact":false,"mission":{"launch_equipment":fit,"module_recovery":{"result":receipt}}}
 func _initialize():call_deferred("run")
 func run():
- loss_rules();replacement();persistence();launch();voyages();await main_surface()
+ loss_rules();replacement();persistence();launch()
+ # Scripted route through authored water, not a discovery test: known-charts developer switch (the player rules leave this water uncharted).
+ var charts_before=PlayerDive.known_water(true)
+ voyages()
+ PlayerDive.known_water(charts_before)
+ await main_surface()
  print("IRONMAN LOSSES CHECKS %d FAILURES %d"%[checks,failures]);quit(1 if failures else 0)
 func loss_rules():
  var fit=Catalog.default_loadout();fit.drone_a="drone_deep_cells";fit.drone_b="drone_survey_array";fit.quietus="quietus_baffles"

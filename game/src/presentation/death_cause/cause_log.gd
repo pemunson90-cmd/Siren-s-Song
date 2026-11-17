@@ -7,6 +7,7 @@ extends Node
 # and the debrief shows no cause line (never an invented one).
 # Revert: remove the install line in main.gd, the debrief() calls in loss debriefs, and this folder.
 const Table=preload("res://src/presentation/death_cause/cause_table.gd")
+const LossSummary=preload("res://src/presentation/loss_summary.gd")
 const NoticeSources=preload("res://src/presentation/first_siren_cue/cue_table.gd")
 var sim
 var mission_ref:Dictionary={}
@@ -80,7 +81,7 @@ func line()->String:
  sample()
  var oxygen=sim.get("oxygen")
  if (oxygen is float or oxygen is int) and oxygen<=0:return ""
- if not "Siren beam" in sim.message:return ""
+ if not LossSummary.beam_struck(sim):return ""
  var elapsed:float=sim.elapsed;var pick=-1;var pick_t=-1.
  for id in sim.contacts:
   var c=sim.contacts[id]

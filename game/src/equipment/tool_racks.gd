@@ -1,4 +1,5 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 # 098 editable racks, extended by100 lockers. Only overflow consumes general cargo.
 # Cargo uses exact hundredths, rounded only when a whole winch place is requested.
 # Seams: Main archive/launch, rack view, field tool stock and ModuleRecovery.capacity_data.
@@ -8,11 +9,11 @@ const enabled=true
 const Tools=preload("res://src/equipment/field_tools.gd")
 const Catalog=preload("res://src/equipment/equipment_catalog.gd")
 const Economy=preload("res://src/campaign/economy.gd")
-const UNITS=["quietus","drone_a","drone_b"]
+const UNITS=Names.CRAFT_IDS
 const QUIETUS_ONLY=["knock","hull_patch"]
 const MAX_COUNT=9
 const CHARGE_PRICE={"scrap":1,"cells":1}
-static func empty()->Dictionary:return {"quietus":{},"drone_a":{},"drone_b":{}}
+static func empty()->Dictionary:return {Names.CRAFT_QUIETUS:{},Names.CRAFT_DRONE_A:{},Names.CRAFT_DRONE_B:{}}
 const ARCHIVE_VERSION=100
 # Original role allocation: Quietus keeps legacy tools and patch; A listens; B carries field support.
 # The largest original bundle is SURVEY: .95 Quietus, .15 A, .50 B.
@@ -53,7 +54,7 @@ static func migrated(data:Dictionary)->Dictionary:
  # 098 did not record edits: its automatic template and EMPTY ALL are identical.
  # Refill that exact unversioned shape once; any edited keys, even zero, survive.
  if not data.has("tool_racks") or (not data.has("tool_racks_version") and data.tool_racks==empty()):
-  return template(data.get("upgrade","endurance"))
+  return template(data.get("upgrade",Names.LOADOUT_ENDURANCE))
  return data.tool_racks.duplicate(true)
 static func write_archive(data:Dictionary,racks:Dictionary)->void:
  data["tool_racks"]=racks.duplicate(true)
@@ -65,7 +66,7 @@ static func valid(value)->bool:
   for id in value[slot]:
    if id not in Tools.ids() or not value[slot][id] is int:return false
    var n=value[slot][id]
-   if n<0 or n>MAX_COUNT or (id=="hull_patch" and n>1) or (slot!="quietus" and id in QUIETUS_ONLY and n>0):return false
+   if n<0 or n>MAX_COUNT or (id=="hull_patch" and n>1) or (slot!=Names.CRAFT_QUIETUS and id in QUIETUS_ONLY and n>0):return false
  for id in Tools.ids():
   if total(value,id)> (1 if id=="hull_patch" else (2 if id=="knock" else MAX_COUNT)):return false
  return true

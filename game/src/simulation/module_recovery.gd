@@ -1,4 +1,5 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 # Only unique hardware actually launched on own drones enters this authority.
 # Salvage positions come from own craft, never a hostile or terrain query.
 const Catalog=preload("res://src/equipment/equipment_catalog.gd")
@@ -67,7 +68,7 @@ static func begin(sim,item:String)->bool:
  var c=context(sim,item,sim.selected)
  if not c.ready:sim.message=c.reason;return false
  var state=_state(sim);state.jobs[sim.selected]={"item":item,"elapsed":0.0};sim.units[sim.selected].hold="HOLD"
- sim._noise(sim.units[sim.selected].pos,NOISE,"RECOVERY WINCH",DURATION,sim.units[sim.selected].band)
+ sim._noise(sim.units[sim.selected].pos,NOISE,Names.NOISE_RECOVERY_WINCH,DURATION,sim.units[sim.selected].band)
  sim.events.append({"type":"salvage","pos":sim.units[sim.selected].pos,"item":item});sim.message="%s · recover %s · audible winch 4s"%[sim.units[sim.selected].name,_name(item)]
  return true
 # JobRelease calls this only after the shared HOLD guard.
@@ -78,7 +79,7 @@ static func tick(sim,dt:float)->void:
  var state=sim.mission.module_recovery
  for item in state.modules:
   var module=state.modules[item]
-  if module.unit>=0 and not sim.units[module.unit].alive:
+  if module.unit>=0 and sim.DroneBay.lost(sim.units[module.unit]):
    module.pos=sim.units[module.unit].pos;module.unit=-1;module.state="salvage"
    sim.message="%s lost · module salvage at last craft position"%_name(item)
  for id in 3:
@@ -103,7 +104,7 @@ static func departure(sim,corridor:Dictionary)->Dictionary:
  for id in [1,2]:
   var unit=sim.units[id]
   # 127: a recalled drone waiting inside Quietus's recovery reach also comes home.
-  if (unit.alive and unit.band==1 and unit.transition.is_empty() and unit.pos.distance_to(corridor.pos)<65 and unit.vel.length()<12 and sim.Depth.clear(sim,unit.pos,corridor.pos,unit.band)) or sim.HandPilot.recalled(sim,id):home.append(id);result.recovered_drones.append(id)
+  if (unit.alive and unit.band==1 and unit.transition.is_empty() and unit.pos.distance_to(corridor.pos)<65 and unit.vel.length()<12 and sim.Depth.clear(sim,unit.pos,corridor.pos,unit.band)) or sim.HandPilot.recalled(sim,id) or sim.DroneBay.aboard(unit):home.append(id);result.recovered_drones.append(id)
  for module in status(sim).modules:
   if module.unit in home:result.recovered.append(module.item)
   else:

@@ -1,4 +1,5 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 # ARC6 capstone layout for operation 34, "Beneath the Well". Three existing W.machine work
 # sites around a ring corridor; each completed machine opens the next gate. The well casing
 # is solid in every band, so the order cannot be skipped under it. Stage rosters escalate
@@ -36,7 +37,7 @@ static func layout()->Dictionary:
  # Outer ring walls with a single south-west entrance gap; solid casing core.
  row.terrain=[box(700,700,1800,100),box(700,700,100,1800),box(2400,700,100,1800),box(700,2400,200,100),box(1200,2400,1300,100),box(1300,1300,600,600),
  [T.shard(Vector2(2850,1700),170,7,57),T.ALL]]
- row.sirens=[R.guard("buoy",Vector2(2000,2150),1),R.guard("warden",Vector2(1100,2150),1),
- R.guard("relay",Vector2(2150,950),1),R.guard("patroller",Vector2(2150,1500),2,[Vector2(2150,1500),Vector2(2150,1000)]),
- R.guard("hunter",Vector2(1100,1000),0,[Vector2(1100,1000),Vector2(1550,1050),Vector2(1100,1450)])]
+ row.sirens=[R.guard(Names.ROLE_BUOY,Vector2(2000,2150),1),R.guard(Names.ROLE_WARDEN,Vector2(1100,2150),1),
+ R.guard(Names.ROLE_RELAY,Vector2(2150,950),1),R.guard(Names.ROLE_PATROLLER,Vector2(2150,1500),2,[Vector2(2150,1500),Vector2(2150,1000)]),
+ R.guard(Names.ROLE_HUNTER,Vector2(1100,1000),0,[Vector2(1100,1000),Vector2(1550,1050),Vector2(1100,1450)])]
  return row

@@ -1,4 +1,5 @@
 extends SceneTree
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 # Source-known route-panel fixture, real touch editing and Android Back on both Fold shapes.
 const Measure=preload("res://tests/nav_clearance_measure.gd")
 var checks=0
@@ -17,6 +18,8 @@ func tap(point):
   var e=InputEventMouseButton.new();e.device=InputEvent.DEVICE_ID_EMULATION;e.position=point;e.button_index=MOUSE_BUTTON_LEFT;e.pressed=down;root.push_input(e,true);await process_frame
  await settle()
 func run():
+ # Navigation geometry over authored water, not a discovery test: known-charts developer switch (the player rules leave this water uncharted).
+ var charts_before=PlayerDive.known_water(true)
  var bands=load("res://src/presentation/route_clearance/hull_band.gd") if ResourceLoader.exists("res://src/presentation/route_clearance/hull_band.gd") else null
  check(bands!=null,"accepted courses have a hull-width clearance preview")
  for shape in [Vector2i(2520,1080),Vector2i(2184,1968)]:
@@ -49,4 +52,5 @@ func run():
   check(game.screen=="mission" and not game.route_editor.visible and s.paused,"Android Back closes the route panel into paused play")
   check(s.snapshot()==before,"Back cancels the pending touch without a late waypoint edit")
   game.queue_free();await settle()
+ PlayerDive.known_water(charts_before)
  print("NAV CLEARANCE UI CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)

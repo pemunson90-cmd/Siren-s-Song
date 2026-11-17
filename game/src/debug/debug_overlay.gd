@@ -1,4 +1,5 @@
 extends Control
+const Names=preload("res://src/names.gd")
 # Read-only world-space instrumentation; no Simulation writes or commands.
 const Hunt=preload("res://src/simulation/hunt_pressure/hunt_pressure.gd")
 const Recon=preload("res://src/simulation/recon_consequences.gd")
@@ -19,16 +20,16 @@ static func ranges(sim,s:Dictionary)->Dictionary:
  if role in Network.ROLES:
   var hearing=0.
   var u=sim.units[0]
-  if role=="buoy" and u.alive and s.band in sim.Depth.occupied(u) and sim.propulsion_speed(u)>12:
+  if role==Names.ROLE_BUOY and u.alive and s.band in sim.Depth.occupied(u) and sim.propulsion_speed(u)>12:
    hearing=minf(650.,sim.motion_radius(0)*1.6)
-  return {"silent":0.,"cruise":0.,"hearing":hearing,"label":"relay: packet reception only" if role=="relay" else "buoy: Quietus emission, open water upper bound"}
+  return {"silent":0.,"cruise":0.,"hearing":hearing,"label":"relay: packet reception only" if role==Names.ROLE_RELAY else "buoy: Quietus emission, open water upper bound"}
  var scale=1. if role in Industry.ROLES else Hunt.sight(sim.mission,s,Recon.readiness(s))
  var source=sim.motion_radius(0) if sim.mission.get("acoustic_revision",0)==1 else (430. if sim.propulsion_speed(sim.units[0])>50 else 0.)
  return {"silent":180.*scale,"cruise":290.*scale,"hearing":source*Recon.readiness(s)*Sweeper.ear(s),"label":"hearing: Quietus emission, open water upper bound"}
 func _draw()->void:
  if console==null or not console.State.marked(console.host) or console.host.screen!="mission":return
  var sim=console.host.sim;var ocean=console.host.ocean
- var lines=["DEV"]
+ var lines=[] # WP-132: the "DEV" heading is gone (the badge says it, and the text overprinted the tip card)
  for s in sim.sirens:
   var p=ocean.screen_position(s.pos)
   var range=ranges(sim,s)

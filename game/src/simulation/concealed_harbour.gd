@@ -1,4 +1,5 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 const OperationsCatalog=preload("res://src/campaign/operation_catalog.gd")
 # Witness-guided environmental work. The tow follows the actual body trail;
 # only authored seating unfolds a screen into solid/acoustic geometry.
@@ -21,6 +22,22 @@ static func build(m:Dictionary)->void:
   m.rocks.append_array([Rect2(1660,920,100,320),Rect2(1920,920,480,220),Rect2(2220,500,180,400)])
   m.structures.append_array([TRACE_BLOCK,DEPARTURE_SHUTTER])
 static func complete(sim)->bool:return not applies(sim.mission) or (sim.mission.concealed_harbour.receipt and (sim.mission.concealed_harbour.thread!="deep" or not sim.mission.structures.has(TRACE_BLOCK)))
+# WP-178: the next step complete() waits on, in order ({} before the witness is landed and the local problem is known, or once done).
+# Mirrors complete(): the receipt (and, deep, the trace hauled out) -> tow, haul 90 m, release, hear the reply.
+static func next_step(sim)->Dictionary:
+ if not applies(sim.mission) or complete(sim):return {}
+ var W=preload("res://src/presentation/hud_words.gd").TEXT
+ var state=sim.mission.concealed_harbour
+ if not state.known or sim.mission.witness_evacuation.state!="landed":return {}
+ if state.thread=="deep":
+  if state.connected:
+   if state.phase=="towing":return {"text":W.work_cr_haul}
+   return {"text":W.work_cr_attach,"pos":state.pos,"band":1}
+  if state.phase=="towing":return {"text":W.work_cr_release}
+  return {"text":W.work_cr_reply,"pos":reply_pos(state),"band":1}
+ if state.phase=="towing":return {"text":W.work_cr_seat}
+ if state.phase=="seated":return {"text":W.work_cr_watch,"pos":reply_pos(state),"band":1}
+ return {"text":W.work_cr_screen,"pos":state.pos,"band":1}
 static func reply_pos(state:Dictionary)->Vector2:return REPLY_DEEP if state.thread=="deep" else REPLY_SHELF
 static func placements(state:Dictionary)->Array:
  if state.thread=="deep":return []
@@ -90,7 +107,7 @@ static func command(sim,action:String)->bool:
   sim.mission.structures.append(Rect2(2040,940,200,60));sim._build_navigation();sim.opened_terrain(Rect2(1800,860,440,400))
  sim._noise(state.pos,460.0,"TOW SEATED",2.0);sim.events.append({"type":"concealed_seated","pos":state.pos});sim.message="Tow seated · wait for a received local station acknowledgement";return true
 static func speed(sim,speed:float,unit:Dictionary)->float:
- if applies(sim.mission) and sim.mission.concealed_harbour.phase=="towing" and unit.name=="QUIETUS":return minf(speed,26.0 if unit.silent else 40.0)
+ if applies(sim.mission) and sim.mission.concealed_harbour.phase=="towing" and unit.name==Names.UNIT_QUIETUS:return minf(speed,26.0 if unit.silent else 40.0)
  return speed
 static func tick(sim,dt:float)->void:
  if not applies(sim.mission):return

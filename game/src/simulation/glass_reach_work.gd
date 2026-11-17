@@ -1,4 +1,5 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 # 065 optional machinery profiles.
 # Caller seams: capture duration, start sound and recorded operator.
 # AI-DESIGNED tuning; existing endurance/reach bonuses stay in the catalog.
@@ -69,7 +70,7 @@ static func command(sim,args:Dictionary)->bool:
  if not c.ready:sim.message=c.reason;return false
  sim.mission.glass_reach.job={"unit":sim.selected,"action":action,"elapsed":0.,"duration":c.duration,"pos":c.pos,"band":sim.units[sim.selected].band}
  sim.units[sim.selected].hold="HOLD"
- if not (action=="gate" and decoder(sim,sim.selected)):sim._noise(sim.units[sim.selected].pos,520.,"RECOVERY WINCH" if action=="recover" else "REACH MACHINERY",c.duration,sim.units[sim.selected].band)
+ if not (action=="gate" and decoder(sim,sim.selected)):sim._noise(sim.units[sim.selected].pos,520.,Names.NOISE_RECOVERY_WINCH if action=="recover" else "REACH MACHINERY",c.duration,sim.units[sim.selected].band)
  sim.message=c.reason;return true
 static func transfer(sim,carrier)->bool:
  var a=artifact(sim)
@@ -109,7 +110,7 @@ static func tick(sim,dt:float):
   if job.action=="service":open_gate(sim)
   else:
    for enemy in sim.sirens:
-    if enemy.get("type","")=="buoy":enemy.stun=maxf(enemy.stun,120.);enemy.network.packet={};enemy.network.charge=0.
+    if enemy.get("type","")==Names.ROLE_BUOY:enemy.stun=maxf(enemy.stun,120.);enemy.network.packet={};enemy.network.charge=0.
   if sim.mission.id==18:
    sim.mission.expedition_facts.glass_choice=job.action
    sim.mission.objectives[0].captured=true;recorded(sim,sim.mission.objectives[0]);sim._record_secured(sim.mission.objectives[0],job.unit)
@@ -121,6 +122,20 @@ static func complete(sim)->bool:
  var state=sim.mission.glass_reach
  if sim.mission.id in [15,18] and state.choice.is_empty():return false
  return state.artifact.is_empty() or state.artifact.state in ["cargo","recovered"]
+# WP-176: the next unmet step that complete() waits on, in plain words ({} when none). "pos"/"band" only for a point already on the chart:
+# the vane/machinery marker (always drawn while no material exists) or material the crew can see. Mirrors complete().
+static func next_step(sim)->Dictionary:
+ if not applies(sim.mission):return {}
+ var W=preload("res://src/presentation/hud_words.gd").TEXT
+ var state=sim.mission.glass_reach;var a=state.artifact
+ if sim.mission.id in [15,18] and state.choice.is_empty():
+  var step={"text":W.work_vane if sim.mission.id==15 else W.work_anchorage}
+  if a.is_empty():step.pos=state.work_pos;step.band=1
+  return step
+ if not a.is_empty() and a.state in ["site","wreck"]:
+  if sim.visible(a.pos,a.band):return {"text":W.work_winch%str(a.id).replace("_"," ").to_upper(),"pos":a.pos,"band":a.band}
+  return {"text":W.work_winch_unseen}
+ return {}
 static func can_extract(sim,corridor:Dictionary)->bool:
  var a=artifact(sim)
  if a.is_empty():return true
@@ -149,7 +164,7 @@ static func apply_effect(sim,o:Dictionary,unit:int=-1):
   sim._use_band(sim.units[sim.selected].band)
  if effect.has("quiet"):
   for enemy in sim.sirens:
-   if enemy.get("type","") in ["buoy","relay"] and enemy.pos.distance_to(o.pos)<=effect.quiet:enemy.stun=maxf(enemy.stun,effect.get("quiet_time",90.));enemy.network.packet={};enemy.network.charge=0.
+   if enemy.get("type","") in [Names.ROLE_BUOY,Names.ROLE_RELAY] and enemy.pos.distance_to(o.pos)<=effect.quiet:enemy.stun=maxf(enemy.stun,effect.get("quiet_time",90.));enemy.network.packet={};enemy.network.charge=0.
  if effect.has("calm"):
   for current in sim.mission.get("currents",[]):current.velocity*=effect.calm
  var spec=machine_spec(sim,o,unit) if unit>=0 else {}

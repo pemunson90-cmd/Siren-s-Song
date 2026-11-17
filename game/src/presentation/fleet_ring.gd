@@ -5,11 +5,13 @@ static func reserves(sim,id:int,oxygen_capacity:float)->Array:
  for row in rows:
   row.fraction=clampf(row.value/maxf(1,row.capacity),0,1);row.critical=row.fraction<=.25
  return rows
-static func edge_rect(anchor:Vector2,safe:Rect2,h:float,occupied:Array)->Rect2:
- var bearing=(anchor-safe.get_center()).normalized();var room=(safe.size-Vector2.ONE*h)/2
+# WP-129: width is the chip's own width (0 = a square of one touch height); an edge chip that names its craft is wider.
+static func edge_rect(anchor:Vector2,safe:Rect2,h:float,occupied:Array,width:float=0.)->Rect2:
+ var chip:=Vector2(maxf(h,width),h)
+ var bearing=(anchor-safe.get_center()).normalized();var room=(safe.size-chip)/2
  var reach=minf(room.x/maxf(.001,absf(bearing.x)),room.y/maxf(.001,absf(bearing.y)))
- var desired=safe.get_center()+bearing*reach-Vector2.ONE*h/2
- var box=Rect2(desired.clamp(safe.position,safe.end-Vector2.ONE*h),Vector2.ONE*h)
+ var desired=safe.get_center()+bearing*reach-chip/2
+ var box=Rect2(desired.clamp(safe.position,safe.end-chip),chip)
  var horizontal=absf(box.position.y-safe.position.y)<1 or absf(box.end.y-safe.end.y)<1
  var candidates=[box]
  for step in range(1,ceili((safe.size.x if horizontal else safe.size.y)/(h*.5))):
@@ -21,10 +23,10 @@ static func edge_rect(anchor:Vector2,safe:Rect2,h:float,occupied:Array)->Rect2:
  # The nearest edge may be full while another edge still has clear water.
  for x in range(ceili(safe.size.x/(h*.5))+1):
   for y in [safe.position.y,safe.end.y-h]:
-   candidates.append(Rect2(Vector2(clampf(safe.position.x+x*h*.5,safe.position.x,safe.end.x-h),y),Vector2.ONE*h))
+   candidates.append(Rect2(Vector2(clampf(safe.position.x+x*h*.5,safe.position.x,safe.end.x-chip.x),y),chip))
  for y in range(ceili(safe.size.y/(h*.5))+1):
-  for x in [safe.position.x,safe.end.x-h]:
-   candidates.append(Rect2(Vector2(x,clampf(safe.position.y+y*h*.5,safe.position.y,safe.end.y-h)),Vector2.ONE*h))
+  for x in [safe.position.x,safe.end.x-chip.x]:
+   candidates.append(Rect2(Vector2(x,clampf(safe.position.y+y*h*.5,safe.position.y,safe.end.y-h)),chip))
  for candidate in candidates:
   if safe.encloses(candidate) and not occupied.any(func(r):return r.intersects(candidate.grow(4))):return candidate
  return Rect2()

@@ -1,16 +1,62 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 const BriefRows029=preload("res://src/campaign/onboarding2/briefing_rows.gd")
 const ReleaseControls=preload("res://src/presentation/release_controls.gd")
 const EconomyPanel=preload("res://src/presentation/economy_panel.gd")
 const Economy=preload("res://src/campaign/economy.gd")
+const OpsHome=preload("res://src/presentation/ops_home/ops_home.gd")
+const PhotoReview=preload("res://src/presentation/flow/photo_review.gd")
 const FitSurface=preload("res://src/presentation/fit_surface/fit_surface_view.gd")
 const FitSurfaceModel=preload("res://src/presentation/fit_surface/fit_surface.gd")
+const ChartPreview=preload("res://src/presentation/chart_preview.gd")
+const FieldManualTable=preload("res://src/presentation/field_manual_table.gd")
 # Campaign/menu flow extracted verbatim from main. Main keeps its existing
 # entry points as forwarders; host owns state, callbacks and deferred layout.
 # Revert the original extraction to restore bodies in main. 029 display rows
 # and width/folding helpers revert with BriefRows029.enabled=false. No saved fields.
 static func loadout_stock(host, choice: String) -> Array:
-	return {"endurance":[120,2,2],"disruption":[100,3,2],"survey":[100,2,3]}.get(choice,[100,2,2])
+	return {Names.LOADOUT_ENDURANCE:[120,2,2],Names.LOADOUT_EMP:[100,3,2],Names.LOADOUT_SURVEY:[100,2,3]}.get(choice,[100,2,2])
+
+# The stock line without its slash-built heading: "Loadout: Endurance (next dive or retry)" plus the unchanged stock figures.
+static func plain_stock(host,index:int=-1) -> String:
+	var lines=preload("res://src/presentation/truthful_commands.gd").launch_stock(host,index).split("\n")
+	lines[0]="Loadout: %s (next dive or retry)"%preload("res://src/equipment/field_tools.gd").loadout_label(host.upgrade).capitalize()
+	return "\n".join(lines)
+
+# WP-132: the briefing's stock block's first line says what is mounted; the tank, EMP and SURVEY line below it is what the boat carries.
+const DETAILS_SHOW="DETAILS: COSTS AND MOUNTS"
+const DETAILS_HIDE="HIDE DETAILS"
+static func details_text(open:bool)->String:
+	return DETAILS_HIDE if open else DETAILS_SHOW
+static func fittings_phrase(host)->String:
+	# "no fittings" or "3 fittings": what the boat has mounted this dive.
+	var context=host._equipment_context() if host.has_method("_equipment_context") else {}
+	if context.is_empty():return "no fittings"
+	var FitModel=preload("res://src/presentation/fit_surface/fit_surface.gd")
+	var slots=FitModel.Catalog.canonical(context.get("slots",{}));var count:int=0
+	for unit in 3:count+=FitModel.Catalog.items_for(slots,unit).size()
+	return "no fittings" if count==0 else "%d fitting%s"%[count,"" if count==1 else "s"]
+static func briefing_stock(host,index:int=-1) -> String:
+	var lines=plain_stock(host,index).split("\n")
+	lines[0]="Loadout: %s · %s (next dive or retry)"%[preload("res://src/equipment/field_tools.gd").loadout_label(host.upgrade).capitalize(),fittings_phrase(host)]
+	return "\n".join(lines)
+
+# The hull the next dive starts with (the launch applies the recorded condition); empty when it starts whole.
+const CARRIED_HULL="Quietus starts at hull %d%%: damage from the last dive is not repaired."
+# The result screen's RETRY DIVE says the same number, so the player knows what a retry starts with.
+const RETRY_HULL="RETRY DIVE · Quietus starts at hull %d%%"
+# WP-109: Expedition operations (7 and later) retry the same way and carry the same hull.
+const RETRY_HULL_OPERATION="RETRY OPERATION · Quietus starts at hull %d%%"
+static func carried_hull(host) -> int:
+	if not EconomyPanel.Table.enabled or not host.get("economy") is Dictionary:return 100 # WP-109: a host without an economy (a test host) starts whole
+	return int(host.economy.get("cond",{}).get(Names.CRAFT_QUIETUS,100))
+static func carried_damage_line(host) -> String:
+	var hull:int=carried_hull(host)
+	return CARRIED_HULL%hull if hull<100 else ""
+static func retry_label(host,operation:bool=false) -> String:
+	var hull:int=carried_hull(host)
+	if operation:return RETRY_HULL_OPERATION%hull if hull<100 else "RETRY OPERATION"
+	return RETRY_HULL%hull if hull<100 else "RETRY DIVE"
 
 static func show_campaign(host) -> void:
 	host.screen="menu"; host._clear_menu()
@@ -19,7 +65,7 @@ static func show_campaign(host) -> void:
 	host._menu_text("USS QUIETUS  /  OPERATIONS ARCHIVE",18)
 	for i in 6:
 		var id=i
-		var b=host._button(host.panel_box,"%02d   %s   %s"%[i+1,host.Simulation.Missions.TITLES[i],"RECOVERED" if i in host.completed else ("AVAILABLE" if i<=host.unlocked else "LOCKED")],func(): print("SS_MISSION_SELECT ",id); host._briefing(id))
+		var b=host._button(host.panel_box,"%02d   %s   %s"%[i+1,host.Simulation.Missions.TITLES[i],"RECOVERED" if i in host.completed else ("AVAILABLE" if i<=host.unlocked else "LOCKED")],func(): ReleaseControls.debug_print(["SS_MISSION_SELECT ",id]); host._briefing(id))
 		b.disabled=i>host.unlocked
 		b.set_meta("action","mission%d"%i)
 	host.ExpeditionOperations.operations(host)
@@ -28,31 +74,36 @@ static func show_campaign(host) -> void:
 		host._button(host.panel_box,"RESUME DIVE · %02d %s"%[host.mission_index+1,host.sim.mission.title.to_upper()],host._enter_water,"resume")
 	# Keep the helper row stable too, so Resume cannot introduce a scrollbar
 	# and shift the menu horizontally at large text sizes.
-	if not host._campaign_pristine() and (preload("res://src/presentation/ops_home/ops_home_table.gd").enabled or (host.active_started and host.sim.outcome.is_empty())):host._menu_text("Resuming keeps this dive's equipment and its place in time.",14)
-	host._button(host.panel_box,"FITTINGS / NEXT LAUNCH",host._show_fittings,"fittings")
+	if not host._campaign_pristine() and (preload("res://src/presentation/ops_home/ops_home_table.gd").enabled or (host.active_started and host.sim.outcome.is_empty())):host._menu_text("Resuming keeps this dive's equipment and its place in time.",14).set_meta(OpsHome.GROUP_META,"continue")
+	host._button(host.panel_box,"FITTINGS",host._show_fittings,"fittings")
+	var difficulty_from=host.panel_box.get_child_count()
 	EconomyPanel.entry(host)
+	# The supplies button comes first; whatever follows it (preset queue, easier button) is the difficulty group.
+	OpsHome.mark(host,difficulty_from+1,"difficulty")
+	difficulty_from=host.panel_box.get_child_count()
 	EconomyPanel.pristine_picker(host)
+	OpsHome.mark(host,difficulty_from,"difficulty")
 	if not host.Endings.campaign_resolve(host.expedition).is_empty():host._button(host.panel_box,"VIEW CAMPAIGN ENDING",host._show_ending,"ending")
 	elif not host.Endings.course_line(host.expedition).is_empty():host._menu_text(host.Endings.course_line(host.expedition),17)
 	preload("res://src/presentation/finale/finale.gd").entry(host)
 	preload("res://src/persistence/save_states/save2_controller.gd").entry(host)
 	if not preload("res://src/presentation/ops_home/ops_home_table.gd").enabled and not host._campaign_pristine():host._button(host.panel_box,"ERASE PROGRESS · NEW CAMPAIGN",host._confirm_new_campaign,"new_campaign")
-	if not host.recovered_evidence.is_empty(): host._button(host.panel_box,"REVIEW FIELD RECORDS",func(): host._evidence_gallery(0),"evidence")
-	host._menu_text("Field records remain reviewable after loss or abandonment. Only successful extraction advances the campaign.",14)
-	var copy=preload("res://src/presentation/truthful_commands.gd")
-	host._menu_text(copy.launch_stock(host),15)
-	var rows=["COMPARE: O₂ / DISRUPT / SURVEY"]
-	for choice in ["endurance","disruption","survey"]:
+	if not host.recovered_evidence.is_empty(): host._button(host.panel_box,PhotoReview.GALLERY_BUTTON,func(): host._evidence_gallery(0),"evidence")
+	host._menu_text(PhotoReview.loss_note(host,false),14).set_meta(OpsHome.GROUP_META,"note")
+	host._menu_text(plain_stock(host),15)
+	var rows=["COMPARE STOCK (O₂, EMP, SURVEY)"]
+	for choice in Names.LOADOUTS:
 		var supplies=host._loadout_stock(choice)
-		rows.append("%s · %d%% / %d / %d"%[choice.to_upper(),supplies[0],supplies[1],supplies[2]])
+		rows.append("%s: %s, EMP %d, SURVEY %d"%[preload("res://src/equipment/field_tools.gd").loadout_label(choice),preload("res://src/presentation/oxygen_reading.gd").tank(supplies[0]),supplies[1],supplies[2]])
 	host._menu_text("\n".join(rows),14)
-	host._menu_text("TOOLS: "+FitSurfaceModel.stock_text(host.tool_racks)+"\nDISRUPT: 12s / SURVEY: 8s, audible",14)
-	host._button(host.panel_box,"CYCLE LOADOUT · endurance / disruption / survey",host._cycle_loadout,"loadout")
-	host._button(host.panel_box,"AUDIO / SETTINGS",host._settings_menu,"settings")
-	preload("res://src/presentation/ops_home/ops_home.gd").arrange(host)
-	preload("res://src/presentation/arcs/arc_card.gd").group_rows(host,host.panel_box)
+	host._menu_text("TOOLS: "+FitSurfaceModel.stock_text(host.tool_racks)+"\nEMP lasts 12s. SURVEY takes 8s and is audible.",14)
+	host._button(host.panel_box,"CYCLE LOADOUT: ENDURANCE, EMP, SURVEY",host._cycle_loadout,"loadout")
+	host._button(host.panel_box,"SETTINGS",host._settings_menu,"settings")
+	# The reach row (Settings, Game Modes, Title, Challenges, Credits) is built before the hub is arranged around it.
 	preload("res://src/presentation/frontend/menu_reach.gd").entries(host)
-	print("SS_SCREEN operations window=",host.get_window().size," viewport=",host.get_viewport_rect().size," root=",host.size," unlocked=",host.unlocked," active_time=",snappedf(host.sim.elapsed,0.01))
+	OpsHome.arrange(host)
+	if not preload("res://src/presentation/ops_home/ops_home_table.gd").enabled:preload("res://src/presentation/arcs/arc_card.gd").group_rows(host,host.panel_box)
+	ReleaseControls.debug_print(["SS_SCREEN operations window=",host.get_window().size," viewport=",host.get_viewport_rect().size," root=",host.size," unlocked=",host.unlocked," active_time=",snappedf(host.sim.elapsed,0.01)])
 	host.call_deferred("_layout")
 
 static func campaign_pristine(host)->bool:
@@ -63,7 +114,7 @@ static func show_fittings(host)->void:
 
 static func cycle_loadout(host)->void:
 	var reading_position=host.scroll.scroll_vertical
-	host.upgrade=["endurance","disruption","survey"][( ["endurance","disruption","survey"].find(host.upgrade)+1)%3]
+	host.upgrade=Names.LOADOUTS[( [Names.LOADOUT_ENDURANCE,Names.LOADOUT_EMP,Names.LOADOUT_SURVEY].find(host.upgrade)+1)%3]
 	host.tool_racks=preload("res://src/equipment/tool_racks.gd").template(host.upgrade)
 	host._save_archive()
 	host._show_campaign()
@@ -75,8 +126,16 @@ static func cycle_loadout(host)->void:
 
 static func orders_text(host, briefing:Dictionary) -> String:
 	if briefing.get("blackwater_revision",0)==1:
-		return "ORDERS\n"+ReleaseControls.CONTROLS_TEXT+"\nTap a craft for its command ring; FLEET chooses a station. Empty water plots its route; a craft that already has orders asks you to confirm. ROUTE → REPLACE / QUEUE changes append intent. PAUSE stays available. Settle and DECODE for two seconds. Quietus receives within156m; drones within214.5m. Cover blocks reception. An audible SONAR may prompt a local relay replay; a decoded packet explains its partner's handshake. Drone buffers TRANSFER locally to Quietus: both settled, within60m, clear link. Return with both packets aboard."
-	return "ORDERS\n"+ReleaseControls.CONTROLS_TEXT+"\nTap a craft for its command ring; FLEET chooses a station. Tap empty water to plot a route; a craft that already has orders asks you to confirm. Craft → ROUTE → REPLACE / QUEUE changes append intent. PAUSE stays available. Drag / pinch inspects freely; FOCUS follows the craft and FIT shows the region. CAMERA works within 240m of a gold record marker. Return Quietus after all records are secured."
+		return "ORDERS\n"+ReleaseControls.CONTROLS_TEXT+"\nTap a craft for its command ring; FLEET chooses a station. Empty water plots its route, and each later tap adds a point; ROUTE → REPLACE ROUTE starts over. PAUSE stays available. Settle and DECODE for two seconds. Quietus receives within156m; drones within214.5m. Cover blocks reception. An audible SONAR may prompt a local relay replay; a decoded packet explains its partner's handshake. Drone buffers TRANSFER locally to Quietus: both settled, within60m, clear link. Return with both packets aboard."
+	return "ORDERS\n"+ReleaseControls.CONTROLS_TEXT+"\nTap a craft for its command ring; FLEET chooses a station. Tap empty water to plot a route, and each later tap adds a point; Craft → ROUTE → REPLACE ROUTE starts over. PAUSE stays available. Drag / pinch inspects freely; FOCUS follows the craft and FIT shows the region. CAMERA works within 240m of a gold record marker. Return Quietus after all records are secured."
+
+# WP-98: the photo problems stay with the mission; on a split screen the OPTICS line (what Quietus mounts) is its own
+# label so it can sit in the boat's column. One column keeps the single label.
+static func photo_lines(host,text:String,font_size:int,split:bool,carried_nodes:Array)->void:
+	var parts:PackedStringArray=text.split("\n",true,1)
+	if not split or parts.size()<2:host._menu_text(text,font_size);return
+	host._menu_text(parts[0],font_size)
+	carried_nodes.append(host._menu_text(parts[1],font_size))
 
 static func briefing(host, index: int) -> void:
 	if index>=6 and index not in host.ExpeditionCampaign.available(host.completed,host.expedition):return
@@ -85,106 +144,175 @@ static func briefing(host, index: int) -> void:
 	host.set_meta("onboard2_fit_index",index)
 	host.screen="briefing"; host.sim.paused=true; host._clear_menu()
 	var briefing=host.Simulation.Missions.make(index,host._launch_context(index))
-	host._menu_text("%02d / %s"%[index+1,briefing.title.to_upper()],BriefRows029.STYLE.title if compact else 30)
+	# WP-98: on a wide screen the left column is the mission and the right column is the boat: what Quietus carries
+	# (optics, launch cost, loadout stock) is gathered in `carried_nodes` and joins the chart picture on the right.
+	var wide=preload("res://src/presentation/layout_metrics.gd").hub_wide(host.size,host.ui_touch_height,preload("res://src/presentation/frontend/frontend_settings.gd").text_scale())
+	var split_columns:bool=wide and not compact
+	var carried_nodes:Array=[]
+	host._menu_text("%02d  %s"%[index+1,briefing.title.to_upper()],BriefRows029.STYLE.title if compact else 30)
 	var goal=BriefRows029.goal(index,host.OnboardingText.goal(index))
 	var photo_problems:String=preload("res://src/simulation/photo_pricing/photo_pricing_briefing.gd").line(index,host.fitted_equipment)
 	var manual_control:Button=null
 	if not goal.is_empty():
 		# Short briefing facts; full rules remain in the optional field manual.
 		host._menu_text(goal,BriefRows029.STYLE.goal if compact else 20)
-		if not photo_problems.is_empty():host._menu_text(photo_problems,BriefRows029.STYLE.photo if compact else 17)
-		manual_control=host._button(host.panel_box,"FIELD MANUAL · full rules and orders",func(): host._reference(index),"manual")
+		var primer:String=host.OnboardingText.primer(index,host.completed)
+		if not primer.is_empty():host._menu_text(primer,17)
+		if not photo_problems.is_empty():photo_lines(host,photo_problems,BriefRows029.STYLE.photo if compact else 17,split_columns,carried_nodes)
+		manual_control=host._button(host.panel_box,FieldManualTable.BUTTON_TEXT,func(): host._reference(index),"manual")
 	else:
 		host._menu_text(briefing.brief,20)
-		if not photo_problems.is_empty():host._menu_text(photo_problems,17)
+		if not photo_problems.is_empty():photo_lines(host,photo_problems,17,split_columns,carried_nodes)
 		if host.ExpeditionOperations.briefing(host,index):pass
-		manual_control=host._button(host.panel_box,"FIELD MANUAL · full rules and orders",func(): host._reference(index),"manual")
+		manual_control=host._button(host.panel_box,FieldManualTable.BUTTON_TEXT,func(): host._reference(index),"manual")
+	# The chart picture sits under the goal lines; a two-column briefing moves it above the loadout (below).
+	var chart_preview:=ChartPreview.attach(host.panel_box,briefing,host.size.y,host.ui_touch_height/48.0*preload("res://src/presentation/frontend/frontend_settings.gd").text_scale(),manual_control.get_index())
+	# WP-111: say how each unresolved target is marked in the dive, right under the chart that shows it (a two-column
+	# briefing carries these lines to the right column with the picture).
+	var marked_at:int=chart_preview.get_index()+1
+	for line in ChartPreview.marked_lines(briefing):
+		var marked=host._menu_text(line,BriefRows029.STYLE.photo if compact else 17)
+		host.panel_box.move_child(marked,marked_at);marked_at+=1
+		carried_nodes.insert(marked_at-chart_preview.get_index()-2,marked)
 	var thermal_line=preload("res://src/simulation/thermal_front.gd").briefing(briefing)
 	if not thermal_line.is_empty():host._menu_text(thermal_line,17)
 	preload("res://src/presentation/archive/voice_feed.gd").briefing(host,index)
 	if compact and not host._campaign_pristine() and not EconomyPanel.briefing_line(host).is_empty():host._menu_text(preload("res://src/presentation/launch_summary.gd").short(host),14)
 	var fit_start=host.panel_box.get_child_count()
+	var cost_from:int=fit_start
 	if not host._campaign_pristine() and not EconomyPanel.briefing_line(host).is_empty():host._menu_text(EconomyPanel.briefing_line(host),14)
 	# Audit 091 F10: later briefings compare costs and mounts; the opening briefing keeps fit details optional.
-	if index>0 and not compact and not host._campaign_pristine() and not EconomyPanel.briefing_line(host).is_empty():host._menu_text(preload("res://src/presentation/launch_summary.gd").text(host),14)
+	if index>0 and not compact and not host._campaign_pristine() and not EconomyPanel.briefing_line(host).is_empty():
+		# WP-132: the ledger (launch summary, retry, mounts) sits behind one DETAILS control; the visible part says what the boat carries.
+		var ledger:Label=host._menu_text(preload("res://src/presentation/launch_summary.gd").text(host),14)
+		var details:Button=host._button(host.panel_box,details_text(host.get_meta("launch_details_open",false)),func():pass,"ledger_details")
+		details.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+		host.panel_box.move_child(details,ledger.get_index())
+		ledger.visible=host.get_meta("launch_details_open",false)
+		details.pressed.connect(func():
+			var open:bool=not ledger.visible
+			host.set_meta("launch_details_open",open);ledger.visible=open;details.text=details_text(open)
+			host.call_deferred("_layout"))
+	carried_nodes.append_array(host.panel_box.get_children().slice(cost_from))
 	preload("res://src/presentation/crew/crew_view.gd").briefing(host,index)
 	# The opening brief confirms Quietus stock; its FITTINGS entry owns the full per-craft list.
-	var copy=preload("res://src/presentation/truthful_commands.gd")
-	host._menu_text(copy.launch_stock(host),17)
-	if index>=3:host._menu_text(copy.brief_stock(host.tool_racks),14)
-	# Frames open after the first dive; recovered fittings appear once earned. A toggle folds them away.
+	var stock_from:int=host.panel_box.get_child_count()
+	host._menu_text(briefing_stock(host,index),17) # WP-132: says plainly what the boat carries this dive
+	var carried_line=carried_damage_line(host)
+	if not carried_line.is_empty():host._menu_text(carried_line,17)
+	var carry=preload("res://src/presentation/tool_racks_view.gd").carry_text(host.tool_racks)
+	if index>=3:host._menu_text(carry,14)
+	carried_nodes.append_array(host.panel_box.get_children().slice(stock_from))
+	# Frames open after the first dive; recovered fittings appear once earned. One fold hides them.
 	if not compact:fit_start=host.panel_box.get_child_count()
-	# Keep the first briefing focused; fit details stay available in its existing optional fold.
-	host._button(host.panel_box,"EDIT TOOL RACKS / FITTINGS",host._show_fittings,"edit_racks")
-	FitSurface.summary(host,host._equipment_context(),copy.brief_stock(host.tool_racks) if index<3 else "")
+	# Keep the first briefing focused; fit details stay available in the optional fold below LOADOUT.
+	FitSurface.summary(host,host._equipment_context(),carry if index<3 else "")
+	# The summary toggle keeps its id; its label says what it does and follows its state.
+	var summary_toggle=host.panel_box.get_child(host.panel_box.get_child_count()-1)
+	if summary_toggle is Button and summary_toggle.get_meta("action","")=="fit_summary":
+		summary_toggle.text="SHOW FIT SUMMARY"
+		summary_toggle.pressed.connect(func():summary_toggle.text="HIDE FIT SUMMARY" if summary_toggle.text.begins_with("SHOW") else "SHOW FIT SUMMARY",CONNECT_DEFERRED)
 	var fold_control:Button=null
 	if 0 in host.completed or not host._equipment_entitlements().is_empty():preload("res://src/presentation/equipment_context.gd").loadout(host,host._equipment_context().slots,func(key,id):host._choose_equipment(key,id,index))
 	if not host._equipment_entitlements().is_empty():FitSurface.fitting(host,host._equipment_context(),func(slot,item):host._choose_equipment(slot,item,index),func():host._briefing(index))
-	if host.panel_box.get_child_count()>fit_start:
-		var fit_nodes=host.panel_box.get_children().slice(fit_start)
+	# One clearly named entry opens the fittings screen; it sits above the fold and is never folded away.
+	var loadout_entry=host._button(host.panel_box,"LOADOUT",host._show_fittings,"edit_racks")
+	host.panel_box.move_child(loadout_entry,fit_start);fit_start+=1
+	var fit_nodes=host.panel_box.get_children().slice(fit_start)
+	# A fold is offered only when it has frames or fittings to hide. The first briefing has none yet:
+	# a fold over nothing, or over the summary toggle alone, is one button too many.
+	if fit_nodes.any(func(node):return node is Control and node.visible and node.get_meta("action","")!="fit_summary"):
 		var holder=[]
-		var fold=host._button(host.panel_box,"HIDE FRAMES AND FITTINGS",host._fold_fit.bind(fit_nodes,holder),"fit_fold")
+		var fold=host._button(host.panel_box,fold_text(false,true),host._fold_fit.bind(fit_nodes,holder),"fit_fold")
 		holder.append(fold);host.panel_box.move_child(fold,fit_start)
 		fold_control=fold
-		if compact:
-			fold.text=BriefRows029.FOLD_LABELS.hide
-			if not host.get_meta("onboard2_fit_open",false):host._fold_fit(fit_nodes,holder)
+		if compact and not host.get_meta("onboard2_fit_open",false):host._fold_fit(fit_nodes,holder)
 	var begin=host._button(host.menu_footer,EconomyPanel.begin_text(host),func():
 		if host.active_started and host.sim.outcome.is_empty():confirm_launch(host,index);return
 		launch_now(host,index)
 	,"begin")
 	begin.disabled=not EconomyPanel.can_begin(host)
 	if compact:
-		if not begin.disabled:begin.text="DIVE\nPAUSED"
+		# WP-171: the compact label "DIVE PAUSED" read as an already-paused dive; begin_text keeps the full wording.
 		manual_control.text="FIELD\nMANUAL"
-		if fold_control!=null:fold_control.text="FIT\n"+("HIDE" if host.get_meta("onboard2_fit_open",false) else "SHOW")
+		if fold_control!=null:fold_control.text=fold_text(true,host.get_meta("onboard2_fit_open",false))
 		for control in [manual_control,fold_control]:
 			if control==null:continue
 			host.panel_box.remove_child(control);host.menu_footer.add_child(control)
 			control.size_flags_horizontal=Control.SIZE_EXPAND_FILL;control.mouse_filter=Control.MOUSE_FILTER_STOP
 	host._button(host.menu_footer,"BACK TO\nOPS" if compact else "BACK TO\nOPERATIONS",host._show_campaign,"back")
-	if index>0 and not host._campaign_pristine() and not EconomyPanel.briefing_line(host).is_empty():host._button(host.menu_footer,"COSTS /\nRETRY",func():preload("res://src/presentation/launch_summary.gd").show(host,index),"launch_costs")
+	if index>0 and not host._campaign_pristine() and not EconomyPanel.briefing_line(host).is_empty():host._button(host.menu_footer,"COSTS AND\nRETRY",func():preload("res://src/presentation/launch_summary.gd").show(host,index),"launch_costs")
 	host.menu_footer.show()
+	# Wide landscape screens: facts and orders on the left, loadout controls on the right.
+	host.set_meta("hub_wide",wide)
+	# The compact (029) briefings already run full width on the cover screen; only the opening briefings split.
+	if split_columns:
+		host.panel_box.move_child(chart_preview,loadout_entry.get_index())
+		var split=chart_preview.get_index();var nodes=host.panel_box.get_children()
+		var columns=HBoxContainer.new();columns.add_theme_constant_override("separation",int(preload("res://src/presentation/layout_metrics.gd").MENU_COLUMN_GAP));host.panel_box.add_child(columns)
+		var left=OpsHome.column(14);var right=OpsHome.column(14);columns.add_child(left);columns.add_child(right)
+		# Left: the mission. Right: the boat, in reading order: chart picture, what Quietus carries, LOADOUT, fit details.
+		for node in nodes.slice(0,split):
+			if node not in carried_nodes and node!=loadout_entry:node.reparent(left)
+		for node in [chart_preview]+carried_nodes+[loadout_entry]+nodes.slice(split+1).filter(func(n):return n!=loadout_entry):node.reparent(right)
+		# WP-93: each column holds what its half of the panel holds, so the panel never outgrows the screen.
+		var room=preload("res://src/presentation/layout_metrics.gd").menu_column_width(host.size,true,host.ui_touch_height)
+		for column in [left,right]:preload("res://src/presentation/equipment_context.gd").fit_to_column(column,room)
 	if compact:preload("res://src/campaign/onboarding2/briefing_layout.gd").attach(host)
 	preload("res://src/presentation/arcs/arc_card.gd").intro(host,index)
 	host.call_deferred("_layout")
+	(func():fit_footer(host,index)).call_deferred()
+
+# WP-93: after the layout has set the font size, a footer whose buttons need more than the panel holds (a phone's
+# tall touch rows) gives up its fixed two-line labels and lets each button wrap between words.
+static func fit_footer(host,index:int)->void:
+	if not is_instance_valid(host) or host.screen!="briefing" or not host.menu_footer.visible:return
+	var Metrics=preload("res://src/presentation/layout_metrics.gd")
+	var room=Metrics.menu_width(host.size,host.get_meta("hub_wide",false),host.ui_touch_height)-Metrics.MENU_PANEL_PADDING
+	if host.menu_footer.get_combined_minimum_size().x<=room:return
+	for button in host.menu_footer.get_children():
+		if not button is Button:continue
+		button.text=button.text.replace("\n"," ");button.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+		button.custom_minimum_size.x=0
 
 static func launch_now(host,index:int)->void:
+	PhotoReview.retain_abandoned(host)
 	EconomyPanel.begin(host,index)
 	if host.screen=="mission" and host.active_started:host._enter_water()
 	elif host.screen=="launch_guard":host._briefing(index) # a blocked launch returns to the briefing it came from
 
-# Item 142: a launch over a live dive asks first; KEEP leaves the dive and its briefing untouched.
-static func confirm_launch(host,index:int)->void:
+# The live state of a dive that can still be resumed; shared by the launch guard and the supplies page.
+static func in_progress_line(host)->String:
 	var sim=host.sim
 	var seconds:int=int(sim.elapsed)
+	return "%02d %s is in progress · time %02d:%02d · hull %d%% · life support %d%%."%[host.mission_index+1,sim.mission.title.to_upper(),seconds/60,seconds%60,roundi(sim.hull),roundi(sim.oxygen)]
+
+# Item 142: a launch over a live dive asks first; KEEP leaves the dive and its briefing untouched.
+static func confirm_launch(host,index:int)->void:
 	host.screen="launch_guard"; host._clear_menu()
 	host._menu_text("ABANDON THE CURRENT DIVE?",24)
-	host._menu_text("%02d %s is in progress · time %02d:%02d · hull %d%% · life support %d%%.\nLaunching replaces it."%[host.mission_index+1,sim.mission.title.to_upper(),seconds/60,seconds%60,roundi(sim.hull),roundi(sim.oxygen)],17)
+	host._menu_text(in_progress_line(host)+"\nLaunching replaces it.",17)
 	host._button(host.menu_footer,"KEEP DIVE",func():host._briefing(index),"launch_guard_keep")
 	host._button(host.menu_footer,"ABANDON DIVE\nAND LAUNCH",func():launch_now(host,index),"launch_guard_abandon")
 	host.menu_footer.show()
 	host.call_deferred("_layout")
+
+# The one fold's label: the compact footer button takes two short lines.
+static func fold_text(compact:bool,open:bool) -> String:
+	if compact:return "HIDE LOADOUT\nDETAILS" if open else "SHOW LOADOUT\nDETAILS"
+	return "HIDE LOADOUT DETAILS" if open else "SHOW LOADOUT DETAILS"
 
 static func fold_fit(host, nodes:Array,holder:Array) -> void:
 	var show=not nodes[0].visible
 	for node in nodes:node.visible=show
 	if host.screen=="briefing" and BriefRows029.applies(int(host.get_meta("onboard2_fit_index",-1))):
 		host.set_meta("onboard2_fit_open",show)
-		holder[0].text="FIT\nHIDE" if show else "FIT\nSHOW"
-	else:holder[0].text="HIDE FRAMES AND FITTINGS" if show else "SHOW FRAMES AND FITTINGS"
+		holder[0].text=fold_text(true,show)
+	else:holder[0].text=fold_text(false,show)
 	host.call_deferred("_layout")
 
 static func show_reference(host, index:int) -> void:
-	host.screen="reference"; host._clear_menu()
-	var briefing=host.Simulation.Missions.make(index,host._launch_context(index))
-	var parts=host.OnboardingText.reference_text(briefing.brief).split("\n\n")
-	for n in parts.size():
-		host._menu_text(parts[n],24 if n==0 else 17)
-	if briefing.get("blackwater_revision",0)==1:host._menu_text(host._orders_text(briefing),17)
-	if BriefRows029.applies(index):host.ExpeditionOperations.briefing(host,index)
-	host._button(host.menu_footer,"BACK TO BRIEFING",func():host._briefing(index),"back"); host.menu_footer.show()
-	host.call_deferred("_layout")
+	preload("res://src/presentation/field_manual_view.gd").show(host,index)
 
 static func launch_context(host, index:int)->Dictionary:
 	var context=preload("res://src/campaign/campaign_consequences.gd").context(host.expedition)
@@ -222,9 +350,9 @@ static func choose_equipment(host, slot:String,item:String,index:int)->void:
 
 # One end-of-dive line for every debrief path (recovered, lost, expedition).
 static func stats_line(sim)->String:
-	var oxygen=sim.get("oxygen")
 	var elapsed=int(sim.elapsed)
-	return "Dive time %02d:%02d  /  Hull %d%%  /  Life support %d%%"%[elapsed/60,elapsed%60,int(sim.hull),int(oxygen) if oxygen!=null else 0]
+	# WP-97: life support is time left at the base drain, the same words as the pause plate and the craft readout.
+	return "Dive time %02d:%02d  /  Hull %d%%  /  Life support %s"%[elapsed/60,elapsed%60,roundi(sim.hull),preload("res://src/presentation/oxygen_reading.gd").text(sim)]
 
 # The expedition debrief owns its own text; give it the same single line, in place when it already has one.
 static func expedition_stats(host)->void:
@@ -248,46 +376,69 @@ static func debrief(host) -> void:
 	EconomyPanel.settle(host,first_recovery,fleet_before)
 	for loss in Economy.Losses.lines(host.economy,true):host._menu_text(loss,17)
 	host.fitted_equipment=host.FleetInventory.reconcile_fitting(host.fitted_equipment,host.FleetInventory.available(host._equipment_entitlements(),host.fleet,host.economy))
-	print("SS_DEBRIEF outcome=",host.sim.outcome," mission=",host.mission_index)
+	ReleaseControls.debug_print(["SS_DEBRIEF outcome=",host.sim.outcome," mission=",host.mission_index])
+	host._retain_evidence() # WP-34: a loss keeps its photographs only where PhotoReview.keeps_photos_after_loss says so
 	if host.sim.outcome=="won":
-		host._retain_evidence()
 		host.photo_intel=host.PhotoIntel.recover(host.photo_intel,host.sim.mission)
 	if host.ExpeditionOperations.debrief(host):
 		expedition_stats(host)
 		preload("res://src/presentation/arcs/arc_card.gd").recovered(host,first_recovery)
 		return
+	var lift_at=-1
+	var unlocked_note:String=""
 	if host.sim.outcome=="won":
 		host._retain_evidence()
+		# WP-132: what this win opens on the hub (frames after the first recovery, newly earned fittings), noted before the counts change.
+		var entitled_before:Array=host._equipment_entitlements().duplicate()
+		var frames_were_open:bool=0 in host.completed or not entitled_before.is_empty()
 		if host.mission_index not in host.completed: host.completed.append(host.mission_index)
 		host.unlocked=mini(5,maxi(host.unlocked,host.mission_index+1))
 		host._sync_craft_upgrades()
 		host._menu_text("ARCHIVE RECOVERED",32)
+		EconomyPanel.debrief_block(host) # WP-135: earned and spent sit right under the heading, on the first screen
 		host._menu_text(host.sim.mission.record,22)
+		unlocked_note=unlocked_line(frames_were_open,entitled_before,host._equipment_entitlements())
+		if not unlocked_note.is_empty():host._menu_text(unlocked_note,17).add_theme_color_override("font_color",Color("efc28d"))
 		preload("res://src/presentation/archive/voice_feed.gd").debrief(host)
 		host.EarlyReward.debrief(host)
 		host.BlackwaterDelivery.debrief(host)
 		host.ModuleRecovery.debrief(host)
-		host._show_photo_grade(host.sim.mission.objectives)
+		host._show_photo_grade(host.sim.mission.objectives);PhotoReview.show_best_frame(host)
+		preload("res://src/presentation/photo_pay/photo_pay.gd").debrief(host)
 		host._menu_text(stats_line(host.sim),17)
 		preload("res://src/presentation/damage_log/damage_log.gd").debrief(host)
 		if host.mission_index==5:
 			host._menu_text("YOUR FIELD RECORD · ACROSS DIVES",14)
 			host._menu_text(preload("res://src/campaign/archive_recap.gd").summary(host.recovered_evidence),14)
-		if not host.recovered_evidence.is_empty(): host._button(host.panel_box,"REVIEW FIELD RECORDS",func(): host._evidence_gallery(0),"evidence")
+		if not host.recovered_evidence.is_empty(): host._button(host.panel_box,PhotoReview.GALLERY_BUTTON,func(): host._evidence_gallery(0),"evidence")
 		if host.mission_index==5:
 			var discovery="The crown is still sending its list: a bearing for every loud site on this coast. Two of them still answer. South down the trench, the drillship Tessaly. West on the shelf, the sonar station at Port Ardent.\n\n" if host.sim.mission.get("finale_revision",0)==1 else ""
 			host._menu_text("THE SONG CONTINUES\n\n"+discovery+"Okafor, on Brannock: \"Two bearings. People at both, and air running down at both. Quietus can reach one first.\" Below, the plant lights go out one by one.\n\nIntroductory arc complete. Every dive remains replayable.",20)
 			if 6 in host.ExpeditionCampaign.available(host.completed,host.expedition):host._button(host.panel_box,"BEYOND THE WARNING / THE DIVERGENCE",func():host._briefing(6),"expedition6")
 		else: host._button(host.panel_box,"NEXT DIVE",func(): host._briefing(host.mission_index+1),"next_dive")
 	else:
-		host._menu_text("SIGNAL LOST",32); host._menu_text(host.sim.message,22); host._menu_text(preload("res://src/presentation/loss_summary.gd").line(host.sim),17); host._menu_text(stats_line(host.sim),17); preload("res://src/presentation/death_cause/cause_log.gd").debrief(host); preload("res://src/presentation/damage_log/damage_log.gd").debrief(host); host._menu_text("Field records remain reviewable after loss or abandonment. Only successful extraction advances the campaign.",17)
+		host._menu_text("SIGNAL LOST",32); host._menu_text(host.sim.message,22); lift_at=host.panel_box.get_child_count(); host._menu_text(preload("res://src/presentation/loss_summary.gd").line(host.sim),17); host._menu_text(stats_line(host.sim),17); EconomyPanel.debrief_block(host); preload("res://src/presentation/death_cause/cause_log.gd").debrief(host); preload("res://src/presentation/damage_log/damage_log.gd").debrief(host); var shots_text:String=PhotoReview.loss_photo_lines(host); if not shots_text.is_empty():host._menu_text(shots_text,17)
+		host._menu_text(PhotoReview.loss_note(host,not shots_text.is_empty()),17)
 		host.BlackwaterDelivery.debrief(host)
 		host.ModuleRecovery.debrief(host)
-	host._button(host.panel_box,"RETRY DIVE",func(): host._briefing(host.mission_index),"retry")
-	host._button(host.panel_box,"OPERATIONS ARCHIVE",host._show_campaign,"back")
+	host._button(host.panel_box,retry_label(host),func(): host._briefing(host.mission_index),"retry")
+	host._button(host.panel_box,OPERATIONS_NEW if not unlocked_note.is_empty() else "OPERATIONS ARCHIVE",host._show_campaign,"back")
+	preload("res://src/presentation/debrief_actions.gd").lift(host,lift_at)
+	preload("res://src/presentation/debrief_actions.gd").footer(host) # WP-109: NEXT DIVE and RETRY stay on screen
 	host._save_archive()
 	preload("res://src/presentation/arcs/arc_card.gd").recovered(host,first_recovery)
 	host.call_deferred("_layout")
+
+# WP-132: the win's NEXT DIVE goes straight to the next briefing, so the hub's new frames and fittings went unseen:
+# a win that unlocked something says so in one line and the hub button says "NEW".
+const OPERATIONS_NEW="OPERATIONS ARCHIVE · NEW"
+static func unlocked_line(frames_were_open:bool,before:Array,after:Array)->String:
+	var frames:bool=not frames_were_open
+	var fittings:bool=after.any(func(item):return item not in before)
+	if frames and fittings:return "NEW: hull and drone frames and fittings unlocked · see OPERATIONS"
+	if frames:return "NEW: hull and drone frames unlocked · see OPERATIONS"
+	if fittings:return "NEW: fittings unlocked · see OPERATIONS"
+	return ""
 
 static func sync_craft_upgrades(host)->void:
 	if not host.expedition.is_empty():host.expedition.entitlements=host._equipment_entitlements()
@@ -332,11 +483,11 @@ static func new_campaign(host)->void:
 	preload("res://src/presentation/archive/voice_feed.gd").clear(host)
 	preload("res://src/debug/dev_state.gd").restore(host,{},true)
 	host.sim.mission.erase("dev")
-	if host.debug_console!=null:host.debug_console.time_scale=1.;host.debug_console.invulnerable=false;host.debug_console.layers.clear()
+	if host.debug_console!=null:host.debug_console.time_scale=1.;host.debug_console.invulnerable=false;host.debug_console.oxygen_locked=false;host.debug_console.layers.clear()
 	host.early_reward={}
 	host.completed=[];host.unlocked=0;host.expedition={};host.recovered_evidence={};host.photo_records={};host.photo_intel={};host.hints_seen=[]
 	host.fleet={};host.economy=EconomyPanel.take_draft(host)
-	host.fitted_equipment=preload("res://src/equipment/equipment_catalog.gd").default_loadout();host.upgrade="endurance"
+	host.fitted_equipment=preload("res://src/equipment/equipment_catalog.gd").default_loadout();host.upgrade=Names.LOADOUT_ENDURANCE
 	host.tool_racks=preload("res://src/equipment/tool_racks.gd").template(host.upgrade)
 	preload("res://src/presentation/first_siren_cue/cue_archive.gd").restore_types(host,{})  # a new campaign forgets seen Siren kinds
 	host._start_mission(0);host._save_archive();host._show_campaign()

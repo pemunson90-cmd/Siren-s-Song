@@ -1,6 +1,7 @@
 extends RefCounted
 const Sim=preload("res://src/simulation/simulation.gd")
 const Catalog=preload("res://src/campaign/operation_catalog.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 static func tick(s,seconds):
  s.paused=false
  for n in roundi(seconds*60):s.advance(1./60)
@@ -55,7 +56,7 @@ static func foundry(t):
  t.check(s.noises.any(func(n):return n.label=="DEEP MOTOR" and n.band==2),"industrial emission has its own real source layer")
  t.check(s.mission.thermal_revision==1 and s.mission.thermal_fronts[0].transmission==.55,"Foundry retains its original physical cold front")
 static func well(t):
- var s=Sim.new();s.start(4);s.mission.objectives[0].captured=true
+ var s=Sim.new();s.start(4);PlayerDive.launch_drones(s);s.mission.objectives[0].captured=true
  s.units[0].pos=Vector2(1200,380);s.units[0].band=2;s.units[0].silent=false
  s.command("route",{"point":Vector2(1330,380)});tick(s,2.)
  t.check(s.mission.well_reference.is_empty(),"actual deep cruise cannot forge the middle Well engine reference")
@@ -84,9 +85,9 @@ static func reports(t):
  var moving=Sim.new();moving.start(0);moving.sirens=moving.sirens.slice(0,1)
  moving.units[0].pos=Vector2(760,650);moving.units[0].band=1
  moving.sirens[0].pos=Vector2(800,650);moving.sirens[0].band=1
- moving.sirens[0].transition={"to":2,"remaining":3.};moving.sirens[0].lock=4.5;moving.sirens[0].target=0
+ moving.sirens[0].transition={"to":2,"remaining":3.};moving.sirens[0].lock=moving.lock_seconds()+.5;moving.sirens[0].target=0
  tick(moving,.2)
- t.check(moving.outcome=="lost" and moving.hull==0 and moving.sirens[0].lock>4,"a visible shared-band target remains vulnerable while the enemy changes depth")
+ t.check(moving.outcome=="lost" and moving.hull==0 and moving.sirens[0].lock>moving.lock_seconds(),"a visible shared-band target remains vulnerable while the enemy changes depth")
 
 static func counterpolicies(t):
  # Matched source-known staged poses; ONLY pulse policy changes.
@@ -106,7 +107,16 @@ static func counterpolicies(t):
    if active:s.command("sonar_mode",{"sector":"all","power":"high"});s.command("ping")
    tick(s,1.);results.append(s)
   t.check(not results[0].sirens[example.enemy].has("known_band") and results[1].sirens[example.enemy].get("known_band",-1)==example.band,"matched staged active policy changes real acquired depth, operation "+str(example.id))
-  t.check(results[0].oxygen-results[1].oxygen>=1.19,"same-position high active information has real reserve cost, operation "+str(example.id))
+  # Until 2026-11-12 (player rules, Pat: sonar "shouldn't cost oxygen" for Quietus; a drone's pulse costing battery makes sense) this was:
+  #   t.check(results[0].oxygen-results[1].oxygen>=1.19,"same-position high active information has real reserve cost, operation "+str(example.id))
+  t.check(is_equal_approx(results[0].oxygen,results[1].oxygen),"same-position high active information costs Quietus no life support, operation "+str(example.id))
+  var drone_battery=[]
+  for active in [false,true]:
+   var d=Sim.new();d.start(example.id);PlayerDive.launch_drones(d);d.units[2].alive=false
+   d.units[1].pos=example.point;d.units[1].band=example.band;d.command("select",{"unit":1})
+   if active:d.command("sonar_mode",{"sector":"all","power":"high"});d.command("ping")
+   tick(d,1.);drone_battery.append(d.units[1].battery)
+  t.check(drone_battery[0]-drone_battery[1]>=1.19,"same-position high active information still costs a drone real battery, operation "+str(example.id))
   t.check(Sim.valid_snapshot(results[0].snapshot()) and Sim.valid_snapshot(results[1].snapshot()),"both matched sensing policies save valid actual threat state, operation "+str(example.id))
 
  var exploit=Sim.new();exploit.start(0);exploit.sirens=exploit.sirens.slice(0,1)
@@ -122,7 +132,8 @@ static func private_listening(t):
   for hidden in [false,true]:
    var s=Sim.new();s.start(0);var reflector=s.sirens[0].duplicate(true);s.sirens=[]
    s.units[0].pos=Vector2(300,800);s.units[0].band=2
-   s.units[1].pos=s.units[0].pos;s.units[1].band=2;s.units[1].alive=emitter==1;s.units[2].alive=false
+   if emitter==1:PlayerDive.launch_drones(s)
+   s.units[1].pos=s.units[0].pos;s.units[1].band=2;s.units[2].alive=false
    if hidden:reflector.pos=Vector2(700,800);reflector.band=2;s.sirens=[reflector]
    s.command("select",{"unit":emitter});s.command("sonar_mode",{"sector":"all","power":"high"});s.command("ping");results.append(s)
   t.check(results[0].contacts.is_empty() and results[1].contacts.is_empty() and results[0].sonar.pending.size()!=results[1].sonar.pending.size(),"matched pre-arrival fixture really has different hidden internal packets")

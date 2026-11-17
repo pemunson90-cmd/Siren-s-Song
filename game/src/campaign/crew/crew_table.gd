@@ -1,4 +1,5 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 # BRANNOCK CREW data (handoff 082). AI-DESIGNED placeholders, Pat to rewrite and tune; no new plot.
 # Seam: crew.gd reads every row and number here. Revert: enabled=false removes every effect and line.
 # Each row is one rescued group read from a fact the campaign already saves (expedition facts).
@@ -12,7 +13,7 @@ const HEAD="BRANNOCK CREW"
 const FOOTER="Crew assistance is optional; every operation can launch without it."
 const MAX_CREDIT=4
 const ROWS=[
- {"id":"kestrel_sailors","name":"Kestrel sailors","when":{"fact":"witness_arrival","is":["quietus","drone_a","drone_b"]},
+ {"id":"kestrel_sailors","name":"Kestrel sailors","when":{"fact":"witness_arrival","is":[Names.CRAFT_QUIETUS,Names.CRAFT_DRONE_A,Names.CRAFT_DRONE_B]},
   "kind":"mark","op":15,"speaker":"okafor",
   "mark":{"kind":"person","text":"KESTREL CREW LANE · the Kestrel sailors ran this strait; their line is charted","pos":[1000.0,2100.0]},
   "line":"The Kestrel sailors you landed have charted a lane through the strait.",

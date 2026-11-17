@@ -1,4 +1,7 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
+const TrialRules=preload("res://src/trial_rules.gd")
+const HudWords=preload("res://src/presentation/hud_words.gd") # WP-161
 # Read-only D1 presentation seam. Existing acquisition decides when to publish.
 signal siren_notice(id:int, source_position:Vector2)
 const Orders=preload("res://src/simulation/orders/order_table.gd")
@@ -7,7 +10,14 @@ const JobRelease=preload("res://src/simulation/job_release.gd")
 const SaveChecks=preload("res://src/persistence/save_checks.gd")
 const EnemyTypes=preload("res://src/simulation/enemy_types.gd")
 const GradeOnSecure=preload("res://src/photo_grade/grade_on_secure.gd")
+const FrameForecast=preload("res://src/photo_grade/frame_forecast.gd")
 const LaunchLayout=preload("res://src/simulation/opening_fleet/launch_layout.gd")
+const DroneBay=preload("res://src/simulation/drone_bay/drone_bay.gd")
+const ParityRules=preload("res://src/simulation/parity_rules/parity_rules.gd")
+const SiteSearch=preload("res://src/simulation/parity_rules/site_search.gd")
+const FactorySensors=preload("res://src/simulation/parity_rules/factory_sensors.gd")
+const DroneStealth=preload("res://src/simulation/parity_rules/drone_stealth.gd")
+const SightRange=preload("res://src/simulation/parity_rules/sight_range.gd")
 const FieldTools=preload("res://src/simulation/field_tool_effects.gd")
 const Shelf=preload("res://src/simulation/shelf_habitat.gd")
 const Wake=preload("res://src/simulation/wake_crossing.gd")
@@ -36,6 +46,7 @@ const Thermal=preload("res://src/simulation/thermal_front.gd")
 const Acoustics = preload("res://src/simulation/acoustic_paths.gd")
 const TerrainChart=preload("res://src/simulation/terrain_chart.gd")
 const RouteProgram=preload("res://src/simulation/route_program.gd")
+const Tuning=preload("res://src/simulation/tuning.gd") # WP-125: EMP lock grace
 const HandPilot=preload("res://src/simulation/hand_pilot/hand_pilot.gd")
 const ModuleRecovery=preload("res://src/simulation/module_recovery.gd")
 const Cache=preload("res://src/simulation/optional_cache.gd")
@@ -119,7 +130,18 @@ var navigation: AStarGrid2D
 var rock_shapes: Array=[]
 var rock_bounds:Array=[]
 var acoustic_paths=Acoustics.new()
-func start(index: int, upgrade: String = "endurance", launch:Dictionary={}) -> void:
+# Seconds a Siren must hold its lock before it fires. The one place the length is decided (trial rule 2,
+# trial_rules.gd): the first dive of the Campaign (operation 01 on the plain simulation, not a Challenge,
+# Career or Expedition run, which use subclasses) gives the longer warning; everything else keeps the standard.
+# WP-125: seconds a Siren cannot start a new lock after an EMP stun ends, for this dive's difficulty preset (tuning.gd).
+func emp_lock_grace() -> float:
+	var table:Dictionary=Tuning.EMP_LOCK_GRACE_BY_PRESET
+	return float(table.get(str(mission.get("difficulty_preset",Tuning.EMP_LOCK_GRACE_DEFAULT_PRESET)),table[Tuning.EMP_LOCK_GRACE_DEFAULT_PRESET]))
+func lock_seconds() -> float:
+	var campaign:bool=get_script().resource_path=="res://src/simulation/simulation.gd"
+	if campaign and int(mission.get("id",-1))==0:return TrialRules.first_dive_lock_seconds()
+	return TrialRules.STANDARD_LOCK_SECONDS
+func start(index: int, upgrade: String = Names.LOADOUT_ENDURANCE, launch:Dictionary={}) -> void:
 	var operation=Missions.make(index,launch.get("context",{}))
 	if operation.is_empty():return
 	mission=operation
@@ -128,21 +150,32 @@ func start(index: int, upgrade: String = "endurance", launch:Dictionary={}) -> v
 	mission["launch_equipment"]=launch.get("fitted",Consequences.EMPTY_FIT).duplicate(true)
 	units.clear()
 	for i in 3:
-		units.append({"pos":mission.get("start",Vector2(140,800))+LaunchLayout.offset(index,i),"vel":Vector2.ZERO,"angle":-0.3,"route":[],"alive":true,"hold":"","silent":true,"battery":100.0,"name":["QUIETUS","DRONE A","DRONE B"][i]})
+		units.append({"pos":mission.get("start",Vector2(140,800))+LaunchLayout.offset(index,i),"vel":Vector2.ZERO,"angle":-0.3,"route":[],"alive":true,"hold":"","silent":true,"battery":100.0,"name":Names.UNIT_NAMES[i]})
 	mission["module_recovery"]=ModuleRecovery.initial(mission.launch_equipment,units)
 	mission["fleet_commit"]=launch.get("fleet_commit",false)
+	if launch.has("difficulty_preset"):mission["difficulty_preset"]=str(launch.difficulty_preset) # WP-125: read by emp_lock_grace()
 	sirens = mission.sirens.duplicate(true)
 	Depth.initialize(self);Network.initialize(self);Industry.initialize(self);sonar=Sonar.initial();depth_charts={};geometry_band=1
+	# WP-13: on a player dive the drones begin aboard Quietus (drone_bay/).
+	if DroneBay.wanted(launch):DroneBay.stow(self)
 	known = {}; contacts = {}; events = []; noises = []; projectiles=[]
 	ContactIdentity.seed(self,launch.get("context",{}).get("intel",{}))
 	elapsed=0.0; oxygen=100.0; hull=100.0; paused=true; selected=0; queue_mode=false; pass_through=true; outcome=""
-	message="Chart loaded. Tap a craft for DEPTH / SONAR; tap water to plot a route."
+	message="Chart loaded. Tap a craft for DEPTH AND SONAR; tap water to plot a route."
+	# One line on the cover screen: a longer hint wraps the message plate to a third line and covers more water than the HUD allows.
+	if DroneBay.any_aboard(self):message="Drones aboard. Tap a craft for DEPTH AND SONAR; tap water to route or deploy."
 	ping_time=0.0; recon_time=0.0; captures=[{},{},{}]; accumulator=0.0
 	tools={"emp":2,"decoy":3,"recon":2,"knock":2}
-	if upgrade=="disruption": tools.emp += 1
-	if upgrade=="survey": tools.recon += 1
-	if upgrade=="endurance": oxygen=120.0
+	if upgrade==Names.LOADOUT_EMP: tools.emp += 1
+	if upgrade==Names.LOADOUT_SURVEY: tools.recon += 1
+	if upgrade==Names.LOADOUT_ENDURANCE: oxygen=120.0
 	FieldTools.seed(self,upgrade)
+	# WP-16: on a player dive the chart and the objectives are discovered (parity_rules/).
+	if ParityRules.wanted(launch):
+		mission[ParityRules.KEY]=true
+		ParityRules.seed_chart(mission,world_size(),mission.get("start",Vector2(140,800)))
+		SiteSearch.prepare(mission)
+		SightRange.prepare(mission,launch.get("context",{}).get("intel",{}))
 	if launch.has("tool_racks"):preload("res://src/equipment/tool_racks.gd").launch(self,launch.tool_racks)
 	_build_navigation()
 	_configure_terrain()
@@ -182,6 +215,31 @@ func glass_context()->Dictionary:return Glass.status(self)
 func network_feedback()->Array:return Network.feedback(self)
 func public_chart()->Dictionary:
 	return terrain_chart.public_chart() if terrain_chart!=null else {}
+# WP-166 (Pat, 16 Nov 2026): rock the game told the player about stays on the chart they see. unit_id's own depth chart gets
+# the rock named by kind: "point" (a refused tap at a), "leg" (the leg a->b is blocked), "touch" (a hull strike or a hold at a).
+# Opening charts of the middle depth already draw their briefed rock, so only an earned chart takes it. Returns true when a cell was added.
+func tell_rock(unit_id:int,kind:String,a:Vector2,b:Vector2=Vector2.ZERO)->bool:
+	if unit_id<0 or unit_id>=units.size():return false
+	var band:int=int(units[unit_id].band)
+	var chart=depth_charts.get(band) if not depth_charts.is_empty() else terrain_chart
+	if chart==null:return false
+	var added:bool=false
+	match kind:
+		"point":added=chart.tell_rock(a,12.5)
+		"leg":added=chart.tell_leg(a,b) or chart.tell_rock(a,20.0)
+		_:added=chart.tell_rock(a,20.0)
+	if added and band==1:known=chart.clear_cells.duplicate();mission["terrain_chart"]=chart.snapshot()
+	return added
+# WP-166: true when the player's own leg a->b crosses water this craft's depth chart holds neither as clear nor as rock. Only the
+# upper and lower depths count: the middle depth is the dive's own chart, where charting new water is the job (not a warning each tap).
+func leg_uncharted(unit_id:int,a:Vector2,b:Vector2)->bool:
+	var band:int=int(units[unit_id].band)
+	var chart=depth_charts.get(band) if not depth_charts.is_empty() else null
+	return band!=1 and chart!=null and chart.leg_uncharted(a,b)
+# WP-166: true when the craft's own spot at the depth it would change to is not charted there.
+func depth_uncharted(unit_id:int,band:int)->bool:
+	var chart=depth_charts.get(band) if not depth_charts.is_empty() else null
+	return band!=1 and chart!=null and chart.leg_uncharted(units[unit_id].pos,units[unit_id].pos)
 func player_path(a:Vector2,b:Vector2)->Array:
 	return terrain_chart.player_path(a,b) if terrain_chart!=null else path(a,b,true)
 func course_status(unit_id:int=-1)->Dictionary:
@@ -215,7 +273,7 @@ func _terrain_observe()->void:
 		if units[i].alive and units[i].band==geometry_band:receivers.append({"pos":units[i].pos,"radius":passive_range(i)})
 
 	var survey={"pos":mission.get("survey_origin",units[0].pos),"radius":560.0} if recon_time>0 else {}
-	terrain_chart.observe(receivers,survey)
+	terrain_chart.observe(receivers,survey,elapsed,ParityRules.survey_memory(mission))
 	if geometry_band==1:
 		known=terrain_chart.clear_cells.duplicate();mission["terrain_chart"]=terrain_chart.snapshot()
 func _course_block(u:Dictionary,reason:String)->void:
@@ -258,13 +316,14 @@ func _course_collision(u:Dictionary,physical:bool=false,impact:float=-1.0)->void
 	if u==units[0] and u.has("water_velocity"):u.water_velocity=u.vel-current_at(u.pos)
 func _hull_strike(u:Dictionary,impact:float=-1.0,hit:String="terrain")->void:
 	if impact<0:impact=u.vel.length()
-	if u.name=="QUIETUS" and u.alive and outcome.is_empty() and elapsed-float(u.get("hit_at",-100.0))>=COLLISION_COOLDOWN:
+	if u.name==Names.UNIT_QUIETUS and u.alive and outcome.is_empty() and elapsed-float(u.get("hit_at",-100.0))>=COLLISION_COOLDOWN:
 		var damage:=collision_damage(impact)
 		if damage>0.0:
 			var hull_before_strike:float=hull
 			hull=maxf(0.0,hull-damage);u["hit_at"]=elapsed
 			FieldTools.record_collision(self,hull_before_strike-hull)
 			events.append({"type":"creak","pos":u.pos});message="Hull strike against %s · %dm/s · hull -%d%%"%[hit,roundi(impact),roundi(damage)]
+			if hit=="terrain":tell_rock(units.find(u),"touch",u.pos) # WP-166: the rock that was hit stays on the chart
 func _hull_contacts(u:Dictionary,origin:Vector2,velocity:Vector2)->void:
 	var bodies=units.slice(1)+sirens
 	for body in [Recipient.body(self),Choir.body(self)]:
@@ -339,10 +398,52 @@ func _warning_chain_busy(unit_id:int)->bool:return Chain.connected(self,unit_id)
 func departure_context()->Dictionary:
 	if outcome.is_empty() and units[0].alive and units[0].vel.length()<12:
 		for corridor in extraction_corridors():
-			if corridor.available and units[0].pos.distance_to(corridor.pos)<65:return ModuleRecovery.departure(self,corridor)
+			if corridor.available and units[0].pos.distance_to(corridor.pos)<65:
+				# WP-161: recovery needs MIDDLE; say so instead of reporting "ready" while _try_extract refuses.
+				var wrong:=_departure_depth_reason()
+				if not wrong.is_empty():return {"available":false,"pending":false,"confirmation_required":false,"corridor":corridor.duplicate(true),"recovered":[],"left":[],"recovered_drones":[],"text":wrong,"reason":"depth"}
+				return ModuleRecovery.departure(self,corridor)
+	# WP-172: at a mouth that is not open, say why (the game already knows: a source not located, records missing).
+	if outcome.is_empty() and units[0].alive:
+		for corridor in extraction_corridors():
+			if not corridor.available and units[0].pos.distance_to(corridor.pos)<65:
+				return {"available":false,"pending":false,"confirmation_required":false,"corridor":corridor.duplicate(true),"recovered":[],"left":[],"recovered_drones":[],"text":corridor_blocked_reason(corridor),"reason":"locked"}
 	return {"available":false,"pending":false,"confirmation_required":false,"corridor":{},"recovered":[],"left":[],"recovered_drones":[],"text":"Bring Quietus and the required records to a recovery mouth"}
+# WP-172: why a recovery mouth is not open yet. Mirrors where `available` is decided (signal_field.gd corridors for op 6, all_records otherwise).
+func corridor_blocked_reason(corridor:Dictionary)->String:
+	if mission.id==6 and mission.has("expedition_revision") and not mission.expedition_facts.has(corridor.get("route","")):
+		for source in mission.get("signal_sources",[]):
+			if source.id==corridor.get("route",""):return HudWords.TEXT.depart_source%[str(corridor.get("name","")).to_upper(),str(source.label).to_upper()]
+	# WP-174: any other operation whose required signal source has not been located (Wake Crossing: wake_packet) names that source.
+	var unlocated:=unlocated_required_source()
+	if not unlocated.is_empty():return HudWords.TEXT.depart_source%[str(corridor.get("name","")).to_upper(),str(unlocated.label).to_upper()]
+	# WP-176: Reach / Choir work that is still unmet (the vane choice, a lock, the sled, a tow): name that step, not "the records".
+	var work:=required_work_step()
+	if not work.is_empty():return HudWords.TEXT.depart_work%[str(corridor.get("name","")).to_upper(),work.text]
+	return HudWords.TEXT.depart_records%str(corridor.get("name","RECOVERY")).to_upper()
+# WP-176: the next unmet Reach or Choir work step ({"text", optional "pos"/"band" of a point already on the chart}); {} when none.
+func required_work_step()->Dictionary:
+	var step:Dictionary=Glass.next_step(self)
+	if step.is_empty():step=Choir.next_step(self)
+	# WP-178: Concealed Record, Warning Chain and Open Warning name their own next step too.
+	for next in [Concealed,Chain,Recipient]:
+		if not step.is_empty():break
+		step=next.next_step(self)
+	return step
+# WP-174: the first required signal source (required_site_ids) with no objective yet because nothing has located it; {} when none.
+func unlocated_required_source()->Dictionary:
+	for id in mission.get("required_site_ids",[]):
+		if mission.objectives.any(func(o):return o.get("site_id","")==id):continue
+		for source in mission.get("signal_sources",[]):
+			if source.id==id and not source.located:return source
+	return {}
+func _departure_depth_reason()->String:
+	var q=units[0]
+	if not q.transition.is_empty():return HudWords.TEXT.depart_depth%[Depth.NAMES[1],HudWords.TEXT.depart_settle]
+	if q.band==1:return ""
+	return HudWords.TEXT.depart_depth%[Depth.NAMES[1],HudWords.TEXT.depart_rise if q.band>1 else HudWords.TEXT.depart_descend]
 func _try_extract(corridor:Dictionary,confirmed:bool=false)->bool:
-	if units[0].band!=1 or not units[0].transition.is_empty():return false
+	if units[0].band!=1 or not units[0].transition.is_empty():message=_departure_depth_reason();return false # WP-161: say why
 	var context=departure_context()
 	if not context.available or context.corridor.pos!=corridor.pos or context.corridor.get("route","")!=corridor.get("route",""):return false
 	if context.confirmation_required and not confirmed:
@@ -401,9 +502,9 @@ func _capture_duration(objective:Dictionary,unit_id:int)->float:
 func passive_range(unit_id:int)->float:
 	return CraftUpgrades.passive_range(mission.get("launch_equipment",{}),unit_id)*(0.65 if mission.darkness else 1.0)*FieldTools.reach_scale(self,unit_id)
 func motion_radius(unit_id:int)->float:
-	return CraftUpgrades.motion_radius(mission.get("launch_equipment",{}),unit_id,propulsion_speed(units[unit_id]))*AllStop.noise_scale(units[unit_id])+(130.0 if not units[unit_id].get("transition",{}).is_empty() else 0.0)+Choir.noise(self,unit_id)
+	return CraftUpgrades.motion_radius(mission.get("launch_equipment",{}),unit_id,propulsion_speed(units[unit_id]))*DroneStealth.noise(self,unit_id)*AllStop.noise_scale(units[unit_id])+(130.0 if not units[unit_id].get("transition",{}).is_empty() else 0.0)+Choir.noise(self,unit_id)
 func _craft_speed(unit:Dictionary,fallback:float)->float:
-	var quietus=unit.name=="QUIETUS"
+	var quietus=unit.name==Names.UNIT_QUIETUS
 	var speed=RouteProgram.speed(unit,fallback,quietus)
 	return Choir.speed(self,units.find(unit),Concealed.speed(self,CraftUpgrades.cruise_speed(mission.get("launch_equipment",{})) if quietus and not unit.silent else CraftUpgrades.frame_speed(mission.get("launch_equipment",{}),units.find(unit),speed),unit))
 func world_size() -> Vector2:
@@ -510,9 +611,14 @@ func _near_wall_recovery(origin: Vector2,destination: Vector2,player_course:bool
 func command(order: String,args: Dictionary={}) -> bool:
 	if not outcome.is_empty(): return false
 	if order=="depart":return Orders.TABLE[order][0].command(self,order,args)
+	if order=="deploy":return _deploy(int(args.get("unit",-1)))
 	var u=units[selected]
 	_use_band(u.band)
-	if not u.alive and order!="select":
+	if DroneBay.aboard(u):
+		DroneBay.carry(self)
+		var refusal:String=DroneBay.before_order(self,selected,order)
+		if not refusal.is_empty():message=refusal;return false
+	if not u.alive and not DroneBay.aboard(u) and order!="select":
 		selected=0; queue_mode=false; message="Selected drone lost. Quietus selected; reissue the order."; return false
 	if order in ["camera","chain_power","chain_route","chain_send","concealed_tow","witness_land","warning_gate","warning_depart","rendezvous_release","wake_playback","shelf_warn","shelf_alarm"] and ((u.band!=1 and not (order=="camera" and BandPhoto.can_shoot(self,u))) or not u.transition.is_empty()):
 		message="Ascend to MIDDLE and settle for local work";return false
@@ -524,6 +630,15 @@ func command(order: String,args: Dictionary={}) -> bool:
 	var accepted:bool=handler[0].command(self,order,args)
 	if accepted:preload("res://src/equipment/tool_racks.gd").sync_legacy(self)
 	return _finish_command(u,order) if accepted and handler[1] else accepted
+# WP-35: DEPLOY puts an aboard drone in the water beside Quietus with the same launch a water tap reaches, and no route.
+func _deploy(id:int)->bool:
+	if id<1 or id>=units.size() or not DroneBay.aboard(units[id]):return false
+	DroneBay.carry(self)
+	var refusal:String=DroneBay.launch(self,id)
+	if not refusal.is_empty():message=refusal;return false
+	selected=id # the deployed drone is the craft the next water tap routes, as the message says
+	message="%s deployed beside Quietus · tap water to route it"%units[id].name
+	return true
 func _finish_command(u:Dictionary,order:String)->bool:
 	if order=="emp":preload("res://src/simulation/observed_stun.gd").record(self)
 	JobRelease.cancel(self,selected,order)
@@ -616,6 +731,16 @@ func _blackwater_context_text(target:int,station:int) -> String:
 	if c.quiet:return "%s · quiet receiver ready · SAMPLE 2s"%name
 	var learned=mission.objectives.any(func(o):return o.captured)
 	return "%s · %dm / quiet %.0fm%s"%[name,c.distance,c.quiet_range," · learned: SONAR + SAMPLE within 240m" if learned else " · move closer to listen"]
+# WP-122: a non-photo job (LINK, TRANSMIT, FIELD SAMPLE, a listening post) can take the camera context before a photo subject.
+# photo_context() answers the same question with those jobs set aside, so PHOTO can be offered beside them; the camera
+# order takes {"photo":true} to start that frame. Set only for the length of one call; nothing is saved.
+var _photo_only:=false
+func photo_context() -> Dictionary:
+	var was:=_photo_only
+	_photo_only=true
+	var context:=camera_context()
+	_photo_only=was
+	return context
 func camera_context() -> Dictionary:
 	return Pricing.annotate(self,PhotoRules.camera_hint(self,BandPhoto.gate(self,preload("res://src/simulation/photo_context.gd").resolve(self,_camera_context_base()))))
 func _camera_context_base() -> Dictionary:
@@ -640,6 +765,7 @@ func _camera_context_base() -> Dictionary:
 	for id in mission.objectives.size():
 		var objective=mission.objectives[id]
 		if not preload("res://src/campaign/sorley_rescue.gd").camera_candidate(self,objective):continue
+		if _photo_only and (Operations.own_origin(objective) or not Photo.applies(objective)):continue # WP-122
 		if objective.captured and Photo.applies(objective) and not Operations.own_origin(objective) and Photo.seen_before(self,id).size()<objective.subject.features.size():
 			# A resolved record can be re-shot from a better viewpoint for what it missed.
 			if reshoot<0 and unit.pos.distance_to(objective.pos)<Photo.reach(self,selected) and Depth.optical_clear(self,unit.pos,objective.pos,unit.band):reshoot=id
@@ -658,11 +784,11 @@ func _camera_context_base() -> Dictionary:
 			# Several subjects in reach: the one the craft is turned toward is framed.
 			var aim_score:float=absf(angle_difference(unit.angle,unit.pos.angle_to_point(objective.pos)))+d/2000.0
 			if best<0:best=id;best_score=aim_score
-			elif Photo.applies(objective) and Photo.applies(mission.objectives[best]) and aim_score<best_score:best=id;best_score=aim_score
+			elif Photo.applies(objective) and Photo.applies(mission.objectives[best]) and _framed_over(objective,mission.objectives[best],aim_score,best_score):best=id;best_score=aim_score # WP-171
 	if best<0 and reshoot>=0:best=reshoot
 	if best<0 and (nearest<0 or not Operations.own_origin(mission.objectives[nearest])):
 		var sighted=Photo.siren_candidate(self,selected)
-		if sighted>=0:return {"target":-2,"siren":sighted,"ready":true,"text":"READY · S%d %s · PHOTO %.0fs · observe its form and movement from clear water"%[sighted+1,str(sirens[sighted].get("type","patroller")).to_upper(),8.0]}
+		if sighted>=0:return {"target":-2,"siren":sighted,"ready":true,"text":"READY · S%d %s · PHOTO %.0fs · observe its form and movement from clear water"%[sighted+1,str(sirens[sighted].get("type",Names.ROLE_PATROLLER)).to_upper(),8.0]}
 	if nearest<0 and best<0: return {"target":-1,"ready":false,"text":Delivery.status(self).text if Delivery.applies(mission) else "Archive aboard · return Quietus to extraction."}
 	var candidate=best if best>=0 else nearest
 	if Witness.applies(mission) and mission.objectives[candidate].get("site_id","")==Witness.packet(mission):return {"target":candidate,"ready":false,"text":Witness.context(self,selected).winch.reason}
@@ -675,7 +801,7 @@ func _camera_context_base() -> Dictionary:
 		return {"target":nearest,"ready":false,"text":"TRANSMISSION SECTOR · Quietus chooses clear water inside the charted sector; settle below 12m/s"}
 	if best<0:
 		var target=mission.objectives[nearest]
-		if Photo.stage(target)=="lead":return {"target":nearest,"ready":false,"text":"%s · search the marked area · the camera reaches %dm"%[Photo.label(target),roundi(Photo.reach(self,selected))]}
+		if Photo.stage(target)=="lead":return {"target":nearest,"ready":false,"text":"%s · Search the dashed area first: the camera reaches %d m"%[Photo.label(target),roundi(Photo.reach(self,selected))]}
 		return {"target":nearest,"ready":false,"text":"%s · %dm away / %dm range%s"%[Photo.label(target),roundi(distance),roundi(Photo.reach(self,selected))," · view blocked by cover" if not line_clear(unit.pos,target.pos) else ""]}
 	var target=mission.objectives[best]
 	if target.get("required_unit",selected)!=selected and Sampler.capture_spec(selected,mission.get("launch_equipment",{}),target).is_empty():
@@ -693,7 +819,34 @@ func _camera_context_base() -> Dictionary:
 		for r in framed.rows:
 			if r.id in target.subject.get("required",[]) and not r.ready and not r.why.is_empty():weak.append("%s %s"%[r.label,r.why.to_lower()])
 		if not weak.is_empty():hint+=" · WILL NOT RESOLVE: "+", ".join(weak)
+	hint+=_unsighted_required_hint(best) # WP-171
 	return {"target":best,"ready":true,"text":"READY · %s · %s %.0fs%s"%[Photo.label(target),"FIELD SAMPLE · AUDIBLE" if not Sampler.capture_spec(selected,mission.get("launch_equipment",{}),target).is_empty() else "passive listen" if target.get("kind","")=="receiver" else "TRANSMIT · AUDIBLE" if Operations.own_origin(target) else "exposure",_capture_duration(target,selected),hint]}
+# WP-171: an optional subject can be READY while a required one beside it has not been sighted yet (an unknown is sighted only when the bow faces it
+# inside its sight distance). Say so on the strip, so the player knows why the camera is not on the required subject and what to do.
+func _unsighted_required_hint(target_id:int) -> String:
+	var target=mission.objectives[target_id]
+	if not target.get("optional",false):return ""
+	var unit=units[selected]
+	for other in mission.objectives:
+		if other.get("optional",false) or other.captured or not other.get("unknown",false) or other.get("sighted",false) or not other.has("lead"):continue
+		if unit.pos.distance_to(other.pos)<=float(other.lead.get("sight",170.0))+60.0:
+			return " · %s close by: turn the bow toward the dashed area to sight it"%str(other.get("alias","another subject")).to_upper()
+	return ""
+# WP-171: which of two photo subjects in reach is framed. A required subject whose prerequisites are met wins over an optional one;
+# the optional one is taken only when the craft is turned clearly toward it (within 15 deg) and away from the required one (over 30 deg).
+func _framed_over(challenger:Dictionary,held:Dictionary,challenger_score:float,held_score:float) -> bool:
+	var c_opt:bool=challenger.get("optional",false);var h_opt:bool=held.get("optional",false)
+	if c_opt==h_opt:return challenger_score<held_score
+	var unit=units[selected]
+	var aim_c:float=absf(angle_difference(unit.angle,unit.pos.angle_to_point(challenger.pos)))
+	var aim_h:float=absf(angle_difference(unit.angle,unit.pos.angle_to_point(held.pos)))
+	var optional_aim:float=aim_c if c_opt else aim_h
+	var required_aim:float=aim_h if c_opt else aim_c
+	var required:Dictionary=held if c_opt else challenger
+	for prerequisite in required.get("requires",[]):
+		if not mission.objectives[prerequisite].captured:return c_opt # required subject is not available yet: the optional one may be framed
+	if optional_aim<0.26 and required_aim>0.52:return c_opt
+	return not c_opt
 # Well-specific optional comparison. Own motion and local reception only;
 # no Siren query, extra acoustic source or forced enemy intent.
 func _well_signature_observe() -> void:
@@ -717,12 +870,46 @@ func well_signature_evidence() -> Dictionary:
 	return {"name":"QUIETUS / RETURNED CADENCE","optical":"well_signature","caption":"ENGINE REFERENCE: Quietus moving %.1f m/s at %.1fs near PROFILE APERTURE. LOCAL RETURN: received by %s at %.1fs near RETURN ARCHIVE. The returned cadence matches the recorded reference. Source and intent remain unresolved."%[reference.speed,reference.time,units[observation.unit].name.to_upper(),observation.time]}
 
 func decoy_target_valid(point:Variant) -> bool:
-	if not point is Vector2 or not point.is_finite():return false
-	var origin=units[selected]
-	return origin.alive and outcome.is_empty() and tools.decoy>0 and Rect2(Vector2(6,6),world_size()-Vector2(12,12)).has_point(point) and origin.pos.distance_to(point)<=DECOY_RANGE+0.001 and not blocked(point,6) and segment_safe(origin.pos,point,6)
+	return tools.decoy>0 and decoy_point_ok(selected,point)
+# WP-137: the geometry of a decoy drop for one craft (no charge test), shared by the order and the lock card.
+func decoy_point_ok(unit_id:int,point:Variant) -> bool:
+	if not point is Vector2 or not point.is_finite() or unit_id<0 or unit_id>=units.size():return false
+	var origin=units[unit_id]
+	return origin.alive and outcome.is_empty() and Rect2(Vector2(6,6),world_size()-Vector2(12,12)).has_point(point) and origin.pos.distance_to(point)<=DECOY_RANGE+0.001 and not blocked(point,6) and segment_safe(origin.pos,point,6)
+# WP-137 (Pat, 15 Nov 2026): a decoy breaks a lock that is counting down. 'Reach' is the Siren hearing the decoy's
+# transmission by the same rule that sends an unalerted Siren to a heard noise (_heard_arrival / the legacy hearing test).
+func decoy_noise(point:Vector2,band:int=1) -> Dictionary:
+	return {"band":band,"pos":point,"radius":Tuning.DECOY_NOISE,"time":Tuning.DECOY_TIME,"label":Names.NOISE_DECOY}
+func siren_hears_decoy(s:Dictionary,noise:Dictionary) -> bool:
+	if mission.get("acoustic_revision",0)==1:
+		return not Acoustics.choose(Thermal.arrivals(self,s,noise.pos,noise.radius*Recon.readiness(s)*Sweeper.ear(s)*Depth.transmission(s,noise),noise),int(s.patrol)).is_empty()
+	var acoustic=1.0 if line_clear(s.pos,noise.pos) else 0.36
+	return s.pos.distance_to(noise.pos)<noise.radius*acoustic*Sweeper.ear(s)*Depth.transmission(s,noise)
+# The Sirens with a lock counting down on a craft (beam not yet fired) that hear a decoy dropped at the point.
+func decoy_lock_breakers(point:Vector2,band:int=1,only_target:int=-1) -> Array:
+	var noise:=decoy_noise(point,band);var out:Array=[]
+	for i in sirens.size():
+		var s=sirens[i]
+		if s.get("stun",0.0)>0 or s.get("recipient_target",false) or int(s.get("target",-1))<0 or float(s.get("lock",0.0))<=0.0 or float(s.lock)>=lock_seconds():continue
+		if only_target>=0 and int(s.target)!=only_target:continue
+		if siren_hears_decoy(s,noise):out.append(i)
+	return out
+# A drop point in reach of a craft that would draw the Siren off its lock, or Vector2.INF. Candidates: eight bearings at
+# the full decoy range and at half of it, farthest from the Siren first (a fixed order, so a seed always answers the same).
+func decoy_lock_point(craft:int,siren_id:int) -> Vector2:
+	if craft<0 or craft>=units.size() or siren_id<0 or siren_id>=sirens.size():return Vector2.INF
+	var u=units[craft];var best:=Vector2.INF;var best_gap:=-1.0
+	for radius in [DECOY_RANGE,DECOY_RANGE*.5]:
+		for k in 8:
+			var point:Vector2=u.pos+Vector2.from_angle(TAU*k/8.0)*radius
+			if not decoy_point_ok(craft,point) or not (siren_id in decoy_lock_breakers(point,u.band,craft)):continue
+			var gap:float=point.distance_to(sirens[siren_id].pos)
+			if gap>best_gap+0.001:best=point;best_gap=gap
+		if best_gap>=0.0:break
+	return best
 func _noise(p: Vector2,radius: float,label: String,duration: float=2.0,band:int=1) -> void:
 	noises.append({"band":band,"pos":p,"radius":radius,"time":duration,"label":label})
-	var pressure={"ACTIVE SONAR":5.0,"DISRUPTION":4.0,"KNOCKDOWN":4.0,"DECOY":4.0,"RECON UPLINK":4.0}.get(label,0.0)
+	var pressure={Names.NOISE_ACTIVE_SONAR:5.0,Names.NOISE_EMP:4.0,Names.NOISE_KNOCKDOWN:4.0,Names.NOISE_DECOY:4.0,Names.NOISE_RECON_UPLINK:4.0}.get(label,0.0)
 	pressure=HuntPressure.action_amount(mission,label,pressure)
 	if pressure>0:Recon.action(mission,pressure,label)
 func courier_feedback() -> Dictionary:
@@ -741,7 +928,7 @@ func acoustic_feedback() -> Dictionary:
 			result.motion.append({"name":u.name,"pos":u.pos,"radius":motion_radius(units.find(u)) if mission.get("acoustic_revision",0)==1 else 430.0,"speed":propulsion_speed(u)})
 	for n in noises:
 		if n.time<=0: continue
-		if n.label in ["DECOY","ACTIVE SONAR","RECON UPLINK","DISRUPTION","CAMERA","KNOCKDOWN","TORPEDO RUN","WARNING CHAIN TRANSMISSION","SERVICE SLUICE MOTOR","RECOVERY WINCH","BERTH RELEASE","BACKUP GENERATOR START","SERVICE SHUTTER","SERVICE WARNING","NORTH MAST WARNING"]:
+		if n.label in [Names.NOISE_DECOY,Names.NOISE_ACTIVE_SONAR,Names.NOISE_RECON_UPLINK,Names.NOISE_EMP,Names.NOISE_CAMERA,Names.NOISE_KNOCKDOWN,Names.NOISE_TORPEDO_RUN,"WARNING CHAIN TRANSMISSION","SERVICE SLUICE MOTOR",Names.NOISE_RECOVERY_WINCH,"BERTH RELEASE","BACKUP GENERATOR START","SERVICE SHUTTER","SERVICE WARNING","NORTH MAST WARNING"]:
 			result.pulses.append({"label":n.label,"pos":n.pos,"time":n.time,"radius":n.radius})
 		elif n.label=="FACTORY RESPONSE" and visible(n.pos):
 			result.responses.append({"label":n.label,"pos":n.pos,"time":n.time})
@@ -754,10 +941,12 @@ func advance(dt: float) -> void:
 func _tick(dt: float) -> void:
 	var hull_origin:Vector2=units[0].pos;var hull_velocity:Vector2=units[0].vel
 	Departure.emit(self)
+	DroneBay.carry(self)
 	elapsed+=dt
 	AllStop.tick(self,dt)
 	Depth.advance(self,dt);Sonar.advance(self,dt); oxygen=maxf(0,oxygen-Endurance.oxygen_drain(mission,dt))
 	Recon.tick(mission,dt)
+	FactorySensors.tick(self,dt)
 	if mission.get("phase","")=="response": mission.response_time=mission.get("response_time",0.0)+dt
 	ping_time=maxf(0,ping_time-dt); recon_time=maxf(0,recon_time-dt)
 	for n in noises: n.time-=dt
@@ -796,7 +985,7 @@ func _tick(dt: float) -> void:
 	Concealed.tick(self,dt)
 	sensor_clock-=dt
 	if sensor_clock<=0:
-		_observe(); SignalField.observe(self); Consequences.observe(self); Photo.discover(self); sensor_clock=0.15
+		_observe(); SignalField.observe(self); Consequences.observe(self); Photo.discover(self); SiteSearch.tick(self); sensor_clock=0.15
 	for station in captures.size():
 		if captures[station].is_empty():continue
 		var work=captures[station];var u=units[station]; _use_band(u.band); var o=Photo.obj(self,work.target)
@@ -817,7 +1006,7 @@ func _tick(dt: float) -> void:
 				var usable=true
 				if Photo.applies(o):
 					var result=Photo.finish(self,station,o);usable=result.usable
-					if not usable:message="%s · exposure unusable: %s · retake from another angle"%[u.name,Photo.missing_text(Photo.frame(self,station,o),o.subject)];Recon.action(mission,3.0,"UNUSABLE EXPOSURE")
+					if not usable:message="%s · exposure unusable: %s · retake from another angle"%[u.name,str(result.shot.get("why",Photo.missing_text(Photo.frame(self,station,o),o.subject)))];Recon.action(mission,3.0,"UNUSABLE EXPOSURE") # WP-113: the message gives the same plain reason the camera panel shows (WP-124: the comment had swallowed Recon.action, so an unusable frame cost no Hunt)
 				u.hold=""; captures[station]={}
 				if usable:o.captured=true
 				if not usable:pass
@@ -832,7 +1021,7 @@ func _tick(dt: float) -> void:
 			events.append({"type":"return_received","receiver":0,"direction":direction,"identity":"return","time":elapsed})
 	_well_signature_observe()
 	_use_band(units[selected].band)
-	if not units[selected].alive:
+	if DroneBay.lost(units[selected]):
 		selected=0; queue_mode=false; message="Drone lost · Quietus selected · SAMPLE remains available." if mission.get("blackwater_revision",0)==1 else "Drone lost · Quietus command restored. Submarine camera remains available."
 	if oxygen<=0: outcome="lost"; message="Life support exhausted. The archive is silent."
 	if hull<=0:
@@ -1030,14 +1219,19 @@ func _observe() -> void:
 			if known.get(cell,false)==true:continue
 			if visible(Vector2(cell)*TILE+Vector2.ONE*TILE/2):known[cell]=true
 	else:
+		# A4: same cells in the same order as the full 24x40 scan. A cell outside
+		# every live craft's reach square cannot pass visible() unless a legacy
+		# survey is running (it shows the whole map), so those cells are skipped.
+		var reach=[] if recon_time>0 else WorldRegion.reach_squares(self)
 		for y in 24:
 			for x in 40:
 				if known.get(Vector2i(x,y),false)==true:continue
 				var p=Vector2(x*40+20,y*40+20)
+				if recon_time<=0 and not WorldRegion.in_reach(reach,p):continue
 				if visible(p): known[Vector2i(x,y)]=true
 	for i in sirens.size():
 		if contact_visible(sirens[i]):
-			contacts[i]={"pos":sirens[i].pos,"time":elapsed,"mode":sirens[i].mode,"lock":sirens[i].lock,"angle":sirens[i].angle,"target":sirens[i].target,"type":sirens[i].get("type","patroller"),"band":sirens[i].band,"transition":sirens[i].transition.duplicate(),"source":"optical","confidence":1.0}
+			contacts[i]={"pos":sirens[i].pos,"time":elapsed,"mode":sirens[i].mode,"lock":sirens[i].lock,"angle":sirens[i].angle,"target":sirens[i].target,"type":sirens[i].get("type",Names.ROLE_PATROLLER),"band":sirens[i].band,"transition":sirens[i].transition.duplicate(),"source":"optical","confidence":1.0}
 			contacts[i]["seen_by"]=passive_receivers(sirens[i].pos,sirens[i].band)
 			if mission.get("thermal_revision",0)==1:
 				for occupied_band in Depth.occupied(sirens[i]):
@@ -1123,7 +1317,7 @@ func _advance_projectiles(dt: float) -> void:
 			continue
 		p.pos=next; p.noise_clock=maxf(0,p.noise_clock-dt)
 		if p.noise_clock<=0:
-			_noise(p.pos,430,"TORPEDO RUN",0.25,p.band); p.noise_clock=0.2
+			_noise(p.pos,430,Names.NOISE_TORPEDO_RUN,0.25,p.band); p.noise_clock=0.2
 func _threats(dt: float) -> bool:
 	var vaporized=false # Per-tick terminal cause survives other actors' messages.
 	var observations=[];var fresh=[];var distractions=[]
@@ -1137,22 +1331,28 @@ func _threats(dt: float) -> bool:
 		if s.get("pin_time",0)>0: s.pin_time=maxf(0,s.pin_time-dt)
 		if s.stun>0:
 			s.stun-=dt; s.lock=0.0; s.target=-1
+			# WP-125: when an EMP stun runs out, no new lock for emp_lock_grace() seconds.
+			if s.stun<=0 and s.get("emp_hit",false):s.erase("emp_hit");s["lock_grace"]=emp_lock_grace()
 			s.erase("recipient_target")
 			s.mode="PINNED" if s.get("pin_time",0)>0 else "DISRUPTED"
 			observations.append(-1);fresh.append(false);distractions.append(false)
 			continue
+		var lock_grace:bool=float(s.get("lock_grace",0.0))>0.0 # WP-125: no new lock while the post-EMP grace runs
+		if lock_grace:s["lock_grace"]=maxf(0.0,float(s.lock_grace)-dt)
 		var detected := -1
 		var heard := false
 		var distraction := false
 		var craft_heard := false # Presentation provenance only; never changes hearing.
+		var drawn:float=float(s.get("decoy_draw",0.0)) # WP-137: a Siren drawn off a lock by a decoy does not re-acquire by sight while it sounds
+		if drawn>0.0:s["decoy_draw"]=maxf(0.0,drawn-dt)
 		s["attention_time"]=maxf(0.0,float(s.get("attention_time",0.0))-dt)
 		for i in units.size():
 			var u=units[i]
 			if not u.alive: continue
 			var dist=s.pos.distance_to(u.pos)
 			var radius=(180.0 if u.silent else 290.0)*HuntPressure.sight(mission,s,Recon.readiness(s))
-			if dist<radius and Depth.sight(self,s,u): detected=i; break
-			if mission.get("acoustic_revision",0)!=1 and propulsion_speed(u)>50 and dist<430*Recon.readiness(s)*Sweeper.ear(s)*Depth.transmission(s,u) and Depth.clear(self,s.pos,u.pos,s.band):
+			if dist<radius and drawn<=0.0 and Depth.sight(self,s,u) and not DroneStealth.ignores(self,s,i): detected=i; break
+			if mission.get("acoustic_revision",0)!=1 and propulsion_speed(u)>50 and dist<430*Recon.readiness(s)*Sweeper.ear(s)*Depth.transmission(s,u)*DroneStealth.noise(self,i) and Depth.clear(self,s.pos,u.pos,s.band):
 				s.goal=u.pos; heard=true; craft_heard=true; distraction=i>0; s.mode="INVESTIGATE"; s.suspicion=maxf(s.suspicion,0.3)
 		var recipient=Choir.body(self) if not Choir.body(self).is_empty() else Recipient.body(self);var recipient_seen=false
 		if detected<0 and not recipient.is_empty() and recipient.alive and s.pos.distance_to(recipient.pos)<180.*HuntPressure.sight(mission,s,Recon.readiness(s)) and Depth.sight(self,s,recipient):recipient_seen=true
@@ -1168,7 +1368,7 @@ func _threats(dt: float) -> bool:
 			for noise in noises:
 				var acoustic=1.0 if line_clear(s.pos,noise.pos) else 0.36
 				if s.pos.distance_to(noise.pos)<noise.radius*acoustic*Sweeper.ear(s)*Depth.transmission(s,noise):
-					distraction=noise.label=="DECOY"
+					distraction=noise.label==Names.NOISE_DECOY
 					craft_heard=noise.label in NoticeSources.CRAFT_EMISSIONS
 					s.goal=noise.pos; heard=true; s.mode="INVESTIGATE"; s.suspicion=maxf(s.suspicion,0.45)
 		if heard:
@@ -1186,14 +1386,16 @@ func _threats(dt: float) -> bool:
 			else: _visual_pursuit(s,victim.pos,dt)
 			if s.route.is_empty(): s.angle=rotate_toward(s.angle,s.pos.angle_to_point(victim.pos),1.8*dt)
 			var previous_lock:float=s.lock
-			s.target=detected; s.goal=victim.pos; s["last_known"]=s.goal; s["attention_time"]=Sweeper.attention(s); s["search_index"]=0; s.lock+=dt; s.suspicion=minf(1,s.suspicion+dt*0.3); s.mode="LOCKING" if s.lock<4 else "BEAM"
-			if s.lock>=4:
-				if previous_lock<4: events.append({"type":"beam","pos":victim.pos})
+			s.target=detected; s.goal=victim.pos; s["last_known"]=s.goal; s["attention_time"]=Sweeper.attention(s); s["search_index"]=0; s.suspicion=minf(1,s.suspicion+dt*0.3)
+			if lock_grace:s.lock=0.0;s.mode="INVESTIGATE"
+			else:s.lock+=dt;s.mode="LOCKING" if s.lock<lock_seconds() else "BEAM"
+			if s.lock>=lock_seconds():
+				if previous_lock<lock_seconds(): events.append({"type":"beam","pos":victim.pos})
 				if recipient_seen:
 					if Choir.applies(mission):Choir.damage(self,dt*18)
 					else:Recipient.damage(self,dt*18)
 				elif detected==0: hull=0.0; outcome="lost";vaporized=true; message=VAPORIZED_TEXT; events.append({"type":"loss","pos":victim.pos})
-				else: units[detected].alive=false; s.lock=0; events.append({"type":"loss","pos":units[detected].pos}); message="%s lost · submarine camera remains available"%units[detected].name
+				else: units[detected].alive=false; s.lock=0; events.append({"type":"loss","pos":units[detected].pos,"siren":sirens.find(s)}); message="%s lost · submarine camera remains available"%units[detected].name
 		else:
 			s.erase("recipient_target")
 			s.target=-1; s.lock=maxf(0,s.lock-dt*3); s.suspicion=maxf(float(s.get("alert_floor",0)),s.suspicion-dt*0.015)
@@ -1213,7 +1415,7 @@ func _threats(dt: float) -> bool:
 							s.mode="SEARCH" if s.suspicion>0.1 else "PATROL"; s.route=_patrol_route(s)
 					s.path_time=2.0
 		var speed=48.0 if s.suspicion>0.1 else 25.0
-		if s.get("type","")=="hunter": speed=38.0 if s.mode in ["RETURN","DORMANT"] else 64.0
+		if s.get("type","")==Names.ROLE_HUNTER: speed=38.0 if s.mode in ["RETURN","DORMANT"] else 64.0
 		speed=Sweeper.speed(s,speed)
 		speed*=1.0+float(s.get("alert_floor",0))*.2
 		_move(s,dt,speed,false,false)
@@ -1228,23 +1430,26 @@ func _heard_arrival(s:Dictionary)->Dictionary:
 	# Never consult player contacts or a hidden exact destination. A listener
 	# receives only supported water-path arrivals; visual acquisition stays separate.
 	var best:Dictionary={}
-	var recipient=Choir.body(self) if not Choir.body(self).is_empty() else Recipient.body(self)
+	var choir_body=Choir.body(self)
+	var recipient=choir_body if not choir_body.is_empty() else Recipient.body(self)
 	if not recipient.is_empty() and recipient.alive and recipient.vel.length()>1:
 		var arrival=Acoustics.choose(Thermal.arrivals(self,s,recipient.pos,recipient.vel.length_squared()*.12*Recon.readiness(s)*Sweeper.ear(s)*Depth.transmission(s,recipient),recipient),int(s.patrol))
 		if not arrival.is_empty():best=arrival;best["suspicion"]=0.3
-	for u in units:
+	# A4: the craft's own index, not a search of the list for it.
+	for unit_id in units.size():
+		var u=units[unit_id]
 		if not u.alive:continue
-		var arrival=Acoustics.choose(Thermal.arrivals(self,s,u.pos,motion_radius(units.find(u))*Recon.readiness(s)*Sweeper.ear(s)*Depth.transmission(s,u),u),int(s.patrol))
+		var arrival=Acoustics.choose(Thermal.arrivals(self,s,u.pos,motion_radius(unit_id)*Recon.readiness(s)*Sweeper.ear(s)*Depth.transmission(s,u),u),int(s.patrol))
 		if not arrival.is_empty() and (best.is_empty() or arrival.strength>best.strength):
-			best=arrival;best["suspicion"]=0.3;best["player_craft"]=true;best["distraction"]=units.find(u)>0
+			best=arrival;best["suspicion"]=0.3;best["player_craft"]=true;best["distraction"]=unit_id>0
 	for noise in noises:
-		if noise.label in ["BUOY REPORT WINDUP","RELAY FORWARD","INTERCEPTOR WINDUP","WARDEN CHARGE","WARDEN PRESSURE"]:continue
+		if noise.label in Names.SIREN_NOISES:continue
 		var arrival=Acoustics.choose(Thermal.arrivals(self,s,noise.pos,noise.radius*Recon.readiness(s)*Sweeper.ear(s)*Depth.transmission(s,noise),noise),int(s.patrol))
 		if not arrival.is_empty() and (best.is_empty() or arrival.strength>best.strength):
 			best=arrival;best["suspicion"]=0.45;best["pulse"]=true;best["player_craft"]=noise.label in NoticeSources.CRAFT_EMISSIONS
-			best["distraction"]=noise.label=="DECOY"
+			best["distraction"]=noise.label==Names.NOISE_DECOY
 			if noise.has("record"):best["record"]=noise.record
-			if noise.label in ["ACTIVE SONAR","ACTIVE SWEEP"] and arrival.direct:best["band"]=noise.get("band",1)
+			if noise.label in [Names.NOISE_ACTIVE_SONAR,"ACTIVE SWEEP"] and arrival.direct:best["band"]=noise.get("band",1)
 	return best
 
 func _visual_pursuit(s: Dictionary,target: Vector2,dt: float) -> void:
@@ -1262,7 +1467,7 @@ func _station_intent(s: Dictionary,heard: bool,dt: float) -> void:
 	# v7 station roles react to evidence, then return. Tether is conditional,
 	# never an invisible wall that defeats a currently heard lure or visual lock.
 	var outside=s.pos.distance_to(s.home)>float(s.get("tether",190.0))
-	var returning=s.get("attention_time",0.0)<=0 or (s.get("type","")=="sentinel" and outside and not heard)
+	var returning=s.get("attention_time",0.0)<=0 or (s.get("type","")==Names.ROLE_SENTINEL and outside and not heard)
 	if returning:
 		s["attention_time"]=0.0; s.goal=s.home
 		s.mode="DORMANT" if s.pos.distance_to(s.home)<15 else "RETURN"
@@ -1333,7 +1538,7 @@ func wake_context()->Dictionary:return Wake.context(self)
 func snapshot() -> Dictionary:
 	mission["depth_charts"]={}
 	for band in [0,2]:mission.depth_charts[band]=depth_charts[band].snapshot()
-	var data={"sonar":sonar.duplicate(true),"mission":mission.duplicate(true),"units":units.duplicate(true),"sirens":sirens.duplicate(true),"known":known.duplicate(true),"contacts":contacts.duplicate(true),"noises":noises.duplicate(true),"elapsed":elapsed,"oxygen":oxygen,"hull":hull,"paused":paused,"selected":selected,"tools":tools.duplicate(),"outcome":outcome,"ping_time":ping_time,"ping_origin":ping_origin,"recon_time":recon_time,"captures":captures.duplicate(true)}
+	var data={"sonar":sonar.duplicate(true),"mission":mission.duplicate(true),"units":units.duplicate(true),"sirens":sirens.duplicate(true),"known":known.duplicate(true),"contacts":contacts.duplicate(true),"noises":noises.duplicate(true),"elapsed":elapsed,"oxygen":oxygen,"hull":hull,"paused":paused,"selected":selected,"tools":tools.duplicate(),"outcome":outcome,"ping_time":ping_time,"ping_origin":ping_origin,"recon_time":recon_time,"captures":captures.duplicate(true),"sensor_clock":sensor_clock} # sensor_clock: a restored dive senses on the same beat as the one that was saved
 	if not correlation.is_empty():data["correlation"]=correlation.duplicate(true)
 	if not projectiles.is_empty(): data["projectiles"]=projectiles.duplicate(true)
 	return data
@@ -1343,7 +1548,7 @@ func restore(data: Dictionary) -> bool:
 	correlation=data.get("correlation",{}).duplicate(true)
 	mission=data.mission.duplicate(true); units=data.units.duplicate(true); sirens=data.sirens.duplicate(true); known=data.known.duplicate(true); contacts=data.get("contacts",{}).duplicate(true); noises=data.get("noises",[]).duplicate(true); projectiles=data.get("projectiles",[]).duplicate(true)
 	elapsed=float(data.get("elapsed",0)); oxygen=float(data.get("oxygen",100)); hull=float(data.get("hull",100)); selected=clampi(int(data.get("selected",0)),0,2); tools=data.tools.duplicate(); outcome=data.get("outcome",""); paused=true; queue_mode=false
-	ping_time=data.get("ping_time",0.0); ping_origin=data.get("ping_origin",Vector2.ZERO); recon_time=data.get("recon_time",0.0); captures=data.captures.duplicate(true); accumulator=0.0
+	ping_time=data.get("ping_time",0.0); ping_origin=data.get("ping_origin",Vector2.ZERO); recon_time=data.get("recon_time",0.0); captures=data.captures.duplicate(true); accumulator=0.0; sensor_clock=clampf(float(data.get("sensor_clock",0.0)),0.0,0.15) if is_finite(float(data.get("sensor_clock",0.0))) else 0.0
 	_build_navigation(); _configure_terrain(); _configure_depth_charts(); message="Mission restored · paused for review"; return true
 
 static func valid_snapshot(data: Dictionary) -> bool:
@@ -1422,6 +1627,7 @@ static func valid_snapshot(data: Dictionary) -> bool:
 				if not (p[key] is float or p[key] is int) or not is_finite(p[key]): return false
 			if p.life<=0 or p.life>TORPEDO_LIFE or p.noise_clock<0 or p.noise_clock>0.201: return false
 	if data.units.size()!=3 or not data.tools.has_all(["emp","decoy","recon"]): return false
+	if not DroneBay.valid(data.units): return false
 	# 070: existing expedition resupply can carry more charges; physical projectile
 	# limits remain above. ModeActive also validates the actual ledger budget.
 	var knock_cap=FieldTools.stock_cap(data.mission,2)
@@ -1473,7 +1679,11 @@ func has_live_contact() -> bool:
 
 func _record_secured(record: Dictionary,unit_id:int=-1) -> void:
 	_record_secured_core(record,unit_id)
-	if not record.has("siren"):message+=GradeOnSecure.note(record)
+	if not record.has("siren"):message+=GradeOnSecure.note(record,_better_frame_hint(record,unit_id))
+# What would raise this record's frame: the viewfinder's own hint for the craft that took it.
+func _better_frame_hint(record:Dictionary,unit_id:int)->String:
+	if unit_id<0 or unit_id>=units.size() or not record.has("subject") or not Photo.applies(record):return ""
+	return FrameForecast.hint(Photo.frame(self,unit_id,record,0.0),Pricing.readout(self,unit_id,record))
 func _record_secured_core(record: Dictionary,unit_id:int=-1) -> void:
 	if record.has("siren"):
 		# A Siren study is film, not a charted record: it never advances an operation's own record logic.

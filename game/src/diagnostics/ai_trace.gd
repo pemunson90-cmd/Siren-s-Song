@@ -1,4 +1,5 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 # Phase G read-only AI state trace for tests and debugging. Mirrors NoticeTracker:
 # observes a Simulation, never writes to it, never touches saves or detection.
 # Flag: AITraceTable.enabled (default false). Callers drive it: attach once, then call
@@ -76,7 +77,7 @@ static func _cause(from:String,to:String,s:Dictionary,sim,noticed:bool)->String:
  if to=="INVESTIGATE":
   if s.has("report_interest"):return "report"
   var label:String=_noise_label(s,sim)
-  if label.contains("DECOY"):return "decoy"
+  if label.contains(Names.NOISE_DECOY):return "decoy"
   return "sound:"+label if label!="" else ("sound" if noticed else "heard")
  if from in Table.STUNNED:return "stun_end"
  if from in Table.LOCKISH:return "lost_target"

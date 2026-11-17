@@ -52,6 +52,18 @@ static func _disk(result:Dictionary,origin:Vector2,radius:float,cells:Vector2i)-
   for x in range(maxi(0,low.x),mini(cells.x,high.x+1)):
    var cell=Vector2i(x,y)
    if (Vector2(cell)*TILE+Vector2.ONE*TILE/2).distance_squared_to(origin)<radius*radius:result[cell]=true
+# A4: one [position, passive range] pair per live craft. in_reach() is a cheap
+# superset of the distance test inside Simulation.visible(): a point outside
+# every square is farther than that craft's range, so visible() would refuse it.
+static func reach_squares(sim)->Array:
+ var out=[]
+ for i in sim.units.size():
+  if sim.units[i].alive:out.append([sim.units[i].pos,sim.passive_range(i)])
+ return out
+static func in_reach(squares:Array,point:Vector2)->bool:
+ for s in squares:
+  if absf(point.x-s[0].x)<=s[1] and absf(point.y-s[0].y)<=s[1]:return true
+ return false
 static func survey_visible(sim,point:Vector2)->bool:
  if sim.recon_time<=0:return false
  if not sim.mission.has("world_size"):return true

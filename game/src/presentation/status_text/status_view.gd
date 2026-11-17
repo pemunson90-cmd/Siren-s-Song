@@ -71,7 +71,9 @@ static func _free_back(hud,area:Rect2,rects:Array)->Rect2:
   return rect
  return Rect2()
 static func fit(hud)->void:
- if hud.has_meta(GRID):hud.remove_meta(GRID)
+ # WP-130: rows that were list buttons go back to the wheel's flat segments when the list gives way to the wheel.
+ var was_grid:bool=hud.has_meta(GRID)
+ if was_grid:hud.remove_meta(GRID)
  if not Table.enabled or not Layout.enabled or not hud.host.advanced_orders:return
  var visible=_area(hud)
  if hud.page in ["inspect","signals","recovery","order_help"]:
@@ -81,12 +83,16 @@ static func fit(hud)->void:
  if buttons.is_empty():return
  if hud.text_scale>=1.5:
   fit_grid(hud,visible);return
+ if was_grid:
+  for b in hud.ring_buttons:hud.flat_look(b)
  var r:float=hud.ring_radius
  var original=_rects(buttons,hud.center,Vector2.ONE*r)
  var reserved=hud.threat_rects()
- if original.any(func(rect):return reserved.any(func(block):return block.intersects(rect))) or reserved.any(func(block):return block.intersects(hud.close_button.get_rect())):
-  fit_grid(hud,visible);return
- var needs=_intersects(original) or original.any(func(rect):return not visible.encloses(rect)) or not visible.encloses(hud.close_button.get_rect())
+ # WP-50: a card over the wheel (the lock card beside a wheel at the screen edge) no longer sends the wheel straight
+ # to the dock: the search below keeps the wheel under the threat floor, squeezed into an ellipse if it must, and
+ # only a wheel that cannot fit anywhere becomes the dock.
+ var covered=original.any(func(rect):return reserved.any(func(block):return block.intersects(rect))) or reserved.any(func(block):return block.intersects(hud.close_button.get_rect()))
+ var needs=covered or _intersects(original) or original.any(func(rect):return not visible.encloses(rect)) or not visible.encloses(hud.close_button.get_rect())
  if not needs:
   if hud.has_meta(AXES):hud.remove_meta(AXES)
   return
@@ -123,22 +129,23 @@ static func fit_grid(hud,_visible:Rect2)->void:
   hud.order_dock_commands.move_child(b,hud.ring_buttons.find(b)+2)
   b.mouse_filter=Control.MOUSE_FILTER_STOP;b.size_flags_horizontal=Control.SIZE_EXPAND_FILL
   b.custom_minimum_size.x=0
+  hud.dock_look(b)  # WP-130: every tappable row looks like a button
  # Back has its own header target, so even tall composed command labels get
  # the complete dock viewport instead of sharing its height with navigation.
  if hud.close_button.get_parent()!=hud:hud.close_button.reparent(hud,false)
  hud.close_button.position=Vector2(12 if hud.host.pause_button.position.x>hud.size.x/2 else hud.size.x-hud.close_button.size.x-12,12)
  hud.close_button.mouse_filter=Control.MOUSE_FILTER_STOP
  if hud.has_meta(AXES):hud.remove_meta(AXES)
- hud.set_meta(GRID,true);fit_dock(hud)
+ hud.set_meta(GRID,true);hud.segments.sync(hud);fit_dock(hud)  # WP-130: sync re-seats the state lines the new row boxes lost
 static func fit_dock(hud)->void:
  var font=hud.instrument_info.get_theme_font_size("font_size")
- var caption=hud.host.sim.units[hud.host.sim.selected].name+" / "+hud.page.to_upper()
+ var caption=hud.host.sim.units[hud.host.sim.selected].name+" / "+("MORE TOOLS" if hud.page=="field_tools" else "ORDERS" if hud.page=="craft" else hud.page.to_upper().replace("_"," "))  # WP-156: the craft page reads ORDERS (was CRAFT)
  hud.order_dock_context.text=""
  if hud.page=="craft" and hud.host.order_buttons.camera in hud.ring_buttons:
   hud.order_dock_context.text="\n".join(hud.camera_caption())
  if hud.page in ["object","salvage","plant","habitat"]:
   hud.order_dock_context.text=str(hud.subject.get("name","OBJECT"))+"\n"+"\n".join(hud.WorkTask.captions(hud.host.sim,hud.subject))
- if hud.page=="choose":hud.order_dock_context.text=str(hud.subject.get("name","OBJECT"))+"\nCRAFT OR OBJECT?"
+ if hud.page=="choose":caption=hud.Words.choose_prompt(hud.target_choices)  # WP-153: the question alone, not one craft's name over a second heading
  if hud.page=="fleet":hud.order_dock_context.text=str(hud.get_meta(HINT,""))
  hud.order_dock_context.visible=not hud.order_dock_context.text.is_empty()
  hud.order_dock_context.add_theme_font_size_override("font_size",font)

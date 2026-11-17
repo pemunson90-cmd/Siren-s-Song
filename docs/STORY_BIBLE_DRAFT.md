@@ -2,6 +2,8 @@
 
 STATUS: PROVISIONALLY APPROVED by Pat (21 Oct 2026) as working direction. Specifics and aesthetics get a proper pass once the game is feature complete. Defaults chosen for the five decisions: (1) deep thread = drilling crews first, shelf thread = military first; (2) one overt ending marks Quietus harmless-known (OPEN WATER), the other marks it a threat (MARKED); (3) diver ascent-rate rule deferred to a later feature lane; (4) title renames accepted; (5) keep Rill and Nera with new surnames and drilling roles.
 
+> [Correction note, 2026-11-12, added on Pat's decision D-03 B; the line above is unchanged] Default (3) is out of date. Pat later ruled on the diver ascent question: asked "Should carrying survivors slow how fast the sub can change depth? I recommend yes.", Pat answered "For now* Yes*" (provisional), then "Survivor depth change is fine." Source: `docs/USER_DIRECTIVES.md`.
+
 Proposal only. Nothing here enters the game until Pat approves or edits it.
 
 > Precedence (22 Oct): the ratified premise is that Quietus is a military photographic RECON vessel investigating the Sirens (who were here first and built the factory/base). The rescue situation below is what recon discovers and then must respond to; it does not replace the reconnaissance identity. See docs/PHOTO_RECON.md.
@@ -33,6 +35,8 @@ Quietus cannot hurt the Sirens; it can only hide, mask, delay and decide how muc
 | 6 Trench (unbuilt) | 30 and later | Calder Trench | Shut in the well by hand; the full noise budget of everything learned. |
 Sorley's trawler sits as an optional operation in arc 2 or 4. Proposed renames for vocabulary reasons: Lantern Anchorage becomes Lantern Lock, Last Carrier becomes Last Boat Out, Keeper's Cache becomes Range Locker.
 
+> [Correction note, 2026-11-12, D-03 B; the row above is unchanged] Calder Trench is built: operations 32 to 36 in `game/src/campaign/calder_trench_operations.gd`.
+
 ## 4. Recurring characters
 - **Lt. Cmdr. Hanne Okafor**, command voice on the support ship Brannock. Counts air in minutes out loud. Wants every craft home and will order a pull-out over a rescue.
 - **Foreman Dale Rill**, Hollins Field. Refuses to leave until his whole shift is counted. Wants his people out in the order he names, not the order that is quiet.
@@ -62,6 +66,8 @@ Modifiers inside each family: witness_arrival names which craft physically carri
 [KEEL / AI-DESIGNED placeholders, pending Pat ratification] Rescue: "Sorley's boy came home in the sealed pod. His father waited beside the lift." Unresolved: "Sorley's boy was not brought home. No recovered landing is recorded."
 
 [KEEL / AI-DESIGNED] The rescue changes the epilogue and ledger only. It adds no ending-family vote and leaves the thread unchanged. Supplies reward the physical landing, with a better return for a quiet, intact drone rescue.
+
+> [Correction note, 2026-11-12, D-03 B; the paragraph above is unchanged] The reward is pilotage charts, not supplies. Pat, 29 October 2026: "Change the Sorley rescue reward from supplies to pilotage charts?" = "Yes, charts (Recommended)". Source: `docs/USER_DIRECTIVES.md`.
 
 [KEEL / AI-DESIGNED placeholders] Sorley's optional logs: "The boy knows the stern locker. There is air above its window." / "My trawler lies on the wellhead. Look for the stern window, above the screws." / "A sealed pod will fit that window. Bring him back to the south boat."
 

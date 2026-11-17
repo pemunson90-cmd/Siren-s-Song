@@ -16,11 +16,15 @@ static func build(progress,intel,economy:Dictionary={})->Array:
    if not rows.has(row[0]):rows[row[0]]=[]
    rows[row[0]].append(text)
  preload("res://src/campaign/crew/crew.gd").add_people(rows,facts)
- var sorley=preload("res://src/campaign/sorley_rescue.gd").line(progress)
+ # Sorley's boy is listed once the player has heard of him (a recorder log or the rescue), never before.
+ var Sorley=preload("res://src/campaign/sorley_rescue.gd")
+ var sorley=Sorley.line(progress) if Sorley.known(progress) else ""
  if not sorley.is_empty():
   if not rows.has("people"):rows["people"]=[]
   rows.people.append(sorley)
- var counts=_counts(progress,intel)
+ # A campaign with nothing recovered yet has nothing to account for: it is not an old save with missing records.
+ var fresh=done.is_empty()
+ var counts=_counts(progress,intel,fresh)
  rows["knowledge"]=counts+rows.get("knowledge",[])
  preload("res://src/campaign/ledger/authored_closure.gd").add(rows,progress)
  var losses=preload("res://src/campaign/ironman_losses.gd").lines(economy)
@@ -29,7 +33,7 @@ static func build(progress,intel,economy:Dictionary={})->Array:
  if not economy_lines.is_empty():rows["infrastructure"]=rows.get("infrastructure",[])+economy_lines
  var result=[]
  for panel in Table.PANELS:
-  result.append({"id":panel[0],"title":panel[1],"rows":rows.get(panel[0],[Table.NOT_RECORDED])})
+  result.append({"id":panel[0],"title":panel[1],"rows":rows.get(panel[0],[Table.NOTHING_YET if fresh else Table.NOT_RECORDED])})
  return result
 static func _fact_row(row:Array,facts:Dictionary,done:Array,thread:String)->String:
  if not row[4].is_empty() and row[4]!=thread:return ""
@@ -39,7 +43,7 @@ static func _fact_row(row:Array,facts:Dictionary,done:Array,thread:String)->Stri
   line=row[5].get(value,Table.UNKNOWN_VALUE%value.replace("_"," ").left(Table.MAX_VALUE_CHARS)+".")
  elif row[3] not in done:return ""
  return row[1]+": "+line
-static func _counts(progress:Dictionary,intel)->Array:
+static func _counts(progress:Dictionary,intel,fresh:bool=false)->Array:
  var result=[]
  var research=progress.get("research",{})
  if research is Dictionary and research.has("materials") and research["materials"] is Array:
@@ -47,7 +51,7 @@ static func _counts(progress:Dictionary,intel)->Array:
   result.append(Table.ARTIFACT_LINE%[found,8])
   var projects=research.get("projects",[])
   if projects is Array and not projects.is_empty():result.append(Table.PROJECT_LINE%projects.size())
- else:result.append(Table.ARTIFACTS_NOT_RECORDED)
+ else:result.append(Table.ARTIFACT_LINE%[0,8] if fresh else Table.ARTIFACTS_NOT_RECORDED)
  if intel is Dictionary:
   var keys=intel.keys().filter(func(k):return intel[k] is Dictionary and float(intel[k].get("q",0.))>0.)
   if not keys.is_empty():result.append(Table.INTEL_LINE%keys.size())

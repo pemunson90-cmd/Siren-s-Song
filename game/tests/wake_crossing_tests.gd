@@ -1,5 +1,6 @@
 extends SceneTree
 const Sim=preload("res://src/simulation/simulation.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 const Campaign=preload("res://src/campaign/expedition_campaign.gd")
 const Store=preload("res://src/persistence/save_store.gd")
 var checks=0
@@ -15,7 +16,7 @@ func progress()->Dictionary:
  return {"version":2,"route":"deep","routes":["deep"],"facts":{"deep":"Deep branch recovered","rendezvous":"Berthing correction recovered"},"completed":[6,7],"notes":{},"references":{"return_cadence":[.8,1.6,.8]},"entitlements":["quietus_correlator"],"history":[],"selected_thread":""}
 func _initialize():call_deferred("run")
 func run():
- var s=Sim.new();s.start(9,"endurance",{"context":{"references":progress().references},"fitted":{"quietus":"quietus_correlator","drone_a":"","drone_b":""}})
+ var s=Sim.new();s.start(9,"endurance",{"context":{"references":progress().references},"fitted":{"quietus":"quietus_correlator","drone_a":"","drone_b":""}});PlayerDive.launch_drones(s)
  check(s.has_method("wake_context"),"Wake exposes a local one-use diversion context")
  if not s.has_method("wake_context"):finish();return
  check(Sim.valid_snapshot(s.snapshot()),"fresh expanded Wake is a valid current dive")
@@ -52,7 +53,7 @@ func run():
  finish()
 func history_case():
  # Controlled position fixture earns the packet/recovery through runtime commands.
- var s=Sim.new();s.start(9);s.sirens=[]
+ var s=Sim.new();s.start(9);PlayerDive.launch_drones(s);s.sirens=[]
  s.units[0].pos=s.mission.signal_sources[0].pos;s._observe();step(s,.8);s.command("camera");step(s,4.2)
  s.units[0].pos=s.mission.extraction;s.units[0].vel=Vector2.ZERO;step(s,.1)
  check(s.outcome=="won","history fixture carries an actually recovered packet")

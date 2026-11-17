@@ -14,7 +14,9 @@ param(
     [string]$Script = '',
     [string]$Prefix = '',
     [string[]]$GodotArgs = @(),
+    [switch]$Windowed,
     [switch]$Isolate,
+    [switch]$RealUserData,
     [string]$UserDataRoot = '',
     [string]$Log = '',
     [int]$TimeoutSec = 480,
@@ -37,10 +39,16 @@ switch ($Action) {
     }
     'Raw'    { $args2 = @('--headless', '--path', $script:GameDir) + $GodotArgs; $requireSummary = $false; $name = 'raw' }
 }
+# WP-142: render suites (marked 'render' in suites.txt) need a real display; -Windowed drops --headless and opens a
+# window on the GPU, the same launch the critic kit uses.
+if ($Windowed) { $args2 = @($args2 | Where-Object { $_ -ne '--headless' }) + @('--rendering-method', 'gl_compatibility', '--resolution', '1680x720', '--position', '0,0') }
 if ($Action -ne 'Raw' -and $GodotArgs.Count -gt 0) { $args2 += $GodotArgs }
 if (-not $Log) { $Log = Join-Path $script:ArtifactDir "$name.log" }
 $iso = ''
-if ($Isolate) { $iso = New-IsolatedRoot $UserDataRoot }
+# Test runs never write into the game's real save folder: Script and Core are
+# always isolated, and so is anything given -Isolate or -UserDataRoot. Pass
+# -RealUserData to opt out on purpose.
+if (-not $RealUserData -and ($Isolate -or $UserDataRoot -or $Action -in @('Script', 'Core'))) { $iso = New-IsolatedRoot $UserDataRoot }
 
 $sw = [Diagnostics.Stopwatch]::StartNew()
 $code = Invoke-GodotLogged -GodotArgs $args2 -Log $Log -TimeoutSec $TimeoutSec -IsolatedRoot $iso

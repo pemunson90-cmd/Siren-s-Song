@@ -1,7 +1,9 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 # 078 campaign ledger data. Maps saved facts to short lines; rewrite text here only.
 # AI-DESIGNED placeholder text, Pat to rewrite. No new plot: each line restates a saved fact.
 const NOT_RECORDED="not recorded"
+const NOTHING_YET="Nothing yet."	# a panel's only row while no operation has been recovered
 const UNKNOWN_VALUE="recorded as %s"
 const MAX_VALUE_CHARS=24
 const HEAD_SIZE=20
@@ -12,7 +14,7 @@ const PANELS=[["people","PEOPLE"],["knowledge","KNOWLEDGE"],["infrastructure","I
 # [panel, label, fact key, operation that makes the fact expected, thread ("" any), {value: line}]
 # A row shows when its fact is recorded, or when its operation is done and the fact is missing.
 const FACT_ROWS=[
- ["people","Kestrel sailors","witness_arrival",12,"",{"quietus":"landed alive by Quietus.","drone_a":"landed alive by Drone A.","drone_b":"landed alive by Drone B."}],
+ ["people","Kestrel sailors","witness_arrival",12,"",{Names.CRAFT_QUIETUS:"landed alive by Quietus.",Names.CRAFT_DRONE_A:"landed alive by Drone A.",Names.CRAFT_DRONE_B:"landed alive by Drone B."}],
  ["people","Kestrel sailors","warning_arrival",13,"",{"exposed":"taken aboard a launch through the exposed channel.","sheltered":"taken aboard a launch through the sheltered passage."}],
  ["people","Port Ardent watch","concealed_consequence",12,"shelf",{"shelf_service":"six came out through the service approach.","shelf_baffle":"six came out through the baffled entrance."}],
  ["people","Tessaly divers","tessaly_divers",12,"deep",{}],
@@ -25,7 +27,7 @@ const FACT_ROWS=[
  ["infrastructure","Choir line","choir_choice",24,"",{"bypass":"line bypassed.","isolate":"line isolated."}],
  ["infrastructure","Choir plant","choir_plant",29,"",{"reconnect":"plant reconnected.","dismantle":"plant dismantled."}],
  ["disclosure","Confluence","confluence_route",11,"",{"concealed":"kept quiet, nothing broadcast.","overt":"called openly on a surface channel."}],
- ["disclosure","Witness","witness_arrival",12,"",{"quietus":"a rescue craft reached the lift point.","drone_a":"a rescue craft reached the lift point.","drone_b":"a rescue craft reached the lift point."}],
+ ["disclosure","Witness","witness_arrival",12,"",{Names.CRAFT_QUIETUS:"a rescue craft reached the lift point.",Names.CRAFT_DRONE_A:"a rescue craft reached the lift point.",Names.CRAFT_DRONE_B:"a rescue craft reached the lift point."}],
  ["disclosure","Recipient","warning_arrival",13,"",{"exposed":"a launch reached the pickup.","sheltered":"a launch reached the pickup."}]
 ]
 # Counted knowledge rows: each prints only when its saved source exists and the count is positive.

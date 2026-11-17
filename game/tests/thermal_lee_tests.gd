@@ -1,5 +1,6 @@
 extends SceneTree
 const Sim=preload("res://src/simulation/simulation.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 var checks=0
 var failures=0
 func check(ok:bool,label:String):
@@ -7,8 +8,11 @@ func check(ok:bool,label:String):
  if not ok:failures+=1;printerr("FAIL ",label)
 func fixture():
  var s=Sim.new();s.start(3);s.mission.rocks=[];s.mission.structures=[];s._build_navigation();s.units[0].pos=Vector2(860,840);s.units[1].alive=false;s.units[2].alive=false;s.contacts={};s.known={};return s
-func finish():print("THERMAL LEE CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)
+var charts_before=false
+func finish():PlayerDive.known_water(charts_before);print("THERMAL LEE CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)
 func _initialize():
+ # The thermal front is tested against authored water the player rules leave uncharted; this suite is not about discovery, so it uses the developer known-charts switch.
+ charts_before=PlayerDive.known_water(true)
  var s=fixture()
  check(s.mission.get("thermal_revision",0)==1,"fresh Foundry authors a local thermal-front opportunity")
  check(s.has_method("contact_visible"),"contact reception is separate from terrain/optical visibility")

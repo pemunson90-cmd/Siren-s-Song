@@ -8,7 +8,7 @@ const SUCCESS=2
 const LOSS=-2
 # Recovery jobs always remain open. Higher trust opens deeper regional work.
 const CONTRACTS={
-	"brannock_watch":{"faction":"brannock","op":0,"reward":{"scrap":3,"cells":2},"brief":"Photograph the listening station and return the records."},
+	"brannock_watch":{"faction":"brannock","op":0,"reward":{"scrap":3,"cells":2},"brief":"Photograph the signal spire and return the records."},
 	"brannock_deep":{"faction":"brannock","op":3,"standing":2,"reward":{"scrap":6,"cells":3,"alloy":1},"brief":"Recover the deep photographic record."},
 	"hollins_watch":{"faction":"hollins","op":1,"reward":{"scrap":3,"cells":2},"brief":"Bring back a reconnaissance record for the field crews."},
 	"hollins_locks":{"faction":"hollins","op":22,"standing":2,"reward":{"scrap":7,"cells":3,"alloy":1},"brief":"Complete the pressure-lock operation and return."},

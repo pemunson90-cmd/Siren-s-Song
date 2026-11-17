@@ -3,6 +3,7 @@ extends SceneTree
 # Routes are the existing iron_choir_journeys.gd courses replayed on ChallengeRun with its own loadout,
 # rule and live Sirens. Measured numbers feed docs/design/CHALLENGE_PARS_PROPOSAL.md; no par is changed here.
 const R=preload("res://tests/challenge_routes.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 var checks=0
 var failures=0
 func check(ok,label):
@@ -40,9 +41,12 @@ func lung(route:String):
   check(R.course(s,0,[Vector2(2750,500),Vector2(2750,2450),Vector2(300,2450),Vector2(300,2350)]),"lung reconnect account recovers")
  finish(s,"lung_solo",route)
 func _initialize():
+ # Scripted routes through authored water, not discovery tests: known-charts developer switch (the player rules leave this water uncharted).
+ var charts_before=PlayerDive.known_water(true)
  var only=OS.get_cmdline_user_args()
  if only.is_empty() or "stair" in only:stair()
  if only.is_empty() or "dismantle" in only:lung("dismantle")
  if only.is_empty() or "reconnect" in only:lung("reconnect")
+ PlayerDive.known_water(charts_before)
  print("CHALLENGES COMPLETIONS IRON CHECKS ",checks," FAILURES ",failures)
  quit(1 if failures else 0)

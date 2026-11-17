@@ -2,6 +2,7 @@ extends RefCounted
 # Presentation only. Mapping remains available to audio with either art switch off.
 static var enabled=true
 const ArtTable=preload("res://src/presentation/art/art_table.gd")
+const Meta=preload("res://src/campaign/operation_meta.gd")
 # Water modulation, upper/lower light, suspended material, measured floor and stone.
 const STYLES={
  "shelf":{"water":Color("8fc8b2"),"light":Color(.23,.43,.32,.13),"falloff":.11,"dust":Color(.48,.68,.51,.19),"drift":Vector2(1.8,.35),"floor":Color("183e39"),"stone":Color("53675b"),"edge":Color("93aaa0")},
@@ -12,15 +13,8 @@ const STYLES={
  "iron":{"water":Color("b29589"),"light":Color(.44,.27,.17,.10),"falloff":.26,"dust":Color(.68,.43,.29,.23),"drift":Vector2(-.8,1.2),"floor":Color("382e2c"),"stone":Color("67514a"),"edge":Color("b39b83")},
  "calder":{"water":Color("8cab94"),"light":Color(.31,.40,.24,.10),"falloff":.29,"dust":Color(.59,.61,.42,.23),"drift":Vector2(1.0,-1.5),"floor":Color("293b30"),"stone":Color("4e6150"),"edge":Color("a3b092")}
 }
+# Each operation's region is its operation_meta.gd row; unknown IDs fall back to "shelf".
 static func key(mission:Dictionary)->String:
- var id=int(mission.get("id",0))
- if id==6:return "divergence_shelf" if str(mission.get("chosen_route","deep"))=="shelf" else "divergence_deep"
- if id in [7,9,38]:return "divergence_deep"
- if id in [8,10,39]:return "divergence_shelf"
- if id in [11,12,13,40]:return "confluence"
- if (id>=14 and id<=21) or id==37:return "glass"
- if id>=22 and id<=31:return "iron"
- if id>=32 and id<=36:return "calder"
- return "shelf"
+ return Meta.region(int(mission.get("id",0)),str(mission.get("chosen_route","deep")))
 static func style(mission:Dictionary)->Dictionary:
  return STYLES[key(mission)] if enabled and ArtTable.enabled else {}

@@ -5,6 +5,7 @@ const Run=preload("res://src/campaign/challenges/challenge_run.gd")
 const Records=preload("res://src/campaign/challenges/challenge_records.gd")
 const Gear=preload("res://src/equipment/equipment_catalog.gd")
 const Store=preload("res://src/persistence/save_store.gd")
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 var checks=0
 var failures=0
 func check(ok,label):
@@ -18,7 +19,8 @@ func forbidden(s,order,args={}):
 	check(not s.command(order,args) and s.message.begins_with("CHALLENGE"),"challenge explains its blocked "+order)
 	check(s.tools==stock and s.oxygen==oxygen and s.noises==noises,"blocked "+order+" spends no supplies or sound")
 func rule(s,row):
-	s.sirens=[]
+	# EMP needs a Siren inside its radius (Pat, 2026-11-12): the one-charge row keeps one Siren and places it in reach.
+	s.sirens=s.sirens.slice(0,1) if row.rule=="one_tool" else []
 	match row.rule:
 		"no_sonar":
 			for order in ["ping","recon"]:forbidden(s,order)
@@ -31,7 +33,7 @@ func rule(s,row):
 			s.hull=99.;tick(s)
 			check(s.outcome=="lost" and not s.rule_failure.is_empty(),"actual hull loss ends the intact-hull challenge")
 		"no_losses":
-			s.units[1].alive=false;tick(s)
+			PlayerDive.launch_drones(s);s.units[1].alive=false;tick(s) # a launched drone lost in the water
 			check(s.outcome=="lost" and not s.rule_failure.is_empty(),"a launched drone loss ends the no-loss challenge")
 		"middle_only":
 			forbidden(s,"depth",{"band":2})
@@ -39,6 +41,7 @@ func rule(s,row):
 			s.units[0].band=2;tick(s)
 			check(s.outcome=="lost" and not s.rule_failure.is_empty(),"a forbidden occupied band cannot bypass the rule")
 		"one_tool":
+			s.sirens[0].pos=s.units[0].pos+Vector2(120,0)
 			check(s.command("emp"),"the one-charge challenge accepts its first real tool use")
 			forbidden(s,"emp")
 		"quiet_propulsion":

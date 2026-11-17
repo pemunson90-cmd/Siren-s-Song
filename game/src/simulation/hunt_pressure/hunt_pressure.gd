@@ -16,8 +16,7 @@ static func stage(m:Dictionary)->int:
 static func _stage_cause(owned:Dictionary,index:int)->String:
  return "COOLING" if index<int(owned.stage) else (owned.get("cause","ACTIVITY") if owned.get("pending",false) else "TIME")
 static func view_mission(m:Dictionary)->Dictionary:
- var index=stage(m);var id=int(m.get("id",-1))
- var cap:float=Table.CAPS[id] if id>=0 and id<Table.CAPS.size() else 1.
+ var index=stage(m);var cap:float=cap_for(m)
  var on=active(m);var p:Dictionary=m.get("reconnaissance",{})
  var cause:String=m.get("hunt_pressure",{}).get("cause","ACTIVITY")
  var owned:Dictionary=m.get("hunt_pressure",{})
@@ -28,7 +27,14 @@ static func view_mission(m:Dictionary)->Dictionary:
 static func view(sim)->Dictionary:return view_mission(sim.mission)
 static func sight(m:Dictionary,guard:Dictionary,local:float)->float:
  if not active(m) or guard.get("type","") not in Table.ROLES:return local
- return maxf(local,view_mission(m).scale)
+ return maxf(local,scale(m))
+# A4: the sight floor alone, without building the whole view. Same value as view_mission(m).scale.
+static func scale(m:Dictionary)->float:
+ return minf(Table.SCALES[stage(m)],cap_for(m)) if active(m) else 1.
+# The most this operation lets Hunt widen Siren sight.
+static func cap_for(m:Dictionary)->float:
+ var id=int(m.get("id",-1))
+ return Table.CAPS[id] if id>=0 and id<Table.CAPS.size() else 1.
 static func action_amount(m:Dictionary,label:String,legacy:float)->float:
  return float(Table.ACTIONS.get(label,legacy)) if active(m) else legacy
 static func note(m:Dictionary,cause:String)->void:

@@ -10,6 +10,15 @@ var center:Vector2:
  set(value):desired_center=value;_center=value
 var mode="overview"
 var zoom:=1.0
+# Follow magnification is sized from this width when set (the chart minus the camera panel's lane), so the tactical scale does
+# not grow when the chart itself spans the whole screen.
+var follow_width:=0.
+# Width on the right that the open camera panel may cover. Follow centres the craft in the rest, folded or open, so the chart
+# never moves when the panel toggles and the craft is not under it.
+var follow_reserve:=0.
+# WP-129: height at the bottom that the status strip covers. Follow and free view keep the chart (and a craft launched at its
+# bottom edge) above it; overview still fits the whole chart.
+var follow_bottom:=0.
 var scale:=1.0
 var offset:=Vector2.ZERO
 func configure(dimensions:Vector2,bounds:Vector2=WORLD,origin:Vector2=Vector2.ZERO) -> void:
@@ -19,11 +28,15 @@ func _update() -> void:
  if mode=="overview":desired_center=world_size/2;zoom=1.
  # Retain tactical follow magnification, capped so a tall viewport's narrow
  # chart still shows at least 600m across, including the local body and cone.
- if mode=="follow":zoom=minf(maxf(view_size.y/600.,view_size.x/1000.),view_size.x/600.)/fit_scale()
+ var basis:float=follow_width if follow_width>0. else view_size.x
+ if mode=="follow":zoom=minf(maxf(view_size.y/600.,basis/1000.),basis/600.)/fit_scale()
  scale=fit_scale()*zoom
- var half=view_size/(2*scale)
+ var focus:Vector2=_focus()
+ var half=focus/(2*scale)
  _center=Vector2(world_size.x/2 if half.x>=world_size.x/2 else clampf(desired_center.x,half.x,world_size.x-half.x),world_size.y/2 if half.y>=world_size.y/2 else clampf(desired_center.y,half.y,world_size.y-half.y))
- offset=view_origin+view_size/2-_center*scale
+ offset=view_origin+focus/2-_center*scale
+# The area the view is centred in: the whole chart in overview, the chart minus the panel's lane when following or free.
+func _focus() -> Vector2:return view_size-(Vector2.ZERO if mode=="overview" else Vector2(follow_reserve,minf(follow_bottom,view_size.y*.5)))
 func follow(point:Vector2) -> void:
  mode="follow";desired_center=point;_update()
 func fit() -> void:
@@ -32,7 +45,7 @@ func zoom_at(factor:float,anchor:Vector2) -> void:
  var world=to_world(anchor);mode="free"
  var maximum=maxf(4.,maxf(world_size.x/WORLD.x,world_size.y/WORLD.y)*4.)
  zoom=clampf(zoom*factor,1.,maximum);scale=fit_scale()*zoom
- desired_center=world-(anchor-view_origin-view_size/2)/scale;_update()
+ desired_center=world-(anchor-view_origin-_focus()/2)/scale;_update()
 func pan(delta:Vector2) -> void:
  mode="free";desired_center=center-delta/scale;_update()
 # Follow magnification is derived from the viewport, not a saved player choice.

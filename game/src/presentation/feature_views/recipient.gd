@@ -16,4 +16,6 @@ static func build_panel(hud)->void:
   if hud.page=="craft" and not recipient_primary.is_empty():
    hud.host.order_buttons.camera.text="GATE\nCONTROLS" if recipient_primary.subkind=="warning_gate" else "RECIPIENT\nCONTROLS";hud.host.order_buttons.camera.disabled=false
    hud.instrument_info.text=Recipient.detail(sim,recipient_primary)
+  # WP-182: the recipient's label never outlives its job: with another job in reach, or on any other object's wheel, the slot reads its own verb again.
+  elif hud.host.order_buttons.camera.text in ["GATE\nCONTROLS","RECIPIENT\nCONTROLS"]:hud.host.order_buttons.camera.text="CAMERA"
 static func draw(view)->void:Recipient.draw_world(view,view.sim)

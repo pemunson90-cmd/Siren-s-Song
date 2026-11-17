@@ -17,11 +17,7 @@ var prior_sound_suspended=false
 var recorded=false
 var abandoned=false
 func freeze_campaign()->void:
-	prior_mode=campaign_host.process_mode
-	prior_sound_suspended=campaign_host.sound.system_suspended
-	for child in campaign_host.get_children():
-		if child is CanvasItem:prior_visibility.append({"node":child,"visible":child.visible});child.hide()
-	campaign_host.sound.suspend();campaign_host.process_mode=Node.PROCESS_MODE_DISABLED
+	preload("res://src/presentation/mode_host_freeze.gd").freeze(self)
 func _ready()->void:
 	sim=ChallengeRun.new();sim.configure(challenge_id)
 	upgrade=str(sim.definition.loadout);fitted_equipment=Challenges.fitting(sim.definition)
@@ -59,7 +55,7 @@ func _challenge_status()->void:
 	status_label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;status_label.mouse_filter=Control.MOUSE_FILTER_IGNORE
 	status_label.add_theme_font_size_override("font_size",maxi(14,roundi(ui_touch_height*.25*FrontendSettings.text_scale())))
 	for id in unit_buttons.size():
-		if id not in sim.launched:unit_buttons[id].text=["QUIETUS","DRONE A","DRONE B"][id]+"\nASHORE"
+		if id not in sim.launched:unit_buttons[id].text=Names.UNIT_NAMES[id]+"\nASHORE"
 func _unhandled_key_input(event:InputEvent)->void:
 	if event is InputEventKey and event.pressed and event.keycode==KEY_ESCAPE:
 		# Consume before returning: _show_campaign may detach this session.
@@ -71,7 +67,15 @@ func _show_campaign()->void:
 	sim.paused=true;screen="challenge_menu";_clear_menu()
 	_menu_text(sim.definition.title,30);_menu_text(Challenges.description(sim.definition),20)
 	_button(panel_box,"RESUME ATTEMPT",_enter_water,"challenge_resume")
-	_button(panel_box,"END ATTEMPT",func():abandoned=true;_debrief(),"challenge_abandon")
+	_button(panel_box,"END ATTEMPT",_confirm_end,"challenge_abandon")
+	call_deferred("_layout")
+# WP-34: ending a live attempt asks first. KEEP returns to the paused menu untouched.
+func _confirm_end()->void:
+	sim.paused=true;screen="challenge_confirm_end";_clear_menu()
+	_menu_text("END THIS ATTEMPT?",30)
+	_menu_text("The attempt will be recorded as lost.",17)
+	_button(panel_box,"KEEP ATTEMPT",_show_campaign,"challenge_attempt_keep")
+	_button(panel_box,"END ATTEMPT",func():abandoned=true;_debrief(),"challenge_attempt_confirm_end")
 	call_deferred("_layout")
 func _record_result()->void:
 	if DevState.block_debrief(self):return
@@ -91,17 +95,10 @@ func _result_menu()->void:
 	if result.loss:_menu_text(sim.rule_failure if not sim.rule_failure.is_empty() else ("Attempt ended." if abandoned else sim.message),17)
 	else:_menu_text("PARS %d / 3"%ChallengeRecords.pars(sim.definition,result),20)
 	if not str(campaign_host.get_meta("challenge_save_error","")).is_empty():
-		_menu_text("PROGRESS NOT SAVED\nResults are held in this session.\n"+str(campaign_host.get_meta("challenge_save_error","")),17)
-		_button(panel_box,"RETRY SAVE",func():Archive.persist(campaign_host);_result_menu(),"challenge_retry_save")
+		preload("res://src/presentation/frontend/save_error_view.gd").menu_retry(self,"PROGRESS NOT SAVED\nResults are held in this session.\n"+str(campaign_host.get_meta("challenge_save_error","")),17,"RETRY SAVE",func():Archive.persist(campaign_host);_result_menu(),"challenge_retry_save")
 	_button(panel_box,"RETRY CHALLENGE",func():_start_mission(int(sim.definition.op));_enter_water(),"challenge_retry")
 	_button(panel_box,"BACK TO CHALLENGES",_return,"challenge_return")
 	call_deferred("_layout")
 func _return()->void:
 	if not recorded:abandoned=true;_record_result()
-	for item in prior_visibility:
-		if is_instance_valid(item.node):item.node.visible=item.visible
-	campaign_host.process_mode=prior_mode
-	if not prior_sound_suspended:campaign_host.sound.resume()
-	get_parent().remove_child(self)
-	if return_to_list.is_valid():return_to_list.call()
-	queue_free()
+	preload("res://src/presentation/mode_host_freeze.gd").leave(self)

@@ -51,11 +51,12 @@ static func bonus_text(assignment:Dictionary)->String:
 	var row=Table.ROWS[assignment.id]
 	return "+%d CLIENT STANDING"%row.standing if row.standing else Economy.fmt(row.pay)
 static func description(assignment:Dictionary,bonus:String="")->String:
-	if assignment.is_empty():return "OPTIONAL RIDER · NONE"
+	# WP-122: the rider is always on, so the copy names it a bonus challenge and never asks for acceptance.
+	if assignment.is_empty():return "BONUS CHALLENGE · NONE"
 	var condition=Catalog.description({"rule":assignment.id})
 	# The shared rules include all current finite tools; legacy challenge copy names four.
 	if assignment.id=="no_tools":condition="Use no finite tool charges."
 	if assignment.id=="one_tool":condition="Use at most one finite tool charge."
-	return "OPTIONAL RIDER · %s Bonus %s. Failure forfeits only this bonus."%[condition,bonus_text(assignment) if bonus.is_empty() else bonus]
+	return "BONUS CHALLENGE · %s Bonus %s. Failure forfeits only this bonus."%[condition,bonus_text(assignment) if bonus.is_empty() else bonus]
 static func earned(assignment:Dictionary,result:Dictionary)->bool:
 	return Table.enabled and valid(assignment) and not assignment.is_empty() and result.get("assignment",{})==assignment and result.get("passed",false)==true

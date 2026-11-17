@@ -1,4 +1,5 @@
 extends SceneTree
+const PlayerDive=preload("res://tests/fixtures/player_dive.gd")
 var checks=0
 var failures=0
 var folder=""
@@ -14,7 +15,7 @@ func mouse(p:Vector2,down:bool,device:int=InputEvent.DEVICE_ID_EMULATION):
 func tap(p:Vector2):
  await touch(p,true);await mouse(p,true);await touch(p,false);await mouse(p,false);await settle()
 func prepare(g):
- g._start_mission(9);var s=g.sim;s.sirens=[];s.units[1].pos=Vector2(1520,680);s.units[1].vel=Vector2.ZERO;s.command("select",{"unit":1});s.paused=false
+ g._start_mission(9);var s=g.sim;PlayerDive.launch_drones(s);s.sirens=[];s.units[1].pos=Vector2(1520,680);s.units[1].vel=Vector2.ZERO;s.command("select",{"unit":1});s.paused=false
  for n in 60:s.advance(1./60.)
  s.paused=true;s.command("route",{"point":Vector2(1540,700)});s.command("queue")
  g.ocean.focus_craft();g._refresh();await settle()

@@ -42,8 +42,10 @@ func _initialize():
  var partial=Ledger.build({"selected_thread":"deep","completed":[6,7,9,11,12,22],"facts":{"confluence_route":"concealed"}},{})
  check(has_row(partial,"Kestrel sailors: not recorded") and has_row(partial,"Tessaly divers: not recorded"),"missing expected facts say not recorded")
  check(not has_row(partial,"Choir") and not has_row(partial,"Choir people"),"unreached sites print nothing")
- var old_save=Ledger.build({}, {})
- check(old_save.size()==4 and has_row(old_save,"Artifacts recovered: not recorded (of 8)."),"old save renders four panels and unrecorded artifact count")
+ # Nothing recovered yet (a new campaign): counts read zero and empty panels say so, rather than "not recorded".
+ var fresh=Ledger.build({}, {})
+ check(fresh.size()==4 and has_row(fresh,"Artifacts recovered: 0 of 8.") and not has_row(fresh,"not recorded"),"a new campaign renders four panels, zero artifacts and nothing unrecorded")
+ check(fresh[0].rows==[Table.NOTHING_YET] and not has_row(fresh,"Sorley"),"a new campaign lists no people, and never a name the player has not met")
  check(Ledger.build({"facts":"bad","completed":3,"research":7},5).size()==4,"malformed optional fields render four panels")
  check(Ledger.build(null,null).is_empty(),"non-dictionary progress prints nothing")
  var late={"selected_thread":"deep","completed":[18,22,28,29],"facts":{"choir_people":"landed","choir_plant":"dismantle","choir_choice":"weird_value","glass_choice":"sever"}}

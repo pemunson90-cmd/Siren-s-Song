@@ -1,11 +1,12 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 # 119 (audit 091 F3/F5/F13) AI-DESIGNED presentation of the player's chosen work.
 # Reads only public projections (observable sites, own craft, the selected
 # craft's camera context, own capture clocks, observed industrial load).
 # It never issues, reorders or retargets an order and changes no rule.
 const Rules=preload("res://src/campaign/encounters/choir_rules.gd")
-const NAMES=["QUIETUS","DRONE A","DRONE B"]
-const LETTERS=["Q","A","B"]
+const NAMES=Names.UNIT_NAMES
+const LETTERS=Names.UNIT_LETTERS
 static func choice_name(name:String)->String:
 	return "DISCONNECT" if name=="DRILL FEED DISCONNECT" else name
 
@@ -59,6 +60,10 @@ static func object_reason(sim,index:int)->String:
 	if distance>reach:return "%s · %dm / %dm reach"%[label(sim,o),roundi(distance),roundi(reach)]
 	if target>=0 and target<sites.size():return "%s aims at %s · turn or move toward %s"%[action_verb(o),label(sim,sites[target]),label(sim,o)]
 	return str(context.get("text","Not ready"))
+
+# WP-36: true only while some craft is actually working the chosen task (its capture clock runs).
+static func working(sim,task:Dictionary)->bool:
+	return not site(sim,task).is_empty() and sim.capture_at_target(int(task.index)).unit>=0
 
 static func state(sim,task:Dictionary)->String:
 	var o=site(sim,task)

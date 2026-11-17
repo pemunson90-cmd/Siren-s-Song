@@ -1,4 +1,5 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 const OperationsCatalog=preload("res://src/campaign/operation_catalog.gd")
 # Raw exchange records remain with their own receiver until a local handoff.
 # Field evidence is retained immediately; mission delivery has separate custody.
@@ -160,7 +161,7 @@ static func begin(sim,item:String)->bool:
  var c=context(sim,item,sim.selected)
  if not c.ready:sim.message=c.reason;return false
  sim.mission.blackwater_delivery.jobs[sim.selected]={"item":item,"elapsed":0.0};sim.units[sim.selected].hold="HOLD"
- sim._noise(sim.units[sim.selected].pos,520,"RECOVERY WINCH",4,sim.units[sim.selected].band);sim.events.append({"type":"salvage","pos":sim.units[sim.selected].pos,"item":item});sim.message=c.reason;return true
+ sim._noise(sim.units[sim.selected].pos,520,Names.NOISE_RECOVERY_WINCH,4,sim.units[sim.selected].band);sim.events.append({"type":"salvage","pos":sim.units[sim.selected].pos,"item":item});sim.message=c.reason;return true
 static func collect_at(sim,unit:int,pos:Vector2)->void:
  if not applies(sim.mission):return
  var state=sim.mission.blackwater_delivery;var cargo=state.aboard if unit==0 else state.carriers[unit]

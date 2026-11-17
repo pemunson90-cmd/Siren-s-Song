@@ -1,5 +1,6 @@
 extends Control
 # Public chart information only. Revert: remove goal_marker seams in ocean_view.gd.
+const NextStep=preload("res://src/presentation/next_step.gd")
 const STYLE={"margin":16.,"height":42.,"width":210.,"font":16,"step":48.}
 var ocean
 var info:Dictionary={}
@@ -21,14 +22,18 @@ func _process(_dt):
  if ocean==null or ocean.sim==null or not ocean.presenting_mission or not ocean.sim.outcome.is_empty():_clear();return
  var sim=ocean.sim;var goals=ocean.observable_sites().filter(func(site):return not site.get("captured",false) and not site.get("own_origin",false))
  if goals.is_empty():goals=sim.extraction_corridors()
+ # WP-128: the chip points at what the strip's NEXT line names (critic C: it pointed west while the next step lay north-east).
+ if sim.has_method("all_records"):
+  var named:Dictionary=NextStep.step(sim).site
+  if not named.is_empty():goals=[named]
  if goals.is_empty():_clear();return
  var goal=goals[0];var target=ocean.screen_position(goal.pos)
  var bounds=Rect2(Vector2.ONE*STYLE.margin,ocean.size-Vector2.ONE*STYLE.margin*2)
  if bounds.grow(-STYLE.height).has_point(target):_clear();return
  var direction=(target-ocean.size/2).normalized()
- var key:Array=[ocean.size,direction,ocean.ui_blocked_rects]
+ var key:Array=[ocean.size,direction,ocean.ui_blocked_rects,ocean.goal_avoid_rects]
  if key!=_key:
-  _key=[ocean.size,direction,ocean.ui_blocked_rects.duplicate()];_placed=_place(bounds,direction)
+  _key=[ocean.size,direction,ocean.ui_blocked_rects.duplicate(),ocean.goal_avoid_rects.duplicate()];_placed=_place(bounds,direction)
  if _placed==null:_clear();return
  var metres=sim.units[0].pos.distance_to(goal.pos)
  var fresh={"rect":_placed,"distance":metres,"target":goal.pos,"direction":direction,"text":("SEARCH" if goal.get("unknown",false) else "GOAL")+" · %dm"%roundi(metres)}
@@ -51,7 +56,7 @@ func _place(bounds:Rect2,direction:Vector2)->Variant:
  candidates.sort_custom(func(a,b):return a.distance_squared_to(preferred)<b.distance_squared_to(preferred))
  for point in candidates:
   var rect=Rect2(point-half,half*2)
-  if ocean.ui_blocked_rects.any(func(block):return block.intersects(rect.grow(4))):continue
+  if ocean.ui_blocked_rects.any(func(block):return block.intersects(rect.grow(4))) or ocean.goal_avoid_rects.any(func(block):return block.intersects(rect.grow(4))):continue  # WP-168
   return rect
  return null
 func _draw():

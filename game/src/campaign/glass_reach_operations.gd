@@ -1,4 +1,5 @@
 extends RefCounted
+const Names=preload("res://src/names.gd")
 const T=preload("res://src/campaign/encounters/terrain.gd")
 const R=preload("res://src/campaign/encounters/roster.gd")
 const W=preload("res://src/campaign/encounters/work_sites.gd")
@@ -65,9 +66,9 @@ static func _fence(m,key):
  m.objectives=[W.listen(key,TITLES[14].to_upper()+" / RECEIVED ACCOUNT",Vector2(950,420),ACCOUNTS[14])]
  m.corridors=[corridor(Vector2(3300,1760),"EAST REACH RECOVERY")]
  # Order matters to the network fixtures: investigator, buoy, relay first.
- R.add(m,[R.post(Vector2(1640,800),1,180.),R.guard("buoy",Vector2(1700,1000)),R.guard("relay",Vector2(2250,640)),
-  R.guard("patroller",Vector2(1070,760),1,[Vector2(1070,760),Vector2(1500,760),Vector2(1500,600),Vector2(1070,600)]),
-  R.guard("hunter",Vector2(3100,700),0,[Vector2(3100,700),Vector2(2750,560)])])
+ R.add(m,[R.post(Vector2(1640,800),1,180.),R.guard(Names.ROLE_BUOY,Vector2(1700,1000)),R.guard(Names.ROLE_RELAY,Vector2(2250,640)),
+  R.guard(Names.ROLE_PATROLLER,Vector2(1070,760),1,[Vector2(1070,760),Vector2(1500,760),Vector2(1500,600),Vector2(1070,600)]),
+  R.guard(Names.ROLE_HUNTER,Vector2(3100,700),0,[Vector2(3100,700),Vector2(2750,560)])])
 
 # 15 / A tall needle strait. Releasing the west vane silences every buoy for a
 # limited time; DEEP bypasses the vane wall through an eastern channel with its
@@ -88,9 +89,9 @@ static func _strait(m,key):
  m.glass_reach.work_pos=Vector2(800,2380)
  m.corridors=[corridor(Vector2(300,3350),"SOUTH REACH RECOVERY")]
  R.add(m,R.listening_line([Vector2(1000,2250),Vector2(1000,1800),Vector2(1000,1350)],Vector2(1000,820)))
- R.add(m,[R.guard("relay",Vector2(1080,2860)),R.post(Vector2(1450,640),1,170.),
-  R.guard("patroller",Vector2(1250,850),1,[Vector2(1250,850),Vector2(1250,600)]),
-  R.guard("relay",Vector2(1650,1150),2),R.guard("hunter",Vector2(1610,2300),2,[Vector2(1610,2300),Vector2(1590,1500)])])
+ R.add(m,[R.guard(Names.ROLE_RELAY,Vector2(1080,2860)),R.post(Vector2(1450,640),1,170.),
+  R.guard(Names.ROLE_PATROLLER,Vector2(1250,850),1,[Vector2(1250,850),Vector2(1250,600)]),
+  R.guard(Names.ROLE_RELAY,Vector2(1650,1150),2),R.guard(Names.ROLE_HUNTER,Vector2(1610,2300),2,[Vector2(1610,2300),Vector2(1590,1500)])])
 
 # 16 / A clockwise exhaust gyre around six piers and a walled cooling plant.
 # MIDDLE enters the plant only through a sluice that the west intake valve
@@ -109,10 +110,10 @@ static func _drift(m,key):
  m.corridors=[corridor(Vector2(300,300),"NORTH REACH RECOVERY")] # TODO-S3
  m.currents=[{"center":Vector2(1400,760),"radius":700.,"velocity":Vector2(24,0)},{"center":Vector2(2040,1400),"radius":700.,"velocity":Vector2(0,24)},{"center":Vector2(1400,2040),"radius":700.,"velocity":Vector2(-24,0)},{"center":Vector2(760,1400),"radius":700.,"velocity":Vector2(0,-24)}]
  m.thermal_revision=1;m.thermal_fronts=[{"area":Rect2(1760,1050,600,700),"transmission":.45,"close_range":90.}]
- R.add(m,[R.guard("patroller",Vector2(1250,1530),1,[Vector2(1250,1530),Vector2(1560,1450),Vector2(1500,1270),Vector2(1250,1270)]),
-  R.post(Vector2(1900,1150),1,170.),R.guard("buoy",Vector2(520,1100)),R.guard("relay",Vector2(1000,700)),
-  R.guard("sweeper",Vector2(1950,2250),2,Patrols.circuit(16)),
-  R.guard("patroller",Vector2(1550,2000),2,[Vector2(1550,2000),Vector2(1750,2000)])])
+ R.add(m,[R.guard(Names.ROLE_PATROLLER,Vector2(1250,1530),1,[Vector2(1250,1530),Vector2(1560,1450),Vector2(1500,1270),Vector2(1250,1270)]),
+  R.post(Vector2(1900,1150),1,170.),R.guard(Names.ROLE_BUOY,Vector2(520,1100)),R.guard(Names.ROLE_RELAY,Vector2(1000,700)),
+  R.guard(Names.ROLE_SWEEPER,Vector2(1950,2250),2,Patrols.circuit(16)),
+  R.guard(Names.ROLE_PATROLLER,Vector2(1550,2000),2,[Vector2(1550,2000),Vector2(1750,2000)])])
  # 139: a MIDDLE post above the return water sees a bare Quietus crossing west.
  R.add(m,[R.post(Vector2(1124,2093),1,170.)])
 
@@ -132,8 +133,8 @@ static func _archive(m,key):
  m.objectives=[W.listen(key,TITLES[17].to_upper()+" / RECEIVED ACCOUNT",Vector2(2100,380),ACCOUNTS[17])]
  m.glass_reach.artifact=W.cargo("silt_spindle",Vector2(2860,1350),2);m.glass_reach.work_pos=m.glass_reach.artifact.pos
  m.corridors=[corridor(Vector2(240,2180),"WEST REACH RECOVERY"),corridor(Vector2(1600,140),"NORTH REACH RECOVERY","shelf")] # TODO-S3
- R.add(m,[R.guard("buoy",Vector2(2560,1350),2),R.guard("relay",Vector2(2200,1830),2),R.guard("hunter",Vector2(1800,1350),2,[Vector2(1800,1350),Vector2(1800,800),Vector2(1200,850)]),
-  R.guard("patroller",Vector2(2620,340),1,[Vector2(2620,340),Vector2(2680,340),Vector2(2680,280),Vector2(2620,280)]),R.guard("warden",Vector2(1250,330))])
+ R.add(m,[R.guard(Names.ROLE_BUOY,Vector2(2560,1350),2),R.guard(Names.ROLE_RELAY,Vector2(2200,1830),2),R.guard(Names.ROLE_HUNTER,Vector2(1800,1350),2,[Vector2(1800,1350),Vector2(1800,800),Vector2(1200,850)]),
+  R.guard(Names.ROLE_PATROLLER,Vector2(2620,340),1,[Vector2(2620,340),Vector2(2680,340),Vector2(2680,280),Vector2(2620,280)]),R.guard(Names.ROLE_WARDEN,Vector2(1250,330))])
  # 139: a MIDDLE post above the long terrace run sees a bare Quietus pass. The north
  # patrol sits 40m further east so drones crossing at x=2470 do not hinge on its circuit phase.
  R.add(m,[R.post(Vector2(1760,1285),1,170.)])
@@ -152,9 +153,9 @@ static func _anchorage(m,key):
  m.glass_reach.work_pos=Vector2(1400,900)
  m.objectives=[W.listen(key,TITLES[18].to_upper()+" / RECEIVED ACCOUNT",Vector2(1400,900),ACCOUNTS[18])]
  m.corridors=[corridor(Vector2(400,2300),"SOUTH REACH RECOVERY")]
- R.add(m,[R.guard("buoy",Vector2(1120,720)),R.guard("buoy",Vector2(1700,820)),R.guard("relay",Vector2(1400,430)),R.post(Vector2(620,900),1,160.),
-  R.guard("warden",Vector2(2620,1700)),R.guard("sweeper",Vector2(610,1750),2),
-  R.guard("patroller",Vector2(1530,900),1,[Vector2(1530,900),Vector2(1760,900),Vector2(1760,450),Vector2(1530,450)])])
+ R.add(m,[R.guard(Names.ROLE_BUOY,Vector2(1120,720)),R.guard(Names.ROLE_BUOY,Vector2(1700,820)),R.guard(Names.ROLE_RELAY,Vector2(1400,430)),R.post(Vector2(620,900),1,160.),
+  R.guard(Names.ROLE_WARDEN,Vector2(2620,1700)),R.guard(Names.ROLE_SWEEPER,Vector2(610,1750),2),
+  R.guard(Names.ROLE_PATROLLER,Vector2(1530,900),1,[Vector2(1530,900),Vector2(1760,900),Vector2(1760,450),Vector2(1530,450)])])
 
 # 19 / The listening chain: a broken wall with buoy-watched gaps west and east,
 # the anchorage service channel in the centre, and a DEEP-only gap watched by a
@@ -172,11 +173,11 @@ static func _carrier(m,key,prior):
  else:m.structures=[m.glass_reach.gate]
  m.objectives=[W.listen(key,TITLES[19].to_upper()+" / RECEIVED ACCOUNT",Vector2(1600,500),ACCOUNTS[19],6.)]
  m.corridors=[corridor(Vector2(700,2600),"SOUTH REACH RECOVERY"),corridor(Vector2(3000,2600),"EAST REACH RECOVERY","shelf")]
- R.add(m,[R.guard("buoy",Vector2(725,1400)),R.guard("buoy",Vector2(2625,1400)),R.post(Vector2(2150,450),1,170.),
-  R.guard("interceptor",Vector2(800,1000)),R.guard("sweeper",Vector2(1200,1700),2),
-  R.guard("patroller",Vector2(1600,1900),1,[Vector2(1600,1900),Vector2(2600,1800),Vector2(1600,1900),Vector2(700,1800)])])
+ R.add(m,[R.guard(Names.ROLE_BUOY,Vector2(725,1400)),R.guard(Names.ROLE_BUOY,Vector2(2625,1400)),R.post(Vector2(2150,450),1,170.),
+  R.guard(Names.ROLE_INTERCEPTOR,Vector2(800,1000)),R.guard(Names.ROLE_SWEEPER,Vector2(1200,1700),2),
+  R.guard(Names.ROLE_PATROLLER,Vector2(1600,1900),1,[Vector2(1600,1900),Vector2(2600,1800),Vector2(1600,1900),Vector2(700,1800)])])
  # The supplied reporting relay is last: a severed spur removes it.
- if prior!="sever":R.add(m,[R.guard("relay",Vector2(1600,950))])
+ if prior!="sever":R.add(m,[R.guard(Names.ROLE_RELAY,Vector2(1600,950))])
 
 # 20 / A field of prism shards cut into lanes. Stationary interceptors sit at
 # lane ends; their committed bursts reach about400m. The prism lies at the grave.
@@ -192,8 +193,8 @@ static func _grave(m,key):
  m.glass_reach.artifact=W.cargo("prism_core",Vector2(1200,1650),1);m.glass_reach.work_pos=m.glass_reach.artifact.pos
  m.objectives=[W.listen(key,TITLES[20].to_upper()+" / RECEIVED ACCOUNT",Vector2(1200,1480),ACCOUNTS[20])]
  m.corridors=[corridor(Vector2(1200,3020),"SOUTH REACH RECOVERY"),corridor(Vector2(200,2950),"WEST REACH RECOVERY","shelf")] # TODO-S3
- R.add(m,[R.guard("interceptor",Vector2(1200,1040)),R.guard("interceptor",Vector2(1920,2300)),R.guard("interceptor",Vector2(330,2300)),
-  R.guard("warden",Vector2(1200,2250)),R.guard("buoy",Vector2(950,1900)),R.guard("relay",Vector2(1650,2080))])
+ R.add(m,[R.guard(Names.ROLE_INTERCEPTOR,Vector2(1200,1040)),R.guard(Names.ROLE_INTERCEPTOR,Vector2(1920,2300)),R.guard(Names.ROLE_INTERCEPTOR,Vector2(330,2300)),
+  R.guard(Names.ROLE_WARDEN,Vector2(1200,2250)),R.guard(Names.ROLE_BUOY,Vector2(950,1900)),R.guard(Names.ROLE_RELAY,Vector2(1650,2080))])
  # 139: a MIDDLE post off the northern approach sees a bare Quietus enter the field.
  R.add(m,[R.post(Vector2(1520,600),1,170.)])
 
@@ -211,5 +212,5 @@ static func _cache(m,key):
  m.objectives=[W.listen(key,TITLES[21].to_upper()+" / RECEIVED ACCOUNT",Vector2(1600,1060),ACCOUNTS[21]),
   W.machine("glass_21_door","WEST CACHE DOOR",Vector2(980,1120),W.sluice(door),true)] # TODO-S3
  m.corridors=[corridor(Vector2(2500,2560),"SOUTH REACH RECOVERY"),corridor(Vector2(260,260),"NORTH REACH RECOVERY","shelf")] # TODO-S3
- R.add(m,[R.guard("buoy",Vector2(2080,700)),R.post(Vector2(2350,850),1,170.),R.guard("warden",Vector2(700,1150)),
-  R.guard("relay",Vector2(1100,1750),2),R.guard("hunter",Vector2(1250,1700),2,[Vector2(1250,1700),Vector2(1500,2100),Vector2(900,2300)])])
+ R.add(m,[R.guard(Names.ROLE_BUOY,Vector2(2080,700)),R.post(Vector2(2350,850),1,170.),R.guard(Names.ROLE_WARDEN,Vector2(700,1150)),
+  R.guard(Names.ROLE_RELAY,Vector2(1100,1750),2),R.guard(Names.ROLE_HUNTER,Vector2(1250,1700),2,[Vector2(1250,1700),Vector2(1500,2100),Vector2(900,2300)])])

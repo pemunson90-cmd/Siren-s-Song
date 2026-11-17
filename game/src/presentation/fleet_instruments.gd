@@ -1,10 +1,15 @@
 extends Control
+const Names=preload("res://src/names.gd")
 const Operations=preload("res://src/presentation/operation_instruments.gd")
 const Recovery=preload("res://src/presentation/module_recovery_view.gd")
 const WarningChain=preload("res://src/presentation/warning_chain_view.gd")
 const Delivery=preload("res://src/presentation/blackwater_delivery_view.gd")
 const Witness=preload("res://src/presentation/witness_evacuation_view.gd")
 const Ring=preload("res://src/presentation/fleet_ring.gd")
+const Oxygen=preload("res://src/presentation/oxygen_reading.gd")
+const CHIP_ROWS=4.6
+const CHIP_CHART_SHARE=.5
+const PROFILE_WORDS={true:"SILENT",false:"LOUD"}
 # Craft-anchored status; only offscreen craft acquire bounded edge handles.
 var host
 var buttons:Array=[]
@@ -77,8 +82,8 @@ func _activate(id:int):
   if host.sim.selected!=id:host._order("select",{"unit":id})
   host.mission_hud.open("craft",{"kind":"craft","unit":id,"pos":host.sim.units[id].pos})
  else:
+  # WP-129: a tap on an edge chip only selects the craft; the camera keeps its view (FOCUS brings the craft back).
   if host.sim.selected!=id:host._order("select",{"unit":id})
-  host._focus_craft()
 func task(id:int)->String:
  var recovery=Witness.task(host.sim,id)
  if recovery.is_empty():recovery=Recovery.task(host.sim,id)
@@ -90,10 +95,13 @@ func task(id:int)->String:
  return detail
 func status(id:int)->String:
  var sim=host.sim
- var reserve="HULL %d · O₂ %d"%[roundi(sim.hull),roundi(sim.oxygen)] if id==0 else "BAT %d%%"%roundi(sim.units[id].battery)
+ var reserve="HULL %d · O₂ %s"%[roundi(sim.hull),Oxygen.text(sim)] if id==0 else "BAT %d%%"%roundi(sim.units[id].battery)
  var u=sim.units[id];var band=sim.Depth.NAMES[u.band]
  if not u.transition.is_empty():band+=" → "+sim.Depth.NAMES[u.transition.to]+" %.1fs"%u.transition.remaining
- return reserve+" · "+band+"\n"+task(id)
+ # WP-98: the reserves are one whole line; the depth band joins the craft's first task line ("MIDDLE · READY · SILENT · MOTION ~0m").
+ var lines:=task(id).split("\n")
+ lines[0]=band+" · "+lines[0]
+ return reserve+"\n"+"\n".join(lines)
 func _ordinary_task(id:int)->String:
  var sim=host.sim;var u=sim.units[id];var work=sim.capture_feedback(id)
  if work.unit>=0:
@@ -101,7 +109,7 @@ func _ordinary_task(id:int)->String:
   var verb={"receiver":"LISTEN","exchange":"SAMPLE","uplink":"LINK","actuator":"OPERATE"}.get(site.get("kind",""),"PHOTO")
   var operation=Operations.operation(sim,work.target)
   if not operation.is_empty():verb=operation.action
-  if id>0 and site.get("sampler_compatible",false) and sim.equipment_feedback().get("fitted",{}).get("drone_a" if id==1 else "drone_b","")=="drone_sampler":verb="FIELD SAMPLE"
+  if id>0 and site.get("sampler_compatible",false) and sim.equipment_feedback().get("fitted",{}).get(Names.CRAFT_DRONE_A if id==1 else Names.CRAFT_DRONE_B,"")=="drone_sampler":verb="FIELD SAMPLE"
   return "%s %d%% · %s"%[verb,clampi(floori(work.elapsed/maxf(.01,work.duration)*100),0,100),site.name]
  var scout=sim.scout_context(id)
  if scout.state=="stopped":return "SCOUT STOP · "+("BRAKING" if u.vel.length()>2 else "HOLDING")+" · ROUTE KEPT"
@@ -109,7 +117,8 @@ func _ordinary_task(id:int)->String:
  if u.has("chart_stop"):return "CHART STOP · REPLAN"
  if not u.hold.is_empty():return "FLEET GUARD" if u.hold=="CONTACT" else "HOLD · ROUTE KEPT"
  var state="ROUTE %d"%u.route.size() if not u.route.is_empty() else "BRAKING" if u.vel.length()>2 else "READY"
- if id==0:return state+" · MOTION ~%dm"%roundi(sim.motion_radius(id)) if id==sim.selected else state+" · "+("SILENT" if u.silent else "CRUISE")
+ # Quietus states its profile on every chip: SILENT or LOUD (the silent segment's GO SILENT / GO LOUD toggles it).
+ if id==0:return state+" · "+PROFILE_WORDS[bool(u.silent)]+(" · MOTION ~%dm"%roundi(sim.motion_radius(id)) if id==sim.selected else "")
  return state+" · "+("LOW" if u.silent else "OPEN")+" · "+("QUIET42" if u.get("drone_drive","")=="quiet" else "TRANSIT96")
 func _layout_commands():
  var hud=host.mission_hud
@@ -130,7 +139,7 @@ func _layout_commands():
   protected[i]=Rect2(at-turned,turned*2)
  protected.append(host.pause_button.get_rect())
  protected.append_array(hud.threat_rects())
- var top=maxf(h+24,hud.threat_floor())
+ var top=maxf(h+24,hud.threat_floor(false))
  var safe=Rect2(Vector2(12,top),Vector2(maxf(1,host.size.x-24),maxf(1,host.size.y-top-12)))
  var center=Ring.command_center(hud.anchor,safe,half,protected)
  var delta=center-hud.center;hud.center=center
@@ -160,7 +169,9 @@ func refresh(blocked:Array):
   var b=buttons[id];var reading=telemetry[id];var u=sim.units[id];b.visible=visible and u.alive;reading.hide()
   if not b.visible:continue
   var at:Vector2=positions[id];var offscreen=not on_screen[id];var bearing=(at-safe.get_center()).normalized()
-  var box=Ring.edge_rect(at,safe,h,occupied) if offscreen else Rect2(at-Vector2.ONE*h/2,Vector2.ONE*h)
+  # WP-129: an edge chip names its craft and points to it ("DRONE B ↗"), so it is wider than a touch square.
+  var edge_word:=_edge_word(id,bearing);var edge_width:float=h*.9+font.get_string_size(edge_word,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x+16.
+  var box=Ring.edge_rect(at,safe,h,occupied,edge_width) if offscreen else Rect2(at-Vector2.ONE*h/2,Vector2.ONE*h)
   # Keep actual body/site coincidence under the nearest-owner input rule.
   # Only the oversized badge brushing a nearby site needs another position.
   var projected=not offscreen and site_targets.any(func(r):return r.intersects(box) and not r.has_point(at))
@@ -172,10 +183,17 @@ func refresh(blocked:Array):
   if projected:
    var center=Ring.command_center(at,safe,Vector2.ONE*h/2,occupied)
    box=Rect2(center-Vector2.ONE*h/2,Vector2.ONE*h)
-   if occupied.any(func(r):return r.intersects(box.grow(3))):box=Ring.edge_rect(at,safe,h,occupied)
+   if occupied.any(func(r):return r.intersects(box.grow(3))):box=Ring.edge_rect(at,safe,h,occupied,edge_width)
   if not box.has_area():b.hide();continue # FLEET remains available if all edges are occupied.
   occupied.append(box.grow(5))
-  b.position=box.position;b.custom_minimum_size=Vector2.ONE*h;b.size=Vector2.ONE*h;b.text="";b.add_theme_stylebox_override("normal",StyleBoxEmpty.new());b.add_theme_stylebox_override("hover",StyleBoxEmpty.new());b.add_theme_stylebox_override("pressed",StyleBoxEmpty.new());b.add_theme_stylebox_override("focus",StyleBoxEmpty.new())
+  # WP-129: an on-screen craft wears its name beside the craft (above its ring), reserved like the chip itself.
+  var tag_rect:=Rect2()
+  if not offscreen:
+   var tag_size:=font.get_string_size(_tag_word(id,sim),HORIZONTAL_ALIGNMENT_LEFT,-1,maxi(14,roundi(h*.2)))+Vector2(10,5)
+   tag_rect=Rect2(box.get_center()+Vector2(-tag_size.x/2,-h*.5-tag_size.y-2),tag_size)
+   tag_rect.position=tag_rect.position.clamp(viewport.position,viewport.end-tag_rect.size)
+   occupied.append(tag_rect.grow(3))
+  b.position=box.position;b.custom_minimum_size=box.size;b.size=box.size;b.text="";b.add_theme_stylebox_override("normal",StyleBoxEmpty.new());b.add_theme_stylebox_override("hover",StyleBoxEmpty.new());b.add_theme_stylebox_override("pressed",StyleBoxEmpty.new());b.add_theme_stylebox_override("focus",StyleBoxEmpty.new())
   var reserves=Ring.reserves(sim,id,ocean.oxygen_capacity)
   reading.text=status(id);b.tooltip_text=u.name+"\n"+reading.text
   var active=sim.capture_feedback(id).unit>=0 or sim.scout_context(id).state=="stopped" or u.has("chart_stop") or Recovery.active(sim,id) or Delivery.active(sim,id) or WarningChain.connected(sim,id) or Witness.active(sim,id)
@@ -206,13 +224,18 @@ func refresh(blocked:Array):
   var critical=reserves.any(func(r):return r.critical)
   var show_detail=id==sim.selected and (sim.paused or sim.elapsed<detail_until)
   if show_detail or critical:
-   if not show_detail:reading.text=["Q","A","B"][id]+" · "+" · ".join(reserves.filter(func(r):return r.critical).map(func(r):return "%s %d%s"%[r.label,roundi(r.value),"%" if id>0 else ""]))
+   if not show_detail:reading.text=Names.UNIT_LETTERS[id]+" · "+" · ".join(reserves.filter(func(r):return r.critical).map(func(r):return "O₂ %s"%Oxygen.text(sim) if r.label=="O₂" else "%s %d%s"%[r.label,roundi(r.value),"%" if id>0 else ""]))
    var plate=StyleBoxFlat.new();plate.bg_color=Color(.015,.045,.06,.78);plate.set_content_margin_all(8);plate.border_width_bottom=1;plate.border_color=Color("b78565") if critical else Color("4a7779")
    reading.add_theme_stylebox_override("normal",plate);reading.add_theme_font_size_override("font_size",font_size)
    reading.add_theme_color_override("font_color",Color("ffc097") if critical else Color("b6dcd7"))
    var measured=0.
    for line in reading.text.split("\n"):measured=maxf(measured,font.get_string_size(line,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x)
-   var extent=Vector2(minf(measured+20,h*4.6),reading.get_combined_minimum_size().y)
+   # A line wider than the chip wraps onto another line; no word is cut with an ellipsis.
+   # WP-98: the chip may grow to half the chart's width (never under 4.6 touch rows) so a readout line stays whole.
+   var wide:=minf(measured+20,maxf(h*CHIP_ROWS,safe.size.x*CHIP_CHART_SHARE))
+   reading.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;reading.text_overrun_behavior=TextServer.OVERRUN_NO_TRIMMING
+   var wrapped:=font.get_multiline_string_size(reading.text,HORIZONTAL_ALIGNMENT_LEFT,wide-16,font_size,-1,TextServer.BREAK_MANDATORY|TextServer.BREAK_WORD_BOUND|TextServer.BREAK_ADAPTIVE)
+   var extent=Vector2(wide,wrapped.y+16+4)
    var desired=box.position+Vector2(h+10,0)
    var detail_box=Rect2(desired.clamp(safe.position,safe.end-extent),extent)
    var candidates=[detail_box]
@@ -235,15 +258,19 @@ func refresh(blocked:Array):
    if reading.visible:occupied.append(detail_box.grow(5))
   var bounds=box.merge(cue_rect) if cue_rect.has_area() else box
   if reading.visible:bounds=bounds.merge(reading.get_rect())
-  readouts.append({"unit":id,"rect":bounds,"handle_rect":box,"text_rect":reading.get_rect() if reading.visible else Rect2(),"text":reading.text if reading.visible else ["Q","A","B"][id]+" · "+" · ".join(captions),"anchor":at,"offscreen":offscreen,"direction":bearing,"progress":progress,"ring":not offscreen,"reserves":reserves,"cues":cues,"captions":captions,"active":active,"detail_visible":reading.visible})
+  readouts.append({"unit":id,"rect":bounds,"handle_rect":box,"text_rect":reading.get_rect() if reading.visible else Rect2(),"text":reading.text if reading.visible else Names.UNIT_LETTERS[id]+" · "+" · ".join(captions),"anchor":at,"offscreen":offscreen,"direction":bearing,"progress":progress,"ring":not offscreen,"reserves":reserves,"cues":cues,"captions":captions,"active":active,"detail_visible":reading.visible,"tag_rect":tag_rect,"edge_word":edge_word})
   readouts.back().projected=projected
  for reading in readouts:
   # Near-coincident bodies must not masquerade as whichever badge painted last.
   reading.cluster=[]
   for other in readouts:
    if other.unit==reading.unit or (not reading.offscreen and not other.offscreen and reading.anchor.distance_to(other.anchor)<h*.2):reading.cluster.append(other.unit)
-  reading.identity=["Q","A","B"][reading.unit]+(" +%d"%(reading.cluster.size()-1) if reading.cluster.size()>1 else "")
+  reading.identity=Names.UNIT_LETTERS[reading.unit]+(" +%d"%(reading.cluster.size()-1) if reading.cluster.size()>1 else "")
  queue_redraw();progress_layer.queue_redraw()
+# WP-129: an edge chip is wider than its ring; the ring sits at the chip's left end.
+func _ring_center(reading:Dictionary,h:float)->Vector2:
+ var box:Rect2=reading.handle_rect
+ return Vector2(box.position.x+h/2,box.get_center().y) if reading.offscreen else box.get_center()
 func _paint_order()->Array:
  var result=readouts.duplicate();var selected=host.sim.selected
  result.sort_custom(func(a,b):return a.unit<b.unit if (a.unit==selected)==(b.unit==selected) else a.unit!=selected)
@@ -251,12 +278,12 @@ func _paint_order()->Array:
 func _draw():
  var h=host.ui_touch_height if host!=null else 48.;var text_size=maxi(14,roundi(h*.26))
  for reading in _paint_order():
-  var center:Vector2=reading.handle_rect.get_center();var id:int=reading.unit;var selected=id==host.sim.selected;var ink=Color("c0e8df") if selected else Color("8ec3c2")
+  var center:Vector2=_ring_center(reading,h);var id:int=reading.unit;var selected=id==host.sim.selected;var ink=Color("c0e8df") if selected else Color("8ec3c2")
   if reading.get("projected",false):draw_line(reading.anchor,center,Color("476f79"),1.5,true)
   if reading.offscreen:
    draw_style_box(_edge_style(selected),reading.handle_rect)
-   var direction=["→","↘","↓","↙","←","↖","↑","↗"][posmod(roundi(reading.direction.angle()/(PI/4)),8)]
-   _text(["Q","A","B"][id]+" "+direction,center+Vector2(0,-h*.22 if not reading.cues.is_empty() or reading.progress.unit>=0 else -h*.04),text_size,ink)
+   var word_at:Vector2=Vector2(reading.handle_rect.position.x+h*.9+(reading.handle_rect.size.x-h*.9)/2,center.y)  # WP-129: the ring sits at the chip's left, the craft's name and arrow to its right
+   _text(reading.edge_word,word_at+Vector2(0,h*.1),text_size,ink)
   else:
    draw_arc(center,h*.44,0,TAU,64,Color(.01,.045,.055,.7),6,true)
   Ring.draw_gauge(self,center,h*.44,reading.reserves,selected)
@@ -264,10 +291,14 @@ func _draw():
    var representative=host.sim.selected if host.sim.selected in reading.cluster else reading.cluster.back()
    if id==representative:
     if reading.cluster.size()>1:
-     var small=maxi(14,roundi(h*.2));var at=center+Vector2(0,-h*.23);var width=ThemeDB.fallback_font.get_string_size(reading.identity,HORIZONTAL_ALIGNMENT_LEFT,-1,small).x
-     draw_rect(Rect2(at-Vector2(width/2+5,small),Vector2(width+10,small+5)),Color("102e37"));_text(reading.identity,at,small,ink)
+     var small=maxi(14,roundi(h*.2));var tag:Rect2=reading.tag_rect
+     if tag.has_area():
+      var word:=_tag_word(id,host.sim)+" +%d"%(reading.cluster.size()-1);var wide:=maxf(tag.size.x,ThemeDB.fallback_font.get_string_size(word,HORIZONTAL_ALIGNMENT_LEFT,-1,small).x+10)
+      draw_rect(Rect2(tag.get_center().x-wide/2,tag.position.y,wide,tag.size.y),Color("102e37"));_text(word,tag.position+Vector2(tag.size.x/2,small),small,ink)
     else:
-     var badge=center+Vector2(-h*.32,-h*.32);draw_circle(badge,text_size*.7,Color("102e37"));_text(reading.identity,badge+Vector2(0,text_size*.35),text_size,ink)
+     # WP-129: the craft's name (QUIETUS, DRONE A, DRONE B), not a letter, above the craft's ring.
+     var tag:Rect2=reading.tag_rect;var small=maxi(14,roundi(h*.2))
+     if tag.has_area():draw_rect(tag,Color("102e37"));_text(_tag_word(id,host.sim),tag.position+Vector2(tag.size.x/2,small),small,ink)
   for n in reading.cues.size():
    var cue=reading.cues[n] if reading.offscreen else reading.captions[n]
    if reading.offscreen:cue={"DATA":"ABOARD" if id==0 else "RAW","SCOUT BRAKE":"BRAKE","SCOUT HOLD":"SCOUT","CHART STOP":"CHART"}.get(cue,cue)
@@ -275,6 +306,11 @@ func _draw():
   if reading.progress.unit>=0:
    var percent=clampi(floori(reading.progress.elapsed/maxf(.01,reading.progress.duration)*100),0,100)
    _text("%d%%"%percent,center+Vector2(0,h*(.05 if reading.offscreen else .31)),maxi(14,roundi(h*.2)) if reading.offscreen else text_size,ink)
+# WP-129: the craft's name for its chip. A cluster of near-coincident craft wears one chip: "DRONE A +1".
+func _tag_word(id:int,_sim)->String:
+ return Names.UNIT_NAMES[id]
+func _edge_word(id:int,bearing:Vector2)->String:
+ return Names.UNIT_NAMES[id]+" "+["→","↘","↓","↙","←","↖","↑","↗"][posmod(roundi(bearing.angle()/(PI/4)),8)]
 func _text(text:String,at:Vector2,font_size:int,color:Color):
  var font=ThemeDB.fallback_font;var width=font.get_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x
  draw_string_outline(font,at-Vector2(width/2,0),text,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size,5,Color("061820"));draw_string(font,at-Vector2(width/2,0),text,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size,color)
@@ -285,4 +321,4 @@ func _draw_progress():
   var progress=reading.progress
   if progress.unit>=0:
    var fraction=clampf(progress.elapsed/maxf(.01,progress.duration),0,1)
-   progress_layer.draw_arc(reading.handle_rect.get_center(),host.ui_touch_height*.5,-PI/2,-PI/2+TAU*fraction,64,Color("e9cb8c"),3,true)
+   progress_layer.draw_arc(_ring_center(reading,host.ui_touch_height),host.ui_touch_height*.5,-PI/2,-PI/2+TAU*fraction,64,Color("e9cb8c"),3,true)
