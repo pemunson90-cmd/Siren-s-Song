@@ -1,13 +1,13 @@
 # NOW: what the root session is doing
 
 Status: LIVE NOTE (rewritten before every step; if a session died, this is the step it died in)
-Updated: 2026-11-16 17:59
+Updated: 2026-11-16 19:27
 
 **To resume after a context clear or a new session:** open this folder as the project and run `/siren-s-start-opus` (on an Opus model; `/siren-s-start-fable` is the same run on the Fable model). Read `.fable/PHASE9.md` first: it is the whole handoff. The `next_action` field in the state file always starts by sending the session to `.fable/HANDOFF.md` and to this file.
 
 ## Doing right now
 
-All 42 ops proven winnable; WP-181 (chart-stop loop) and WP-182 (op 13 pickup LISTEN label) running; then sweep and APK
+APK of 1117c20d built (sha256 35019e74); all 42 operations proven winnable; waiting on Pat's phone play
 
 ## In flight
 
