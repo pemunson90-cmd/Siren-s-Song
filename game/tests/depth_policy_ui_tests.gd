@@ -29,7 +29,9 @@ func continue_course(g,id):
  if not g.sim.outcome.is_empty() or not g.sim.units[id].alive or not g.sim.units[id].has("chart_stop"):return
  await craft(g,id);g.mission_hud.dismiss();g._refresh();await settle()
  var choice=g.mission_hud.chart_choice
- if choice.panel.visible:await click(choice.continue_button);await settle()
+ # WP-183: since WP-181 the card hides CONTINUE COURSE when the kept course runs into rock; a player cannot tap what is not there
+ # (the old unconditional click landed on REPLAN and left the planner open). The journey then settles for the held position.
+ if choice.panel.visible and choice.continue_button.is_visible_in_tree():await click(choice.continue_button);await settle()
 func run_seconds(g,seconds):
  if g.sim.paused:await click(g.pause_button)
  for n in roundi(seconds*60):
