@@ -1,3 +1,5 @@
+> **Current-state correction, 2026-11-17:** Read [docs/STATUS.md](../docs/STATUS.md) and [NOW.md](NOW.md) before acting on the historical instructions below. Fable candidate `df0171c1` is preserved; the isolated ordinary Standard run now has 27 earned recoveries plus ending/reload evidence on `df0171c1` then public-adapter child `21ef2c72`. It used discovered charts and the overhaul rules. Earlier "never played" and "only 01 to 09" coverage statements describe their dated checkpoints, not current coverage. All 42 individually won with developer starts remains a different evidence class. Prepared fixes are local and unmerged; integration authority remains unresolved. No new campaign, sweep, merge or promotion is authorized by this documentation update. The prior reported running jobs and numbered resumption sequence below are superseded by STATUS.
+
 # Final report: overhaul run `overhaul-20261111`
 
 Status: FINAL (2026-11-12)

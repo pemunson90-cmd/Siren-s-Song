@@ -1,21 +1,9 @@
-# NOW: what the root session is doing
+# NOW: current local checkpoint
 
-Status: LIVE NOTE (rewritten before every step; if a session died, this is the step it died in)
-Updated: 2026-11-16 19:27
+Updated 2026-11-17. Documentation refresh only on `codex/docs-state-20261117`, from Fable candidate `df0171c1`. Game source unchanged; original Fable branch and untracked scrap preserved.
 
-**To resume after a context clear or a new session:** open this folder as the project and run `/siren-s-start-opus` (on an Opus model; `/siren-s-start-fable` is the same run on the Fable model). Read `.fable/PHASE9.md` first: it is the whole handoff. The `next_action` field in the state file always starts by sending the session to `.fable/HANDOFF.md` and to this file.
+Read [current status](../docs/STATUS.md) first. The prior November 13 sweep and critic instructions are superseded, not running work. The existing Siren review owner is completed and reports all owned game/test processes exited.
 
-## Doing right now
+The Standard run earned 27 recoveries and reopened its ending. Eight prepared local commits remain separate in the review clone; do not describe them as integrated or campaign-validated together. Resolve integration authority before shared reconciliation. Next work should use the precise evidence and gaps in STATUS, not restart broad tests or replay the completed route.
 
-APK of 1117c20d built (sha256 35019e74); all 42 operations proven winnable; waiting on Pat's phone play
-
-## In flight
-
-No helper is running. One background job may still be running or may have ended with the session: the second full sweep of every registered suite, started 2026-11-13 16:18 on merge commit 345dfe8e. Its record is the per-suite logs in `%USERPROFILE%\.cache\sirens-song-toolchain\artifacts\fable-root\` (each `*.log` newer than the start time ends with "CHECKS n FAILURES m"). Until those are read the head is not known to be clean. No game source is uncommitted.
-
-## Next, in order
-
-1. Read the second full sweep; rerun any suite with no log newer than 16:18 (or the whole sweep: `scripts\toolchain\win\full-sweep.ps1`); fix every failure.
-2. Third blind critic round, capturing what root has not seen (list in `.fable/PHASE9.md`).
-3. The items left from the second critic ranking and the loose ends, in `.fable/PHASE9.md` "Queue".
-4. Ask Pat about the six trial rules after he has played.
+Historical November 16 APK: source `1117c20d`, as recorded in HANDOFF. This refresh did not build, install or verify an APK or phone.
