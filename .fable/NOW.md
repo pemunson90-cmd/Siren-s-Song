@@ -1,3 +1,5 @@
+> Remote-readable November 17 evidence: [earned campaign review and handoff](../docs/EARNED_CAMPAIGN_REVIEW_20261117.md). Raw profiles and screenshots remain local; the report clearly separates published summary from preserved artifacts.
+
 # NOW: current local checkpoint
 
 Updated 2026-11-17. Documentation refresh only on `codex/docs-state-20261117`, from Fable candidate `df0171c1`. Game source unchanged; original Fable branch and untracked scrap preserved.

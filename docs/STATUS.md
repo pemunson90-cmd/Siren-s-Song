@@ -26,7 +26,7 @@ These refs remain separate. The original run does not validate all later fixes t
 
 ## Evidence and remaining gaps
 
-Detailed evidence and exact branches are in the review directory above: `CURRENT-HANDOFF.md`, `earned-campaign-review.md`, `EXECUTIVE-REVIEW.md`, `authority-evidence.md`. Final earned save SHA-256: `C9DA4DFBE216495B0066D5B44218E5EB7237709FBA057C0AC9FB73324346832F`.
+Remote-readable evidence summary: [Earned campaign review and handoff](EARNED_CAMPAIGN_REVIEW_20261117.md). It includes source/settings, observed progression, chart coverage, hashes, local-only fixes and limits. Raw evidence and exact local branches remain in the review directory above: `CURRENT-HANDOFF.md`, `earned-campaign-review.md`, `EXECUTIVE-REVIEW.md`, `authority-evidence.md`. Final earned save SHA-256: `C9DA4DFBE216495B0066D5B44218E5EB7237709FBA057C0AC9FB73324346832F`.
 
 The run establishes meaningful campaign continuity, equipment choices, real losses and ending persistence. It does not cover all 42 operations, every branch/ending, physical-phone controls/performance, audio, commercial readiness or Gauntlet completion. Fresh-player chart comprehension remains open. Photography has quality-gated unlocks, later chart marks and environmental effects; direct optional-photo grade cash rewards were not found. Reward retuning remains an owner design decision.
 
